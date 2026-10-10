@@ -1,0 +1,419 @@
+{
+  "all_42111_one_photo_species_remain_distinct_from_85337_repeated_cell_source": true,
+  "all_models_have_source_species_intercepts_not_nominal_genus_substitutes": true,
+  "all_real_photo_site_environment_no_cell_centroid_imputation": true,
+  "climate_soil_joint_complete": {
+    "comparison_model_scores": {
+      "SPECIES_GEO_FULL_ABIOTIC": {
+        "heldout_multiclass_brier": 0.41929559762742535,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_ELEVATION": {
+        "heldout_multiclass_brier": 0.4193689099540698,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_PRECIPITATION": {
+        "heldout_multiclass_brier": 0.42084328148736977,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_SOIL": {
+        "heldout_multiclass_brier": 0.42078257738001357,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_SOLAR_RADIATION": {
+        "heldout_multiclass_brier": 0.4194841329740324,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_TEMPERATURE": {
+        "heldout_multiclass_brier": 0.42030516099829063,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_VAPOR_PRESSURE": {
+        "heldout_multiclass_brier": 0.4195487557363732,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_GEO_FULL_MINUS_WIND": {
+        "heldout_multiclass_brier": 0.419558056432925,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_ONLY": {
+        "heldout_multiclass_brier": 0.4299484241562747,
+        "same_photo_site_species_holdout_n": 11136
+      },
+      "SPECIES_PLUS_GEOGRAPHY": {
+        "heldout_multiclass_brier": 0.42728332643797273,
+        "same_photo_site_species_holdout_n": 11136
+      }
+    },
+    "confidence_intervals_conditional_on_fixed_model_folds": true,
+    "frozen_heldout_cell_plan": [
+      {
+        "fold": 0,
+        "n_test_geographical_source_cells": 21,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 1314,
+        "n_test_photos_with_train_species_intercept": 2198,
+        "n_test_region_source_photos": 5401
+      },
+      {
+        "fold": 1,
+        "n_test_geographical_source_cells": 21,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 1335,
+        "n_test_photos_with_train_species_intercept": 2194,
+        "n_test_region_source_photos": 5402
+      },
+      {
+        "fold": 2,
+        "n_test_geographical_source_cells": 22,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 1256,
+        "n_test_photos_with_train_species_intercept": 2134,
+        "n_test_region_source_photos": 5402
+      },
+      {
+        "fold": 3,
+        "n_test_geographical_source_cells": 22,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 1385,
+        "n_test_photos_with_train_species_intercept": 2291,
+        "n_test_region_source_photos": 5399
+      },
+      {
+        "fold": 4,
+        "n_test_geographical_source_cells": 22,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 1337,
+        "n_test_photos_with_train_species_intercept": 2319,
+        "n_test_region_source_photos": 5399
+      }
+    ],
+    "n_discordant_original_photo_species_among_evaluated": 1248,
+    "n_distinct_nominal_source_species_evaluated": 3401,
+    "n_heldout_original_photos_with_species_training_intercept": 11136,
+    "n_heldout_photos_with_two_plus_training_same_species_photo_cells": 6627,
+    "n_original_classified_environment_complete": 27003,
+    "n_original_photo_cells_evaluated": 107,
+    "source_block_incremental_prediction": {
+      "all_abiotic_beyond_species_geography": {
+        "heldout_same_species_photo_brier_improvement": 0.007987728810547432,
+        "original_geo_cell_bootstrap_95CI": [
+          0.007038913912743713,
+          0.00901468295607464
+        ],
+        "original_species_bootstrap_95CI": [
+          0.007244175764021397,
+          0.008922903272312575
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_elevation": {
+        "heldout_same_species_photo_brier_improvement": 7.331232664446867e-05,
+        "original_geo_cell_bootstrap_95CI": [
+          -2.589525619510076e-05,
+          0.00016925225100639283
+        ],
+        "original_species_bootstrap_95CI": [
+          -2.168955637423847e-05,
+          0.00018887058833854506
+        ],
+        "positive_both_conditional_CIs": false,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_precipitation": {
+        "heldout_same_species_photo_brier_improvement": 0.001547683859944513,
+        "original_geo_cell_bootstrap_95CI": [
+          0.001089536323492448,
+          0.0021032319664514554
+        ],
+        "original_species_bootstrap_95CI": [
+          0.001076567663172891,
+          0.0021186900020306984
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_soil": {
+        "heldout_same_species_photo_brier_improvement": 0.0014869797525882765,
+        "original_geo_cell_bootstrap_95CI": [
+          0.0012138948103267429,
+          0.0017979490459818328
+        ],
+        "original_species_bootstrap_95CI": [
+          0.001099965985785924,
+          0.00193228820263828
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_solar_radiation": {
+        "heldout_same_species_photo_brier_improvement": 0.00018853534660711447,
+        "original_geo_cell_bootstrap_95CI": [
+          2.8580857707510454e-05,
+          0.0003494697550534757
+        ],
+        "original_species_bootstrap_95CI": [
+          4.0706502688165026e-05,
+          0.0003288931278365922
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_temperature": {
+        "heldout_same_species_photo_brier_improvement": 0.0010095633708652803,
+        "original_geo_cell_bootstrap_95CI": [
+          0.0007734979830270275,
+          0.001258698119471876
+        ],
+        "original_species_bootstrap_95CI": [
+          0.0006437456861518457,
+          0.0013628482651965343
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_vapor_pressure": {
+        "heldout_same_species_photo_brier_improvement": 0.00025315810894787645,
+        "original_geo_cell_bootstrap_95CI": [
+          8.459381851922375e-05,
+          0.0004737668103520958
+        ],
+        "original_species_bootstrap_95CI": [
+          0.0001063477028619522,
+          0.0004021048753071702
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_wind": {
+        "heldout_same_species_photo_brier_improvement": 0.0002624588054996712,
+        "original_geo_cell_bootstrap_95CI": [
+          0.00012764252618625429,
+          0.0004077767770825413
+        ],
+        "original_species_bootstrap_95CI": [
+          0.00011287000773757117,
+          0.00039992370334241637
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      }
+    },
+    "species_fixed_intercept_eliminates_unidentified_lineage_static_baseline": true,
+    "status": "SOURCE_ORIGINAL_SPECIES_INTERCEPT_OUTOFCELL_ABIOTIC_DIAGNOSTIC",
+    "training_species_colour_means_only_from_other_cells": true,
+    "within_species_abiotic_slopes_are_original_photo_observational_not_genetic": true
+  },
+  "climate_without_soil_selection": {
+    "comparison_model_scores": {
+      "SPECIES_GEO_FULL_ABIOTIC": {
+        "heldout_multiclass_brier": 0.3977114246911924,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_GEO_FULL_MINUS_ELEVATION": {
+        "heldout_multiclass_brier": 0.397833326631532,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_GEO_FULL_MINUS_PRECIPITATION": {
+        "heldout_multiclass_brier": 0.39875257641920936,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_GEO_FULL_MINUS_SOLAR_RADIATION": {
+        "heldout_multiclass_brier": 0.3978755414391725,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_GEO_FULL_MINUS_TEMPERATURE": {
+        "heldout_multiclass_brier": 0.39838676653190885,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_GEO_FULL_MINUS_VAPOR_PRESSURE": {
+        "heldout_multiclass_brier": 0.3980084258106899,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_GEO_FULL_MINUS_WIND": {
+        "heldout_multiclass_brier": 0.39796390947663857,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_ONLY": {
+        "heldout_multiclass_brier": 0.4039142335804068,
+        "same_photo_site_species_holdout_n": 20546
+      },
+      "SPECIES_PLUS_GEOGRAPHY": {
+        "heldout_multiclass_brier": 0.4023265532599678,
+        "same_photo_site_species_holdout_n": 20546
+      }
+    },
+    "confidence_intervals_conditional_on_fixed_model_folds": true,
+    "frozen_heldout_cell_plan": [
+      {
+        "fold": 0,
+        "n_test_geographical_source_cells": 25,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 2899,
+        "n_test_photos_with_train_species_intercept": 4176,
+        "n_test_region_source_photos": 7794
+      },
+      {
+        "fold": 1,
+        "n_test_geographical_source_cells": 25,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 2544,
+        "n_test_photos_with_train_species_intercept": 3802,
+        "n_test_region_source_photos": 7794
+      },
+      {
+        "fold": 2,
+        "n_test_geographical_source_cells": 25,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 2745,
+        "n_test_photos_with_train_species_intercept": 4034,
+        "n_test_region_source_photos": 7793
+      },
+      {
+        "fold": 3,
+        "n_test_geographical_source_cells": 26,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 3082,
+        "n_test_photos_with_train_species_intercept": 4213,
+        "n_test_region_source_photos": 7793
+      },
+      {
+        "fold": 4,
+        "n_test_geographical_source_cells": 25,
+        "n_test_photos_with_at_least_two_training_same_species_other_cells": 2969,
+        "n_test_photos_with_train_species_intercept": 4321,
+        "n_test_region_source_photos": 7794
+      }
+    ],
+    "n_discordant_original_photo_species_among_evaluated": 2046,
+    "n_distinct_nominal_source_species_evaluated": 5127,
+    "n_heldout_original_photos_with_species_training_intercept": 20546,
+    "n_heldout_photos_with_two_plus_training_same_species_photo_cells": 14239,
+    "n_original_classified_environment_complete": 38968,
+    "n_original_photo_cells_evaluated": 125,
+    "source_block_incremental_prediction": {
+      "all_abiotic_beyond_species_geography": {
+        "heldout_same_species_photo_brier_improvement": 0.004615128568775365,
+        "original_geo_cell_bootstrap_95CI": [
+          0.004156299064737414,
+          0.0051255040064599145
+        ],
+        "original_species_bootstrap_95CI": [
+          0.004122034764620522,
+          0.005139068073621866
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_elevation": {
+        "heldout_same_species_photo_brier_improvement": 0.00012190194033951654,
+        "original_geo_cell_bootstrap_95CI": [
+          4.609122287905998e-05,
+          0.00020471067883514238
+        ],
+        "original_species_bootstrap_95CI": [
+          4.973344702944964e-05,
+          0.00019980160650346295
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_precipitation": {
+        "heldout_same_species_photo_brier_improvement": 0.001041151728016983,
+        "original_geo_cell_bootstrap_95CI": [
+          0.0007407393373401618,
+          0.0013609590566058302
+        ],
+        "original_species_bootstrap_95CI": [
+          0.0007686462342799138,
+          0.0013317377966133115
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_solar_radiation": {
+        "heldout_same_species_photo_brier_improvement": 0.0001641167479799755,
+        "original_geo_cell_bootstrap_95CI": [
+          5.4218081937508565e-05,
+          0.000288659924916952
+        ],
+        "original_species_bootstrap_95CI": [
+          4.514049390898238e-05,
+          0.00028117913356200087
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_temperature": {
+        "heldout_same_species_photo_brier_improvement": 0.0006753418407164278,
+        "original_geo_cell_bootstrap_95CI": [
+          0.0004629227579918126,
+          0.0008764508157202888
+        ],
+        "original_species_bootstrap_95CI": [
+          0.00046955543332196834,
+          0.0008454893193327618
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_vapor_pressure": {
+        "heldout_same_species_photo_brier_improvement": 0.000297001119497473,
+        "original_geo_cell_bootstrap_95CI": [
+          0.0001460950210444166,
+          0.00045401169837595303
+        ],
+        "original_species_bootstrap_95CI": [
+          0.0001654781556338643,
+          0.0004290416892693713
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      },
+      "conditional_wind": {
+        "heldout_same_species_photo_brier_improvement": 0.00025248478544611855,
+        "original_geo_cell_bootstrap_95CI": [
+          0.0001589879522634903,
+          0.0003345612432771451
+        ],
+        "original_species_bootstrap_95CI": [
+          0.00017038672465875503,
+          0.00035500578082874745
+        ],
+        "positive_both_conditional_CIs": true,
+        "same_heldout_source_photos_all_models": true
+      }
+    },
+    "species_fixed_intercept_eliminates_unidentified_lineage_static_baseline": true,
+    "status": "SOURCE_ORIGINAL_SPECIES_INTERCEPT_OUTOFCELL_ABIOTIC_DIAGNOSTIC",
+    "training_species_colour_means_only_from_other_cells": true,
+    "within_species_abiotic_slopes_are_original_photo_observational_not_genetic": true
+  },
+  "date_jst": "2026-10-10",
+  "nonclaims": [
+    "Cross-cell original flower photos represent different observed plants, potentially varying photographer and taxonomic identity",
+    "A fixed species colour mean does not identify genetic or fitness variation without repeated biological population samples",
+    "Phylogeny's time-invariant species intercept is absorbed by the species factor and cannot be separately estimated",
+    "Photo-cell regional folds do not remove finer-than-cell geographic confounding",
+    "Soil and solar modelled climatic variables are spatial predictions, not in situ plant exposures",
+    "Feature block intervals are multiple posthoc exploratory comparisons conditional on fixed trained model",
+    "Direct-tip LCVP subset previous analysis failed full original species coverage and spatial robustness gates"
+  ],
+  "old_prospective_2000_730_taxa_untouched": true,
+  "original_abiotic_coverage": {
+    "n_original_classified_photo_cells_climate_complete": 38968,
+    "n_original_classified_photo_cells_climate_soil_complete": 27003,
+    "n_original_climate_complete_repeated_species": 5791,
+    "n_original_fourstate_classified_photo_cells": 39075,
+    "n_original_fourstate_unclassified_photo_cells": 46262,
+    "n_original_photo_taxa_any_cell": 42111,
+    "n_original_soil_complete_repeated_species": 3922,
+    "n_original_source_photo_cell_records": 85337,
+    "n_real_photo_site_coordinates": 85161,
+    "original_photo_colour_states_reclassified": false,
+    "original_unclassifiable_photos_never_white_or_monomorphic": true
+  },
+  "original_repeated_photo_source": {
+    "all_original_photo_ID_triples_matched_exactly": true,
+    "n_original_source_taxa_in_cell_ledger": 42111,
+    "source_four_state_colour_classifiable": 39075,
+    "source_original_taxon_cell_photo_rows": 85337,
+    "source_unclassifiable_photo_cell_records": 46262
+  },
+  "photographic_colour_cannot_prove_genetic_polymorphism": true,
+  "phylogenetic_main_effect_not_estimable_simultaneously_with_species_intercepts": true,
+  "schema": "fcp_original_85337_species_intercept_multiabiotic_photo_colour_cv_v1",
+  "status": "ORIGINAL_SAME_SPECIES_DIFFERENT_REGION_PHOTO_COLOUR_ENVIRONMENTAL_ASSOCIATION"
+}

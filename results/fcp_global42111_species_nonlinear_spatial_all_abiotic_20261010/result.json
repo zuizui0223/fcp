@@ -1,0 +1,468 @@
+{
+  "all_original_photo_ids_and_flower_colour_labels_preserved": true,
+  "climate_and_soil_complete": {
+    "all_model_source_test_photos_and_fold_assignments_identical": true,
+    "estimation_limit": "Species means only from other source regions, spherical polynomial trends are not a spatial random field; environmental gain is predictive not adaptive or genetic",
+    "five_source_region_blocked_folds": [
+      {
+        "fold": 0,
+        "n_original_heldout_cells": 21,
+        "n_original_photo_species_seen_in_other_cells": 2198,
+        "n_source_heldout_photos": 5401
+      },
+      {
+        "fold": 1,
+        "n_original_heldout_cells": 21,
+        "n_original_photo_species_seen_in_other_cells": 2194,
+        "n_source_heldout_photos": 5402
+      },
+      {
+        "fold": 2,
+        "n_original_heldout_cells": 22,
+        "n_original_photo_species_seen_in_other_cells": 2134,
+        "n_source_heldout_photos": 5402
+      },
+      {
+        "fold": 3,
+        "n_original_heldout_cells": 22,
+        "n_original_photo_species_seen_in_other_cells": 2291,
+        "n_source_heldout_photos": 5399
+      },
+      {
+        "fold": 4,
+        "n_original_heldout_cells": 22,
+        "n_original_photo_species_seen_in_other_cells": 2319,
+        "n_source_heldout_photos": 5399
+      }
+    ],
+    "incremental_predictive_gains": {
+      "all_environment_beyond_species_plus_nonlinear_space": {
+        "heldout_multiclass_brier_reduction": 0.005661725187825858,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.004889832474884525,
+          0.006732779152536807
+        ],
+        "source_species_cluster_95CI": [
+          0.004703839222108726,
+          0.006518016940464469
+        ]
+      },
+      "nonlinear_space_over_linear_geography": {
+        "heldout_multiclass_brier_reduction": 0.003798034401556069,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.0032923719412400578,
+          0.004341042743001043
+        ],
+        "source_species_cluster_95CI": [
+          0.0033275244050638727,
+          0.0042822528965335465
+        ]
+      },
+      "unique_elevation_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.00016950677200196904,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          3.8407487969304e-05,
+          0.0003113340655865702
+        ],
+        "source_species_cluster_95CI": [
+          1.2602985977617032e-07,
+          0.00035271775260247855
+        ]
+      },
+      "unique_precipitation_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.0012886642284218371,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.0008200270838450027,
+          0.0019284261159101578
+        ],
+        "source_species_cluster_95CI": [
+          0.0008947548701309017,
+          0.0017978464254522286
+        ]
+      },
+      "unique_soil_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.0011519091591989416,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.0008149876413694603,
+          0.0014811504315376748
+        ],
+        "source_species_cluster_95CI": [
+          0.0007843360598488838,
+          0.001518429090261648
+        ]
+      },
+      "unique_solar_radiation_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 4.6340157042640096e-05,
+        "positive_in_both_conditional_resamplings": false,
+        "source_cell_cluster_95CI": [
+          -8.219150893647501e-05,
+          0.0001492876235696312
+        ],
+        "source_species_cluster_95CI": [
+          -6.595070864858833e-05,
+          0.00020157196481852504
+        ]
+      },
+      "unique_temperature_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.000804901376236003,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.0005211465753449581,
+          0.001082922648652057
+        ],
+        "source_species_cluster_95CI": [
+          0.0004395577498000581,
+          0.001162365848568639
+        ]
+      },
+      "unique_vapor_pressure_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.00026085731499170077,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.00010577091583896062,
+          0.00042419400561054607
+        ],
+        "source_species_cluster_95CI": [
+          6.039508549158496e-05,
+          0.00045438320624297505
+        ]
+      },
+      "unique_wind_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 9.808152487120684e-05,
+        "positive_in_both_conditional_resamplings": false,
+        "source_cell_cluster_95CI": [
+          -6.323368928247949e-05,
+          0.0002754685732193023
+        ],
+        "source_species_cluster_95CI": [
+          -5.449035719049912e-05,
+          0.00025860440044779337
+        ]
+      }
+    },
+    "model_four_colour_brier_scores": {
+      "SPATIAL_FULL_MINUS_ELEVATION": {
+        "n_same_test_photos": 11136,
+        "score": 0.41799307362059285
+      },
+      "SPATIAL_FULL_MINUS_PRECIPITATION": {
+        "n_same_test_photos": 11136,
+        "score": 0.4191122310770127
+      },
+      "SPATIAL_FULL_MINUS_SOIL": {
+        "n_same_test_photos": 11136,
+        "score": 0.4189754760077898
+      },
+      "SPATIAL_FULL_MINUS_SOLAR_RADIATION": {
+        "n_same_test_photos": 11136,
+        "score": 0.4178699070056335
+      },
+      "SPATIAL_FULL_MINUS_TEMPERATURE": {
+        "n_same_test_photos": 11136,
+        "score": 0.4186284682248268
+      },
+      "SPATIAL_FULL_MINUS_VAPOR_PRESSURE": {
+        "n_same_test_photos": 11136,
+        "score": 0.4180844241635825
+      },
+      "SPATIAL_FULL_MINUS_WIND": {
+        "n_same_test_photos": 11136,
+        "score": 0.4179216483734621
+      },
+      "SPECIES_GEO": {
+        "n_same_test_photos": 11136,
+        "score": 0.42728332643797273
+      },
+      "SPECIES_GEO_SPHERICAL_3": {
+        "n_same_test_photos": 11136,
+        "score": 0.4234852920364166
+      },
+      "SPECIES_GEO_SPHERICAL_3_ALL_ENV": {
+        "n_same_test_photos": 11136,
+        "score": 0.41782356684859073
+      }
+    },
+    "n_distinct_original_species_heldout": 3401,
+    "n_heldout_geographic_cells": 107,
+    "n_original_classified_abiotic_complete": 27003,
+    "n_original_outofcell_photo_species_heldout": 11136,
+    "source_photo_colour_unchanged": true,
+    "spatial_basis": "up_to_degree_3_polynomial_of_true_photo_unit_sphere_xyz",
+    "spatial_basis_dimensions": 19,
+    "status": "SOURCE_SPECIES_FIXED_WITH_NONLINEAR_SPATIAL_BASIS_ABIOTIC_EXPLORATION",
+    "true_spatial_covariance_modelled": false
+  },
+  "climate_without_soil_selection": {
+    "all_model_source_test_photos_and_fold_assignments_identical": true,
+    "estimation_limit": "Species means only from other source regions, spherical polynomial trends are not a spatial random field; environmental gain is predictive not adaptive or genetic",
+    "five_source_region_blocked_folds": [
+      {
+        "fold": 0,
+        "n_original_heldout_cells": 25,
+        "n_original_photo_species_seen_in_other_cells": 4176,
+        "n_source_heldout_photos": 7794
+      },
+      {
+        "fold": 1,
+        "n_original_heldout_cells": 25,
+        "n_original_photo_species_seen_in_other_cells": 3802,
+        "n_source_heldout_photos": 7794
+      },
+      {
+        "fold": 2,
+        "n_original_heldout_cells": 25,
+        "n_original_photo_species_seen_in_other_cells": 4034,
+        "n_source_heldout_photos": 7793
+      },
+      {
+        "fold": 3,
+        "n_original_heldout_cells": 26,
+        "n_original_photo_species_seen_in_other_cells": 4213,
+        "n_source_heldout_photos": 7793
+      },
+      {
+        "fold": 4,
+        "n_original_heldout_cells": 25,
+        "n_original_photo_species_seen_in_other_cells": 4321,
+        "n_source_heldout_photos": 7794
+      }
+    ],
+    "incremental_predictive_gains": {
+      "all_environment_beyond_species_plus_nonlinear_space": {
+        "heldout_multiclass_brier_reduction": 0.0029498458988921773,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.00250439803359974,
+          0.0034256966791101928
+        ],
+        "source_species_cluster_95CI": [
+          0.002537398944557321,
+          0.003375690021721436
+        ]
+      },
+      "nonlinear_space_over_linear_geography": {
+        "heldout_multiclass_brier_reduction": 0.0027408919020165366,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.0024244026127245824,
+          0.0031355336431292727
+        ],
+        "source_species_cluster_95CI": [
+          0.002426951493116012,
+          0.00308085059222524
+        ]
+      },
+      "unique_elevation_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.00013604527482737248,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          3.8861440857259084e-05,
+          0.00025222622987243465
+        ],
+        "source_species_cluster_95CI": [
+          2.9408747132698425e-05,
+          0.0002446827036092914
+        ]
+      },
+      "unique_precipitation_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.0008675242865124867,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.0005642475568275465,
+          0.0012363341408087433
+        ],
+        "source_species_cluster_95CI": [
+          0.0006280037451682584,
+          0.0011204723069409438
+        ]
+      },
+      "unique_solar_radiation_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 4.198519848600106e-05,
+        "positive_in_both_conditional_resamplings": false,
+        "source_cell_cluster_95CI": [
+          -7.057469125034188e-05,
+          0.00014711091118307704
+        ],
+        "source_species_cluster_95CI": [
+          -6.921619834992333e-05,
+          0.000152252440207637
+        ]
+      },
+      "unique_temperature_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.0006099522002875279,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          0.00045681969557373746,
+          0.0007761340105676651
+        ],
+        "source_species_cluster_95CI": [
+          0.00034752486541118633,
+          0.0008417001179416924
+        ]
+      },
+      "unique_vapor_pressure_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.00019742827712704623,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          7.791014291666393e-05,
+          0.00034050086680001543
+        ],
+        "source_species_cluster_95CI": [
+          8.138580952494487e-05,
+          0.00030349572317592396
+        ]
+      },
+      "unique_wind_beyond_species_nonlinear_space_other_environment": {
+        "heldout_multiclass_brier_reduction": 0.00014429350982207874,
+        "positive_in_both_conditional_resamplings": true,
+        "source_cell_cluster_95CI": [
+          4.1835000573974606e-05,
+          0.0002602781900347947
+        ],
+        "source_species_cluster_95CI": [
+          1.902235024200029e-05,
+          0.00025618853524009017
+        ]
+      }
+    },
+    "model_four_colour_brier_scores": {
+      "SPATIAL_FULL_MINUS_ELEVATION": {
+        "n_same_test_photos": 20546,
+        "score": 0.3967718607338865
+      },
+      "SPATIAL_FULL_MINUS_PRECIPITATION": {
+        "n_same_test_photos": 20546,
+        "score": 0.3975033397455716
+      },
+      "SPATIAL_FULL_MINUS_SOLAR_RADIATION": {
+        "n_same_test_photos": 20546,
+        "score": 0.39667780065754515
+      },
+      "SPATIAL_FULL_MINUS_TEMPERATURE": {
+        "n_same_test_photos": 20546,
+        "score": 0.39724576765934666
+      },
+      "SPATIAL_FULL_MINUS_VAPOR_PRESSURE": {
+        "n_same_test_photos": 20546,
+        "score": 0.39683324373618617
+      },
+      "SPATIAL_FULL_MINUS_WIND": {
+        "n_same_test_photos": 20546,
+        "score": 0.39678010896888116
+      },
+      "SPECIES_GEO": {
+        "n_same_test_photos": 20546,
+        "score": 0.4023265532599678
+      },
+      "SPECIES_GEO_SPHERICAL_3": {
+        "n_same_test_photos": 20546,
+        "score": 0.39958566135795126
+      },
+      "SPECIES_GEO_SPHERICAL_3_ALL_ENV": {
+        "n_same_test_photos": 20546,
+        "score": 0.3966358154590591
+      }
+    },
+    "n_distinct_original_species_heldout": 5127,
+    "n_heldout_geographic_cells": 125,
+    "n_original_classified_abiotic_complete": 38968,
+    "n_original_outofcell_photo_species_heldout": 20546,
+    "source_photo_colour_unchanged": true,
+    "spatial_basis": "up_to_degree_3_polynomial_of_true_photo_unit_sphere_xyz",
+    "spatial_basis_dimensions": 19,
+    "status": "SOURCE_SPECIES_FIXED_WITH_NONLINEAR_SPATIAL_BASIS_ABIOTIC_EXPLORATION",
+    "true_spatial_covariance_modelled": false
+  },
+  "date_jst": "2026-10-10",
+  "genuine_spatial_autocorrelation_random_field_not_estimable_from_this_basis_alone": true,
+  "n_spatial_polynomial_columns": 19,
+  "nonclaims": [
+    "Spherical polynomial spatial basis is a finite global smooth trend, not flexible geodesic spatial covariance or a residual Moran test",
+    "An original nominal species photographic intercept absorbs species-constant phylogeny but is not a genetic assay",
+    "One photographed flower per species-cell does not estimate allelic polymorphism or phenotypic plasticity",
+    "Source 162-cell heldout folds and genus-level photography selection can still bias any reported environmental gain",
+    "A positive all-environment gain in source repeated photo data is not a causal ecological or evolutionary adaptation estimate"
+  ],
+  "old_full_original_42111_dated_phylogeny_claim_HOLD": true,
+  "original_environment_complete_case_coverage": {
+    "n_original_classified_photo_cells_climate_complete": 38968,
+    "n_original_classified_photo_cells_climate_soil_complete": 27003,
+    "n_original_climate_complete_repeated_species": 5791,
+    "n_original_fourstate_classified_photo_cells": 39075,
+    "n_original_fourstate_unclassified_photo_cells": 46262,
+    "n_original_photo_taxa_any_cell": 42111,
+    "n_original_soil_complete_repeated_species": 3922,
+    "n_original_source_photo_cell_records": 85337,
+    "n_real_photo_site_coordinates": 85161,
+    "original_photo_colour_states_reclassified": false,
+    "original_unclassifiable_photos_never_white_or_monomorphic": true
+  },
+  "original_source": {
+    "all_original_photo_ID_triples_matched_exactly": true,
+    "n_original_source_taxa_in_cell_ledger": 42111,
+    "source_four_state_colour_classifiable": 39075,
+    "source_original_taxon_cell_photo_rows": 85337,
+    "source_unclassifiable_photo_cell_records": 46262
+  },
+  "schema": "fcp_original_85337_species_fixed_nonlinear_spatial_environment_v1",
+  "source_7_environment_blocks": {
+    "elevation": [
+      "wc_elevation_m"
+    ],
+    "precipitation": [
+      "wc_bio12",
+      "wc_bio13",
+      "wc_bio14",
+      "wc_bio15",
+      "wc_bio16",
+      "wc_bio17",
+      "wc_bio18",
+      "wc_bio19"
+    ],
+    "soil": [
+      "soil_pH",
+      "soil_SOC",
+      "soil_N",
+      "soil_clay",
+      "soil_available_water_proxy",
+      "soil_cec_0_30cm_source_raw",
+      "soil_sand_0_30cm_source_raw",
+      "soil_silt_0_30cm_source_raw",
+      "soil_bdod_0_30cm_source_raw",
+      "soil_cfvo_0_30cm_source_raw"
+    ],
+    "solar_radiation": [
+      "wc_srad_annual_mean",
+      "wc_srad_monthly_cv"
+    ],
+    "temperature": [
+      "wc_bio1",
+      "wc_bio2",
+      "wc_bio3",
+      "wc_bio4",
+      "wc_bio5",
+      "wc_bio6",
+      "wc_bio7",
+      "wc_bio8",
+      "wc_bio9",
+      "wc_bio10",
+      "wc_bio11"
+    ],
+    "vapor_pressure": [
+      "wc_vapr_annual_mean",
+      "wc_vapr_monthly_cv"
+    ],
+    "wind": [
+      "wc_wind_annual_mean",
+      "wc_wind_monthly_cv"
+    ]
+  },
+  "source_phylogenetic_species_invariant_component_absorbed_by_species_intercepts": true,
+  "spatial_polynomial_max_degree": 3,
+  "status": "RETROSPECTIVE_ORIGINAL_PHOTO_SPECIES_AND_NONLINEAR_GEOGRAPHY_ENVIRONMENT_AUDIT"
+}

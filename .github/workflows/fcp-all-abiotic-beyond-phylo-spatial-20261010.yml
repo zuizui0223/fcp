@@ -1,0 +1,148 @@
+name: FCP seven environmental blocks beyond true phylogeny and spatial covariance
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/audit_fcp_42111_all_environment_beyond_true_phylo_spatial_20261010.py
+      - scripts/analysis/audit_fcp_global42111_real_spatial_phylo_covariance_20261010.py
+      - tests/test_fcp_42111_all_environment_beyond_true_phylo_spatial_20261010.py
+      - .github/workflows/fcp-all-abiotic-beyond-phylo-spatial-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-original42111-seven-abiotic-phylo-space-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  LCVP_DIR: results/fcp_global42111_original_local_LCVP_backbone_20261010
+  EXTENDED_RUN: '38011108135'
+  EXTENDED_ARTIFACT: fcp-global42111-original-photo-complete-multiabiotic-20261010
+
+jobs:
+  full-abiotic-direct-dated-phylogeny-spatial-prediction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Verify complete source 7 abiotic blocks, 36 features, true Brownian and geodesic covariance tests
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 biopython==1.85 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_42111_all_environment_beyond_true_phylo_spatial_20261010.py
+          python -m pytest tests/test_fcp_42111_all_environment_beyond_true_phylo_spatial_20261010.py tests/test_fcp_global42111_real_spatial_phylo_covariance_20261010.py -q
+          python scripts/analysis/audit_fcp_42111_all_environment_beyond_true_phylo_spatial_20261010.py --help > /dev/null
+      - name: Retrieve immutable 42111 original-photo solar wind vapor temperature and soil features
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$EXTENDED_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$EXTENDED_ARTIFACT" --dir /tmp/fcp_all_environment_space_phylo_source
+          f="$(find /tmp/fcp_all_environment_space_phylo_source -name source_original_42111_species_expanded_solar_bio_soil.csv.gz -print -quit)"
+          test -s "$f"
+          cp "$f" /tmp/fcp_all_environment_phylo_breadth.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          reports=[]
+          for p in Path('/tmp/fcp_all_environment_space_phylo_source').rglob('result.json'):
+              x=json.loads(p.read_text())
+              if x.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':reports.append(x)
+          assert len(reports)==1
+          d=reports[0]
+          assert d['original_source_species']==42111
+          assert d['original_source_photo_rows']==100543
+          assert d['original_classified_photo_colours']==18457
+          assert d['original_photo_colours_untouched'] is True
+          assert d['source_cell_centroid_never_used_as_photo_location'] is True
+          PY
+      - name: Exact dated tip and frozen 50-percent population coverage gates
+        run: |
+          set -euo pipefail
+          test -s "$LCVP_DIR/original_local_1761_LCVP_direct_tip_ledger.csv"
+          test -s "$LCVP_DIR/original_local_250km_direct_LCVP_tree.tre"
+          test -s "$LCVP_DIR/original_local_500km_direct_LCVP_tree.tre"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('results/fcp_global42111_original_local_LCVP_backbone_20261010/result.json').read_text())
+          assert d['schema']=='fcp_global42111_local_congener_LCVP_direct_backbone_coverage_v1'
+          assert d['cohorts']['km250']['n_exact_direct_lcvp_tip_species']==342
+          assert d['cohorts']['km500']['n_exact_direct_lcvp_tip_species']==649
+          assert d['decision']=='HOLD_DIRECT_LCVP_SUBGENUS_COVERAGE_FOR_FULL_250_500'
+          PY
+      - name: Measure environmental prediction increment beyond JOINT source geodesic spatial and real Brownian LCVP covariances
+        env:
+          OPENBLAS_NUM_THREADS: '2'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: |
+          python scripts/analysis/audit_fcp_42111_all_environment_beyond_true_phylo_spatial_20261010.py \
+            --expanded-breadth /tmp/fcp_all_environment_phylo_breadth.csv.gz \
+            --original-LCVP-tip-ledger "$LCVP_DIR/original_local_1761_LCVP_direct_tip_ledger.csv" \
+            --tree-250 "$LCVP_DIR/original_local_250km_direct_LCVP_tree.tre" \
+            --tree-500 "$LCVP_DIR/original_local_500km_direct_LCVP_tree.tre" \
+            --outdir /tmp/fcp_42111_true_space_phylo_all_env
+      - name: Check original 42111 flower photos, 342/649 tips, all 7 blocks and honest population phylogeny HOLD
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp_42111_true_space_phylo_all_env/result.json').read_text())
+          assert d['schema']=='fcp_42111_direct_LCVP_spatial_joint_all_abiotic_source_v1'
+          assert d['original_42111_photo_species_denominator']==42111
+          assert d['original_one_photo_classifiable']==18457
+          assert d['all_36_predictors_scanned_without_outcome_selected_drop']
+          assert d['full_42111_phylogenetically_controlled_result_NOT_identified']
+          assert d['full_872_1761_direct_tip_phylogenetic_coverage_HOLD']
+          assert d['previous_photo_source_fine_geographical_colour_label_nulls_not_overridden']
+          assert set(d['all_seven_predictor_blocks'])=={'elevation','temperature','precipitation','solar_radiation','wind','vapor_pressure','soil'}
+          assert set(d['cohorts'])=={'250km_climate','250km_soil','500km_climate','500km_soil'}
+          for cap,model in d['cohorts'].items():
+              assert model['source']['n_direct_original_photo_taxa_pre_missingness']==(342 if cap.startswith('250') else 649)
+              assert set(model['models'])=={'50km__genus','50km__true_photo_cell','250km__genus','250km__true_photo_cell'}
+              for p in model['models'].values():
+                  if p['status'].startswith('EXPLORATORY_'):
+                      assert p['modelled_true_phylogeny_BM_shared_branch_covariance']
+                      assert p['modelled_original_photograph_spatial_exponential_covariance']
+                      assert 'all_abiotic_beyond_spatial_plus_real_phylogeny' in p['conditional_feature_gains']
+                      assert len(p['conditional_feature_gains'])==(9 if cap.endswith('_soil') else 8)
+                  else:
+                      assert p['status']=='HOLD_DIRECT_LCVP_MODEL_COVERAGE'
+          print('ORIGINAL_FCP_REAL_PHYLO_SPATIAL_PLUS_ALL_SEVEN_ABIOTIC_BLOCKS_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-all-abiotic-beyond-true-spatial-and-dated-phylo-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_42111_true_space_phylo_all_env/
+      - name: Seal source original direct-tip spatial phylogenetic all-environment diagnostic only
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_all_abiotic_beyond_phylo_spatial_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp_42111_true_space_phylo_all_env/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal 7 abiotic photo-colour blocks beyond true source dated phylogeny and spatial covariance'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi

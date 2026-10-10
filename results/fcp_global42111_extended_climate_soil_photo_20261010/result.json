@@ -1,0 +1,89 @@
+{
+  "all_original_source_photo_rows_retained": true,
+  "annual_solar_mean_unit": "kJ m^-2 day^-1 (WorldClim v2.1 source)",
+  "date_jst": "2026-10-10",
+  "extended_soil_units": "original SoilGrids mean TIFF source stored scales (no guessed rescaling)",
+  "monthly_vapor_pressure_unit": "kPa WorldClim v2.1 source",
+  "monthly_variable_complete_source_photo_counts": {
+    "srad": 100255,
+    "vapr": 100255,
+    "wind": 100255
+  },
+  "monthly_variables": [
+    "srad",
+    "wind",
+    "vapr"
+  ],
+  "monthly_wind_unit": "m/s WorldClim v2.1 source",
+  "n_additional_new_soil_properties_available": 74957,
+  "n_additional_sun_bio_soil_complete_classified": 14840,
+  "n_original_public_photo_sites": 100348,
+  "n_solar_complete_classified_original_taxa": 18413,
+  "n_solar_complete_source_taxa": 100255,
+  "new_bioclim_variable_numbers": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14,
+    16,
+    17,
+    18,
+    19
+  ],
+  "new_solar_monthly_rasters": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "no_claim_sunshine_at_photo_date_or_under_canopy": true,
+  "original_classified_photo_colours": 18457,
+  "original_photo_colours_untouched": true,
+  "original_photo_unclassified": 23654,
+  "original_source_42111_breadth_and_85337_taxon_cell_photos_retained": true,
+  "original_source_grain": "all_photo_sites",
+  "original_source_photo_rows": 100543,
+  "original_source_species": 42111,
+  "schema": "fcp_42111_original_photo_expanded_worldclim_solar_v1",
+  "solar_annual_mean_sample_median": 16698.833333333332,
+  "solar_cv": "sample-location mean annual cycle, monthly population SD / annual monthly mean",
+  "solar_cv_sample_median": 0.29712768973862086,
+  "source_cell_centroid_never_used_as_photo_location": true,
+  "source_extended_soil_depth_weights": [
+    5,
+    10,
+    15
+  ],
+  "source_extended_soil_properties": [
+    "cec",
+    "sand",
+    "silt",
+    "bdod",
+    "cfvo"
+  ],
+  "source_urls": {
+    "bio": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip",
+    "srad": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip",
+    "vapr": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_vapr.zip",
+    "wind": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_wind.zip"
+  },
+  "worldclim_bioclim_zip_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "worldclim_srad_zip_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "worldclim_vapr_zip_sha256": "0501b5b5cbbc6e2fc2a3801efa9a126a5f9669f0f9a00642d2519c2324ce726d",
+  "worldclim_wind_zip_sha256": "489660bd6ab3bf5ddf4c1a3d29d8ddd96babe413a97bb3bde9bb60575e680c5c"
+}
