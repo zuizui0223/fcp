@@ -38,13 +38,16 @@ def sampler(path,lon,lat):
 
 def test_annual_12month_source_srad_cv_and_original_photo_labels(photos):
     original=photos.copy()
-    out,receipt=M.extract(photos,Path("bio"),Path("srad"),sampler=sampler)
+    out,receipt=M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=sampler)
     assert len(out)==4
     assert receipt["original_photo_unclassified"]==1
     assert receipt["n_solar_complete_source_taxa"]==3
-    assert receipt["n_additional_sun_bio_complete_classified"]==3
-    assert out.loc[0,"wc_srad_annual_kj_m2_day"]==pytest.approx(1650)
+    assert receipt["n_additional_sun_bio_soil_complete_classified"]==3
+    assert out.loc[0,"wc_srad_annual_mean"]==pytest.approx(1650)
     assert out.loc[0,"wc_srad_monthly_cv"]>0
+    assert out.loc[0,"soil_cec_0_30cm_source_raw"]==pytest.approx(4)
+    assert out.loc[0,"wc_wind_annual_mean"]==pytest.approx(4)
+    assert report["n_additional_new_soil_properties_available"]==3
     assert out.loc[3,list(M.NEW_FEATURES)].isna().all()
     pd.testing.assert_series_equal(out.morph,original.morph)
 
@@ -54,8 +57,8 @@ def test_any_month_missing_sun_means_missing_annual_exposure(photos):
         a=sampler(path,lon,lat)
         if "srad_6.tif" in str(path):a[0]=np.nan
         return a
-    out,report=M.extract(photos,Path("bio"),Path("srad"),sampler=missing)
-    assert pd.isna(out.loc[0,"wc_srad_annual_kj_m2_day"])
+    out,report=M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=missing)
+    assert pd.isna(out.loc[0,"wc_srad_annual_mean"])
     assert report["n_solar_complete_source_taxa"]==2
 
 
@@ -65,18 +68,18 @@ def test_negative_sun_radiation_cannot_be_silently_used(photos):
         if "srad_1.tif" in str(path):a[0]=-10
         return a
     with pytest.raises(ValueError,match="Negative"):
-        M.extract(photos,Path("bio"),Path("srad"),sampler=negative)
+        M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=negative)
 
 
 def test_ungeolocated_original_photo_does_not_get_fake_radiation(photos):
     def bad(path,lon,lat):
         return np.array([1.,2.,3.,4.])
     with pytest.raises(ValueError,match="artificial"):
-        M.extract(photos,Path("bio"),Path("srad"),sampler=bad)
+        M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=bad)
 
 
 def test_original_fourstate_status_must_be_preserved(photos):
     photos.loc[3,"measurement_status"]="classified_four_state_morph"
     photos.loc[3,"morph"]="white"
     with pytest.raises(ValueError,match="classified"):
-        M.extract(photos,Path("bio"),Path("srad"),sampler=sampler)
+        M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=sampler)
