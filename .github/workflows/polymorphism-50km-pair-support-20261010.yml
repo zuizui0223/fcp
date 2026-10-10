@@ -1,0 +1,78 @@
+name: FCP 50km local pair-support sensitivity
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_polymorphism_50km_pair_support_ladder_20261010.py
+      - tests/test_polymorphism_50km_pair_support_ladder_20261010.py
+      - docs/POLYMORPHISM_50KM_LOCAL_PAIR_SUPPORT_PROTOCOL_20261010.md
+      - .github/workflows/polymorphism-50km-pair-support-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-50km-pair-support
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  photo-pair-support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install pinned analysis requirements
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 scipy==1.17.1 pytest==8.4.2
+      - name: Synthetic frozen-graph falsifications
+        run: python -m pytest tests/test_polymorphism_50km_pair_support_ladder_20261010.py -q
+      - name: Retrieve original immutable high-depth photo measurement tables
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+      - name: Run fixed-original-species 50km photo-pair-support stress
+        run: |
+          python scripts/analysis/audit_polymorphism_50km_pair_support_ladder_20261010.py \
+            --discovery /tmp/discovery.csv --validation /tmp/validation.csv \
+            --third /tmp/third.csv --outdir /tmp/fcp_pair_support
+      - name: Assert real historical 30-pair source baseline and no invented support
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("/tmp/fcp_pair_support/result.json").read_text())
+          assert x["schema"]=="fcp_50km_original_pair_support_sensitivity_20261010_v1"
+          assert x["confirmatory_decisions_changed"] is False
+          orig={"discovery":(166,0.020529254583812922),
+                "validation":(181,0.018672971642749295),
+                "third":(204,0.01468491968437185)}
+          for cohort,(n,d) in orig.items():
+              z=x[cohort]["ladder"]
+              assert z["30"]["n_species"]==n
+              assert abs(z["30"]["mean_depletion"]-d)<1e-10
+              assert all(z[str(a)]["n_species"]>=z[str(b)]["n_species"] for a,b in zip([30,50,100,200,500],[50,100,200,500,1000]))
+          print("Verified frozen photo baseline, monotone opportunity and bounded inference")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-50km-local-pair-support-source-frozen-20261010
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_pair_support/
