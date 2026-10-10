@@ -1,0 +1,123 @@
+{
+  "schema": "fcp_source_24_selected_ai_blind_pilot_vs_original_algorithm_20261010_v1",
+  "role": "post_exposure_comparison_of_existing_ai_single_pass_to_original_computer_flower_colour_label",
+  "status": "AGGREGATE_ONLY_NONVALIDATING_DISCORDANCE_PILOT",
+  "n_original_pilot_photos": 24,
+  "n_existing_blind_ai_fourstate_assignments": 22,
+  "n_AI_original_colour_agreement": 16,
+  "n_AI_original_colour_disagreement": 6,
+  "n_AI_colour_abstention": 2,
+  "n_priority_original_photos_for_two_human_organ_colour_reviews": 8,
+  "descriptive_agreement_among_assigned": 0.7272727272727273,
+  "descriptive_review_trigger_rate_for_selected_pilot": 0.3333333333333333,
+  "original_algorithm_classes": {
+    "white": {
+      "n_original_algorithm": 10,
+      "n_AI_agreed": 4,
+      "n_AI_disagreed": 4,
+      "n_AI_abstained": 2,
+      "n_review_trigger": 6
+    },
+    "yellow_orange": {
+      "n_original_algorithm": 7,
+      "n_AI_agreed": 5,
+      "n_AI_disagreed": 2,
+      "n_AI_abstained": 0,
+      "n_review_trigger": 2
+    },
+    "red_pink": {
+      "n_original_algorithm": 2,
+      "n_AI_agreed": 2,
+      "n_AI_disagreed": 0,
+      "n_AI_abstained": 0,
+      "n_review_trigger": 0
+    },
+    "blue_purple": {
+      "n_original_algorithm": 5,
+      "n_AI_agreed": 5,
+      "n_AI_disagreed": 0,
+      "n_AI_abstained": 0,
+      "n_review_trigger": 0
+    }
+  },
+  "AI_original_assigned_only_confusion_counts": {
+    "white": {
+      "white": 4,
+      "yellow_orange": 2,
+      "red_pink": 1,
+      "blue_purple": 1
+    },
+    "yellow_orange": {
+      "white": 1,
+      "yellow_orange": 5,
+      "red_pink": 1,
+      "blue_purple": 0
+    },
+    "red_pink": {
+      "white": 0,
+      "yellow_orange": 0,
+      "red_pink": 2,
+      "blue_purple": 0
+    },
+    "blue_purple": {
+      "white": 0,
+      "yellow_orange": 0,
+      "red_pink": 0,
+      "blue_purple": 5
+    }
+  },
+  "by_original_ai_visual_support": {
+    "clear": {
+      "n": 13,
+      "n_AI_source_disagreements": 2,
+      "n_AI_abstentions": 0
+    },
+    "moderate": {
+      "n": 5,
+      "n_AI_source_disagreements": 1,
+      "n_AI_abstentions": 0
+    },
+    "ambiguous": {
+      "n": 4,
+      "n_AI_source_disagreements": 3,
+      "n_AI_abstentions": 0
+    },
+    "unclear": {
+      "n": 2,
+      "n_AI_source_disagreements": 0,
+      "n_AI_abstentions": 2
+    }
+  },
+  "by_sealed_source_design_group": {
+    "high_leverage": {
+      "n": 9,
+      "review_triggers": 3
+    },
+    "same_species_same_original_colour_matched": {
+      "n": 9,
+      "review_triggers": 3
+    },
+    "original_source_photo_random_reference": {
+      "n": 6,
+      "review_triggers": 2
+    }
+  },
+  "unique_source_species_in_pilot": 23,
+  "precomparison_blind_AI_CSV_SHA256": "f232f3e710793ae2ae60821638c73f74cd28af3f3d9851bf628046cb2f8189be",
+  "precomparison_source24_CSV_SHA256": "06191b36eca9862f6241b5110ae13aee0ff7e7414a5caaaa1025daffca33eadd",
+  "original_archived_sealed405_key_SHA256": "ef0275fedf7ab4e3e0aa5309fd80c9a9aee97de733b79a93bc2137a04f6f4b5c",
+  "original_archived_blind405_CSV_SHA256": "8cc44a71dfb64601e23f68b68c25e8cbc534a332e0a17ff51a51bd8737a35c27",
+  "n_human_expert_reannotations": 0,
+  "n_independent_AI_reviewers": 0,
+  "independent_source_405_panel_untouched": true,
+  "source_scope": "pre-frozen 24 selected image-only one-pass AI assessments; compare after that pass against archived original algorithm label; NOT a second blind model assessment",
+  "verification": "5 local tests passed with actual original seal and original 24 image manifest hash, no public source-row label release",
+  "publication_policy": "Do not reveal per-case unblinding key, original source morphs or AI preliminary predictions to blind human reviewers.",
+  "hard_nonclaims": [
+    "Neither AI prediction nor original algorithm label is human-adjudicated true floral organ/petal colour.",
+    "Observed AI-vs-original disagreement is NOT an empirical colour-classification error rate or globally transportable rate.",
+    "Selected 24 photographs (23 species) are not a probabilistic audit sample of the 405 source review queue or 1499 species.",
+    "A disagreement may reflect a different flower species, bract, floral organ, background flower, exposure or AI hallucination.",
+    "Source geographic colour depletion, main New Phytologist manuscript H1/H2 and unopened cohorts are unchanged."
+  ]
+}
