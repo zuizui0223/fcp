@@ -1,0 +1,138 @@
+name: FCP 85337 species fixed-effects climate solar wind soil ecological exploration
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/compare_fcp_original85337_species_fixed_multiabiotic_20261010.py
+      - tests/test_fcp_original85337_species_fixed_multiabiotic_20261010.py
+      - .github/workflows/fcp-global42111-all-environment-species-fixed-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-global42111-original-photo-species-intercept-all-weather-soil-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  SOURCE_FULL_EXTENDED_RUN: '38011108135'
+  SOURCE_FULL_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+  ORIGINAL_ABIOTIC_RUN: '37861582446'
+  ORIGINAL_ABIOTIC_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  original-species-across-regions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Test source 85337 repeated-species region and species colour intercept nonleakage
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 pytest==8.4.2 scikit-learn==1.6.1
+          python -m py_compile scripts/analysis/compare_fcp_original85337_species_fixed_multiabiotic_20261010.py
+          python -m pytest tests/test_fcp_original85337_species_fixed_multiabiotic_20261010.py -q
+          python scripts/analysis/compare_fcp_original85337_species_fixed_multiabiotic_20261010.py --help > /dev/null
+      - name: Recover original fully source matched 85337 species×cell photo colour labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_ABIOTIC_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_ABIOTIC_ARTIFACT" --dir /tmp/fcp_85337_photo_source
+          file="$(find /tmp/fcp_85337_photo_source -name taxon_cell_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$file"
+          cp "$file" /tmp/fcp_original_85337_taxon_cell.csv.gz
+      - name: Recover all 100543 original photo site expanded BIO1-19 sunlight wind vapor and soil
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$SOURCE_FULL_EXTENDED_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_FULL_ARTIFACT" --dir /tmp/fcp_100543_photo_sites_full_environment
+          source="$(find /tmp/fcp_100543_photo_sites_full_environment -name all_original_100543_photo_sites_expanded_environment.csv.gz -print -quit)"
+          test -s "$source"
+          cp "$source" /tmp/fcp_original_100543_photo_sites.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          z=[]
+          for p in Path('/tmp/fcp_100543_photo_sites_full_environment').rglob('result.json'):
+              d=json.loads(p.read_text())
+              if d.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':z.append(d)
+          assert len(z)==1
+          d=z[0]
+          assert d['original_source_species']==42111
+          assert d['original_source_photo_rows']==100543
+          assert d['original_classified_photo_colours']==18457
+          assert set(d['monthly_variables'])=={'srad','wind','vapr'}
+          assert d['original_source_42111_breadth_and_85337_taxon_cell_photos_retained']
+          assert d['source_cell_centroid_never_used_as_photo_location']
+          PY
+      - name: Predict changes in photographed colour across cells with original species intercepts and ALL abiotic blocks
+        run: |
+          python scripts/analysis/compare_fcp_original85337_species_fixed_multiabiotic_20261010.py \
+            --original-taxon-cell /tmp/fcp_original_85337_taxon_cell.csv.gz \
+            --expanded-all-original-photo-sites /tmp/fcp_original_100543_photo_sites.csv.gz \
+            --outdir /tmp/fcp_original_85337_species_fixed_abiotic
+      - name: Prevent attribution of invariant phylogeny to within-species source climatic effects
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/fcp_original_85337_species_fixed_abiotic/result.json').read_text())
+          assert x['schema']=='fcp_original_85337_species_intercept_multiabiotic_photo_colour_cv_v1'
+          assert x['original_repeated_photo_source']['source_original_taxon_cell_photo_rows']==85337
+          assert x['original_repeated_photo_source']['source_four_state_colour_classifiable']==39075
+          assert x['original_repeated_photo_source']['source_unclassifiable_photo_cell_records']==46262
+          assert x['original_repeated_photo_source']['all_original_photo_ID_triples_matched_exactly']
+          assert x['original_abiotic_coverage']['n_original_source_photo_cell_records']==85337
+          assert x['all_42111_one_photo_species_remain_distinct_from_85337_repeated_cell_source']
+          assert x['all_real_photo_site_environment_no_cell_centroid_imputation']
+          assert x['all_models_have_source_species_intercepts_not_nominal_genus_substitutes']
+          assert x['phylogenetic_main_effect_not_estimable_simultaneously_with_species_intercepts']
+          assert x['photographic_colour_cannot_prove_genetic_polymorphism']
+          for key in ('climate_without_soil_selection','climate_soil_joint_complete'):
+              p=x[key]
+              if p['status']=='SOURCE_ORIGINAL_SPECIES_INTERCEPT_OUTOFCELL_ABIOTIC_DIAGNOSTIC':
+                  assert p['n_heldout_original_photos_with_species_training_intercept']>=200
+                  assert p['training_species_colour_means_only_from_other_cells']
+                  assert len(p['source_block_incremental_prediction'])>=7
+                  assert all(v['same_heldout_source_photos_all_models'] for v in p['source_block_incremental_prediction'].values())
+              else:
+                  assert p['status'].startswith('HOLD_')
+          print('SOURCE_85337_GLOBAL_SAME_SPECIES_CROSSCELL_ALL_ENVIRONMENT_PREDICTION_WITH_PHYLO_NONIDENTIFIABILITY_GUARD')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-original85337-same-species-full-environment-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_original_85337_species_fixed_abiotic/
+      - name: Save 85337 original cell photographic contrasts separately from 42111 species-composition predictions
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_same_species_all_abiotic_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp_original_85337_species_fixed_abiotic/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original 85337 taxon-cell same-species crossregion climate sun wind vapor soil predictive analysis'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
