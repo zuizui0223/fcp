@@ -131,7 +131,9 @@ def main():
     species=[]
     for cohort in EXPECTED:
         d[cohort],details=run_cohort(getattr(a,cohort),cohort)
-        details.insert(0,"cohort",cohort)
+        # The original analyzer already supplies cohort; do not duplicate it.
+        if "cohort" not in details.columns:
+            details.insert(0,"cohort",cohort)
         species.append(details)
     d["replication"]={
        str(th):{
