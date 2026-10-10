@@ -91,102 +91,182 @@
         "environment_increment": {
           "all_abiotic_beyond_species_real_geodesic_spatial_covariance": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.002853007170261375,
-              0.0038332555139844707
+              0.0028530071702613444,
+              0.003833255513984442
             ],
-            "outofregion_source_photo_brier_reduction": 0.0033782265676079583,
+            "outofregion_source_photo_brier_reduction": 0.0033782265676079296,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.002963263294991908,
-              0.003804885822410286
+              0.002963263294991868,
+              0.0038048858224102615
             ]
           },
           "spatial_kernel_beyond_linear_geography": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.003281029393062338,
-              0.0047837849916762066
+              0.003281029393062341,
+              0.00478378499167621
             ],
-            "outofregion_source_photo_brier_reduction": 0.004031488687451685,
+            "outofregion_source_photo_brier_reduction": 0.004031488687451688,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.003536060027335073,
-              0.004537254859818447
+              0.003536060027335074,
+              0.004537254859818451
             ]
           },
           "unique_elevation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              7.143320537410442e-05,
-              0.0002479013717814005
+              7.14332053741067e-05,
+              0.0002479013717814017
             ],
-            "outofregion_source_photo_brier_reduction": 0.00015848866840737115,
+            "outofregion_source_photo_brier_reduction": 0.000158488668407371,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              6.962803486903303e-05,
-              0.00024833544879882723
+              6.962803486902854e-05,
+              0.00024833544879882826
             ]
           },
           "unique_precipitation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.0005288506333846915,
-              0.001150190139933903
+              0.0005288506333846613,
+              0.0011501901399338667
             ],
-            "outofregion_source_photo_brier_reduction": 0.0008070948925255186,
+            "outofregion_source_photo_brier_reduction": 0.0008070948925254903,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0005934018518553197,
-              0.001019974660417605
+              0.0005934018518552922,
+              0.0010199746604175781
             ]
           },
           "unique_solar_radiation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              4.235551730071302e-05,
-              0.00033495535082289917
+              4.235551730071413e-05,
+              0.00033495535082290475
             ],
-            "outofregion_source_photo_brier_reduction": 0.00018357102715687394,
+            "outofregion_source_photo_brier_reduction": 0.00018357102715687787,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              6.053854106894427e-05,
-              0.00030201557661740046
+              6.053854106895237e-05,
+              0.00030201557661740534
             ]
           },
           "unique_temperature_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.0004626152501028563,
-              0.0008133765042381667
+              0.000462615250102857,
+              0.000813376504238172
             ],
-            "outofregion_source_photo_brier_reduction": 0.0006207305087501065,
+            "outofregion_source_photo_brier_reduction": 0.0006207305087501076,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0004141369406395054,
-              0.0008751601358265766
+              0.00041413694063950325,
+              0.0008751601358265855
             ]
           },
           "unique_vapor_pressure_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              7.597804651731667e-05,
-              0.0003116396308110059
+              7.597804651731799e-05,
+              0.00031163963081100435
             ],
-            "outofregion_source_photo_brier_reduction": 0.00018869803216255197,
+            "outofregion_source_photo_brier_reduction": 0.00018869803216255235,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              7.320107792717932e-05,
-              0.00032004984508201303
+              7.320107792717402e-05,
+              0.0003200498450820077
             ]
           },
           "unique_wind_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              7.819309441134312e-05,
-              0.0003106098595283987
+              7.819309441134333e-05,
+              0.00031060985952839816
             ],
-            "outofregion_source_photo_brier_reduction": 0.00019065146169331565,
+            "outofregion_source_photo_brier_reduction": 0.00019065146169331478,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              8.323930909559949e-05,
-              0.0003046243555575755
+              8.323930909559891e-05,
+              0.00030462435555757126
             ]
           }
         },
         "fixed_geodesic_covariance_scale_km": 100.0,
+        "fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic": {
+          "100": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 6.951912781076609,
+            "n_nearby_directed_edges": 142834,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.0038210848095920785,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.009098623297895571,
+                  "red_pink": 0.003908191585420371,
+                  "white": -0.0005744571338352016,
+                  "yellow_orange": 0.00170306722121717
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.003841747458430362,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.00908837962082332,
+                  "red_pink": 0.003621726511917074,
+                  "white": -0.0002668623532423622,
+                  "yellow_orange": 0.002390021347738692
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.004214675607348031,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.009413281359480713,
+                  "red_pink": 0.003466782601871769,
+                  "white": -0.0006881139590747564,
+                  "yellow_orange": 0.003290524508964882
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          },
+          "500": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 7.958386060547065,
+            "n_nearby_directed_edges": 163513,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.0035575027059507602,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.00728476203346269,
+                  "red_pink": 0.003730266072592273,
+                  "white": -0.0010553217089938499,
+                  "yellow_orange": 0.0021596610087542263
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.0034817161770573004,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.007054032557249983,
+                  "red_pink": 0.0033641183683085735,
+                  "white": -0.0008710821593755291,
+                  "yellow_orange": 0.002637631623295115
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.003837967685592408,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.007508179407746841,
+                  "red_pink": 0.0031726328218760077,
+                  "white": -0.0012372642800452633,
+                  "yellow_orange": 0.0034337942327015195
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          }
+        },
         "folds": [
           {
             "fold": 0,
@@ -229,7 +309,7 @@
             "n_same_original_heldout_photo_rows": 20546
           },
           "SPATIAL_ALL_MINUS_SOLAR_RADIATION": {
-            "mean_heldout_fourstate_brier": 0.3951004090320651,
+            "mean_heldout_fourstate_brier": 0.39510040903206506,
             "n_same_original_heldout_photo_rows": 20546
           },
           "SPATIAL_ALL_MINUS_TEMPERATURE": {
@@ -237,11 +317,11 @@
             "n_same_original_heldout_photo_rows": 20546
           },
           "SPATIAL_ALL_MINUS_VAPOR_PRESSURE": {
-            "mean_heldout_fourstate_brier": 0.39510553603707066,
+            "mean_heldout_fourstate_brier": 0.39510553603707077,
             "n_same_original_heldout_photo_rows": 20546
           },
           "SPATIAL_ALL_MINUS_WIND": {
-            "mean_heldout_fourstate_brier": 0.39510748946660146,
+            "mean_heldout_fourstate_brier": 0.3951074894666015,
             "n_same_original_heldout_photo_rows": 20546
           },
           "SPECIES_GEOGRAPHY_ONLY": {
@@ -268,31 +348,31 @@
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.004316228375741819,
+            "min_original_source_landmark_gram_eigenvalue": 0.004316228375741771,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.0020313376424740716,
+            "min_original_source_landmark_gram_eigenvalue": 0.0020313376424734467,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.1458339480908797,
+            "min_original_source_landmark_gram_eigenvalue": 0.14583394809088038,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.00132271957489132,
+            "min_original_source_landmark_gram_eigenvalue": 0.0013227195748912281,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.05626423139403815,
+            "min_original_source_landmark_gram_eigenvalue": 0.05626423139403826,
             "n_source_training_only_landmarks": 128
           }
         ],
@@ -305,102 +385,182 @@
         "environment_increment": {
           "all_abiotic_beyond_species_real_geodesic_spatial_covariance": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.0013722077237633369,
-              0.002397817870781081
+              0.0013722077237633347,
+              0.0023978178707810723
             ],
-            "outofregion_source_photo_brier_reduction": 0.001861421014943872,
+            "outofregion_source_photo_brier_reduction": 0.0018614210149438593,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.001510702748403656,
-              0.002246844309463617
+              0.0015107027484036488,
+              0.002246844309463612
             ]
           },
           "spatial_kernel_beyond_linear_geography": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.006042423954722171,
-              0.007880464865395348
+              0.006042423954722169,
+              0.00788046486539536
             ],
-            "outofregion_source_photo_brier_reduction": 0.0068833935118776295,
+            "outofregion_source_photo_brier_reduction": 0.006883393511877631,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.006131887823669954,
-              0.0076447874272146795
+              0.006131887823669949,
+              0.007644787427214681
             ]
           },
           "unique_elevation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -3.9663323076411985e-07,
-              0.00018489781620034828
+              -3.96633230763519e-07,
+              0.00018489781620035633
             ],
-            "outofregion_source_photo_brier_reduction": 8.960141105941692e-05,
+            "outofregion_source_photo_brier_reduction": 8.960141105942176e-05,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              2.855599115780552e-06,
-              0.00017451267942757807
+              2.8555991157825073e-06,
+              0.0001745126794275809
             ]
           },
           "unique_precipitation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.00028499427425262067,
-              0.0009472765978964811
+              0.00028499427425262544,
+              0.0009472765978964596
             ],
-            "outofregion_source_photo_brier_reduction": 0.0006410367839996829,
+            "outofregion_source_photo_brier_reduction": 0.0006410367839996688,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0003817292521156112,
-              0.0009025059531750068
+              0.00038172925211559503,
+              0.0009025059531749903
             ]
           },
           "unique_solar_radiation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -7.116366074130452e-06,
-              0.0002840148139186339
+              -7.116366074125765e-06,
+              0.0002840148139186408
             ],
-            "outofregion_source_photo_brier_reduction": 0.00011771576325677874,
+            "outofregion_source_photo_brier_reduction": 0.00011771576325678389,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -2.830185454856566e-06,
-              0.00024377296135500397
+              -2.8301854548519317e-06,
+              0.00024377296135501638
             ]
           },
           "unique_temperature_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.00018138185095879154,
-              0.0006156717626527508
+              0.00018138185095878672,
+              0.0006156717626527586
             ],
-            "outofregion_source_photo_brier_reduction": 0.00037670901076210136,
+            "outofregion_source_photo_brier_reduction": 0.0003767090107621059,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.00013967543263574772,
-              0.00064468258135869
+              0.00013967543263575306,
+              0.0006446825813586939
             ]
           },
           "unique_vapor_pressure_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -9.338761421212705e-05,
-              0.00014795491623685638
+              -9.33876142121196e-05,
+              0.00014795491623685985
             ],
-            "outofregion_source_photo_brier_reduction": 3.1320710248731314e-05,
+            "outofregion_source_photo_brier_reduction": 3.132071024873473e-05,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -8.947488438294252e-05,
-              0.00018061359273400507
+              -8.947488438293398e-05,
+              0.00018061359273400688
             ]
           },
           "unique_wind_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              2.755221870153054e-05,
-              0.00033065201358605954
+              2.755221870153082e-05,
+              0.0003306520135860611
             ],
-            "outofregion_source_photo_brier_reduction": 0.00016272661032338463,
+            "outofregion_source_photo_brier_reduction": 0.00016272661032338555,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              3.700377582263242e-05,
-              0.0002818086485776456
+              3.7003775822630665e-05,
+              0.00028180864857764757
             ]
           }
         },
         "fixed_geodesic_covariance_scale_km": 500.0,
+        "fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic": {
+          "100": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 6.951912781076609,
+            "n_nearby_directed_edges": 142834,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.0038210848095920785,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.009098623297895571,
+                  "red_pink": 0.003908191585420371,
+                  "white": -0.0005744571338352016,
+                  "yellow_orange": 0.00170306722121717
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.004646994930170446,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.009808743943703858,
+                  "red_pink": 0.0051854983226806385,
+                  "white": 0.0009176961001531196,
+                  "yellow_orange": 0.0026760413541441676
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.004783242765790148,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.010469090271786781,
+                  "red_pink": 0.004447401286214585,
+                  "white": 0.0007722088001533905,
+                  "yellow_orange": 0.003444270705005838
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          },
+          "500": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 7.958386060547065,
+            "n_nearby_directed_edges": 163513,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.0035575027059507602,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.00728476203346269,
+                  "red_pink": 0.003730266072592273,
+                  "white": -0.0010553217089938499,
+                  "yellow_orange": 0.0021596610087542263
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.0041532936377541105,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.007700324569473891,
+                  "red_pink": 0.0053647924903682505,
+                  "white": 0.0006187567179663021,
+                  "yellow_orange": 0.0029293007732079986
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.0042840818840926,
+                "n_source_geo_photo_records": 20546,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.008456927445947823,
+                  "red_pink": 0.004512496670220581,
+                  "white": 0.000455636442942997,
+                  "yellow_orange": 0.003711266977258999
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          }
+        },
         "folds": [
           {
             "fold": 0,
@@ -435,7 +595,7 @@
         ],
         "fourstate_model_scores": {
           "SPATIAL_ALL_MINUS_ELEVATION": {
-            "mean_heldout_fourstate_brier": 0.3936713401442057,
+            "mean_heldout_fourstate_brier": 0.3936713401442058,
             "n_same_original_heldout_photo_rows": 20546
           },
           "SPATIAL_ALL_MINUS_PRECIPITATION": {
@@ -482,31 +642,31 @@
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.0008647386326977615,
+            "min_original_source_landmark_gram_eigenvalue": 0.0008647386326979108,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.00040658465871222147,
+            "min_original_source_landmark_gram_eigenvalue": 0.0004065846587128256,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.030108256525626896,
+            "min_original_source_landmark_gram_eigenvalue": 0.03010825652562657,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.00026465114683210054,
+            "min_original_source_landmark_gram_eigenvalue": 0.00026465114683228805,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.011514722488416623,
+            "min_original_source_landmark_gram_eigenvalue": 0.011514722488417738,
             "n_source_training_only_landmarks": 128
           }
         ],
@@ -521,114 +681,194 @@
         "environment_increment": {
           "all_abiotic_beyond_species_real_geodesic_spatial_covariance": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.004593964762294307,
-              0.006198507242713722
+              0.00459396476229432,
+              0.006198507242713756
             ],
-            "outofregion_source_photo_brier_reduction": 0.005381460394989112,
+            "outofregion_source_photo_brier_reduction": 0.0053814603949891284,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.004555679374537258,
-              0.006236472988758587
+              0.0045556793745372805,
+              0.006236472988758618
             ]
           },
           "spatial_kernel_beyond_linear_geography": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.004737770979461926,
-              0.007364514719024421
+              0.004737770979461932,
+              0.007364514719024426
             ],
-            "outofregion_source_photo_brier_reduction": 0.0060134316168173035,
+            "outofregion_source_photo_brier_reduction": 0.006013431616817309,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.004864433018272391,
-              0.007206688491028435
+              0.004864433018272399,
+              0.0072066884910284386
             ]
           },
           "unique_elevation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -2.4695242434055527e-05,
-              0.00018847487072447535
+              -2.469524243406185e-05,
+              0.00018847487072447117
             ],
-            "outofregion_source_photo_brier_reduction": 8.267475602714567e-05,
+            "outofregion_source_photo_brier_reduction": 8.267475602714305e-05,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -3.632116109710983e-05,
-              0.00023907791180639864
+              -3.632116109711362e-05,
+              0.00023907791180639384
             ]
           },
           "unique_precipitation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.0007553649220804052,
-              0.0018886946124377574
+              0.0007553649220804182,
+              0.001888694612437801
             ],
-            "outofregion_source_photo_brier_reduction": 0.0013294775510955615,
+            "outofregion_source_photo_brier_reduction": 0.0013294775510955884,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0008230464356195367,
-              0.0018257149396409492
+              0.0008230464356195565,
+              0.0018257149396409865
             ]
           },
           "unique_soil_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.000661229774031848,
-              0.0012600846856257114
+              0.0006612297740318396,
+              0.0012600846856257108
             ],
-            "outofregion_source_photo_brier_reduction": 0.0009573128338600283,
+            "outofregion_source_photo_brier_reduction": 0.0009573128338600259,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0004994260096725336,
-              0.0013565516907283106
+              0.0004994260096725316,
+              0.0013565516907283123
             ]
           },
           "unique_solar_radiation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -0.00010564455217969878,
-              0.00012170171737681306
+              -0.00010564455217969623,
+              0.00012170171737681521
             ],
-            "outofregion_source_photo_brier_reduction": 2.2261311411122345e-05,
+            "outofregion_source_photo_brier_reduction": 2.226131141112229e-05,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -9.349815830994057e-05,
-              0.00016370690031710373
+              -9.349815830993662e-05,
+              0.00016370690031710592
             ]
           },
           "unique_temperature_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.00025115741167402365,
-              0.0009848027763865487
+              0.00025115741167401536,
+              0.0009848027763865509
             ],
-            "outofregion_source_photo_brier_reduction": 0.0006161927872538863,
+            "outofregion_source_photo_brier_reduction": 0.0006161927872538872,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0002864485453438632,
-              0.0009987025477441694
+              0.0002864485453438694,
+              0.000998702547744169
             ]
           },
           "unique_vapor_pressure_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -1.4894628072929355e-05,
-              0.0003135715525357473
+              -1.4894628072923416e-05,
+              0.0003135715525357621
             ],
-            "outofregion_source_photo_brier_reduction": 0.00015675595974867855,
+            "outofregion_source_photo_brier_reduction": 0.00015675595974868185,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -3.188073372545699e-05,
-              0.0003390476643634071
+              -3.188073372545997e-05,
+              0.0003390476643634109
             ]
           },
           "unique_wind_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -3.3952661960536424e-05,
-              0.00031786086215574615
+              -3.395266196053466e-05,
+              0.00031786086215574187
             ],
-            "outofregion_source_photo_brier_reduction": 0.00015322750837284605,
+            "outofregion_source_photo_brier_reduction": 0.00015322750837284087,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -7.853374961019109e-05,
-              0.0003673112920359026
+              -7.853374961019629e-05,
+              0.00036731129203590164
             ]
           }
         },
         "fixed_geodesic_covariance_scale_km": 100.0,
+        "fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic": {
+          "100": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 6.270294540229885,
+            "n_nearby_directed_edges": 69826,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.008488086920332488,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.009718649274755848,
+                  "red_pink": 0.00913846184181741,
+                  "white": 0.0070436644803265214,
+                  "yellow_orange": 0.008051572084430173
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.009987588941492258,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.0108439298846431,
+                  "red_pink": 0.012004161118580046,
+                  "white": 0.007906658237675841,
+                  "yellow_orange": 0.009195606525070045
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.009801961304494027,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.010221512090735895,
+                  "red_pink": 0.011205609018167764,
+                  "white": 0.0084671451115128,
+                  "yellow_orange": 0.009313578997559649
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          },
+          "500": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 7.9264547413793105,
+            "n_nearby_directed_edges": 88269,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.006220391017926423,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.00514422976284448,
+                  "red_pink": 0.0087226728396643,
+                  "white": 0.004271229353198398,
+                  "yellow_orange": 0.0067434321159985135
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.007191943068449019,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.006035923407114947,
+                  "red_pink": 0.011057059217939886,
+                  "white": 0.00451341241114827,
+                  "yellow_orange": 0.007161377237592974
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.007060325138172396,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.005234214854566451,
+                  "red_pink": 0.01040338723655206,
+                  "white": 0.005049712682807694,
+                  "yellow_orange": 0.007553985778763384
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          }
+        },
         "folds": [
           {
             "fold": 0,
@@ -667,7 +907,7 @@
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_PRECIPITATION": {
-            "mean_heldout_fourstate_brier": 0.4172179119772618,
+            "mean_heldout_fourstate_brier": 0.41721791197726193,
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_SOIL": {
@@ -675,7 +915,7 @@
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_SOLAR_RADIATION": {
-            "mean_heldout_fourstate_brier": 0.4159106957375775,
+            "mean_heldout_fourstate_brier": 0.4159106957375774,
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_TEMPERATURE": {
@@ -714,31 +954,31 @@
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.04636971412727353,
+            "min_original_source_landmark_gram_eigenvalue": 0.0463697141272732,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.005301216251251207,
+            "min_original_source_landmark_gram_eigenvalue": 0.0053012162512514,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.04042853470221955,
+            "min_original_source_landmark_gram_eigenvalue": 0.04042853470221958,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.008748915271954667,
+            "min_original_source_landmark_gram_eigenvalue": 0.008748915271954838,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 100.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.0011509222407294693,
+            "min_original_source_landmark_gram_eigenvalue": 0.001150922240728903,
             "n_source_training_only_landmarks": 128
           }
         ],
@@ -751,114 +991,194 @@
         "environment_increment": {
           "all_abiotic_beyond_species_real_geodesic_spatial_covariance": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.0023823034758858825,
-              0.003983563007814234
+              0.0023823034758859198,
+              0.00398356300781426
             ],
-            "outofregion_source_photo_brier_reduction": 0.0031457838021996735,
+            "outofregion_source_photo_brier_reduction": 0.0031457838021996948,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0023625866589285886,
-              0.003926505066565546
+              0.002362586658928587,
+              0.003926505066565562
             ]
           },
           "spatial_kernel_beyond_linear_geography": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.009349559497762037,
-              0.012472972190733617
+              0.00934955949776204,
+              0.012472972190733648
             ],
-            "outofregion_source_photo_brier_reduction": 0.010822398830422365,
+            "outofregion_source_photo_brier_reduction": 0.010822398830422379,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.009535042660432117,
-              0.012217891561720965
+              0.00953504266043213,
+              0.01221789156172099
             ]
           },
           "unique_elevation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -4.197514400313218e-05,
-              0.00022097857300701798
+              -4.197514400312554e-05,
+              0.0002209785730070341
             ],
-            "outofregion_source_photo_brier_reduction": 9.361350120141978e-05,
+            "outofregion_source_photo_brier_reduction": 9.36135012014323e-05,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -4.710427389532115e-05,
-              0.00023027147525344718
+              -4.710427389530652e-05,
+              0.0002302714752534516
             ]
           },
           "unique_precipitation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.000523437984214034,
-              0.00139835634382166
+              0.0005234379842140411,
+              0.0013983563438216883
             ],
-            "outofregion_source_photo_brier_reduction": 0.0009824760420216229,
+            "outofregion_source_photo_brier_reduction": 0.0009824760420216354,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0005213951598374212,
-              0.0013762301322074522
+              0.000521395159837435,
+              0.0013762301322074748
             ]
           },
           "unique_soil_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.00029993121644821935,
-              0.001043518170264516
+              0.0002999312164482245,
+              0.001043518170264506
             ],
-            "outofregion_source_photo_brier_reduction": 0.000654785988724162,
+            "outofregion_source_photo_brier_reduction": 0.0006547859887241614,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              0.0002066676248968564,
-              0.001133952051337774
+              0.00020666762489685565,
+              0.0011339520513377831
             ]
           },
           "unique_solar_radiation_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -0.00010333871941445535,
-              0.00015268383966294478
+              -0.00010333871941445567,
+              0.00015268383966293478
             ],
-            "outofregion_source_photo_brier_reduction": 1.846861022791809e-05,
+            "outofregion_source_photo_brier_reduction": 1.8468610227917408e-05,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -9.291822322833754e-05,
-              0.00014364474093634134
+              -9.291822322834714e-05,
+              0.00014364474093635275
             ]
           },
           "unique_temperature_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -9.725094718405136e-05,
-              0.000761212310116043
+              -9.72509471840422e-05,
+              0.0007612123101160529
             ],
-            "outofregion_source_photo_brier_reduction": 0.0003409642501706773,
+            "outofregion_source_photo_brier_reduction": 0.00034096425017069094,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              1.472353736163941e-05,
-              0.0006941702517879201
+              1.4723537361660975e-05,
+              0.0006941702517879384
             ]
           },
           "unique_vapor_pressure_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              -3.507952714725814e-05,
-              0.00027934281895620924
+              -3.507952714725782e-05,
+              0.00027934281895621575
             ],
-            "outofregion_source_photo_brier_reduction": 0.00013873010229399922,
+            "outofregion_source_photo_brier_reduction": 0.0001387301022940061,
             "positive_in_both_fixed_prediction_group_resamplings": false,
             "species_block_bootstrap_95CI": [
-              -1.983633545362293e-05,
-              0.000324406381890554
+              -1.9836335453623546e-05,
+              0.0003244063818905561
             ]
           },
           "unique_wind_beyond_species_spatial_kernel_and_other_abiotic": {
             "geographical_cell_block_bootstrap_95CI": [
-              0.00012402753868415433,
-              0.0005486794344583524
+              0.00012402753868415403,
+              0.0005486794344583439
             ],
-            "outofregion_source_photo_brier_reduction": 0.0003487632096296766,
+            "outofregion_source_photo_brier_reduction": 0.0003487632096296733,
             "positive_in_both_fixed_prediction_group_resamplings": true,
             "species_block_bootstrap_95CI": [
-              8.00762195105908e-05,
+              8.007621951058885e-05,
               0.0006602666574236299
             ]
           }
         },
         "fixed_geodesic_covariance_scale_km": 500.0,
+        "fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic": {
+          "100": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 6.270294540229885,
+            "n_nearby_directed_edges": 69826,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.008488086920332488,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.009718649274755848,
+                  "red_pink": 0.00913846184181741,
+                  "white": 0.0070436644803265214,
+                  "yellow_orange": 0.008051572084430173
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.010127459267128748,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.012648985974564627,
+                  "red_pink": 0.010556020730624885,
+                  "white": 0.008105103463203638,
+                  "yellow_orange": 0.009199726900121843
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.009614699844455517,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.011413259271675124,
+                  "red_pink": 0.009554920421354179,
+                  "white": 0.008163668482479668,
+                  "yellow_orange": 0.009326951202313095
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          },
+          "500": {
+            "descriptive_not_a_significance_test": true,
+            "max_nearest_neighbors_examined": 8,
+            "mean_neighbors_within_radius": 7.9264547413793105,
+            "n_nearby_directed_edges": 88269,
+            "residual_methods": {
+              "SPECIES_GEOGRAPHY_ONLY": {
+                "mean_absolute_class_Moran_I": 0.006220391017926423,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.00514422976284448,
+                  "red_pink": 0.0087226728396643,
+                  "white": 0.004271229353198398,
+                  "yellow_orange": 0.0067434321159985135
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL": {
+                "mean_absolute_class_Moran_I": 0.007540916773460942,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.007529269498315692,
+                  "red_pink": 0.009904243614972812,
+                  "white": 0.0050571977798355245,
+                  "yellow_orange": 0.007672956200719739
+                }
+              },
+              "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
+                "mean_absolute_class_Moran_I": 0.007187636021827551,
+                "n_source_geo_photo_records": 11136,
+                "source_four_colour_class_residual_Moran_I": {
+                  "blue_purple": 0.006280157363557433,
+                  "red_pink": 0.009081003129183036,
+                  "white": 0.005379170331567923,
+                  "yellow_orange": 0.008010213263001812
+                }
+              }
+            },
+            "status": "ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+          }
+        },
         "folds": [
           {
             "fold": 0,
@@ -905,7 +1225,7 @@
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_SOLAR_RADIATION": {
-            "mean_heldout_fourstate_brier": 0.4133336124155786,
+            "mean_heldout_fourstate_brier": 0.41333361241557853,
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_TEMPERATURE": {
@@ -913,11 +1233,11 @@
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_VAPOR_PRESSURE": {
-            "mean_heldout_fourstate_brier": 0.4134538739076447,
+            "mean_heldout_fourstate_brier": 0.41345387390764465,
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPATIAL_ALL_MINUS_WIND": {
-            "mean_heldout_fourstate_brier": 0.4136639070149804,
+            "mean_heldout_fourstate_brier": 0.4136639070149803,
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPECIES_GEOGRAPHY_ONLY": {
@@ -929,7 +1249,7 @@
             "n_same_original_heldout_photo_rows": 11136
           },
           "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV": {
-            "mean_heldout_fourstate_brier": 0.4133151438053507,
+            "mean_heldout_fourstate_brier": 0.4133151438053506,
             "n_same_original_heldout_photo_rows": 11136
           }
         },
@@ -944,31 +1264,31 @@
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.009450827497699325,
+            "min_original_source_landmark_gram_eigenvalue": 0.00945082749769993,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.0010617128659300421,
+            "min_original_source_landmark_gram_eigenvalue": 0.0010617128659303492,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.008190999423849384,
+            "min_original_source_landmark_gram_eigenvalue": 0.008190999423849637,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.0017537690751899349,
+            "min_original_source_landmark_gram_eigenvalue": 0.0017537690751896495,
             "n_source_training_only_landmarks": 128
           },
           {
             "geodesic_kernel_scale_km": 500.0,
             "landmark_selection_colour_outcome_blind": true,
-            "min_original_source_landmark_gram_eigenvalue": 0.00023029008924445218,
+            "min_original_source_landmark_gram_eigenvalue": 0.00023029008924399513,
             "n_source_training_only_landmarks": 128
           }
         ],
