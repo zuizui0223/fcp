@@ -1,0 +1,1275 @@
+{
+  "date_jst": "2026-10-10",
+  "full_source_872_1761_phylogenetic_claims_remain_HOLD": true,
+  "geography_features": [
+    "abs_latitude",
+    "lon_sin",
+    "lon_cos"
+  ],
+  "hard_nonclaims": [
+    "An important covariate prediction does not demonstrate climate-driven floral adaptation",
+    "Source one-photo-per-species four-state class is not a genetically fixed species flower colour",
+    "WorldClim solar radiation 1970-2000 is grid-cell climatic incident radiation, not under-canopy exposure",
+    "WorldClim 10 arc-minute values are coarse relative to the location error of some uploaded photos",
+    "SoilGrids 5km topsoil predictors are modeled, not actual floral rhizosphere assays",
+    "Block collinearity means conditional drop-one scores need not sum to total",
+    "Same soil+solar complete-case sample has observational selection, never extrapolated to 42111 taxa"
+  ],
+  "models": [
+    {
+      "all_models_same_original_photo_species_and_fixed_folds": true,
+      "confidence_intervals_conditional_on_realized_fixed_model_folds": true,
+      "fivefold_grouping_kind": "original nominal genus",
+      "full_vs_geography_and_drop_one_predictor_gains": {
+        "conditional_elevation": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00036861527339173143,
+            0.0004952909785511117
+          ],
+          "heldout_mean_logloss_reduction": 7.185255117080999e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_precipitation": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00024327352386331757,
+            0.0023498154459470257
+          ],
+          "heldout_mean_logloss_reduction": 0.0011143007862756044,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_N": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0004901076671360587,
+            0.0002490242014234591
+          ],
+          "heldout_mean_logloss_reduction": -9.504299935441368e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_SOC": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0003632714448419617,
+            0.00015397234744639337
+          ],
+          "heldout_mean_logloss_reduction": -0.00010442541196200306,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_available_water_proxy": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0002566753270531268,
+            0.0007527744518922409
+          ],
+          "heldout_mean_logloss_reduction": 0.0002670041511013246,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_bdod_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0005007525511835026,
+            8.42528831439446e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.0002001588013229834,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_cec_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0004961203424291161,
+            0.00023313044437289892
+          ],
+          "heldout_mean_logloss_reduction": -0.000133079217657324,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_cfvo_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00036809934228637555,
+            0.0002532441156752576
+          ],
+          "heldout_mean_logloss_reduction": -6.16348960238863e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_clay": {
+          "group_resampled_fixed_oof_95CI": [
+            -4.586149480666247e-05,
+            6.666436341750803e-05
+          ],
+          "heldout_mean_logloss_reduction": 1.2414283303116176e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_pH": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00038584188718401337,
+            0.0004807958946304586
+          ],
+          "heldout_mean_logloss_reduction": 5.822255952969143e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_sand_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -4.992295799774765e-07,
+            8.19024587660597e-05
+          ],
+          "heldout_mean_logloss_reduction": 4.08525694108983e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_silt_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -2.5228712517765295e-05,
+            7.261729045232357e-05
+          ],
+          "heldout_mean_logloss_reduction": 2.4081826606170816e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio1": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00027927850622329055,
+            3.759123366921871e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.00011964426167628463,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio10": {
+          "group_resampled_fixed_oof_95CI": [
+            -7.33108787660611e-05,
+            0.00010275015459428443
+          ],
+          "heldout_mean_logloss_reduction": 1.5767640150764398e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio11": {
+          "group_resampled_fixed_oof_95CI": [
+            -9.128683387189462e-05,
+            6.321772475933671e-05
+          ],
+          "heldout_mean_logloss_reduction": -1.646186862556576e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio12": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00028002341181114607,
+            0.0006425947070188307
+          ],
+          "heldout_mean_logloss_reduction": 0.0001758409166064934,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio13": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00027538227867867005,
+            0.0007649431802378522
+          ],
+          "heldout_mean_logloss_reduction": 0.00025992939070062186,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio14": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00028964320507995775,
+            0.0004943500194819942
+          ],
+          "heldout_mean_logloss_reduction": 0.0001023862477376907,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio15": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00037396526968687865,
+            0.00018983897142869807
+          ],
+          "heldout_mean_logloss_reduction": -9.508169528073687e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio16": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0002887451113033921,
+            0.0007392693741455859
+          ],
+          "heldout_mean_logloss_reduction": 0.0002518579454339142,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio17": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0002594389785901708,
+            0.0005274745282974043
+          ],
+          "heldout_mean_logloss_reduction": 0.0001380714098206705,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio18": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0001788210271344288,
+            0.0013474692974162928
+          ],
+          "heldout_mean_logloss_reduction": 0.0005584002460972185,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio19": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00025928093455586425,
+            0.0006488610406486084
+          ],
+          "heldout_mean_logloss_reduction": 0.00017153671234194584,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio2": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0003557304268559608,
+            0.0002685649337459905
+          ],
+          "heldout_mean_logloss_reduction": -2.6522706296472122e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio3": {
+          "group_resampled_fixed_oof_95CI": [
+            3.614691331111072e-05,
+            0.0015538622736278706
+          ],
+          "heldout_mean_logloss_reduction": 0.0007646662015575985,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": true
+        },
+        "conditional_single_wc_bio4": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00013577048194215224,
+            0.00012619453864242268
+          ],
+          "heldout_mean_logloss_reduction": -2.4196224080461786e-06,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio5": {
+          "group_resampled_fixed_oof_95CI": [
+            -8.049319898187281e-05,
+            0.00012180537065072005
+          ],
+          "heldout_mean_logloss_reduction": 2.2507526841269097e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio6": {
+          "group_resampled_fixed_oof_95CI": [
+            -8.102526275394297e-05,
+            5.681055991898597e-05
+          ],
+          "heldout_mean_logloss_reduction": -1.2537212263987568e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio7": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0001502351472573957,
+            4.0270102733362926e-05
+          ],
+          "heldout_mean_logloss_reduction": -5.263303437235822e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio8": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0005035031029322672,
+            0.00010978560796136577
+          ],
+          "heldout_mean_logloss_reduction": -0.00019488321950268222,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio9": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00047603219956690764,
+            -6.821027130767197e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.0002682006290343383,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_elevation_m": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00036861527339173143,
+            0.0004952909785511117
+          ],
+          "heldout_mean_logloss_reduction": 7.185255117080999e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_srad_annual_mean": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00041860683131004275,
+            0.0004953605164928099
+          ],
+          "heldout_mean_logloss_reduction": 4.5851171618341735e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_srad_monthly_cv": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00040176886108516253,
+            0.0007675638997995693
+          ],
+          "heldout_mean_logloss_reduction": 0.0002391680138490162,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_vapr_annual_mean": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0005399163554183146,
+            0.0003308957893844007
+          ],
+          "heldout_mean_logloss_reduction": -7.785927888810621e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_vapr_monthly_cv": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00033441640752230435,
+            0.00037486234702993653
+          ],
+          "heldout_mean_logloss_reduction": 2.4082376988242483e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_wind_annual_mean": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0003979597422557433,
+            0.0005537219549718597
+          ],
+          "heldout_mean_logloss_reduction": 6.056262882045677e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_wind_monthly_cv": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0003307565487958934,
+            0.00040951466709793986
+          ],
+          "heldout_mean_logloss_reduction": 3.860896834219693e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_soil": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0016011269733495928,
+            0.000936639600302198
+          ],
+          "heldout_mean_logloss_reduction": -0.00028039460999066047,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_solar_radiation": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0005736631066095838,
+            0.0008606634417926538
+          ],
+          "heldout_mean_logloss_reduction": 0.00017333048226493954,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_temperature": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0009471811642757246,
+            0.0011766416081017003
+          ],
+          "heldout_mean_logloss_reduction": 0.00011551780829930325,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_vapor_pressure": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.000637447659143467,
+            0.0006078965004269526
+          ],
+          "heldout_mean_logloss_reduction": 1.77776809794633e-06,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_wind": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0005168553587724107,
+            0.0006857204051353694
+          ],
+          "heldout_mean_logloss_reduction": 4.8301557767816414e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "full_minus_geography_only": {
+          "group_resampled_fixed_oof_95CI": [
+            0.004195727570204402,
+            0.012707255246503976
+          ],
+          "heldout_mean_logloss_reduction": 0.008180426341896363,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": true
+        }
+      },
+      "heldout_group": "genus",
+      "n_original_species_evaluated": 14118,
+      "original_source_n_independent_heldout_groups": 3940,
+      "source_model_scores": {
+        "FULL_ALL_BLOCKS": {
+          "heldout_mean_multiclass_logloss": 1.1729879767684153,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_ELEVATION": {
+          "heldout_mean_multiclass_logloss": 1.1730598293195857,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_PRECIPITATION": {
+          "heldout_mean_multiclass_logloss": 1.1741022775546905,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_AVAILABLE_WATER_PROXY": {
+          "heldout_mean_multiclass_logloss": 1.1732549809195163,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_BDOD_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.1727878179670919,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_CEC_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.1728548975507578,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_CFVO_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.1729263418723912,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_CLAY": {
+          "heldout_mean_multiclass_logloss": 1.1730003910517184,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_N": {
+          "heldout_mean_multiclass_logloss": 1.1728929337690606,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_PH": {
+          "heldout_mean_multiclass_logloss": 1.1730461993279446,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_SAND_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.173028829337826,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_SILT_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.173012058595021,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_SOC": {
+          "heldout_mean_multiclass_logloss": 1.172883551356453,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO1": {
+          "heldout_mean_multiclass_logloss": 1.1728683325067386,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO10": {
+          "heldout_mean_multiclass_logloss": 1.1730037444085657,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO11": {
+          "heldout_mean_multiclass_logloss": 1.1729715148997895,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO12": {
+          "heldout_mean_multiclass_logloss": 1.1731638176850214,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO13": {
+          "heldout_mean_multiclass_logloss": 1.1732479061591157,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO14": {
+          "heldout_mean_multiclass_logloss": 1.1730903630161529,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO15": {
+          "heldout_mean_multiclass_logloss": 1.1728928950731345,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO16": {
+          "heldout_mean_multiclass_logloss": 1.173239834713849,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO17": {
+          "heldout_mean_multiclass_logloss": 1.1731260481782355,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO18": {
+          "heldout_mean_multiclass_logloss": 1.1735463770145123,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO19": {
+          "heldout_mean_multiclass_logloss": 1.173159513480757,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO2": {
+          "heldout_mean_multiclass_logloss": 1.1729614540621185,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO3": {
+          "heldout_mean_multiclass_logloss": 1.1737526429699727,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO4": {
+          "heldout_mean_multiclass_logloss": 1.172985557146007,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO5": {
+          "heldout_mean_multiclass_logloss": 1.1730104842952562,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO6": {
+          "heldout_mean_multiclass_logloss": 1.172975439556151,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO7": {
+          "heldout_mean_multiclass_logloss": 1.1729353437340426,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO8": {
+          "heldout_mean_multiclass_logloss": 1.1727930935489124,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO9": {
+          "heldout_mean_multiclass_logloss": 1.1727197761393806,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_ELEVATION_M": {
+          "heldout_mean_multiclass_logloss": 1.1730598293195857,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_SRAD_ANNUAL_MEAN": {
+          "heldout_mean_multiclass_logloss": 1.1730338279400334,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_SRAD_MONTHLY_CV": {
+          "heldout_mean_multiclass_logloss": 1.173227144782264,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_VAPR_ANNUAL_MEAN": {
+          "heldout_mean_multiclass_logloss": 1.1729101174895267,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_VAPR_MONTHLY_CV": {
+          "heldout_mean_multiclass_logloss": 1.1730120591454032,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_WIND_ANNUAL_MEAN": {
+          "heldout_mean_multiclass_logloss": 1.1730485393972356,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_WIND_MONTHLY_CV": {
+          "heldout_mean_multiclass_logloss": 1.1730265857367572,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SOIL": {
+          "heldout_mean_multiclass_logloss": 1.1727075821584243,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SOLAR_RADIATION": {
+          "heldout_mean_multiclass_logloss": 1.17316130725068,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_TEMPERATURE": {
+          "heldout_mean_multiclass_logloss": 1.1731034945767143,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_VAPOR_PRESSURE": {
+          "heldout_mean_multiclass_logloss": 1.172989754536513,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_WIND": {
+          "heldout_mean_multiclass_logloss": 1.1730362783261827,
+          "n_original_photo_taxa": 14118
+        },
+        "GEOGRAPHY_ONLY": {
+          "heldout_mean_multiclass_logloss": 1.1811684031103111,
+          "n_original_photo_taxa": 14118
+        }
+      }
+    },
+    {
+      "all_models_same_original_photo_species_and_fixed_folds": true,
+      "confidence_intervals_conditional_on_realized_fixed_model_folds": true,
+      "fivefold_grouping_kind": "original photo site's 162 equal-area cell",
+      "full_vs_geography_and_drop_one_predictor_gains": {
+        "conditional_elevation": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.001062689985186614,
+            0.0006754609898253895
+          ],
+          "heldout_mean_logloss_reduction": -0.00018205305947753642,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_precipitation": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.001353420028841174,
+            0.002862344690786648
+          ],
+          "heldout_mean_logloss_reduction": 0.0006689996042530871,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_N": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007444684162788346,
+            0.00012928909753162263
+          ],
+          "heldout_mean_logloss_reduction": -0.0003127898663201477,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_SOC": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0010082771474540838,
+            0.00020243146470757815
+          ],
+          "heldout_mean_logloss_reduction": -0.00029880746758649833,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_available_water_proxy": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0006065304967272177,
+            0.0008683697510437649
+          ],
+          "heldout_mean_logloss_reduction": 0.00013013046973257706,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_bdod_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007449465473835033,
+            0.00010336323923727912
+          ],
+          "heldout_mean_logloss_reduction": -0.0003169363559977299,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_cec_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0006487866953215205,
+            0.0003820042794361958
+          ],
+          "heldout_mean_logloss_reduction": -0.00014632775489654496,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_cfvo_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.001005362788276908,
+            -2.490312064342981e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.0005159503314201995,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_clay": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00016714184028621012,
+            2.719343973695327e-05
+          ],
+          "heldout_mean_logloss_reduction": -6.559394595891123e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_pH": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007652651750732539,
+            0.0006051281484420307
+          ],
+          "heldout_mean_logloss_reduction": -7.896773470064854e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_sand_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00020355098986758434,
+            2.371339316769799e-05
+          ],
+          "heldout_mean_logloss_reduction": -8.797900405440071e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_soil_silt_0_30cm_source_raw": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00017365242576212935,
+            -1.2996841195417031e-05
+          ],
+          "heldout_mean_logloss_reduction": -8.742644022114242e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio1": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00045299854192156624,
+            0.00012136309933677349
+          ],
+          "heldout_mean_logloss_reduction": -0.000166278408683825,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio10": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0002630536444740753,
+            -1.4436054880911055e-07
+          ],
+          "heldout_mean_logloss_reduction": -0.00012395289901322797,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio11": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00039960487585558296,
+            -1.294283115816443e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.0001909632345008152,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio12": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007642283716734375,
+            0.0006576560994489362
+          ],
+          "heldout_mean_logloss_reduction": -0.00010464253747402136,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio13": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007900464571121562,
+            0.0006322314537980803
+          ],
+          "heldout_mean_logloss_reduction": -5.810829654087497e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio14": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0004426540192881684,
+            0.0005130255901007717
+          ],
+          "heldout_mean_logloss_reduction": 3.143927427481761e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio15": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.001475459930628239,
+            -0.000306781128673955
+          ],
+          "heldout_mean_logloss_reduction": -0.0008388242599068907,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio16": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0006669804142942124,
+            0.0008724515496312188
+          ],
+          "heldout_mean_logloss_reduction": 6.825380541009594e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio17": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0005469738126139365,
+            0.0005324066826230545
+          ],
+          "heldout_mean_logloss_reduction": -2.900754940254968e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio18": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0001338313238511106,
+            0.0017348428760607891
+          ],
+          "heldout_mean_logloss_reduction": 0.0008035351395781542,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio19": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.000759011054601767,
+            0.0004040444258108551
+          ],
+          "heldout_mean_logloss_reduction": -0.0001310591498918255,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio2": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007834498723133954,
+            0.00029837007778814914
+          ],
+          "heldout_mean_logloss_reduction": -0.00023606681628304495,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio3": {
+          "group_resampled_fixed_oof_95CI": [
+            0.00013615600404394578,
+            0.0020831104844149643
+          ],
+          "heldout_mean_logloss_reduction": 0.001064668196023646,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": true
+        },
+        "conditional_single_wc_bio4": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0003514091462839694,
+            0.0002020868352927066
+          ],
+          "heldout_mean_logloss_reduction": -6.864595824644213e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio5": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0003579999508047008,
+            0.00010006228950470834
+          ],
+          "heldout_mean_logloss_reduction": -0.00010969663040001328,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio6": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0001146721017880232,
+            0.00013326217541993445
+          ],
+          "heldout_mean_logloss_reduction": 1.941545059999381e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio7": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00016546509769080225,
+            0.0001956236775189218
+          ],
+          "heldout_mean_logloss_reduction": 2.5579190087152365e-05,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio8": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.00036176929891641106,
+            0.00031300064452146215
+          ],
+          "heldout_mean_logloss_reduction": 3.8228600538753875e-06,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_bio9": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0007804048710899529,
+            -0.00017981190909131272
+          ],
+          "heldout_mean_logloss_reduction": -0.00045566755781668714,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_elevation_m": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.001062689985186614,
+            0.0006754609898253895
+          ],
+          "heldout_mean_logloss_reduction": -0.00018205305947753642,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_srad_annual_mean": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0010824443450007974,
+            9.823430498859222e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.000536247290861243,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_srad_monthly_cv": {
+          "group_resampled_fixed_oof_95CI": [
+            7.556318888542889e-05,
+            0.0017379456775668677
+          ],
+          "heldout_mean_logloss_reduction": 0.0008345373091136556,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": true
+        },
+        "conditional_single_wc_vapr_annual_mean": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0011265210237838403,
+            9.959899174013394e-05
+          ],
+          "heldout_mean_logloss_reduction": -0.00045128373966650775,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_vapr_monthly_cv": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0006022359244402836,
+            0.00025067962922034365
+          ],
+          "heldout_mean_logloss_reduction": -0.00016238011085389345,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_wind_annual_mean": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0008656211479120335,
+            0.0006761792333367116
+          ],
+          "heldout_mean_logloss_reduction": -1.5082709193914841e-06,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_single_wc_wind_monthly_cv": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0013900145210727964,
+            0.00015191806696278148
+          ],
+          "heldout_mean_logloss_reduction": -0.0005645604646920124,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_soil": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0030640600718834714,
+            0.0004567917467222974
+          ],
+          "heldout_mean_logloss_reduction": -0.001233650890252954,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_solar_radiation": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0008757232251540705,
+            0.0012260722403612246
+          ],
+          "heldout_mean_logloss_reduction": 0.0001019938278863604,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_temperature": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0030590608347289016,
+            0.0007186028622237474
+          ],
+          "heldout_mean_logloss_reduction": -0.0012459228157751044,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_vapor_pressure": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0015622426817198086,
+            0.0003251014396308316
+          ],
+          "heldout_mean_logloss_reduction": -0.0005521249626101069,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "conditional_wind": {
+          "group_resampled_fixed_oof_95CI": [
+            -0.0016278108585012563,
+            0.0005027719630605809
+          ],
+          "heldout_mean_logloss_reduction": -0.0004950262016981153,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": false
+        },
+        "full_minus_geography_only": {
+          "group_resampled_fixed_oof_95CI": [
+            0.001797311128361083,
+            0.009778998303198918
+          ],
+          "heldout_mean_logloss_reduction": 0.005582578983443693,
+          "n_test_species_unchanged": 14118,
+          "nominal_conditional_interval_entirely_positive": true
+        }
+      },
+      "heldout_group": "source_cell_162",
+      "n_original_species_evaluated": 14118,
+      "original_source_n_independent_heldout_groups": 103,
+      "source_model_scores": {
+        "FULL_ALL_BLOCKS": {
+          "heldout_mean_multiclass_logloss": 1.1747083230323911,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_ELEVATION": {
+          "heldout_mean_multiclass_logloss": 1.1745262699729135,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_PRECIPITATION": {
+          "heldout_mean_multiclass_logloss": 1.1753773226366442,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_AVAILABLE_WATER_PROXY": {
+          "heldout_mean_multiclass_logloss": 1.1748384535021235,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_BDOD_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.1743913866763933,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_CEC_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.1745619952774944,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_CFVO_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.174192372700971,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_CLAY": {
+          "heldout_mean_multiclass_logloss": 1.174642729086432,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_N": {
+          "heldout_mean_multiclass_logloss": 1.174395533166071,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_PH": {
+          "heldout_mean_multiclass_logloss": 1.1746293552976903,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_SAND_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.1746203440283367,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_SILT_0_30CM_SOURCE_RAW": {
+          "heldout_mean_multiclass_logloss": 1.17462089659217,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_SOIL_SOC": {
+          "heldout_mean_multiclass_logloss": 1.1744095155648047,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO1": {
+          "heldout_mean_multiclass_logloss": 1.1745420446237074,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO10": {
+          "heldout_mean_multiclass_logloss": 1.1745843701333778,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO11": {
+          "heldout_mean_multiclass_logloss": 1.1745173597978904,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO12": {
+          "heldout_mean_multiclass_logloss": 1.1746036804949174,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO13": {
+          "heldout_mean_multiclass_logloss": 1.17465021473585,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO14": {
+          "heldout_mean_multiclass_logloss": 1.174739762306666,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO15": {
+          "heldout_mean_multiclass_logloss": 1.1738694987724843,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO16": {
+          "heldout_mean_multiclass_logloss": 1.1747765768378013,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO17": {
+          "heldout_mean_multiclass_logloss": 1.1746793154829887,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO18": {
+          "heldout_mean_multiclass_logloss": 1.175511858171969,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO19": {
+          "heldout_mean_multiclass_logloss": 1.1745772638824992,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO2": {
+          "heldout_mean_multiclass_logloss": 1.174472256216108,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO3": {
+          "heldout_mean_multiclass_logloss": 1.1757729912284147,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO4": {
+          "heldout_mean_multiclass_logloss": 1.1746396770741445,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO5": {
+          "heldout_mean_multiclass_logloss": 1.174598626401991,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO6": {
+          "heldout_mean_multiclass_logloss": 1.174727738482991,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO7": {
+          "heldout_mean_multiclass_logloss": 1.1747339022224783,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO8": {
+          "heldout_mean_multiclass_logloss": 1.1747121458924448,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_BIO9": {
+          "heldout_mean_multiclass_logloss": 1.1742526554745745,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_ELEVATION_M": {
+          "heldout_mean_multiclass_logloss": 1.1745262699729135,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_SRAD_ANNUAL_MEAN": {
+          "heldout_mean_multiclass_logloss": 1.17417207574153,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_SRAD_MONTHLY_CV": {
+          "heldout_mean_multiclass_logloss": 1.1755428603415048,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_VAPR_ANNUAL_MEAN": {
+          "heldout_mean_multiclass_logloss": 1.1742570392927245,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_VAPR_MONTHLY_CV": {
+          "heldout_mean_multiclass_logloss": 1.1745459429215372,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_WIND_ANNUAL_MEAN": {
+          "heldout_mean_multiclass_logloss": 1.1747068147614717,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SINGLE_WC_WIND_MONTHLY_CV": {
+          "heldout_mean_multiclass_logloss": 1.1741437625676991,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SOIL": {
+          "heldout_mean_multiclass_logloss": 1.1734746721421383,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_SOLAR_RADIATION": {
+          "heldout_mean_multiclass_logloss": 1.1748103168602775,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_TEMPERATURE": {
+          "heldout_mean_multiclass_logloss": 1.173462400216616,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_VAPOR_PRESSURE": {
+          "heldout_mean_multiclass_logloss": 1.1741561980697812,
+          "n_original_photo_taxa": 14118
+        },
+        "FULL_MINUS_WIND": {
+          "heldout_mean_multiclass_logloss": 1.1742132968306929,
+          "n_original_photo_taxa": 14118
+        },
+        "GEOGRAPHY_ONLY": {
+          "heldout_mean_multiclass_logloss": 1.1802909020158348,
+          "n_original_photo_taxa": 14118
+        }
+      }
+    }
+  ],
+  "multiple_comparison_guard": "All blocks and single features reported; 95pct intervals unadjusted exploratory sensitivity, not confirmatory tests; no winner-only p-value",
+  "n_block_importance_comparisons": 7,
+  "n_feature_families": 45,
+  "n_single_predictor_importance_comparisons": 36,
+  "original_source_denominators": {
+    "n_complete_all_environment_and_original_colour": 14118,
+    "n_geolocated_source_photo_species": 42038,
+    "n_original_classifiable_photo_species": 18457,
+    "n_original_classified_excluded_from_common_complete_case": 4339,
+    "n_original_classified_with_monthly_solar_complete": 18413,
+    "n_original_genera_in_common_complete_case": 3940,
+    "n_original_geographic_cells_in_common_complete_case": 103,
+    "n_original_species_taxa": 42111,
+    "n_original_unclassifiable_photo_species": 23654,
+    "source_colour_classes_common_complete_case": {
+      "blue_purple": 1204,
+      "red_pink": 1609,
+      "white": 6521,
+      "yellow_orange": 4784
+    }
+  },
+  "original_source_photo_pixels_and_colours_reclassified": false,
+  "schema": "fcp_original_42111_complete_case_multiabiotic_photo_colour_cv_v1",
+  "source_photo_sites_not_original_cell_centroids": true,
+  "status": "RETROSPECTIVE_EXPLORATORY_PHOTO_COLOUR_MULTIVARIABLE_IMPORTANCE",
+  "tested_named_blocks": {
+    "elevation": [
+      "wc_elevation_m"
+    ],
+    "precipitation": [
+      "wc_bio12",
+      "wc_bio13",
+      "wc_bio14",
+      "wc_bio15",
+      "wc_bio16",
+      "wc_bio17",
+      "wc_bio18",
+      "wc_bio19"
+    ],
+    "soil": [
+      "soil_pH",
+      "soil_SOC",
+      "soil_N",
+      "soil_clay",
+      "soil_available_water_proxy",
+      "soil_cec_0_30cm_source_raw",
+      "soil_sand_0_30cm_source_raw",
+      "soil_silt_0_30cm_source_raw",
+      "soil_bdod_0_30cm_source_raw",
+      "soil_cfvo_0_30cm_source_raw"
+    ],
+    "solar_radiation": [
+      "wc_srad_annual_mean",
+      "wc_srad_monthly_cv"
+    ],
+    "temperature": [
+      "wc_bio1",
+      "wc_bio2",
+      "wc_bio3",
+      "wc_bio4",
+      "wc_bio5",
+      "wc_bio6",
+      "wc_bio7",
+      "wc_bio8",
+      "wc_bio9",
+      "wc_bio10",
+      "wc_bio11"
+    ],
+    "vapor_pressure": [
+      "wc_vapr_annual_mean",
+      "wc_vapr_monthly_cv"
+    ],
+    "wind": [
+      "wc_wind_annual_mean",
+      "wc_wind_monthly_cv"
+    ]
+  },
+  "true_local_canopy_sunshine_not_observed": true,
+  "unclassified_original_photos_not_assigned_a_colour": true
+}
