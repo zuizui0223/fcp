@@ -1,0 +1,131 @@
+name: FCP 42111 compare all environmental predictors beyond genus and geography
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/compare_fcp_global42111_full_climate_sun_soil_blocks_20261010.py
+      - tests/test_fcp_global42111_multiabiotic_predictors_20261010.py
+      - .github/workflows/fcp-global42111-all-environment-model-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-global42111-complete-abiotic-four-colour-blocks-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  SOURCE_EXTENSION_RUN: '38010740340'
+  SOURCE_EXTENSION_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+
+jobs:
+  original-species-abiotic-importance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Validate fixed-source complete case and every named predictor and heldout fold
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/compare_fcp_global42111_full_climate_sun_soil_blocks_20261010.py
+          python -m pytest tests/test_fcp_global42111_multiabiotic_predictors_20261010.py -q
+          python scripts/analysis/compare_fcp_global42111_full_climate_sun_soil_blocks_20261010.py --help > /dev/null
+      - name: Read EXACT real original 42111 photograph full WorldClim + SoilGrids result from source extraction job
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp42111_abiotic_source
+          gh run download "$SOURCE_EXTENSION_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_EXTENSION_ARTIFACT" --dir /tmp/fcp42111_abiotic_source
+          file="$(find /tmp/fcp42111_abiotic_source -name source_original_42111_species_expanded_solar_bio_soil.csv.gz -print -quit)"
+          test -s "$file"
+          cp "$file" /tmp/fcp42111_full_source_abiotic.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=[]
+          for p in Path('/tmp/fcp42111_abiotic_source').rglob('result.json'):
+              x=json.loads(p.read_text())
+              if x.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':
+                  q.append(x)
+          assert len(q)==1
+          r=q[0]
+          assert r['original_source_species']==42111
+          assert r['original_classified_photo_colours']==18457
+          assert r['original_photo_unclassified']==23654
+          assert set(r['monthly_variables'])=={'srad','wind','vapr'}
+          assert r['original_photo_colours_untouched']
+          assert r['source_cell_centroid_never_used_as_photo_location']
+          PY
+      - name: Compare geographic vs 7 abiotic blocks and each physical predictor with both original genus and photo-cell holdout
+        run: |
+          python scripts/analysis/compare_fcp_global42111_full_climate_sun_soil_blocks_20261010.py \
+            --expanded-source-breadth /tmp/fcp42111_full_source_abiotic.csv.gz \
+            --outdir /tmp/fcp42111_full_abiotic_models
+      - name: Validate identical source species, every predictor and matched original group folds
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          folder=Path('/tmp/fcp42111_full_abiotic_models')
+          x=json.loads((folder/'result.json').read_text())
+          table=pd.read_csv(folder/'all_predictor_block_and_single_feature_comparisons.csv')
+          assert x['schema']=='fcp_original_42111_complete_case_multiabiotic_photo_colour_cv_v1'
+          assert x['original_source_denominators']['n_original_species_taxa']==42111
+          assert x['original_source_denominators']['n_original_classifiable_photo_species']==18457
+          assert x['original_source_denominators']['n_original_unclassifiable_photo_species']==23654
+          assert x['original_source_denominators']['n_complete_all_environment_and_original_colour']>=1000
+          assert x['n_block_importance_comparisons']==7
+          assert x['n_single_predictor_importance_comparisons']==36
+          assert x['n_feature_families']==45
+          assert len(table)==2*(1+7+36)
+          assert x['original_source_photo_pixels_and_colours_reclassified'] is False
+          assert x['unclassified_original_photos_not_assigned_a_colour']
+          assert x['source_photo_sites_not_original_cell_centroids']
+          assert x['true_local_canopy_sunshine_not_observed']
+          assert x['full_source_872_1761_phylogenetic_claims_remain_HOLD']
+          assert {r['heldout_group'] for r in x['models']}=={'genus','source_cell_162'}
+          assert {r['n_original_species_evaluated'] for r in x['models']}=={
+              x['original_source_denominators']['n_complete_all_environment_and_original_colour']}
+          for r in x['models']:
+              assert r['all_models_same_original_photo_species_and_fixed_folds']
+              assert len(r['source_model_scores'])==45
+              assert len(r['full_vs_geography_and_drop_one_predictor_gains'])==44
+          print('SOURCE_42111_FULL_ABIOTIC_EXPLORATION_ALL_PREDICTORS_SAME_SPECIES_BLOCKS_COMPLETE')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-complete-abiotic-predictor-importance-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp42111_full_abiotic_models/
+      - name: Seal outcome-exposed all-predictor source comparisons without changing existing FCP manuscripts
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          out=results/fcp_global42111_complete_multienvironment_photo_models_20261010
+          mkdir -p "$out"
+          cp /tmp/fcp42111_full_abiotic_models/* "$out/"
+          git add "$out"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original 42111 source-photo solar temperature precipitation wind humidity elevation and soil conditional predictions'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
