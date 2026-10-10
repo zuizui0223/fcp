@@ -73,7 +73,8 @@ def fit_training_geo_knots(train:pd.DataFrame,n_knots:int=N_FIXED_TRAIN_KNOTS)->
 
 
 def rbf_columns(d:pd.DataFrame,knots:np.ndarray,scale_km:float,
-                names:tuple[str,...]=RBF)->pd.DataFrame:
+                names:tuple[str,...]|None=None)->pd.DataFrame:
+    names=RBF if names is None else names
     xyz=unit_sphere(d.latitude.to_numpy(float),d.longitude.to_numpy(float))
     if not np.isfinite(knots).all() or knots.shape!=(len(names),3):
         raise ValueError("Original training-only geographical basis dimensions drifted")
