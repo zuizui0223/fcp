@@ -1,0 +1,149 @@
+name: FCP original nearest same species pair all-environment four colour geography-null
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-withinspecies-spatial-exchange-20261010
+    paths:
+      - scripts/analysis/audit_fcp85337_nearest_same_species_full_colour_environment_null_20261010.py
+      - tests/test_fcp85337_nearest_same_species_full_colour_environment_null_20261010.py
+      - docs/FCP85337_NEAREST_SAME_SPECIES_ALL_COLOUR_ENVIRONMENT_NULL_20261010.md
+      - .github/workflows/fcp85337-nearest-same-species-full-colour-null-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp85337-source-same-species-nearest-four-colour-geo-abiotic-null-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_ABIOTIC_RUN: '37861582446'
+  ORIGINAL_ABIOTIC_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  SOURCE_FULL_RUN: '38011108135'
+  SOURCE_FULL_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+
+jobs:
+  source-nearest-same-species-photo-fourstate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Test outcome-blind closest original photo sites and four-state all-feature maxT label null
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp85337_nearest_same_species_full_colour_environment_null_20261010.py
+          python -m pytest tests/test_fcp85337_nearest_same_species_full_colour_environment_null_20261010.py -q
+          python scripts/analysis/audit_fcp85337_nearest_same_species_full_colour_environment_null_20261010.py --help > /dev/null
+      - name: Restore original 85337 taxon cell photos and all 100543 exact climate soil original sites
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_ABIOTIC_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_ABIOTIC_ARTIFACT" --dir /tmp/fcp85337_fixed_nearest_pair_original
+          gh run download "$SOURCE_FULL_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_FULL_ARTIFACT" --dir /tmp/fcp100543_fixed_nearest_pair_abiotic
+          first="$(find /tmp/fcp85337_fixed_nearest_pair_original -name taxon_cell_flower_colour_climate_soil.csv.gz -print -quit)"
+          second="$(find /tmp/fcp100543_fixed_nearest_pair_abiotic -name all_original_100543_photo_sites_expanded_environment.csv.gz -print -quit)"
+          test -s "$first"
+          test -s "$second"
+          cp "$first" /tmp/fcp_original_85337_nearest_photo_cell.csv.gz
+          cp "$second" /tmp/fcp_original_100543_nearest_photo_sites.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          found=[]
+          for f in Path('/tmp/fcp100543_fixed_nearest_pair_abiotic').rglob('result.json'):
+              x=json.loads(f.read_text())
+              if x.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':
+                  found.append(x)
+          assert len(found)==1
+          d=found[0]
+          assert d['original_source_species']==42111
+          assert d['original_source_photo_rows']==100543
+          assert d['original_classified_photo_colours']==18457
+          assert d['original_photo_colours_untouched'] is True
+          assert d['source_cell_centroid_never_used_as_photo_location'] is True
+          PY
+      - name: Test original four photographic colours against every abiotic source gradient in one nearest pair per species
+        env:
+          OPENBLAS_NUM_THREADS: '2'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: |
+          python scripts/analysis/audit_fcp85337_nearest_same_species_full_colour_environment_null_20261010.py \
+            --original-taxon-cell /tmp/fcp_original_85337_nearest_photo_cell.csv.gz \
+            --expanded-all-original-photo-sites /tmp/fcp_original_100543_nearest_photo_sites.csv.gz \
+            --outdir /tmp/fcp_original_nearest_photo_pair_fullabiotic
+      - name: Guard original denominators and all 50 100 250 500km source pairs, no winner-only effect
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/fcp_original_nearest_photo_pair_fullabiotic/result.json').read_text())
+          assert r['schema']=='fcp_original85337_nearest_same_species_four_colour_geo_adjusted_abiotic_sign_null_v1'
+          assert r['original_photo_ledger']['source_original_taxon_cell_photo_rows']==85337
+          assert r['original_photo_ledger']['source_four_state_colour_classifiable']==39075
+          assert r['original_photo_ledger']['source_unclassifiable_photo_cell_records']==46262
+          assert r['original_photo_ledger']['all_original_photo_ID_triples_matched_exactly']
+          assert r['original_abiotic_coverage']['n_original_classified_photo_cells_climate_complete']==38968
+          assert r['original_abiotic_coverage']['n_original_classified_photo_cells_climate_soil_complete']==27003
+          assert r['distance_caps_km_predefined_all_reported']==[50,100,250,500]
+          assert r['source_nearest_pair_selection_only_by_photo_ID_and_real_coordinates']
+          assert r['source_photo_colour_outcomes_unchanged']
+          assert r['source_4colour_phenotype_orientation_conditional_label_swap']
+          assert r['all_environment_variables_reported_without_selecting_a_winner']
+          assert set(r['studies'])=={'50','100','250','500'}
+          for cap,levels in r['studies'].items():
+              assert set(levels)=={'climate_without_soil','climate_and_soil'}
+              for sub in levels.values():
+                  assert sub['n_original_source_species_pairs_at_radius']<=r['original_climate_complete_nearest_pair_species']
+                  assert sub['n_original_source_photo_colour_mismatched_pairs']<=sub['n_original_source_species_pairs_at_radius']
+                  if sub['status']=='ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION':
+                      z=sub['null']
+                      assert z['n_fixed_original_source_photo_pairs']==sub['n_original_source_species_pairs_at_radius']
+                      assert z['n_within_pair_photo_colour_label_swap_nulls']==999
+                      assert z['one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance']
+                      assert z['geo_difference_residualization_without_photo_colour_outcomes']
+                      assert z['preserves_exact_source_species_pair_and_two_photo_colour_counts']
+                      assert len(z['environmental_feature_results']) in (25,35)
+                      assert set(z['all_named_environmental_block_results']).issubset({
+                          'temperature','precipitation','solar_radiation','wind','vapor_pressure','soil'})
+                      assert all(0.001<=v['within_radius_maxT_across_all_individual_features_FWER_p']<=1 for v in z['environmental_feature_results'].values())
+                  else:
+                      assert sub['status']=='HOLD_INSUFFICIENT_INTRASPECIFIC_NEARBY_FOUR_COLOUR_PAIR_SUPPORT'
+          print('FCP_FIXED_NEAREST_ORIGINAL_SAME_SPECIES_FOUR_COLOUR_ALL_ENV_SIGNFLIP_MAXT_OR_HOLD_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-85337-nearest-four-colour-abiotic-matched-null-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_original_nearest_photo_pair_fullabiotic/
+      - name: Commit complete exploratory paired source labelled predictions, never new original images
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-nearest-pair-abiotic-null-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp85337_original_nearest_four_colour_abiotic_null_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp_original_nearest_photo_pair_fullabiotic/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original nearest-site species four-colour geo-adjusted full climate soil matched permutation diagnostics'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
