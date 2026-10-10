@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: fcp-original405-open-photo-recovery
@@ -67,12 +68,49 @@ jobs:
             --constructed-swaps /tmp/source_attack/constructed_label_swaps.csv \
             --outdir /tmp/source_attack/photo_review
           echo "8cc44a71dfb64601e23f68b68c25e8cbc534a332e0a17ff51a51bd8737a35c27  /tmp/source_attack/photo_review/BLINDED_reannotation_photo_queue.csv" | sha256sum -c -
-          echo "ef0275fedf7ab4e3e0aa5309fd80c9a9aee97de733b79a93bc2137a04f6f4b5c  /tmp/source_attack/photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv" | sha256sum -c -
+
+      - name: Recover original archived sealed 405-photo review source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fcp-adversarial-composition-preserving-photo-colour-20261010
+          run-id: 38027546572
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/fcp_original_review_receipt
+      - name: Verify original sealed key byte identity and full semantic source match
+        run: |
+          echo "8cc44a71dfb64601e23f68b68c25e8cbc534a332e0a17ff51a51bd8737a35c27  /tmp/fcp_original_review_receipt/photo_review/BLINDED_reannotation_photo_queue.csv" | sha256sum -c -
+          echo "ef0275fedf7ab4e3e0aa5309fd80c9a9aee97de733b79a93bc2137a04f6f4b5c  /tmp/fcp_original_review_receipt/photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv" | sha256sum -c -
+          python - <<'PY'
+          import pandas as pd
+          from pathlib import Path
+          orig=Path("/tmp/fcp_original_review_receipt/photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv")
+          regen=Path("/tmp/source_attack/photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv")
+          a=pd.read_csv(orig,dtype=str).fillna("")
+          b=pd.read_csv(regen,dtype=str).fillna("")
+          assert len(a)==len(b)==405 and list(a.columns)==list(b.columns)
+          assert a.audit_case_id.is_unique and b.audit_case_id.is_unique
+          a=a.sort_values("audit_case_id",kind="stable").reset_index(drop=True)
+          b=b.sort_values("audit_case_id",kind="stable").reset_index(drop=True)
+          assert a.audit_case_id.equals(b.audit_case_id)
+          divergences={}
+          for col in a.columns:
+            if col=="match_distance_km":
+              x=pd.to_numeric(a[col],errors="coerce")
+              y=pd.to_numeric(b[col],errors="coerce")
+              import numpy as np
+              if not np.allclose(x,y,rtol=0,atol=1e-8,equal_nan=True):
+                divergences[col]="numeric_value_difference"
+            elif not a[col].equals(b[col]):
+              divergences[col]="source_identity_or_label_difference"
+          assert not divergences, ("The sealed original 405 key differs in values: "+str(divergences))
+          print("PASS 405 original-source IDs, label-key values, hashes and taxonomy semantically match")
+          print("The archived original byte-identical key remains the sole authoritative photo hash source.")
+          PY
       - name: Probe original image byte identity for ALL 405 frozen photo IDs
         run: |
           python scripts/analysis/probe_fcp_original405_blinded_image_bytes_20261010.py \
             --blind /tmp/source_attack/photo_review/BLINDED_reannotation_photo_queue.csv \
-            --sealed-key /tmp/source_attack/photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv \
+            --sealed-key /tmp/fcp_original_review_receipt/photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv \
             --outdir /tmp/fcp_original405_pixel_receipt
       - name: Validate no raw photo pixels, no old colour labels, no dropped source IDs
         run: |
