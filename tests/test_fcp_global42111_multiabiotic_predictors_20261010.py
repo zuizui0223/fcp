@@ -51,7 +51,7 @@ def test_all_radiation_thermal_precip_soil_elevation_blocks_are_declared():
     for v in M.BLOCKS.values():
         for name in v:
             assert "FULL_MINUS_SINGLE_"+name.upper() in families
-    assert "wc_srad_annual_kj_m2_day" in M.ALL and "wc_srad_monthly_cv" in M.ALL
+    assert "wc_srad_annual_mean" in M.ALL and "wc_srad_monthly_cv" in M.ALL
 
 
 def test_identical_species_grouped_folds_under_genus_and_geo(source):
