@@ -35,3 +35,35 @@ The original full 872/1761-species phylogenetic correction stays HOLD: the real 
 A species photographed once has not had its genetic colour established; a phylogenetic tree is a reference hypothesis whose intra-genus topology can be uncertain. Genus-bootstrap on shared-species dyads does not capture complete phylogenetic uncertainty, photographer bias, soil/biotic covariation or local adaptation.
 
 Original 1499 high-depth H1/H2 and future 2000+730 independent taxa unchanged.
+
+
+## Executed actual source result and final ecological decision
+
+**Source-verified [Actions 38008814183](https://github.com/zuizui0223/fcp/actions/runs/38008814183)** passed all synthetic tests, exact source 42,111 / 18,457 denominators and 342 / 649 direct LCVP tips, and preserved the pre-existing full-cohort phylogenetic HOLD. Complete [machine result](../results/fcp_global42111_direct_LCVP_local_photo_environment_20261010/result.json).
+
+One photographed congeneric dyad has a binary source **coarse-colour mismatch** outcome. Positive numbers below denote source original **genus-heldout binary log-loss reductions** from adding a predictor family beyond site great-circle, latitude, elevation and thermal differences, NOT a regression coefficient or adapted fitness.
+
+| Parent photographed locality group | Local maximum pair diameter | Original direct-tip source dyads (mismatch) | Add dated LCVP path after geo+heat (95% genus-block fixed-prediction CI) | Add rainfall after geo+heat+true phylogeny (95% genus-block CI) |
+|---|---:|---:|---:|---:|
+| 250km | 50km | 244 (147) | −0.013616 [−0.021600,−0.003333] | +0.011687 [−0.025528,+0.055415] |
+| 250km | 100km | 477 (295) | −0.007161 [−0.022581,−0.003391] | +0.004917 [−0.006539,+0.028613] |
+| 500km | 50km | 318 (181) | −0.011836 [−0.017652,+0.003020] | **+0.033123** [+0.007378,+0.084779] |
+| 500km | 100km | 593 (352) | −0.001982 [−0.003735,+0.002773] | +0.006716 [−0.001039,+0.013410] |
+
+Phylogenetic distance did **not** improve heldout mismatch prediction consistently; in 250km source cohorts its bootstrap interval for incremental gain was negative. Rainfall after the dated-tree path showed one positive conditional interval (500km parent, <=50km microgroups), but was **not** robust when matching source parent/subgroup sizes changed; these cohorts are nested and selected original direct-tip taxa comprise only 37–39% of the full source parent populations. The 500km/100km source subset did not confirm the 500km/50km one. Do not choose the apparently favourable one condition as the ecological truth.
+
+### Three distinct noninterchangeable layers of support
+
+1. **True tree comparability:** direct 73,420-tip LCVP branch lengths exist and are non-constant across 3+ original source local phylogenetic groups, but coverage is incomplete.
+2. **Exploratory conditional predictive model:** additional source photo rainfall improves mismatch prediction in one nested subgroup; genus-heldout CV with genus-bootstrap on shared-species dyads is not independent genetic or causal confirmation.
+3. **Strong spatial assumption check:** the more relevant original broader 872/1761-source-species group-conditioned photographic-colour null fails at within-50/100km microgeographical constraints (all four p=.175–.880). This is not repaired by the newly restricted direct-tip photo-pair model; a different analysis scale and subset cannot retrospectively validate earlier p-values.
+
+### Current paper-facing inference
+
+**Supported as retrospective descriptive biogeography:** broad one-photo flower-colour differences across sampled taxa and regions, weak source climate pattern among congeneric species, observable environmental heterogeneity among real photographed sites, and concrete limitations from fine spatial structure and incomplete direct phylogenetic species coverage.
+
+**Not supported:** any spatially robust, lineage-corrected, genetically identified rainfall effect causing local flower-pigment selection. Neither SoilGrids nor direct source LCVP patristic control provides universal support across matched source cohorts. A small conditional improvement in a selected 318-dyad subset cannot outweigh the incomplete phylogenetic coverage, multiple nested comparisons and spatially matched null results.
+
+**Future identification needed:** independent species-level phylogenetic resolution and source taxon replicates (rather than one source image), genuinely colocated plant populations, flower-colour genotype/pigment and pollinator/reproductive success, plus independent taxon/year replication not already used for these exploratory model choices. The untouched 2,000+730 prospective role is not sampled now.
+
+The complete exploratory numerical evidence is kept in PR #143, which remains a draft. Full source PR #142 stays HOLD on 50%-direct-tip coverage. The original high-depth FCP manuscript and main were not altered.
