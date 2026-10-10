@@ -95,6 +95,15 @@ def test_heldout_photo_geographic_regions_never_enter_train_species_baseline(sou
     assert all(len(v["source_species_cluster_95CI"])==2 and
                len(v["original_region_cell_cluster_95CI"])==2
                for v in result["source_block_predictive_gains"].values())
+    diagnostics=result["descriptive_heldout_photo_geodesic_spatial_residual_diagnostics"]
+    assert diagnostics["original_public_photographic_coordinates_only"]
+    assert diagnostics["same_species_neighbor_pairs_excluded"] is True
+    assert set(diagnostics["spatial_radius_reports_km"])=={"50","100","250"}
+    assert diagnostics["not_a_calibrated_spatial_independence_p_value"] is True
+    assert all(set(q["moran_like_centered_fourstate_residual_spatial_index_by_model"])=={
+        "SPECIES_NONGP_COORDINATES","SPECIES_GEODESIC_SPATIAL_FIELD",
+        "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV"
+    } for q in diagnostics["spatial_radius_reports_km"].values())
 
 
 def test_kernel_is_psd_and_uses_real_spherical_distance(source):
@@ -103,3 +112,37 @@ def test_kernel_is_psd_and_uses_real_spherical_distance(source):
     spatial=M.rbf_columns(pts,anchors,250,names=M.RBF)[list(M.RBF)].to_numpy()
     K=spatial@spatial.T
     assert np.linalg.eigvalsh(K).min()>=-1e-7
+
+
+def test_same_species_photo_pair_not_counted_as_independent_spatial_neighbors():
+    d=pd.DataFrame({
+        "inat_taxon_id":[1,1,2,3,4,5],
+        "latitude":[12,12.001,12.002,12.003,12.004,12.005],
+        "longitude":[10,10.001,10.002,10.003,10.004,10.005],
+    })
+    y=np.array([0,0,1,2,3,1])
+    pred=np.full((6,4),.25,float)
+    preds={k:pred for k in (
+        "SPECIES_NONGP_COORDINATES",
+        "SPECIES_GEODESIC_SPATIAL_FIELD",
+        "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV")}
+    audit=M.spatial_oof_residual_diagnostic(d,y,preds,np.ones(6,bool),max_nearest=5)
+    assert audit["n_original_heldout_photo_residuals"]==6
+    assert audit["n_distinct_original_photo_site_cross_species_neighbor_pairs"]==14
+    assert audit["spatial_radius_reports_km"]["50"]["insufficient_neighbor_support"]
+    assert audit["spatial_radius_reports_km"]["50"]["moran_like_centered_fourstate_residual_spatial_index_by_model"]["SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV"] is None
+
+
+def test_undeclared_or_missing_heldout_residual_prediction_rejected():
+    d=pd.DataFrame({"inat_taxon_id":range(40),
+                    "latitude":np.linspace(0,1,40),
+                    "longitude":np.linspace(5,6,40)})
+    labels=np.arange(40)%4
+    prediction=np.full((40,4),.25)
+    prediction[0]=np.nan
+    models={k:prediction for k in (
+        "SPECIES_NONGP_COORDINATES",
+        "SPECIES_GEODESIC_SPATIAL_FIELD",
+        "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV")}
+    with pytest.raises(RuntimeError,match="incomplete"):
+        M.spatial_oof_residual_diagnostic(d,labels,models,np.ones(40,bool))
