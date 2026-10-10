@@ -1,0 +1,87 @@
+{
+  "schema": "fcp_original405_wholeframe_technical_qc_pair_audit_v1",
+  "date_jst": "2026-10-10",
+  "role": "posthoc_full_frame_technical_comparison_not_flower_colour_validation",
+  "source_blinded_queue_artifact": {
+    "run_id": 38027546572,
+    "artifact_id": 11660917466,
+    "zip_sha256": "a47f82c80273daa4b727930ecb7c13f2957f45e750d30391d9d23f318eb66811"
+  },
+  "source_pixel_status": "405_of_405_exact_historical_SHA256_byte_match",
+  "confirmatory_decisions_changed": false,
+  "n_total_original_photo_ids": 405,
+  "n_high_leverage": 140,
+  "n_same_species_original_colour_matched": 125,
+  "n_matched_at_most_50km": 99,
+  "n_matched_over_50km": 26,
+  "n_high_leverage_unmatched": 15,
+  "control_distance_feasibility_km": {
+    "10": 21,
+    "25": 71,
+    "50": 99,
+    "100": 101,
+    "250": 109,
+    "500": 115,
+    "1000": 118
+  },
+  "attack_unique_species_by_cohort": {
+    "discovery": 24,
+    "validation": 20,
+    "third": 18
+  },
+  "paired_estimand": "species-equal average of the within-species mean photo technical difference: high-impact minus same-species same-original-source-colour matched control, max distance 50 km",
+  "independent_reviewer_colour_adjudications_completed": 0,
+  "inference": {
+    "n_photo_pairs": 99,
+    "n_species_clusters": 62,
+    "species_bootstrap_repeats": 9999,
+    "species_signflip_repeats": 9999,
+    "p_adjustment": "Holm across 4 metrics",
+    "metrics": {
+      "bright_clip_fraction_whole_photo": {
+        "estimate": -0.00008493548387096767,
+        "bootstrap_ci95": [
+          -0.0013497449596774195,
+          0.0012282697580645143
+        ],
+        "signflip_two_sided_p": 0.8964,
+        "holm_p": 0.8964
+      },
+      "dark_clip_fraction_whole_photo": {
+        "estimate": -0.0005281975806451613,
+        "bootstrap_ci95": [
+          -0.001459842137096774,
+          0.00044092943548387065
+        ],
+        "signflip_two_sided_p": 0.2884,
+        "holm_p": 0.5768
+      },
+      "whole_photo_rgb_channel_spread_mean": {
+        "estimate": -0.017554677419354837,
+        "bootstrap_ci95": [
+          -0.03711734395161289,
+          0.0020724971774193496
+        ],
+        "signflip_two_sided_p": 0.0967,
+        "holm_p": 0.3868
+      },
+      "log_retrieved_image_bytes": {
+        "estimate": -0.1137276255192496,
+        "bootstrap_ci95": [
+          -0.2647216598575435,
+          0.03540672888229523
+        ],
+        "signflip_two_sided_p": 0.1516,
+        "holm_p": 0.45480000000000004
+      }
+    }
+  },
+  "next_required_evidence": "two independent blinded botanical photo-organ and colour reannotations of original 405 source photos",
+  "hard_nonclaims": [
+    "No actual colour-label error rate is estimated.",
+    "Whole-frame technical features are not petal ROI pigmentation.",
+    "The lack of a significant whole-frame QC difference does not validate flower labels.",
+    "The 26 long-distance source matches cannot be called local controls.",
+    "No genetic polymorphism, adaptive fitness or selection inference."
+  ]
+}
