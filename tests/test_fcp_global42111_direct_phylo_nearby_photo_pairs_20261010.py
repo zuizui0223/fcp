@@ -39,6 +39,12 @@ def test_true_backbone_local_pairs_not_artificial_genus_distance(source_tree,mon
     assert d["n_original_species_in_at_least_one_local_direct_phylo_pair"]==6
     assert d["n_source_original_congeneric_genera_with_local_direct_pairs"]==2
     assert d["all_phylogenetic_pairs_both_direct_real_backbone_tips"]
+    assert d["n_local_groups_with_three_or_more_direct_tips"]==2
+    assert d["n_local_groups_three_plus_tips_with_two_or_more_distinct_LCVP_path_distances"]==2
+    assert d["n_original_source_taxa_in_phylo_path_varied_local_groups"]==6
+    assert d["n_distinct_LCVP_path_distances_rounded_5_decimal"]==2
+    assert d["max_LCVP_path_distance"]>d["min_LCVP_path_distance"]
+    assert d["within_local_group_phylogenetic_distance_variation_status"].startswith("HOLD_")
     assert d["readiness"]=="EXPLORATORY_DIRECT_TIP_SPATIAL_PHYLO_COVERAGE_PASS"
 
 
