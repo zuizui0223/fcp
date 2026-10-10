@@ -131,6 +131,13 @@ jobs:
                   assert z['every_source_photo_same_heldout_fold_and_model_comparison']
                   assert z['source_fourstate_photo_labels_never_reclassified']
                   assert z['n_train_species_heldout_original_photos']>=200
+                  residual=z['descriptive_heldout_photo_geodesic_spatial_residual_diagnostics']
+                  assert residual['schema']=='fcp_original_species_oof_fourstate_residual_geodesic_knn_v1'
+                  assert residual['n_original_heldout_photo_residuals']==z['n_train_species_heldout_original_photos']
+                  assert residual['same_species_neighbor_pairs_excluded']
+                  assert residual['original_public_photographic_coordinates_only']
+                  assert residual['not_a_calibrated_spatial_independence_p_value']
+                  assert set(residual['spatial_radius_reports_km'])=={'50','100','250'}
                   assert 'all_abiotic_beyond_species_nonlinear_space_and_geodesic_covariance' in z['source_block_predictive_gains']
           print('FCP_85337_SOURCE_TRUE_DISTANCE_LOW_RANK_SPATIAL_FIELD_ENVIRONMENTAL_EXPLORATION_VERIFIED')
           PY
