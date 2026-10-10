@@ -1,0 +1,171 @@
+name: FCP 42111 original photo complete climate solar wind vapr and SoilGrids
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/extend_fcp_global42111_worldclim_solar_20261010.py
+      - tests/test_fcp_global42111_worldclim_solar_20261010.py
+      - .github/workflows/fcp-global42111-all-environment-extraction-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-global42111-original-photo-all-environment-extract-20261010
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN: '37861582446'
+  SOURCE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  BIO_ZIP_SHA256: '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf'
+  SOIL_BASE: 'https://files.isric.org/soilgrids/latest/data_aggregated/5000m'
+  WC_BASE: 'https://geodata.ucdavis.edu/climate/worldclim/2_1/base'
+
+jobs:
+  exact-source-original-42111-full-abiotic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Validate source classifiability, all 19 BIO, solar/wind/vapor and five soil extension guards
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 rasterio==1.4.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/extend_fcp_global42111_worldclim_solar_20261010.py
+          python -m pytest tests/test_fcp_global42111_worldclim_solar_20261010.py -q
+          python scripts/analysis/extend_fcp_global42111_worldclim_solar_20261010.py --help > /dev/null
+      - name: Reopen immutable 42111 species photo colours and real source site geoclim/soil attributes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp42111_env_source
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_ARTIFACT" --dir /tmp/fcp42111_env_source
+          file="$(find /tmp/fcp42111_env_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$file"
+          cp "$file" /tmp/fcp42111_original_photo_env.csv.gz
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          receipts=[]
+          for p in Path('/tmp/fcp42111_env_source').rglob('result.json'):
+              d=json.loads(p.read_text())
+              if d.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  receipts.append(d)
+          assert len(receipts)==1
+          z=receipts[0]
+          assert z['original_species_count']==42111
+          assert z['original_taxon_cell_count']==85337
+          assert z['n_unique_original_photo_IDs']==100543
+          assert z['breadth_classifiable_by_covariate']['environment_all_complete']==14136
+          assert z['new_colour_label_or_photo_pixel_opened'] is False
+          assert z['geographic_cell_centroid_imputation'] is False
+          PY
+      - name: Fetch WorldClim 2.1 source BIO 1-19, monthly solar radiation, wind, vapor pressure
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp42111_climate/{bio,srad,wind,vapr}
+          for prop in bio srad wind vapr; do
+            curl -fLsS --retry 5 --retry-delay 3 "$WC_BASE/wc2.1_10m_${prop}.zip" \
+              -o "/tmp/fcp42111_climate/${prop}.zip"
+            unzip -q "/tmp/fcp42111_climate/${prop}.zip" -d "/tmp/fcp42111_climate/${prop}"
+            sha256sum "/tmp/fcp42111_climate/${prop}.zip" | tee -a /tmp/fcp42111_climate/source_zip_digests.sha256
+          done
+          echo "$BIO_ZIP_SHA256  /tmp/fcp42111_climate/bio.zip" | sha256sum -c -
+          for bio in $(seq 1 19); do
+            test -s "/tmp/fcp42111_climate/bio/wc2.1_10m_bio_${bio}.tif"
+          done
+          for type in srad wind vapr; do
+            for month in $(seq 1 12); do
+              test -s "/tmp/fcp42111_climate/${type}/wc2.1_10m_${type}_${month}.tif"
+            done
+          done
+      - name: Retrieve provider-checksummed 5 new SoilGrids 0-30cm traits at real source photo sites
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp42111_more_soil
+          for prop in cec sand silt bdod cfvo; do
+            folder="/tmp/fcp42111_more_soil/$prop"
+            mkdir -p "$folder"
+            curl -fLsS --retry 6 --retry-delay 3 "$SOIL_BASE/$prop/checksum.sha256.txt" -o "$folder/checksum.sha256.txt"
+            for depth in 0-5cm 5-15cm 15-30cm; do
+              filename="${prop}_${depth}_mean_5000.tif"
+              curl -fLsS --retry 6 --retry-delay 3 "$SOIL_BASE/$prop/$filename" -o "$folder/$filename"
+              expected="$(awk -v filename="$filename" '{n=$NF; sub(/^\\*/, "", n); if(n==filename) print $1}' "$folder/checksum.sha256.txt")"
+              if [ -z "$expected" ]; then echo "::error::Missing SoilGrids provider SHA $prop/$filename"; exit 1; fi
+              echo "$expected  $folder/$filename" | sha256sum -c -
+            done
+          done
+      - name: Attach original site 19 BIO, 12-month solar, wind, vapor and expanded soil
+        run: |
+          python scripts/analysis/extend_fcp_global42111_worldclim_solar_20261010.py \
+            --original-breadth-abiotic /tmp/fcp42111_original_photo_env.csv.gz \
+            --bio-dir /tmp/fcp42111_climate/bio \
+            --solar-dir /tmp/fcp42111_climate/srad \
+            --wind-dir /tmp/fcp42111_climate/wind \
+            --vapr-dir /tmp/fcp42111_climate/vapr \
+            --soil-dir /tmp/fcp42111_more_soil \
+            --bio-zip /tmp/fcp42111_climate/bio.zip \
+            --solar-zip /tmp/fcp42111_climate/srad.zip \
+            --wind-zip /tmp/fcp42111_climate/wind.zip \
+            --vapr-zip /tmp/fcp42111_climate/vapr.zip \
+            --outdir /tmp/fcp42111_original_photo_all_climate_soil
+      - name: Preserve every one of 42111 old species and original 18457 four-class photo labels
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import pandas as pd
+          p=Path('/tmp/fcp42111_original_photo_all_climate_soil')
+          result=json.loads((p/'result.json').read_text())
+          df=pd.read_csv(p/'source_original_42111_species_expanded_solar_bio_soil.csv.gz')
+          assert result['schema']=='fcp_42111_original_photo_expanded_worldclim_solar_v1'
+          assert result['original_source_species']==42111
+          assert result['original_classified_photo_colours']==18457
+          assert result['original_photo_unclassified']==23654
+          assert len(df)==42111 and df.inat_taxon_id.is_unique
+          assert set(result['new_bioclim_variable_numbers'])==set(range(1,20))-{1,5,12,15}
+          assert set(result['monthly_variables'])=={'srad','wind','vapr'}
+          assert set(result['source_extended_soil_properties'])=={'cec','sand','silt','bdod','cfvo'}
+          assert result['source_cell_centroid_never_used_as_photo_location'] is True
+          assert result['original_photo_colours_untouched'] is True
+          assert result['all_original_source_photo_rows_retained'] is True
+          print('GLOBAL_42111_SOURCE_19_BIO_RADIATION_WIND_VAPOR_AND_10_SOIL_PROPERTIES_PRESENT')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-original-photo-complete-multiabiotic-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp42111_original_photo_all_climate_soil/
+            /tmp/fcp42111_climate/source_zip_digests.sha256
+      - name: Seal original environmental extension metadata and full species table on draft analysis branch only
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          target=results/fcp_global42111_extended_climate_soil_photo_20261010
+          mkdir -p "$target"
+          cp /tmp/fcp42111_original_photo_all_climate_soil/* "$target/"
+          cp /tmp/fcp42111_climate/source_zip_digests.sha256 "$target/"
+          git add "$target"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal all original 42111 flower photographs with BIO1-19 sun wind vapor and 10 SoilGrids traits'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
