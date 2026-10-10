@@ -47,7 +47,7 @@ def test_annual_12month_source_srad_cv_and_original_photo_labels(photos):
     assert out.loc[0,"wc_srad_monthly_cv"]>0
     assert out.loc[0,"soil_cec_0_30cm_source_raw"]==pytest.approx(4)
     assert out.loc[0,"wc_wind_annual_mean"]==pytest.approx(4)
-    assert report["n_additional_new_soil_properties_available"]==3
+    assert receipt["n_additional_new_soil_properties_available"]==3
     assert out.loc[3,list(M.NEW_FEATURES)].isna().all()
     pd.testing.assert_series_equal(out.morph,original.morph)
 
