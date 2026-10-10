@@ -90,8 +90,8 @@ def add_source_geo(d:pd.DataFrame)->pd.DataFrame:
     return d
 
 
-def source_features(d:pd.DataFrame,soil:bool)->tuple[pd.DataFrame,dict]:
-    feats=tuple(f for k,v in BLOCKS.items() if soil or k!="soil" for f in v)
+def source_features(d:pd.DataFrame,soil:bool,blocks:dict|None=None)->tuple[pd.DataFrame,dict]:
+    feats=tuple(f for k,v in (BLOCKS if blocks is None else blocks).items() if soil or k!="soil" for f in v)
     allcols=GEO+feats
     bad=d[list(allcols)].isna().any(axis=1)
     valid=d.loc[~bad].copy().reset_index(drop=True)
@@ -116,7 +116,7 @@ def environmental_kernel(X_train:np.ndarray,X_test:np.ndarray)->np.ndarray:
 
 
 def fixed_krr_scores(d:pd.DataFrame,Ksp:np.ndarray,Kphy:np.ndarray,
-                     heldout:str,*,soil:bool,nboot:int=BOOT)->dict:
+                     heldout:str,*,soil:bool,nboot:int=BOOT,blocks:dict|None=None)->dict:
     from sklearn.model_selection import GroupKFold
     if heldout not in ("genus","true_photo_cell"):
         raise ValueError("Cross-validation group is original species taxon genus or true geographic photo cell")
@@ -124,7 +124,7 @@ def fixed_krr_scores(d:pd.DataFrame,Ksp:np.ndarray,Kphy:np.ndarray,
     y=pd.Categorical(d.morph,categories=CLASSES).codes
     if len(d)<MIN_SOURCE or len(set(groups))<N_FOLDS or len(set(y))<4:
         return {"status":"HOLD_DIRECT_LCVP_MODEL_COVERAGE","n_source_complete_species":len(d)}
-    candidates={k:v for k,v in BLOCKS.items() if soil or k!="soil"}
+    candidates={k:v for k,v in (BLOCKS if blocks is None else blocks).items() if soil or k!="soil"}
     allfeatures=tuple(f for group in candidates.values() for f in group)
     methods={"GEO_SPATIAL_ONLY":(),"GEO_SPATIAL_PHYLOGENY":()}
     methods["GEO_SPATIAL_PHYLOGENY_ALL_ENV"]=allfeatures
@@ -199,7 +199,7 @@ def fixed_krr_scores(d:pd.DataFrame,Ksp:np.ndarray,Kphy:np.ndarray,
     }
 
 
-def run(source:pd.DataFrame,ledger:pd.DataFrame,trees:dict[int,Path],*,strict:bool=True,nboot:int=BOOT)->dict:
+def run(source:pd.DataFrame,ledger:pd.DataFrame,trees:dict[int,Path],*,strict:bool=True,nboot:int=BOOT,blocks:dict|None=None)->dict:
     population,coverage=photo_populations(source,strict=strict)
     out={}
     for cap in COHORTS:
@@ -207,7 +207,7 @@ def run(source:pd.DataFrame,ledger:pd.DataFrame,trees:dict[int,Path],*,strict:bo
         direct,tree=direct_taxa(subset,ledger,trees[cap],cap,strict=strict)
         direct=add_source_geo(direct)
         for mode in ("climate","soil"):
-            sample,receipt=source_features(direct,soil=mode=="soil")
+            sample,receipt=source_features(direct,soil=mode=="soil",blocks=blocks)
             names=sample.original_direct_LCVP_tip.tolist()
             Kphy=BM_shared_tree_cov(tree,names) if len(sample)==len(direct) else BM_shared_tree_cov(
                 Phylo.read(str(trees[cap]),"newick"),direct.original_direct_LCVP_tip.tolist())[np.ix_(
@@ -218,7 +218,7 @@ def run(source:pd.DataFrame,ledger:pd.DataFrame,trees:dict[int,Path],*,strict:bo
                 Ks=geographic_kernel(sample,spatial_scale)
                 for heldout in ("genus","true_photo_cell"):
                     tests[f"{int(spatial_scale)}km__{heldout}"]=fixed_krr_scores(
-                        sample,Ks,Kphy,heldout,soil=mode=="soil",nboot=nboot)
+                        sample,Ks,Kphy,heldout,soil=mode=="soil",nboot=nboot,blocks=blocks)
             out[f"{cap}km_{mode}"]={"source":receipt,"spatial_kernel_scale_km_all_reported":list(SCALES_KM),"models":tests}
     return {
         "schema":SCHEMA,"date_jst":"2026-10-10",
