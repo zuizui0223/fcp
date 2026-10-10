@@ -1,0 +1,1509 @@
+{
+  "cohorts": {
+    "250km_climate": {
+      "models": {
+        "250km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.006577864048473463,
+              "original_group_cluster_95CI": [
+                -0.01737764187654778,
+                0.003793254796554553
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.007669246096461405,
+              "original_group_cluster_95CI": [
+                -0.02721255006465952,
+                0.039545627329573174
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0020537477317182657,
+              "original_group_cluster_95CI": [
+                -0.00452294064816182,
+                7.162086680681572e-05
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0016254562259932547,
+              "original_group_cluster_95CI": [
+                -0.004956691808547191,
+                0.008520136972216609
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0016431704135978838,
+              "original_group_cluster_95CI": [
+                -0.006553011775214872,
+                0.0024795630267998962
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 342,
+          "n_heldout_groups": 122,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.7116057895531066,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.7039365434566451,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.7105144075051187,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.7084606597734003,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.7121398637311119,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.7088712370915208,
+              "n_same_species": 342
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "250km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.01463418000802109,
+              "original_group_cluster_95CI": [
+                -0.0382199360339672,
+                -0.0001611071953052772
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.03711504989710018,
+              "original_group_cluster_95CI": [
+                0.0029047257632911177,
+                0.056994861734593436
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.00291191199627527,
+              "original_group_cluster_95CI": [
+                -0.006609864213566884,
+                0.0004297247702335543
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0062975020626318936,
+              "original_group_cluster_95CI": [
+                -0.020472505222469527,
+                0.006023350341812028
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0011613646700060058,
+              "original_group_cluster_95CI": [
+                -0.009825553063727576,
+                0.005906855820925078
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 342,
+          "n_heldout_groups": 43,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.7113213964199033,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6742063465228031,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6888405265308243,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6859286145345489,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6825430244681924,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6876791618608182,
+              "n_same_species": 342
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.006405803678306024,
+              "original_group_cluster_95CI": [
+                -0.016913540964678984,
+                0.004383284217528661
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.013895252696505678,
+              "original_group_cluster_95CI": [
+                -0.02163083069397343,
+                0.046749578162311935
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.002172689723302801,
+              "original_group_cluster_95CI": [
+                -0.004479449983589789,
+                0.00022852387067432342
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0026025756060461497,
+              "original_group_cluster_95CI": [
+                -0.004353030900659564,
+                0.009282288100255562
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0016082284119044458,
+              "original_group_cluster_95CI": [
+                -0.006765189620780839,
+                0.0024698899783061144
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 342,
+          "n_heldout_groups": 122,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.720791069188497,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.7068958164919913,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.7133016201702972,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.7111289304469944,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.7159041957763436,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.7116933917583929,
+              "n_same_species": 342
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.016747491175202876,
+              "original_group_cluster_95CI": [
+                -0.03922858084873059,
+                -0.002749539215871224
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.03557773627286457,
+              "original_group_cluster_95CI": [
+                0.005747614039526019,
+                0.05421735645899582
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0029335849507730804,
+              "original_group_cluster_95CI": [
+                -0.007678624376257027,
+                3.5026121810325234e-05
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0073430259501747076,
+              "original_group_cluster_95CI": [
+                -0.021456449988542778,
+                0.005044465818533692
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.00086908216866523,
+              "original_group_cluster_95CI": [
+                -0.008109068746071922,
+                0.005949942199327619
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 342,
+          "n_heldout_groups": 43,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6990272737109746,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.66344953743811,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6801970286133129,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6772634436625398,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6728540026631381,
+              "n_same_species": 342
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6793279464446477,
+              "n_same_species": 342
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        }
+      },
+      "source": {
+        "n_direct_genus_represented": 122,
+        "n_direct_original_photo_geo_cells": 43,
+        "n_direct_original_photo_taxa_excluded_by_environment_mask": 0,
+        "n_direct_original_photo_taxa_full_environment_common_case": 342,
+        "n_direct_original_photo_taxa_pre_missingness": 342,
+        "n_original_taxa_each_tested_once": 342
+      },
+      "spatial_kernel_scale_km_all_reported": [
+        50.0,
+        250.0
+      ]
+    },
+    "250km_soil": {
+      "models": {
+        "250km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.01410192801036862,
+              "original_group_cluster_95CI": [
+                -0.028433846686436736,
+                -0.002146543590630762
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.027069941222902415,
+              "original_group_cluster_95CI": [
+                -0.00810666088121382,
+                0.06234056042122061
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.002371680808669081,
+              "original_group_cluster_95CI": [
+                -0.007196184708377573,
+                0.0027039782661022697
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.001141172299386238,
+              "original_group_cluster_95CI": [
+                -0.005173514875903789,
+                0.0022516438558230745
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0017324254428453959,
+              "original_group_cluster_95CI": [
+                -0.008949892372215086,
+                0.004650460064732054
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0019313588690168155,
+              "original_group_cluster_95CI": [
+                -0.0024686969490168467,
+                0.007292927740375934
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 264,
+          "n_heldout_groups": 114,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6859197546545309,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6588498134316285,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6729517414419972,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6705800606333282,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6718105691426111,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.6712193159991517,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6748831003110141,
+              "n_same_species": 264
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "250km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.013310979988321068,
+              "original_group_cluster_95CI": [
+                -0.05705394890782329,
+                0.011669910474359387
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.02996155604302947,
+              "original_group_cluster_95CI": [
+                -0.006712848173131546,
+                0.057336163676770385
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.004435894593347359,
+              "original_group_cluster_95CI": [
+                -0.00038109073027666065,
+                0.00923243342437994
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.006548552071775418,
+              "original_group_cluster_95CI": [
+                -0.018530370270331106,
+                0.0008947024937121907
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.010358472802373283,
+              "original_group_cluster_95CI": [
+                -0.022718814275233784,
+                0.004450884326488148
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.010036847802860495,
+              "original_group_cluster_95CI": [
+                0.004302150101768697,
+                0.015976134098184002
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 264,
+          "n_heldout_groups": 42,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.7377266502122364,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.707765094169207,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.7210760741575281,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.7255119687508754,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.7145275220857527,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.7107176013551548,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.7311129219603885,
+              "n_same_species": 264
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.016726444641425482,
+              "original_group_cluster_95CI": [
+                -0.03163225344930287,
+                -0.003595793918894781
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.03376800288595172,
+              "original_group_cluster_95CI": [
+                -0.0016296503586656803,
+                0.06786195088531764
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.002912818591166516,
+              "original_group_cluster_95CI": [
+                -0.00768626619863096,
+                0.002489808244628729
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0005395549140816693,
+              "original_group_cluster_95CI": [
+                -0.005311924875472582,
+                0.0031603310305906678
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.002673553183714029,
+              "original_group_cluster_95CI": [
+                -0.009379672816302675,
+                0.0036459325889531447
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.001001214840705154,
+              "original_group_cluster_95CI": [
+                -0.003085073027114741,
+                0.0057012462352844925
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 264,
+          "n_heldout_groups": 114,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6893900212721338,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6556220183861821,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6723484630276074,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.669435644436441,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6718089081135259,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.6696749098438934,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6733496778683127,
+              "n_same_species": 264
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.017643940437963416,
+              "original_group_cluster_95CI": [
+                -0.06045333132428292,
+                0.0075838456097268745
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.03245047202538702,
+              "original_group_cluster_95CI": [
+                -0.0009675511329873793,
+                0.05978544142187352
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.003627834304616859,
+              "original_group_cluster_95CI": [
+                -0.0013114464045957184,
+                0.008472972069335453
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.007783452700401855,
+              "original_group_cluster_95CI": [
+                -0.02095027370474911,
+                -5.621173924646153e-05
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.008751318507743532,
+              "original_group_cluster_95CI": [
+                -0.01921317000350414,
+                0.005418271494175326
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.00849678696191134,
+              "original_group_cluster_95CI": [
+                0.003361310555395759,
+                0.014282919289566336
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 264,
+          "n_heldout_groups": 42,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.7313906375669472,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6989401655415601,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.7165841059795236,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.7202119402841405,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.7088006532791217,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.7078327874717801,
+              "n_same_species": 264
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.725080892941435,
+              "n_same_species": 264
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        }
+      },
+      "source": {
+        "n_direct_genus_represented": 114,
+        "n_direct_original_photo_geo_cells": 42,
+        "n_direct_original_photo_taxa_excluded_by_environment_mask": 78,
+        "n_direct_original_photo_taxa_full_environment_common_case": 264,
+        "n_direct_original_photo_taxa_pre_missingness": 342,
+        "n_original_taxa_each_tested_once": 264
+      },
+      "spatial_kernel_scale_km_all_reported": [
+        50.0,
+        250.0
+      ]
+    },
+    "500km_climate": {
+      "models": {
+        "250km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.007307136672192139,
+              "original_group_cluster_95CI": [
+                -0.012985481737233552,
+                -0.0015140857113352974
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.05132102735570495,
+              "original_group_cluster_95CI": [
+                0.024674588981964604,
+                0.07254243511635994
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0015103380853561579,
+              "original_group_cluster_95CI": [
+                -0.002678857683077076,
+                -0.0003313908361217835
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.004185868670084491,
+              "original_group_cluster_95CI": [
+                -0.008838447088524385,
+                -6.468042310197805e-05
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0007448829165366634,
+              "original_group_cluster_95CI": [
+                -0.0028848720442127486,
+                0.001802599050390064
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 649,
+          "n_heldout_groups": 206,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.692446122723157,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.641125095367452,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6484322320396441,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6469218939542879,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6442463633695596,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6476873491231074,
+              "n_same_species": 649
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "250km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.002020866063777377,
+              "original_group_cluster_95CI": [
+                -0.011754588054124228,
+                0.0035028724266012346
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.05444993312058224,
+              "original_group_cluster_95CI": [
+                0.025260674274210533,
+                0.07530624736620749
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0004572391626255101,
+              "original_group_cluster_95CI": [
+                -0.0023863054114201445,
+                0.0009236926034331272
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0013288059554006921,
+              "original_group_cluster_95CI": [
+                -0.008110622356526388,
+                0.0028081933141126496
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.000545216193853037,
+              "original_group_cluster_95CI": [
+                -0.004996965654878946,
+                0.0031110678359834963
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 649,
+          "n_heldout_groups": 62,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.680784096451813,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6263341633312308,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6283550293950081,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6278977902323827,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6270262234396075,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6278098132011551,
+              "n_same_species": 649
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.006926595673024647,
+              "original_group_cluster_95CI": [
+                -0.013941277008279263,
+                9.574934050311483e-05
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.05241580618007685,
+              "original_group_cluster_95CI": [
+                0.025495457903924764,
+                0.07461622610312872
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0017293362462042145,
+              "original_group_cluster_95CI": [
+                -0.0030023526169280544,
+                -0.0003620209277367098
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0031912418340446693,
+              "original_group_cluster_95CI": [
+                -0.009080500577448343,
+                0.0016910709464837113
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.00027106870605394265,
+              "original_group_cluster_95CI": [
+                -0.0024727065792787993,
+                0.0020068088116987144
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 649,
+          "n_heldout_groups": 206,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6899514369615647,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6375356307814879,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6444622264545126,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6427328902083084,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6412709846204677,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6441911577484586,
+              "n_same_species": 649
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0018922170887909697,
+              "original_group_cluster_95CI": [
+                -0.010189009436373225,
+                0.0038076853410753744
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.05621537012532879,
+              "original_group_cluster_95CI": [
+                0.027852091673316592,
+                0.07741092626982086
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0007276677052652933,
+              "original_group_cluster_95CI": [
+                -0.0026923221031873476,
+                0.0006564628912855534
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 7.143342004026832e-05,
+              "original_group_cluster_95CI": [
+                -0.00640032061638521,
+                0.004997864779465401
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0010008293938213704,
+              "original_group_cluster_95CI": [
+                -0.004707115010178251,
+                0.0024993633971511983
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 649,
+          "n_heldout_groups": 62,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6769090746913353,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6206937045660065,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6225859216547974,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6218582539495321,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6226573550748377,
+              "n_same_species": 649
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6215850922609761,
+              "n_same_species": 649
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        }
+      },
+      "source": {
+        "n_direct_genus_represented": 206,
+        "n_direct_original_photo_geo_cells": 62,
+        "n_direct_original_photo_taxa_excluded_by_environment_mask": 0,
+        "n_direct_original_photo_taxa_full_environment_common_case": 649,
+        "n_direct_original_photo_taxa_pre_missingness": 649,
+        "n_original_taxa_each_tested_once": 649
+      },
+      "spatial_kernel_scale_km_all_reported": [
+        50.0,
+        250.0
+      ]
+    },
+    "500km_soil": {
+      "models": {
+        "250km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.007969855686081105,
+              "original_group_cluster_95CI": [
+                -0.015255434376026623,
+                -0.0020160848591339042
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.03686089443393842,
+              "original_group_cluster_95CI": [
+                0.0019473715959538172,
+                0.06354407733557853
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0005174809688659827,
+              "original_group_cluster_95CI": [
+                -0.001094686035199843,
+                0.002414449835861008
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0016134031301073132,
+              "original_group_cluster_95CI": [
+                -0.00500851116844157,
+                0.0024389505387569705
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.00283804730753595,
+              "original_group_cluster_95CI": [
+                -0.009365904443685256,
+                0.0025247313595585267
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0005994216543967165,
+              "original_group_cluster_95CI": [
+                -0.0017454841170023631,
+                0.0031965698490376087
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 521,
+          "n_heldout_groups": 195,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6888527828768296,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6519918884428912,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6599617441289723,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6604792250978383,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6583483409988651,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.6571236968214365,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.660561165783369,
+              "n_same_species": 521
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "250km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.006718608827328563,
+              "original_group_cluster_95CI": [
+                -0.014587722125907492,
+                0.0005813658344182014
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.05483434045308307,
+              "original_group_cluster_95CI": [
+                0.027319370929811067,
+                0.0742523781829595
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0015294793264759422,
+              "original_group_cluster_95CI": [
+                -0.0003325177065049799,
+                0.0032625345666987783
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.001382423419774072,
+              "original_group_cluster_95CI": [
+                -0.003328797411368408,
+                0.0056109383974626646
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0046843448312209246,
+              "original_group_cluster_95CI": [
+                -0.011905391136056251,
+                0.00039761739525624745
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0024241914856565,
+              "original_group_cluster_95CI": [
+                -0.0016512124929820692,
+                0.005579228051809785
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 521,
+          "n_heldout_groups": 59,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6885626084570594,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6337282680039764,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6404468768313051,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6419763561577808,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.641829300251079,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.635762532000084,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6428710683169614,
+              "n_same_species": 521
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__genus": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.009032895028959032,
+              "original_group_cluster_95CI": [
+                -0.017422237057920908,
+                -0.002479026821151091
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.03873230553632043,
+              "original_group_cluster_95CI": [
+                0.003583584549018794,
+                0.06535844156263662
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.00028838563816146394,
+              "original_group_cluster_95CI": [
+                -0.0014208838205765448,
+                0.0024219280217544614
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0006648803936821989,
+              "original_group_cluster_95CI": [
+                -0.004214345625459523,
+                0.0037818090898901115
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.003988344064829347,
+              "original_group_cluster_95CI": [
+                -0.011182698163617713,
+                0.001949060051487355
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0005382943444357299,
+              "original_group_cluster_95CI": [
+                -0.0016018961649560835,
+                0.002621615529083541
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 521,
+          "n_heldout_groups": 195,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.682230597421015,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6434982918846945,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6525311869136535,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.652819572551815,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6518663065199714,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.6485428428488241,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6530694812580893,
+              "n_same_species": 521
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        },
+        "50km__true_photo_cell": {
+          "conditional_feature_gains": {
+            "all_abiotic_beyond_spatial_plus_real_phylogeny": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.005153677182654408,
+              "original_group_cluster_95CI": [
+                -0.01392910466394454,
+                0.0031650718789964843
+              ]
+            },
+            "spatial_plus_real_phylogeny_beyond_space_only": {
+              "conditional_interval_entirely_positive": true,
+              "heldout_brier_reduction": 0.057057188688734814,
+              "original_group_cluster_95CI": [
+                0.026614147159613945,
+                0.07702380600284879
+              ]
+            },
+            "unique_elevation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0011445455443083125,
+              "original_group_cluster_95CI": [
+                -0.0006885172324101311,
+                0.002836678737139519
+              ]
+            },
+            "unique_precipitation_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0019093469935844258,
+              "original_group_cluster_95CI": [
+                -0.0024082671793776095,
+                0.005779462996821572
+              ]
+            },
+            "unique_soil_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": -0.0034780261762311455,
+              "original_group_cluster_95CI": [
+                -0.010528810664213909,
+                0.0010719192867312188
+              ]
+            },
+            "unique_temperature_beyond_space_real_phylogeny_and_other_abiotic": {
+              "conditional_interval_entirely_positive": false,
+              "heldout_brier_reduction": 0.0018354306287102122,
+              "original_group_cluster_95CI": [
+                -0.0010614682922577058,
+                0.004546331708134671
+              ]
+            }
+          },
+          "modelled_original_photograph_spatial_exponential_covariance": true,
+          "modelled_true_phylogeny_BM_shared_branch_covariance": true,
+          "n_direct_original_source_species": 521,
+          "n_heldout_groups": 59,
+          "not_a_phylogenetic_logistic_MCMC_or_genetic_assay": true,
+          "same_original_species_and_fold_assignments": true,
+          "source_environment_blocks": [
+            "elevation",
+            "temperature",
+            "precipitation",
+            "soil"
+          ],
+          "source_model_scores": {
+            "GEO_SPATIAL_ONLY": {
+              "mean_heldout_four_colour_brier": 0.6821468047925449,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY": {
+              "mean_heldout_four_colour_brier": 0.6250896161038101,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_ALL_ENV": {
+              "mean_heldout_four_colour_brier": 0.6302432932864644,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_ELEVATION": {
+              "mean_heldout_four_colour_brier": 0.6313878388307728,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_PRECIPITATION": {
+              "mean_heldout_four_colour_brier": 0.6321526402800489,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_SOIL": {
+              "mean_heldout_four_colour_brier": 0.6267652671102333,
+              "n_same_species": 521
+            },
+            "GEO_SPATIAL_PHYLOGENY_MINUS_TEMPERATURE": {
+              "mean_heldout_four_colour_brier": 0.6320787239151745,
+              "n_same_species": 521
+            }
+          },
+          "status": "EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT"
+        }
+      },
+      "source": {
+        "n_direct_genus_represented": 195,
+        "n_direct_original_photo_geo_cells": 59,
+        "n_direct_original_photo_taxa_excluded_by_environment_mask": 128,
+        "n_direct_original_photo_taxa_full_environment_common_case": 521,
+        "n_direct_original_photo_taxa_pre_missingness": 649,
+        "n_original_taxa_each_tested_once": 521
+      },
+      "spatial_kernel_scale_km_all_reported": [
+        50.0,
+        250.0
+      ]
+    }
+  },
+  "date_jst": "2026-10-10",
+  "fixed_ridge": 5.0,
+  "full_872_1761_direct_tip_phylogenetic_coverage_HOLD": true,
+  "hard_nonclaims": [
+    "Brownian dated shared-branch kernel is one specific phylogenetic covariance hypothesis, not measured genotype effect",
+    "Multiple overlapping 250/500km, 50/250km and genus/cell model comparisons are exploratory, not independent confirmatory tests",
+    "Kernel ridge four-colour Brier improvement does not demonstrate environment-driven pigment adaptation",
+    "The true direct LCVP matched 342/649 source species differ environmentally from untipped original 872/1761 species",
+    "Spatially matched original photo-colour label exchange nulls previously did not support robust localized rain inference"
+  ],
+  "local_photo_source_250_500_nested_cohorts_not_independent": true,
+  "no_phenotype_reclassification_or_prospective_source_opened": true,
+  "original_42111_photo_species_denominator": 42111,
+  "original_one_photo_classifiable": 18457,
+  "schema": "fcp_42111_direct_LCVP_spatial_and_phylo_kernel_environment_v1",
+  "source_model": "kernel ridge on four original photo-colour categories; Brownian shared branch, exponential geodesic spatial residual",
+  "spatial_scales_km": [
+    50,
+    250
+  ],
+  "status": "LIMITED_DIRECT_TIP_SOURCE_SPATIAL_AND_PHYLOGENETIC_COVARIANCE_PREDICTION",
+  "two_heldout_groups": [
+    "genus",
+    "true_photo_cell"
+  ]
+}
