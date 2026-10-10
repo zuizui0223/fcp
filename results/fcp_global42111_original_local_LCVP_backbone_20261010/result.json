@@ -1,0 +1,42 @@
+{
+  "schema": "fcp_global42111_local_congener_LCVP_direct_backbone_coverage_v1",
+  "date_jst": "2026-10-10",
+  "status": "DIRECT_MEGA_TREE_EXACT_SPECIES_TIP_READINESS_NOT_COLOUR_EFFECT",
+  "original_source_1761_taxa": 1761,
+  "original_source_872_nested_taxa": 872,
+  "backbone": "GBOTB.extended.LCVP",
+  "source_tree_n_tips": 73420,
+  "cohorts": {
+    "km500": {
+      "n_original_species": 1761,
+      "n_current_genus_family_taxonomy_verified": 1761,
+      "n_exact_direct_lcvp_tip_species": 649,
+      "n_direct_lcvp_genera": 206,
+      "n_direct_lcvp_genera_with_at_least_two_source_species": 145,
+      "n_local_genus_cell_groups_with_at_least_two_direct_tips": 174,
+      "n_taxa_genus_family_supported_but_synthetic_tip_required": 975,
+      "n_taxa_with_missing_or_conflicted_family_genus": 0,
+      "direct_tip_fraction": 0.3685,
+      "original_500km_cohort_coverage_gate_pass": false
+    },
+    "km250": {
+      "n_original_species": 872,
+      "n_current_genus_family_taxonomy_verified": 872,
+      "n_exact_direct_lcvp_tip_species": 342,
+      "n_direct_lcvp_genera": 122,
+      "n_direct_lcvp_genera_with_at_least_two_source_species": 84,
+      "n_local_genus_cell_groups_with_at_least_two_direct_tips": 94,
+      "n_taxa_genus_family_supported_but_synthetic_tip_required": 464,
+      "n_taxa_with_missing_or_conflicted_family_genus": 0,
+      "direct_tip_fraction": 0.3922,
+      "original_500km_cohort_coverage_gate_pass": false,
+      "original_250km_cohort_coverage_gate_pass": false
+    }
+  },
+  "source_taxon_colour_labels_read": false,
+  "source_photo_pixels_read": false,
+  "source_42111_global_population_unmodified": true,
+  "n_source_photo_labels_remeasured": 0,
+  "decision": "HOLD_DIRECT_LCVP_SUBGENUS_COVERAGE_FOR_FULL_250_500",
+  "limitations": ["Grafting unsampled congeneric taxa by genus/family does not resolve within-genus evolutionary history", "Old iNaturalist current taxonomy can conflict with historical original photo taxon names", "This output matches original source species to dated backbone only, no rainfall–photo-colour phylogenetic coefficient"]
+}

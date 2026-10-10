@@ -1,0 +1,153 @@
+name: FCP original direct LCVP local species phylogenetic spatial comparability
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-microspatial-label-null-20261009
+    paths:
+      - scripts/analysis/audit_fcp_global42111_direct_phylo_nearby_photo_pairs_20261010.py
+      - tests/test_fcp_global42111_direct_phylo_nearby_photo_pairs_20261010.py
+      - docs/FCP_GLOBAL42111_DIRECT_LCVP_LOCAL_PAIRS_20261010.md
+      - .github/workflows/fcp-global42111-direct-phylo-photo-pairs-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp42111-direct-LCVP-spatial-pair-opportunity-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_RUN: '37861582446'
+  SOURCE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  DIRECT_BACKBONE: 'results/fcp_global42111_original_local_LCVP_backbone_20261010'
+
+jobs:
+  actual-phylogenetic-photo-pair-coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Unit tests for exact dated tips and true-source 50/100km photo pair distances
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 biopython==1.85 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_global42111_direct_phylo_nearby_photo_pairs_20261010.py
+          python -m pytest tests/test_fcp_global42111_direct_phylo_nearby_photo_pairs_20261010.py -q
+          python scripts/analysis/audit_fcp_global42111_direct_phylo_nearby_photo_pairs_20261010.py --help > /dev/null
+      - name: Reopen verified direct original 342/649 dated LCVP tips and measured photo locations only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -s "$DIRECT_BACKBONE/result.json"
+          test -s "$DIRECT_BACKBONE/original_local_1761_LCVP_direct_tip_ledger.csv"
+          test -s "$DIRECT_BACKBONE/original_local_250km_direct_LCVP_tree.tre"
+          test -s "$DIRECT_BACKBONE/original_local_500km_direct_LCVP_tree.tre"
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_ARTIFACT" --dir /tmp/fcp_direct_local_phylo_original_photos
+          f="$(find /tmp/fcp_direct_local_phylo_original_photos -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$f"
+          cp "$f" /tmp/fcp_direct_local_phylo_original_breadth.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/fcp_global42111_original_local_LCVP_backbone_20261010/result.json')
+          r=json.loads(p.read_text())
+          assert r['schema']=='fcp_global42111_local_congener_LCVP_direct_backbone_coverage_v1'
+          assert r['original_source_1761_taxa']==1761
+          assert r['original_source_872_nested_taxa']==872
+          assert r['cohorts']['km500']['n_exact_direct_lcvp_tip_species']==649
+          assert r['cohorts']['km250']['n_exact_direct_lcvp_tip_species']==342
+          assert r['source_taxon_colour_labels_read'] is False
+          assert r['source_photo_pixels_read'] is False
+          source=[]
+          for q in Path('/tmp/fcp_direct_local_phylo_original_photos').rglob('result.json'):
+              d=json.loads(q.read_text())
+              if d.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  source.append(d)
+          assert len(source)==1
+          assert source[0]['original_species_count']==42111
+          assert source[0]['breadth_classifiable_by_covariate']['environment_climate_complete']==18413
+          assert source[0]['new_colour_label_or_photo_pixel_opened'] is False
+          PY
+      - name: Audit exactly tipped source congeneric local photographed comparisons with true 50/100km distances
+        run: |
+          python scripts/analysis/audit_fcp_global42111_direct_phylo_nearby_photo_pairs_20261010.py \
+            --original-breadth-abiotic /tmp/fcp_direct_local_phylo_original_breadth.csv.gz \
+            --original-LCVP-tip-ledger "$DIRECT_BACKBONE/original_local_1761_LCVP_direct_tip_ledger.csv" \
+            --tree-250 "$DIRECT_BACKBONE/original_local_250km_direct_LCVP_tree.tre" \
+            --tree-500 "$DIRECT_BACKBONE/original_local_500km_direct_LCVP_tree.tre" \
+            --outdir /tmp/fcp_original_direct_phylogenetic_local_pairs
+      - name: Check original photo-source denominator, exact tips, truthful phylo/space sufficiency or HOLD
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result=json.loads(Path('/tmp/fcp_original_direct_phylogenetic_local_pairs/result.json').read_text())
+          assert result['schema']=='fcp_42111_exact_LCVP_tipped_local_congeners_50_100km_coverage_v1'
+          assert result['original_global_source_photo_taxa']==42111
+          assert result['original_colour_classifiable']==18457
+          assert result['historical_fixed_caps_km']==[250,500]
+          assert result['new_local_comparison_diameters_km']==[50,100]
+          assert result['uses_ONLY_induced_direct_73420_tip_backbone_subtrees'] is True
+          assert result['original_source_colour_never_used_to_select_subgroups'] is True
+          assert result['photo_colour_climate_phylogenetic_coefficient_computed'] is False
+          assert result['no_new_source_images_photos_or_independent_taxa'] is True
+          for cap,nfull,ntree in [('250',872,342),('500',1761,649)]:
+              item=result['cohorts'][cap]
+              assert item['full_original_frozen_photo_species']==nfull
+              assert item['n_exact_direct_LCVP_backbone_photo_species']==ntree
+              assert item['n_actual_induced_source_tree_tips']==ntree
+              assert set(item['locality_versus_phylogeny_coverage'])=={'50','100'}
+              for micro,z in item['locality_versus_phylogeny_coverage'].items():
+                  assert z['max_original_photo_microgeographical_diameter_km']==int(micro)
+                  assert z['n_original_direct_backbone_photo_species']==ntree
+                  assert z['all_phylogenetic_pairs_both_direct_real_backbone_tips'] is True
+                  assert z['microgroup_selection_uses_no_photographed_flower_colour'] is True
+                  assert z['n_local_groups_with_three_or_more_direct_tips']>=z['n_local_groups_three_plus_tips_with_two_or_more_distinct_LCVP_path_distances']
+                  assert z['n_original_source_taxa_in_phylo_path_varied_local_groups']<=ntree
+                  assert z['n_distinct_LCVP_path_distances_rounded_5_decimal']>=0
+                  assert z['within_local_group_phylogenetic_distance_variation_status'] in (
+                      'EXPLORATORY_WITHINGROUP_PHYLO_DISTANCE_VARIATION_PASS',
+                      'HOLD_INSUFFICIENT_WITHINGROUP_DATED_PHYLO_DISTANCE_VARIATION')
+                  assert z['n_original_species_in_at_least_one_local_direct_phylo_pair']<=ntree
+                  if z['readiness']=='EXPLORATORY_DIRECT_TIP_SPATIAL_PHYLO_COVERAGE_PASS':
+                      assert z['n_original_species_in_at_least_one_local_direct_phylo_pair']>=100
+                      assert z['n_source_original_congeneric_genera_with_local_direct_pairs']>=20
+                      assert z['n_local_multispecies_direct_tip_groups']>=30
+                  else:
+                      assert z['readiness']=='HOLD_INSUFFICIENT_ORIGINAL_DIRECT_PHYLOGENETIC_LOCAL_COMPARISONS'
+          print('FCP_42111_DIRECT_LCVP_LOCAL_PHOTO_PAIR_OPPORTUNITY_ACTUAL_SOURCE_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-real-LCVP-local-photo-pairs-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_original_direct_phylogenetic_local_pairs/
+      - name: Commit only exact phylogenetic source-pair sufficiency and explicit HOLD where necessary
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-phylogeny-coverage-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_direct_LCVP_local_photo_pairs_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp_original_direct_phylogenetic_local_pairs/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal exact dated LCVP original FCP local photo-congener phylogeny sufficiency'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
