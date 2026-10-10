@@ -79,7 +79,7 @@ def extract(source:pd.DataFrame,biodir:Path,solardir:Path,soil_dir:Path,*,winddi
         monthly=[]
         directory={"srad":solardir,"wind":winddir or solardir.parent/"wind","vapr":vaprdir or solardir.parent/"vapr"}[prop]
         for month in S_RAD_MONTHS:
-            vals=np.asarray(sampler(directory/f"wc2.1_10m_{prop}_{month}.tif",lon,lat),float)
+            vals=np.asarray(sampler(directory/f"wc2.1_10m_{prop}_{month:02d}.tif",lon,lat),float)
             if len(vals)!=len(d):
                 raise ValueError("Original source monthly "+prop+" raster mismatch")
             if np.isfinite(vals).any() and (vals[np.isfinite(vals)]<0).any():
