@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 
 p=Path(__file__).resolve().parents[1]/"scripts/analysis/compare_fcp_matched_within_between_precip_20261010.py"
+sys.path.insert(0,str(p.parent))
 s=importlib.util.spec_from_file_location("fcp_aligned",p)
 m=importlib.util.module_from_spec(s)
 s.loader.exec_module(m)
