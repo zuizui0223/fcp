@@ -1,0 +1,141 @@
+name: FCP all abiotic beyond real spatial and dated LCVP covariance
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/run_fcp_global42111_allenv_spatial_phylo_20261010.py
+      - tests/test_fcp_global42111_allenv_spatial_phylo_20261010.py
+      - .github/workflows/fcp-global42111-allenv-spatial-phylo-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-global42111-full-original-environment-spatial-LCVP-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  EXTENDED_SOURCE_RUN: '38011108135'
+  EXTENDED_SOURCE_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+  TREE_DIR: results/fcp_global42111_original_local_LCVP_backbone_20261010
+
+jobs:
+  actual-dated-spatial-abiotic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Original-source full climate and real phylogeny spatial control synthetic tests
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 biopython==1.85 pytest==8.4.2
+          python -m pytest tests/test_fcp_global42111_allenv_spatial_phylo_20261010.py -q
+          python -m pytest tests/test_fcp_global42111_real_spatial_phylo_covariance_20261010.py -q
+          python -m py_compile scripts/analysis/run_fcp_global42111_allenv_spatial_phylo_20261010.py
+      - name: Restore full original source 42111 photographs, solar, temperature, humidity, wind and ten soil traits
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$EXTENDED_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$EXTENDED_SOURCE_ARTIFACT" --dir /tmp/fcp42111_full_abiotic_phylo_source
+          original="$(find /tmp/fcp42111_full_abiotic_phylo_source -name source_original_42111_species_expanded_solar_bio_soil.csv.gz -print -quit)"
+          test -s "$original"
+          cp "$original" /tmp/fcp42111_original_full_abiotic_photo.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=[]
+          for p in Path('/tmp/fcp42111_full_abiotic_phylo_source').rglob('result.json'):
+              d=json.loads(p.read_text())
+              if d.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':
+                  x.append(d)
+          assert len(x)==1
+          assert x[0]['original_source_species']==42111
+          assert x[0]['original_source_photo_rows']==100543
+          assert x[0]['original_classified_photo_colours']==18457
+          assert set(x[0]['monthly_variables'])=={'srad','wind','vapr'}
+          assert x[0]['original_photo_colours_untouched']
+          PY
+          test -s "$TREE_DIR/original_local_1761_LCVP_direct_tip_ledger.csv"
+          test -s "$TREE_DIR/original_local_250km_direct_LCVP_tree.tre"
+          test -s "$TREE_DIR/original_local_500km_direct_LCVP_tree.tre"
+      - name: Refit all seven environment blocks beyond genuine original photo geodesic and dated shared-branch phylogeny kernels
+        env:
+          OPENBLAS_NUM_THREADS: '2'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: |
+          python scripts/analysis/run_fcp_global42111_allenv_spatial_phylo_20261010.py \
+            --source /tmp/fcp42111_original_full_abiotic_photo.csv.gz \
+            --tips "$TREE_DIR/original_local_1761_LCVP_direct_tip_ledger.csv" \
+            --tree250 "$TREE_DIR/original_local_250km_direct_LCVP_tree.tre" \
+            --tree500 "$TREE_DIR/original_local_500km_direct_LCVP_tree.tre" \
+            --outdir /tmp/fcp42111_full_abiotic_phylo_spatial_models
+      - name: Audit identical source species, fixed genus/location holdouts and all seven physical predictor blocks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp42111_full_abiotic_phylo_spatial_models/result.json')
+          z=json.loads(p.read_text())
+          assert z['schema']=='fcp_global42111_all_abiotic_beyond_real_spatial_phylo_v1'
+          assert z['n_original_species']==42111
+          assert z['n_original_colour_classifiable']==18457
+          assert z['n_named_predictors']==36
+          assert len(z['environment_blocks'])==7
+          assert z['original_spatial_and_phylogenetic_covariance_used'] is True
+          assert z['direct_tree_selection_bias_and_full_source_coverage_HOLD'] is True
+          assert z['original_labels_and_images_unchanged'] is True
+          d=z['result']
+          assert set(d['cohorts'])=={'250km_climate','250km_soil','500km_climate','500km_soil'}
+          assert d['full_872_1761_direct_tip_phylogenetic_coverage_HOLD'] is True
+          for cohort,c in d['cohorts'].items():
+              assert c['source']['n_direct_original_photo_taxa_pre_missingness'] in (342,649)
+              assert set(c['models'])=={'50km__genus','50km__true_photo_cell',
+                                        '250km__genus','250km__true_photo_cell'}
+              for key,m in c['models'].items():
+                  if m['status']=='EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT':
+                      assert m['same_original_species_and_fold_assignments'] is True
+                      assert m['modelled_true_phylogeny_BM_shared_branch_covariance'] is True
+                      assert m['modelled_original_photograph_spatial_exponential_covariance'] is True
+                      assert 'all_abiotic_beyond_spatial_plus_real_phylogeny' in m['conditional_feature_gains']
+                      assert 'unique_solar_radiation_beyond_space_real_phylogeny_and_other_abiotic' in m['conditional_feature_gains']
+                      assert 'unique_vapor_pressure_beyond_space_real_phylogeny_and_other_abiotic' in m['conditional_feature_gains']
+                  else:
+                      assert m['status']=='HOLD_DIRECT_LCVP_MODEL_COVERAGE'
+          print('FCP_REAL_SPACE_PLUS_PHYLOGENY_7_FULL_ENVIRONMENT_BLOCKS_SOURCE_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-full-environment-beyond-spatial-LCVP-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp42111_full_abiotic_phylo_spatial_models/
+      - name: Save verified source direct-tree abiotic result on draft PR only
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_full_abiotic_spatial_LCVP_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp42111_full_abiotic_phylo_spatial_models/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original 42111 flower taxa full seven environment blocks conditional on dated LCVP and actual site spatial covariance'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
