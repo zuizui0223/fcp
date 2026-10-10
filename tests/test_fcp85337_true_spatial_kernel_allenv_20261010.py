@@ -64,6 +64,9 @@ def test_repeated_species_outofregion_predictors_same_rows_and_folds(repeated_sp
     assert z["all_models_same_test_photo_ids_and_geocell_folds"]
     assert z["n_source_training_only_spatial_landmarks"]==12
     assert "all_abiotic_beyond_species_real_geodesic_spatial_covariance" in z["environment_increment"]
+    assert set(z["fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic"])=={"100","500"}
+    assert all("n_nearby_directed_edges" in q for q in
+               z["fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic"].values())
     assert set(z["environment_increment"])=={
         "spatial_kernel_beyond_linear_geography",
         "all_abiotic_beyond_species_real_geodesic_spatial_covariance",
@@ -87,3 +90,28 @@ def test_insufficient_geographic_or_original_species_fails_closed(repeated_speci
     d=repeated_species_cells.iloc[:50]
     z=M.fit_source(d,soil=False,scale_km=100,nboot=2,nlandmarks=12)
     assert z["status"]=="HOLD_SOURCE_SPECIES_REGION_SPATIAL_COVERAGE"
+
+
+def test_residual_spatial_Moran_uses_original_photo_sites_and_four_classes():
+    n=20
+    rng=np.random.default_rng(12)
+    positions=pd.DataFrame({
+        "latitude":rng.normal(10,.01,n),
+        "longitude":rng.normal(100,.01,n)})
+    y=np.arange(n)%4
+    correct=np.eye(4)[y]
+    predicted={
+        "mock_baseline":np.full((n,4),.25),
+        "mock_perfect":correct,
+    }
+    result=M.residual_neighbour_autocorrelation(positions,y,predicted)
+    assert set(result)=={"100","500"}
+    z=result["100"]
+    assert z["status"]=="ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC"
+    assert z["n_nearby_directed_edges"]>0
+    assert len(z["residual_methods"]["mock_baseline"]["source_four_colour_class_residual_Moran_I"])==4
+    assert z["descriptive_not_a_significance_test"] is True
+    bad=positions.copy()
+    bad.loc[0,"latitude"]=np.nan
+    with pytest.raises(ValueError,match="missing or impossible"):
+        M.residual_neighbour_autocorrelation(bad,y,predicted)
