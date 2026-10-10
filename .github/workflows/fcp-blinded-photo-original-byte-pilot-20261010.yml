@@ -1,0 +1,74 @@
+name: FCP blinded photo 24-ID open-data byte recovery pilot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - data/audit/fcp_blinded_source_photo_pilot_24_20261010.csv
+      - scripts/analysis/probe_fcp_blinded_open_photo_bytes_20261010.py
+      - tests/test_probe_fcp_blinded_open_photo_bytes_20261010.py
+      - docs/POLYMORPHISM_BLINDED_PHOTO_BYTE_RECOVERY_20261010.md
+      - .github/workflows/fcp-blinded-photo-original-byte-pilot-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-blinded-openphoto-24-pilot
+  cancel-in-progress: true
+
+jobs:
+  open-photo-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install pinned image-QA dependencies
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 pillow==11.3.0 pytest==8.4.2
+      - name: Synthetic external-photo failures and provenance tests
+        run: python -m pytest tests/test_probe_fcp_blinded_open_photo_bytes_20261010.py -q
+      - name: Validate blinded pilot frozen membership, manifest SHA, and source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import importlib.util
+          x=Path("scripts/analysis/probe_fcp_blinded_open_photo_bytes_20261010.py")
+          spec=importlib.util.spec_from_file_location("probe",x)
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          d=m.load_manifest(Path("data/audit/fcp_blinded_source_photo_pilot_24_20261010.csv"))
+          assert len(d)==24 and d.photo_id.nunique()==24
+          print("PASS exactly 24 original photo IDs with historical image hashes, no old colour labels")
+          PY
+      - name: Check original public-open-data image byte availability (24 IDs maximum)
+        run: |
+          python scripts/analysis/probe_fcp_blinded_open_photo_bytes_20261010.py \
+            --manifest data/audit/fcp_blinded_source_photo_pilot_24_20261010.csv \
+            --outdir /tmp/fcp_original_blind_photo_pilot
+      - name: Validate result semantics and no unlicensed binary output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path("/tmp/fcp_original_blind_photo_pilot")
+          r=json.loads((base/"result.json").read_text())
+          assert r["schema"]=="fcp_original_blind_openphoto_pilot_20261010_v1"
+          assert r["n_pilot_photo_ids"]==24
+          assert sum(r[k] for k in ("n_byte_identical_to_historical_source",
+              "n_photo_id_retrieved_but_bytes_differ",
+              "n_not_recovered_from_open_licensed_photo_host"))==24
+          assert r["image_pixels_persisted_or_uploaded"] is False
+          assert r["source_original_colour_labels_read"] is False
+          assert sorted(p.name for p in base.iterdir())==[
+              "byte_provenance_and_technical_qc.csv","result.json"]
+          print("PASS original photo evidence boundary, no exported image bytes")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-blinded-original-photo-24-pilot-20261010
+          retention-days: 30
+          if-no-files-found: error
+          path: /tmp/fcp_original_blind_photo_pilot/
