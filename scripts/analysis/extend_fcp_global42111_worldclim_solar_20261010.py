@@ -36,18 +36,29 @@ def sha256(path:Path)->str:
     return h.hexdigest()
 
 
-def extract(source:pd.DataFrame,biodir:Path,solardir:Path,soil_dir:Path,*,winddir:Path|None=None,vaprdir:Path|None=None,sampler=sample_grid)->tuple[pd.DataFrame,dict]:
-    required={"inat_taxon_id","observation_id","photo_id","morph","measurement_status","latitude","longitude","site_geo_status",
+def extract(source:pd.DataFrame,biodir:Path,solardir:Path,soil_dir:Path,*,winddir:Path|None=None,vaprdir:Path|None=None,role:str="breadth",sampler=sample_grid)->tuple[pd.DataFrame,dict]:
+    required={"inat_taxon_id","observation_id","photo_id","latitude","longitude","site_geo_status",
               "wc_bio1","wc_bio5","wc_bio12","wc_bio15","wc_elevation_m",
               "soil_pH","soil_SOC","soil_N","soil_clay","soil_available_water_proxy"}
     if not required.issubset(source):
         raise ValueError("Original unchanged species/photo/abiotic column schema missing")
-    if len(source)!=ORIGINAL_N or source.inat_taxon_id.nunique()!=ORIGINAL_N or source.photo_id.duplicated().any():
-        raise ValueError("Original species-equal 42111 taxon-photo identity changed")
-    classified=(source.measurement_status.eq("classified_four_state_morph") &
-                source.morph.isin(("white","yellow_orange","red_pink","blue_purple")))
-    if classified.sum()!=CLASSIFIED_N:
-        raise ValueError("Original 18457 photo-colour classified source changed")
+    if source.photo_id.duplicated().any() or source.inat_taxon_id.nunique()!=ORIGINAL_N:
+        raise ValueError("Original 42111 taxon photo-ID identity changed")
+    if role=="breadth":
+        if len(source)!=ORIGINAL_N or not {"morph","measurement_status"}.issubset(source):
+            raise ValueError("Original one-per-species photograph breadth source missing")
+        classified=(source.measurement_status.eq("classified_four_state_morph") &
+                    source.morph.isin(("white","yellow_orange","red_pink","blue_purple")))
+        if int(classified.sum())!=CLASSIFIED_N:
+            raise ValueError("Original 18457 photo-colour classified source changed")
+    elif role=="all_photo_sites":
+        if len(source)!=100543 or not {"present_in_breadth","present_in_taxon_cell"}.issubset(source):
+            raise ValueError("Original 100543 photo-site source missing")
+        if int(source.present_in_breadth.sum())!=42111 or int(source.present_in_taxon_cell.sum())!=85337:
+            raise ValueError("Original 42111/85337 source photo roles drifted")
+        classified=pd.Series(False,index=source.index)
+    else:
+        raise ValueError("Unknown original source phenotype grain")
     good=source.site_geo_status.eq(SOURCE_GEO)
     lat=pd.to_numeric(source.latitude,errors="coerce").to_numpy(float)
     lon=pd.to_numeric(source.longitude,errors="coerce").to_numpy(float)
@@ -110,9 +121,11 @@ def extract(source:pd.DataFrame,biodir:Path,solardir:Path,soil_dir:Path,*,winddi
     n_new_complete=int((classified & d[list(NEW_FEATURES)].notna().all(axis=1)).sum())
     report={
         "schema":SCHEMA,"date_jst":"2026-10-10",
-        "original_source_species":len(d),
+        "original_source_species":int(d.inat_taxon_id.nunique()),
+        "original_source_photo_rows":len(d),
+        "original_source_grain":role,
         "original_classified_photo_colours":int(classified.sum()),
-        "original_photo_unclassified":int((~classified).sum()),
+        "original_photo_unclassified":int((~classified).sum()) if role=="breadth" else None,
         "new_bioclim_variable_numbers":list(ADDITIONAL_BIO),
         "new_solar_monthly_rasters":list(S_RAD_MONTHS),
         "monthly_variables":list(ADDITIONAL_MONTHLY),
@@ -142,6 +155,7 @@ def extract(source:pd.DataFrame,biodir:Path,solardir:Path,soil_dir:Path,*,winddi
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--original-breadth-abiotic",required=True,type=Path)
+    p.add_argument("--original-photo-sites",required=True,type=Path)
     p.add_argument("--bio-dir",required=True,type=Path)
     p.add_argument("--solar-dir",required=True,type=Path)
     p.add_argument("--soil-dir",required=True,type=Path)
@@ -154,7 +168,27 @@ def main():
     p.add_argument("--outdir",required=True,type=Path)
     a=p.parse_args()
     orig=pd.read_csv(a.original_breadth_abiotic,low_memory=False)
-    result,report=extract(orig,a.bio_dir,a.solar_dir,a.soil_dir,winddir=a.wind_dir,vaprdir=a.vapr_dir)
+    all_sites=pd.read_csv(a.original_photo_sites,low_memory=False)
+    site_features,report=extract(all_sites,a.bio_dir,a.solar_dir,a.soil_dir,
+                                 winddir=a.wind_dir,vaprdir=a.vapr_dir,role="all_photo_sites")
+    if len(orig)!=ORIGINAL_N or orig.inat_taxon_id.nunique()!=ORIGINAL_N:
+        raise RuntimeError("Original 42111 breadth photo source denominator drifted")
+    classified=orig.measurement_status.eq("classified_four_state_morph") & orig.morph.isin(
+        ("white","yellow_orange","red_pink","blue_purple"))
+    if int(classified.sum())!=CLASSIFIED_N:
+        raise RuntimeError("Original 18457 classifiable photo source drifted")
+    key=["inat_taxon_id","observation_id","photo_id"]
+    result=orig.merge(site_features[key+list(NEW_FEATURES)],on=key,how="left",
+                      validate="one_to_one",indicator=True)
+    if len(result)!=ORIGINAL_N or not result["_merge"].eq("both").all():
+        raise RuntimeError("Original 42111 breadth photo original-site extension lost original images")
+    result=result.drop(columns=["_merge"])
+    report["original_classified_photo_colours"]=CLASSIFIED_N
+    report["original_photo_unclassified"]=ORIGINAL_N-CLASSIFIED_N
+    report["n_solar_complete_classified_original_taxa"]=int((classified & result["wc_srad_annual_mean"].notna()).sum())
+    report["n_additional_sun_bio_soil_complete_classified"]=int(
+        (classified & result[list(NEW_FEATURES)].notna().all(axis=1)).sum())
+    report["original_source_42111_breadth_and_85337_taxon_cell_photos_retained"]=True
     report["worldclim_bioclim_zip_sha256"]=sha256(a.bio_zip)
     report["worldclim_srad_zip_sha256"]=sha256(a.solar_zip)
     report["worldclim_wind_zip_sha256"]=sha256(a.wind_zip)
@@ -165,6 +199,8 @@ def main():
         "wind":"https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_wind.zip",
         "vapr":"https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_vapr.zip"}
     a.outdir.mkdir(parents=True,exist_ok=True)
+    site_features.to_csv(a.outdir/"all_original_100543_photo_sites_expanded_environment.csv.gz",index=False,
+                         compression={"method":"gzip","compresslevel":9,"mtime":0})
     result.to_csv(a.outdir/"source_original_42111_species_expanded_solar_bio_soil.csv.gz",index=False,
                   compression={"method":"gzip","compresslevel":9,"mtime":0})
     (a.outdir/"result.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
