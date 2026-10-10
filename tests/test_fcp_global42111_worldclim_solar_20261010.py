@@ -55,7 +55,7 @@ def test_annual_12month_source_srad_cv_and_original_photo_labels(photos):
 def test_any_month_missing_sun_means_missing_annual_exposure(photos):
     def missing(path,lon,lat):
         a=sampler(path,lon,lat)
-        if "srad_6.tif" in str(path):a[0]=np.nan
+        if "srad_06.tif" in str(path):a[0]=np.nan
         return a
     out,report=M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=missing)
     assert pd.isna(out.loc[0,"wc_srad_annual_mean"])
@@ -65,7 +65,7 @@ def test_any_month_missing_sun_means_missing_annual_exposure(photos):
 def test_negative_sun_radiation_cannot_be_silently_used(photos):
     def negative(path,lon,lat):
         a=sampler(path,lon,lat)
-        if "srad_1.tif" in str(path):a[0]=-10
+        if "srad_01.tif" in str(path):a[0]=-10
         return a
     with pytest.raises(ValueError,match="Negative"):
         M.extract(photos,Path("bio"),Path("srad"),Path("soil"),sampler=negative)
