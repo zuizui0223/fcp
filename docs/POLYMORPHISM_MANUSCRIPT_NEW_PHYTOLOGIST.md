@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 150 space-delimited words (ecological revision; journal count before submission)
+- Summary: 166 words
 - Introduction: 805 words
 - Materials and Methods: 2,451 words
-- Results: updated with ecological effect magnitude (recount before submission)
-- Discussion: updated ecological interpretation (recount before submission)
-- Main text (Introduction through Discussion): updated (recount before submission)
+- Results: 2,740 words
+- Discussion: 2,557 words
+- Main text (Introduction through Discussion): 8,553 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -358,7 +358,7 @@ The first result is methodological but biologically consequential: within-specie
 
 The methodological contribution is architectural rather than a claim to a new standalone statistic. Gini–Simpson diversity, rank correlations, Hellinger transformation, two-means clustering, Jensen–Shannon divergence, permutation tests and phylogenetic signal statistics are established tools. What is specific to this study is their assembly around fixed high-depth species sampling, observer-disjoint validation, location-blind image measurement, explicit technical-versus-ambiguous missingness, construction-preserving nulls and a new species/photo-disjoint prospective confirmation cohort. This design treats a within-species phenotype distribution as a species-level comparative trait while keeping measurement validity, target discovery and confirmation as separate inferential stages.
 
-### Local flower-colour heterogeneity coexists with geographic sorting
+### Species-wide flower-colour ITV is distributed among localities
 
 The clearest ecological result is not simply that flower colour is spatially autocorrelated. It is that **range-wide colour diversity is systematically depleted at local spatial scales relative to each species' own composition**. This result reproduced in three species-disjoint cohorts, across four spatial radii, after removing same-observer pairs, after removing every white record, with continuous nine-colour distances, after conditioning the null on calendar quarter, and among cross-year local pairs. The pattern therefore resembles a distributed polymorphism: a species can be variable across its range while local neighbourhoods are more homogeneous than the range-wide phenotype pool. **Importantly, the relative local deficit was only 5.9–9.3%:** about 90.7–94.1% of the species-wide pair-discordance magnitude remains within the observed 50-km photo comparisons. Thus the appropriate ecological image is not wholesale geographic replacement of exclusively monomorphic local populations, but substantial photographed local heterogeneity plus a smaller, systematic excess of geographic sorting. These ratios compare pairwise observational discordances, **not** within-population genetic variance components.
 
@@ -370,7 +370,7 @@ The evolutionary distinction matters. In plant balancing-selection theory, negat
 
 The IBD/IBE-like decomposition narrows that explanation without closing it. Geographic distance retained a positive association with colour turnover after BIO5 differences were removed, and this IBD-like component was consistently larger than the reciprocal BIO5-associated component. Thus restricted dispersal, population history or other spatially structured processes remain central candidates. At the same time, BIO5 differences added a small positive association after geographic distance was removed in all three cohorts, showing that distance alone does not exhaust the observed covariance in the raw flower-colour measurements.
 
-The latter pattern should not be upgraded to local adaptation. In landscape genetics, IBE concerns genetic divergence associated with environmental differences independent of geographic distance (Wang & Bradburd 2014; Sexton et al. 2014). Here the response is phenotype, not genotype, and the BIO5 component fails stronger flower-minus-background and same-observer sensitivities. It could reflect real temperature-associated sorting, correlated environmental variables, plasticity or residual observation context. A useful benchmark is *Linanthus parryae*, where a flower-colour cline became convincing evidence for local adaptation only because neutral markers did not share the cline and reciprocal transplants showed resident-morph fitness advantage (Schemske & Bierzychudek 2007). FCP currently supplies the comparative spatial pattern, not that fitness test.
+The latter pattern should not be upgraded to local adaptation. In landscape genetics, IBE concerns genetic divergence associated with environmental differences independent of geographic distance (Wang & Bradburd 2014; Sexton et al. 2014). Here the response is phenotype, not genotype, and the BIO5 component fails stronger flower-minus-background and same-observer sensitivities. It could reflect real temperature-associated sorting, correlated environmental variables, plasticity or residual observation context. The observed residual is **not evidence of local adaptation**. A useful benchmark is *Linanthus parryae*, where a flower-colour cline became convincing evidence for local adaptation only because neutral markers did not share the cline and reciprocal transplants showed resident-morph fitness advantage (Schemske & Bierzychudek 2007). FCP currently supplies the comparative spatial pattern, not that fitness test.
 
 This distinction also explains why the earlier signed BIO5 result should remain secondary. A universal rule such as warmer environments favouring white flowers did not transport across cohorts, whereas unsigned BIO5-associated **turnover** is more reproducible in the raw continuous colour data. If biological, this would imply that temperature can be associated with where flower colour changes without forcing every species to change in the same phenotypic direction. Current technical sensitivities, however, keep that idea at hypothesis level.
 
