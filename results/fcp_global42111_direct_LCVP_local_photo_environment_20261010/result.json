@@ -26,26 +26,26 @@
           "models": {
             "incremental_prediction": {
               "phylogeny_beyond_geo_thermal": {
-                "heldout_original_dyad_logloss_reduction": -0.007161466156204311,
+                "heldout_original_dyad_logloss_reduction": -0.007161466156204338,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.02258107097534694,
-                  -0.003390891913381969
+                  -0.02258107097534692,
+                  -0.003390891913382012
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_and_dated_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.004916537871524379,
+                "heldout_original_dyad_logloss_reduction": 0.004916537871524401,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.00653892790717087,
-                  0.028612707017400058
+                  -0.006538927907170912,
+                  0.0286127070174001
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_without_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.004392753255691364,
+                "heldout_original_dyad_logloss_reduction": 0.0043927532556825724,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.008030600327538127,
-                  0.026814947786399493
+                  -0.008030600327568256,
+                  0.02681494778636501
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               }
@@ -68,7 +68,7 @@
               },
               "GEO_THERMAL_RAIN": {
                 "genus_heldout_AUC": 0.45965729186068166,
-                "genus_heldout_binary_logloss": 0.7015901418876432,
+                "genus_heldout_binary_logloss": 0.7015901418876521,
                 "n_same_heldout_source_dyads": 477
               }
             },
@@ -101,26 +101,26 @@
           "models": {
             "incremental_prediction": {
               "phylogeny_beyond_geo_thermal": {
-                "heldout_original_dyad_logloss_reduction": -0.0136162783320461,
+                "heldout_original_dyad_logloss_reduction": -0.013616278332038281,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.021600337520072888,
-                  -0.0033325143580549745
+                  -0.021600337520089243,
+                  -0.003332514358047124
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_and_dated_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.011687403727411266,
+                "heldout_original_dyad_logloss_reduction": 0.011687403727378325,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.02552839419493356,
-                  0.05541522448291749
+                  -0.025528394195130543,
+                  0.05541522448253978
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_without_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.008430247094480179,
+                "heldout_original_dyad_logloss_reduction": 0.008430247094476066,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.031311095505614145,
-                  0.055310966261004936
+                  -0.03131109550580967,
+                  0.05531096626097051
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               }
@@ -128,22 +128,22 @@
             "models": {
               "GEO_THERMAL": {
                 "genus_heldout_AUC": 0.4802580826144891,
-                "genus_heldout_binary_logloss": 0.7014535863190693,
+                "genus_heldout_binary_logloss": 0.7014535863191292,
                 "n_same_heldout_source_dyads": 244
               },
               "GEO_THERMAL_PHYLO": {
                 "genus_heldout_AUC": 0.466021460130444,
-                "genus_heldout_binary_logloss": 0.7150698646511155,
+                "genus_heldout_binary_logloss": 0.7150698646511676,
                 "n_same_heldout_source_dyads": 244
               },
               "GEO_THERMAL_PHYLO_RAIN": {
                 "genus_heldout_AUC": 0.5189003436426116,
-                "genus_heldout_binary_logloss": 0.7033824609237042,
+                "genus_heldout_binary_logloss": 0.7033824609237891,
                 "n_same_heldout_source_dyads": 244
               },
               "GEO_THERMAL_RAIN": {
                 "genus_heldout_AUC": 0.5427449330247562,
-                "genus_heldout_binary_logloss": 0.6930233392245891,
+                "genus_heldout_binary_logloss": 0.6930233392246531,
                 "n_same_heldout_source_dyads": 244
               }
             },
@@ -183,26 +183,26 @@
           "models": {
             "incremental_prediction": {
               "phylogeny_beyond_geo_thermal": {
-                "heldout_original_dyad_logloss_reduction": -0.0019816744125496356,
+                "heldout_original_dyad_logloss_reduction": -0.001981674412549612,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.0037351772123958397,
-                  0.002773080331708505
+                  -0.00373517721239585,
+                  0.0027730803317087232
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_and_dated_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.006715656591021505,
+                "heldout_original_dyad_logloss_reduction": 0.006715656591021483,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.0010387842695247877,
-                  0.013410287961709805
+                  -0.0010387842695248311,
+                  0.013410287961709769
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_without_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.005964360564362696,
+                "heldout_original_dyad_logloss_reduction": 0.005964360564362687,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.001954287624185788,
-                  0.014784660015112618
+                  -0.001954287624185786,
+                  0.01478466001511258
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               }
@@ -210,12 +210,12 @@
             "models": {
               "GEO_THERMAL": {
                 "genus_heldout_AUC": 0.3789961335345152,
-                "genus_heldout_binary_logloss": 0.7343405176968781,
+                "genus_heldout_binary_logloss": 0.7343405176968782,
                 "n_same_heldout_source_dyads": 593
               },
               "GEO_THERMAL_PHYLO": {
                 "genus_heldout_AUC": 0.37800594115428143,
-                "genus_heldout_binary_logloss": 0.736322192109428,
+                "genus_heldout_binary_logloss": 0.7363221921094278,
                 "n_same_heldout_source_dyads": 593
               },
               "GEO_THERMAL_PHYLO_RAIN": {
@@ -258,26 +258,26 @@
           "models": {
             "incremental_prediction": {
               "phylogeny_beyond_geo_thermal": {
-                "heldout_original_dyad_logloss_reduction": -0.011836364456130266,
+                "heldout_original_dyad_logloss_reduction": -0.011836364456140475,
                 "original_genus_block_bootstrap_95CI": [
-                  -0.017652113147571345,
-                  0.0030196079528760286
+                  -0.01765211314758403,
+                  0.0030196079528813456
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": false
               },
               "rain_beyond_geo_thermal_and_dated_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.03312290199571283,
+                "heldout_original_dyad_logloss_reduction": 0.033122901995678175,
                 "original_genus_block_bootstrap_95CI": [
-                  0.00737794435740602,
-                  0.08477916452976467
+                  0.0073779443572181864,
+                  0.08477916452966491
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": true
               },
               "rain_beyond_geo_thermal_without_phylogeny": {
-                "heldout_original_dyad_logloss_reduction": 0.028737239185462518,
+                "heldout_original_dyad_logloss_reduction": 0.02873723918547122,
                 "original_genus_block_bootstrap_95CI": [
-                  0.006235303375753597,
-                  0.08714799269391585
+                  0.006235303375564725,
+                  0.0871479926937951
                 ],
                 "positive_gain_supported_under_fixed_genus_bootstrap": true
               }
@@ -285,22 +285,22 @@
             "models": {
               "GEO_THERMAL": {
                 "genus_heldout_AUC": 0.4075493003185869,
-                "genus_heldout_binary_logloss": 0.7520464967473509,
+                "genus_heldout_binary_logloss": 0.752046496747326,
                 "n_same_heldout_source_dyads": 318
               },
               "GEO_THERMAL_PHYLO": {
                 "genus_heldout_AUC": 0.40726700810581923,
-                "genus_heldout_binary_logloss": 0.7638828612034811,
+                "genus_heldout_binary_logloss": 0.7638828612034664,
                 "n_same_heldout_source_dyads": 318
               },
               "GEO_THERMAL_PHYLO_RAIN": {
                 "genus_heldout_AUC": 0.4992942694680808,
-                "genus_heldout_binary_logloss": 0.7307599592077683,
+                "genus_heldout_binary_logloss": 0.7307599592077882,
                 "n_same_heldout_source_dyads": 318
               },
               "GEO_THERMAL_RAIN": {
                 "genus_heldout_AUC": 0.5089728596201153,
-                "genus_heldout_binary_logloss": 0.7233092575618882,
+                "genus_heldout_binary_logloss": 0.7233092575618547,
                 "n_same_heldout_source_dyads": 318
               }
             },
