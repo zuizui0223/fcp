@@ -116,7 +116,7 @@ jobs:
           assert r['no_predictor_block_selected_after_colour_effects']
           assert r['full_original_phylogenetic_inference_HOLD']
           assert r['source_full_kernel_model']['full_872_1761_direct_tip_phylogenetic_coverage_HOLD']
-          assert len(table)==(2*6+2*7)*4
+          assert len(table)==(2*(1+6)+2*(1+7))*4
           for cohort, z in r['source_full_kernel_model']['cohorts'].items():
               assert z['source']['n_direct_original_photo_taxa_pre_missingness'] in (342,649)
               assert set(z['models'])=={
@@ -129,7 +129,7 @@ jobs:
                   assert m['modelled_original_photograph_spatial_exponential_covariance']
                   assert m['same_original_species_and_fold_assignments']
                   assert 'all_abiotic_beyond_spatial_plus_real_phylogeny' in m['conditional_feature_gains']
-          assert len(r['robustness_matrix'])==26
+          assert len(r['robustness_matrix'])==30
           print('FCP_42111_ALL_ABIOTIC_AFTER_ACTUAL_SPACE_AND_ACTUAL_DATED_LCVP_PHYLOGENY_SOURCE_VERIFIED')
           PY
       - uses: actions/upload-artifact@v4
