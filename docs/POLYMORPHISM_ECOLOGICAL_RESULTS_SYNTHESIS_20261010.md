@@ -59,6 +59,15 @@ Iris lutescens provides a source-based example where geographic floral morph str
 
 **The present study's distinct contribution** is source-specified, quantitative **cross-species excess geographic sorting CONDITIONAL on each species' own colour frequencies**, plus prospective confirmation of a recurrent *phenotype-space* axis. It must not claim to have discovered FCP clines, mosaics, or basic habitat-dependent morph variation for the first time.
 
+
+## Result 5. A near-equal worldwide photographed white/chromatic mixture is NOT a widespread within-species morph equilibrium
+
+A separate already measured **42,111-species photo-opportunity atlas** is distinct from the primary high-depth 1,499 sampled species and was examined in [draft PR #135](https://github.com/zuizui0223/fcp/pull/135). In its classifiable taxon×geographical-cell photos, original white fractions by sampled absolute-latitude region were 46.39% (0–30°), 47.00% (30–60°) and 49.90% (60–90°). This approximate worldwide 50:50 *photo-colour* appearance should not be confused with 50:50 colour morph genotypes within sampled species.
+
+Among **1,165 distinct source species with >=5 classifiable photos from distinct geographic cells**, 231 had only photographically white colour states, 255 had only photographically nonwhite states, 679 had both, and **only 24.03%** had an observed photographed white frequency between 25% and 75%. A fixed 5-photo depth per species reduced the expectation of detecting both photographed white and nonwhite states from an unequal-depth 58.28% to **46.79%**, which demonstrates sampling sensitivity. An observational binary-photo variance partition attributed 61.46% of photo-state variation to **between-sampled-species contrasts** (56.56% under one finite-photo sensitivity correction with independence assumptions).
+
+**Ecological implication:** a globally intermediate colour ratio can arise from *turnover in the sampled species pool* and uneven photo opportunity, rather than from balancing selection fixing a global 1:1 white/pigmented morph frequency. Likewise, the primary high-depth work demonstrates within-species **geographical allocation**, not a globally identified frequency-dependent selection mechanism. The 1,165-species lower-depth atlas and three deeper photo cohorts have different inclusion criteria and should not be combined to create an unsupported global FCP-prevalence estimate. This inference remains about photographic colour categories, not independently genotyped or pigment-standardized morphs.
+
 ## High-value manuscript decision
 
 Retain the title "Species-wide flower-colour variation is geographically partitioned across plant species" if desired, but qualify that "partitioned" means **a repeatable 5.9–9.3% relative *photo-pair discordance deficit***, not most variation is among monomorphic populations.
