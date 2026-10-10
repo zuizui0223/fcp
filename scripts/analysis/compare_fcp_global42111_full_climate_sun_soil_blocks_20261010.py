@@ -28,10 +28,15 @@ SEED=20261010
 GEO=("abs_latitude","lon_sin","lon_cos")
 BLOCKS={
     "elevation":("wc_elevation_m",),
-    "temperature":("wc_bio1","wc_bio5","wc_bio6","wc_bio4","wc_bio2","wc_bio7"),
-    "precipitation":("wc_bio12","wc_bio15","wc_bio14","wc_bio18"),
-    "solar_radiation":("wc_srad_annual_kj_m2_day","wc_srad_monthly_cv"),
-    "soil":("soil_pH","soil_SOC","soil_N","soil_clay","soil_available_water_proxy"),
+    "temperature":("wc_bio1","wc_bio2","wc_bio3","wc_bio4","wc_bio5","wc_bio6","wc_bio7","wc_bio8","wc_bio9","wc_bio10","wc_bio11"),
+    "precipitation":("wc_bio12","wc_bio13","wc_bio14","wc_bio15","wc_bio16","wc_bio17","wc_bio18","wc_bio19"),
+    "solar_radiation":("wc_srad_annual_mean","wc_srad_monthly_cv"),
+    "wind":("wc_wind_annual_mean","wc_wind_monthly_cv"),
+    "vapor_pressure":("wc_vapr_annual_mean","wc_vapr_monthly_cv"),
+    "soil":("soil_pH","soil_SOC","soil_N","soil_clay","soil_available_water_proxy",
+             "soil_cec_0_30cm_source_raw","soil_sand_0_30cm_source_raw",
+             "soil_silt_0_30cm_source_raw","soil_bdod_0_30cm_source_raw",
+             "soil_cfvo_0_30cm_source_raw"),
 }
 ALL=GEO+tuple(f for v in BLOCKS.values() for f in v)
 SCHEMA="fcp_original_42111_complete_case_multiabiotic_photo_colour_cv_v1"
@@ -81,7 +86,7 @@ def make_source(d:pd.DataFrame,strict:bool=True)->tuple[pd.DataFrame,dict]:
         "n_original_genera_in_common_complete_case":int(study.genus.nunique()),
         "n_original_geographic_cells_in_common_complete_case":int(study.source_cell_162.nunique()),
         "source_colour_classes_common_complete_case":{k:int(bycol[k]) for k in CLASSES},
-        "n_original_classified_with_monthly_solar_complete":int((labeled&x[["wc_srad_annual_kj_m2_day","wc_srad_monthly_cv"]].notna().all(axis=1)).sum()),
+        "n_original_classified_with_monthly_solar_complete":int((labeled&x[["wc_srad_annual_mean","wc_srad_monthly_cv"]].notna().all(axis=1)).sum()),
     }
     return study,coverage
 
