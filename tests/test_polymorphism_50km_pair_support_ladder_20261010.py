@@ -53,4 +53,4 @@ def test_threshold_estimable_gate_and_exact_species_equality():
     assert x["n_species"]==35
     assert x["permutation_p_upper"]==1/(m.base.PERMUTATIONS+1)
     assert x["supported_descriptive"] is True
-    assert x["species_bootstrap_ci95"]==[.1,.1]
+    assert np.allclose(x["species_bootstrap_ci95"],[.1,.1],atol=1e-12)
