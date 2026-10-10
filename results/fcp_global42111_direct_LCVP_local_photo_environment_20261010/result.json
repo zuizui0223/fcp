@@ -1,0 +1,337 @@
+{
+  "all_original_photo_ids_and_colour_classes_unchanged": true,
+  "cohorts": {
+    "250": {
+      "n_original_250_or_500km_photo_species": 872,
+      "n_source_species_directly_tipped_in_LCVP": 342,
+      "source_original_local_group_diameter_km": 250,
+      "subcohorts": {
+        "100": {
+          "coverage": {
+            "all_pair_locations_from_original_photo_coordinates": true,
+            "all_pairs_direct_LCVP_tips": true,
+            "group_selection_did_not_use_photo_colour_or_rainfall": true,
+            "n_comparable_local_three_plus_tip_groups": 29,
+            "n_comparable_local_two_plus_tip_groups": 80,
+            "n_original_congeneric_photo_pair_dyads": 477,
+            "n_original_genera_in_local_tip_comparisons": 65,
+            "n_original_microgroups_all_sizes": 196,
+            "n_original_species_in_local_direct_tip_comparisons": 226,
+            "n_original_species_in_locally_variable_phylo_groups": 124,
+            "n_photo_colour_mismatched_dyads": 295,
+            "n_source_direct_tips": 342,
+            "n_three_plus_local_groups_with_variable_dated_phylogeny": 29
+          },
+          "diameter_km": 100,
+          "models": {
+            "incremental_prediction": {
+              "phylogeny_beyond_geo_thermal": {
+                "heldout_original_dyad_logloss_reduction": -0.007161466156204311,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.02258107097534694,
+                  -0.003390891913381969
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_and_dated_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.004916537871524379,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.00653892790717087,
+                  0.028612707017400058
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_without_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.004392753255691364,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.008030600327538127,
+                  0.026814947786399493
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              }
+            },
+            "models": {
+              "GEO_THERMAL": {
+                "genus_heldout_AUC": 0.434643322778916,
+                "genus_heldout_binary_logloss": 0.7059828951433347,
+                "n_same_heldout_source_dyads": 477
+              },
+              "GEO_THERMAL_PHYLO": {
+                "genus_heldout_AUC": 0.42073011734028687,
+                "genus_heldout_binary_logloss": 0.7131443612995391,
+                "n_same_heldout_source_dyads": 477
+              },
+              "GEO_THERMAL_PHYLO_RAIN": {
+                "genus_heldout_AUC": 0.4448128143043397,
+                "genus_heldout_binary_logloss": 0.7082278234280146,
+                "n_same_heldout_source_dyads": 477
+              },
+              "GEO_THERMAL_RAIN": {
+                "genus_heldout_AUC": 0.45965729186068166,
+                "genus_heldout_binary_logloss": 0.7015901418876432,
+                "n_same_heldout_source_dyads": 477
+              }
+            },
+            "n_actual_original_genera_held_out": 65,
+            "n_original_photo_pair_dyads": 477,
+            "n_photo_mismatched_dyads": 295,
+            "same_original_dyads_and_genus_cv_folds_all_models": true,
+            "status": "EXPLORATORY_DIRECT_DATED_PHYLO_CLIMATE_PAIRWISE_PREDICTION",
+            "warning": "Dyads share source species, genus-bootstrap of fixed predictions does not model all dyadic/phylogenetic dependence; no confirmatory p-value"
+          },
+          "support_gate": "PASS_SOURCE_LOCAL_DIRECT_PHYLOGENETIC_DYAD_OPPORTUNITY"
+        },
+        "50": {
+          "coverage": {
+            "all_pair_locations_from_original_photo_coordinates": true,
+            "all_pairs_direct_LCVP_tips": true,
+            "group_selection_did_not_use_photo_colour_or_rainfall": true,
+            "n_comparable_local_three_plus_tip_groups": 22,
+            "n_comparable_local_two_plus_tip_groups": 61,
+            "n_original_congeneric_photo_pair_dyads": 244,
+            "n_original_genera_in_local_tip_comparisons": 47,
+            "n_original_microgroups_all_sizes": 236,
+            "n_original_species_in_local_direct_tip_comparisons": 167,
+            "n_original_species_in_locally_variable_phylo_groups": 89,
+            "n_photo_colour_mismatched_dyads": 147,
+            "n_source_direct_tips": 342,
+            "n_three_plus_local_groups_with_variable_dated_phylogeny": 22
+          },
+          "diameter_km": 50,
+          "models": {
+            "incremental_prediction": {
+              "phylogeny_beyond_geo_thermal": {
+                "heldout_original_dyad_logloss_reduction": -0.0136162783320461,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.021600337520072888,
+                  -0.0033325143580549745
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_and_dated_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.011687403727411266,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.02552839419493356,
+                  0.05541522448291749
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_without_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.008430247094480179,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.031311095505614145,
+                  0.055310966261004936
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              }
+            },
+            "models": {
+              "GEO_THERMAL": {
+                "genus_heldout_AUC": 0.4802580826144891,
+                "genus_heldout_binary_logloss": 0.7014535863190693,
+                "n_same_heldout_source_dyads": 244
+              },
+              "GEO_THERMAL_PHYLO": {
+                "genus_heldout_AUC": 0.466021460130444,
+                "genus_heldout_binary_logloss": 0.7150698646511155,
+                "n_same_heldout_source_dyads": 244
+              },
+              "GEO_THERMAL_PHYLO_RAIN": {
+                "genus_heldout_AUC": 0.5189003436426116,
+                "genus_heldout_binary_logloss": 0.7033824609237042,
+                "n_same_heldout_source_dyads": 244
+              },
+              "GEO_THERMAL_RAIN": {
+                "genus_heldout_AUC": 0.5427449330247562,
+                "genus_heldout_binary_logloss": 0.6930233392245891,
+                "n_same_heldout_source_dyads": 244
+              }
+            },
+            "n_actual_original_genera_held_out": 47,
+            "n_original_photo_pair_dyads": 244,
+            "n_photo_mismatched_dyads": 147,
+            "same_original_dyads_and_genus_cv_folds_all_models": true,
+            "status": "EXPLORATORY_DIRECT_DATED_PHYLO_CLIMATE_PAIRWISE_PREDICTION",
+            "warning": "Dyads share source species, genus-bootstrap of fixed predictions does not model all dyadic/phylogenetic dependence; no confirmatory p-value"
+          },
+          "support_gate": "PASS_SOURCE_LOCAL_DIRECT_PHYLOGENETIC_DYAD_OPPORTUNITY"
+        }
+      }
+    },
+    "500": {
+      "n_original_250_or_500km_photo_species": 1761,
+      "n_source_species_directly_tipped_in_LCVP": 649,
+      "source_original_local_group_diameter_km": 500,
+      "subcohorts": {
+        "100": {
+          "coverage": {
+            "all_pair_locations_from_original_photo_coordinates": true,
+            "all_pairs_direct_LCVP_tips": true,
+            "group_selection_did_not_use_photo_colour_or_rainfall": true,
+            "n_comparable_local_three_plus_tip_groups": 44,
+            "n_comparable_local_two_plus_tip_groups": 126,
+            "n_original_congeneric_photo_pair_dyads": 593,
+            "n_original_genera_in_local_tip_comparisons": 85,
+            "n_original_microgroups_all_sizes": 432,
+            "n_original_species_in_local_direct_tip_comparisons": 343,
+            "n_original_species_in_locally_variable_phylo_groups": 179,
+            "n_photo_colour_mismatched_dyads": 352,
+            "n_source_direct_tips": 649,
+            "n_three_plus_local_groups_with_variable_dated_phylogeny": 44
+          },
+          "diameter_km": 100,
+          "models": {
+            "incremental_prediction": {
+              "phylogeny_beyond_geo_thermal": {
+                "heldout_original_dyad_logloss_reduction": -0.0019816744125496356,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.0037351772123958397,
+                  0.002773080331708505
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_and_dated_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.006715656591021505,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.0010387842695247877,
+                  0.013410287961709805
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_without_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.005964360564362696,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.001954287624185788,
+                  0.014784660015112618
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              }
+            },
+            "models": {
+              "GEO_THERMAL": {
+                "genus_heldout_AUC": 0.3789961335345152,
+                "genus_heldout_binary_logloss": 0.7343405176968781,
+                "n_same_heldout_source_dyads": 593
+              },
+              "GEO_THERMAL_PHYLO": {
+                "genus_heldout_AUC": 0.37800594115428143,
+                "genus_heldout_binary_logloss": 0.736322192109428,
+                "n_same_heldout_source_dyads": 593
+              },
+              "GEO_THERMAL_PHYLO_RAIN": {
+                "genus_heldout_AUC": 0.39291776688042246,
+                "genus_heldout_binary_logloss": 0.7296065355184064,
+                "n_same_heldout_source_dyads": 593
+              },
+              "GEO_THERMAL_RAIN": {
+                "genus_heldout_AUC": 0.3935071671067522,
+                "genus_heldout_binary_logloss": 0.7283761571325156,
+                "n_same_heldout_source_dyads": 593
+              }
+            },
+            "n_actual_original_genera_held_out": 85,
+            "n_original_photo_pair_dyads": 593,
+            "n_photo_mismatched_dyads": 352,
+            "same_original_dyads_and_genus_cv_folds_all_models": true,
+            "status": "EXPLORATORY_DIRECT_DATED_PHYLO_CLIMATE_PAIRWISE_PREDICTION",
+            "warning": "Dyads share source species, genus-bootstrap of fixed predictions does not model all dyadic/phylogenetic dependence; no confirmatory p-value"
+          },
+          "support_gate": "PASS_SOURCE_LOCAL_DIRECT_PHYLOGENETIC_DYAD_OPPORTUNITY"
+        },
+        "50": {
+          "coverage": {
+            "all_pair_locations_from_original_photo_coordinates": true,
+            "all_pairs_direct_LCVP_tips": true,
+            "group_selection_did_not_use_photo_colour_or_rainfall": true,
+            "n_comparable_local_three_plus_tip_groups": 31,
+            "n_comparable_local_two_plus_tip_groups": 99,
+            "n_original_congeneric_photo_pair_dyads": 318,
+            "n_original_genera_in_local_tip_comparisons": 65,
+            "n_original_microgroups_all_sizes": 492,
+            "n_original_species_in_local_direct_tip_comparisons": 256,
+            "n_original_species_in_locally_variable_phylo_groups": 120,
+            "n_photo_colour_mismatched_dyads": 181,
+            "n_source_direct_tips": 649,
+            "n_three_plus_local_groups_with_variable_dated_phylogeny": 31
+          },
+          "diameter_km": 50,
+          "models": {
+            "incremental_prediction": {
+              "phylogeny_beyond_geo_thermal": {
+                "heldout_original_dyad_logloss_reduction": -0.011836364456130266,
+                "original_genus_block_bootstrap_95CI": [
+                  -0.017652113147571345,
+                  0.0030196079528760286
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": false
+              },
+              "rain_beyond_geo_thermal_and_dated_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.03312290199571283,
+                "original_genus_block_bootstrap_95CI": [
+                  0.00737794435740602,
+                  0.08477916452976467
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": true
+              },
+              "rain_beyond_geo_thermal_without_phylogeny": {
+                "heldout_original_dyad_logloss_reduction": 0.028737239185462518,
+                "original_genus_block_bootstrap_95CI": [
+                  0.006235303375753597,
+                  0.08714799269391585
+                ],
+                "positive_gain_supported_under_fixed_genus_bootstrap": true
+              }
+            },
+            "models": {
+              "GEO_THERMAL": {
+                "genus_heldout_AUC": 0.4075493003185869,
+                "genus_heldout_binary_logloss": 0.7520464967473509,
+                "n_same_heldout_source_dyads": 318
+              },
+              "GEO_THERMAL_PHYLO": {
+                "genus_heldout_AUC": 0.40726700810581923,
+                "genus_heldout_binary_logloss": 0.7638828612034811,
+                "n_same_heldout_source_dyads": 318
+              },
+              "GEO_THERMAL_PHYLO_RAIN": {
+                "genus_heldout_AUC": 0.4992942694680808,
+                "genus_heldout_binary_logloss": 0.7307599592077683,
+                "n_same_heldout_source_dyads": 318
+              },
+              "GEO_THERMAL_RAIN": {
+                "genus_heldout_AUC": 0.5089728596201153,
+                "genus_heldout_binary_logloss": 0.7233092575618882,
+                "n_same_heldout_source_dyads": 318
+              }
+            },
+            "n_actual_original_genera_held_out": 65,
+            "n_original_photo_pair_dyads": 318,
+            "n_photo_mismatched_dyads": 181,
+            "same_original_dyads_and_genus_cv_folds_all_models": true,
+            "status": "EXPLORATORY_DIRECT_DATED_PHYLO_CLIMATE_PAIRWISE_PREDICTION",
+            "warning": "Dyads share source species, genus-bootstrap of fixed predictions does not model all dyadic/phylogenetic dependence; no confirmatory p-value"
+          },
+          "support_gate": "PASS_SOURCE_LOCAL_DIRECT_PHYLOGENETIC_DYAD_OPPORTUNITY"
+        }
+      }
+    }
+  },
+  "date_jst": "2026-10-10",
+  "full_original_250_500km_phylogenetic_inference_remains_HOLD": true,
+  "global_original_photo_fourstate_classifiable": 18457,
+  "global_source_original_42111_photo_species": 42111,
+  "hard_nonclaims": [
+    "Original photographed flower-colour mismatches are not confirmed heritable morph states or within-population polymorphisms",
+    "A congeneric local original source pair may consist of two distantly related subclades and multiple habitats",
+    "Old LCVP direct-tip subset is nonrandom and not a complete 1761 species phylogeny",
+    "Group-heldout pairwise log-loss is not an independent pair likelihood due to taxa shared across dyads",
+    "Conditional genus bootstrap intervals are not family tree uncertainty propagation",
+    "Climate differences are observational and cannot establish selective or causal flower-pigment evolution"
+  ],
+  "no_new_photographic_phenotypes_or_observations_opened": true,
+  "schema": "fcp_42111_direct_LCVP_local_congener_colour_climate_prediction_v1",
+  "source_250_and_500km_cohorts_nested_not_independent": true,
+  "source_direct_LCVP_only_no_synthetic_genus_grafting": true,
+  "source_same_species_3182_photo_pairs_not_reanalysed": true,
+  "status": "RETROSPECTIVE_EXPLORATORY_DIRECT_LCVP_DYADIC_PREDICTION_ONLY"
+}
