@@ -1,0 +1,499 @@
+{
+  "schema": "fcp_50km_original_pair_support_reporting_receipt_v1",
+  "date_jst": "2026-10-10",
+  "role": "source-verified posthoc photographic pair support sensitivity",
+  "source": {
+    "workflow_run_id": 38035398756,
+    "workflow_job_id": 114164660998,
+    "artifact_id": 11663981242,
+    "artifact_zip_sha256": "7b60148ffcdadef8217673bb80e5c29b1a3c6a0ee836353eded7d04b2616b531",
+    "original_data_sha256": {
+      "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+      "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+    },
+    "stdout_ladder_identical_to_green_run": true
+  },
+  "confirmatory_decisions_changed": false,
+  "primary_radius_km": 50,
+  "local_pair_minima": [
+    30,
+    50,
+    100,
+    200,
+    500,
+    1000
+  ],
+  "permutation_repeats": 199,
+  "species_bootstrap_repeats": 1999,
+  "cohorts": {
+    "discovery": {
+      "30": {
+        "min_original_local_pairs_per_species": 30,
+        "n_species": 166,
+        "share_of_primary_30_pair_eligible_species": 1,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.020529254583812922,
+        "median_depletion": 0.005799092873994535,
+        "positive_species_fraction": 0.5481927710843374,
+        "mean_specieswide_pair_discordance": 0.22139471031306737,
+        "mean_local_pair_discordance": 0.20086545572925446,
+        "relative_depletion_fraction": 0.09272694254882215,
+        "median_original_50km_pairs_per_species": 143,
+        "max_single_photo_local_edge_share_median": 0.08504273504273505,
+        "max_single_photo_local_edge_share_q90": 0.14415584415584415,
+        "null_mean_depletion": -0.00029618636085199606,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.008005529222693462,
+          0.007650572673902465
+        ],
+        "species_bootstrap_ci95": [
+          0.011368616227345796,
+          0.02984088963164789
+        ],
+        "supported_descriptive": true
+      },
+      "50": {
+        "min_original_local_pairs_per_species": 50,
+        "n_species": 143,
+        "share_of_primary_30_pair_eligible_species": 0.8614457831325302,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.023395904839436186,
+        "median_depletion": 0.006784247853676761,
+        "positive_species_fraction": 0.5664335664335665,
+        "mean_specieswide_pair_discordance": 0.21361727936682676,
+        "mean_local_pair_discordance": 0.19022137452739055,
+        "relative_depletion_fraction": 0.10952252977279235,
+        "median_original_50km_pairs_per_species": 165,
+        "max_single_photo_local_edge_share_median": 0.07881773399014778,
+        "max_single_photo_local_edge_share_q90": 0.12727272727272726,
+        "null_mean_depletion": -0.0003475303981513429,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.009213469807143304,
+          0.006886159824143079
+        ],
+        "species_bootstrap_ci95": [
+          0.013319113739932274,
+          0.034039258889860036
+        ],
+        "supported_descriptive": true
+      },
+      "100": {
+        "min_original_local_pairs_per_species": 100,
+        "n_species": 105,
+        "share_of_primary_30_pair_eligible_species": 0.6325301204819277,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.02793784491298156,
+        "median_depletion": 0.011605144579391824,
+        "positive_species_fraction": 0.6,
+        "mean_specieswide_pair_discordance": 0.20595774670558217,
+        "mean_local_pair_discordance": 0.17801990179260063,
+        "relative_depletion_fraction": 0.13564842964085674,
+        "median_original_50km_pairs_per_species": 258,
+        "max_single_photo_local_edge_share_median": 0.07047619047619047,
+        "max_single_photo_local_edge_share_q90": 0.1080745341614907,
+        "null_mean_depletion": -0.00003049634166633032,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.007805238515787013,
+          0.007555668338470735
+        ],
+        "species_bootstrap_ci95": [
+          0.016456502683134363,
+          0.0412491231072037
+        ],
+        "supported_descriptive": true
+      },
+      "200": {
+        "min_original_local_pairs_per_species": 200,
+        "n_species": 66,
+        "share_of_primary_30_pair_eligible_species": 0.39759036144578314,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.03044153407995342,
+        "median_depletion": 0.008670830992420553,
+        "positive_species_fraction": 0.5909090909090909,
+        "mean_specieswide_pair_discordance": 0.18577887871939733,
+        "mean_local_pair_discordance": 0.15533734463944393,
+        "relative_depletion_fraction": 0.16385896120049623,
+        "median_original_50km_pairs_per_species": 400,
+        "max_single_photo_local_edge_share_median": 0.05758356277940611,
+        "max_single_photo_local_edge_share_q90": 0.07892254480662404,
+        "null_mean_depletion": -0.00020223577004982934,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.007933790872923709,
+          0.008698043330382014
+        ],
+        "species_bootstrap_ci95": [
+          0.01567571196482835,
+          0.04875014260116992
+        ],
+        "supported_descriptive": true
+      },
+      "500": {
+        "min_original_local_pairs_per_species": 500,
+        "n_species": 26,
+        "share_of_primary_30_pair_eligible_species": 0.1566265060240964,
+        "status": "HOLD_INSUFFICIENT_SPECIES",
+        "mean_depletion": 0.021490330280550283,
+        "median_depletion": 0.006059054845141548,
+        "positive_species_fraction": 0.5384615384615384,
+        "mean_specieswide_pair_discordance": 0.17970940948741074,
+        "mean_local_pair_discordance": 0.15821907920686046,
+        "relative_depletion_fraction": 0.1195837788452349,
+        "median_original_50km_pairs_per_species": 675.5,
+        "max_single_photo_local_edge_share_median": 0.051792503809435717,
+        "max_single_photo_local_edge_share_q90": 0.05974639795836623,
+        "null_mean_depletion": -0.00006303603214532295,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.010274376354923698,
+          0.012189912955070714
+        ],
+        "species_bootstrap_ci95": null,
+        "supported_descriptive": false
+      },
+      "1000": {
+        "min_original_local_pairs_per_species": 1000,
+        "n_species": 6,
+        "share_of_primary_30_pair_eligible_species": 0.03614457831325301,
+        "status": "HOLD_INSUFFICIENT_SPECIES",
+        "mean_depletion": 0.009736891916917402,
+        "median_depletion": 0.0026669309183031675,
+        "positive_species_fraction": 0.5,
+        "mean_specieswide_pair_discordance": 0.13832706573266537,
+        "mean_local_pair_discordance": 0.128590173815748,
+        "relative_depletion_fraction": 0.07039035972710636,
+        "median_original_50km_pairs_per_species": 1137.5,
+        "max_single_photo_local_edge_share_median": 0.04239982850015591,
+        "max_single_photo_local_edge_share_q90": 0.047930416398566045,
+        "null_mean_depletion": -0.000513462513168335,
+        "permutation_p_upper": 0.1,
+        "null_95pct": [
+          -0.012636456471403627,
+          0.01485038028645569
+        ],
+        "species_bootstrap_ci95": null,
+        "supported_descriptive": false
+      }
+    },
+    "validation": {
+      "30": {
+        "min_original_local_pairs_per_species": 30,
+        "n_species": 181,
+        "share_of_primary_30_pair_eligible_species": 1,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.018672971642749295,
+        "median_depletion": 0.007404135377884341,
+        "positive_species_fraction": 0.574585635359116,
+        "mean_specieswide_pair_discordance": 0.22866216076753232,
+        "mean_local_pair_discordance": 0.2099891891247831,
+        "relative_depletion_fraction": 0.08166183499740927,
+        "median_original_50km_pairs_per_species": 113,
+        "max_single_photo_local_edge_share_median": 0.08843537414965986,
+        "max_single_photo_local_edge_share_q90": 0.14035087719298245,
+        "null_mean_depletion": 0.00022861180048299864,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.007060161982022489,
+          0.00782551919384996
+        ],
+        "species_bootstrap_ci95": [
+          0.008441247315072049,
+          0.02956949232319667
+        ],
+        "supported_descriptive": true
+      },
+      "50": {
+        "min_original_local_pairs_per_species": 50,
+        "n_species": 152,
+        "share_of_primary_30_pair_eligible_species": 0.8397790055248618,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.017987142858808203,
+        "median_depletion": 0.005234775657310911,
+        "positive_species_fraction": 0.5526315789473685,
+        "mean_specieswide_pair_discordance": 0.21267665083683313,
+        "mean_local_pair_discordance": 0.19468950797802495,
+        "relative_depletion_fraction": 0.08457507106696001,
+        "median_original_50km_pairs_per_species": 134.5,
+        "max_single_photo_local_edge_share_median": 0.08236709016898977,
+        "max_single_photo_local_edge_share_q90": 0.1288408966648442,
+        "null_mean_depletion": -0.00008680234801952844,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.007818486640946753,
+          0.00669578889546958
+        ],
+        "species_bootstrap_ci95": [
+          0.007644116671501409,
+          0.029314212841260297
+        ],
+        "supported_descriptive": true
+      },
+      "100": {
+        "min_original_local_pairs_per_species": 100,
+        "n_species": 99,
+        "share_of_primary_30_pair_eligible_species": 0.5469613259668509,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.010817986980153446,
+        "median_depletion": 0.0022784233310548796,
+        "positive_species_fraction": 0.5151515151515151,
+        "mean_specieswide_pair_discordance": 0.22783717183662983,
+        "mean_local_pair_discordance": 0.21701918485647642,
+        "relative_depletion_fraction": 0.04748122043891267,
+        "median_original_50km_pairs_per_species": 192,
+        "max_single_photo_local_edge_share_median": 0.0763888888888889,
+        "max_single_photo_local_edge_share_q90": 0.10195392242636336,
+        "null_mean_depletion": 0.00009172879362318129,
+        "permutation_p_upper": 0.02,
+        "null_95pct": [
+          -0.007797208650316457,
+          0.010231677234145331
+        ],
+        "species_bootstrap_ci95": [
+          0.0003749154665050532,
+          0.023427512139780653
+        ],
+        "supported_descriptive": true
+      },
+      "200": {
+        "min_original_local_pairs_per_species": 200,
+        "n_species": 49,
+        "share_of_primary_30_pair_eligible_species": 0.27071823204419887,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.01011391401526807,
+        "median_depletion": 0,
+        "positive_species_fraction": 0.4897959183673469,
+        "mean_specieswide_pair_discordance": 0.21782005266816276,
+        "mean_local_pair_discordance": 0.20770613865289472,
+        "relative_depletion_fraction": 0.04643242847193724,
+        "median_original_50km_pairs_per_species": 311,
+        "max_single_photo_local_edge_share_median": 0.06818181818181818,
+        "max_single_photo_local_edge_share_q90": 0.0816872966605587,
+        "null_mean_depletion": 0.00019967832042637332,
+        "permutation_p_upper": 0.04,
+        "null_95pct": [
+          -0.00853620352919344,
+          0.010571175135902226
+        ],
+        "species_bootstrap_ci95": [
+          -0.0032031846787269817,
+          0.025141325293913067
+        ],
+        "supported_descriptive": true
+      },
+      "500": {
+        "min_original_local_pairs_per_species": 500,
+        "n_species": 12,
+        "share_of_primary_30_pair_eligible_species": 0.06629834254143646,
+        "status": "HOLD_INSUFFICIENT_SPECIES",
+        "mean_depletion": -0.0034233864661471556,
+        "median_depletion": 0,
+        "positive_species_fraction": 0.4166666666666667,
+        "mean_specieswide_pair_discordance": 0.23229516707897932,
+        "mean_local_pair_discordance": 0.23571855354512647,
+        "relative_depletion_fraction": -0.014737226388283918,
+        "median_original_50km_pairs_per_species": 673.5,
+        "max_single_photo_local_edge_share_median": 0.04789497099288949,
+        "max_single_photo_local_edge_share_q90": 0.06927290058203507,
+        "null_mean_depletion": 0.000029343191409607213,
+        "permutation_p_upper": 0.71,
+        "null_95pct": [
+          -0.01340339226816398,
+          0.013785653573642606
+        ],
+        "species_bootstrap_ci95": null,
+        "supported_descriptive": false
+      },
+      "1000": {
+        "min_original_local_pairs_per_species": 1000,
+        "n_species": 3,
+        "share_of_primary_30_pair_eligible_species": 0.016574585635359115,
+        "status": "HOLD_INSUFFICIENT_SPECIES",
+        "mean_depletion": -0.005967967975666326,
+        "median_depletion": 0,
+        "positive_species_fraction": 0.3333333333333333,
+        "mean_specieswide_pair_discordance": 0.21774292153695948,
+        "mean_local_pair_discordance": 0.22371088951262577,
+        "relative_depletion_fraction": -0.027408321398192173,
+        "median_original_50km_pairs_per_species": 1485,
+        "max_single_photo_local_edge_share_median": 0.03636363636363636,
+        "max_single_photo_local_edge_share_q90": 0.03789772727272728,
+        "null_mean_depletion": -0.000549157439913957,
+        "permutation_p_upper": 0.82,
+        "null_95pct": [
+          -0.011708609207978702,
+          0.01741176738166842
+        ],
+        "species_bootstrap_ci95": null,
+        "supported_descriptive": false
+      }
+    },
+    "third": {
+      "30": {
+        "min_original_local_pairs_per_species": 30,
+        "n_species": 204,
+        "share_of_primary_30_pair_eligible_species": 1,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.01468491968437185,
+        "median_depletion": 0.0056441414099100695,
+        "positive_species_fraction": 0.553921568627451,
+        "mean_specieswide_pair_discordance": 0.2482035979589538,
+        "mean_local_pair_discordance": 0.233518678274582,
+        "relative_depletion_fraction": 0.0591648139073324,
+        "median_original_50km_pairs_per_species": 142,
+        "max_single_photo_local_edge_share_median": 0.08695652173913043,
+        "max_single_photo_local_edge_share_q90": 0.13928440366972483,
+        "null_mean_depletion": 0.00024084957433838958,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.007070455695414768,
+          0.0062677998610377325
+        ],
+        "species_bootstrap_ci95": [
+          0.006409195900834785,
+          0.022727132080483832
+        ],
+        "supported_descriptive": true
+      },
+      "50": {
+        "min_original_local_pairs_per_species": 50,
+        "n_species": 176,
+        "share_of_primary_30_pair_eligible_species": 0.8627450980392157,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.013672386256764523,
+        "median_depletion": 0.00591075779439168,
+        "positive_species_fraction": 0.5625,
+        "mean_specieswide_pair_discordance": 0.2403056092363026,
+        "mean_local_pair_discordance": 0.22663322297953803,
+        "relative_depletion_fraction": 0.05689582652779399,
+        "median_original_50km_pairs_per_species": 170,
+        "max_single_photo_local_edge_share_median": 0.07936507936507936,
+        "max_single_photo_local_edge_share_q90": 0.1162860576923077,
+        "null_mean_depletion": 0.00018461898438862438,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.007465462587745608,
+          0.006416198143214011
+        ],
+        "species_bootstrap_ci95": [
+          0.005845004096292459,
+          0.02188627616598688
+        ],
+        "supported_descriptive": true
+      },
+      "100": {
+        "min_original_local_pairs_per_species": 100,
+        "n_species": 129,
+        "share_of_primary_30_pair_eligible_species": 0.6323529411764706,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.014007412043615853,
+        "median_depletion": 0.003302180685358258,
+        "positive_species_fraction": 0.5503875968992248,
+        "mean_specieswide_pair_discordance": 0.23662257837105097,
+        "mean_local_pair_discordance": 0.2226151663274351,
+        "relative_depletion_fraction": 0.05919727584766085,
+        "median_original_50km_pairs_per_species": 215,
+        "max_single_photo_local_edge_share_median": 0.07258064516129033,
+        "max_single_photo_local_edge_share_q90": 0.10014388489208634,
+        "null_mean_depletion": -0.00014393147906334978,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.006776317381235504,
+          0.006114168416638117
+        ],
+        "species_bootstrap_ci95": [
+          0.005221915796670707,
+          0.022528879379079207
+        ],
+        "supported_descriptive": true
+      },
+      "200": {
+        "min_original_local_pairs_per_species": 200,
+        "n_species": 69,
+        "share_of_primary_30_pair_eligible_species": 0.3382352941176471,
+        "status": "POSTHOC_ESTIMABLE",
+        "mean_depletion": 0.012335159674845228,
+        "median_depletion": 0.0019214865982389862,
+        "positive_species_fraction": 0.5362318840579711,
+        "mean_specieswide_pair_discordance": 0.21847160105167188,
+        "mean_local_pair_discordance": 0.2061364413768267,
+        "relative_depletion_fraction": 0.056461158408995106,
+        "median_original_50km_pairs_per_species": 400,
+        "max_single_photo_local_edge_share_median": 0.06315789473684211,
+        "max_single_photo_local_edge_share_q90": 0.07977466952597381,
+        "null_mean_depletion": -0.00001017482197964891,
+        "permutation_p_upper": 0.005,
+        "null_95pct": [
+          -0.008538062957108057,
+          0.00912118223727249
+        ],
+        "species_bootstrap_ci95": [
+          0.002794465833319207,
+          0.02226265299547637
+        ],
+        "supported_descriptive": true
+      },
+      "500": {
+        "min_original_local_pairs_per_species": 500,
+        "n_species": 22,
+        "share_of_primary_30_pair_eligible_species": 0.10784313725490197,
+        "status": "HOLD_INSUFFICIENT_SPECIES",
+        "mean_depletion": 0.008594514048838596,
+        "median_depletion": 0.0010461550704284617,
+        "positive_species_fraction": 0.5454545454545454,
+        "mean_specieswide_pair_discordance": 0.22770424372334233,
+        "mean_local_pair_discordance": 0.21910972967450373,
+        "relative_depletion_fraction": 0.03774419794863734,
+        "median_original_50km_pairs_per_species": 822,
+        "max_single_photo_local_edge_share_median": 0.04803859869939165,
+        "max_single_photo_local_edge_share_q90": 0.06191125153546699,
+        "null_mean_depletion": 0.000057771964617258255,
+        "permutation_p_upper": 0.085,
+        "null_95pct": [
+          -0.0114475305595568,
+          0.013187354745017851
+        ],
+        "species_bootstrap_ci95": null,
+        "supported_descriptive": false
+      },
+      "1000": {
+        "min_original_local_pairs_per_species": 1000,
+        "n_species": 6,
+        "share_of_primary_30_pair_eligible_species": 0.029411764705882353,
+        "status": "HOLD_INSUFFICIENT_SPECIES",
+        "mean_depletion": 0.00032431912371606284,
+        "median_depletion": 0.0021636295221200974,
+        "positive_species_fraction": 0.8333333333333334,
+        "mean_specieswide_pair_discordance": 0.27945040337033333,
+        "mean_local_pair_discordance": 0.2791260842466173,
+        "relative_depletion_fraction": 0.00116056058536537,
+        "median_original_50km_pairs_per_species": 1178,
+        "max_single_photo_local_edge_share_median": 0.0421148562975486,
+        "max_single_photo_local_edge_share_q90": 0.042945526036501556,
+        "null_mean_depletion": 0.000050226810254838196,
+        "permutation_p_upper": 0.465,
+        "null_95pct": [
+          -0.01531227081701958,
+          0.015120556164163504
+        ],
+        "species_bootstrap_ci95": null,
+        "supported_descriptive": false
+      }
+    }
+  },
+  "summary": {
+    "stable_at_100_pairs_three_cohorts": true,
+    "at_200_pairs_validation_bootstrap_ci_lower_below_zero": true,
+    "thresholds_500_plus_1000_insufficient_30_species_all_cohorts": true
+  },
+  "hard_nonclaims": [
+    "This is a post-outcome subset analysis of photograph pair support, not a biological replication.",
+    "Pairs share photographs, hence 100 pairs are not independent individuals or populations.",
+    "The species composition changes with each pair-support threshold.",
+    "The results do not identify genotype, phenotypic plasticity, local adaptation or measurement error rate.",
+    "One-sided permutation p values do not constitute familywise-adjusted inference across all inspected thresholds."
+  ]
+}
