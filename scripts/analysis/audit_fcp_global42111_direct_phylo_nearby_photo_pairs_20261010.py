@@ -29,6 +29,8 @@ KNOWN_EXACT_BACKBONE={"250":342,"500":649}
 MIN_DIRECT_PHYLO_CONNECTED_TAXA=100
 MIN_CONGENERIC_GENERA=20
 MIN_LOCAL_MICROGROUPS=30
+MIN_PHYLO_DISTANCE_VARIABLE_GROUPS=10
+MIN_PHYLO_DISTANCE_VARIABLE_TAXA=40
 SCHEMA="fcp_42111_exact_LCVP_tipped_local_congeners_50_100km_coverage_v1"
 
 
@@ -73,6 +75,9 @@ def local_coverage(d:pd.DataFrame,tree,maxdiameter:int)->dict:
     ngroup=0
     pair_count=0
     patristic=[]
+    n_3plus_groups=0
+    n_varied_groups=0
+    varied_taxa=set()
     for ids in original:
         if len(ids)<2:continue
         selected=d.iloc[ids]
@@ -83,13 +88,22 @@ def local_coverage(d:pd.DataFrame,tree,maxdiameter:int)->dict:
         genus.add(str(selected.genus.iloc[0]))
         cells.add(str(selected.genus_cell_id.iloc[0]))
         names=selected.original_direct_LCVP_tip.to_list()
+        if len(ids)>=3:
+            n_3plus_groups+=1
+        within_distances=[]
         for a,b in itertools.combinations(names,2):
             distance=tree.distance(a,b)
             if not np.isfinite(distance) or distance<0:
                 raise RuntimeError("Non-finite or negative source tree path length")
             patristic.append(float(distance))
+            within_distances.append(float(distance))
             pair_count+=1
+        if len(ids)>=3 and len(set(round(k,5) for k in within_distances))>=2:
+            n_varied_groups+=1
+            varied_taxa.update(selected.inat_taxon_id.astype(int).tolist())
     enough=len(taxa)>=MIN_DIRECT_PHYLO_CONNECTED_TAXA and len(genus)>=MIN_CONGENERIC_GENERA and ngroup>=MIN_LOCAL_MICROGROUPS
+    phylo_resolution=(n_varied_groups>=MIN_PHYLO_DISTANCE_VARIABLE_GROUPS and
+                      len(varied_taxa)>=MIN_PHYLO_DISTANCE_VARIABLE_TAXA)
     return {
         "max_original_photo_microgeographical_diameter_km":maxdiameter,
         "n_original_direct_backbone_photo_species":len(d),
@@ -101,6 +115,19 @@ def local_coverage(d:pd.DataFrame,tree,maxdiameter:int)->dict:
         "n_original_congeneric_phylogenetic_tip_pairs_in_local_neighborhoods":pair_count,
         "median_direct_tip_LCVP_patristic_distance_backbone_units":float(np.median(patristic)) if patristic else None,
         "n_zero_patristic_distance_pairs":int(sum(v<1e-9 for v in patristic)),
+        "n_distinct_LCVP_path_distances_rounded_5_decimal":int(len(set(round(k,5) for k in patristic))),
+        "min_LCVP_path_distance":float(min(patristic)) if patristic else None,
+        "max_LCVP_path_distance":float(max(patristic)) if patristic else None,
+        "std_LCVP_path_distance":float(np.std(patristic)) if len(patristic)>=2 else None,
+        "n_local_groups_with_three_or_more_direct_tips":n_3plus_groups,
+        "n_local_groups_three_plus_tips_with_two_or_more_distinct_LCVP_path_distances":n_varied_groups,
+        "n_original_source_taxa_in_phylo_path_varied_local_groups":len(varied_taxa),
+        "min_groups_with_identifiable_withingroup_tree_distance_variation":MIN_PHYLO_DISTANCE_VARIABLE_GROUPS,
+        "min_taxa_in_identifiable_withingroup_tree_distance_variation":MIN_PHYLO_DISTANCE_VARIABLE_TAXA,
+        "within_local_group_phylogenetic_distance_variation_status":(
+            "EXPLORATORY_WITHINGROUP_PHYLO_DISTANCE_VARIATION_PASS" if phylo_resolution
+            else "HOLD_INSUFFICIENT_WITHINGROUP_DATED_PHYLO_DISTANCE_VARIATION"
+        ),
         "all_phylogenetic_pairs_both_direct_real_backbone_tips":True,
         "microgroup_selection_uses_no_photographed_flower_colour":True,
         "minimum_direct_photo_taxa":MIN_DIRECT_PHYLO_CONNECTED_TAXA,
