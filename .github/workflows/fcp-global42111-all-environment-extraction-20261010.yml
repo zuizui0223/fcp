@@ -54,6 +54,9 @@ jobs:
           file="$(find /tmp/fcp42111_env_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
           test -s "$file"
           cp "$file" /tmp/fcp42111_original_photo_env.csv.gz
+          source_all="$(find /tmp/fcp42111_env_source -name all_original_photo_site_abiotic_coverage.csv.gz -print -quit)"
+          test -s "$source_all"
+          cp "$source_all" /tmp/fcp42111_original_100543_photo_sites.csv.gz
           python - <<'PY'
           from pathlib import Path
           import json
@@ -110,6 +113,7 @@ jobs:
         run: |
           python scripts/analysis/extend_fcp_global42111_worldclim_solar_20261010.py \
             --original-breadth-abiotic /tmp/fcp42111_original_photo_env.csv.gz \
+            --original-photo-sites /tmp/fcp42111_original_100543_photo_sites.csv.gz \
             --bio-dir /tmp/fcp42111_climate/bio \
             --solar-dir /tmp/fcp42111_climate/srad \
             --wind-dir /tmp/fcp42111_climate/wind \
@@ -131,9 +135,16 @@ jobs:
           df=pd.read_csv(p/'source_original_42111_species_expanded_solar_bio_soil.csv.gz')
           assert result['schema']=='fcp_42111_original_photo_expanded_worldclim_solar_v1'
           assert result['original_source_species']==42111
+          assert result['original_source_photo_rows']==100543
+          assert result['original_source_grain']=='all_photo_sites'
+          assert result['original_source_42111_breadth_and_85337_taxon_cell_photos_retained'] is True
           assert result['original_classified_photo_colours']==18457
           assert result['original_photo_unclassified']==23654
           assert len(df)==42111 and df.inat_taxon_id.is_unique
+          all_photo=pd.read_csv(p/'all_original_100543_photo_sites_expanded_environment.csv.gz')
+          assert len(all_photo)==100543 and all_photo.photo_id.is_unique
+          assert int(all_photo.present_in_taxon_cell.sum())==85337
+          assert int(all_photo.present_in_breadth.sum())==42111
           assert set(result['new_bioclim_variable_numbers'])==set(range(1,20))-{1,5,12,15}
           assert set(result['monthly_variables'])=={'srad','wind','vapr'}
           assert set(result['source_extended_soil_properties'])=={'cec','sand','silt','bdod','cfvo'}
