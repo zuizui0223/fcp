@@ -1,0 +1,122 @@
+{
+  "schema": "fcp_cross_scale_geo_phylo_conditional_support_summary_20261010_v1",
+  "date_jst": "2026-10-10",
+  "role": "audit_of_previously_run_models_not_new_raw_phenotypic_experiment",
+  "source": {
+    "within_species_kernel": "https://github.com/zuizui0223/fcp/blob/analysis/fcp-85337-spatial-kernel-sensitivity-20261010/results/fcp_original85337_trainonly_geodesic_spatial_environment_20261010/result.json",
+    "within_species_nearest_maxT": "https://github.com/zuizui0223/fcp/blob/analysis/fcp-global42111-nearest-pair-abiotic-null-20261010/results/fcp85337_original_nearest_four_colour_abiotic_null_20261010/result.json",
+    "between_species_real_LCVP_plus_space": "https://github.com/zuizui0223/fcp/blob/analysis/fcp-global42111-multiabiotic-solar-20261010/results/fcp_global42111_all_abiotic_beyond_phylo_spatial_20261010/result.json",
+    "between_species_congeners": "https://github.com/zuizui0223/fcp/blob/analysis/fcp-global42111-withingenus-abiotic-20261009/results/fcp_global42111_within_genus_photo_environment_20261009/result.json",
+    "between_species_microspatial_null": "https://github.com/zuizui0223/fcp/blob/analysis/fcp-global42111-microspatial-label-null-20261009/results/fcp_global42111_microspatial_photo_label_null_20261009/result.json"
+  },
+  "model_populations": {
+    "within_species": {
+      "climate_holdout_photos": 20546,
+      "climate_source_species": 5127,
+      "soil_holdout_photos": 11136,
+      "soil_source_species": 3401
+    },
+    "between_species": {
+      "one_photo_species": 42111,
+      "classifiable_photo_species": 18457,
+      "phylo_direct250": 342,
+      "phylo_original250": 872,
+      "phylo_direct500": 649,
+      "phylo_original500": 1761
+    }
+  },
+  "factors": {
+    "precipitation": {
+      "within_spatial_kernel_positive": 4,
+      "within_spatial_kernel_total": 4,
+      "within_geographic_matched_maxT_positive": 0,
+      "dated_real_phylo_and_spatial_positive": 0,
+      "dated_real_phylo_and_spatial_total": 16,
+      "robust_within_across_kernels": true,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    },
+    "temperature": {
+      "within_spatial_kernel_positive": 2,
+      "within_spatial_kernel_total": 4,
+      "within_geographic_matched_maxT_positive": 0,
+      "dated_real_phylo_and_spatial_positive": 3,
+      "dated_real_phylo_and_spatial_total": 16,
+      "robust_within_across_kernels": false,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    },
+    "soil": {
+      "within_spatial_kernel_positive": 2,
+      "within_spatial_kernel_total": 2,
+      "within_geographic_matched_maxT_positive": 0,
+      "dated_real_phylo_and_spatial_positive": 0,
+      "dated_real_phylo_and_spatial_total": 8,
+      "robust_within_across_kernels": true,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    },
+    "elevation": {
+      "within_spatial_kernel_positive": 1,
+      "within_spatial_kernel_total": 4,
+      "within_geographic_matched_maxT_positive": null,
+      "dated_real_phylo_and_spatial_positive": 2,
+      "dated_real_phylo_and_spatial_total": 16,
+      "robust_within_across_kernels": false,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    },
+    "solar_radiation": {
+      "within_spatial_kernel_positive": 0,
+      "within_spatial_kernel_total": 4,
+      "within_geographic_matched_maxT_positive": 0,
+      "dated_real_phylo_and_spatial_positive": 4,
+      "dated_real_phylo_and_spatial_total": 16,
+      "robust_within_across_kernels": false,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    },
+    "wind": {
+      "within_spatial_kernel_positive": 0,
+      "within_spatial_kernel_total": 4,
+      "within_geographic_matched_maxT_positive": 0,
+      "dated_real_phylo_and_spatial_positive": 1,
+      "dated_real_phylo_and_spatial_total": 16,
+      "robust_within_across_kernels": false,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    },
+    "vapor_pressure": {
+      "within_spatial_kernel_positive": 1,
+      "within_spatial_kernel_total": 4,
+      "within_geographic_matched_maxT_positive": 0,
+      "dated_real_phylo_and_spatial_positive": 2,
+      "dated_real_phylo_and_spatial_total": 16,
+      "robust_within_across_kernels": false,
+      "robust_between_dated_phylo_spatial": false,
+      "robust_common_factor": false
+    }
+  },
+  "intermediate_positive_evidence": {
+    "precipitation_within_species_kernel_climate_250_brier_gain": 0.00043344154838268265,
+    "precipitation_within_species_kernel_climate_1000_brier_gain": 0.0003349304063992625,
+    "precipitation_between_species_congeners_brier_gain": 0.0013671976067339568,
+    "precipitation_between_species_microregion_permutation_p": {
+      "250_parent_50micro": 0.35,
+      "250_parent_100micro": 0.175,
+      "500_parent_50micro": 0.88,
+      "500_parent_100micro": 0.295
+    }
+  },
+  "all_seven_environment_blocks_beyond_actual_phylo_and_geographic_covariance_positive_full_models": 0,
+  "all_seven_environment_blocks_beyond_actual_phylo_and_geographic_covariance_full_models": 16,
+  "primary_positive_cross_scale_common_environmental_factors": [],
+  "scientific_gate": "Strict shared support demands consistency across actual site geography and dated ancestry, valid directly tipped tree coverage, and local colour-label exchangeability; none supported. Model population coverage for directly tipped phylogeny is <50pct.",
+  "not_combined": [
+    "Brier between species vs within species cannot be summed or difference-tested",
+    "Species fixed effects absorb immutable species ancestry main effect, not real phylogenetic species tree",
+    "PHYLO tip selection is nonrandom; local observer, flower-organ and plasticity remain",
+    "Nominal 95pct positivity across many retrospective blocks is not familywise-corrected statistical discovery"
+  ],
+  "main_h1_h2_untouched": true
+}
