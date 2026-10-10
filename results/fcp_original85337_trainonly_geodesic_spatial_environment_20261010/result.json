@@ -33,6 +33,47 @@
   "results": {
     "climate_and_soil_complete": {
       "1000km": {
+        "descriptive_heldout_photo_geodesic_spatial_residual_diagnostics": {
+          "n_distinct_original_photo_site_cross_species_neighbor_pairs": 71586,
+          "n_nearest_neighbors_requested": 10,
+          "n_original_heldout_photo_residuals": 11136,
+          "not_a_calibrated_spatial_independence_p_value": true,
+          "original_flower_labels_not_reclassified": true,
+          "original_public_photographic_coordinates_only": true,
+          "residual_moran_method": "n * sum_undirected_edges centred_photo_probability_residual_dot_products / (n_edges * sum_photo residual_norm2)",
+          "same_species_neighbor_pairs_excluded": true,
+          "schema": "fcp_original_species_oof_fourstate_residual_geodesic_knn_v1",
+          "spatial_radius_reports_km": {
+            "100": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.007312404107840226,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.007894853854879532,
+                "SPECIES_NONGP_COORDINATES": 0.003996065346895582
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 49954
+            },
+            "250": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.003961135791630427,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.004518005176595312,
+                "SPECIES_NONGP_COORDINATES": 0.0008796110726442512
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 65884
+            },
+            "50": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.006998802501248662,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.007943749329151907,
+                "SPECIES_NONGP_COORDINATES": 0.0026707292359650072
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 35919
+            }
+          },
+          "status": "DESCRIPTIVE_ORIGINAL_PHOTO_SPATIAL_RESIDUAL_DIAGNOSTIC_UNCALIBRATED"
+        },
         "every_source_photo_same_heldout_fold_and_model_comparison": true,
         "fixed_source_cell_group_cv": [
           {
@@ -202,6 +243,47 @@
         "training_only_unsupervised_source_photo_geographic_knots": true
       },
       "250km": {
+        "descriptive_heldout_photo_geodesic_spatial_residual_diagnostics": {
+          "n_distinct_original_photo_site_cross_species_neighbor_pairs": 71586,
+          "n_nearest_neighbors_requested": 10,
+          "n_original_heldout_photo_residuals": 11136,
+          "not_a_calibrated_spatial_independence_p_value": true,
+          "original_flower_labels_not_reclassified": true,
+          "original_public_photographic_coordinates_only": true,
+          "residual_moran_method": "n * sum_undirected_edges centred_photo_probability_residual_dot_products / (n_edges * sum_photo residual_norm2)",
+          "same_species_neighbor_pairs_excluded": true,
+          "schema": "fcp_original_species_oof_fourstate_residual_geodesic_knn_v1",
+          "spatial_radius_reports_km": {
+            "100": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.006852377632865633,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.007268916154537863,
+                "SPECIES_NONGP_COORDINATES": 0.003996065346895582
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 49954
+            },
+            "250": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.003470524054232774,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.004007602551986574,
+                "SPECIES_NONGP_COORDINATES": 0.0008796110726442512
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 65884
+            },
+            "50": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.0065529021328034195,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.007299275184069438,
+                "SPECIES_NONGP_COORDINATES": 0.0026707292359650072
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 35919
+            }
+          },
+          "status": "DESCRIPTIVE_ORIGINAL_PHOTO_SPATIAL_RESIDUAL_DIAGNOSTIC_UNCALIBRATED"
+        },
         "every_source_photo_same_heldout_fold_and_model_comparison": true,
         "fixed_source_cell_group_cv": [
           {
@@ -373,6 +455,47 @@
     },
     "climate_without_soil_selection": {
       "1000km": {
+        "descriptive_heldout_photo_geodesic_spatial_residual_diagnostics": {
+          "n_distinct_original_photo_site_cross_species_neighbor_pairs": 133367,
+          "n_nearest_neighbors_requested": 10,
+          "n_original_heldout_photo_residuals": 20546,
+          "not_a_calibrated_spatial_independence_p_value": true,
+          "original_flower_labels_not_reclassified": true,
+          "original_public_photographic_coordinates_only": true,
+          "residual_moran_method": "n * sum_undirected_edges centred_photo_probability_residual_dot_products / (n_edges * sum_photo residual_norm2)",
+          "same_species_neighbor_pairs_excluded": true,
+          "schema": "fcp_original_species_oof_fourstate_residual_geodesic_knn_v1",
+          "spatial_radius_reports_km": {
+            "100": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.003255434490572811,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.003526979093231542,
+                "SPECIES_NONGP_COORDINATES": 0.0007268871727668935
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 107641
+            },
+            "250": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.00352708717024,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.003945810554041958,
+                "SPECIES_NONGP_COORDINATES": 0.0012631603896532592
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 127397
+            },
+            "50": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.0035074801536492273,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.0037910101372543464,
+                "SPECIES_NONGP_COORDINATES": 0.0008318840058808118
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 86036
+            }
+          },
+          "status": "DESCRIPTIVE_ORIGINAL_PHOTO_SPATIAL_RESIDUAL_DIAGNOSTIC_UNCALIBRATED"
+        },
         "every_source_photo_same_heldout_fold_and_model_comparison": true,
         "fixed_source_cell_group_cv": [
           {
@@ -529,6 +652,47 @@
         "training_only_unsupervised_source_photo_geographic_knots": true
       },
       "250km": {
+        "descriptive_heldout_photo_geodesic_spatial_residual_diagnostics": {
+          "n_distinct_original_photo_site_cross_species_neighbor_pairs": 133367,
+          "n_nearest_neighbors_requested": 10,
+          "n_original_heldout_photo_residuals": 20546,
+          "not_a_calibrated_spatial_independence_p_value": true,
+          "original_flower_labels_not_reclassified": true,
+          "original_public_photographic_coordinates_only": true,
+          "residual_moran_method": "n * sum_undirected_edges centred_photo_probability_residual_dot_products / (n_edges * sum_photo residual_norm2)",
+          "same_species_neighbor_pairs_excluded": true,
+          "schema": "fcp_original_species_oof_fourstate_residual_geodesic_knn_v1",
+          "spatial_radius_reports_km": {
+            "100": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.0019293829424453267,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.0025231842171073372,
+                "SPECIES_NONGP_COORDINATES": 0.0007268871727668935
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 107641
+            },
+            "250": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.0023077562719819532,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.0029185194543730093,
+                "SPECIES_NONGP_COORDINATES": 0.0012631603896532592
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 127397
+            },
+            "50": {
+              "insufficient_neighbor_support": false,
+              "moran_like_centered_fourstate_residual_spatial_index_by_model": {
+                "SPECIES_GEODESIC_SPATIAL_FIELD": 0.0020386416748633604,
+                "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV": 0.00259978152104634,
+                "SPECIES_NONGP_COORDINATES": 0.0008318840058808118
+              },
+              "source_original_cross_species_nearest_photo_edges_within_radius": 86036
+            }
+          },
+          "status": "DESCRIPTIVE_ORIGINAL_PHOTO_SPATIAL_RESIDUAL_DIAGNOSTIC_UNCALIBRATED"
+        },
         "every_source_photo_same_heldout_fold_and_model_comparison": true,
         "fixed_source_cell_group_cv": [
           {
