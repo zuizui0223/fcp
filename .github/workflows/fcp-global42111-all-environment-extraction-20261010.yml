@@ -90,7 +90,8 @@ jobs:
           done
           for type in srad wind vapr; do
             for month in $(seq 1 12); do
-              test -s "/tmp/fcp42111_climate/${type}/wc2.1_10m_${type}_${month}.tif"
+              printf -v padded_month "%02d" "$month"
+              test -s "/tmp/fcp42111_climate/${type}/wc2.1_10m_${type}_${padded_month}.tif"
             done
           done
       - name: Retrieve provider-checksummed 5 new SoilGrids 0-30cm traits at real source photo sites
