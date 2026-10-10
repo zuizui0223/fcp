@@ -1,0 +1,140 @@
+name: FCP 85337 species-fixed flower-colour beyond nonlinear photo spatial trends
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/audit_fcp85337_species_nonlinear_spatial_abiotic_20261010.py
+      - tests/test_fcp85337_species_nonlinear_spatial_abiotic_20261010.py
+      - docs/FCP_GLOBAL42111_SPECIES_SPATIAL_ROBUSTNESS_20261010.md
+      - .github/workflows/fcp-global42111-species-nonlinear-spatial-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-original-85337-species-nonlinear-spatial-abiotic-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_ENV_RUN: '37861582446'
+  ORIGINAL_ENV_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  FULL_ENV_RUN: '38011108135'
+  FULL_ENV_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+
+jobs:
+  species-and-nonlinear-spatial:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Test exactly original photo IDs, original nonclassified rows, 3rd degree spatial baseline and all environmental blocks
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp85337_species_nonlinear_spatial_abiotic_20261010.py
+          python -m pytest tests/test_fcp85337_species_nonlinear_spatial_abiotic_20261010.py -q
+          python scripts/analysis/audit_fcp85337_species_nonlinear_spatial_abiotic_20261010.py --help > /dev/null
+      - name: Restore source-frozen original 85337 taxon-cell photographs and all 100543 original site abiotics
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_ENV_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_ENV_ARTIFACT" --dir /tmp/fcp_original_old_photo_cell
+          gh run download "$FULL_ENV_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$FULL_ENV_ARTIFACT" --dir /tmp/fcp_full_photo_geography
+          source="$(find /tmp/fcp_original_old_photo_cell -name taxon_cell_flower_colour_climate_soil.csv.gz -print -quit)"
+          new="$(find /tmp/fcp_full_photo_geography -name all_original_100543_photo_sites_expanded_environment.csv.gz -print -quit)"
+          test -s "$source"
+          test -s "$new"
+          cp "$source" /tmp/fcp85337_original_cell_photos.csv.gz
+          cp "$new" /tmp/fcp100543_expanded_source_real_photo_sites.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=[]
+          for p in Path('/tmp/fcp_full_photo_geography').rglob('result.json'):
+              x=json.loads(p.read_text())
+              if x.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':d.append(x)
+          assert len(d)==1
+          assert d[0]['original_source_photo_rows']==100543
+          assert d[0]['original_source_species']==42111
+          assert d[0]['original_classified_photo_colours']==18457
+          assert d[0]['source_cell_centroid_never_used_as_photo_location']
+          assert d[0]['original_photo_colours_untouched']
+          PY
+      - name: Test climate and soil increments beyond species fixed photo-colour mean AND nonlinear source photo spatial basis
+        env:
+          OPENBLAS_NUM_THREADS: '2'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: |
+          python scripts/analysis/audit_fcp85337_species_nonlinear_spatial_abiotic_20261010.py \
+            --original-taxon-cell /tmp/fcp85337_original_cell_photos.csv.gz \
+            --all-original-expanded-photo-sites /tmp/fcp100543_expanded_source_real_photo_sites.csv.gz \
+            --outdir /tmp/fcp85337_source_species_nonlinear_spatial
+      - name: Verify identical original species cells and true location spatial features, no phylogenetic false claims
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp85337_source_species_nonlinear_spatial/result.json').read_text())
+          assert d['schema']=='fcp_original_85337_species_fixed_nonlinear_spatial_environment_v1'
+          assert d['original_source']['source_original_taxon_cell_photo_rows']==85337
+          assert d['original_source']['source_four_state_colour_classifiable']==39075
+          assert d['original_source']['source_unclassifiable_photo_cell_records']==46262
+          assert d['original_source']['all_original_photo_ID_triples_matched_exactly']
+          assert d['n_spatial_polynomial_columns']==19
+          assert d['spatial_polynomial_max_degree']==3
+          assert d['all_original_photo_ids_and_flower_colour_labels_preserved'] is True
+          assert d['source_phylogenetic_species_invariant_component_absorbed_by_species_intercepts']
+          assert d['genuine_spatial_autocorrelation_random_field_not_estimable_from_this_basis_alone']
+          assert d['old_full_original_42111_dated_phylogeny_claim_HOLD']
+          for name,n in [('climate_without_soil_selection',38968),
+                         ('climate_and_soil_complete',27003)]:
+              r=d[name]
+              assert r['status']=='SOURCE_SPECIES_FIXED_WITH_NONLINEAR_SPATIAL_BASIS_ABIOTIC_EXPLORATION'
+              assert r['n_original_classified_abiotic_complete']==n
+              assert r['n_original_outofcell_photo_species_heldout']>=200
+              assert r['all_model_source_test_photos_and_fold_assignments_identical']
+              assert r['spatial_basis_dimensions']==19
+              assert r['true_spatial_covariance_modelled'] is False
+              assert 'all_environment_beyond_species_plus_nonlinear_space' in r['incremental_predictive_gains']
+              for v in r['incremental_predictive_gains'].values():
+                  assert len(v['source_species_cluster_95CI'])==2
+                  assert len(v['source_cell_cluster_95CI'])==2
+          print('FCP_SOURCE_SPECIES_INTERCEPT_PLUS_NONLINEAR_SPATIAL_ENV_ABIOTIC_ROBUSTNESS_AUDITED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-original85337-species-and-spatial-abiotic-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp85337_source_species_nonlinear_spatial/
+      - name: Commit source-verified exploratory nonlinear spatial robustness separate from real LCVP covariances
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_species_nonlinear_spatial_all_abiotic_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp85337_source_species_nonlinear_spatial/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original 85337 flower-photo within-species abiotic gradients after true-site nonlinear spatial baseline'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
