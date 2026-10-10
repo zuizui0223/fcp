@@ -9,7 +9,7 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 211 whitespace-separated tokens after ecological revision (final journal word-count check required)
+- Summary: 150 space-delimited words (ecological revision; journal count before submission)
 - Introduction: 805 words
 - Materials and Methods: 2,451 words
 - Results: updated with ecological effect magnitude (recount before submission)
@@ -23,10 +23,10 @@
 
 ## Summary
 
-- Species-wide intraspecific trait variation can arise because alternative phenotypes coexist locally or because different phenotypes occupy different parts of a species' range. Using flower-colour variation, we ask where ITV resides geographically, which spatial processes accompany it, and whether within-species displacement also recurs along common phenotype-space directions.
-- We analysed 149,900 community-science photographs from 1,499 sampled plant species in sequential discovery, species-disjoint validation and prospective-confirmation resources. Species-wide four-state colour diversity was reproducible across observer partitions and fresh images.
-- At the pre-specified post hoc 50-km scale, nearby conspecific observations were less colour-diverse than expected from each species' fixed overall colour composition in discovery, validation and the third cohort (mean depletion = 0.0205, 0.0187 and 0.0147; matched p = 0.005 in each). The relative deficit was only 5.9–9.3% of species-wide pair discordance: appreciable local colour heterogeneity coexisted with nonrandom geographical sorting. The pattern persisted after excluding same-observer pairs, removing all white records and using continuous nine-colour dissimilarity.
-- Continuous colour turnover contained both a stronger isolation-by-distance-like component and a smaller BIO5-associated environment component across all three cohorts. The environmental component failed stricter background/observer controls and is therefore not evidence of local adaptation. Separately, a frozen achromatic–chromatic axis was prospectively confirmed (W = 0.517 versus null median 0.457, p = 0.001).
+- Range-wide flower-colour variation can reflect locally coexisting phenotypes, geographic sorting among localities, or both. We asked where this variation resides, which ecological gradients accompany it, and which phenotype-space directions recur across species.
+- We analysed 149,900 community-science photographs from 1,499 sampled plant species across discovery, species-disjoint validation and prospective-confirmation resources. Four-state flower-colour diversity was reproducible across observers and fresh photographs.
+- At 50 km, observed conspecific photo-pair colour discordance was lower than the species-wide composition-preserving null in all three cohorts (absolute deficit 0.0205, 0.0187, 0.0147; p=0.005 each). Yet local discordance remained substantial: geographical sorting represented only a 5.9–9.3% relative deficit. The effect persisted after excluding same-observer pairs, removing white records and analysing nine-colour dissimilarity.
+- Continuous colour turnover displayed stronger geographic-distance than BIO5-associated structure. The weaker BIO5 signal failed stricter background and observer tests and cannot establish local adaptation. A separate prospectively frozen achromatic–chromatic direction was confirmed (W=0.517 versus structured-null median 0.457, p=0.001).
 
 ---
 
