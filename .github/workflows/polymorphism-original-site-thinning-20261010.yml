@@ -1,0 +1,88 @@
+name: FCP original-photo geographic site thinning
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_polymorphism_original_site_thinning_20261010.py
+      - tests/test_polymorphism_original_site_thinning_20261010.py
+      - docs/POLYMORPHISM_ORIGINAL_GEOGRAPHIC_SITE_THINNING_PROTOCOL_20261010.md
+      - .github/workflows/polymorphism-original-site-thinning-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-original-site-thinning
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  fixed-source-spaced-photo-cohorts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install exact numerical requirements
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 scipy==1.17.1 pytest==8.4.2
+      - name: Synthetic geometry and class-preservation tests
+        run: python -m pytest tests/test_polymorphism_original_site_thinning_20261010.py -q
+      - name: Recover original frozen high-depth photo measurements
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+      - name: Compute label-blind original-site separated photos and matched nulls
+        run: |
+          python scripts/analysis/audit_polymorphism_original_site_thinning_20261010.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --outdir /tmp/fcp_original_site_thinning
+      - name: Source numerical and uncertainty gates
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_original_site_thinning/result.json").read_text())
+          assert r["schema"]=="fcp_original_photo_geographic_site_thinning_posthoc_v1"
+          assert r["confirmatory_decisions_changed"] is False
+          assert r["outcome_blind_selection"] is True
+          expected={"discovery":(369,166,0.020529254583812922),
+                    "validation":(363,181,0.018672971642749295),
+                    "third":(377,204,0.01468491968437185)}
+          for cohort,(nh,n,dep) in expected.items():
+              d=r[cohort]
+              assert d["n_original_source_high_depth_species"]==nh
+              assert d["n_original_50km_local_30pair_species"]==n
+              assert abs(d["original_mean_depletion"]-dep)<1e-10
+              for item in d["thinning"].values():
+                  assert item["n_species"]<=n
+                  if item["n_species"]<30:
+                      assert item["status"]=="HOLD_INSUFFICIENT_GEOGRAPHIC_SUPPORT"
+                  else:
+                      assert item["status"]=="POSTHOC_ESTIMABLE"
+          print("PASS original three-source photo SHA, unchanged biological baseline, strict photo thinning and HOLD")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-geographic-site-thinning-source-20261010
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_original_site_thinning/
