@@ -92,6 +92,68 @@ def families(*,soil:bool,nlandmarks:int=N_LANDMARKS)->dict[str,tuple[str,...]]:
     return result
 
 
+def residual_neighbour_autocorrelation(
+    eligible_source:pd.DataFrame,original_classes:np.ndarray,
+    prediction:dict[str,np.ndarray],*,radius_km:tuple[int,...]=(100,500),
+)->dict:
+    """Descriptive directed k-nearest-photo residual Moran I by colour.
+
+    No permutation p-value, no guarantee of source field stationarity, and
+    no claim that a near-zero statistic eliminates all spatial confounding.
+    """
+    from sklearn.neighbors import BallTree
+    n=len(eligible_source)
+    if n<12:
+        raise ValueError("Too few original photo sites for 8-nearest residual audit")
+    # BallTree haversine requires latitude then longitude, in RADIANS.
+    coordinates=np.deg2rad(eligible_source[["latitude","longitude"]].to_numpy(float))
+    tree=BallTree(coordinates,metric="haversine")
+    dist,other=tree.query(coordinates,k=min(n,9))
+    dist=dist[:,1:]*EARTH_KM
+    other=other[:,1:]
+    classes=np.asarray(original_classes,int)
+    if classes.shape!=(n,) or np.any((classes<0)|(classes>=4)):
+        raise ValueError("Mismatched original photo-colour outcome in residual audit")
+    yy=np.eye(4)[classes]
+    out={}
+    for scale in radius_km:
+        mask=(dist<=scale)
+        edge_count=int(mask.sum())
+        if edge_count==0:
+            out[str(scale)]={"status":"HOLD_NO_GENUINELY_NEARBY_SOURCE_PHOTO_PAIRS",
+                             "n_nearby_directed_edges":0}
+            continue
+        summary={}
+        for name,prob in prediction.items():
+            if prob.shape!=(n,4) or not np.isfinite(prob).all():
+                raise ValueError("One of the fixed heldout predicted four-photo states was unavailable")
+            residual=yy-prob
+            centered=residual-residual.mean(axis=0)
+            denominator=np.sum(centered**2,axis=0)
+            # Preserve four separate source photo-colour classes, and total
+            # directed source-neighbor edge weight, no pseudoreplication p.
+            separate=[]
+            for c in range(4):
+                weighted=(centered[:,c,None]*centered[other,c])
+                val=float(n/edge_count * weighted[mask].sum()/denominator[c]) if denominator[c]>1e-12 else None
+                separate.append(val)
+            finite=[x for x in separate if x is not None]
+            summary[name]={
+                "source_four_colour_class_residual_Moran_I":dict(zip(CLASSES,separate)),
+                "mean_absolute_class_Moran_I":float(np.mean(np.abs(finite))) if finite else None,
+                "n_source_geo_photo_records":n,
+            }
+        out[str(scale)]={
+            "status":"ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC",
+            "n_nearby_directed_edges":edge_count,
+            "mean_neighbors_within_radius":edge_count/n,
+            "max_nearest_neighbors_examined":min(n-1,8),
+            "residual_methods":summary,
+            "descriptive_not_a_significance_test":True,
+        }
+    return out
+
+
 def fit_source(d:pd.DataFrame,*,soil:bool,scale_km:float,nboot:int=BOOT,
                nlandmarks:int=N_LANDMARKS)->dict:
     from sklearn.model_selection import GroupKFold
@@ -168,6 +230,13 @@ def fit_source(d:pd.DataFrame,*,soil:bool,scale_km:float,nboot:int=BOOT,
                 intervals["source_species"][0]>0 and
                 intervals["source_geographical_cell"][0]>0),
         }
+    spatial_residual=residual_neighbour_autocorrelation(
+        d.loc[eligible],source_labels[eligible],
+        {k:predicted[k][eligible] for k in (
+            "SPECIES_GEOGRAPHY_ONLY",
+            "SPECIES_GEOGRAPHY_SPATIAL_KERNEL",
+            "SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV")},
+    )
     return {
         "status":"SOURCE_SPECIES_INTERCEPT_GEODESIC_NYSTROM_SPATIAL_KERNEL_EXPLORATION",
         "n_original_source_fourstate_environment_complete":len(d),
@@ -182,6 +251,7 @@ def fit_source(d:pd.DataFrame,*,soil:bool,scale_km:float,nboot:int=BOOT,
         "all_models_same_test_photo_ids_and_geocell_folds":True,
         "folds":fold_report,"spatial_landmark_receipts":spatial_receipts,
         "fourstate_model_scores":models,"environment_increment":gains,
+        "fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic":spatial_residual,
         "confidence_intervals_conditional_on_fixed_crossvalidated_predictions":True,
     }
 
