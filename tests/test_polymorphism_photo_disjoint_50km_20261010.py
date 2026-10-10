@@ -70,3 +70,25 @@ def test_support_gate_holds_ineligible_species_without_claim():
     assert x["status"]=="HOLD_INSUFFICIENT_SPECIES"
     assert x["positive_bounded_evidence"] is False
     assert x["species_bootstrap_ci95"] is None
+
+
+def test_original_30edge_species_conditioning_preserves_original_population():
+    # Source photo-pair baseline eligibility is a DISTINCT population gate
+    # from >=10 photo-disjoint pairs. It must not be silently exchanged.
+    n=36
+    rows=pd.DataFrame({
+      "nearest__all_photos__disjoint_local_pairs":[10]*n,
+      "nearest__all_photos__depletion":[.12]*n,
+      "nearest__all_photos__mean_local_pair_discordance":[.08]*n,
+      "nearest__all_photos__unique_photos":[20]*n,
+      "D_specieswide":[.20]*n,
+      "source_50km_local_pair_edges":[50]*32+[20]*4,
+    })
+    nulls=[np.zeros(m.base.PERMUTATIONS) for _ in range(n)]
+    broad=m.summarize(rows,nulls,"nearest","all_photos","third",10)
+    restricted=m.summarize(rows,nulls,"nearest","all_photos","third",10,True)
+    assert broad["n_species"]==36
+    assert restricted["n_species"]==32
+    assert restricted["restricted_to_original_30_edge_species"] is True
+    assert broad["restricted_to_original_30_edge_species"] is False
+    assert restricted["positive_bounded_evidence"] is True
