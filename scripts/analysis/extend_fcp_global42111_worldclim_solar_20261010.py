@@ -22,7 +22,9 @@ CLASSIFIED_N=18457
 SOURCE_GEO="VALID_PUBLIC_ORIGINAL_PHOTO_POINT"
 ADDITIONAL_BIO=(2,4,6,7,14,18)
 S_RAD_MONTHS=tuple(range(1,13))
-NEW_FEATURES=tuple("wc_bio"+str(i) for i in ADDITIONAL_BIO)+("wc_srad_annual_kj_m2_day","wc_srad_monthly_cv")
+SOIL_NEW_PROPERTIES=("cec","sand","silt","bdod","cfvo")
+SOIL_DEPTHS=(("0-5cm",5),("5-15cm",10),("15-30cm",15))
+NEW_FEATURES=tuple("wc_bio"+str(i) for i in ADDITIONAL_BIO)+("wc_srad_annual_kj_m2_day","wc_srad_monthly_cv")+tuple("soil_"+p+"_0_30cm_source_raw" for p in SOIL_NEW_PROPERTIES)
 SCHEMA="fcp_42111_original_photo_expanded_worldclim_solar_v1"
 
 
@@ -33,7 +35,7 @@ def sha256(path:Path)->str:
     return h.hexdigest()
 
 
-def extract(source:pd.DataFrame,biodir:Path,solardir:Path,*,sampler=sample_grid)->tuple[pd.DataFrame,dict]:
+def extract(source:pd.DataFrame,biodir:Path,solardir:Path,soil_dir:Path,*,sampler=sample_grid)->tuple[pd.DataFrame,dict]:
     required={"inat_taxon_id","observation_id","photo_id","morph","measurement_status","latitude","longitude","site_geo_status",
               "wc_bio1","wc_bio5","wc_bio12","wc_bio15","wc_elevation_m",
               "soil_pH","soil_SOC","soil_N","soil_clay","soil_available_water_proxy"}
@@ -75,9 +77,28 @@ def extract(source:pd.DataFrame,biodir:Path,solardir:Path,*,sampler=sample_grid)
     cv[valid]=np.std(matrix[valid],axis=1)/mean[valid]
     d["wc_srad_annual_kj_m2_day"]=mean
     d["wc_srad_monthly_cv"]=cv
+    # CEC, sand/silt, bulk density and coarse fragments are raw provider
+    # integer-scaled modelled properties, NOT direct rhizosphere measurements.
+    # Keep raw original scale rather than guess unverified physical unit factors.
+    for prop in SOIL_NEW_PROPERTIES:
+        sublayers=[]
+        for depth,weight in SOIL_DEPTHS:
+            source_path=soil_dir/prop/f"{prop}_{depth}_mean_5000.tif"
+            val=np.asarray(sampler(source_path,lon,lat),float)
+            if len(val)!=len(d):raise ValueError("SoilGrids source layer length differs from photographed source")
+            sublayers.append(val)
+        soil=np.column_stack(sublayers)
+        complete=np.isfinite(soil).all(axis=1)
+        averaged=np.full(len(d),np.nan,float)
+        weights=np.array([w for _,w in SOIL_DEPTHS],float)
+        averaged[complete]=soil[complete]@weights/weights.sum()
+        if np.isfinite(averaged).any() and (averaged[np.isfinite(averaged)]<0).any():
+            raise ValueError("Negative source-raw soil property")
+        d["soil_"+prop+"_0_30cm_source_raw"]=averaged
     if not d.loc[~good,list(NEW_FEATURES)].isna().all().all():
         raise ValueError("Missing original source coordinate was assigned artificial solar/bioclim")
     n_sun=int(np.isfinite(mean).sum())
+    all_soil_new=d[["soil_"+x+"_0_30cm_source_raw" for x in SOIL_NEW_PROPERTIES]].notna().all(axis=1)
     n_sun_classified=int((classified&np.isfinite(mean)).sum())
     n_new_complete=int((classified & d[list(NEW_FEATURES)].notna().all(axis=1)).sum())
     report={
@@ -92,7 +113,11 @@ def extract(source:pd.DataFrame,biodir:Path,solardir:Path,*,sampler=sample_grid)
         "n_original_public_photo_sites":int(good.sum()),
         "n_solar_complete_source_taxa":n_sun,
         "n_solar_complete_classified_original_taxa":n_sun_classified,
-        "n_additional_sun_bio_complete_classified":n_new_complete,
+        "n_additional_sun_bio_soil_complete_classified":n_new_complete,
+        "n_additional_new_soil_properties_available":int(all_soil_new.sum()),
+        "source_extended_soil_properties":list(SOIL_NEW_PROPERTIES),
+        "source_extended_soil_depth_weights":[5,10,15],
+        "extended_soil_units":"original SoilGrids mean TIFF source stored scales (no guessed rescaling)",
         "solar_annual_mean_sample_median":float(np.median(mean[valid])) if np.any(valid) else None,
         "solar_cv_sample_median":float(np.median(cv[valid])) if np.any(valid) else None,
         "all_original_source_photo_rows_retained":True,
@@ -108,12 +133,13 @@ def main():
     p.add_argument("--original-breadth-abiotic",required=True,type=Path)
     p.add_argument("--bio-dir",required=True,type=Path)
     p.add_argument("--solar-dir",required=True,type=Path)
+    p.add_argument("--soil-dir",required=True,type=Path)
     p.add_argument("--bio-zip",required=True,type=Path)
     p.add_argument("--solar-zip",required=True,type=Path)
     p.add_argument("--outdir",required=True,type=Path)
     a=p.parse_args()
     orig=pd.read_csv(a.original_breadth_abiotic,low_memory=False)
-    result,report=extract(orig,a.bio_dir,a.solar_dir)
+    result,report=extract(orig,a.bio_dir,a.solar_dir,a.soil_dir)
     report["worldclim_bioclim_zip_sha256"]=sha256(a.bio_zip)
     report["worldclim_srad_zip_sha256"]=sha256(a.solar_zip)
     report["source_urls"]={
