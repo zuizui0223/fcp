@@ -1,0 +1,112 @@
+{
+  "schema": "fcp_joint_environment_axis_relative_skill_verified_receipt_20261011_v1",
+  "status": "SOURCE_REPLAY_VERIFIED_EXPLORATORY",
+  "provenance": {
+    "code_commit": "5f3a01156fa4c847af3cfff40cbbd41ccdf144eb",
+    "successful_run_id": 38114044847,
+    "artifact_id": 11692582369,
+    "artifact_sha256": "9cf4c4d46c5431d2fa05a3e9ea3bd5544a37ad2ba0f7a8d95153128cfc7883a2",
+    "artifact_contents": "complete result.json and eight per-genus loss-audit CSVs",
+    "original_photo_archive_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "original_environment_archive_sha256": "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca",
+    "tests_passed": 8,
+    "bootstrap_draws": 1999,
+    "local_remote_max_abs_gain_difference": 1.1102230246251565e-16,
+    "previous_PR167_CI_failure": "Analysis completed; post-analysis validator had an unmatched parenthesis. Validator fixed without changing prior analysis.",
+    "previous_four_hue_replay_successful_run_id": 38114044822
+  },
+  "source": {
+    "photo_opportunity_ids": 100543,
+    "opportunity_nominal_species": 42111,
+    "original_classifiable_photos": 45953,
+    "original_unclassifiable_photos": 54590,
+    "climate_complete_photos": 45836,
+    "climate_complete_species": 25028,
+    "soil_complete_photos": 31925,
+    "soil_complete_species": 20786
+  },
+  "estimand": {
+    "target": "Original species-mean photographic four-colour composition",
+    "baseline": "Genus means learned only from training species plus absolute latitude and longitude sine/cosine",
+    "full": "Same baseline plus all 36 measured abiotic variables; secondary climate26 complete-case pool excludes soil",
+    "training": "Original five species-centroid geographic-cell folds; genus-centred ridge alpha40 and unchanged probability normalization",
+    "orthogonal_white_axis": "q=(3,-1,-1,-1)/sqrt(12); axis squared loss=(4/3)*white-coordinate squared loss",
+    "remaining_hue": "Orthogonal complement in the same four-colour simplex; not a refit restricted to nonwhite photographs",
+    "relative_skill": "(baseline loss - environmental loss) / baseline loss, separately for each component",
+    "primary_specificity_test": "soil_world equal_genus: white-axis relative skill minus remaining-hue relative skill",
+    "intervals": "Paired genus-resampling percentile intervals, fixed fitted predictions, no refitting; secondary cases not multiplicity-adjusted",
+    "percentage_units": "All relative_skill fields below are percentages of baseline error; difference fields are percentage points, not flower frequencies"
+  },
+  "global_primary_soil36_equal_genus": {
+    "n_evaluation_species": 13961,
+    "n_evaluation_genera": 1167,
+    "total_baseline_loss": 0.47973022625088957,
+    "total_gain": 0.0014316707124246708,
+    "total_gain_ci95": [0.00009295951775696587, 0.0028070181905546603],
+    "total_relative_skill_percent": 0.2984324593455854,
+    "white_axis_gain": 0.0008668238185785548,
+    "white_axis_gain_ci95": [-0.00015063431985901375, 0.0018930341182632256],
+    "remaining_hue_gain": 0.0005648468938459494,
+    "remaining_hue_gain_ci95": [-0.000041043583695214714, 0.001188215341201773],
+    "white_axis_relative_skill_percent": 0.3390236960512104,
+    "white_axis_relative_skill_percent_ci95": [-0.05931484946191864, 0.7337462945775822],
+    "remaining_hue_relative_skill_percent": 0.25210992934843685,
+    "remaining_hue_relative_skill_percent_ci95": [-0.01830235195117434, 0.5316677307611494],
+    "specificity_difference_percentage_points": 0.08691376670277354,
+    "specificity_difference_ci95_percentage_points": [-0.34213569894323134, 0.5001556206022787],
+    "white_fraction_of_baseline_loss": 0.5329711477760151,
+    "white_fraction_of_total_gain": 0.6054631215515376,
+    "specificity_supported": false
+  },
+  "global_secondary_climate26_equal_genus": {
+    "n_evaluation_species": 17183,
+    "n_evaluation_genera": 1347,
+    "total_baseline_loss": 0.4538243458813515,
+    "total_gain": 0.0029429491669705765,
+    "total_gain_ci95": [0.0018237245199079738, 0.0040956190037367834],
+    "total_relative_skill_percent": 0.6484775869075974,
+    "white_axis_gain": 0.0020221218183305023,
+    "white_axis_gain_ci95": [0.0011302668057045094, 0.0029580051367675705],
+    "remaining_hue_gain": 0.0009208273486405738,
+    "remaining_hue_gain_ci95": [0.00042311816562150273, 0.0014223596603216786],
+    "white_axis_relative_skill_percent": 0.8245911297648295,
+    "white_axis_relative_skill_percent_ci95": [0.46444042688668685, 1.1887380166310932],
+    "remaining_hue_relative_skill_percent": 0.4414381545033122,
+    "remaining_hue_relative_skill_percent_ci95": [0.20752019991347287, 0.6838752981628371],
+    "specificity_difference_percentage_points": 0.38315297526151726,
+    "specificity_difference_ci95_percentage_points": [-0.012377687999678738, 0.7817772995901804],
+    "white_fraction_of_baseline_loss": 0.5403571047910624,
+    "white_fraction_of_total_gain": 0.6871072871476205,
+    "specificity_supported": false
+  },
+  "secondary_region_cases_equal_genus": {
+    "soil_east": {"species": 3307, "genera": 346, "total_gain": 0.007090098250418897, "total_gain_ci95": [0.001869104515279127, 0.012317415685963952], "white_relative_skill_percent": 1.9005875163705226, "hue_relative_skill_percent": 0.9384254095027389, "specificity_difference_ci95_percentage_points": [-0.6436045604420872, 2.502940600824223]},
+    "soil_elsewhere": {"species": 10307, "genera": 914, "total_gain": 0.002956924485599366, "total_gain_ci95": [0.0013105440900672588, 0.004701835914598351], "white_relative_skill_percent": 0.47540730127424247, "hue_relative_skill_percent": 0.7533046527390997, "specificity_difference_ci95_percentage_points": [-0.760329241451725, 0.21106241553316826]},
+    "climate_east": {"species": 4555, "genera": 455, "total_gain": 0.006487792287049821, "total_gain_ci95": [0.002760845983115845, 0.010315818035243401], "white_relative_skill_percent": 1.685787061457392, "hue_relative_skill_percent": 0.9784558546581634, "specificity_difference_ci95_percentage_points": [-0.6573083138428381, 2.037567650374448]},
+    "climate_elsewhere": {"species": 12653, "genera": 1071, "total_gain": 0.0022221758106370504, "total_gain_ci95": [0.0007853831278914758, 0.003658337364622687], "white_relative_skill_percent": 0.5355139809928545, "hue_relative_skill_percent": 0.44106354653917396, "specificity_difference_ci95_percentage_points": [-0.38569461052951454, 0.592249677527049]}
+  },
+  "strict_quality_equal_genus": {
+    "climate_world": {"species": 4512, "genera": 488, "total_gain": 0.003194993421281156, "total_gain_ci95": [0.001130937000691229, 0.005404101409304459], "white_gain_ci95": [0.00044291461135402, 0.0033760539094117464], "remaining_hue_gain_ci95": [0.000033094441203619665, 0.002742428743747883], "specificity_difference_ci95_percentage_points": [-0.5116383609734906, 0.9658521364444754]},
+    "soil_world": {"species": 3399, "genera": 384, "total_gain": 0.0025450109206498484, "total_gain_ci95": [-0.001122260626174823, 0.006335554777670965], "white_gain_ci95": [-0.0009936457517951663, 0.004821588158681797], "remaining_hue_gain_ci95": [-0.0018190027562257321, 0.003125722355812352], "specificity_difference_ci95_percentage_points": [-1.0623621629619196, 2.032374861247037]}
+  },
+  "species_equal_sensitivities": {
+    "climate_world_total_gain": 0.0010040814796911657,
+    "climate_world_total_gain_ci95": [0.0002155448500124252, 0.0017833457013335912],
+    "soil_world_total_gain": 0.00024446888869295025,
+    "soil_world_total_gain_ci95": [-0.0005614095082114995, 0.0010694583460390092],
+    "strict_quality_total_ci_includes_zero_both_models": true,
+    "eastern_white_specificity_nominal_positive_only_species_weighted": true,
+    "eastern_white_specificity_positive_genus_weighted": false
+  },
+  "inference": {
+    "full36_joint_prediction_positive_genus_equal": true,
+    "full36_joint_prediction_positive_species_equal": false,
+    "climate26_joint_prediction_positive_both_weights": true,
+    "universal_white_specific_environment_effect_identified": false,
+    "new_within_species_common_mechanism_test": false,
+    "prospective_9colour_H2_retested": false,
+    "pigment_benefit_cost_or_fitness_identified": false,
+    "main_H1_H2_unchanged": true,
+    "limitations": ["Original image colour classifications, not independently verified pigments or genotypes", "Centroid-cell holdout not complete original-site spatial isolation", "Genus conditioning not direct dated phylogenetic correction", "Complete-case pools differ between 26 and 36 variables", "Multiple exploratory sensitivity comparisons and fixed-fit bootstrap uncertainty", "Same-source computational reproduction is not independent biological replication"]
+  }
+}
