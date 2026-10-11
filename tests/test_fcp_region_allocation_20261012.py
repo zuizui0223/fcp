@@ -4,7 +4,10 @@ import pandas as pd
 import pytest
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parent))
+ROOT=Path(__file__).resolve().parents[1]
+LOCAL=Path(__file__).resolve().parent
+ANALYSIS=ROOT/"scripts"/"analysis"
+sys.path.insert(0,str(ANALYSIS if ANALYSIS.is_dir() else LOCAL))
 import fcp_region_allocation_20261012 as m
 
 
