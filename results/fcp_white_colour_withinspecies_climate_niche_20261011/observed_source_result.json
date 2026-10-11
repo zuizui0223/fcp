@@ -1,0 +1,584 @@
+{
+  "schema": "fcp_original100543_white_colour_withinspecies_climate_niche_20261011_v1",
+  "status": "GITHUB_ACTIONS_EXACT_ORIGINAL_PHOTO_SOURCE_PASS",
+  "source_original_archive_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+  "original_photo_opportunities": 100543,
+  "original_4state_classifiable_photo_count": 45953,
+  "original_4state_classifiable_geoclimate_photo_count": 45836,
+  "original_unclassifiable_photo_count": 54590,
+  "original_source_genotype_or_fitness_count": 0,
+  "spatial_photo_exchangeability": {
+    "10degree": {
+      "n_species_with_both_original_photo_colours_in_one_geocell": 74,
+      "informative_source_photo_count": 156,
+      "informative_source_blocks": 77
+    },
+    "20degree": {
+      "n_species_with_both_original_photo_colours_in_one_geocell": 155,
+      "informative_source_photo_count": 383,
+      "informative_source_blocks": 187
+    }
+  },
+  "full_source_tested_conditions": {
+    "min5_min2each": {
+      "n_original_species": 422,
+      "n_source_photo_rows": 4465,
+      "n_distinct_genera": 295,
+      "environment": {
+        "wc_bio12": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.020403811481297714,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.7681430868734498,
+            "null_expected_mean_squared_contrast": 0.670519956103596,
+            "observed_minus_null_squared_environmental_segregation": 0.09762313076985374,
+            "p_signed_two_sided": 0.621,
+            "p_heterogeneous_species_niche_segregation_upper": 0.009,
+            "null_95_interval": [
+              0.5992323225315063,
+              0.7501996098372604
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.10799999999999998,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.020403811481297714,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.7681430868734498,
+            "null_expected_mean_squared_contrast": 0.7531986042249113,
+            "observed_minus_null_squared_environmental_segregation": 0.014944482648538537,
+            "p_signed_two_sided": 0.238,
+            "p_heterogeneous_species_niche_segregation_upper": 0.05,
+            "null_95_interval": [
+              0.7361289515370386,
+              0.7711263324568031
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.6000000000000001,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.020403811481297714,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.7681430868734498,
+            "null_expected_mean_squared_contrast": 0.7422549656065318,
+            "observed_minus_null_squared_environmental_segregation": 0.025888121266917974,
+            "p_signed_two_sided": 0.419,
+            "p_heterogeneous_species_niche_segregation_upper": 0.037,
+            "null_95_interval": [
+              0.713886649113571,
+              0.7700614630088499
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.44399999999999995,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_bio15": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.00909964405597914,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.739552629644745,
+            "null_expected_mean_squared_contrast": 0.6732301306181653,
+            "observed_minus_null_squared_environmental_segregation": 0.06632249902657972,
+            "p_signed_two_sided": 0.806,
+            "p_heterogeneous_species_niche_segregation_upper": 0.048,
+            "null_95_interval": [
+              0.6003916484370937,
+              0.7518264839143596
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.5760000000000001,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.00909964405597914,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.739552629644745,
+            "null_expected_mean_squared_contrast": 0.7281976866651764,
+            "observed_minus_null_squared_environmental_segregation": 0.011354942979568627,
+            "p_signed_two_sided": 0.082,
+            "p_heterogeneous_species_niche_segregation_upper": 0.068,
+            "null_95_interval": [
+              0.7138703421614812,
+              0.7426110800138186
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.8160000000000001,
+            "p_signed_bonferroni_all_12_axis_depth": 0.984
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.00909964405597914,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.739552629644745,
+            "null_expected_mean_squared_contrast": 0.7235518265946588,
+            "observed_minus_null_squared_environmental_segregation": 0.01600080305008622,
+            "p_signed_two_sided": 0.454,
+            "p_heterogeneous_species_niche_segregation_upper": 0.101,
+            "null_95_interval": [
+              0.7012584311522388,
+              0.74699092914307
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_bio5": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.13730760848256846,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.7357030950176502,
+            "null_expected_mean_squared_contrast": 0.6726795606059488,
+            "observed_minus_null_squared_environmental_segregation": 0.06302353441170139,
+            "p_signed_two_sided": 0.003,
+            "p_heterogeneous_species_niche_segregation_upper": 0.051,
+            "null_95_interval": [
+              0.5961521143251893,
+              0.7475934291391355
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.612,
+            "p_signed_bonferroni_all_12_axis_depth": 0.036000000000000004
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.13730760848256846,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.7357030950176502,
+            "null_expected_mean_squared_contrast": 0.73286205898834,
+            "observed_minus_null_squared_environmental_segregation": 0.0028410360293101844,
+            "p_signed_two_sided": 0.295,
+            "p_heterogeneous_species_niche_segregation_upper": 0.375,
+            "null_95_interval": [
+              0.7154036120385298,
+              0.7512747764691652
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.13730760848256846,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.7357030950176502,
+            "null_expected_mean_squared_contrast": 0.7339440069349054,
+            "observed_minus_null_squared_environmental_segregation": 0.0017590880827448307,
+            "p_signed_two_sided": 0.137,
+            "p_heterogeneous_species_niche_segregation_upper": 0.442,
+            "null_95_interval": [
+              0.7108377010931274,
+              0.7576601224525815
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_elevation_m": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.01654536847929971,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.6569985983865119,
+            "null_expected_mean_squared_contrast": 0.6728922623564212,
+            "observed_minus_null_squared_environmental_segregation": -0.015893663969909322,
+            "p_signed_two_sided": 0.662,
+            "p_heterogeneous_species_niche_segregation_upper": 0.654,
+            "null_95_interval": [
+              0.602486180896572,
+              0.7462504300446114
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.01654536847929971,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.6569985983865119,
+            "null_expected_mean_squared_contrast": 0.6600327993468453,
+            "observed_minus_null_squared_environmental_segregation": -0.0030342009603334663,
+            "p_signed_two_sided": 0.039,
+            "p_heterogeneous_species_niche_segregation_upper": 0.676,
+            "null_95_interval": [
+              0.6473728091088174,
+              0.6721669053327459
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 0.46799999999999997
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.01654536847929971,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.6569985983865119,
+            "null_expected_mean_squared_contrast": 0.6671319587950532,
+            "observed_minus_null_squared_environmental_segregation": -0.010133360408541292,
+            "p_signed_two_sided": 0.279,
+            "p_heterogeneous_species_niche_segregation_upper": 0.774,
+            "null_95_interval": [
+              0.6412889460266522,
+              0.6929875157772224
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        }
+      }
+    },
+    "min10_min3each": {
+      "n_original_species": 109,
+      "n_source_photo_rows": 1854,
+      "n_distinct_genera": 89,
+      "environment": {
+        "wc_bio12": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.0834340892286068,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.4111788942759605,
+            "null_expected_mean_squared_contrast": 0.3527027814547749,
+            "observed_minus_null_squared_environmental_segregation": 0.05847611282118559,
+            "p_signed_two_sided": 0.146,
+            "p_heterogeneous_species_niche_segregation_upper": 0.104,
+            "null_95_interval": [
+              0.27561813121994583,
+              0.44532086661848325
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.0834340892286068,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.4111788942759605,
+            "null_expected_mean_squared_contrast": 0.4091145055874079,
+            "observed_minus_null_squared_environmental_segregation": 0.0020643886885525764,
+            "p_signed_two_sided": 0.776,
+            "p_heterogeneous_species_niche_segregation_upper": 0.339,
+            "null_95_interval": [
+              0.4009357849204109,
+              0.4170684618743362
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.0834340892286068,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.4111788942759605,
+            "null_expected_mean_squared_contrast": 0.38633506364222236,
+            "observed_minus_null_squared_environmental_segregation": 0.02484383063373813,
+            "p_signed_two_sided": 0.355,
+            "p_heterogeneous_species_niche_segregation_upper": 0.006,
+            "null_95_interval": [
+              0.36637074772406997,
+              0.40644855013258135
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.07200000000000001,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_bio15": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.004075039953428192,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.36729618234017875,
+            "null_expected_mean_squared_contrast": 0.3540250059027749,
+            "observed_minus_null_squared_environmental_segregation": 0.013271176437403831,
+            "p_signed_two_sided": 0.952,
+            "p_heterogeneous_species_niche_segregation_upper": 0.352,
+            "null_95_interval": [
+              0.27219434067160087,
+              0.4516137824469978
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.004075039953428192,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.36729618234017875,
+            "null_expected_mean_squared_contrast": 0.36549363531086365,
+            "observed_minus_null_squared_environmental_segregation": 0.0018025470293150936,
+            "p_signed_two_sided": 0.732,
+            "p_heterogeneous_species_niche_segregation_upper": 0.411,
+            "null_95_interval": [
+              0.3549426152801849,
+              0.3759155920757803
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.004075039953428192,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.36729618234017875,
+            "null_expected_mean_squared_contrast": 0.35326388469122705,
+            "observed_minus_null_squared_environmental_segregation": 0.014032297648951697,
+            "p_signed_two_sided": 0.783,
+            "p_heterogeneous_species_niche_segregation_upper": 0.127,
+            "null_95_interval": [
+              0.329489534395474,
+              0.37810449023643106
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_bio5": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.11609734817379096,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.35029505106446335,
+            "null_expected_mean_squared_contrast": 0.3540818900902189,
+            "observed_minus_null_squared_environmental_segregation": -0.0037868390257555506,
+            "p_signed_two_sided": 0.031,
+            "p_heterogeneous_species_niche_segregation_upper": 0.514,
+            "null_95_interval": [
+              0.2777920789698187,
+              0.4436872872479424
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 0.372
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.11609734817379096,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.35029505106446335,
+            "null_expected_mean_squared_contrast": 0.34082889769391994,
+            "observed_minus_null_squared_environmental_segregation": 0.009466153370543406,
+            "p_signed_two_sided": 0.173,
+            "p_heterogeneous_species_niche_segregation_upper": 0.079,
+            "null_95_interval": [
+              0.32836741034693784,
+              0.35339646270447916
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.948,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.11609734817379096,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.35029505106446335,
+            "null_expected_mean_squared_contrast": 0.3243163433721518,
+            "observed_minus_null_squared_environmental_segregation": 0.02597870769231153,
+            "p_signed_two_sided": 0.047,
+            "p_heterogeneous_species_niche_segregation_upper": 0.007,
+            "null_95_interval": [
+              0.30206671635071997,
+              0.3453118697580541
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.084,
+            "p_signed_bonferroni_all_12_axis_depth": 0.5640000000000001
+          }
+        },
+        "wc_elevation_m": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.04968631941330573,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.318045445821328,
+            "null_expected_mean_squared_contrast": 0.3548801346522712,
+            "observed_minus_null_squared_environmental_segregation": -0.03683468883094321,
+            "p_signed_two_sided": 0.372,
+            "p_heterogeneous_species_niche_segregation_upper": 0.794,
+            "null_95_interval": [
+              0.2748070367246864,
+              0.444948504499781
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.04968631941330573,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.318045445821328,
+            "null_expected_mean_squared_contrast": 0.3232540846070018,
+            "observed_minus_null_squared_environmental_segregation": -0.0052086387856737915,
+            "p_signed_two_sided": 0.101,
+            "p_heterogeneous_species_niche_segregation_upper": 0.71,
+            "null_95_interval": [
+              0.30524328262059974,
+              0.341229812523299
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.04968631941330573,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.318045445821328,
+            "null_expected_mean_squared_contrast": 0.3261593073589821,
+            "observed_minus_null_squared_environmental_segregation": -0.008113861537654088,
+            "p_signed_two_sided": 0.035,
+            "p_heterogeneous_species_niche_segregation_upper": 0.676,
+            "null_95_interval": [
+              0.29805360080549315,
+              0.35731263013913456
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 0.42000000000000004
+          }
+        }
+      }
+    },
+    "min10_min5each": {
+      "n_original_species": 53,
+      "n_source_photo_rows": 1020,
+      "n_distinct_genera": 46,
+      "environment": {
+        "wc_bio12": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.10710620898615637,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.35231450037897527,
+            "null_expected_mean_squared_contrast": 0.2708237913889902,
+            "observed_minus_null_squared_environmental_segregation": 0.08149070898998506,
+            "p_signed_two_sided": 0.139,
+            "p_heterogeneous_species_niche_segregation_upper": 0.048,
+            "null_95_interval": [
+              0.188943450969356,
+              0.3718730519632354
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.5760000000000001,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.10710620898615637,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.35231450037897527,
+            "null_expected_mean_squared_contrast": 0.35520892550418987,
+            "observed_minus_null_squared_environmental_segregation": -0.0028944251252145947,
+            "p_signed_two_sided": 0.936,
+            "p_heterogeneous_species_niche_segregation_upper": 0.757,
+            "null_95_interval": [
+              0.34714512435016015,
+              0.36339664498590796
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.10710620898615637,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.35231450037897527,
+            "null_expected_mean_squared_contrast": 0.31784085907849563,
+            "observed_minus_null_squared_environmental_segregation": 0.03447364130047964,
+            "p_signed_two_sided": 0.545,
+            "p_heterogeneous_species_niche_segregation_upper": 0.01,
+            "null_95_interval": [
+              0.28815689492529734,
+              0.3483026821649551
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.12,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_bio15": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.017881536306344186,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.3585400442051478,
+            "null_expected_mean_squared_contrast": 0.27281141199944786,
+            "observed_minus_null_squared_environmental_segregation": 0.08572863220569993,
+            "p_signed_two_sided": 0.797,
+            "p_heterogeneous_species_niche_segregation_upper": 0.055,
+            "null_95_interval": [
+              0.18240510806776347,
+              0.38475432707970914
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.66,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.017881536306344186,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.3585400442051478,
+            "null_expected_mean_squared_contrast": 0.3597045101096085,
+            "observed_minus_null_squared_environmental_segregation": -0.001164465904460732,
+            "p_signed_two_sided": 0.496,
+            "p_heterogeneous_species_niche_segregation_upper": 0.592,
+            "null_95_interval": [
+              0.35089873989689807,
+              0.37006941677235317
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.017881536306344186,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.3585400442051478,
+            "null_expected_mean_squared_contrast": 0.3468068632207279,
+            "observed_minus_null_squared_environmental_segregation": 0.011733180984419889,
+            "p_signed_two_sided": 0.766,
+            "p_heterogeneous_species_niche_segregation_upper": 0.225,
+            "null_95_interval": [
+              0.31783277438716717,
+              0.37923497562655606
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_bio5": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.10499969124451937,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.376097538120179,
+            "null_expected_mean_squared_contrast": 0.27452658586075757,
+            "observed_minus_null_squared_environmental_segregation": 0.10157095225942142,
+            "p_signed_two_sided": 0.138,
+            "p_heterogeneous_species_niche_segregation_upper": 0.027,
+            "null_95_interval": [
+              0.18135668796351098,
+              0.3785720804733344
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.324,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.10499969124451937,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.376097538120179,
+            "null_expected_mean_squared_contrast": 0.3620362903422782,
+            "observed_minus_null_squared_environmental_segregation": 0.014061247777900798,
+            "p_signed_two_sided": 0.606,
+            "p_heterogeneous_species_niche_segregation_upper": 0.092,
+            "null_95_interval": [
+              0.3439720650122703,
+              0.3805845824483855
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": 0.10499969124451937,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.376097538120179,
+            "null_expected_mean_squared_contrast": 0.34072568359265054,
+            "observed_minus_null_squared_environmental_segregation": 0.035371854527528446,
+            "p_signed_two_sided": 0.116,
+            "p_heterogeneous_species_niche_segregation_upper": 0.027,
+            "null_95_interval": [
+              0.3052904435401084,
+              0.3763339111003074
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.324,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        },
+        "wc_elevation_m": {
+          "unrestricted": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.01178309759961623,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.2940396327897647,
+            "null_expected_mean_squared_contrast": 0.2716043050731192,
+            "observed_minus_null_squared_environmental_segregation": 0.02243532771664547,
+            "p_signed_two_sided": 0.887,
+            "p_heterogeneous_species_niche_segregation_upper": 0.312,
+            "null_95_interval": [
+              0.19178059195979122,
+              0.3623741141503037
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_10degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.01178309759961623,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.2940396327897647,
+            "null_expected_mean_squared_contrast": 0.2869416104685635,
+            "observed_minus_null_squared_environmental_segregation": 0.007098022321201214,
+            "p_signed_two_sided": 0.564,
+            "p_heterogeneous_species_niche_segregation_upper": 0.071,
+            "null_95_interval": [
+              0.2792782134279333,
+              0.294567803424536
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 0.8519999999999999,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          },
+          "within_20degree": {
+            "signed_white_minus_nonwhite_specieswise_environmental_SD": -0.01178309759961623,
+            "mean_squared_species_white_nonwhite_environmental_contrast": 0.2940396327897647,
+            "null_expected_mean_squared_contrast": 0.2701419826620628,
+            "observed_minus_null_squared_environmental_segregation": 0.023897650127701897,
+            "p_signed_two_sided": 0.551,
+            "p_heterogeneous_species_niche_segregation_upper": 0.101,
+            "null_95_interval": [
+              0.23681711678493103,
+              0.31097533716055226
+            ],
+            "p_heterogeneous_bonferroni_all_12_axis_depth": 1,
+            "p_signed_bonferroni_all_12_axis_depth": 1
+          }
+        }
+      }
+    }
+  },
+  "source_rerun": {
+    "ci_run_id": 38103584451,
+    "job_id": 114364333654,
+    "artifact_id": 11688304001,
+    "artifact_zip_sha256": "a64dacfeeb6675f68e247e22d73c224d6aefb454e57c9369c3380ba2ae191ab8",
+    "original_source_replay_success": true,
+    "synthetic_null_guards_passed": 7
+  },
+  "multiple_comparison_rule": "12 original environment-axes by original eligible photo-depth gates; Bonferroni adjusted all ecological p values and all local-shuffle p values",
+  "claim_ceiling": "Rainfall environmental differentiation between original automated photographed hues is nominal under unrestricted species shuffles but not multipletest-stable or independently attributable beyond source site geography. No photo genotype or pigmentation fitness cost measured.",
+  "main_h1_h2_unchanged": true
+}
