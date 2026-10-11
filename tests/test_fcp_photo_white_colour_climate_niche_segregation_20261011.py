@@ -45,9 +45,15 @@ def test_original_10degree_photo_geography_within_bounds():
     assert np.array_equal(loc,[0,9*37+18,18*37+36])
 
 def test_no_difference_when_species_colour_groups_share_identical_environment():
-    lab=np.array([1,1,0,0],np.int8)
-    sp=[{"taxon":2,"genus":"Example","n":4,"n_white":2,"labels":lab,
-         "z":np.zeros((4,4)),"cell10":np.array([0,0,1,1]),
-         "cell20":np.array([0,0,1,1])}]
-    z=mod.evaluate(sp,nrep=20)
-    assert "results" not in z  # output is a thresholds dictionary, no eligible fake gate
+    labels=np.array([1]*5+[0]*5,np.int8)
+    species=[{"taxon":i,"genus":f"Genus{i//5}","n":10,"n_white":5,
+              "labels":labels,"z":np.zeros((10,4)),
+              "cell10":np.array([0]*5+[1]*5),
+              "cell20":np.array([0]*5+[1]*5)} for i in range(25)]
+    result=mod.evaluate(species,nrep=19)
+    for cohort in result.values():
+        for environment in cohort["environment"].values():
+            for null in environment.values():
+                assert null["mean_squared_species_white_nonwhite_environmental_contrast"]==0
+                assert null["null_expected_mean_squared_contrast"]==0
+                assert null["p_heterogeneous_species_niche_segregation_upper"]==1
