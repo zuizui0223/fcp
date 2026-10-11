@@ -4,7 +4,9 @@ on:
     branches: [analysis/fcp-joint-env-unseen-genus-transport-20261011]
     paths:
       - scripts/analysis/fcp_joint_environment_taxongeo_20261011.py
+      - scripts/analysis/fcp_joint_environment_taxongeo_stable_20261011.py
       - tests/test_joint_taxongeo.py
+      - tests/test_stable_genus_folds.py
       - .github/workflows/fcp-joint-environment-taxon-geography-20261011.yml
   workflow_dispatch:
 permissions:
@@ -28,8 +30,8 @@ jobs:
           python-version: '3.11.16'
       - name: Install frozen numerical runtime
         run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
-      - name: Verify source-footprint and taxonomic isolation
-        run: python -m pytest tests/test_joint_taxongeo.py -q
+      - name: Verify source-footprint, taxonomic isolation and deterministic tie-breaking
+        run: python -m pytest tests/test_joint_taxongeo.py tests/test_stable_genus_folds.py -q
       - name: Download both original archives
         env:
           GH_TOKEN: ${{ github.token }}
@@ -38,9 +40,9 @@ jobs:
           mkdir -p /tmp/fcp_sources
           gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/11587115220/zip" > /tmp/fcp_sources/fcp_original_photo_site_climate_soil_85337_20261010.zip
           gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/11653183273/zip" > /tmp/fcp_sources/fcp_100543_all36_expanded_photo_site_environment_20261011.zip
-      - name: Recompute all joint environmental transport cases
+      - name: Recompute all joint environmental transport cases with fixed folds
         run: |
-          python scripts/analysis/fcp_joint_environment_taxongeo_20261011.py \
+          python scripts/analysis/fcp_joint_environment_taxongeo_stable_20261011.py \
             --source-root /tmp/fcp_sources --outdir /tmp/fcp_taxongeo \
             --bootstrap 1999 --mode both --quality both
       - name: Verify source identities, complete coverage and exclusion guards
@@ -56,6 +58,7 @@ jobs:
           assert len(r['all_environment_features'])==36
           assert r['n_bootstrap']==1999 and r['buffer_km']==500
           assert r['main_H1H2_changed'] is False
+          assert r['genus_fold_algorithm']=='count_descending_genus_lexical_ascending_then_min_load_lowest_fold_v1'
           expected={'soil_all':20786,'soil_quality':6457,'climate_all':25028,'climate_quality':8145}
           assert set(r['cases'])==set(expected)
           for a in r['source_raw_footprint_exclusion_audit'].values():
@@ -64,6 +67,7 @@ jobs:
           for key,c in r['cases'].items():
               assert c['n_input_species']==expected[key]
               assert c['all_eligible_source_photos_accounted']
+              assert len(c['genus_fold_map_sha256'])==64
               audit=pd.read_csv(root/(key+'_fold_audit.csv'))
               assert len(audit)==60 and audit.status.eq('OK').all()
               for col in ['shared_train_test_genus','shared_train_test_species','training_species_intersect_spatial_blacklist']:
@@ -71,7 +75,7 @@ jobs:
               for scheme,s in c['schemes'].items():
                   assert s['n_evaluated_species']==c['n_input_species']
                   assert s['n_evaluated_source_photos']==c['n_input_photos']
-          print('PASS exact archives, all eligible test species, four regions, 500km buffers; no significance gate')
+          print('PASS exact archives, fixed folds, all target species, four regions, 500km buffers; no significance gate')
           PY
       - uses: actions/upload-artifact@v4
         if: always()
