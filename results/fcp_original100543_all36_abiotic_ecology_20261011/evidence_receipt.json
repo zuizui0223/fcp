@@ -1,0 +1,203 @@
+{
+  "schema": "fcp_original100543_all36_environment_global_east_elsewhere_evidence_receipt_v1",
+  "date_jst": "2026-10-11",
+  "status": "LOCAL_EXACT_SOURCE_ZIP_SHA256_REPRODUCED_7_TESTS_PASSED_REMOTE_CI_NOT_RUN",
+  "original_source": {
+    "nominal_opportunity_species": 42111,
+    "unique_original_photo_ids": 100543,
+    "four_hue_classifiable": 45953,
+    "unclassifiable": 54590,
+    "original_photo_archive_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "all36_photo_site_archive_sha256": "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca",
+    "climate_complete_n_photos": 45836,
+    "climate_complete_species": 25028,
+    "soil_complete_n_photos": 31925,
+    "soil_complete_species": 20786
+  },
+  "predictors": {
+    "elevation": 1,
+    "temperature": 11,
+    "precipitation": 8,
+    "solar_radiation": 2,
+    "wind": 2,
+    "vapor_pressure": 2,
+    "soil": 10
+  },
+  "prediction_design": "5 fold 162 original equal-area cell holdout of each species' photo-site CENTROID; training genera with 3+ distinct source species; each named source species one response row of its observed 4 photo-colour proportions; geographic features abs-lat, longitude sin/cos. Species-equal vs genus-equal multiclass Brier, ridge40",
+  "source_kernels_are_not_inferred_phylogeny": true,
+  "full_block_gain_genus_equal": {
+    "climate_world": {
+      "n_test_species": 17183,
+      "n_genera": 1347,
+      "score_reduction": 0.0029429491669706095,
+      "ci95": [
+        0.0019235128487376221,
+        0.0041093547180493335
+      ]
+    },
+    "climate_east": {
+      "n_test_species": 4555,
+      "n_genera": 455,
+      "score_reduction": 0.0064877922870499255,
+      "ci95": [
+        0.00265835157346437,
+        0.010174053220550153
+      ]
+    },
+    "climate_other": {
+      "n_test_species": 12653,
+      "n_genera": 1071,
+      "score_reduction": 0.002222175810637733,
+      "ci95": [
+        0.000834402908527923,
+        0.0037655545272379377
+      ]
+    },
+    "soil_world": {
+      "n_test_species": 13961,
+      "n_genera": 1167,
+      "score_reduction": 0.0014316707124251914,
+      "ci95": [
+        0.00016889030364104735,
+        0.0027861167134917157
+      ]
+    },
+    "soil_east": {
+      "n_test_species": 3307,
+      "n_genera": 346,
+      "score_reduction": 0.007090098250418768,
+      "ci95": [
+        0.0022417519192613,
+        0.012068053220550153
+      ]
+    },
+    "soil_other": {
+      "n_test_species": 10307,
+      "n_genera": 914,
+      "score_reduction": 0.002956924485598816,
+      "ci95": [
+        0.001284361501217495,
+        0.004633504475388069
+      ]
+    }
+  },
+  "unique_block_study_results": [
+    {
+      "source": "climate_world",
+      "unique_genus_equal_gains": {
+        "elevation": 0.000113,
+        "temperature": 0.000357,
+        "precipitation": 0.00027,
+        "solar_radiation": 0.000284,
+        "wind": 0.000208,
+        "vapor_pressure": 0.000144
+      },
+      "nominal_positive_genus_CI": [
+        "solar_radiation"
+      ],
+      "positive_both_species_and_genus_weight_CI": []
+    },
+    {
+      "source": "climate_east",
+      "unique_genus_equal_gains": {
+        "elevation": -0.000063,
+        "temperature": 0.000467,
+        "precipitation": 0.000771,
+        "solar_radiation": 0.00101,
+        "wind": -0.000299,
+        "vapor_pressure": 0.000157
+      },
+      "nominal_positive_genus_CI": [
+        "solar_radiation"
+      ],
+      "positive_both_species_and_genus_weight_CI": []
+    },
+    {
+      "source": "climate_other",
+      "unique_genus_equal_gains": {
+        "elevation": 0.000103,
+        "temperature": 0.000437,
+        "precipitation": 0.00056,
+        "solar_radiation": 0.000147,
+        "wind": -0.000279,
+        "vapor_pressure": 0.000078
+      },
+      "nominal_positive_genus_CI": [],
+      "positive_both_species_and_genus_weight_CI": []
+    },
+    {
+      "source": "soil_world",
+      "unique_genus_equal_gains": {
+        "elevation": 0.000051,
+        "temperature": 0.00019,
+        "precipitation": -0.000687,
+        "solar_radiation": 0.00013,
+        "wind": -0.000076,
+        "vapor_pressure": -0.000103,
+        "soil": 0.000257
+      },
+      "nominal_positive_genus_CI": [],
+      "positive_both_species_and_genus_weight_CI": []
+    },
+    {
+      "source": "soil_east",
+      "unique_genus_equal_gains": {
+        "elevation": -0.000553,
+        "temperature": 0.000169,
+        "precipitation": 0.000124,
+        "solar_radiation": 0.000262,
+        "wind": -0.000699,
+        "vapor_pressure": -0.000606,
+        "soil": 0.002169
+      },
+      "nominal_positive_genus_CI": [],
+      "positive_both_species_and_genus_weight_CI": []
+    },
+    {
+      "source": "soil_other",
+      "unique_genus_equal_gains": {
+        "elevation": 0.000098,
+        "temperature": 0.000829,
+        "precipitation": 0.000191,
+        "solar_radiation": 0.000222,
+        "wind": 0.000031,
+        "vapor_pressure": -0.000535,
+        "soil": 0.000142
+      },
+      "nominal_positive_genus_CI": [],
+      "positive_both_species_and_genus_weight_CI": []
+    }
+  ],
+  "strict_photo_quality": {
+    "minimum_flower_effective_pixels": 23826,
+    "max_nuisance_fraction": 0.1375717742195135,
+    "climate_world_heldout_species": 4512,
+    "climate_world_unique_solar_genus_equal_gain": 0.0003268,
+    "climate_world_unique_solar_genus_equal_95CI": [
+      -0.000148,
+      0.000793
+    ],
+    "none_of_seven_blocks_stable_in_all_quality_geo_genus_source_controls": true
+  },
+  "single_variable_world": {
+    "climate_variables_tested": 26,
+    "soil_inclusive_variables_tested": 36,
+    "climate_nominal_genus_equal_positive": [
+      "wc_srad_annual_mean"
+    ],
+    "soil_nominal_genus_equal_positive": [
+      "wc_bio14",
+      "soil_clay",
+      "soil_available_water_proxy"
+    ],
+    "multiplicity_adjusted_individual_predictors_established": false
+  },
+  "uncertainty": "Exploratory 499 genus cluster bootstraps for regional seven-block comparisons; 199 bootstraps for world single predictor. All models condition on photo colour opportunity and same measurement system. No evidence of true adaptive pigment synthesis cost or pollinator/herbivore payoff.",
+  "hard_nonclaims": [
+    "The entire sample with real-site climate was scanned, but outcome available only for source four-state-classifiable photo images.",
+    "Photo-site species centroid grouped holdout is not exact raw-photograph-site geographic blocking.",
+    "There is no direct dated phylogenetic covariance correction in this source-broad screening.",
+    "No strong biological common factor shared by intra- and interspecific source-pigment fitness results was identified.",
+    "The source-protected New Phytologist H1/H2 and main branch remain unchanged."
+  ]
+}
