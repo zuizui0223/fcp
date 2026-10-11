@@ -71,8 +71,8 @@ def paired_genus_bootstrap(a: dict, b: dict, *, repetitions: int,
     m1, m2 = mat_a.sum(axis=0),mat_b.sum(axis=0)
     if np.linalg.cond(m1)>1e10 or np.linalg.cond(m2)>1e10:
         return {"status":"HOLD_ILL_CONDITIONED","n_shared_genera":n}
-    base_a = np.linalg.solve(m1, rhs_a)[0,:]
-    base_b = np.linalg.solve(m2, rhs_b)[0,:]
+    base_a = np.linalg.solve(m1, rhs_a.sum(axis=0))[0,:]
+    base_b = np.linalg.solve(m2, rhs_b.sum(axis=0))[0,:]
     rng = np.random.default_rng(seed)
     draws = rng.multinomial(n, np.repeat(1/n,n), size=repetitions)
     matrices_a = np.einsum("rn,nij->rij",draws,mat_a,optimize=True)
