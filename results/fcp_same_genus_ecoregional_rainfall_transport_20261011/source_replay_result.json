@@ -1,0 +1,1461 @@
+{
+  "schema": "fcp_global42111_same_genus_region_effect_source_verified_20261011_v1",
+  "provenance": {
+    "original_source_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "actions_run_id": 38106584765,
+    "actions_job_id": 114373307795,
+    "workflow_conclusion": "success",
+    "artifact_id": 11690391164,
+    "artifact_zip_sha256": "a2ae47e9fcf7840f437b43410afb94036c9d2d6d5dabc51946c2250befb7102c",
+    "n_source_bootstrap_replicates": 999
+  },
+  "all_original_unique_photo_ids": 100543,
+  "n_original_4state_classifiable_photos": 45953,
+  "n_original_source_geoclimate_fourcolour_photos": 45836,
+  "n_original_source_classifiable_species": 25028,
+  "source_equal_species_same_genus_cases": {
+    "all_classified_original_source_photos": {
+      "3": {
+        "source_qualified_shared_genera": 394,
+        "n_unique_source_species": 9938,
+        "n_original_photo_records": 21176,
+        "n_same_named_species_observed_both_regions": 1102,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 394,
+            "n_original_distinct_species_E": 3415,
+            "n_original_distinct_species_elsewhere": 7625,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.05075343087781021,
+                "elsewhere_rainfall_slope": 0.008313779885903275,
+                "east_minus_elsewhere_rainfall_slope": 0.042439650991906934,
+                "east_genus_resample_CI95": [
+                  0.025018627502371875,
+                  0.07515717759017075
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.010311028861522856,
+                  0.025136304718457864
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.013471196238706755,
+                  0.07044673567392908
+                ],
+                "one_sided_p_difference_not_positive": 0.003
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.009065921937187417,
+                "elsewhere_rainfall_slope": -0.012241166538779302,
+                "east_minus_elsewhere_rainfall_slope": 0.0031752446015918846,
+                "east_genus_resample_CI95": [
+                  -0.02852018711395628,
+                  0.009274640768618236
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.025633091252132322,
+                  0.0004141129083412673
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.02047609434686754,
+                  0.02661156401493443
+                ],
+                "one_sided_p_difference_not_positive": 0.381
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.009472177921449313,
+                "elsewhere_rainfall_slope": 0.002301979089466791,
+                "east_minus_elsewhere_rainfall_slope": -0.011774157010916103,
+                "east_genus_resample_CI95": [
+                  -0.02292383999630896,
+                  0.004068267551961401
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.007884710855358346,
+                  0.013094098437683456
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.02897657318580617,
+                  0.004138593420413496
+                ],
+                "one_sided_p_difference_not_positive": 0.935
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.03221533101917342,
+                "elsewhere_rainfall_slope": 0.0016254075634092309,
+                "east_minus_elsewhere_rainfall_slope": -0.03384073858258265,
+                "east_genus_resample_CI95": [
+                  -0.04839225551873591,
+                  -0.016092980666419735
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.005519209837181152,
+                  0.009419276298970347
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.04994102300934921,
+                  -0.017049058762072845
+                ],
+                "one_sided_p_difference_not_positive": 1
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 394,
+            "n_original_distinct_species_E": 3415,
+            "n_original_distinct_species_elsewhere": 7625,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.03604741417428842,
+                "elsewhere_rainfall_slope": 0.008649063771040178,
+                "east_minus_elsewhere_rainfall_slope": 0.02739835040324824,
+                "east_genus_resample_CI95": [
+                  0.006568474285723254,
+                  0.061078240351267035
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.01655061040066761,
+                  0.032939610578810334
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.008871421594586882,
+                  0.06407975522642152
+                ],
+                "one_sided_p_difference_not_positive": 0.072
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.01221185679554756,
+                "elsewhere_rainfall_slope": -0.0032082088554438257,
+                "east_minus_elsewhere_rainfall_slope": -0.009003647940103734,
+                "east_genus_resample_CI95": [
+                  -0.03598795093258405,
+                  0.014197662355691363
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.026229789055211415,
+                  0.018758253086538716
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.040915044638836384,
+                  0.025797998854869723
+                ],
+                "one_sided_p_difference_not_positive": 0.689
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.0007594172920850095,
+                "elsewhere_rainfall_slope": -0.006541012063248994,
+                "east_minus_elsewhere_rainfall_slope": 0.007300429355334004,
+                "east_genus_resample_CI95": [
+                  -0.015177164502242357,
+                  0.016085531087265084
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.018042787013170258,
+                  0.004583962339881662
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.011392877845879924,
+                  0.024216768452526793
+                ],
+                "one_sided_p_difference_not_positive": 0.231
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.024594974670825914,
+                "elsewhere_rainfall_slope": 0.0011001571476526317,
+                "east_minus_elsewhere_rainfall_slope": -0.025695131818478545,
+                "east_genus_resample_CI95": [
+                  -0.03770739130156896,
+                  -0.012097418721596335
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.007777262021435157,
+                  0.010487793102850545
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.041430723445291605,
+                  -0.010420574744976669
+                ],
+                "one_sided_p_difference_not_positive": 1
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      },
+      "5": {
+        "source_qualified_shared_genera": 199,
+        "n_unique_source_species": 7325,
+        "n_original_photo_records": 15601,
+        "n_same_named_species_observed_both_regions": 782,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 199,
+            "n_original_distinct_species_E": 2553,
+            "n_original_distinct_species_elsewhere": 5554,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.0588113803787534,
+                "elsewhere_rainfall_slope": 0.015190417034685983,
+                "east_minus_elsewhere_rainfall_slope": 0.04362096334406742,
+                "east_genus_resample_CI95": [
+                  0.026887041312074453,
+                  0.0863227225578773
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.005568928791568792,
+                  0.036773035636233284
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.007339119209672225,
+                  0.07741644464571623
+                ],
+                "one_sided_p_difference_not_positive": 0.008
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.005352847090024412,
+                "elsewhere_rainfall_slope": -0.017305808749282885,
+                "east_minus_elsewhere_rainfall_slope": 0.011952961659258472,
+                "east_genus_resample_CI95": [
+                  -0.028219436623385014,
+                  0.016228771043615885
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.03589934145616384,
+                  -0.0013906875965678924
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.01730403656557516,
+                  0.041057588515554126
+                ],
+                "one_sided_p_difference_not_positive": 0.197
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.011773531307514077,
+                "elsewhere_rainfall_slope": -0.0006934963095608294,
+                "east_minus_elsewhere_rainfall_slope": -0.011080034997953247,
+                "east_genus_resample_CI95": [
+                  -0.02873306586595367,
+                  0.006379545363770783
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.011932019890811045,
+                  0.010834396743622443
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.031159764128064954,
+                  0.00918379249676877
+                ],
+                "one_sided_p_difference_not_positive": 0.854
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.04168500198121487,
+                "elsewhere_rainfall_slope": 0.0028088880241577316,
+                "east_minus_elsewhere_rainfall_slope": -0.044493890005372606,
+                "east_genus_resample_CI95": [
+                  -0.06343879836973731,
+                  -0.0215137304874579
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.006069085286300489,
+                  0.012064383875552451
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06580352283021303,
+                  -0.023030182430137193
+                ],
+                "one_sided_p_difference_not_positive": 1
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 199,
+            "n_original_distinct_species_E": 2553,
+            "n_original_distinct_species_elsewhere": 5554,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.04137963704217072,
+                "elsewhere_rainfall_slope": 0.026638148635318933,
+                "east_minus_elsewhere_rainfall_slope": 0.014741488406851789,
+                "east_genus_resample_CI95": [
+                  0.009246801370364205,
+                  0.07314920856517539
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.00041188277269278283,
+                  0.05057143961763349
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.02330797121711684,
+                  0.05510487375706975
+                ],
+                "one_sided_p_difference_not_positive": 0.223
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.001624282534932384,
+                "elsewhere_rainfall_slope": -0.027910717580204282,
+                "east_minus_elsewhere_rainfall_slope": 0.026286435045271898,
+                "east_genus_resample_CI95": [
+                  -0.03230613355391277,
+                  0.02878331375539333
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0466469369559501,
+                  -0.009645887956018636
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.008249309130398435,
+                  0.06265798904616142
+                ],
+                "one_sided_p_difference_not_positive": 0.068
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.001097030290805554,
+                "elsewhere_rainfall_slope": -0.0060411110505815355,
+                "east_minus_elsewhere_rainfall_slope": 0.004944080759775982,
+                "east_genus_resample_CI95": [
+                  -0.021091794708226155,
+                  0.018563903035363625
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.01860339873410641,
+                  0.00622220159001534
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.01998997787506423,
+                  0.02852653045917297
+                ],
+                "one_sided_p_difference_not_positive": 0.345
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.03865832421643284,
+                "elsewhere_rainfall_slope": 0.007313679995466901,
+                "east_minus_elsewhere_rainfall_slope": -0.04597200421189974,
+                "east_genus_resample_CI95": [
+                  -0.05621919397140134,
+                  -0.02277154228279861
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0041441600936927715,
+                  0.02148910492630788
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06721476873340056,
+                  -0.02568997910293374
+                ],
+                "one_sided_p_difference_not_positive": 1
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      },
+      "10": {
+        "source_qualified_shared_genera": 72,
+        "n_unique_source_species": 4588,
+        "n_original_photo_records": 9719,
+        "n_same_named_species_observed_both_regions": 460,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 72,
+            "n_original_distinct_species_E": 1648,
+            "n_original_distinct_species_elsewhere": 3400,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.0672312011081353,
+                "elsewhere_rainfall_slope": 0.01010624390820673,
+                "east_minus_elsewhere_rainfall_slope": 0.057124957199928564,
+                "east_genus_resample_CI95": [
+                  0.030871233529447886,
+                  0.09816208497280678
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.01777904961445261,
+                  0.036921009680695005
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.014381342678220025,
+                  0.0963608776418089
+                ],
+                "one_sided_p_difference_not_positive": 0.007
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.003931870151607056,
+                "elsewhere_rainfall_slope": -0.010497074317607508,
+                "east_minus_elsewhere_rainfall_slope": 0.006565204166000452,
+                "east_genus_resample_CI95": [
+                  -0.02939813765110534,
+                  0.021975455281438135
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.033254616712931104,
+                  0.011103097366726477
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.028331608729775346,
+                  0.042072959492955884
+                ],
+                "one_sided_p_difference_not_positive": 0.335
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.022078132736017678,
+                "elsewhere_rainfall_slope": -0.0007526589809532029,
+                "east_minus_elsewhere_rainfall_slope": -0.021325473755064474,
+                "east_genus_resample_CI95": [
+                  -0.04318162395967385,
+                  0.0002896653636745571
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.015585540091880417,
+                  0.01486139634735493
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.04535334155009504,
+                  0.0010068781556202338
+                ],
+                "one_sided_p_difference_not_positive": 0.971
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.041221198220510596,
+                "elsewhere_rainfall_slope": 0.0011434893903539767,
+                "east_minus_elsewhere_rainfall_slope": -0.04236468761086457,
+                "east_genus_resample_CI95": [
+                  -0.06770217535623066,
+                  -0.014998528333575659
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.009434591780853008,
+                  0.013127751178634685
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06859853279866532,
+                  -0.014767958997740124
+                ],
+                "one_sided_p_difference_not_positive": 1
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 72,
+            "n_original_distinct_species_E": 1648,
+            "n_original_distinct_species_elsewhere": 3400,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.050383828461862915,
+                "elsewhere_rainfall_slope": 0.01968420641315928,
+                "east_minus_elsewhere_rainfall_slope": 0.030699622048703634,
+                "east_genus_resample_CI95": [
+                  0.017437537748169224,
+                  0.08303038947940358
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.02050993261509789,
+                  0.054833907782011894
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.0203420563786847,
+                  0.08051850025455938
+                ],
+                "one_sided_p_difference_not_positive": 0.116
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": 0.003164744168755375,
+                "elsewhere_rainfall_slope": -0.02286569621280059,
+                "east_minus_elsewhere_rainfall_slope": 0.026030440381555966,
+                "east_genus_resample_CI95": [
+                  -0.02658391630069849,
+                  0.029370821520806927
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.049946657297521,
+                  0.009669193111335782
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.019912599740367454,
+                  0.06543614675171168
+                ],
+                "one_sided_p_difference_not_positive": 0.122
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.021306316426921563,
+                "elsewhere_rainfall_slope": 0.004560590761912556,
+                "east_minus_elsewhere_rainfall_slope": -0.02586690718883412,
+                "east_genus_resample_CI95": [
+                  -0.043779218641371936,
+                  0.0037266711646083486
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.012729316909900326,
+                  0.024505631489063887
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.05087249546512122,
+                  -0.0007287623935913385
+                ],
+                "one_sided_p_difference_not_positive": 0.976
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.03224225620369674,
+                "elsewhere_rainfall_slope": -0.001379100962271249,
+                "east_minus_elsewhere_rainfall_slope": -0.030863155241425487,
+                "east_genus_resample_CI95": [
+                  -0.0529205643669728,
+                  -0.010974548274699382
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.020172523907167006,
+                  0.017701324073343405
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.061175750080018895,
+                  -0.0009355170097042741
+                ],
+                "one_sided_p_difference_not_positive": 0.979
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      }
+    },
+    "common_rainfall_10_90_both_regions": {
+      "3": {
+        "source_qualified_shared_genera": 275,
+        "n_unique_source_species": 7070,
+        "n_original_photo_records": 14583,
+        "n_same_named_species_observed_both_regions": 742,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 275,
+            "n_original_distinct_species_E": 2201,
+            "n_original_distinct_species_elsewhere": 5611,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.10651969107462336,
+                "elsewhere_rainfall_slope": -0.01234950127448213,
+                "east_minus_elsewhere_rainfall_slope": 0.11886919234910549,
+                "east_genus_resample_CI95": [
+                  0.03914843944046005,
+                  0.1663271869174647
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.046760432734485005,
+                  0.021482232764085854
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.04345900066926719,
+                  0.1889440256706157
+                ],
+                "one_sided_p_difference_not_positive": 0.001
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.06666526309604921,
+                "elsewhere_rainfall_slope": -0.009026262765620085,
+                "east_minus_elsewhere_rainfall_slope": -0.057639000330429124,
+                "east_genus_resample_CI95": [
+                  -0.12665811551255612,
+                  -0.013396133028445924
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.039914174860196695,
+                  0.019995586526223578
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.12401272935862664,
+                  0.008756429986828436
+                ],
+                "one_sided_p_difference_not_positive": 0.956
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.01490887997065786,
+                "elsewhere_rainfall_slope": 0.00836267469769417,
+                "east_minus_elsewhere_rainfall_slope": 0.006546205272963689,
+                "east_genus_resample_CI95": [
+                  -0.025563012964202925,
+                  0.05622017834225289
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.014913190038351638,
+                  0.03342116493380105
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.037983092829499354,
+                  0.0494486426944545
+                ],
+                "one_sided_p_difference_not_positive": 0.389
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.05476330794923186,
+                "elsewhere_rainfall_slope": 0.013013089342408059,
+                "east_minus_elsewhere_rainfall_slope": -0.06777639729163992,
+                "east_genus_resample_CI95": [
+                  -0.10413676715337084,
+                  -0.008943724171735853
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.006532150472397013,
+                  0.033337762251478185
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.12276076086025127,
+                  -0.016565181589413634
+                ],
+                "one_sided_p_difference_not_positive": 0.994
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 275,
+            "n_original_distinct_species_E": 2201,
+            "n_original_distinct_species_elsewhere": 5611,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.038575237881029616,
+                "elsewhere_rainfall_slope": -0.006227619836596599,
+                "east_minus_elsewhere_rainfall_slope": 0.04480285771762622,
+                "east_genus_resample_CI95": [
+                  -0.04054025454107279,
+                  0.11478143985490667
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.05340427016314016,
+                  0.04438251547544279
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.04210271853941072,
+                  0.13124331948686374
+                ],
+                "one_sided_p_difference_not_positive": 0.152
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.02265720887768075,
+                "elsewhere_rainfall_slope": -0.002846809293851876,
+                "east_minus_elsewhere_rainfall_slope": -0.019810399583828874,
+                "east_genus_resample_CI95": [
+                  -0.08323350037651951,
+                  0.03936990224662276
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.04626076820883536,
+                  0.03833704387196583
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.08914192441944278,
+                  0.048699264582093164
+                ],
+                "one_sided_p_difference_not_positive": 0.693
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.034681131100888905,
+                "elsewhere_rainfall_slope": -0.003988592762505691,
+                "east_minus_elsewhere_rainfall_slope": 0.038669723863394595,
+                "east_genus_resample_CI95": [
+                  -0.010025466878416104,
+                  0.08169231804315634
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.02949636596782337,
+                  0.021665850622520737
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.014514789796788332,
+                  0.09165332513156539
+                ],
+                "one_sided_p_difference_not_positive": 0.081
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.050599160104237616,
+                "elsewhere_rainfall_slope": 0.01306302189295419,
+                "east_minus_elsewhere_rainfall_slope": -0.06366218199719181,
+                "east_genus_resample_CI95": [
+                  -0.09192815361056926,
+                  -0.0114696205718497
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.013925629144552481,
+                  0.03757965839586006
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.1084520301926056,
+                  -0.01947997772050187
+                ],
+                "one_sided_p_difference_not_positive": 0.997
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      },
+      "5": {
+        "source_qualified_shared_genera": 128,
+        "n_unique_source_species": 4873,
+        "n_original_photo_records": 10136,
+        "n_same_named_species_observed_both_regions": 510,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 128,
+            "n_original_distinct_species_E": 1580,
+            "n_original_distinct_species_elsewhere": 3803,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.14531893499364384,
+                "elsewhere_rainfall_slope": -0.009412857960741653,
+                "east_minus_elsewhere_rainfall_slope": 0.1547317929543855,
+                "east_genus_resample_CI95": [
+                  0.053713594686665846,
+                  0.22194729084150983
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.048751538100731066,
+                  0.028549532487632822
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.05647389603442845,
+                  0.23650547921022017
+                ],
+                "one_sided_p_difference_not_positive": 0.002
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.0953268635441594,
+                "elsewhere_rainfall_slope": -0.01329941205424732,
+                "east_minus_elsewhere_rainfall_slope": -0.08202745148991207,
+                "east_genus_resample_CI95": [
+                  -0.1687974745846127,
+                  -0.02222178267473831
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.061051923623658334,
+                  0.028586168202369526
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.1703423431275413,
+                  0.0059185717174499355
+                ],
+                "one_sided_p_difference_not_positive": 0.963
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.017396043343617988,
+                "elsewhere_rainfall_slope": 0.003721097424231267,
+                "east_minus_elsewhere_rainfall_slope": 0.01367494591938672,
+                "east_genus_resample_CI95": [
+                  -0.02900135166175858,
+                  0.06328734033551446
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.024998618311599326,
+                  0.03591771370497695
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.03975791776520291,
+                  0.0640489521775523
+                ],
+                "one_sided_p_difference_not_positive": 0.317
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.06738811479310233,
+                "elsewhere_rainfall_slope": 0.018991172590757718,
+                "east_minus_elsewhere_rainfall_slope": -0.08637928738386005,
+                "east_genus_resample_CI95": [
+                  -0.13324252359458416,
+                  -0.007907349446166263
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0013794612738908729,
+                  0.04461851382004191
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.16095712733013848,
+                  -0.01702694769540553
+                ],
+                "one_sided_p_difference_not_positive": 0.998
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 128,
+            "n_original_distinct_species_E": 1580,
+            "n_original_distinct_species_elsewhere": 3803,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.11763205146852533,
+                "elsewhere_rainfall_slope": -0.022961178917184796,
+                "east_minus_elsewhere_rainfall_slope": 0.14059323038571012,
+                "east_genus_resample_CI95": [
+                  0.019880793526090897,
+                  0.20489296918331687
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0772672999586659,
+                  0.03218740648057357
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.02569311421326979,
+                  0.2496977945345169
+                ],
+                "one_sided_p_difference_not_positive": 0.01
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.08334617301145804,
+                "elsewhere_rainfall_slope": -0.02798601297656267,
+                "east_minus_elsewhere_rainfall_slope": -0.05536016003489537,
+                "east_genus_resample_CI95": [
+                  -0.155280196331655,
+                  -0.013284722424254207
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.08754186176161038,
+                  0.027338027829536198
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.14888231237977273,
+                  0.039585588063742246
+                ],
+                "one_sided_p_difference_not_positive": 0.856
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.02595891253404627,
+                "elsewhere_rainfall_slope": 0.023358657831501702,
+                "east_minus_elsewhere_rainfall_slope": 0.0026002547025445674,
+                "east_genus_resample_CI95": [
+                  -0.033652862575750925,
+                  0.08958955318505196
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.007626893363805513,
+                  0.056304972549603455
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06747931076628795,
+                  0.06721732144926966
+                ],
+                "one_sided_p_difference_not_positive": 0.482
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.0602447909911135,
+                "elsewhere_rainfall_slope": 0.027588534062245818,
+                "east_minus_elsewhere_rainfall_slope": -0.08783332505335932,
+                "east_genus_resample_CI95": [
+                  -0.11443107957332095,
+                  -0.007136596939665982
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0053035047250545786,
+                  0.06220953705792534
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.1509493861336035,
+                  -0.026327499928266263
+                ],
+                "one_sided_p_difference_not_positive": 0.996
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      },
+      "10": {
+        "source_qualified_shared_genera": 48,
+        "n_unique_source_species": 3152,
+        "n_original_photo_records": 6498,
+        "n_same_named_species_observed_both_regions": 297,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 48,
+            "n_original_distinct_species_E": 1033,
+            "n_original_distinct_species_elsewhere": 2416,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.15393460774428638,
+                "elsewhere_rainfall_slope": -0.015934172737924777,
+                "east_minus_elsewhere_rainfall_slope": 0.16986878048221116,
+                "east_genus_resample_CI95": [
+                  0.053192882497996426,
+                  0.2454454173491138
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.07492216202091652,
+                  0.03255351181641538
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.06387579170603763,
+                  0.27033272680100146
+                ],
+                "one_sided_p_difference_not_positive": 0.003
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.10319796843147265,
+                "elsewhere_rainfall_slope": 0.00204740652688204,
+                "east_minus_elsewhere_rainfall_slope": -0.10524537495835469,
+                "east_genus_resample_CI95": [
+                  -0.19622360504914127,
+                  -0.01678756550993798
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.047432778194991754,
+                  0.04901407010932326
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.20457958938472465,
+                  0.00391900375684995
+                ],
+                "one_sided_p_difference_not_positive": 0.967
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.012392869354824223,
+                "elsewhere_rainfall_slope": 0.0029355723492911078,
+                "east_minus_elsewhere_rainfall_slope": 0.009457297005533116,
+                "east_genus_resample_CI95": [
+                  -0.051090184592545614,
+                  0.06918360114717619
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.03254898691496584,
+                  0.04086167867923024
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.055685768564519095,
+                  0.0735868469312384
+                ],
+                "one_sided_p_difference_not_positive": 0.408
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.06312950866763785,
+                "elsewhere_rainfall_slope": 0.010951193861751621,
+                "east_minus_elsewhere_rainfall_slope": -0.07408070252938947,
+                "east_genus_resample_CI95": [
+                  -0.15228118080296507,
+                  0.015095082396391034
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.016926631847178537,
+                  0.04186643385160945
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.17959888590895864,
+                  0.022128371088239427
+                ],
+                "one_sided_p_difference_not_positive": 0.942
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 48,
+            "n_original_distinct_species_E": 1033,
+            "n_original_distinct_species_elsewhere": 2416,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.11334689037092777,
+                "elsewhere_rainfall_slope": -0.04079894278742331,
+                "east_minus_elsewhere_rainfall_slope": 0.15414583315835106,
+                "east_genus_resample_CI95": [
+                  0.022256492563114072,
+                  0.21214762367890952
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.11951959609713843,
+                  0.026187763662392456
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.03758664280761199,
+                  0.285726416715281
+                ],
+                "one_sided_p_difference_not_positive": 0.003
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.06071483298539123,
+                "elsewhere_rainfall_slope": -0.007045168866318664,
+                "east_minus_elsewhere_rainfall_slope": -0.05366966411907256,
+                "east_genus_resample_CI95": [
+                  -0.12948289092111975,
+                  0.01025918708864273
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0626203870713392,
+                  0.046776036260015294
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.14698663292441172,
+                  0.034382725305093856
+                ],
+                "one_sided_p_difference_not_positive": 0.896
+              },
+              "red_pink": {
+                "east_rainfall_slope": 0.004087798349342901,
+                "elsewhere_rainfall_slope": 0.019176294124184968,
+                "east_minus_elsewhere_rainfall_slope": -0.015088495774842066,
+                "east_genus_resample_CI95": [
+                  -0.07125534542564205,
+                  0.07672954586324572
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.02193483231938666,
+                  0.06532812881591032
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.09645459021201974,
+                  0.06337679469532463
+                ],
+                "one_sided_p_difference_not_positive": 0.651
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.05671985573487946,
+                "elsewhere_rainfall_slope": 0.028667817529556976,
+                "east_minus_elsewhere_rainfall_slope": -0.08538767326443644,
+                "east_genus_resample_CI95": [
+                  -0.13221851276942004,
+                  0.025119343569608182
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.010111306419469014,
+                  0.07430062758848101
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.18242212363166083,
+                  0.013938987436459596
+                ],
+                "one_sided_p_difference_not_positive": 0.956
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      }
+    },
+    "original_photo_quality_strict": {
+      "3": {
+        "source_qualified_shared_genera": 77,
+        "n_unique_source_species": 1381,
+        "n_original_photo_records": 2496,
+        "n_same_named_species_observed_both_regions": 177,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 77,
+            "n_original_distinct_species_E": 465,
+            "n_original_distinct_species_elsewhere": 1093,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.04947455206715324,
+                "elsewhere_rainfall_slope": -0.023095216963486705,
+                "east_minus_elsewhere_rainfall_slope": 0.07256976903063994,
+                "east_genus_resample_CI95": [
+                  -0.001884375292936836,
+                  0.10582415430436434
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.06781739751273361,
+                  0.022515084606025818
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.00016210930331045576,
+                  0.1432219146789479
+                ],
+                "one_sided_p_difference_not_positive": 0.027
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.004151503198199685,
+                "elsewhere_rainfall_slope": 0.010805404625583988,
+                "east_minus_elsewhere_rainfall_slope": -0.014956907823783673,
+                "east_genus_resample_CI95": [
+                  -0.04705833164621593,
+                  0.04117920278941355
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.02796597953965549,
+                  0.051489240336364026
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06600566317266437,
+                  0.036278985721610785
+                ],
+                "one_sided_p_difference_not_positive": 0.697
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.013752379337267176,
+                "elsewhere_rainfall_slope": 0.0253641657907021,
+                "east_minus_elsewhere_rainfall_slope": -0.03911654512796928,
+                "east_genus_resample_CI95": [
+                  -0.05431905377207747,
+                  0.025152223430725273
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0067373946966877395,
+                  0.059509689727772964
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.09102459583755912,
+                  0.01363104831302005
+                ],
+                "one_sided_p_difference_not_positive": 0.934
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.031570669531686406,
+                "elsewhere_rainfall_slope": -0.013074353452799387,
+                "east_minus_elsewhere_rainfall_slope": -0.01849631607888702,
+                "east_genus_resample_CI95": [
+                  -0.0688892658552788,
+                  0.001232612802790353
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0611453414923456,
+                  0.033496493074677704
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06180616707695239,
+                  0.03061759570503397
+                ],
+                "one_sided_p_difference_not_positive": 0.745
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 77,
+            "n_original_distinct_species_E": 465,
+            "n_original_distinct_species_elsewhere": 1093,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.0480531801645194,
+                "elsewhere_rainfall_slope": -0.0390855377752155,
+                "east_minus_elsewhere_rainfall_slope": 0.0871387179397349,
+                "east_genus_resample_CI95": [
+                  -0.014686872845037093,
+                  0.10896192152380532
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.09093303144524298,
+                  0.023005249494518216
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.01283348012907204,
+                  0.16722243946872736
+                ],
+                "one_sided_p_difference_not_positive": 0.043
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": -0.0028416561916029866,
+                "elsewhere_rainfall_slope": 0.017050030672899064,
+                "east_minus_elsewhere_rainfall_slope": -0.019891686864502052,
+                "east_genus_resample_CI95": [
+                  -0.048248834811070784,
+                  0.05402434626670937
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.04725097201164913,
+                  0.0794298285676174
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.09511321281507806,
+                  0.07185185471107865
+                ],
+                "one_sided_p_difference_not_positive": 0.661
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.0074677431295041155,
+                "elsewhere_rainfall_slope": 0.02754163956518896,
+                "east_minus_elsewhere_rainfall_slope": -0.03500938269469308,
+                "east_genus_resample_CI95": [
+                  -0.060678112111496395,
+                  0.04833074565428683
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0040191435479756555,
+                  0.06750909805950925
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.10477933939897525,
+                  0.03541958582050036
+                ],
+                "one_sided_p_difference_not_positive": 0.863
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.03774378084341232,
+                "elsewhere_rainfall_slope": -0.005506132462872499,
+                "east_minus_elsewhere_rainfall_slope": -0.032237648380539816,
+                "east_genus_resample_CI95": [
+                  -0.07706536384118269,
+                  0.004093049887605844
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.051850557712733406,
+                  0.0354007384720159
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.08680922974379257,
+                  0.029377639938127916
+                ],
+                "one_sided_p_difference_not_positive": 0.825
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      },
+      "5": {
+        "source_qualified_shared_genera": 31,
+        "n_unique_source_species": 900,
+        "n_original_photo_records": 1598,
+        "n_same_named_species_observed_both_regions": 105,
+        "models": {
+          "equal_species": {
+            "status": "OK",
+            "n_shared_genera": 31,
+            "n_original_distinct_species_E": 309,
+            "n_original_distinct_species_elsewhere": 696,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.05830211581610236,
+                "elsewhere_rainfall_slope": -0.029855884510708565,
+                "east_minus_elsewhere_rainfall_slope": 0.08815800032681093,
+                "east_genus_resample_CI95": [
+                  0.0019253237611535797,
+                  0.12372046185527523
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.08369395996284096,
+                  0.01905056139280572
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.010535709991072239,
+                  0.17586571035170748
+                ],
+                "one_sided_p_difference_not_positive": 0.01
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": 0.005954627967188503,
+                "elsewhere_rainfall_slope": 0.005313957900777155,
+                "east_minus_elsewhere_rainfall_slope": 0.0006406700664113481,
+                "east_genus_resample_CI95": [
+                  -0.048033249587021806,
+                  0.054822213533253755
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.04121777164235855,
+                  0.055481807506590465
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.060694649605197,
+                  0.05545401286337493
+                ],
+                "one_sided_p_difference_not_positive": 0.54
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.032905296227431935,
+                "elsewhere_rainfall_slope": 0.014859562621676287,
+                "east_minus_elsewhere_rainfall_slope": -0.04776485884910822,
+                "east_genus_resample_CI95": [
+                  -0.08720855538252095,
+                  0.011040893244617949
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.03008664450187688,
+                  0.05898015964547511
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.1201888025401454,
+                  0.013070457258178207
+                ],
+                "one_sided_p_difference_not_positive": 0.946
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.03135144755585897,
+                "elsewhere_rainfall_slope": 0.00968236398825511,
+                "east_minus_elsewhere_rainfall_slope": -0.04103381154411408,
+                "east_genus_resample_CI95": [
+                  -0.07542557935825382,
+                  0.011503433865720324
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.054974551722897516,
+                  0.06856915890734067
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.08719655011457188,
+                  0.00903974601911501
+                ],
+                "one_sided_p_difference_not_positive": 0.938
+              }
+            }
+          },
+          "equal_genera": {
+            "status": "OK",
+            "n_shared_genera": 31,
+            "n_original_distinct_species_E": 309,
+            "n_original_distinct_species_elsewhere": 696,
+            "bootstrap_same_genus_replicates": 999,
+            "response_four_original_photo_hues": {
+              "white": {
+                "east_rainfall_slope": 0.07125134043592228,
+                "elsewhere_rainfall_slope": -0.033953352393708225,
+                "east_minus_elsewhere_rainfall_slope": 0.1052046928296305,
+                "east_genus_resample_CI95": [
+                  -0.0036387931919972315,
+                  0.15736326840028494
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.07742105428615195,
+                  0.0055109120351460525
+                ],
+                "paired_same_genus_difference_CI95": [
+                  0.015132390281601108,
+                  0.20231179874580418
+                ],
+                "one_sided_p_difference_not_positive": 0.009
+              },
+              "yellow_orange": {
+                "east_rainfall_slope": 0.021077255151129008,
+                "elsewhere_rainfall_slope": 0.009525700896976692,
+                "east_minus_elsewhere_rainfall_slope": 0.011551554254152316,
+                "east_genus_resample_CI95": [
+                  -0.037548561423911726,
+                  0.08392591825993218
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0353051498118184,
+                  0.06906666018148915
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.06251493538003638,
+                  0.06761673416572196
+                ],
+                "one_sided_p_difference_not_positive": 0.438
+              },
+              "red_pink": {
+                "east_rainfall_slope": -0.0508977136579544,
+                "elsewhere_rainfall_slope": -0.0010248173401186935,
+                "east_minus_elsewhere_rainfall_slope": -0.04987289631783571,
+                "east_genus_resample_CI95": [
+                  -0.1144390111274026,
+                  0.0031718719696744854
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.04134287591814199,
+                  0.04976606829807414
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.1272480344516989,
+                  0.022444700069874955
+                ],
+                "one_sided_p_difference_not_positive": 0.937
+              },
+              "blue_purple": {
+                "east_rainfall_slope": -0.04143088192909689,
+                "elsewhere_rainfall_slope": 0.02545246883685024,
+                "east_minus_elsewhere_rainfall_slope": -0.06688335076594713,
+                "east_genus_resample_CI95": [
+                  -0.08352959444802122,
+                  0.0034446966657313105
+                ],
+                "elsewhere_genus_resample_CI95": [
+                  -0.0543042680255294,
+                  0.07817049916124756
+                ],
+                "paired_same_genus_difference_CI95": [
+                  -0.1107416358344765,
+                  0.006854463402624032
+                ],
+                "one_sided_p_difference_not_positive": 0.957
+              }
+            }
+          }
+        },
+        "species_composition_changed_inside_shared_genus": true
+      },
+      "10": {
+        "status": "HOLD_INSUFFICIENT_GENERA",
+        "n_shared_genera": 8
+      }
+    }
+  },
+  "source_same_named_species_across_two_geographies": {
+    "1": {
+      "status": "OK",
+      "n_same_taxa_both_geographies": 1773,
+      "n_genera": 933,
+      "n_original_photo_rows": 12057,
+      "source_species_fixed_comparison": true,
+      "delta_white_E_minus_elsewhere_mean": -0.000861680534684852,
+      "annual_rainfall_BIO12_species_paired_slope": -0.01022162782136027,
+      "annual_rainfall_BIO12_genus_cluster_CI95": [
+        -0.03402334323321994,
+        0.013580087590499402
+      ],
+      "no_true_species_population_genotype_adaptation_test": true
+    },
+    "2": {
+      "status": "OK",
+      "n_same_taxa_both_geographies": 733,
+      "n_genera": 480,
+      "n_original_photo_rows": 7746,
+      "source_species_fixed_comparison": true,
+      "delta_white_E_minus_elsewhere_mean": -0.004542361326449534,
+      "annual_rainfall_BIO12_species_paired_slope": 0.002755686836356231,
+      "annual_rainfall_BIO12_genus_cluster_CI95": [
+        -0.03297951163373074,
+        0.03849088530644319
+      ],
+      "no_true_species_population_genotype_adaptation_test": true
+    },
+    "3": {
+      "status": "OK",
+      "n_same_taxa_both_geographies": 391,
+      "n_genera": 281,
+      "n_original_photo_rows": 5367,
+      "source_species_fixed_comparison": true,
+      "delta_white_E_minus_elsewhere_mean": -0.00304166796178578,
+      "annual_rainfall_BIO12_species_paired_slope": -0.03152231316114592,
+      "annual_rainfall_BIO12_genus_cluster_CI95": [
+        -0.08202943465263499,
+        0.01898480833034314
+      ],
+      "no_true_species_population_genotype_adaptation_test": true
+    },
+    "5": {
+      "status": "OK",
+      "n_same_taxa_both_geographies": 129,
+      "n_genera": 104,
+      "n_original_photo_rows": 2559,
+      "source_species_fixed_comparison": true,
+      "delta_white_E_minus_elsewhere_mean": 0.010140068844344664,
+      "annual_rainfall_BIO12_species_paired_slope": -0.05295699146300501,
+      "annual_rainfall_BIO12_genus_cluster_CI95": [
+        -0.12343445110508294,
+        0.017520468179072914
+      ],
+      "no_true_species_population_genotype_adaptation_test": true
+    }
+  },
+  "common_rainfall_mm": [
+    356,
+    1832
+  ],
+  "biological_status": "Post hoc original botanical photo-white proportion ecological association with habitat; no true pigment adaptive fitness",
+  "confidence_boundary": "Bootstraps condition on the original photo sampling and same genus units; east sector was selected after inspecting original geographical effects. Original image-hue classifiability and true phylogenetic distances not corrected.",
+  "original_fcp_main_H1_H2_changed": false
+}
