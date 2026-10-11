@@ -19,7 +19,8 @@ def make_source():
             for number in range(3):
                 row={"genus":f"G{genus}","inat_taxon_id":(genus*1000+100*int(east)+number),
                      "species":f"G{genus} species{number}",
-                     "longitude":120. if east else -50.,"latitude":30.}
+                     "longitude":120. if east else -50.,"latitude":30.,
+                     "photo_id":len(rows)}
                 rows.append(row)
     return pd.DataFrame(rows)
 
