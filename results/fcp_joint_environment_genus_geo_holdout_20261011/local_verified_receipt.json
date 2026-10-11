@@ -1,0 +1,59 @@
+{
+  "schema": "fcp_joint_environment_unseen_genus_and_true_geography_receipt_20261011_v1",
+  "status": "LOCAL_SOURCE_ANALYSIS_AND_INDEPENDENT_ARITHMETIC_VERIFIED",
+  "new_remote_CI_performed": false,
+  "source_sha256": {
+    "photos": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "environment": "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca"
+  },
+  "source_opportunity": {"unique_photos":100543,"nominal_species":42111,"classified_photos":45953,"unknown_colour_photos":54590},
+  "cases": {
+    "soil_all":{"photos":31925,"units":29846,"species":20786,"genera":4853,"actual_cells":108},
+    "soil_quality":{"photos":8139,"units":7879,"species":6457,"genera":2228,"actual_cells":105},
+    "climate_all":{"photos":45836,"units":42289,"species":25028,"genera":5366,"actual_cells":126},
+    "climate_quality":{"photos":11538,"units":11110,"species":8145,"genera":2577,"actual_cells":116}
+  },
+  "design": {
+    "all36_joint_predictors":true,"genus_hash_folds":5,"raw_photo_spatial_folds":5,
+    "longitude_quadrants":[[-180,-90],[-90,0],[0,90],[90,180]],
+    "geography_folds_defined_from_all_photo_opportunities_not_colour":true,
+    "train_species_means_recomputed_after_raw_photo_geographic_exclusion":true,
+    "evaluation_unit":"species x actual equal-area photo cell x original longitude quadrant",
+    "species_weight":"one total weight per species distributed over its occupied units",
+    "genus_weight":"one total weight per genus, equal species within it",
+    "ridge_alpha":40,"bootstrap":1999,
+    "interval":"paired fixed-fit crossed genus x actual-cell multinomial bootstrap; not exact p-value",
+    "source_geography_has_no_extra_distance_buffer":true,"direct_dated_phylogeny_used":false
+  },
+  "primary36_genus_equal": {
+    "genus_only":{"gain":0.004557476304930452,"CI95":[0.0007429185171634999,0.008251223909118035],"relative_gain_percent":0.7352175395786148},
+    "genus_and_cells":{"gain":0.0021996684724034836,"CI95":[-0.0017540762105322143,0.0061599109450252406],"relative_gain_percent":0.3545585345688443},
+    "genus_and_longitude_sector":{"gain":-0.000490734775970817,"CI95":[-0.006292899241974257,0.004530208781895439],"relative_gain_percent":-0.07894161752325704}
+  },
+  "post_exposure_matched_training_species_count_control36": {
+    "random_samples_per_fold":5,"averaged_quantity":"losses, not ensemble predictions",
+    "cells":{"random_control_gain":0.004281609296763558,"control_CI95":[0.00045478447269591053,0.00800244546130975],"control_minus_actual_geographic_gain":0.0020819408243600624,"difference_CI95":[0.00044093225187073266,0.00385457786302951]},
+    "longitude":{"random_control_gain":0.004091063717561571,"control_CI95":[0.00019547557643145259,0.007801956543818159],"control_minus_actual_geographic_gain":0.004581798493532385,"difference_CI95":[0.0011080943783942003,0.008668953127329706]},
+    "limitation":"Training species counts are matched; actual species, photo counts, climate support and geographic range are not matched."
+  },
+  "secondary26_joint_cells": {
+    "genus_equal_gain":0.0029173354491306646,"genus_equal_crossed_CI95":[-0.001196911300031465,0.006480881043593604],
+    "species_equal_gain":0.0030554540631163958,"species_equal_crossed_CI95":[0.00025854922774631254,0.006051815330717207]
+  },
+  "strict_quality36_joint_cells":{"gain":0.0021299104732845657,"CI95":[-0.005120364309899692,0.009498810592269194]},
+  "verification": {
+    "synthetic_tests_passed":12,"independent_point_estimates_checked":28,
+    "max_independent_pandas_recomputation_difference":1.7780915628762273e-17,
+    "every_eligible_photo_evaluated_once_per_regime":true,
+    "all_genus_and_geographic_group_exclusion_guards_passed":true,
+    "matched_control_training_species_counts_exact":true,
+    "main_script_sha256":"d0a810da5169334f9373a899f89f3072994812363cc38609b61f754d5a657343",
+    "size_control_script_sha256":"f47945477f6377d07b7e26dc38fbf741f35f27c61ec4405c3df84e4e0d514192",
+    "test_script_sha256":"5e3cc19d8c9f7300ccfb60ae42dc8b96c1f6c3ec342dde32c43f46a2e44e0f50"
+  },
+  "runtime":{"python":"3.13.5","numpy":"2.3.5","pandas":"2.2.3","scipy":"1.17.0","scikit_learn":"1.8.0","pytest":"9.0.2"},
+  "ecological_interpretation":"Environmental photo-colour association transfers across nominal genera within known geographic coverage, but declines when raw geographic regions are withheld. Matching training species counts does not reproduce the same decline. This does not identify the causal reason for geographic contingency.",
+  "nonclaims":["No pigment cost, defence benefit, pollination or reproductive fitness measured.","No biological absence of environment effects inferred from failed prediction.","No independent prospective sample or dated phylogenetic correction.","Photo quality and nonignorable colour missingness remain.","All26 and all36 use different complete-case sets; no direct causal comparison.","Current evaluation target differs from preceding whole-species mean response."],
+  "full_code_and_outputs":"Conversation attachment FCP_全36環境_未知属と未知地域_同数種対照_20261011.zip; new analysis code is delivered there, not asserted to have run in GitHub CI.",
+  "original_main_H1H2_colour_labels_reserved_cohorts_changed":false
+}
