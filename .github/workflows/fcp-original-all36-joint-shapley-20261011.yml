@@ -1,0 +1,90 @@
+name: FCP all36 joint environmental photo Shapley
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-all36-abiotic-ecology-photo-20261011
+    paths:
+      - scripts/analysis/fcp_audit_36_preflight_20261011.py
+      - scripts/analysis/fcp_all36_global_region_cv_20261011.py
+      - scripts/analysis/fcp_environment_joint_shapley_20261011.py
+      - tests/test_fcp_joint36_all_environment_shapley_20261011.py
+      - docs/FCP_ALL36_JOINT_ENVIRONMENT_SHAPLEY_ECOLOGY_20261011.md
+      - .github/workflows/fcp-original-all36-joint-shapley-20261011.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-36-shapley-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  SOURCE_ORIGINAL_ZIP_ID: "11587115220"
+  SOURCE_ORIGINAL_ZIP_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  SOURCE_ALL36_ZIP_ID: "11653183273"
+  SOURCE_ALL36_ZIP_SHA256: "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca"
+  FCP_SOURCE_ROOT: "/tmp/fcp_original_36_env"
+  FCP_RESULT_ROOT: "/tmp/fcp_joint_env_replay"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+jobs:
+  source-36-shapley:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 85
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {mode: soil, region: world, quality: false}
+          - {mode: soil, region: east, quality: false}
+          - {mode: soil, region: elsewhere, quality: false}
+          - {mode: climate, region: world, quality: false}
+          - {mode: climate, region: east, quality: false}
+          - {mode: climate, region: elsewhere, quality: false}
+          - {mode: soil, region: world, quality: true}
+          - {mode: climate, region: world, quality: true}
+    env:
+      MODE: ${{ matrix.mode }}
+      REGION: ${{ matrix.region }}
+      QUALITY: ${{ matrix.quality }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install numerical environment
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+      - name: Test 36-variable inventory and Shapley identities
+        run: |
+          python -m py_compile scripts/analysis/fcp_audit_36_preflight_20261011.py scripts/analysis/fcp_all36_global_region_cv_20261011.py scripts/analysis/fcp_environment_joint_shapley_20261011.py
+          python -m pytest tests/test_fcp_joint36_all_environment_shapley_20261011.py -q
+      - name: SHA256-verify historical original-photo and 36-predictor archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$FCP_SOURCE_ROOT"
+          gh api -H 'Accept: application/vnd.github+json' "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ORIGINAL_ZIP_ID/zip" > "$FCP_SOURCE_ROOT/fcp_original_photo_site_climate_soil_85337_20261010.zip"
+          echo "$SOURCE_ORIGINAL_ZIP_SHA256  $FCP_SOURCE_ROOT/fcp_original_photo_site_climate_soil_85337_20261010.zip" | sha256sum -c -
+          gh api -H 'Accept: application/vnd.github+json' "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ALL36_ZIP_ID/zip" > "$FCP_SOURCE_ROOT/fcp_100543_all36_expanded_photo_site_environment_20261011.zip"
+          echo "$SOURCE_ALL36_ZIP_SHA256  $FCP_SOURCE_ROOT/fcp_100543_all36_expanded_photo_site_environment_20261011.zip" | sha256sum -c -
+      - name: Run all environment coalitions on identical heldout source species
+        shell: bash
+        run: |
+          set -euo pipefail
+          case_name="$(printf '%s_%s' "$MODE" "$REGION")"
+          if [[ "$QUALITY" == "true" ]]; then
+            case_name="$(printf '%s_quality' "$case_name")"
+            python scripts/analysis/fcp_environment_joint_shapley_20261011.py --mode "$MODE" --region "$REGION" --bootstrap 499 --quality --outdir "$FCP_RESULT_ROOT/$case_name"
+          else
+            python scripts/analysis/fcp_environment_joint_shapley_20261011.py --mode "$MODE" --region "$REGION" --bootstrap 499 --outdir "$FCP_RESULT_ROOT/$case_name"
+          fi
+      - name: Validate original denominators and every Shapley contribution
+        run: python -m pytest tests/test_fcp_joint36_all_environment_shapley_20261011.py -q
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-36-shapley-${{ matrix.mode }}-${{ matrix.region }}-${{ matrix.quality }}
+          retention-days: 45
+          if-no-files-found: error
+          path: /tmp/fcp_joint_env_replay/**/result.json
