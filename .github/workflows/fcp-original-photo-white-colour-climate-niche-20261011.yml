@@ -1,0 +1,87 @@
+name: FCP original photo colour climate niche segregation nulls
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-original-photo-rain-local-comixing-null-20261011
+    paths:
+      - scripts/analysis/audit_fcp_photo_white_colour_climate_niche_segregation_20261011.py
+      - tests/test_fcp_photo_white_colour_climate_niche_segregation_20261011.py
+      - docs/FCP_ALL_ORIGINAL_PHOTO_WHITE_CHROMATIC_WITHINSPECIES_NICHE_SEPARATION_20261011.md
+      - .github/workflows/fcp-original-photo-white-colour-climate-niche-20261011.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-white-colour-climate-niche-segregation
+  cancel-in-progress: true
+
+env:
+  SOURCE_ARTIFACT_ID: "11587115220"
+  SOURCE_ZIP_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+
+jobs:
+  original-photo-niche-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install deterministic photo-source runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+      - name: Test original-photo identity and exact within-species/local-label-count null
+        run: python -m pytest tests/test_fcp_photo_white_colour_climate_niche_segregation_20261011.py -q
+      - name: Retrieve exact original source photo-geoclimate artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api -H 'Accept: application/vnd.github+json' \
+            "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT_ID/zip" > /tmp/fcp_source_original.zip
+          echo "$SOURCE_ZIP_SHA256  /tmp/fcp_source_original.zip" | sha256sum -c -
+      - name: Evaluate white-versus-coloured climate niche segregation on 422 original species
+        run: |
+          python scripts/analysis/audit_fcp_photo_white_colour_climate_niche_segregation_20261011.py \
+            --source-archive /tmp/fcp_source_original.zip \
+            --outdir /tmp/fcp_climatic_colour_niche --permutations 999
+      - name: Validate original source complete photo counts and nonselected p values
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          a=json.loads(Path('/tmp/fcp_climatic_colour_niche/result.json').read_text())
+          assert a['schema']=='fcp_original100543_photo_heterogeneous_withinspecies_hue_climatic_niches_v1'
+          assert a['n_full_unique_source_photo_ids']==100543
+          assert a['n_original_4state_classifiable_source_photos']==45953
+          assert a['n_original_classifiable_environment_photo_rows']==45836
+          assert a['n_species_with_5_photo_2_each']==422
+          assert a['n_original_source_photo_label_permutations']==999
+          assert a['spatial_source_photo_label_exchangeability']['10degree']['n_species_with_both_original_photo_colours_in_one_geocell']==74
+          assert a['spatial_source_photo_label_exchangeability']['10degree']['informative_source_photo_count']==156
+          assert a['spatial_source_photo_label_exchangeability']['20degree']['n_species_with_both_original_photo_colours_in_one_geocell']==155
+          assert a['spatial_source_photo_label_exchangeability']['20degree']['informative_source_photo_count']==383
+          results=a['results']
+          assert results['min5_min2each']['n_original_species']==422
+          assert results['min10_min3each']['n_original_species']==109
+          assert results['min10_min5each']['n_original_species']==53
+          obs=results['min5_min2each']['environment']['wc_bio12']
+          assert abs(obs['unrestricted']['mean_squared_species_white_nonwhite_environmental_contrast']-0.7681)<.002
+          assert obs['unrestricted']['p_heterogeneous_species_niche_segregation_upper']<=.05
+          assert obs['within_10degree']['p_heterogeneous_bonferroni_all_12_axis_depth']>=.05
+          assert a['frozen_original_FCP_H1H2_unchanged']
+          print('PASS 100543 original photo rows; 422/109/53 source species and non-adaptive limits')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-white-colour-climate-niche-20261011
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_climatic_colour_niche/
