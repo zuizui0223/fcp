@@ -1,0 +1,54 @@
+name: FCP regional photographic colour allocation contract
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-nonlinear-environment-transport-20261011
+    paths:
+      - scripts/analysis/fcp_region_allocation_20261012.py
+      - scripts/analysis/verify_fcp_region_allocation_20261012.py
+      - tests/test_fcp_region_allocation_20261012.py
+      - results/fcp_region_allocation_20261012/result.json
+      - results/fcp_region_allocation_20261012/independent_verification.json
+      - docs/FCP_REGIONAL_COLOUR_ALLOCATION_ECOLOGY_20261012.md
+      - .github/workflows/fcp-region-colour-allocation-20261012.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-source-result-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install bounded test requirements
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3 pytest==8.4.2
+      - name: Synthetic controls on checked-in analysis code
+        run: python -m pytest -q tests/test_fcp_region_allocation_20261012.py
+      - name: Inspect signed/unsigned interpretation and local independent verification record
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          folder=Path('results/fcp_region_allocation_20261012')
+          d=json.loads((folder/'result.json').read_text())
+          a=json.loads((folder/'independent_verification.json').read_text())
+          assert d['status']=='ANALYSIS_COMPLETE'
+          assert d['source_package_sha256']=='e51547cf9daea2bac68d0ab1fbffe17200cdecd4b810ebb660040df4c40f05a1'
+          assert d['source_photo_denominators']['all_original_photo_opportunities']==100543
+          assert d['source_photo_denominators']['all36_classified']==31925
+          assert d['original_main_H1H2_changed'] is False
+          assert d['null']['null_reps']==1999
+          assert d['null']['reconstruction_status']=='ALL_SOURCE_COUNTS_EXACT_AND_PERMUTATION_INVENTORY_PRESERVED'
+          x=d['cases']['soil_all']['min2']['buffer500']
+          assert (x['n_species'],x['n_genera'],x['n_photos'])==(493,348,3517)
+          e=x['genus_equal']['environment_nonlinear__total']
+          assert math.isfinite(e['estimate']) and len(e['CI95'])==2 and len(e['CI97_5'])==2
+          assert d['cases']['soil_quality']['min2']['buffer500']['status']=='HOLD_LOW_SUPPORT'
+          assert a['status']=='PASS' and a['checks']==827
+          assert a['max_exact_absolute_difference']<1e-11
+          print('PASS: synthetic analysis contracts, source hash and frozen local independently-verified receipt')
+          print('SCOPE: this CI does not re-download source photo ZIP, refit models or redo the 1999 original permutations')
+          PY
