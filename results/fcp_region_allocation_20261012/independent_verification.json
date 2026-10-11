@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "checks": 827,
+  "max_exact_absolute_difference": 2.220446049250313e-16,
+  "null_expectation_monte_carlo_gap": 1.9996744652239735e-05,
+  "source_zip_sha256": "e51547cf9daea2bac68d0ab1fbffe17200cdecd4b810ebb660040df4c40f05a1",
+  "cases": {
+    "soil_all": {
+      "min2": {
+        "genus_only": {
+          "species": 493,
+          "genera": 348,
+          "photos": 3517
+        },
+        "sector_purged": {
+          "species": 493,
+          "genera": 348,
+          "photos": 3517
+        },
+        "buffer500": {
+          "species": 493,
+          "genera": 348,
+          "photos": 3517
+        }
+      },
+      "min3": {
+        "genus_only": {
+          "species": 179,
+          "genera": 140,
+          "photos": 1663
+        },
+        "sector_purged": {
+          "species": 179,
+          "genera": 140,
+          "photos": 1663
+        },
+        "buffer500": {
+          "species": 179,
+          "genera": 140,
+          "photos": 1663
+        }
+      }
+    },
+    "soil_quality": {
+      "min2": {
+        "genus_only": {
+          "species": 52,
+          "genera": 46,
+          "photos": 296
+        },
+        "sector_purged": {
+          "species": 52,
+          "genera": 46,
+          "photos": 296
+        },
+        "buffer500": {
+          "species": 52,
+          "genera": 46,
+          "photos": 296
+        }
+      },
+      "min3": {
+        "genus_only": {
+          "species": 10,
+          "genera": 10,
+          "photos": 70
+        },
+        "sector_purged": {
+          "species": 10,
+          "genera": 10,
+          "photos": 70
+        },
+        "buffer500": {
+          "species": 10,
+          "genera": 10,
+          "photos": 70
+        }
+      }
+    }
+  },
+  "analytic_expected_matched_null_gain": 0.00021310526536861,
+  "permutation_observed_mean": 0.00019310852071637027,
+  "primary_observed_gain": 0.0018841092741984226,
+  "primary_permutation_p": 0.024,
+  "meaning": "Independent per-species sector demeaning and all point estimates verified; primary fixed bootstrap interval verified; null expectation independently derived."
+}
