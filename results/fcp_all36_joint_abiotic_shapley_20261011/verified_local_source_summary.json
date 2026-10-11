@@ -1,0 +1,147 @@
+{
+  "schema": "fcp_all36_original_photo_joint_environment_predictive_evidence_20261011_v1",
+  "status": "LOCAL_ORIGINAL_PHOTO_RESULT_PERSISTED_REMOTE_REPLAY_PENDING",
+  "date_jst": "2026-10-11",
+  "original_source_sha256": {
+    "original_photo_archive": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "all_36_photo_environment_archive": "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca"
+  },
+  "source_population": {
+    "nominal_taxa_opportunity": 42111,
+    "original_deduplicated_photo_ids": 100543,
+    "classifiable_photo_hues": 45953,
+    "unclassified_original_photos": 54590,
+    "full_climate_complete_photo_rows": 45836,
+    "full_soil_complete_photo_rows": 31925
+  },
+  "method": {
+    "response": "species-average original four-class photographic hue frequencies",
+    "baseline": "genus learned exclusively from training species plus latitude/longitude features",
+    "environment": "all measured 36 abiotic variables or 26 excluding 10 soil variables",
+    "train_test": "five group folds of sampled species geographic-cell centroids; not photo-site point-level full geodesic GP",
+    "shapley": "exact 2^7=128 or 2^6=64 subsets; identical test species per cohort; species-equal and genus-equal Brier; 499 genus-bootstrap draws",
+    "ecology": "source observational environmental predictive information; not pigment cost or fitness or true phylogeny"
+  },
+  "cohorts": {
+    "soil_world": {
+      "test_species": 13961,
+      "genera": 1167,
+      "genus_equal_gain": 0.0014316706029893216,
+      "genus_equal_CI": [
+        0.0002159301778442193,
+        0.0027552037096336616
+      ],
+      "species_equal_gain": 0.0002444685864405298,
+      "species_equal_CI": [
+        -0.0005417416070438861,
+        0.001080412613734062
+      ]
+    },
+    "soil_east": {
+      "test_species": 3307,
+      "genera": 346,
+      "genus_equal_gain": 0.007090097207704871,
+      "genus_equal_CI": [
+        0.0016548824571068045,
+        0.012047333504148851
+      ]
+    },
+    "soil_elsewhere": {
+      "test_species": 10307,
+      "genera": 914,
+      "genus_equal_gain": 0.0029569245600129857,
+      "genus_equal_CI": [
+        0.0012458127303978598,
+        0.004600278806217446
+      ]
+    },
+    "climate_world": {
+      "test_species": 17183,
+      "genera": 1347,
+      "genus_equal_gain": 0.0029429495887877016,
+      "genus_equal_CI": [
+        0.0017492391252184624,
+        0.004103632667757781
+      ],
+      "species_equal_gain": 0.0010040816327089004,
+      "species_equal_CI": [
+        0.00022118814350396886,
+        0.0017557081724712041
+      ]
+    },
+    "climate_east": {
+      "test_species": 4555,
+      "genera": 455,
+      "genus_equal_gain": 0.006487792079138494,
+      "genus_equal_CI": [
+        0.0028402932698834496,
+        0.010095318332790157
+      ]
+    },
+    "climate_elsewhere": {
+      "test_species": 12653,
+      "genera": 1071,
+      "genus_equal_gain": 0.0022221755828627627,
+      "genus_equal_CI": [
+        0.0008802778175842358,
+        0.003745705587346283
+      ]
+    },
+    "soil_world_strict_photo": {
+      "test_species": 3399,
+      "genera": 384,
+      "genus_equal_gain": 0.0025450114337349544,
+      "genus_equal_CI": [
+        -0.001268465488738564,
+        0.006336179494082229
+      ],
+      "species_equal_gain": 5.32905971020737e-7,
+      "species_equal_CI": [
+        -0.002082824952627203,
+        0.0025537551422238655
+      ]
+    },
+    "climate_world_strict_photo": {
+      "test_species": 4512,
+      "genera": 488,
+      "genus_equal_gain": 0.003194993013797862,
+      "genus_equal_CI": [
+        0.0009959632053223408,
+        0.0053833524083243545
+      ],
+      "species_equal_gain": 0.001274035959749554,
+      "species_equal_CI": [
+        -0.00028814513915348963,
+        0.002713167116211751
+      ]
+    }
+  },
+  "world_shapley_genus_equal": {
+    "soil_full_36": {
+      "elevation": 0.0000773,
+      "temperature": 0.0003487,
+      "precipitation": -0.0002322,
+      "solar_radiation": 0.0002929,
+      "wind": -0.0000021,
+      "vapor_pressure": 0.0002293,
+      "soil": 0.0007178
+    },
+    "climate_full_26": {
+      "elevation": 0.000232,
+      "temperature": 0.0007365,
+      "precipitation": 0.0008608,
+      "solar_radiation": 0.0002909,
+      "wind": 0.0002136,
+      "vapor_pressure": 0.0006092
+    }
+  },
+  "critical_limits": [
+    "Complete-case soil vs climate analysis uses different species sets: not a direct incremental soil causal effect.",
+    "Species centroid geocell holdout does not hold out all raw photo coordinates or reproduce exact dated phylogeny.",
+    "Genus-equal soil joint positive CI but source species-equal interval spans 0; strict photo-quality soil genus CI also spans 0.",
+    "All Shapley allocations are order-average prediction credits among correlated covariates, not unique effects, fitness or biosynthetic energy costs.",
+    "Observed source floral colour is not laboratory pigment; unseen hue on 54590 photos is unknown.",
+    "None of 36 factors measures pollination, herbivory, genetic or seed fitness outcomes."
+  ],
+  "remote_ci": "https://github.com/zuizui0223/fcp/actions/runs/38108705529"
+}
