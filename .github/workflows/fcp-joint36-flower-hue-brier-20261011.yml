@@ -67,7 +67,8 @@ jobs:
               assert r["n_source_test_species"]==expected[name]
               assert r["four_class_gain_reassembles_full"]
               g=r["hue_Brier_contributions"]
-              assert abs(g["total_multiclass_Brier"]["genus_equal_gain"]-sum(g[k]["genus_equal_gain"] for k in ("white","yellow_orange","red_pink","blue_purple"))<1e-12
+              class_sum=sum(g[k]["genus_equal_gain"] for k in ("white","yellow_orange","red_pink","blue_purple"))
+              assert abs(g["total_multiclass_Brier"]["genus_equal_gain"]-class_sum)<1e-12
           print("PASS 100543 original photos, identical source folds, summed class contributions")
           PY
       - uses: actions/upload-artifact@v4
