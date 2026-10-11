@@ -1,0 +1,113 @@
+name: FCP fixed nonlinear environmental transport
+on:
+  pull_request:
+    branches: [analysis/fcp-joint-environment-taxon-geography-20261011]
+    paths:
+      - docs/FCP_NONLINEAR_ENVIRONMENT_TRANSPORT_PROTOCOL_20261011.md
+      - scripts/analysis/fcp_nonlinear_environment_transport_20261011.py
+      - scripts/analysis/verify_fcp_nonlinear_transport_20261011.py
+      - tests/test_nonlinear_environment_transport.py
+      - .github/workflows/fcp-nonlinear-environment-transport-20261011.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-nonlinear-environment-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  OPENBLAS_NUM_THREADS: '2'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+jobs:
+  source-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install frozen numerical runtime
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3 scipy==1.17.0 scikit-learn==1.8.0 pytest==8.4.2
+      - name: Verify nonlinear predictions, paired estimand, original footprint and stable folds
+        run: python -m pytest tests/test_nonlinear_environment_transport.py tests/test_joint_taxongeo.py tests/test_stable_genus_folds.py -q
+      - name: Download original archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_sources
+          gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/11587115220/zip" > /tmp/fcp_sources/fcp_original_photo_site_climate_soil_85337_20261010.zip
+          gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/11653183273/zip" > /tmp/fcp_sources/fcp_100543_all36_expanded_photo_site_environment_20261011.zip
+      - name: Download canonical parent losses for independent ridge comparison
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/11696112849/zip" > /tmp/fcp_parent.zip
+          echo '3410f8b84c7a8835e63f4a5bb779e832f9e7cd8966fceb2e8f6e2a9d27f90f96  /tmp/fcp_parent.zip' | sha256sum --check --strict
+          mkdir -p /tmp/fcp_parent
+          unzip -q /tmp/fcp_parent.zip -d /tmp/fcp_parent
+      - name: Replay both fixed all36 cohorts
+        run: |
+          python scripts/analysis/fcp_nonlinear_environment_transport_20261011.py \
+            --source-root /tmp/fcp_sources --outdir /tmp/fcp_nonlinear \
+            --bootstrap 1999 --quality both
+      - name: Verify source identities, completeness and saved prediction algebra
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import sys
+          import numpy as np
+          import pandas as pd
+          sys.path.insert(0, 'scripts/analysis')
+          import fcp_nonlinear_environment_transport_20261011 as m
+          root=Path('/tmp/fcp_nonlinear')
+          result=json.loads((root/'result.json').read_text())
+          assert result['execution_status']=='SOURCE_REPLAY_COMPLETE'
+          assert result['source_counts']['all_rows']==100543
+          assert result['source_counts']['classified']==45953
+          assert len(result['full36_predictors'])==36
+          assert result['bootstrap']==1999 and result['buffer_km']==500
+          assert result['main_H1H2_changed'] is False
+          assert result['model_settings']['nonlinear']==m.TREE_PARAMS
+          assert result['genus_fold_algorithm']==m.ALGORITHM
+          expected={'soil_all':20786,'soil_quality':6457}
+          assert set(result['cases'])==set(expected)
+          for geo in result['source_raw_footprint_exclusion_audit'].values():
+              assert geo['all_original_photo_states_used']
+              assert geo['minimum_retained_raw_photo_distance_km']>500
+          for case,n in expected.items():
+              c=result['cases'][case]
+              assert c['n_input_species']==n
+              rows=pd.read_csv(root/(case+'_oof_predictions.csv.gz'))
+              m.validate_records(rows)
+              audit=pd.read_csv(root/(case+'_fold_audit.csv'))
+              assert len(audit)==60 and audit.status.eq('OK').all()
+              for col in ('shared_train_test_genus','shared_train_test_species','training_species_intersect_spatial_blacklist'):
+                  assert audit[col].eq(0).all()
+              first=None
+              for regime in m.SCHEMES:
+                  subset=rows[rows.scheme.eq(regime)]
+                  keys=subset[['inat_taxon_id','genus','sector','fold']].sort_values(['inat_taxon_id','sector']).reset_index(drop=True)
+                  if first is None:first=keys
+                  else:assert keys.equals(first)
+                  assert subset.inat_taxon_id.nunique()==n
+                  assert subset.n_photos.sum()==c['n_input_photos']
+                  assert c['schemes'][regime]['overall']['status']=='OK'
+          print('PASS exact archives, complete paired predictions, fixed models and original exclusions; no significance gate')
+          PY
+      - name: Independently recalculate predictions, paired intervals and archived ridge equality
+        run: |
+          python scripts/analysis/verify_fcp_nonlinear_transport_20261011.py \
+            --result-dir /tmp/fcp_nonlinear --parent-results /tmp/fcp_parent \
+            --out /tmp/fcp_nonlinear/independent_verification.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-nonlinear-environment-transport-source-20261011
+          retention-days: 60
+          if-no-files-found: error
+          path: /tmp/fcp_nonlinear/
