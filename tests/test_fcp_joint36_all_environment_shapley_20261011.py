@@ -29,9 +29,8 @@ def test_shapley_weights_are_exactly_telescope_for_any_coalition_game():
         assert np.isclose(sum(allocation),values[-1]-values[0])
 
 def test_environment_model_is_prediction_not_causal_fitness():
-    from fcp_environment_joint_shapley_20261011 import score
-    assert "Shapley" in (score.__doc__ or "") or "prediction" in __import__(
-        "fcp_environment_joint_shapley_20261011").__doc__
+    import fcp_environment_joint_shapley_20261011 as model
+    assert "Shapley" in (model.__doc__ or "")
     assert SCHEMA=="fcp_joint_abiotic_shapley_all_original_photo_species_geocell_v1"
 
 @pytest.mark.parametrize("mode,region,n,k", [
