@@ -1,0 +1,187 @@
+{
+  "schema": "fcp_all42111_source_original_rainfall_white_geographical_commonality_GITHUB_VERIFIED_v1",
+  "status": "ORIGINAL_SOURCE_SHA256_MATCH_AND_GITHUB_CI_PASS",
+  "exact_original_source_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+  "source_ci": "https://github.com/zuizui0223/fcp/actions/runs/38104921893",
+  "source_action_job": 114368275247,
+  "source_artifact_id": 11689074041,
+  "source_artifact_zip_sha256": "f0cbf0ef739ae68502937b9619f84e92ca05242ff99fd6e329dcdf05f33e8501",
+  "runtime_synthetic_original_photo_guards_passed": 5,
+  "observations": {
+    "all_source_photo_ids": 100543,
+    "all_source_nominal_species": 42111,
+    "all_classifiable_photos": 45953,
+    "all_unclassifiable_photos": 54590,
+    "original_climate_site_opportunity_photos": 100255,
+    "four_state_climate_complete_photos": 45836,
+    "source_distinct_species_with_four_state_and_climate": 25028,
+    "nonzero_original_nine_hue_ROI_climate_complete_photos": 37575,
+    "nonzero_ROI_ambiguous_coarse_colour_photos": 3284,
+    "photo_source_rainfall_one_SD_mm": 736.4156814228157,
+    "photo_quality_area_median": 23826,
+    "photo_quality_nuisance_median": 0.1326827772952536
+  },
+  "full_original_4state_genus_centered_model": {
+    "status": "OK",
+    "n_species_or_taxon_region_units": 20694,
+    "n_genera": 1934,
+    "n_original_photo_records": 38498,
+    "genus_equal": false,
+    "rainfall_hue": [
+      {
+        "hue": "white",
+        "coef": 0.023832283964323627,
+        "CI95": [
+          0.012494051990024839,
+          0.035170515938622415
+        ],
+        "p_normal": 0.0000379197271696112
+      },
+      {
+        "hue": "yellow_orange",
+        "coef": -0.013671769780453175,
+        "CI95": [
+          -0.023115253449379716,
+          -0.004228286111526633
+        ],
+        "p_normal": 0.004545652580654807
+      },
+      {
+        "hue": "red_pink",
+        "coef": -0.003194799545055888,
+        "CI95": [
+          -0.009658585361810062,
+          0.0032689862716982865
+        ],
+        "p_normal": 0.3326688118693709
+      },
+      {
+        "hue": "blue_purple",
+        "coef": -0.006965714638814548,
+        "CI95": [
+          -0.012894768720349798,
+          -0.0010366605572792982
+        ],
+        "p_normal": 0.021296033424245325
+      }
+    ]
+  },
+  "four_original_lat_zone_long_sector_models": {
+    "0_extratropical": {
+      "hue": "white",
+      "coef": 0.00792938671932449,
+      "CI95": [
+        -0.03709474759673072,
+        0.0529535210353797
+      ],
+      "p_normal": 0.7299562604159562
+    },
+    "0_tropical": {
+      "hue": "white",
+      "coef": -0.04641634000903,
+      "CI95": [
+        -0.1404083287911682,
+        0.047575648773108214
+      ],
+      "p_normal": 0.3330880413694596
+    },
+    "1_extratropical": {
+      "hue": "white",
+      "coef": 0.00935140358919589,
+      "CI95": [
+        -0.028842926327509934,
+        0.04754573350590171
+      ],
+      "p_normal": 0.6313116807874586
+    },
+    "1_tropical": {
+      "hue": "white",
+      "coef": 0.011627671314781412,
+      "CI95": [
+        -0.015992808842805347,
+        0.03924815147236817
+      ],
+      "p_normal": 0.4093029483838898
+    },
+    "2_extratropical": {
+      "hue": "white",
+      "coef": -0.010747930789816193,
+      "CI95": [
+        -0.048672809931975806,
+        0.027176948352343418
+      ],
+      "p_normal": 0.5785766191207552
+    },
+    "2_tropical": {
+      "hue": "white",
+      "coef": 0.03094233513715402,
+      "CI95": [
+        -0.0008070317383824521,
+        0.06269170201269049
+      ],
+      "p_normal": 0.05611015789375352
+    },
+    "3_extratropical": {
+      "hue": "white",
+      "coef": 0.0664828574029232,
+      "CI95": [
+        0.043659175701790266,
+        0.08930653910405614
+      ],
+      "p_normal": 1.1346646671477355e-8
+    },
+    "3_tropical": {
+      "hue": "white",
+      "coef": 0.021367882368462862,
+      "CI95": [
+        -0.029653661614913764,
+        0.07238942635183948
+      ],
+      "p_normal": 0.41173154606203666
+    }
+  },
+  "source_genus_joint_region_difference": {
+    "E_90_180_n_species": 5774,
+    "remaining_n_species": 15457,
+    "n_global_source_genera_jointly_resampled": 1837,
+    "bootstrap_repetitions": 999,
+    "E_90_180_minus_other_BIO12_photo_white_slope": 0.05026484148080458,
+    "CI95": [
+      0.029290113941459923,
+      0.07312422754044504
+    ],
+    "one_sided_p_difference_not_positive": 0.001,
+    "warning": "Longitude sector chosen after viewing original results; this p-value is exploratory, not out-of-sample selection-free."
+  },
+  "original_valid_nonzero_nine_hue_ROI_n_photos": 37575,
+  "source_nine_hue_ROI_valid_ambiguous_n_photos": 3284,
+  "sensitivity_source_original_wet_white_effect_ecological_summary": {
+    "white_fraction_area_east_90_to_180_E_percent_point_per_global_rain_SD": 4.976,
+    "white_fraction_area_east_CI95_pp": [
+      3.03,
+      6.923
+    ],
+    "white_fraction_area_outside_east_pp": 0.733,
+    "white_fraction_area_outside_east_CI95_pp": [
+      -0.59,
+      2.056
+    ],
+    "strict_photo_quality_global_4state_white_pp": 1.928,
+    "strict_photo_quality_global_4state_CI95_pp": [
+      -0.622,
+      4.477
+    ],
+    "strict_photo_quality_east_valid_ROI_white_pp": 2.929,
+    "strict_photo_quality_east_valid_ROI_CI95_pp": [
+      -0.488,
+      6.345
+    ],
+    "source": "full source ZIP/CI result.json artifact 11689074041; all values are rounded percent points"
+  },
+  "constraints": [
+    "Exploratory geographical winner selected after data inspection; not a predeclared prospective region selection or a corrected across-region discovery p value.",
+    "Genus fixed effects are not direct dated species phylogeny and region/lat/longitude controls are not full real-site spatial confounding removal.",
+    "Source original classifier contains photographer exposure and ROI technical bias; strict photo-quality restrictions weaken significance.",
+    "No measured plant genotype, floral pigment synthesis cost, pollinator/herbivore gains, seed fitness or balancing selection."
+  ]
+}

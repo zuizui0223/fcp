@@ -1,0 +1,93 @@
+name: FCP original all-42111 species geographic rainfall-white ecological commonality
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-continuous-white-area-ecology-20261010
+    paths:
+      - scripts/analysis/audit_fcp_full42111_rain_white_bioregion_20261011.py
+      - tests/test_fcp_full42111_rain_white_bioregion_20261011.py
+      - .github/workflows/fcp-all42111-rain-white-geo-commonality-20261011.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-all42111-rain-white-geo-commonality
+  cancel-in-progress: true
+
+env:
+  SOURCE_ARTIFACT_ID: "11587115220"
+  SOURCE_ZIP_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+
+jobs:
+  all-source-photos:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Pin numeric test and exact photo inference runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 pytest==8.4.2
+      - name: Source hue/genus/geographical photo checks
+        run: python -m pytest tests/test_fcp_full42111_rain_white_bioregion_20261011.py -q
+      - name: Recover original globally photographed environment data
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api -H "Accept: application/vnd.github+json" \
+            "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT_ID/zip" > /tmp/original_fcp_photo_source.zip
+          echo "$SOURCE_ZIP_SHA256  /tmp/original_fcp_photo_source.zip" | sha256sum -c -
+      - name: Test rainfall-hue generality in independent geographic source-photo sectors
+        shell: bash
+        run: |
+          python scripts/analysis/audit_fcp_full42111_rain_white_bioregion_20261011.py \
+            --source-archive /tmp/original_fcp_photo_source.zip --outdir /tmp/fcp_all42111_rain_commonality --bootstrap 999
+      - name: Fail closed if primary ecological source changed or strong negative sensitivity hidden
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/fcp_all42111_rain_commonality/result.json").read_text())
+          o=d["source"]
+          assert [o["all_source_photo_ids"],o["all_source_nominal_species"],o["all_classifiable_photos"],o["all_unclassifiable_photos"]]==[100543,42111,45953,54590]
+          assert o["four_state_climate_complete_photos"]==45836
+          assert o["nonzero_original_nine_hue_ROI_climate_complete_photos"]==37575
+          assert o["nonzero_ROI_ambiguous_coarse_colour_photos"]==3284
+          def model(key):
+              r=d["models"][key]["species_equal"]
+              assert r["status"]=="OK"
+              return r["rainfall_hue"][0]["coef"],r["rainfall_hue"][0]["CI95"]
+          w,ci=model("global_all_4state")
+          e,ec=model("E90_180_4state")
+          r,rc=model("outside_E90_180_4state")
+          q,qc=model("global_source_photo_quality_strict")
+          er,erc=model("E90_180_nonzero_ROI")
+          assert abs(w-.0238322839643)<.001
+          assert abs(e-.0591938978960)<.001
+          assert abs(r-.0089290564152)<.001
+          assert ci[0]>0 and ec[0]>0 and rc[0]<0<rc[1]
+          assert qc[0]<0<qc[1]
+          assert erc[0]>0
+          b=d["E90_180_contrast_posthoc"]
+          assert abs(b["E_90_180_minus_other_BIO12_photo_white_slope"]-.05026484148)<.001
+          assert b["CI95"][0]>0 and b["one_sided_p_difference_not_positive"]<=.01
+          assert set(d["geography"])==set(f"{x}_{y}" for x in range(4) for y in ("tropical","extratropical"))
+          print("PASS original 100543-source-photo ecological heterogeneity and photo-quality counterexample; no pigment adaptation claim")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all42111-rain-white-photo-geographical-commonality-20261011
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_all42111_rain_commonality/
