@@ -1,0 +1,76 @@
+{
+  "date_jst": "2026-10-13",
+  "scope": "Repeat analysis of published Linanthus blue/white plant-count census within one ravine, NOT independent biological replication",
+  "head_code_commit": "e36b09096cb59484d3dce027b34265194cdc5c5d",
+  "parent_source_commit": "da3069621dbc29b8cd0a5ceba45d74ede2dc188d",
+  "pull_request": 178,
+  "workflow": {
+    "run_id": 38273823001,
+    "job_id": 114894332422,
+    "conclusion": "success",
+    "url": "https://github.com/zuizui0223/fcp/actions/runs/38273823001"
+  },
+  "source_sha256": "fa408c7ad6e521a8410252d903b024a057b1ee4f7e27406927e77fcc22bf4ac7",
+  "checks": {
+    "focused_tests_passed": 10,
+    "independent_checks_passed": 383,
+    "max_absolute_independent_difference": 1.1102230246251565e-16
+  },
+  "github_artifact": {
+    "id": 11758475961,
+    "name": "fcp-linanthus-spacetime-frequency-transfer-20261013",
+    "bytes": 10896,
+    "sha256": "44a43a12e98a6d26ce5744d5e66497cd057d7c4c83e811b8f6d67a770a80ecbc"
+  },
+  "remote_local_exact_matches": [
+    {
+      "name": "execution_receipt.json",
+      "sha256": "90e162ca660d7c3c383e37450d99535772608328e38643396a3936f967b3eb20"
+    },
+    {
+      "name": "independent_verification.json",
+      "sha256": "ce661f63cd20f7cb3f5a379fb0ca401a7deb138309d6b1a794f1953a84ceba45"
+    },
+    {
+      "name": "heldout_section_model_predictions.csv",
+      "sha256": "6291eef764726ec648e1b42f89d3d9ac2f1bf3874beeff05d51b5d4d6fafe3bd"
+    },
+    {
+      "name": "result.json",
+      "sha256": "7a52e37c71dfce30270506571ea58dc5f4fa45333e95fc355483a77265653796"
+    },
+    {
+      "name": "yearly_side_summary.csv",
+      "sha256": "487ed363db65d5942e1b5b373549641dd08c6336e94355d09ecbe430d42276f7"
+    }
+  ],
+  "final_conversation_package": {
+    "filename": "FCP_Linanthus_花色地理配置_年外予測_20261013.zip",
+    "bytes": 198144,
+    "sha256": "4cbcd7612d10fe10625613d2da19d8d14197b55cd0cd30efa85dce4a1b90c890",
+    "n_files": 24,
+    "included_actual_remote_artifact": true
+  },
+  "key_results": {
+    "main_years": [
+      1992,
+      1993,
+      1995,
+      1996,
+      1998
+    ],
+    "n_independent_studies": 1,
+    "n_fixed_aggregate_sections": 4,
+    "observed_section_fraction_variance_geography_percent": 99.791482942,
+    "out_of_year_global_MSE": 0.21900051326011996,
+    "out_of_year_side_MSE": 0.0007838978846323849,
+    "out_of_year_side_gain_percent": 99.6420565993
+  },
+  "nonclaims": [
+    "No independent new geographical study, species, or field population collected",
+    "Not an evolutionary replicate, field future forecast, climatic explained variance, genetics or reproductive fitness test",
+    "No full-repository pytest in this focused workflow",
+    "1994 nine-plant and 1997 zero-plant years were held rather than treated as monomorphic",
+    "No independent re-extraction of original printed Appendix"
+  ]
+}
