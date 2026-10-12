@@ -1,0 +1,4 @@
+year,n_all,n_poly,mono_white,mono_pink,mono_purple,all_white,all_pink,all_purple,poly_white,poly_pink,poly_purple,mean_H_all
+2021,132,118,0,2,12,0.129,0.333,0.538,0.144,0.355,0.501,0.71
+2022,112,102,0,1,9,0.174,0.295,0.531,0.190,0.314,0.495,0.77
+2023,116,103,0,1,12,0.192,0.324,0.484,0.216,0.356,0.428,0.81

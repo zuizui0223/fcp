@@ -1,0 +1,58 @@
+{
+  "schema": "fcp_hesperis_hierarchy_remote_integration_receipt_v1",
+  "date": "2026-10-12",
+  "pull_request": 175,
+  "status": "INTEGRATED_AND_REMOTE_SUMMARY_REPLAY_VERIFIED",
+  "code_commit": "338124a17988e4e1223fb808524b286cc0931fb8",
+  "executed_pr_merge_sha": "66b3137b408cf5c599e8b80a0d856d65f0a9ff43",
+  "parent_commit": "2128286fc39a1da7207f9b8f294af698fc3de0f8",
+  "workflow_run": 38211560793,
+  "workflow_job": 114686661170,
+  "workflow_conclusion": "success",
+  "focused_tests_passed": 36,
+  "focused_tests_composition": {"hierarchy": 22, "parent": 14},
+  "independent_hierarchy_checks": 16774,
+  "independent_parent_checks": 390,
+  "hierarchy_independent_max_absolute_difference": 7.771561172376096e-16,
+  "unchanged_analysis_and_source_hashes_verified": true,
+  "artifact": {
+    "id": 11729496148,
+    "bytes": 10130,
+    "sha256": "f2abc9bbbb3e664163f55660ef85e3cbf4a87e78d63a0dcf27a297fc6d1fce07",
+    "downloaded_and_zip_integrity_verified": true
+  },
+  "byte_identical_local_remote_outputs": {
+    "hierarchy_result.json": "d45e043d7b736632090da0e116df7eb3fb53dce77d01901c71e3d28ad2df6363",
+    "hierarchy.csv": "8f9297563a56eef6aa9ea9e8d86890fe44750efcec196975e97bae01f7365243",
+    "parent_result.json": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1"
+  },
+  "full_repository_pytest": {
+    "attempted": true,
+    "declared_core_dependencies_installed": true,
+    "exit_code": 2,
+    "status": "COLLECTION_BLOCKED_NOT_PASSED",
+    "affected_module": "tests/test_jbi_ch1_direct_florence_colour.py",
+    "missing_dependency": "torch",
+    "n_collection_error_modules": 1
+  },
+  "source_recovery": {
+    "publisher_table2_rechecked": true,
+    "raw_stand_year_colour_counts_recovered": false,
+    "individual_sampling_compliance_verified": false,
+    "raw_recovery_attempted_in_this_workflow": false,
+    "new_paid_browser_or_login_attempted": false,
+    "new_read_attempts": ["Publisher full text and Table 2: retrieved", "Publisher supplementary link: web internal fetch error", "PMC full-text route: inaccessible", "Dryad public landing/search route: fetch/cache failure", "Local direct public-host requests: DNS resolution failures"]
+  },
+  "scientific_changes": {
+    "new_ecological_effect_estimated": false,
+    "new_hypothesis_pvalues_computed": false,
+    "finite_sample_bias_corrected": false,
+    "raw_population_rows_reconstructed": false,
+    "strict_2022_HOLD_preserved": true,
+    "parent_and_main_H1_H2_results_changed": false,
+    "PR174_statistical_results_reused_as_subset_test": false
+  },
+  "next_required_input": "A stand-year CSV with stand ID, year, white/pink/purple counts, colour sample n, census N, and census/subsample flag; preserve unsurveyed vs zero plants vs observed monomorphism.",
+  "historical_receipts_preserved": true,
+  "main_merged": false
+}

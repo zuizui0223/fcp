@@ -1,0 +1,21 @@
+{
+  "schema": "fcp_hierarchy_integration_hash_contract_v1",
+  "parent_commit": "2128286fc39a1da7207f9b8f294af698fc3de0f8",
+  "source_package_sha256": "997bafee8278cce17aa9dbbffc614161ae79a7abfc4be035599c55837b92aab5",
+  "unchanged_files": {
+    "scripts/hierarchy.py": "64802af572bfa387b7e26adefea8ebde45fde3132e4847f928781a69282b6441",
+    "scripts/verify_independent.py": "ae19c96cd3a3606d024cc1872cfd6eb3b08fc38ef88c258e869bfb9a10d23b81",
+    "tests/test_hierarchy.py": "9780fb75f6e2e513a715d7f7102d052754f319883583fda252bc04d553ae066d",
+    "data/conditional_summary.csv": "419b21f6d5c67f5a14611323cb9804e47827cd78316e40e5763b5dbe341abeb0"
+  },
+  "expected_recomputed_outputs": {
+    "results/result.json": "d45e043d7b736632090da0e116df7eb3fb53dce77d01901c71e3d28ad2df6363",
+    "results/hierarchy.csv": "8f9297563a56eef6aa9ea9e8d86890fe44750efcec196975e97bae01f7365243"
+  },
+  "parent_expected_result_sha256": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1",
+  "preintegration_tests": 22,
+  "preintegration_independent_checks": 16774,
+  "preintegration_maximum_absolute_difference": 7.771561172376096e-16,
+  "raw_stand_year_counts_recovered": false,
+  "parent_statistical_results_changed": false
+}

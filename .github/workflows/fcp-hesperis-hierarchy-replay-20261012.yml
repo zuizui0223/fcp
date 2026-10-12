@@ -1,0 +1,82 @@
+name: FCP Hesperis hierarchy unchanged-source replay
+on:
+  pull_request:
+    paths:
+      - 'packages/fcp_hesperis_hierarchy_20261012/**'
+      - '.github/workflows/fcp-hesperis-hierarchy-replay-20261012.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install pytest==8.4.2
+      - name: Verify unchanged analysis and transcription hashes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          p=Path('packages/fcp_hesperis_hierarchy_20261012')
+          contract=json.loads((p/'source_and_output_hashes.json').read_text())
+          for name,want in contract['unchanged_files'].items():
+              got=hashlib.sha256((p/name).read_bytes()).hexdigest()
+              assert got==want,(name,got,want)
+          print('UNCHANGED_CODE_AND_INPUT_HASHES_PASS')
+          PY
+      - name: Parent and new focused tests
+        run: python -m pytest -q packages/fcp_hesperis_hierarchy_20261012/tests packages/fcp_hesperis_entropy_20261012/tests
+      - name: Recompute hierarchy and independently verify
+        run: |
+          python packages/fcp_hesperis_hierarchy_20261012/scripts/hierarchy.py
+          python packages/fcp_hesperis_hierarchy_20261012/scripts/verify_independent.py
+      - name: Recompute unchanged parent summaries
+        working-directory: packages/fcp_hesperis_entropy_20261012
+        run: |
+          python scripts/analysis/fcp_hesperis_entropy_20261012.py --summary data/hesperis_published_summary.csv --counts data/linanthus_counts.csv --outdir results
+          python scripts/analysis/verify_fcp_hesperis_entropy_20261012.py --root .
+      - name: Compare full local and remote output hashes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          p=Path('packages/fcp_hesperis_hierarchy_20261012')
+          contract=json.loads((p/'source_and_output_hashes.json').read_text())
+          checks=[]
+          for name,want in contract['expected_recomputed_outputs'].items():
+              got=hashlib.sha256((p/name).read_bytes()).hexdigest()
+              checks.append(dict(file=name,sha256=got,match=got==want))
+          parent=Path('packages/fcp_hesperis_entropy_20261012/results/result.json')
+          got=hashlib.sha256(parent.read_bytes()).hexdigest()
+          checks.append(dict(file=str(parent),sha256=got,match=got==contract['parent_expected_result_sha256']))
+          record=dict(status='PASS' if all(c['match'] for c in checks) else 'FAIL',checks=checks,raw_data_recovery_attempted=False)
+          (p/'results/remote_hash_comparison.json').write_text(json.dumps(record,indent=2)+'\n')
+          print(json.dumps(record))
+          assert record['status']=='PASS'
+          PY
+      - name: Install declared core dependencies for separate repository test diagnostic
+        continue-on-error: true
+        run: python -m pip install -e . scikit-learn matplotlib requests pyyaml
+      - name: Record complete repository pytest without hiding failure
+        if: always()
+        run: |
+          mkdir -p packages/fcp_hesperis_hierarchy_20261012/results
+          set +e
+          python -m pytest -q > packages/fcp_hesperis_hierarchy_20261012/results/full_repository_pytest.txt 2>&1
+          rc=$?
+          echo "FULL_REPOSITORY_PYTEST_EXIT=$rc" | tee packages/fcp_hesperis_hierarchy_20261012/results/full_repository_pytest_status.txt
+          tail -n 55 packages/fcp_hesperis_hierarchy_20261012/results/full_repository_pytest.txt
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-hesperis-hierarchy-replay-20261012
+          retention-days: 60
+          path: |
+            packages/fcp_hesperis_hierarchy_20261012/results/
+            packages/fcp_hesperis_entropy_20261012/results/
