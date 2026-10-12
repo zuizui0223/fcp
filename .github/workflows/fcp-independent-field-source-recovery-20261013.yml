@@ -44,7 +44,13 @@ jobs:
               entry["status"]="SOURCE_BYTES_VERIFIED" if digest==expected and len(bs)==expected_size else "HASH_OR_SIZE_MISMATCH_HOLD"
               if entry["status"]=="SOURCE_BYTES_VERIFIED":
                 if name.endswith(".csv"):
-                  text=bs.decode("utf-8-sig")
+                  try:
+                    text=bs.decode("utf-8-sig")
+                    entry["decoded_as"]="utf-8-sig"
+                  except UnicodeDecodeError:
+                    text=bs.decode("cp1252")
+                    entry["decoded_as"]="cp1252"
+                  # Decoding only for schema inspection; source bytes stay checksum-locked.
                   reader=csv.reader(io.StringIO(text))
                   header=next(reader); rows=list(reader)
                   entry["n_data_rows"]=len(rows);entry["n_columns"]=len(header);entry["columns"]=header
