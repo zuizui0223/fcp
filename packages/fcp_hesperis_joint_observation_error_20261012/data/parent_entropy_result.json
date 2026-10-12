@@ -1,0 +1,254 @@
+{
+  "schema": "fcp_hesperis_summary_shannon_partition_v1",
+  "status": "SUMMARY_IDENTITY_COMPLETE_RAW_CENSUS_NOT_RECOVERED",
+  "source_doi": "10.1093/aob/mcag035",
+  "source_locator": "Table 2 all stands mean morph frequencies; Results neutral predictions 1 and 2 mean H-prime",
+  "weighting": "equal stand within each year",
+  "logarithm": "natural",
+  "source_p_half_rounding_unit": 0.0005,
+  "source_alpha_half_rounding_unit": 0.005,
+  "hesperis": [
+    {
+      "H_total": 0.9638601242889535,
+      "H_within": 0.71,
+      "H_between": 0.25386012428895355,
+      "between_fraction": 0.26337859393885393,
+      "effective_beta": 1.2889914930558948,
+      "year": 2021,
+      "n_stands": 132,
+      "inference": "descriptive_summary_identity_no_p_value",
+      "rounding_bounds": {
+        "H_total": [
+          0.9631448986943818,
+          0.9645729472100949
+        ],
+        "H_within": [
+          0.705,
+          0.715
+        ],
+        "H_between": [
+          0.24814489869438183,
+          0.25957294721009494
+        ],
+        "between_fraction": [
+          0.25764025644610866,
+          0.26910660096872596
+        ],
+        "effective_beta": [
+          1.2816456275182788,
+          1.2963763473003354
+        ]
+      }
+    },
+    {
+      "H_total": 1.0005232935190926,
+      "H_within": 0.77,
+      "H_between": 0.23052329351909262,
+      "between_fraction": 0.23040272526617955,
+      "effective_beta": 1.2592587995129303,
+      "year": 2022,
+      "n_stands": 112,
+      "inference": "descriptive_summary_identity_no_p_value",
+      "rounding_bounds": {
+        "H_total": [
+          0.9999644857471262,
+          1.00108019369761
+        ],
+        "H_within": [
+          0.765,
+          0.775
+        ],
+        "H_between": [
+          0.22496448574712613,
+          0.2360801936976099
+        ],
+        "between_fraction": [
+          0.2249724754765099,
+          0.23582545652573483
+        ],
+        "effective_beta": [
+          1.2522782416759861,
+          1.2662758534381415
+        ]
+      }
+    },
+    {
+      "H_total": 1.0332261735852386,
+      "H_within": 0.81,
+      "H_between": 0.22322617358523855,
+      "between_fraction": 0.2160477340703206,
+      "effective_beta": 1.2501032821054283,
+      "year": 2023,
+      "n_stands": 116,
+      "inference": "descriptive_summary_identity_no_p_value",
+      "rounding_bounds": {
+        "H_total": [
+          1.0327629690347755,
+          1.033687559521879
+        ],
+        "H_within": [
+          0.805,
+          0.8150000000000001
+        ],
+        "H_between": [
+          0.21776296903477543,
+          0.22868755952187902
+        ],
+        "between_fraction": [
+          0.21085474166284024,
+          0.22123470231919595
+        ],
+        "effective_beta": [
+          1.2432923339079713,
+          1.2569492558258875
+        ]
+      }
+    }
+  ],
+  "linanthus_same_metric": [
+    {
+      "H_total": 0.6930640661919791,
+      "H_within": 0.11532421717717545,
+      "H_between": 0.5777398490148037,
+      "between_fraction": 0.8336023712629901,
+      "effective_beta": 1.7820062725907833,
+      "year": 1992,
+      "N": 10646,
+      "weighting": "equal_section",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.6498490370327294,
+      "H_within": 0.12256376678434343,
+      "H_between": 0.527285270248386,
+      "between_fraction": 0.8113965555077516,
+      "effective_beta": 1.6943264212328142,
+      "year": 1992,
+      "N": 10646,
+      "weighting": "count_weighted",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.6931163854085818,
+      "H_within": 0.1321550585428923,
+      "H_between": 0.5609613268656894,
+      "between_fraction": 0.809332081415174,
+      "effective_beta": 1.7523562780043611,
+      "year": 1993,
+      "N": 3801,
+      "weighting": "equal_section",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.5921364644177061,
+      "H_within": 0.13819871562807104,
+      "H_between": 0.453937748789635,
+      "between_fraction": 0.7666100233094535,
+      "effective_beta": 1.574499979894726,
+      "year": 1993,
+      "N": 3801,
+      "weighting": "count_weighted",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "year": 1994,
+      "N": 9,
+      "status": "HOLD_SPARSE_SECTIONS"
+    },
+    {
+      "H_total": 0.6931430760118016,
+      "H_within": 0.13782430824680397,
+      "H_between": 0.5553187677649976,
+      "between_fraction": 0.8011603765274322,
+      "effective_beta": 1.7424963479197813,
+      "year": 1995,
+      "N": 45055,
+      "weighting": "equal_section",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.6035576363354901,
+      "H_within": 0.13358240888106143,
+      "H_between": 0.46997522745442866,
+      "between_fraction": 0.7786749751157004,
+      "effective_beta": 1.5999545577792322,
+      "year": 1995,
+      "N": 45055,
+      "weighting": "count_weighted",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.691729790029591,
+      "H_within": 0.18163864191962376,
+      "H_between": 0.5100911481099673,
+      "between_fraction": 0.7374138796135213,
+      "effective_beta": 1.6654429900086622,
+      "year": 1996,
+      "N": 707,
+      "weighting": "equal_section",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.6758813961277917,
+      "H_within": 0.2034983194985135,
+      "H_between": 0.47238307662927825,
+      "between_fraction": 0.6989141576253163,
+      "effective_beta": 1.6038116488241896,
+      "year": 1996,
+      "N": 707,
+      "weighting": "count_weighted",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "year": 1997,
+      "N": 0,
+      "status": "HOLD_NO_PLANTS"
+    },
+    {
+      "H_total": 0.6931469700118553,
+      "H_within": 0.11780627668980904,
+      "H_between": 0.5753406933220463,
+      "between_fraction": 0.8300414172079636,
+      "effective_beta": 1.77773608656617,
+      "year": 1998,
+      "N": 40282,
+      "weighting": "equal_section",
+      "status": "OK",
+      "sections_both_colours": 4
+    },
+    {
+      "H_total": 0.5300618857923526,
+      "H_within": 0.10524002217046072,
+      "H_between": 0.4248218636218919,
+      "between_fraction": 0.8014571034226603,
+      "effective_beta": 1.529317968233507,
+      "year": 1998,
+      "N": 40282,
+      "weighting": "count_weighted",
+      "status": "OK",
+      "sections_both_colours": 4
+    }
+  ],
+  "source_hashes": {
+    "hesperis_published_summary.csv": "5c1a2fa4b0a7b6cf7f79f1fda10e8e253036af1b0af725fdeced85d0783cd5be",
+    "linanthus_counts.csv": "fa408c7ad6e521a8410252d903b024a057b1ee4f7e27406927e77fcc22bf4ac7"
+  },
+  "limits": [
+    "Rounding intervals only, not sampling confidence intervals.",
+    "No per-stand census records or sample denominators were recovered or manufactured.",
+    "Empirical plug-in entropy, not bias-corrected population diversity.",
+    "Annual sets differ and overlap; three years are not three independent replicates.",
+    "The 105-stand longitudinal H-prime means cannot be mixed with all-stand colour shares.",
+    "Linanthus four transect-sections and Hesperis stands have incomparable sampling scales.",
+    "No multi-species general law, causal mechanism, or new p-value.",
+    "The original Linanthus Gini-Simpson results are unchanged."
+  ]
+}

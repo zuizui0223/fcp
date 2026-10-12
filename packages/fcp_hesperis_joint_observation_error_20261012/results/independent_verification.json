@@ -1,0 +1,12 @@
+{
+  "checks": 987,
+  "decimal_digits": 85,
+  "max_absolute_difference": 6.661338147750939e-16,
+  "max_relative_difference": 2.613060419961112e-15,
+  "n_annual": 3,
+  "n_scenario_rows": 120,
+  "not_independent_publisher_data_or_measured_error": true,
+  "proof_kind": "conditional_event_inclusion_fano_plus_mgf_and_union",
+  "source_sha256": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1",
+  "status": "PASS"
+}
