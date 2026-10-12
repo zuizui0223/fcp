@@ -28,6 +28,8 @@ jobs:
             ("digitalis_soil_morph_selected.csv","https://ndownloader.figshare.com/files/54633005","7eb7c0b569d9cdc77afa0444ccb2a7fc",2824,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
             ("digitalis_seeds_per_fruit.csv","https://ndownloader.figshare.com/files/54632999","f80900aef46dde007567a58e2874e8e3",36413,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
             ("digitalis_germination_per_plant.csv","https://ndownloader.figshare.com/files/54632996","25f702760c9b2f074e0fa56f9a90557e",12532,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
+            ("digitalis_author_R2_seed_analysis.R","https://ndownloader.figshare.com/files/61722505","fbbe4790b5eb116271f39c20e4653623",17164,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
+            ("digitalis_author_R1_seed_analysis.R","https://ndownloader.figshare.com/files/57055745","4496b7bad42559a628c3a9a7246dab9b",14326,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
             ("sisyrinchium_field_frequency_and_fitness.zip","https://datadryad.org/downloads/file_stream/41000","008ec196aa5acb769dbfd36e835e32ba",127502,"CC0 1.0","10.5061/dryad.j8q34"),
           ]
           rec={"date_utc":datetime.now(timezone.utc).isoformat(),"role":"raw public source recovery only; no statistical result or reclassification","downloads":[],"run_scope":"Fixed Figshare 29095451 files and Dryad j8q34 zip; hashes from hosting repository metadata"}
