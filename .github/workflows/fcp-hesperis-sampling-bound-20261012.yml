@@ -1,0 +1,41 @@
+name: FCP Hesperis census-versus-subsample audit
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'packages/fcp_hesperis_sampling_bound_20261012/**'
+      - '.github/workflows/fcp-hesperis-sampling-bound-20261012.yml'
+permissions:
+  contents: read
+jobs:
+  verified-summary-bound:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pytest==8.4.2
+      - name: New and parent focused tests
+        run: python -m pytest -q packages/fcp_hesperis_sampling_bound_20261012/tests packages/fcp_hesperis_entropy_20261012/tests
+      - name: Replay fixed summaries and exact finite controls
+        run: |
+          python packages/fcp_hesperis_sampling_bound_20261012/sampling_bound.py
+          python packages/fcp_hesperis_sampling_bound_20261012/verify_independent.py
+      - name: Record whole repository tests separately
+        shell: bash
+        run: |
+          set +e
+          out=packages/fcp_hesperis_sampling_bound_20261012/results
+          python -m pytest -q > "$out/full_repository_pytest.txt" 2>&1
+          rc=$?
+          echo "FULL_REPOSITORY_PYTEST_EXIT=$rc" | tee "$out/full_repository_status.txt"
+          tail -n 55 "$out/full_repository_pytest.txt"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-hesperis-sampling-bound-20261012
+          path: packages/fcp_hesperis_sampling_bound_20261012/results/
+          retention-days: 60
+          if-no-files-found: error

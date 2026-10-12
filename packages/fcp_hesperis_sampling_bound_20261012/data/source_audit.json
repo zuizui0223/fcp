@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-12",
+  "parent_pr": 173,
+  "parent_head": "2128286fc39a1da7207f9b8f294af698fc3de0f8",
+  "primary_article": "https://academic.oup.com/aob/article/137/5/1290/8488381",
+  "article_doi": "10.1093/aob/mcag035",
+  "printed_source_rechecked": true,
+  "locators": [
+    "Methods: Geographical survey of flower colour variation",
+    "Table 2: All stands",
+    "Results: Neutral predictions 1 & 2"
+  ],
+  "published_protocol": "census below 100 plants; random sample of 100 or more otherwise",
+  "actual_per_stand_compliance_verified": false,
+  "sample_size_range_is_not_minimum_non_census_sample": true,
+  "counts_recovered": false,
+  "private_or_paid_access_attempted": false,
+  "new_local_http_status": "DNS_NAME_RESOLUTION_FAILED",
+  "local_http_urls": [
+    "https://academic.oup.com/aob/article/137/5/1290/8488381",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC13197582/",
+    "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.5x69p8dj1",
+    "https://datadryad.org/downloads/file_stream/4398699"
+  ],
+  "new_web_data_discovery": "Dryad API/search and DataCite endpoints did not yield a raw dataset; failure is not proof of absence",
+  "previous_remote_recovery": "PR173, run38206932549: four public companion files HTTP403",
+  "mgf_source": {
+    "url": "https://arxiv.org/pdf/1904.02291",
+    "locators": [
+      "Theorem I.2",
+      "Theorem I.3"
+    ],
+    "pdf_page2_visually_checked": true
+  },
+  "convex_order_source": {
+    "url": "https://arxiv.org/pdf/1001.2738",
+    "locators": [
+      "Section D",
+      "Lemma 2"
+    ],
+    "text_checked": true,
+    "screenshot_attempt": "tool internal error"
+  },
+  "parent_analysis_sha256": "979db193ab3cc789caf8722cd3acc5d36b9f69c3d20a64a3d68edf72155a9114"
+}

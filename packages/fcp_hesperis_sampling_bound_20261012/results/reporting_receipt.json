@@ -1,0 +1,71 @@
+{
+  "schema": "fcp_hesperis_subsampling_reporting_receipt_v1",
+  "date": "2026-10-12",
+  "parent_pr": 173,
+  "local_status": "COMPLETE_CONDITIONAL_ON_PUBLISHED_SAMPLING_DESIGN",
+  "raw_counts": "NOT_RECOVERED",
+  "null": "all finite census colour compositions identical; observation subsampling only",
+  "not_tested": [
+    "neutral demographic formation",
+    "drift",
+    "selection",
+    "geographic-distance association",
+    "temporal trend"
+  ],
+  "sampling_design": "each stand either complete census or simple random sample without replacement of at least 100",
+  "actual_per_stand_design_verified": false,
+  "new_tests_passed": 12,
+  "parent_tests_passed": 14,
+  "enumerated_checks": 743,
+  "independent_decimal_verification": {
+    "status": "PASS",
+    "checks": 86,
+    "decimal_precision": 60,
+    "max_abs_difference": 1.6975151241035644e-15,
+    "max_relative_difference": 1.2044416648870151e-14,
+    "production_code_imported": false,
+    "raw_census_recovered": false,
+    "scope": "input hash, three source/rounding partitions, all 15 bounds and thresholds; not independent field sampling validation"
+  },
+  "remote_replay": "NOT_YET_RUN_AT_THIS_RECEIPT",
+  "full_repository_tests": "NOT_AVAILABLE_LOCALLY; remote step will separately record collection/result",
+  "years": [
+    {
+      "year": 2021,
+      "n_stands": 132,
+      "observed_gap_nats": 0.25386012428895355,
+      "rounding_lower_gap_nats": 0.24814489869338183,
+      "observed_uncorrected_between_fraction": 0.26337859393885393,
+      "n0_100_bonferroni_upper": 5.705121642187617e-08,
+      "n0_50_bonferroni_upper": 0.0034882124523534725,
+      "n0_25_bonferroni_upper": 0.4312627443011091,
+      "minimum_n0_for_three_year_bonferroni": 37
+    },
+    {
+      "year": 2022,
+      "n_stands": 112,
+      "observed_gap_nats": 0.23052329351909262,
+      "rounding_lower_gap_nats": 0.22496448574612612,
+      "observed_uncorrected_between_fraction": 0.23040272526617955,
+      "n0_100_bonferroni_upper": 4.7620579399774593e-07,
+      "n0_50_bonferroni_upper": 0.00913642772500032,
+      "n0_25_bonferroni_upper": 0.6327574996890397,
+      "minimum_n0_for_three_year_bonferroni": 41
+    },
+    {
+      "year": 2023,
+      "n_stands": 116,
+      "observed_gap_nats": 0.22322617358523855,
+      "rounding_lower_gap_nats": 0.21776296903377543,
+      "observed_uncorrected_between_fraction": 0.2160477340703206,
+      "n0_100_bonferroni_upper": 9.168382090345646e-07,
+      "n0_50_bonferroni_upper": 0.012271439300132986,
+      "n0_25_bonferroni_upper": 0.7098505244605673,
+      "minimum_n0_for_three_year_bonferroni": 42
+    }
+  ],
+  "global_research_multiplicity_controlled": false,
+  "p_upper_not_exact_p": true,
+  "effect_size_corrected": false,
+  "original_results_changed": false
+}
