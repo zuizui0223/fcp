@@ -1,0 +1,95 @@
+name: FCP Hesperis joint sampling and classification observation bound
+on:
+  pull_request:
+    paths:
+      - 'packages/fcp_hesperis_joint_observation_error_20261012/**'
+      - '.github/workflows/fcp-hesperis-joint-observation-error-20261012.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-locked-sampling-and-colour-error:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install focused testing dependency
+        run: python -m pip install pytest==8.4.2
+      - name: Focused new and parent classification-error tests
+        run: >-
+          python -m pytest -q
+          packages/fcp_hesperis_joint_observation_error_20261012/tests
+          packages/fcp_hesperis_misclassification_20261012/tests
+      - name: Recompute both-error null from unchanged published-source summary
+        run: |
+          cd packages/fcp_hesperis_joint_observation_error_20261012
+          cp results/result.json /tmp/frozen_hesperis_joint_result.json
+          cp results/joint_sensitivity.csv /tmp/frozen_hesperis_joint_scenarios.csv
+          python src/joint_bound.py --parent data/parent_entropy_result.json --outdir results
+          python src/verify_independent.py --root .
+      - name: Lock original source, code and compare complete results
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,math
+          p=Path('packages/fcp_hesperis_joint_observation_error_20261012')
+          expected={
+           'data/parent_entropy_result.json':'980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1',
+           'src/joint_bound.py':'cddaf4116463ff2fd4b8d3072012fd9c5cdd84dd7867c35484ffc08de6725463',
+           'src/verify_independent.py':'fcb209324e245f18bbd127c39ac4234ccddd05d49ab1f361006ab9defb331fba',
+           'tests/test_joint_bound.py':'58e450fa13d9adbe62464251fed1ada08ef316dde968ed9c828fd27d707cbefc',
+          }
+          for fn,digest in expected.items():
+           got=hashlib.sha256((p/fn).read_bytes()).hexdigest()
+           assert got==digest,(fn,got,digest)
+           print('SOURCE_AND_CODE_SHA_PASS',fn,got)
+          frozen=json.loads(Path('/tmp/frozen_hesperis_joint_result.json').read_text())
+          current=json.loads((p/'results/result.json').read_text())
+          comparisons=[0];max_abs=[0.]
+          def compare(a,b,path):
+           comparisons[0]+=1
+           if isinstance(a,dict):
+            assert isinstance(b,dict) and set(a)==set(b),path
+            for k in a:compare(a[k],b[k],path+'.'+k)
+           elif isinstance(a,list):
+            assert isinstance(b,list) and len(a)==len(b),path
+            for i,(x,y) in enumerate(zip(a,b)):compare(x,y,path+f'[{i}]')
+           elif type(a) in (int,float) and type(b) in (int,float):
+            assert math.isclose(a,b,rel_tol=1e-11,abs_tol=1e-12), (path,a,b)
+            max_abs[0]=max(max_abs[0],abs(a-b))
+           else:assert a==b,(path,a,b)
+          compare(frozen,current,'result')
+          csv_original=Path('/tmp/frozen_hesperis_joint_scenarios.csv').read_text().splitlines()
+          csv_new=(p/'results/joint_sensitivity.csv').read_text().splitlines()
+          assert len(csv_original)==len(csv_new)==121
+          import csv,io
+          rows_a=list(csv.DictReader(io.StringIO('\n'.join(csv_original))))
+          rows_b=list(csv.DictReader(io.StringIO('\n'.join(csv_new))))
+          for i,(a,b) in enumerate(zip(rows_a,rows_b)):
+           assert set(a)==set(b)
+           for k in a:
+            if k=='rejection_certificate':assert a[k]==b[k],(i,k)
+            else:assert math.isclose(float(a[k]),float(b[k]),rel_tol=1e-11,abs_tol=1e-12),(i,k,a[k],b[k])
+          verifier=json.loads((p/'results/independent_verification.json').read_text())
+          assert verifier['status']=='PASS' and verifier['checks']>=900
+          assert current['measured_misclassification_rate'] is None
+          assert current['raw_stand_counts_recovered'] is False
+          out={'status':'PASS', 'source_exact':True,'numeric_comparisons':comparisons[0],
+               'largest_numeric_difference':max_abs[0],
+               'full_result_byte_identical':Path('/tmp/frozen_hesperis_joint_result.json').read_bytes()==(p/'results/result.json').read_bytes(),
+               'scenario_csv_byte_identical':Path('/tmp/frozen_hesperis_joint_scenarios.csv').read_bytes()==(p/'results/joint_sensitivity.csv').read_bytes(),
+               'not_raw_data_or_measured_observer_accuracy':True}
+          (p/'results/remote_replay_receipt.json').write_text(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-hesperis-joint-observation-error-replay-20261012
+          retention-days: 60
+          path: |
+            packages/fcp_hesperis_joint_observation_error_20261012/results/

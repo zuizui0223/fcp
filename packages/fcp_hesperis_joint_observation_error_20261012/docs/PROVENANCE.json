@@ -1,0 +1,25 @@
+{
+  "schema": "fcp_hesperis_joint_observation_error_source_frozen_20261012_v1",
+  "date_jst": "2026-10-12",
+  "inference_type": "retrospective hypothetical combined-error bound (no new sample)",
+  "source_doi": "10.1093/aob/mcag035",
+  "source_article": "https://academic.oup.com/aob/article/137/5/1290/8488381",
+  "parent_pr173_result_json_sha256": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1",
+  "parent_sampling_only_PR174": "https://github.com/zuizui0223/fcp/pull/174",
+  "parent_sampling_only_reference_p_adjusted_at_n100_e0": {
+    "2021": 5.7051216422e-8,
+    "2022": 4.7620579400e-7,
+    "2023": 9.1683820904e-7
+  },
+  "parent_label_error_PR176": "https://github.com/zuizui0223/fcp/pull/176",
+  "parent_classification_only_head_at_design": "06faa50686d4de70386ddff6c95a0a7e46196eac",
+  "n_years": 3,
+  "n_stands": [132,112,116],
+  "error_budget_levels": [0,0.0025,0.005,0.01,0.015,0.02,0.025,0.03,0.04,0.05],
+  "minimum_random_sample_levels": [25,50,75,100],
+  "alpha_family": 0.05,
+  "adjustment": "Bonferroni 3 years only; no cross-project multiplicity control",
+  "raw_stand_year_counts_recovered": false,
+  "empirical_label_error_rate_measured": false,
+  "note": "The proof is an event-inclusion union bound; it neither multiplies prior p-values nor establishes field sampling implementation."
+}
