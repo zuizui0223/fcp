@@ -1,0 +1,8 @@
+species,primary_paper_doi,public_data_doi,data_interest,retrieval_status,known_limitation
+Linanthus parryae,10.1111/j.1558-5646.2007.00219.x,,Four aggregate section/year blue/white census counts,SOURCE_EXACT_PUBLISHED_APPENDIX_REUSED,One geographic ravine study; raw 2-m subplots not recovered
+Hesperis matronalis,10.1093/aob/mcag035,,Stand/year/3-morph counts and actual sampled N,UNRECOVERED_AS_OF_2026_10_13,Paper still says data will be archived at Dryad; no verified colour-census file
+Digitalis purpurea,10.1002/ajb2.70186,10.6084/m9.figshare.29095451,Population colour proportion + soil and pollinator observations,DOI_LOCATED_FILE_BYTES_UNRECOVERED,Supplementary S2 describes proportions; denominator/sample grain unconfirmed
+Anemone pavonina,10.1002/ajb2.70189,10.6084/m9.figshare.31301656,Morph phenology and pollinator observations across elevation,DOI_LOCATED_FILE_BYTES_UNRECOVERED,Population-year colour counts unconfirmed
+Sisyrinchium spp.,10.1371/journal.pone.0164381,10.5061/dryad.j8q34,Quadrat-level colour-frequency and neighboring other species,DOI_LOCATED_FILE_BYTES_UNRECOVERED,Species M taxonomic resolution incomplete; raw fields unverified
+Anemone coronaria,10.1002/njb.05105,10.6084/m9.figshare.29825945,Flower morph distribution across climate and seed dispersal,DOI_LOCATED_FILE_BYTES_UNRECOVERED,Matched population sample sizes and temporal structure unverified
+Castilleja coccinea,10.1002/ajb2.70094,10.5061/dryad.0k6djhbb8,Flower-colour morph/local habitat/phylogeography,DOI_LOCATED_FILE_BYTES_UNRECOVERED,Availability of raw per-site colour counts not yet inspected

@@ -1,0 +1,60 @@
+name: FCP Linanthus fixed-field spatial-versus-temporal frequency transfer
+on:
+  pull_request:
+    paths:
+      - 'packages/fcp_linanthus_spacetime_20261013/**'
+      - '.github/workflows/fcp-linanthus-spacetime-20261013.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed_field_counts_replay:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install focused test requirement
+        run: python -m pip install pytest==8.4.2
+      - name: Test source identity and biology controls
+        run: python -m pytest -q packages/fcp_linanthus_spacetime_20261013/tests/test_spacetime.py
+      - name: Replay original 28 source count rows and independent exact-rational check
+        run: |
+          cd packages/fcp_linanthus_spacetime_20261013
+          cp results/result.json /tmp/linanthus_frozen_result.json
+          cp results/independent_verification.json /tmp/linanthus_frozen_verification.json
+          python scripts/field_spacetime.py
+          python scripts/verify_independent.py
+      - name: Compare all key outputs and source identity
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path('packages/fcp_linanthus_spacetime_20261013')
+          refs={
+            'source/linanthus_counts.csv':'fa408c7ad6e521a8410252d903b024a057b1ee4f7e27406927e77fcc22bf4ac7',
+            'results/result.json':'7a52e37c71dfce30270506571ea58dc5f4fa45333e95fc355483a77265653796',
+            'results/independent_verification.json':'ce661f63cd20f7cb3f5a379fb0ca401a7deb138309d6b1a794f1953a84ceba45',
+          }
+          for name,want in refs.items():
+            got=hashlib.sha256((p/name).read_bytes()).hexdigest()
+            assert got==want,(name,got,want)
+            print('PASS_SHA256',name,got)
+          assert (p/'results/result.json').read_bytes()==pathlib.Path('/tmp/linanthus_frozen_result.json').read_bytes()
+          assert (p/'results/independent_verification.json').read_bytes()==pathlib.Path('/tmp/linanthus_frozen_verification.json').read_bytes()
+          v=json.loads((p/'results/independent_verification.json').read_text())
+          r=json.loads((p/'results/result.json').read_text())
+          assert v['status']=='PASS' and v['checks']==383
+          assert r['n_fixed_sections']==4 and r['n_years_main']==5
+          assert r['n_counted_plant_records_all_years']==100500
+          assert r['count_by_year']['1997']==0
+          assert r['original_main_H1H2_and_pr172_results_unchanged']
+          assert r['primary']['variance_partition']['spatial_fraction']>0.99
+          print('FCP_SPACETIME_FIELD_REPLAY_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-linanthus-spacetime-frequency-transfer-20261013
+          path: packages/fcp_linanthus_spacetime_20261013/results/
+          retention-days: 60
