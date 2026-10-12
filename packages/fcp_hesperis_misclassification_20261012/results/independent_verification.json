@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "n_checks": 84,
+  "precision": 75,
+  "independent_implementation": true,
+  "parent_sha256": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1",
+  "raw_stand_counts_recovered": false,
+  "measured_colour_misclassification_rate": null
+}
