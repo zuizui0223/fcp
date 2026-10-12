@@ -1,0 +1,37 @@
+{
+  "schema": "fcp_hesperis_summary_partition_reporting_receipt_v1",
+  "date": "2026-10-12",
+  "code_commit": "5f9258328747f042487d82dbbb1db1c29455acec",
+  "pull_request": 173,
+  "local_analysis_status": "COMPLETE_FROM_PUBLISHED_SUMMARIES",
+  "raw_stand_year_colour_count_recovery": "NOT_RECOVERED",
+  "local_tests_passed": 14,
+  "test_scope": "isolated reproduction package; not full repository",
+  "independent_verification": {
+    "status": "PASS",
+    "checks": 390,
+    "precision_decimal_digits": 50,
+    "maximum_absolute_difference": 2.220446049250313e-16,
+    "same_transcription_not_independent_source_recovery": true
+  },
+  "hesperis": [
+    {"year": 2021, "n_stands": 132, "H_total": 0.9638601242889535, "H_within": 0.71, "H_between": 0.25386012428895355, "between_fraction": 0.26337859393885393, "rounding_fraction_range": [0.25764025644610866, 0.26910660096872596]},
+    {"year": 2022, "n_stands": 112, "H_total": 1.0005232935190926, "H_within": 0.77, "H_between": 0.23052329351909262, "between_fraction": 0.23040272526617955, "rounding_fraction_range": [0.2249724754765099, 0.23582545652573483]},
+    {"year": 2023, "n_stands": 116, "H_total": 1.0332261735852386, "H_within": 0.81, "H_between": 0.22322617358523855, "between_fraction": 0.2160477340703206, "rounding_fraction_range": [0.21085474166284024, 0.22123470231919595]}
+  ],
+  "linanthus_same_shannon_between_fraction_range_equal_section": [0.7374138796135213, 0.8336023712629901],
+  "rounding_enclosures_are_not_sampling_confidence_intervals": true,
+  "no_population_records_reconstructed": true,
+  "no_new_p_values": true,
+  "original_H1H2_and_PR170_to172_results_unchanged": true,
+  "companion_dryad_doi": "10.5061/dryad.5x69p8dj1",
+  "companion_file_semantics_verified": false,
+  "remote_status_at_record_creation": "NO_RUN_REGISTERED_AT_INITIAL_CHECK; consult current Actions separately",
+  "full_repository_tests": "NOT_RUN_LOCALLY; remote workflow configured to record outcome separately",
+  "retrieval_failures": ["Local public HTTP: DNS resolution failed.", "Ordinary file fetch: HTML Validating page, not raw CSV.", "TinyFish browser not started: wallet_out_of_funds; no top-up."],
+  "source_hashes": {
+    "hesperis_published_summary.csv": "5c1a2fa4b0a7b6cf7f79f1fda10e8e253036af1b0af725fdeced85d0783cd5be",
+    "linanthus_counts.csv": "fa408c7ad6e521a8410252d903b024a057b1ee4f7e27406927e77fcc22bf4ac7"
+  },
+  "local_complete_result_sha256": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1"
+}
