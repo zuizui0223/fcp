@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-13",
+  "eligible_main_years": [
+    1992,
+    1993,
+    1995,
+    1996,
+    1998
+  ],
+  "full_repo_pytest": "NOT_RUN",
+  "independent_raw_plant_data": "NOT_ACQUIRED",
+  "independent_verification_passed": 383,
+  "independent_verifier_sha256": "ce661f63cd20f7cb3f5a379fb0ca401a7deb138309d6b1a794f1953a84ceba45",
+  "largest_absolute_difference": 1.1102230246251565e-16,
+  "limitations": [
+    "Counts are published aggregation of approximately 2000 2m quadrats; 4 sections, not 4 independent populations.",
+    "All locations share the same ravine and repeated fixed sample years; no inter-year independence for p-value.",
+    "Frequency-variance R2 describes the provided section-year matrix, not environment/selection explained variance."
+  ],
+  "n_effective_evolutionary_replicates": 1,
+  "n_plants_in_evaluable_main_years": 100491,
+  "n_sections_times_years": 20,
+  "new_global_general_law": false,
+  "new_p_values": false,
+  "remote_CI_status": "NOT_RUN_YET",
+  "result_sha256": "7a52e37c71dfce30270506571ea58dc5f4fa45333e95fc355483a77265653796",
+  "source_denominators": {
+    "n_plant_census_records": 100500,
+    "n_rows": 28,
+    "n_sections": 4,
+    "n_years": 7
+  },
+  "source_doi": "10.1111/j.1558-5646.2007.00219.x",
+  "source_sha256": "fa408c7ad6e521a8410252d903b024a057b1ee4f7e27406927e77fcc22bf4ac7",
+  "status": "REPRODUCIBLE_SINGLE_STUDY_DESCRIPTIVE",
+  "test_passed": 10,
+  "test_scope": "10/10 focused tests in independent local runtime"
+}

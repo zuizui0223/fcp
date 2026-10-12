@@ -1,0 +1,10 @@
+{
+  "all_count_free_yields_missing_not_zero": true,
+  "checks": 383,
+  "independent_method": "exact fractions for raw frequencies, variance decomposition and left-out-year predictions",
+  "max_relative_difference": 3.665953029112299e-13,
+  "maximum_absolute_difference": 1.1102230246251565e-16,
+  "no_independent_biological_data": true,
+  "source_sha256": "fa408c7ad6e521a8410252d903b024a057b1ee4f7e27406927e77fcc22bf4ac7",
+  "status": "PASS"
+}
