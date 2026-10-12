@@ -1,0 +1,71 @@
+name: FCP independent field phenotype source recovery 20261013
+
+on:
+  push:
+    branches:
+      - analysis/fcp-independent-field-source-recovery-20261013
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-public-source-bytes:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download explicitly identified public field-data files with checksum gates
+        run: |
+          python - <<'PY'
+          import urllib.request, urllib.error, pathlib, hashlib, json, zipfile, io, csv
+          from datetime import datetime,timezone
+          out=pathlib.Path("source_recovery_20261013"); out.mkdir(exist_ok=True)
+          files=[
+            ("digitalis_field_individuals.csv","https://ndownloader.figshare.com/files/54632993","a1200e0197b282ee126700ae234eb95e",345652,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
+            ("digitalis_soil_morph_selected.csv","https://ndownloader.figshare.com/files/54633005","7eb7c0b569d9cdc77afa0444ccb2a7fc",2824,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
+            ("digitalis_seeds_per_fruit.csv","https://ndownloader.figshare.com/files/54632999","f80900aef46dde007567a58e2874e8e3",36413,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
+            ("digitalis_germination_per_plant.csv","https://ndownloader.figshare.com/files/54632996","25f702760c9b2f074e0fa56f9a90557e",12532,"CC BY 4.0","10.6084/m9.figshare.29095451.v2"),
+            ("sisyrinchium_field_frequency_and_fitness.zip","https://datadryad.org/downloads/file_stream/41000","008ec196aa5acb769dbfd36e835e32ba",127502,"CC0 1.0","10.5061/dryad.j8q34"),
+          ]
+          rec={"date_utc":datetime.now(timezone.utc).isoformat(),"role":"raw public source recovery only; no statistical result or reclassification","downloads":[],"run_scope":"Fixed Figshare 29095451 files and Dryad j8q34 zip; hashes from hosting repository metadata"}
+          for name,url,expected,expected_size,license,doi in files:
+            entry={"filename":name,"url":url,"doi":doi,"license":license,"expected_md5":expected,"expected_size_bytes":expected_size}
+            try:
+              req=urllib.request.Request(url,headers={"User-Agent":"FCP-research-source-audit/1.0"})
+              with urllib.request.urlopen(req,timeout=35) as conn:
+                bs=conn.read(1000000)
+                entry["http_status"]=conn.status
+                entry["content_type"]=conn.headers.get("Content-Type","")
+              digest=hashlib.md5(bs).hexdigest()
+              entry.update(downloaded_size_bytes=len(bs),computed_md5=digest,sha256=hashlib.sha256(bs).hexdigest())
+              entry["status"]="SOURCE_BYTES_VERIFIED" if digest==expected and len(bs)==expected_size else "HASH_OR_SIZE_MISMATCH_HOLD"
+              if entry["status"]=="SOURCE_BYTES_VERIFIED":
+                if name.endswith(".csv"):
+                  text=bs.decode("utf-8-sig")
+                  reader=csv.reader(io.StringIO(text))
+                  header=next(reader); rows=list(reader)
+                  entry["n_data_rows"]=len(rows);entry["n_columns"]=len(header);entry["columns"]=header
+                if name.endswith(".zip"):
+                  with zipfile.ZipFile(io.BytesIO(bs)) as z:
+                    entry["zip_integrity"]=z.testzip() is None
+                    entry["zip_members"]=[{"path":zi.filename,"size":zi.file_size} for zi in z.infolist()]
+                    entry["has_frequency_txt"]=any(zi.filename.rsplit("/",1)[-1]=="frequency.txt" for zi in z.infolist())
+                (out/name).write_bytes(bs)
+            except Exception as ex:
+              entry["status"]="NOT_RECOVERED"
+              entry["error_type"]=type(ex).__name__
+              entry["error"]=str(ex)[:500]
+            rec["downloads"].append(entry)
+            print(json.dumps({k:entry.get(k) for k in ("filename","status","http_status","computed_md5","downloaded_size_bytes","n_data_rows","zip_members","error")},ensure_ascii=False),flush=True)
+          (out/"recovery_receipt.json").write_text(json.dumps(rec,indent=2,ensure_ascii=False)+"\n")
+          PY
+      - name: Store source bytes and honest recovery receipt
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-independent-public-field-source-20261013
+          path: source_recovery_20261013/
+          retention-days: 60
