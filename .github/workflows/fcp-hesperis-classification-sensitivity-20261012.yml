@@ -1,0 +1,54 @@
+name: FCP Hesperis classification-error sensitivity
+on:
+  pull_request:
+    paths:
+      - 'packages/fcp_hesperis_misclassification_20261012/**'
+      - '.github/workflows/fcp-hesperis-classification-sensitivity-20261012.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  locked-source-info-bound:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install focused test requirement
+        run: python -m pip install pytest==8.4.2
+      - name: Eight synthetic controls including heterogeneous colour confusion
+        run: python -m pytest -q packages/fcp_hesperis_misclassification_20261012/tests
+      - name: Recompute exact-source information bound
+        run: |
+          cd packages/fcp_hesperis_misclassification_20261012
+          python src/information_bound.py --parent data/parent_entropy_result.json --outdir results
+          python src/verify_independent.py --parent data/parent_entropy_result.json --result results/result.json --outdir results
+      - name: Verify full result bytes against frozen local result
+        run: |
+          python - <<'PY'
+          import hashlib, pathlib, json
+          p=pathlib.Path('packages/fcp_hesperis_misclassification_20261012')
+          expected={
+              'data/parent_entropy_result.json':'980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1',
+              'results/result.json':'f5494b3e546eaf45b826629fee8f200d168255627e82c5c107e98bd9d5b15b23',
+              'results/independent_verification.json':'fe9807752d0978cfaa3da09ae0e2b5bcfde902e030dfa38476aab1d77fd29ecc',
+          }
+          for name,want in expected.items():
+              got=hashlib.sha256((p/name).read_bytes()).hexdigest()
+              assert got==want,(name,got,want)
+              print('SHA_PASS',name,got)
+          r=json.loads((p/'results/result.json').read_text())
+          assert r['verified_empirical_error_rate'] is None
+          assert r['annual'][1]['year']==2022
+          print('SCOPE_LOCK_PASS: classification-error scenarios are hypothetical; raw data not recovered')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-hesperis-classification-sensitivity-source-locked-20261012
+          retention-days: 60
+          path: |
+            packages/fcp_hesperis_misclassification_20261012/results/

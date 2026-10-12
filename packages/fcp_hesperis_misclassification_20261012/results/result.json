@@ -1,0 +1,256 @@
+{
+  "schema": "fcp_hesperis_error_information_sensitivity_v1",
+  "scope": "DETERMINISTIC_LABEL_ERROR_SENSITIVITY_NOT_FIELD_DATA",
+  "source_doi": "10.1093/aob/mcag035",
+  "parent": {
+    "status": "PASS",
+    "parent_sha256": "980b50bfe99f69b31b57d273a2995c814e280cf552a52a1eefaf17e828b4faf1",
+    "n_years": 3,
+    "source_not_raw_stand_counts": true
+  },
+  "verified_empirical_error_rate": null,
+  "n_color_categories": 3,
+  "annual": [
+    {
+      "year": 2021,
+      "n_stands": 132,
+      "B_observed_nats": 0.25386012428895355,
+      "B_original_rounding_min": 0.24814489869438183,
+      "B_original_rounding_max": 0.25957294721009494,
+      "Hgamma_original_rounding_max": 0.9645729472100949,
+      "threshold_error_rate": 0.05416492684749348,
+      "assumptions": "three colour classes; stand weights equal; unknown possibly stand-varying misclassification; parent publication rounding envelope",
+      "scenarios": [
+        {
+          "error_rate_upper": 0.0,
+          "fano_information_ceiling_nats": 0.0,
+          "guaranteed_true_sample_B_min": 0.24814489869438183,
+          "guaranteed_true_sample_fraction_min": 0.2572588205092311,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.005,
+          "fano_information_ceiling_nats": 0.03494480184996647,
+          "guaranteed_true_sample_B_min": 0.21320009684441538,
+          "guaranteed_true_sample_fraction_min": 0.21330296239852375,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.01,
+          "fano_information_ceiling_nats": 0.0629330061604468,
+          "guaranteed_true_sample_B_min": 0.18521189253393505,
+          "guaranteed_true_sample_fraction_min": 0.1802538388477283,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.02,
+          "fano_information_ceiling_nats": 0.11190205689093088,
+          "guaranteed_true_sample_B_min": 0.13624284180345095,
+          "guaranteed_true_sample_fraction_min": 0.12656386937403027,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.03,
+          "fano_information_ceiling_nats": 0.1555365835965651,
+          "guaranteed_true_sample_B_min": 0.09260831509781672,
+          "guaranteed_true_sample_fraction_min": 0.08429572111385115,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.04,
+          "fano_information_ceiling_nats": 0.19567003495657076,
+          "guaranteed_true_sample_B_min": 0.05247486373781107,
+          "guaranteed_true_sample_fraction_min": 0.04776467938605382,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.05,
+          "fano_information_ceiling_nats": 0.23317260237386983,
+          "guaranteed_true_sample_B_min": 0.014972296320512002,
+          "guaranteed_true_sample_fraction_min": 0.013628371423610687,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.075,
+          "fano_information_ceiling_nats": 0.3183705018099164,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.1,
+          "fano_information_ceiling_nats": 0.39439769144744274,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "n_stands": 112,
+      "B_observed_nats": 0.23052329351909262,
+      "B_original_rounding_min": 0.22496448574712613,
+      "B_original_rounding_max": 0.2360801936976099,
+      "Hgamma_original_rounding_max": 1.00108019369761,
+      "threshold_error_rate": 0.04775827925420288,
+      "assumptions": "three colour classes; stand weights equal; unknown possibly stand-varying misclassification; parent publication rounding envelope",
+      "scenarios": [
+        {
+          "error_rate_upper": 0.0,
+          "fano_information_ceiling_nats": 0.0,
+          "guaranteed_true_sample_B_min": 0.22496448574712613,
+          "guaranteed_true_sample_fraction_min": 0.22472174273690582,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.005,
+          "fano_information_ceiling_nats": 0.03494480184996647,
+          "guaranteed_true_sample_B_min": 0.19001968389715967,
+          "guaranteed_true_sample_fraction_min": 0.18341225811518905,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.01,
+          "fano_information_ceiling_nats": 0.0629330061604468,
+          "guaranteed_true_sample_B_min": 0.16203147958667935,
+          "guaranteed_true_sample_fraction_min": 0.15228333596640997,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.02,
+          "fano_information_ceiling_nats": 0.11190205689093088,
+          "guaranteed_true_sample_B_min": 0.11306242885619525,
+          "guaranteed_true_sample_fraction_min": 0.10291385780261497,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.03,
+          "fano_information_ceiling_nats": 0.1555365835965651,
+          "guaranteed_true_sample_B_min": 0.06942790215056102,
+          "guaranteed_true_sample_fraction_min": 0.0631959999598504,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.04,
+          "fano_information_ceiling_nats": 0.19567003495657076,
+          "guaranteed_true_sample_B_min": 0.02929445079055537,
+          "guaranteed_true_sample_fraction_min": 0.026664958232053063,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.05,
+          "fano_information_ceiling_nats": 0.23317260237386983,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.075,
+          "fano_information_ceiling_nats": 0.3183705018099164,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.1,
+          "fano_information_ceiling_nats": 0.39439769144744274,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "n_stands": 116,
+      "B_observed_nats": 0.22322617358523855,
+      "B_original_rounding_min": 0.21776296903477543,
+      "B_original_rounding_max": 0.22868755952187902,
+      "Hgamma_original_rounding_max": 1.033687559521879,
+      "threshold_error_rate": 0.045815834814451575,
+      "assumptions": "three colour classes; stand weights equal; unknown possibly stand-varying misclassification; parent publication rounding envelope",
+      "scenarios": [
+        {
+          "error_rate_upper": 0.0,
+          "fano_information_ceiling_nats": 0.0,
+          "guaranteed_true_sample_B_min": 0.21776296903477543,
+          "guaranteed_true_sample_fraction_min": 0.2106661408748107,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.005,
+          "fano_information_ceiling_nats": 0.03494480184996647,
+          "guaranteed_true_sample_B_min": 0.18281816718480898,
+          "guaranteed_true_sample_fraction_min": 0.17107676483811335,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.01,
+          "fano_information_ceiling_nats": 0.0629330061604468,
+          "guaranteed_true_sample_B_min": 0.15482996287432865,
+          "guaranteed_true_sample_fraction_min": 0.1411882721513546,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.02,
+          "fano_information_ceiling_nats": 0.11190205689093088,
+          "guaranteed_true_sample_B_min": 0.10586091214384455,
+          "guaranteed_true_sample_fraction_min": 0.09635875479982463,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.03,
+          "fano_information_ceiling_nats": 0.1555365835965651,
+          "guaranteed_true_sample_B_min": 0.062226385438210324,
+          "guaranteed_true_sample_fraction_min": 0.05664089695706006,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.04,
+          "fano_information_ceiling_nats": 0.19567003495657076,
+          "guaranteed_true_sample_B_min": 0.022092934078204673,
+          "guaranteed_true_sample_fraction_min": 0.02010985522926272,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.05,
+          "fano_information_ceiling_nats": 0.23317260237386983,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.075,
+          "fano_information_ceiling_nats": 0.3183705018099164,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        },
+        {
+          "error_rate_upper": 0.1,
+          "fano_information_ceiling_nats": 0.39439769144744274,
+          "guaranteed_true_sample_B_min": 0,
+          "guaranteed_true_sample_fraction_min": 0.0,
+          "assumption": "sampled correct labels differ from recorded colours on at most this equal-stand-weighted fraction"
+        }
+      ]
+    }
+  ],
+  "theorem": {
+    "identity": "B_shannon=I(stand;recorded_colour)",
+    "general_bound": "I(stand;true_sample_colour) >= max(0,B_obs - h2(e)-e*ln(k-1))",
+    "constant_channel": "if recorded_colour is independent of stand conditional on true_colour, then I(stand;recorded)<=I(stand;true)",
+    "proof": "I(G;Z)<=I(G;X,Z)=I(G;X)+I(G;Z|X)<=I(G;X)+H(Z|X)<=I(G;X)+h2(e)+e*ln(k-1)",
+    "error_weight": "equal stand weight, then uniform among the sampled records of the stand",
+    "validity": "latent correctly identified morphs of the SAME SAMPLED PLANTS, not true finite-stand census compositions"
+  },
+  "nonclaims": [
+    "The original study did not measure a true misclassification rate; epsilon scenarios are not observed.",
+    "These lower bounds do not remove finite sampling noise or ascertainment bias.",
+    "The threshold is a necessary lower bound on misclassification if all properly classified sample compositions were equal; it is not a confidence interval or p-value.",
+    "The data processing result requires stand-invariant classification channel; stand-specific errors need a rate bound.",
+    "Do not combine this deterministic bound with PR174 sampling-only p-upper as if it were a calibrated joint model.",
+    "No causal selection, drift, population genetics, cross-species generality, or longitudinal effect is established."
+  ]
+}
