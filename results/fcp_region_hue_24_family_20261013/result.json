@@ -1,0 +1,2097 @@
+{
+  "schema": "fcp_four_sectors_six_hue_source_matched_genus_posthoc_v1",
+  "role": "posthoc_evidence_and_falsification_not_confirmatory",
+  "date": "2026-10-13",
+  "parent_pr": 188,
+  "old_selected_sector_and_colour_pair": "90–180 E; white minus blue/purple",
+  "source_SHA256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+  "parent_source_colour_photos": 45836,
+  "parent_source_species": 25028,
+  "source_photo_classifiable_n": 45953,
+  "source_photo_opportunity_n": 100543,
+  "source_photo_unclassified_n": 54590,
+  "source_photo_quality_thresholds": {
+    "minimum_flower_effective_pixels": 23826,
+    "maximum_nuisance_pixel_fraction": 0.1326827772952536
+  },
+  "cases": {
+    "all_classified_original_source_photos": {
+      "original_photo_n": 45836,
+      "original_named_species_n": 25028,
+      "weighting": {
+        "equal_species": {
+          "status": "OK",
+          "n_union_genera": 627,
+          "bootstrap_replicates": 999,
+          "shared_genus_draw_seed": 2026101308,
+          "n_test_family": 24,
+          "maxT_critical_95": 2.9700491185762434,
+          "sector_metadata": [
+            {
+              "sector": 0,
+              "longitude_degrees": [
+                -180,
+                -90
+              ],
+              "n_genera": 269,
+              "n_photos": 18055,
+              "n_unique_named_species": 8281,
+              "n_region_named_species": 2297,
+              "n_other_named_species": 6756,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.002594985287041744,
+                "yellow_orange": -0.0033381427884526796,
+                "red_pink": 0.014264300525326259,
+                "blue_purple": -0.013521143023915425
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.02197438973315234,
+                "yellow_orange": -0.007049679712801181,
+                "red_pink": -0.0022152516865289232,
+                "blue_purple": -0.012709458333822258
+              }
+            },
+            {
+              "sector": 1,
+              "longitude_degrees": [
+                -90,
+                0
+              ],
+              "n_genera": 436,
+              "n_photos": 22457,
+              "n_unique_named_species": 10580,
+              "n_region_named_species": 4244,
+              "n_other_named_species": 7656,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.0018914805944913677,
+                "yellow_orange": -0.014314725558929589,
+                "red_pink": 0.014365873287495626,
+                "blue_purple": -0.0019426283230574372
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.028902284867776008,
+                "yellow_orange": -0.010053630673679452,
+                "red_pink": -0.006993858254188143,
+                "blue_purple": -0.011854795939908423
+              }
+            },
+            {
+              "sector": 2,
+              "longitude_degrees": [
+                0,
+                90
+              ],
+              "n_genera": 433,
+              "n_photos": 22082,
+              "n_unique_named_species": 10407,
+              "n_region_named_species": 4786,
+              "n_other_named_species": 6945,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.017387754504815525,
+                "yellow_orange": -0.024303277453906126,
+                "red_pink": 0.00039641897546601975,
+                "blue_purple": 0.0065191039736245985
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.030220577255699738,
+                "yellow_orange": -0.0139521029363428,
+                "red_pink": -0.000229873661312989,
+                "blue_purple": -0.016038600658043956
+              }
+            },
+            {
+              "sector": 3,
+              "longitude_degrees": [
+                90,
+                180
+              ],
+              "n_genera": 394,
+              "n_photos": 21176,
+              "n_unique_named_species": 9938,
+              "n_region_named_species": 3415,
+              "n_other_named_species": 7625,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.050753430877810195,
+                "yellow_orange": -0.009065921937187417,
+                "red_pink": -0.009472177921449314,
+                "blue_purple": -0.03221533101917342
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.008313779885903275,
+                "yellow_orange": -0.012241166538779297,
+                "red_pink": 0.002301979089466791,
+                "blue_purple": 0.0016254075634092309
+              }
+            }
+          ],
+          "all_directional_contrasts": [
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -2.3090941370459097,
+              "nominal_bootstrap_CI95_pp": [
+                -8.202387460933949,
+                4.511328676292864
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -12.101966030587244,
+                7.483777756495424
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.24424424424424424
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -3.5858956657965777,
+              "nominal_bootstrap_CI95_pp": [
+                -8.836232435221646,
+                2.018381641796386
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -11.919352484176244,
+                4.747561152583088
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.11211211211211211
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -1.856771975601743,
+              "nominal_bootstrap_CI95_pp": [
+                -7.683050890810916,
+                4.400029792534367
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -11.116832660108964,
+                7.403288708905478
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.2902902902902903
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.276801528750668,
+              "nominal_bootstrap_CI95_pp": [
+                -5.506865193730787,
+                2.9956700915898695
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.776666966706522,
+                5.2230639092051865
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.2872872872872873
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 0.45232216144416676,
+              "nominal_bootstrap_CI95_pp": [
+                -4.006057753111122,
+                5.450428858817969
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.548806760158504,
+                7.453451083046839
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5765765765765766
+            },
+            {
+              "sector": 0,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 1.7291236901948348,
+              "nominal_bootstrap_CI95_pp": [
+                -2.4290261573454264,
+                6.075085897680528
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -4.598010279007574,
+                8.056257659397243
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7937937937937938
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -2.2749709388034502,
+              "nominal_bootstrap_CI95_pp": [
+                -6.971025830643594,
+                2.4151911791505607
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.501657759787065,
+                4.951715882180165
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.17517517517517517
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -4.83705358149684,
+              "nominal_bootstrap_CI95_pp": [
+                -8.961986186217604,
+                -0.736152217867027
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -11.217640047835587,
+                1.543532884841907
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.011011011011011011
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -3.692297189013563,
+              "nominal_bootstrap_CI95_pp": [
+                -7.200407102185339,
+                0.026800249318387974
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.339073671083957,
+                1.9544792930568309
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.02702702702702703
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -2.5620826426933903,
+              "nominal_bootstrap_CI95_pp": [
+                -5.902899535222637,
+                1.122712014913112
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.852817555840208,
+                2.7286522704534266
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.08308308308308308
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -1.4173262502101123,
+              "nominal_bootstrap_CI95_pp": [
+                -4.562638402190509,
+                1.796994908343107
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.233226675704805,
+                3.3985741752845806
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.2042042042042042
+            },
+            {
+              "sector": 1,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 1.144756392483278,
+              "nominal_bootstrap_CI95_pp": [
+                -1.4831593812293178,
+                3.715774613320487
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -2.8678481979150092,
+                5.157360982881565
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7957957957957958
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -0.24816482333208864,
+              "nominal_bootstrap_CI95_pp": [
+                -5.131138657763646,
+                4.300649037145977
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.283696793473568,
+                6.787367146809389
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.46546546546546547
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.345911538766322,
+              "nominal_bootstrap_CI95_pp": [
+                -5.094324600274434,
+                2.297611182270176
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.862730773928677,
+                4.170907696396033
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.23823823823823823
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -3.539052738255277,
+              "nominal_bootstrap_CI95_pp": [
+                -7.258702945552821,
+                0.21877552999526456
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.304703662288679,
+                2.2265981857781254
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.036036036036036036
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.0977467154342335,
+              "nominal_bootstrap_CI95_pp": [
+                -4.309296901492375,
+                2.651706535469175
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.374233606340924,
+                4.178740175472457
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.2802802802802803
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -3.290887914923188,
+              "nominal_bootstrap_CI95_pp": [
+                -6.386761880370042,
+                -0.2199222518740852
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.921275580573078,
+                1.3394997507267032
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.01701701701701702
+            },
+            {
+              "sector": 2,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -2.193141199488955,
+              "nominal_bootstrap_CI95_pp": [
+                -4.867939560821114,
+                0.5526309171014169
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.285554718938485,
+                1.8992723199605754
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.05805805805805806
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 3.926440639031504,
+              "nominal_bootstrap_CI95_pp": [
+                -0.8212278340326916,
+                8.706834844323872
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -3.360852005758932,
+                11.21373328382194
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.9459459459459459
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 5.421380800282302,
+              "nominal_bootstrap_CI95_pp": [
+                1.8643042305819775,
+                9.093965500641389
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -0.09313630518742802,
+                10.935897905752032
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 1
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 7.6280389574489575,
+              "nominal_bootstrap_CI95_pp": [
+                3.286082442855789,
+                11.387667285017411
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                1.6403772854133996,
+                13.615700629484515
+              ],
+              "maxT_excludes_zero": true,
+              "bootstrap_positive_fraction": 1
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 1.4949401612507984,
+              "nominal_bootstrap_CI95_pp": [
+                -1.8621213772303407,
+                4.504691685719973
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -3.2377702172703713,
+                6.227650539771968
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8288288288288288
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 3.701598318417453,
+              "nominal_bootstrap_CI95_pp": [
+                0.5304594217167711,
+                6.894967105538672
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -1.0786354819448458,
+                8.481832118779753
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.98998998998999
+            },
+            {
+              "sector": 3,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 2.2066581571666544,
+              "nominal_bootstrap_CI95_pp": [
+                -0.3753044669867457,
+                4.856988761363374
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -1.8478530131902846,
+                6.261169327523594
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.9459459459459459
+            }
+          ],
+          "historical_white_blue_east": {
+            "sector": 3,
+            "hue_A": "white",
+            "hue_B": "blue_purple",
+            "point_pp_per_BIO12_SD": 7.6280389574489575,
+            "nominal_bootstrap_CI95_pp": [
+              3.286082442855789,
+              11.387667285017411
+            ],
+            "maxT_24_pair_simultaneous_approx_CI95_pp": [
+              1.6403772854133996,
+              13.615700629484515
+            ],
+            "maxT_excludes_zero": true,
+            "bootstrap_positive_fraction": 1
+          },
+          "maxT_scope": "24=4 original longitude sectors x all 6 four-hue pairs within one source sample and taxonomic weight; posthoc photo/type/selection not controlled",
+          "selection_adjustment_all_geography_hypotheses": false,
+          "not_an_independent_validation": true
+        },
+        "equal_genera": {
+          "status": "OK",
+          "n_union_genera": 627,
+          "bootstrap_replicates": 999,
+          "shared_genus_draw_seed": 2026102308,
+          "n_test_family": 24,
+          "maxT_critical_95": 2.9233790421036288,
+          "sector_metadata": [
+            {
+              "sector": 0,
+              "longitude_degrees": [
+                -180,
+                -90
+              ],
+              "n_genera": 269,
+              "n_photos": 18055,
+              "n_unique_named_species": 8281,
+              "n_region_named_species": 2297,
+              "n_other_named_species": 6756,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.021173432612193246,
+                "yellow_orange": -0.007532318431745634,
+                "red_pink": 0.011274843877498856,
+                "blue_purple": -0.024915958057946417
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.002368746523676518,
+                "yellow_orange": 0.002728259463922927,
+                "red_pink": 0.00505193535285641,
+                "blue_purple": -0.010148941340455846
+              }
+            },
+            {
+              "sector": 1,
+              "longitude_degrees": [
+                -90,
+                0
+              ],
+              "n_genera": 436,
+              "n_photos": 22457,
+              "n_unique_named_species": 10580,
+              "n_region_named_species": 4244,
+              "n_other_named_species": 7656,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": -0.018240332897577517,
+                "yellow_orange": -0.004259642674216155,
+                "red_pink": 0.02043411450673999,
+                "blue_purple": 0.002065861065053669
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.018748923496322407,
+                "yellow_orange": -0.006823903994830031,
+                "red_pink": 0.0003857077268702019,
+                "blue_purple": -0.012310727228362583
+              }
+            },
+            {
+              "sector": 2,
+              "longitude_degrees": [
+                0,
+                90
+              ],
+              "n_genera": 433,
+              "n_photos": 22082,
+              "n_unique_named_species": 10407,
+              "n_region_named_species": 4786,
+              "n_other_named_species": 6945,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.022538357040744385,
+                "yellow_orange": -0.026549615652419846,
+                "red_pink": -0.007057719976278557,
+                "blue_purple": 0.011068978587953967
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.024627770954177442,
+                "yellow_orange": -0.016856662000449038,
+                "red_pink": 0.005336977930289362,
+                "blue_purple": -0.013108086884017819
+              }
+            },
+            {
+              "sector": 3,
+              "longitude_degrees": [
+                90,
+                180
+              ],
+              "n_genera": 394,
+              "n_photos": 21176,
+              "n_unique_named_species": 9938,
+              "n_region_named_species": 3415,
+              "n_other_named_species": 7625,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.03604741417428842,
+                "yellow_orange": -0.012211856795547558,
+                "red_pink": 0.0007594172920850052,
+                "blue_purple": -0.02459497467082591
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.008649063771040178,
+                "yellow_orange": -0.0032082088554438257,
+                "red_pink": -0.006541012063248994,
+                "blue_purple": 0.0011001571476526313
+              }
+            }
+          ],
+          "all_directional_contrasts": [
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 2.906526398418529,
+              "nominal_bootstrap_CI95_pp": [
+                -5.579514215008436,
+                11.20569479743334
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.53203655653055,
+                15.345089353367609
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7507507507507507
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 1.2581777563874283,
+              "nominal_bootstrap_CI95_pp": [
+                -5.701950367313327,
+                8.728538979210335
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.279850309060315,
+                11.796205821835173
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.6716716716716716
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 3.3571702806007298,
+              "nominal_bootstrap_CI95_pp": [
+                -4.121124038797194,
+                10.899197756554422
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.435442753053626,
+                14.149783314255085
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8258258258258259
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.6483486420311007,
+              "nominal_bootstrap_CI95_pp": [
+                -7.378426895502842,
+                4.269068813881202
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -10.819842273424552,
+                7.523144989362351
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.32932932932932935
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 0.45064388218220114,
+              "nominal_bootstrap_CI95_pp": [
+                -5.228633277708298,
+                6.032601468011696
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.9388324173003895,
+                8.840120181664792
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5805805805805806
+            },
+            {
+              "sector": 0,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 2.0989925242133016,
+              "nominal_bootstrap_CI95_pp": [
+                -2.895515734373179,
+                6.810866203586456
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -5.196786330211997,
+                9.3947713786386
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8048048048048048
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -3.95535177145138,
+              "nominal_bootstrap_CI95_pp": [
+                -11.220266117754802,
+                2.750399314740678
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -14.332303238758168,
+                6.421599695855409
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.13513513513513514
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -5.703766317376971,
+              "nominal_bootstrap_CI95_pp": [
+                -10.760527301056912,
+                -0.9922004949428397
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -13.019268978834248,
+                1.6117363440803043
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.006006006006006006
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -5.136584468731618,
+              "nominal_bootstrap_CI95_pp": [
+                -9.811416534353146,
+                -0.5781303341876879
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -12.174082214845091,
+                1.9009132773818556
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.016016016016016016
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.748414545925591,
+              "nominal_bootstrap_CI95_pp": [
+                -6.134350622191268,
+                2.6811258614217603
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -8.485174191323965,
+                4.988345099472783
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.22722722722722724
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -1.1812326972802376,
+              "nominal_bootstrap_CI95_pp": [
+                -5.597703958747807,
+                3.2454137401466703
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.47075213293088,
+                5.1082867383704045
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.2852852852852853
+            },
+            {
+              "sector": 1,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 0.5671818486453536,
+              "nominal_bootstrap_CI95_pp": [
+                -2.517573223442894,
+                3.79123469296513
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -4.1393625734880635,
+                5.27372627077877
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.6656656656656657
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 0.7603539738537751,
+              "nominal_bootstrap_CI95_pp": [
+                -4.401191561946409,
+                6.495583070537482
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.086073437770481,
+                8.606781385478032
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5855855855855856
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 1.0305283993134862,
+              "nominal_bootstrap_CI95_pp": [
+                -3.043810981496344,
+                4.712694312538204
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -4.94143264312459,
+                7.002489441751562
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.6596596596596597
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -2.626647938540484,
+              "nominal_bootstrap_CI95_pp": [
+                -6.676768235997112,
+                1.025857378019949
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -8.414897498634149,
+                3.1616016215531797
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.08008008008008008
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 0.270174425459711,
+              "nominal_bootstrap_CI95_pp": [
+                -4.492663303155031,
+                4.502719574448691
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.215254368318032,
+                6.755603219237455
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5595595595595596
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -3.3870019123942594,
+              "nominal_bootstrap_CI95_pp": [
+                -7.070751058129927,
+                0.08696382970388575
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -8.784796078041177,
+                2.010792253252658
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.03003003003003003
+            },
+            {
+              "sector": 2,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -3.657176337853971,
+              "nominal_bootstrap_CI95_pp": [
+                -6.393229492434649,
+                -0.8310327465816553
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.817535833622627,
+                0.5031831579146856
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.005005005005005005
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 3.640199834335197,
+              "nominal_bootstrap_CI95_pp": [
+                -3.0887380185077835,
+                9.77763760047616
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -6.094814049175533,
+                13.375213717845927
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8708708708708709
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 2.009792104791424,
+              "nominal_bootstrap_CI95_pp": [
+                -2.3780623678913297,
+                6.671217357435616
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -4.629322198978197,
+                8.648906408561045
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8188188188188188
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 5.309348222172678,
+              "nominal_bootstrap_CI95_pp": [
+                0.9093232433386906,
+                9.537439554194966
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -1.029111730533961,
+                11.647808174879318
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.98998998998999
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.6304077295437733,
+              "nominal_bootstrap_CI95_pp": [
+                -5.236195481394318,
+                2.5811038272517264
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.603353112953694,
+                4.342537653866148
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.23223223223223224
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 1.669148387837481,
+              "nominal_bootstrap_CI95_pp": [
+                -1.9112009593222468,
+                5.618798873883905
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -4.090540017912458,
+                7.42883679358742
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8018018018018018
+            },
+            {
+              "sector": 3,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 3.299556117381254,
+              "nominal_bootstrap_CI95_pp": [
+                0.7485180678101704,
+                5.670502951965094
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -0.36881885622302646,
+                6.967931090985536
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.996996996996997
+            }
+          ],
+          "historical_white_blue_east": {
+            "sector": 3,
+            "hue_A": "white",
+            "hue_B": "blue_purple",
+            "point_pp_per_BIO12_SD": 5.309348222172678,
+            "nominal_bootstrap_CI95_pp": [
+              0.9093232433386906,
+              9.537439554194966
+            ],
+            "maxT_24_pair_simultaneous_approx_CI95_pp": [
+              -1.029111730533961,
+              11.647808174879318
+            ],
+            "maxT_excludes_zero": false,
+            "bootstrap_positive_fraction": 0.98998998998999
+          },
+          "maxT_scope": "24=4 original longitude sectors x all 6 four-hue pairs within one source sample and taxonomic weight; posthoc photo/type/selection not controlled",
+          "selection_adjustment_all_geography_hypotheses": false,
+          "not_an_independent_validation": true
+        }
+      }
+    },
+    "original_photo_quality_strict": {
+      "original_photo_n": 8644,
+      "original_named_species_n": 5579,
+      "weighting": {
+        "equal_species": {
+          "status": "OK",
+          "n_union_genera": 145,
+          "bootstrap_replicates": 999,
+          "shared_genus_draw_seed": 2026111308,
+          "n_test_family": 24,
+          "maxT_critical_95": 3.0491576828557028,
+          "sector_metadata": [
+            {
+              "sector": 0,
+              "longitude_degrees": [
+                -180,
+                -90
+              ],
+              "n_genera": 68,
+              "n_photos": 2226,
+              "n_unique_named_species": 1237,
+              "n_region_named_species": 356,
+              "n_other_named_species": 995,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.05295268333577119,
+                "yellow_orange": -0.0037659101466713555,
+                "red_pink": -0.0462526174917077,
+                "blue_purple": -0.0029341556973921366
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.03462236723072865,
+                "yellow_orange": -0.006001574628130152,
+                "red_pink": 0.010701673309758443,
+                "blue_purple": -0.03932246591235698
+              }
+            },
+            {
+              "sector": 1,
+              "longitude_degrees": [
+                -90,
+                0
+              ],
+              "n_genera": 103,
+              "n_photos": 2931,
+              "n_unique_named_species": 1611,
+              "n_region_named_species": 697,
+              "n_other_named_species": 1149,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.03273044329231071,
+                "yellow_orange": -0.03269905311057712,
+                "red_pink": 0.034450126150320594,
+                "blue_purple": -0.034481516332054186
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.028788050498712307,
+                "yellow_orange": -0.00277555024729922,
+                "red_pink": -0.0042651785404389875,
+                "blue_purple": -0.021747321710974064
+              }
+            },
+            {
+              "sector": 2,
+              "longitude_degrees": [
+                0,
+                90
+              ],
+              "n_genera": 102,
+              "n_photos": 2902,
+              "n_unique_named_species": 1619,
+              "n_region_named_species": 723,
+              "n_other_named_species": 1142,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": -0.003188738816498275,
+                "yellow_orange": -0.015090271097135665,
+                "red_pink": 0.02062215798226124,
+                "blue_purple": -0.002343148068627305
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.04433787649729532,
+                "yellow_orange": 0.007243277349613122,
+                "red_pink": -0.01857431950575101,
+                "blue_purple": -0.03300683434115744
+              }
+            },
+            {
+              "sector": 3,
+              "longitude_degrees": [
+                90,
+                180
+              ],
+              "n_genera": 77,
+              "n_photos": 2496,
+              "n_unique_named_species": 1381,
+              "n_region_named_species": 465,
+              "n_other_named_species": 1093,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.04947455206715324,
+                "yellow_orange": -0.004151503198199686,
+                "red_pink": -0.013752379337267178,
+                "blue_purple": -0.031570669531686406
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": -0.023095216963486702,
+                "yellow_orange": 0.010805404625583994,
+                "red_pink": 0.0253641657907021,
+                "blue_purple": -0.013074353452799389
+              }
+            }
+          ],
+          "all_directional_contrasts": [
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 1.6094651623583742,
+              "nominal_bootstrap_CI95_pp": [
+                -13.28547418014788,
+                16.691099866792346
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -21.771393512010807,
+                24.99032383672756
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5315315315315315
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 7.528460690650868,
+              "nominal_bootstrap_CI95_pp": [
+                -7.48805905158413,
+                23.69362694534949
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -16.954342492219794,
+                32.01126387352153
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8268268268268268
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -1.8057994109922308,
+              "nominal_bootstrap_CI95_pp": [
+                -15.43174083492899,
+                13.671761272571153
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -24.061369560352926,
+                20.44977073836846
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.42042042042042044
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 5.918995528292494,
+              "nominal_bootstrap_CI95_pp": [
+                -7.11676226435019,
+                20.207109024144653
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -15.806461979667624,
+                27.64445303625261
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8398398398398398
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -3.415264573350605,
+              "nominal_bootstrap_CI95_pp": [
+                -12.187032874159378,
+                8.489396834177661
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -19.328690073732353,
+                12.498160927031146
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.3153153153153153
+            },
+            {
+              "sector": 0,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -9.3342601016431,
+              "nominal_bootstrap_CI95_pp": [
+                -21.67229003941489,
+                3.04323658421341
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -28.716753185423983,
+                10.048232982137781
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.07507507507507508
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 3.3865895656876304,
+              "nominal_bootstrap_CI95_pp": [
+                -7.232518607931529,
+                15.022422219145822
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -14.14603620150959,
+                20.919215332884853
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7087087087087087
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -3.477291189716118,
+              "nominal_bootstrap_CI95_pp": [
+                -13.124857731669145,
+                5.3242240817752515
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -18.149094807177303,
+                11.194512427745064
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.2172172172172172
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 1.6676587414678523,
+              "nominal_bootstrap_CI95_pp": [
+                -9.043077629378029,
+                11.983012485965075
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -14.784801570009456,
+                18.120119052945164
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.6126126126126126
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -6.8638807554037475,
+              "nominal_bootstrap_CI95_pp": [
+                -16.89295404139727,
+                1.947098398046335
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -21.548505099909747,
+                7.8207435891022525
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.06606606606606606
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -1.718930824219778,
+              "nominal_bootstrap_CI95_pp": [
+                -12.386904411977707,
+                9.043354724518972
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -18.597684735997113,
+                15.159823087557559
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.34934934934934936
+            },
+            {
+              "sector": 1,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 5.14494993118397,
+              "nominal_bootstrap_CI95_pp": [
+                -2.9553168889859287,
+                14.047758872572407
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -8.154752645279542,
+                18.444652507647483
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8928928928928929
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -2.519306686704481,
+              "nominal_bootstrap_CI95_pp": [
+                -15.487524623522745,
+                10.137156217232244
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -21.945888183820202,
+                16.90727481041124
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.33933933933933935
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -8.672309280180585,
+              "nominal_bootstrap_CI95_pp": [
+                -20.778759988223626,
+                3.5298550855412723
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -28.20461198180703,
+                10.859993421445862
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.08808808808808809
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -7.819030158632373,
+              "nominal_bootstrap_CI95_pp": [
+                -18.101798514313323,
+                2.194746852845473
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -23.56480762322043,
+                7.926747305955686
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.06706706706706707
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -6.153002593476104,
+              "nominal_bootstrap_CI95_pp": [
+                -15.930397539028265,
+                3.8213712379852356
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -21.16758352134497,
+                8.861578334392764
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.1061061061061061
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -5.299723471927892,
+              "nominal_bootstrap_CI95_pp": [
+                -14.723064005149384,
+                4.8148906840190415
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -20.405164812367353,
+                9.805717868511568
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.15615615615615616
+            },
+            {
+              "sector": 2,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 0.8532791215482113,
+              "nominal_bootstrap_CI95_pp": [
+                -7.366190246305515,
+                9.688455588622036
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -12.004997939231437,
+                13.711556182327861
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5735735735735735
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 8.752667685442361,
+              "nominal_bootstrap_CI95_pp": [
+                -1.9779962202039196,
+                19.25721787649269
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -7.882821663020834,
+                25.388157033905557
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.9379379379379379
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 11.168631415860922,
+              "nominal_bootstrap_CI95_pp": [
+                1.3999906149318722,
+                21.9354568315744
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -5.169187282110826,
+                27.50645011383267
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.988988988988989
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 9.106608510952697,
+              "nominal_bootstrap_CI95_pp": [
+                -0.11458320122656376,
+                18.008532035298526
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -5.556786424129295,
+                23.77000344603469
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.972972972972973
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 2.41596373041856,
+              "nominal_bootstrap_CI95_pp": [
+                -5.589048182666377,
+                10.574960460813855
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.922620094012649,
+                14.754547554849767
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7597597597597597
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 0.35394082551033385,
+              "nominal_bootstrap_CI95_pp": [
+                -8.007041329967599,
+                8.427770180655862
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -12.263950684894697,
+                12.971832335915364
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5205205205205206
+            },
+            {
+              "sector": 3,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -2.062022904908226,
+              "nominal_bootstrap_CI95_pp": [
+                -10.419739854348816,
+                4.564338945042178
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -13.685205842092241,
+                9.56116003227579
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.27927927927927926
+            }
+          ],
+          "historical_white_blue_east": {
+            "sector": 3,
+            "hue_A": "white",
+            "hue_B": "blue_purple",
+            "point_pp_per_BIO12_SD": 9.106608510952697,
+            "nominal_bootstrap_CI95_pp": [
+              -0.11458320122656376,
+              18.008532035298526
+            ],
+            "maxT_24_pair_simultaneous_approx_CI95_pp": [
+              -5.556786424129295,
+              23.77000344603469
+            ],
+            "maxT_excludes_zero": false,
+            "bootstrap_positive_fraction": 0.972972972972973
+          },
+          "maxT_scope": "24=4 original longitude sectors x all 6 four-hue pairs within one source sample and taxonomic weight; posthoc photo/type/selection not controlled",
+          "selection_adjustment_all_geography_hypotheses": false,
+          "not_an_independent_validation": true
+        },
+        "equal_genera": {
+          "status": "OK",
+          "n_union_genera": 145,
+          "bootstrap_replicates": 999,
+          "shared_genus_draw_seed": 2026112308,
+          "n_test_family": 24,
+          "maxT_critical_95": 3.0743711288280196,
+          "sector_metadata": [
+            {
+              "sector": 0,
+              "longitude_degrees": [
+                -180,
+                -90
+              ],
+              "n_genera": 68,
+              "n_photos": 2226,
+              "n_unique_named_species": 1237,
+              "n_region_named_species": 356,
+              "n_other_named_species": 995,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.04351227723088477,
+                "yellow_orange": 0.01652610052769866,
+                "red_pink": -0.029349422400130405,
+                "blue_purple": -0.030688955358453018
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.026611098794442584,
+                "yellow_orange": -0.022899350083741856,
+                "red_pink": 0.026099889922453937,
+                "blue_purple": -0.029811638633154648
+              }
+            },
+            {
+              "sector": 1,
+              "longitude_degrees": [
+                -90,
+                0
+              ],
+              "n_genera": 103,
+              "n_photos": 2931,
+              "n_unique_named_species": 1611,
+              "n_region_named_species": 697,
+              "n_other_named_species": 1149,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.04228382312801725,
+                "yellow_orange": -0.033338321645415885,
+                "red_pink": 0.029068832351625534,
+                "blue_purple": -0.03801433383422686
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.02024039244875024,
+                "yellow_orange": -0.006328337767126343,
+                "red_pink": -0.006497572960470346,
+                "blue_purple": -0.007414481721153523
+              }
+            },
+            {
+              "sector": 2,
+              "longitude_degrees": [
+                0,
+                90
+              ],
+              "n_genera": 102,
+              "n_photos": 2902,
+              "n_unique_named_species": 1619,
+              "n_region_named_species": 723,
+              "n_other_named_species": 1142,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": -0.01633191292336172,
+                "yellow_orange": -0.008644716383896656,
+                "red_pink": 0.01127972555532481,
+                "blue_purple": 0.013696903751933533
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": 0.035125971840857875,
+                "yellow_orange": 0.023200454728483887,
+                "red_pink": -0.021738448459027046,
+                "blue_purple": -0.03658797811031469
+              }
+            },
+            {
+              "sector": 3,
+              "longitude_degrees": [
+                90,
+                180
+              ],
+              "n_genera": 77,
+              "n_photos": 2496,
+              "n_unique_named_species": 1381,
+              "n_region_named_species": 465,
+              "n_other_named_species": 1093,
+              "status": "OK",
+              "four_hue_inside_slopes_per_sd": {
+                "white": 0.0480531801645194,
+                "yellow_orange": -0.002841656191602988,
+                "red_pink": -0.0074677431295041155,
+                "blue_purple": -0.03774378084341232
+              },
+              "four_hue_outside_slopes_per_sd": {
+                "white": -0.0390855377752155,
+                "yellow_orange": 0.017050030672899064,
+                "red_pink": 0.02754163956518896,
+                "blue_purple": -0.005506132462872501
+              }
+            }
+          ],
+          "all_directional_contrasts": [
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -2.2524272174998328,
+              "nominal_bootstrap_CI95_pp": [
+                -23.652745822075268,
+                15.372448344694506
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -32.960304816156764,
+                28.455450381157103
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.3973973973973974
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 7.235049075902652,
+              "nominal_bootstrap_CI95_pp": [
+                -13.837863216082352,
+                29.133448342938866
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -26.029397487364058,
+                40.49949563916936
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7487487487487487
+            },
+            {
+              "sector": 0,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 1.7778495161740557,
+              "nominal_bootstrap_CI95_pp": [
+                -14.457248476111321,
+                16.418608347902282
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -22.750936795075127,
+                26.306635827423236
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5655655655655656
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 9.487476293402485,
+              "nominal_bootstrap_CI95_pp": [
+                -8.623083855841841,
+                26.837777915880963
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -18.22065744696546,
+                37.195610033770436
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8798798798798799
+            },
+            {
+              "sector": 0,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 4.030276733673889,
+              "nominal_bootstrap_CI95_pp": [
+                -6.960215014968775,
+                15.427770845058467
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -13.428111558239797,
+                21.48866502558758
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7807807807807807
+            },
+            {
+              "sector": 0,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -5.457199559728597,
+              "nominal_bootstrap_CI95_pp": [
+                -18.765292085588232,
+                6.884945562262401
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -25.916109275624105,
+                15.001710156166915
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.19019019019019018
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 4.9053414557556545,
+              "nominal_bootstrap_CI95_pp": [
+                -11.50418151983989,
+                20.49959007737489
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -20.128419569962084,
+                29.93910248147339
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7317317317317318
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -1.3522974632828872,
+              "nominal_bootstrap_CI95_pp": [
+                -16.627465826546654,
+                12.518543090132688
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -23.726252128803136,
+                21.02165720223736
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.3983983983983984
+            },
+            {
+              "sector": 1,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 5.264328279234035,
+              "nominal_bootstrap_CI95_pp": [
+                -8.245257939886006,
+                18.63038132755067
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -16.01699440931929,
+                26.54565096778736
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.7687687687687688
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -6.257638919038541,
+              "nominal_bootstrap_CI95_pp": [
+                -19.98486591277759,
+                4.991820304426226
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -25.51613441824272,
+                13.000856580165635
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.14114114114114115
+            },
+            {
+              "sector": 1,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 0.3589868234783796,
+              "nominal_bootstrap_CI95_pp": [
+                -11.53350639457818,
+                12.043681684331267
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -17.99774296333538,
+                18.71571661029214
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5185185185185185
+            },
+            {
+              "sector": 1,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 6.616625742516921,
+              "nominal_bootstrap_CI95_pp": [
+                -3.233953783754631,
+                17.67998869471962
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.881351766985839,
+                23.11460325201968
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.8958958958958959
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": -1.9612713651839058,
+              "nominal_bootstrap_CI95_pp": [
+                -16.210555141114135,
+                12.399533015555447
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -24.08020594701381,
+                20.157663216645997
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.4064064064064064
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -8.447605877857145,
+              "nominal_bootstrap_CI95_pp": [
+                -20.381067940675116,
+                5.05568948115454
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -28.94039844842639,
+                12.0451866927121
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.10710710710710711
+            },
+            {
+              "sector": 2,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -10.174276662646783,
+              "nominal_bootstrap_CI95_pp": [
+                -21.655365485856766,
+                3.0381843313644072
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -29.606972567795793,
+                9.25841924250223
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.06406406406406406
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": -6.486334512673239,
+              "nominal_bootstrap_CI95_pp": [
+                -17.587725508539158,
+                4.556022865132095
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -24.305648074240082,
+                11.332979048893604
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.14414414414414414
+            },
+            {
+              "sector": 2,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -8.213005297462876,
+              "nominal_bootstrap_CI95_pp": [
+                -20.587773243920495,
+                5.529313232695815
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -28.641484983557646,
+                12.215474388631893
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.11911911911911911
+            },
+            {
+              "sector": 2,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -1.7266707847896363,
+              "nominal_bootstrap_CI95_pp": [
+                -10.534819691258319,
+                8.2306050811943
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -16.624899261811336,
+                13.171557692232067
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.35735735735735735
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "yellow_orange",
+              "point_pp_per_BIO12_SD": 10.703040480423695,
+              "nominal_bootstrap_CI95_pp": [
+                -4.726762409696338,
+                25.4172912303273
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -12.704664748714578,
+                34.11074570956197
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.9179179179179179
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 12.2148100634428,
+              "nominal_bootstrap_CI95_pp": [
+                -2.489809646364762,
+                25.913361277506887
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -9.747862509099345,
+                34.177482635984944
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.9519519519519519
+            },
+            {
+              "sector": 3,
+              "hue_A": "white",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 11.937636632027472,
+              "nominal_bootstrap_CI95_pp": [
+                -1.3382677966997991,
+                25.197164014522482
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -8.867653511755218,
+                32.74292677581016
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.95995995995996
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "red_pink",
+              "point_pp_per_BIO12_SD": 1.5117695830191027,
+              "nominal_bootstrap_CI95_pp": [
+                -9.811371329513479,
+                13.643286895190073
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -16.872081517629645,
+                19.895620683667854
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5905905905905906
+            },
+            {
+              "sector": 3,
+              "hue_A": "yellow_orange",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": 1.2345961516037764,
+              "nominal_bootstrap_CI95_pp": [
+                -11.029653063910029,
+                12.80532435337188
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -17.979002155506034,
+                20.448194458713584
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.5925925925925926
+            },
+            {
+              "sector": 3,
+              "hue_A": "red_pink",
+              "hue_B": "blue_purple",
+              "point_pp_per_BIO12_SD": -0.27717343141532635,
+              "nominal_bootstrap_CI95_pp": [
+                -10.246318307199974,
+                9.863755480349761
+              ],
+              "maxT_24_pair_simultaneous_approx_CI95_pp": [
+                -15.945374583466258,
+                15.391027720635606
+              ],
+              "maxT_excludes_zero": false,
+              "bootstrap_positive_fraction": 0.47347347347347346
+            }
+          ],
+          "historical_white_blue_east": {
+            "sector": 3,
+            "hue_A": "white",
+            "hue_B": "blue_purple",
+            "point_pp_per_BIO12_SD": 11.937636632027472,
+            "nominal_bootstrap_CI95_pp": [
+              -1.3382677966997991,
+              25.197164014522482
+            ],
+            "maxT_24_pair_simultaneous_approx_CI95_pp": [
+              -8.867653511755218,
+              32.74292677581016
+            ],
+            "maxT_excludes_zero": false,
+            "bootstrap_positive_fraction": 0.95995995995996
+          },
+          "maxT_scope": "24=4 original longitude sectors x all 6 four-hue pairs within one source sample and taxonomic weight; posthoc photo/type/selection not controlled",
+          "selection_adjustment_all_geography_hypotheses": false,
+          "not_an_independent_validation": true
+        }
+      }
+    }
+  },
+  "claim_ceiling": [
+    "Four-sector/six-hue correction still conditions on retrospective hypothesis/design and the same old iNaturalist source.",
+    "No colour-altering rescue model, posthoc significance selection, biological adaptation, genetic pigment or fitness inference.",
+    "Photo quality changes taxon opportunity; source image exposure and unclassifiable colour MNAR remain.",
+    "Same genus and photo geography controls are not a dated phylogeny nor a complete photo-site spatial autocorrelation model."
+  ]
+}

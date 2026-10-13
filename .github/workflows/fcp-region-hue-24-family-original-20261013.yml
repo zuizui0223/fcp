@@ -1,0 +1,119 @@
+name: FCP four-sector six-hue photographic rainforest direction audit
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-white-blue-paired-contrast-20261013
+    paths:
+      - scripts/analysis/audit_fcp_region_hue_24_family_20261013.py
+      - scripts/analysis/verify_fcp_region_hue_24_family_20261013.py
+      - tests/test_fcp_region_hue_24_family_20261013.py
+      - docs/FCP_FOUR_REGION_SIX_HUE_DIRECTION_20261013.md
+      - results/fcp_region_hue_24_family_20261013/result.json
+      - .github/workflows/fcp-region-hue-24-family-original-20261013.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-region-hue-24-family-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_ARTIFACT_ID: "11587115220"
+  SOURCE_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+
+jobs:
+  source-four-region-six-hue:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install frozen numerical dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+      - name: Test 4-sector hue-pair family and inherited earlier hue contrast
+        run: |
+          python -m pytest -q tests/test_fcp_region_hue_24_family_20261013.py tests/test_fcp_white_blue_joint_contrast_20261013.py
+      - name: Restore authentic original photographed source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api -H 'Accept: application/vnd.github+json' "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT_ID/zip" > /tmp/fcp_42111_original_source.zip
+          echo "$SOURCE_SHA256  /tmp/fcp_42111_original_source.zip" | sha256sum -c -
+      - name: Recalculate shared-genus bootstrap of all 24 geography-by-hue directions
+        run: |
+          python scripts/analysis/audit_fcp_region_hue_24_family_20261013.py \
+            --source-archive /tmp/fcp_42111_original_source.zip \
+            --bootstrap 999 \
+            --outdir /tmp/fcp_region_hue_24
+      - name: Verify all original photo-level coefficients independently by weighted least squares
+        run: |
+          python scripts/analysis/verify_fcp_region_hue_24_family_20261013.py \
+            --source-archive /tmp/fcp_42111_original_source.zip \
+            --result /tmp/fcp_region_hue_24/result.json \
+            --out /tmp/fcp_region_hue_24/independent_verify.json
+      - name: Assert exact source denominator, frozen 24-family decisions, and numerical replay
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/fcp_region_hue_24/result.json').read_text())
+          frozen=json.loads(Path('results/fcp_region_hue_24_family_20261013/result.json').read_text())
+          assert observed['source_SHA256']==frozen['source_SHA256']
+          assert observed['source_photo_opportunity_n']==100543
+          assert observed['parent_source_colour_photos']==45836
+          n_supported={}
+          for sample,entry in observed['cases'].items():
+              for wt,group in entry['weighting'].items():
+                  assert group['status']=='OK'
+                  assert group['n_test_family']==24
+                  assert len(group['sector_metadata'])==4
+                  assert len(group['all_directional_contrasts'])==24
+                  key=sample+'|'+wt
+                  n_supported[key]=sum(x['maxT_excludes_zero'] for x in group['all_directional_contrasts'])
+          assert n_supported=={
+              'all_classified_original_source_photos|equal_species':1,
+              'all_classified_original_source_photos|equal_genera':0,
+              'original_photo_quality_strict|equal_species':0,
+              'original_photo_quality_strict|equal_genera':0,
+          }, n_supported
+          x=observed['cases']['all_classified_original_source_photos']['weighting']['equal_species']['historical_white_blue_east']
+          assert abs(x['point_pp_per_BIO12_SD']-7.62803895744896)<1e-8
+          assert x['maxT_24_pair_simultaneous_approx_CI95_pp'][0]>0
+          y=observed['cases']['original_photo_quality_strict']['weighting']['equal_genera']['historical_white_blue_east']
+          assert y['maxT_24_pair_simultaneous_approx_CI95_pp'][0]<0<y['maxT_24_pair_simultaneous_approx_CI95_pp'][1]
+          v=json.loads(Path('/tmp/fcp_region_hue_24/independent_verify.json').read_text())
+          assert v['status']=='PASS' and v['independent_lstsq_checks']==224
+          assert v['max_abs_original_probability_coeff_or_pp_error']<1e-9
+          count=0
+          def check(a,b,path='root'):
+              global count
+              if isinstance(a,dict):
+                  assert isinstance(b,dict) and set(a)==set(b),path
+                  for k in a:check(a[k],b[k],path+'/'+str(k))
+              elif isinstance(a,list):
+                  assert isinstance(b,list) and len(a)==len(b),path
+                  for i,(q,r) in enumerate(zip(a,b)):check(q,r,path+'/'+str(i))
+              elif isinstance(a,(int,float)) and not isinstance(a,bool):
+                  assert math.isclose(a,b,rel_tol=0,abs_tol=1e-9),(path,a,b)
+                  count+=1
+              else:
+                  assert a==b,(path,a,b)
+          check(observed,frozen)
+          print('PASS: 96 directional rows, 4 paired families, 224 independent source coefficient checks,',count,'stored numeric values')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-source-four-region-six-hue-multiplicity-20261013
+          path: /tmp/fcp_region_hue_24/
+          if-no-files-found: error
+          retention-days: 60
