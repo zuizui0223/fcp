@@ -1,0 +1,128 @@
+name: FCP authenticated field-morph source recovery
+on:
+  push:
+    branches:
+      - analysis/fcp-sisyrinchium-boechera-field-source-20261013
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-archive-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve public Zenodo mirror originals and verify author archive identities
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import urllib.request,urllib.error,json,hashlib,zipfile,io,csv,datetime
+          out=Path('field_source_receipts_20261013');out.mkdir(exist_ok=True)
+          record={'date_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  'schema':'fcp_field_frequency_source_audit_v1','source_type':'Zenodo record of authors original Dryad DOI',
+                  'data_recovered':False,'sources':[]}
+          studies=[
+           {'record_id':5003124,'doi':'10.5061/dryad.j8q34','species':'Sisyrinchium M-species',
+            'required':['data.zip'],'fixed_identity':{'data.zip':['008ec196aa5acb769dbfd36e835e32ba',127502]}},
+           {'record_id':4993384,'doi':'10.5061/dryad.q0032','species':'Boechera stricta',
+            'required':['natural_populations_individual.txt','natural_populations_plot.txt','README_for_natural_populations_individual.txt','README_for_natural_populations_plot.txt'],'fixed_identity':{}}
+          ]
+          def get(url,max_bytes=2000000):
+            req=urllib.request.Request(url,headers={'User-Agent':'FCP-original-source-audit/2026-10-13 (noncommercial ecological science)','Accept':'application/json, text/plain, application/octet-stream, */*'})
+            with urllib.request.urlopen(req,timeout=35) as r:
+              data=r.read(max_bytes+1)
+              if len(data)>max_bytes:raise RuntimeError('DOWNLOAD_OVERSIZE')
+              return data
+          def text_decode(bs):
+            for enc in ['utf-8-sig','cp1252']:
+              try:return bs.decode(enc),enc
+              except UnicodeDecodeError:pass
+            raise ValueError('TEXT_DECODING_UNSUPPORTED')
+          def audit_plain(bs):
+            s,enc=text_decode(bs)
+            ss=s.splitlines()
+            out={'encoding':enc,'physical_lines':len(ss),'first_3_lines':ss[:3]}
+            if ss:
+              try: 
+                dialect=csv.Sniffer().sniff('\n'.join(ss[:8]),delimiters='\t,;')
+                reader=list(csv.reader(io.StringIO(s),dialect))
+                out.update(delimiter=repr(dialect.delimiter),table_rows=max(0,len(reader)-1),
+                  columns=reader[0],n_data_columns=len(reader[0]),ragged_rows=sum(len(row)!=len(reader[0]) for row in reader[1:]))
+              except Exception as ex:
+                out['table_schema_hold']=type(ex).__name__+': '+str(ex)[:110]
+            return out
+          for spec in studies:
+            status={'record_id':spec['record_id'],'doi':spec['doi'],'species':spec['species'],'files':[],
+                  'schema':'original_public_records_no_inferential_test'}
+            record['sources'].append(status)
+            try:
+              meta=json.loads(get(f"https://zenodo.org/api/records/{spec['record_id']}",max_bytes=300000))
+              if meta.get('doi')!=spec['doi']:raise ValueError('DOI_MISMATCH')
+              if meta.get('id')!=spec['record_id']:raise ValueError('RECORD_ID_MISMATCH')
+              files={f['key']:f for f in meta.get('files',[])}
+              status['publisher_metadata_verified']=True
+              status['available_files']=[{'name':f['key'],'size':f['size'],'md5':f['checksum']} for f in files.values()]
+              for need in spec['required']:
+                item={'name':need}
+                status['files'].append(item)
+                try:
+                  if need not in files:raise KeyError('MISSING_SOURCE_FILENAME')
+                  f=files[need];url=f['links']['self']
+                  if not url.startswith(f"https://zenodo.org/api/records/{spec['record_id']}/files/") or not url.endswith('/content'):
+                    raise ValueError('UNEXPECTED_SOURCE_URL')
+                  bs=get(url)
+                  md5=hashlib.md5(bs).hexdigest()
+                  if md5!=f['checksum'].split(':',1)[-1] or len(bs)!=f['size']:
+                    raise ValueError('PUBLISHER_MD5_OR_LENGTH_MISMATCH')
+                  if need in spec['fixed_identity']:
+                    expect_md5,expect_bytes=spec['fixed_identity'][need]
+                    if (md5,len(bs))!=(expect_md5,expect_bytes):raise ValueError('FROZEN_RECORDED_MD5_OR_LENGTH_MISMATCH')
+                  item.update(status='VERIFIED_BYTES',bytes=len(bs),md5=md5,sha256=hashlib.sha256(bs).hexdigest(),url=url)
+                  target=out/(str(spec['record_id'])+'_'+need)
+                  target.write_bytes(bs)
+                  if need.lower().endswith('.txt'):
+                    item['data_preview']=audit_plain(bs)
+                  if need.lower().endswith('.zip'):
+                    with zipfile.ZipFile(io.BytesIO(bs)) as z:
+                      bad=z.testzip()
+                      if bad is not None:raise ValueError('ZIP_CRC_FAILURE_'+bad)
+                      item['zip_members']=[]
+                      for info in z.infolist():
+                        member={'name':info.filename,'size':info.file_size}
+                        is_primary_txt=(info.filename.startswith('data/') and
+                            not Path(info.filename).name.startswith(('._','.DS_Store')) and
+                            info.filename.lower().endswith('.txt') and info.file_size<400000)
+                        if is_primary_txt:
+                          raw_member=z.read(info)
+                          (out/('inside_'+str(spec['record_id'])+'_'+Path(info.filename).name)).write_bytes(raw_member)
+                          try:
+                            member['data_preview']=audit_plain(raw_member)
+                          except Exception as ex:
+                            member['nonfatal_text_preview_error']=type(ex).__name__+': '+str(ex)[:130]
+                        elif info.filename.startswith('__MACOSX/') or Path(info.filename).name.startswith('._'):
+                          member['ignored_as_apple_metadata']=True
+                        item['zip_members'].append(member)
+                      item['frequency_txt_present']=any(x['name'].split('/')[-1]=='frequency.txt' for x in item['zip_members'])
+                except Exception as ex:
+                  item.update(status='NOT_RECOVERED',error_type=type(ex).__name__,error=str(ex)[:350])
+                print(json.dumps({'species':spec['species'],'file':need,'status':item.get('status'),'error':item.get('error'),
+                       'size':item.get('bytes'),'preview':item.get('data_preview',{}).get('columns'),'frequency_present':item.get('frequency_txt_present')},ensure_ascii=False),flush=True)
+              status['required_all_verified']=all(f['status']=='VERIFIED_BYTES' for f in status['files'])
+            except Exception as ex:
+              status.update(required_all_verified=False,metadata_error_type=type(ex).__name__,metadata_error=str(ex)[:350])
+            print(json.dumps({'study':spec['doi'],'complete':status.get('required_all_verified'),'files':len(status['files']),
+               'metadata_error':status.get('metadata_error')},ensure_ascii=False),flush=True)
+          record['data_recovered']=any(a.get('required_all_verified') for a in record['sources'])
+          (out/'source_recovery_receipt.json').write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n')
+          if not record['data_recovered']:
+            raise SystemExit('SOURCE_RECOVERY_HOLD: original data not recovered')
+          PY
+      - name: Upload raw original archives and explicit source receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-independent-field-sisyrinchium-boechera-20261013
+          retention-days: 60
+          path: field_source_receipts_20261013/
