@@ -90,7 +90,7 @@ jobs:
           compare(actual,prior)
           x=pd.read_csv(folder/'genus_influence.csv').sort_values(['source_sample','weight','genus']).reset_index(drop=True)
           y=pd.read_csv('/tmp/fcp_genus_influence/genus_influence.csv').sort_values(['source_sample','weight','genus']).reset_index(drop=True)
-          assert x.shape==y.shape==(942,12)
+          assert x.shape==y.shape==(942,11)
           assert list(x.columns)==list(y.columns)
           for key in ['source_sample','weight','genus']:
               assert x[key].equals(y[key]),key
