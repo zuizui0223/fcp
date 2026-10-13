@@ -10,7 +10,7 @@ This is post-hoc original iNaturalist photo colour, not organ-verified pigment,
 genotypic morphs, fitness or an identified climatic selective trade-off.
 """
 from __future__ import annotations
-import argparse, hashlib, json
+import argparse, hashlib, json, itertools
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -59,7 +59,7 @@ def sufficient_statistics(source: pd.DataFrame, mu: np.ndarray, sd: np.ndarray,
 
 
 def paired_genus_bootstrap(a: dict, b: dict, *, repetitions: int,
-                           seed: int) -> dict:
+                           seed: int, include_white_blue_contrast: bool=False) -> dict:
     """Resample IDENTICAL genera on both sides to estimate response difference."""
     common = sorted(set(a) & set(b))
     n = len(common)
@@ -96,11 +96,49 @@ def paired_genus_bootstrap(a: dict, b: dict, *, repetitions: int,
           "paired_same_genus_difference_CI95":np.quantile(diff,[.025,.975]).tolist(),
           "one_sided_p_difference_not_positive":float((1+(diff<=0).sum())/(repetitions+1))
         }
-    return {"status":"OK","n_shared_genera":n,
+    # The default return is IDENTICAL to the 2026-10-11 parent result.
+    # A separately requested, post-outcome colour contrast uses the SAME
+    # matched genus draws (thus retaining cross-hue bootstrap covariance).
+    out={"status":"OK","n_shared_genera":n,
       "n_original_distinct_species_E":int(sum(a[g][2] for g in common)),
       "n_original_distinct_species_elsewhere":int(sum(b[g][2] for g in common)),
       "bootstrap_same_genus_replicates":repetitions,
       "response_four_original_photo_hues":result}
+    if include_white_blue_contrast:
+        wi=HUES.index("white"); bi=HUES.index("blue_purple")
+        paired_region=v_a-v_b
+        sampled=(paired_region[:,wi]-paired_region[:,bi])
+        observed=float((base_a[wi]-base_b[wi])-(base_a[bi]-base_b[bi]))
+        names=list(itertools.combinations(range(len(HUES)),2))
+        pair_point=np.array([(base_a[i]-base_b[i])-(base_a[j]-base_b[j])
+                             for i,j in names])
+        pair_samples=np.column_stack([paired_region[:,i]-paired_region[:,j]
+                                      for i,j in names])
+        pair_sd=pair_samples.std(axis=0,ddof=1)
+        keep=pair_sd>1e-12
+        max_t=0.0 if not keep.any() else float(np.quantile(
+            np.max(np.abs((pair_samples[:,keep]-pair_point[keep])/pair_sd[keep]),axis=1),.95))
+        ix=names.index((wi,bi))
+        white_ci=result["white"]["paired_same_genus_difference_CI95"]
+        blue_ci=result["blue_purple"]["paired_same_genus_difference_CI95"]
+        out["posthoc_white_blue_region_rain_contrast"]={
+          "definition":"(white-blue)_east minus (white-blue)_elsewhere",
+          "unit":"photo_colour_probability_per_global_BIO12_SD",
+          "point":observed,
+          "east_white_minus_blue":float(base_a[wi]-base_a[bi]),
+          "elsewhere_white_minus_blue":float(base_b[wi]-base_b[bi]),
+          "paired_genus_bootstrap_percentile_CI95":np.quantile(sampled,[.025,.975]).tolist(),
+          "bootstrap_positive_fraction":float((sampled>0).mean()),
+          "bootstrap_nonpositive_fraction":float((sampled<=0).mean()),
+          "bonferroni_conservative_one_sided_95pct_lower":float(white_ci[0]-blue_ci[1]),
+          "bonferroni_conservative_one_sided_95pct_upper":float(white_ci[1]-blue_ci[0]),
+          "six_hue_pair_maxT_critical_95":max_t,
+          "six_pair_simultaneous_bootstrap_approx_CI95":[
+            float(observed-max_t*pair_sd[ix]),float(observed+max_t*pair_sd[ix])],
+          "six_pair_family_only_region_not_multiplicity_adjusted":True,
+          "retrospective_selected_east_sector_and_colour_pair":True,
+          "not_a_null_hypothesis_p_value":True}
+    return out
 
 
 def paired_same_species(source: pd.DataFrame, mu:np.ndarray,sd:np.ndarray,
@@ -142,7 +180,7 @@ def paired_same_species(source: pd.DataFrame, mu:np.ndarray,sd:np.ndarray,
       "no_true_species_population_genotype_adaptation_test":True}
 
 
-def run(path:Path,repetitions:int=BOOTSTRAPS)->dict:
+def run(path:Path,repetitions:int=BOOTSTRAPS,include_white_blue_contrast:bool=False)->dict:
     source=get_source(path)
     opportunities,c,roi,mu,sd=eligible(source)
     if len(source)!=100543 or len(c)!=45836 or c.inat_taxon_id.nunique()!=25028:
@@ -183,7 +221,8 @@ def run(path:Path,repetitions:int=BOOTSTRAPS)->dict:
                                           seed=RANDOM_SEED + k + (0 if not equal_genus else 100)
                                           + {"all_classified_original_source_photos":0,
                                              "common_rainfall_10_90_both_regions":1000,
-                                             "original_photo_quality_strict":2000}[label])
+                                             "original_photo_quality_strict":2000}[label],
+                                          include_white_blue_contrast=include_white_blue_contrast)
                 sides[tag]=v
             comparisons[label][str(k)]={
                 "source_qualified_shared_genera":ng,
@@ -227,8 +266,10 @@ def main():
     p.add_argument("--source-archive",type=Path,required=True)
     p.add_argument("--outdir",type=Path,required=True)
     p.add_argument("--bootstrap",type=int,default=BOOTSTRAPS)
+    p.add_argument("--posthoc-white-blue",action="store_true",help="Opt-in derived paired genus posthoc contrast; default parent output unchanged")
     a=p.parse_args()
-    z=run(a.source_archive,repetitions=a.bootstrap)
+    z=run(a.source_archive,repetitions=a.bootstrap,
+          include_white_blue_contrast=a.posthoc_white_blue)
     a.outdir.mkdir(parents=True,exist_ok=True)
     (a.outdir/"result.json").write_text(json.dumps(z,indent=2,ensure_ascii=False)+"\n")
     print(json.dumps({
