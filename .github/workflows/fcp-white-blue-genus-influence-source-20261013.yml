@@ -1,0 +1,110 @@
+name: FCP original photo white-blue genus influence
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-four-region-six-hue-multiplicity-20261013
+    paths:
+      - scripts/analysis/audit_fcp_genus_influence_20261013.py
+      - scripts/analysis/verify_fcp_genus_influence_20261013.py
+      - tests/test_fcp_genus_influence_20261013.py
+      - results/fcp_white_blue_genus_influence_20261013/**
+      - docs/FCP_BIO12_WHITE_BLUE_GENUS_INFLUENCE_20261013.md
+      - .github/workflows/fcp-white-blue-genus-influence-source-20261013.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-white-blue-genus-influence-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_ARTIFACT_ID: "11587115220"
+  SOURCE_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+
+jobs:
+  genus-influence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install source-compatible reproducibility runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 pytest==8.4.2
+      - name: Synthetic model checks
+        run: python -m pytest -q tests/test_fcp_genus_influence_20261013.py
+      - name: Recover and byte-verify original photographed FCP source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api -H 'Accept: application/vnd.github+json' \
+            "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT_ID/zip" > /tmp/fcp_original_photo.zip
+          echo "$SOURCE_SHA256  /tmp/fcp_original_photo.zip" | sha256sum -c -
+      - name: Recalculate exact source all 942 leave-one-genus effects
+        run: |
+          python scripts/analysis/audit_fcp_genus_influence_20261013.py \
+            --source-archive /tmp/fcp_original_photo.zip --outdir /tmp/fcp_genus_influence
+      - name: Independently verify source rows and 32 direct-least-squares cases
+        run: |
+          python scripts/analysis/verify_fcp_genus_influence_20261013.py \
+            --source-archive /tmp/fcp_original_photo.zip \
+            --result /tmp/fcp_genus_influence/result.json \
+            --genus-ledger /tmp/fcp_genus_influence/genus_influence.csv \
+            --output /tmp/fcp_genus_influence/independent_verified.json
+      - name: Compare frozen numerical JSON and all 942 genus rows
+        run: |
+          python - <<'PY'
+          import json,math
+          import numpy as np
+          import pandas as pd
+          from pathlib import Path
+          folder=Path('results/fcp_white_blue_genus_influence_20261013')
+          actual=json.loads(Path('/tmp/fcp_genus_influence/result.json').read_text())
+          prior=json.loads((folder/'result.json').read_text())
+          verified=json.loads(Path('/tmp/fcp_genus_influence/independent_verified.json').read_text())
+          assert actual['source_sha256']==prior['source_sha256']
+          assert actual['n_classified_original_photo_env']==45836
+          assert verified['status']=='PASS'
+          assert verified['independent_direct_species_row_least_squares_checks']==32
+          assert verified['max_abs_difference_pp'] < 1e-9
+          def compare(a,b,path='root'):
+              if isinstance(a,dict):
+                  assert isinstance(b,dict) and set(a)==set(b),path
+                  for k in a:compare(a[k],b[k],path+'/'+k)
+              elif isinstance(a,list):
+                  assert isinstance(b,list) and len(a)==len(b),path
+                  for i,(x,y) in enumerate(zip(a,b)):compare(x,y,path+'/'+str(i))
+              elif isinstance(a,(int,float)) and not isinstance(a,bool):
+                  assert math.isclose(a,b,rel_tol=0,abs_tol=1e-9),(path,a,b)
+              else:
+                  assert a==b,(path,a,b)
+          compare(actual,prior)
+          x=pd.read_csv(folder/'genus_influence.csv').sort_values(['source_sample','weight','genus']).reset_index(drop=True)
+          y=pd.read_csv('/tmp/fcp_genus_influence/genus_influence.csv').sort_values(['source_sample','weight','genus']).reset_index(drop=True)
+          assert x.shape==y.shape==(942,12)
+          assert list(x.columns)==list(y.columns)
+          for key in ['source_sample','weight','genus']:
+              assert x[key].equals(y[key]),key
+          cols=x.select_dtypes(include='number').columns
+          assert np.isclose(x[cols],y[cols],atol=1e-9,rtol=0).all().all()
+          for key in ['all_species_equal','all_genus_equal','strict_species_equal','strict_genus_equal']:
+              q=actual['results'][key]
+              assert q['leave_one_nonpositive_n']==0
+              assert q['leave_one_min_pp']>0
+          print('PASS: old photo archive; four source estimands; 942 omission rows; 32 independent checks; all frozen output numerics')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-photo-genus-influence-20261013
+          path: /tmp/fcp_genus_influence/
+          retention-days: 60
+          if-no-files-found: error
