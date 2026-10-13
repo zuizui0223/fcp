@@ -1,0 +1,11 @@
+{
+  "all_512_quadrats_retained": true,
+  "independent_fraction_checks_and_null_checks": 479,
+  "max_abs_diff": 1.6653345369377348e-16,
+  "no_import_of_primary_code": true,
+  "not_biological_independence_or_causation": true,
+  "recomputed_source_conditioned_9999_draws_per_method": true,
+  "source_original_frequency_sha256": "a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e",
+  "source_original_zip_md5": "008ec196aa5acb769dbfd36e835e32ba",
+  "status": "PASS"
+}
