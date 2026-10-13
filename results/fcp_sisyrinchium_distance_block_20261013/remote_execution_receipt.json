@@ -1,0 +1,106 @@
+{
+  "schema": "fcp_sisyrinchium_distance_block_verified_remote_receipt_v1",
+  "date_jst": "2026-10-13",
+  "parent_pr": 183,
+  "pull_request": 184,
+  "protocol_commit": "329099093265e46bca0c82b51804cd061a0a29a9",
+  "scientific_code_commit": "1538053cce2490b304dc6a4122f588abbdc18272",
+  "frozen_original_source": {
+    "primary_article_doi": "10.1371/journal.pone.0164381",
+    "original_data_doi": "10.5061/dryad.j8q34",
+    "legitimate_public_mirror": "https://zenodo.org/records/5003124",
+    "archive_bytes": 127502,
+    "archive_md5": "008ec196aa5acb769dbfd36e835e32ba",
+    "archive_sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+    "frequency_member_sha256": "a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e",
+    "parent_result_sha256": "16c91defb8842ad52c63e96db02f2539f0dbbcf1ee33dbed3b2c08cf1d131a5f"
+  },
+  "checked_github_actions": {
+    "push": {
+      "run_id": 38347112638,
+      "job_id": 115130975047,
+      "status": "success",
+      "url": "https://github.com/zuizui0223/fcp/actions/runs/38347112638"
+    },
+    "pr": {
+      "run_id": 38347168295,
+      "job_id": 115131142061,
+      "status": "success",
+      "url": "https://github.com/zuizui0223/fcp/actions/runs/38347168295"
+    },
+    "focused_test_pass_count": 10,
+    "independent_fraction_and_null_checks": 479,
+    "max_numeric_difference": 1.6653345369377348e-16,
+    "remote_replayed_artifact": {
+      "id": 11789056815,
+      "bytes": 232595,
+      "sha256": "d3579f1d00387efde01d1439570b1ef21044e0df13ab564afec4bb5a807632ad"
+    },
+    "local_remote_byte_exact_existing_files": [
+      "source/Sisyrinchium_data.zip",
+      "source/parent_line_result.json",
+      "source/frequency.txt",
+      "results/independent_verification.json",
+      "results/quadrat_distance_bin_ledger.csv",
+      "results/result.json",
+      "results/siteyear_distance_bin_ledger.csv",
+      "docs/observed_vs_distance_matched_null.png",
+      "docs/within_line_distance_heterogeneity_by_site.png"
+    ],
+    "remote_new_receipts": [
+      "source/source_receipt.json",
+      "results/remote_replay_receipt.json"
+    ],
+    "output_checksums": {
+      "results/result.json": "0c7cd9ba1e5b947e68080d81bc7092fab0d126f15a6c038ca7ebe56ac57a9418",
+      "results/siteyear_distance_bin_ledger.csv": "76b7141e5fed0897beef214095e3559f1dc2f095433f55b5ff022f36a5943688",
+      "results/quadrat_distance_bin_ledger.csv": "ebce2f1e020d311dd22bf57d809455b143c06cc8dc92c348de2267126552a29e",
+      "results/independent_verification.json": "cba93ca5ccd668cedcb95e76913e073e7bfd79f80391b24a118defd4e5c1dcd8"
+    },
+    "full_repository_suite_attempted": false
+  },
+  "ecological_result": {
+    "n_original_quadrats": 512,
+    "n_total_siteyears": 16,
+    "n_original_parent_clumping_eligible": 11,
+    "n_distance_block_eligible_siteyears": 10,
+    "n_named_sites": 9,
+    "held_out": "Y13|hirose: only 27 M-individuals in informative bins, below pre-fixed 30",
+    "source_negative_distance_quadrats": 3,
+    "source_zero_M_quadrats": 126,
+    "median": {
+      "mean_observed_B": 0.39442111876063396,
+      "mean_null_expected_B": 0.33060691238522977,
+      "excess": 0.0638142063754042,
+      "p_conditional": 0.0001,
+      "positive_siteyears": 10,
+      "latest_year_per_named_site_excess": 0.06260681742723119
+    },
+    "alternative_distance_pairs": {
+      "excess": 0.06377343070721503,
+      "p_conditional": 0.0001,
+      "positive_siteyears": 10,
+      "pair_blocks_not_nested_in_median_blocks": true
+    },
+    "parent_line_only_excess_restricted_to_same_10_siteyears": 0.206335656841248,
+    "difference_is_not_causal_explained_variance": true
+  },
+  "reproduction_package": {
+    "filename": "FCP_Sisyrinchium_水辺距離を固定した花色空間偏り_20261013.zip",
+    "bytes": 489094,
+    "sha256": "f5c2dd0d3ecc171bc1b09e36f992afea036b537ea4684ac3d490cd7f4895e7c9",
+    "files": 23,
+    "library_path": "/fcp/FCP_Sisyrinchium_水辺距離を固定した花色空間偏り_20261013.zip",
+    "contains_original_author_bytes": true,
+    "contains_actual_remote_replay_zip": true
+  },
+  "hard_limits": [
+    "One published observational Sisyrinchium study; posthoc, source-exposed exploratory hypothesis",
+    "Distance bins condition only coarse/paired recorded distances and cannot control fine continuous distance/microenvironment",
+    "Fixed inventory conditional colour-shuffle p values are not field randomization or independent evolutionary replication",
+    "No conclusion that other species L or S cause flower colour via reproductive interference",
+    "No phenotype-genotype, natural-selection or genetic F_ST inference",
+    "Do not equate the prior Boechera Judd Falls-only signal with robust cross-species reproduction",
+    "Parent FCP H1/H2 and PR170-183 outcomes unchanged; not merged to main"
+  ]
+}

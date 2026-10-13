@@ -1,0 +1,90 @@
+name: FCP Sisyrinchium distance-bin-conditioned colour clumping 20261013
+on:
+  push:
+    branches:
+      - analysis/fcp-sisyrinchium-distance-block-20261013
+  pull_request:
+    paths:
+      - 'packages/fcp_sisyrinchium_distance_block_20261013/**'
+      - '.github/workflows/fcp-sisyrinchium-distance-block-20261013.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked-distance-bin-label-shuffle:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install exact reproducibility dependencies
+        run: python -m pip install -r packages/fcp_sisyrinchium_distance_block_20261013/requirements-lock.txt
+      - name: Re-obtain original 2016 author field source through public DOI-preserving mirror
+        run: |
+          ROOT=packages/fcp_sisyrinchium_distance_block_20261013
+          python packages/fcp_sisyrinchium_line_20261013/src/recover_original_sources.py --outdir "$ROOT/source"
+          cp packages/fcp_sisyrinchium_line_20261013/results/result.json "$ROOT/source/parent_line_result.json"
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('packages/fcp_sisyrinchium_distance_block_20261013/source')
+          expected={
+            'Sisyrinchium_data.zip':'4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5',
+            'frequency.txt':'a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e',
+            'parent_line_result.json':'16c91defb8842ad52c63e96db02f2539f0dbbcf1ee33dbed3b2c08cf1d131a5f'
+          }
+          for name,want in expected.items():
+            got=hashlib.sha256((p/name).read_bytes()).hexdigest()
+            assert got==want,(name,got,want)
+            print('ORIGINAL_AND_PARENT_SHA256_PASS',name,got)
+          PY
+      - name: Test bin membership, source grain, finite-count null expectation and inventory conservation
+        run: python -m pytest -q packages/fcp_sisyrinchium_distance_block_20261013/tests
+      - name: Recompute original 9999-draw bin-conditioned tests and independent exact rational null
+        run: |
+          cd packages/fcp_sisyrinchium_distance_block_20261013
+          cp results/result.json /tmp/frozen_distance_result.json
+          cp results/siteyear_distance_bin_ledger.csv /tmp/frozen_distance_siteyear.csv
+          cp results/quadrat_distance_bin_ledger.csv /tmp/frozen_distance_quadrat.csv
+          cp results/independent_verification.json /tmp/frozen_distance_verifier.json
+          python src/distance_block.py --source source/frequency.txt --source-zip source/Sisyrinchium_data.zip --parent source/parent_line_result.json --output results --draws 9999
+          python src/verify_independent.py --root .
+          python src/make_figures.py --root .
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          results=Path('results')
+          frozen={
+            'result.json':'/tmp/frozen_distance_result.json',
+            'siteyear_distance_bin_ledger.csv':'/tmp/frozen_distance_siteyear.csv',
+            'quadrat_distance_bin_ledger.csv':'/tmp/frozen_distance_quadrat.csv',
+            'independent_verification.json':'/tmp/frozen_distance_verifier.json',
+          }
+          comparisons=[]
+          for name,original in frozen.items():
+            b=(results/name).read_bytes();prev=Path(original).read_bytes();same=b==prev
+            comparisons.append({'file':name,'byte_identical':same,'sha256':hashlib.sha256(b).hexdigest()})
+            assert same,(name,'FROZEN_SOURCE_RESULT_BYTES_CHANGED')
+          r=json.loads((results/'result.json').read_text())
+          v=json.loads((results/'independent_verification.json').read_text())
+          assert r['source']['source_quadrats']==512 and r['source']['negative_distance_quadrats']==3
+          assert r['median']['n_eligible']==10 and r['pairs']['n_eligible']==10
+          assert r['median']['p_one_sided']==r['pairs']['p_one_sided']==.0001
+          assert v['status']=='PASS' and v['independent_fraction_checks_and_null_checks']>=479
+          out={'status':'PASS','source_original_verified':True,'focused_tests':10,
+               'independent_checks':v['independent_fraction_checks_and_null_checks'],
+               'p_is_conditional_not_causal_or_confirmatory':True,'files':comparisons}
+          (results/'remote_replay_receipt.json').write_text(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out))
+          PY
+      - name: Preserve authenticated original and exact computed outputs as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-sisyrinchium-distance-block-20261013
+          path: |
+            packages/fcp_sisyrinchium_distance_block_20261013/source/
+            packages/fcp_sisyrinchium_distance_block_20261013/results/
+            packages/fcp_sisyrinchium_distance_block_20261013/docs/*.png
+          retention-days: 60
