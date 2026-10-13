@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "source_verified": true,
+  "independent_direct_species_row_least_squares_checks": 32,
+  "max_abs_difference_pp": 3.019806626980426e-14,
+  "no_production_import": true
+}
