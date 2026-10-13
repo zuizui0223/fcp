@@ -1,0 +1,84 @@
+{
+  "schema": "fcp_digitalis_observed_robbed_flower_morph_remote_replay_receipt_v1",
+  "date_jst": "2026-10-13",
+  "pull_request": 180,
+  "role": "Independent published Digitalis field measurements reanalysis, not new wild-plant census or Linanthus temporal replication",
+  "source": {
+    "original_article_doi": "10.1002/ajb2.70186",
+    "original_figshare_doi": "10.6084/m9.figshare.29095451.v2",
+    "license": "CC BY 4.0",
+    "file_id": 54632993,
+    "bytes": 345652,
+    "encoding": "cp1252",
+    "md5": "a1200e0197b282ee126700ae234eb95e",
+    "sha256": "723c7a03b6ffa010e6093996d8203b6770ab1ee1bc6ddc21ec9c3d5b47d3b8c9"
+  },
+  "ci": {
+    "run": 38326180970,
+    "url": "https://github.com/zuizui0223/fcp/actions/runs/38326180970",
+    "job": 115065273398,
+    "conclusion": "success",
+    "source_publisher_hash_matched": true,
+    "focused_tests_passed": 13,
+    "independent_fraction_checks_passed": 2134,
+    "recursive_numeric_and_metadata_result_checks": 502,
+    "largest_recomputed_numeric_difference": 0,
+    "byte_exact_local_remote_matches": [
+      "digitalis_field_individuals.csv",
+      "result.json",
+      "independent_verification.json",
+      "site_primary_contrasts.csv",
+      "plant_patch_ledger.csv"
+    ],
+    "full_repository_suite_attempted": false
+  },
+  "source_counts": {
+    "original_flower_rows": 1323,
+    "source_2024_five_site_flower_rows": 977,
+    "grouped_individual_or_patch_units_in_five_sites": 226,
+    "eligible_violet_pink_units": 181,
+    "excluded_source_2024_site_H2_rows": 153
+  },
+  "main_result": {
+    "site_equal_robbed_flag_violet_minus_pink": 0.04705668169298781,
+    "two_sided_plant_label_permutation_p": 0.2647,
+    "bootstrap_CI95": [
+      -0.0464684957615065,
+      0.14462771536332572
+    ],
+    "date_stratified_difference": 0.042543199532446854,
+    "date_stratified_p": 0.3679,
+    "secondary_flower_length_mm_difference": 0.18032047216552627,
+    "secondary_length_permutation_p": 0.778,
+    "interpreted_as": "Within five fixed surveyed populations, common morph-associated robbed-flower observation flag NOT SUPPORTED"
+  },
+  "descriptive_posthoc_variance": {
+    "plant_patch_units": 214,
+    "site_between_fraction": 0.5963683664509887,
+    "morph_within_site_fraction": 0.009438335581959861,
+    "residual_fraction": 0.3941932979670515,
+    "not_causal_R2": true
+  },
+  "github_artifact": {
+    "id": 11780847693,
+    "bytes": 38086,
+    "sha256": "c39fcd63a847b2ec513161573a245303905ea761e2a06877be968aa31a2cec7a"
+  },
+  "local_reproduction_package": {
+    "file": "FCP_Digitalis_花色と盗蜜フラグ_独立野外データ検証_20261013.zip",
+    "bytes": 336401,
+    "sha256": "bfd5e3716a5e47c9cddb20cdfbc9f0c6208c1c21630748da48334ee59883adff",
+    "files": 26,
+    "zip_crc_pass": true,
+    "library_path": "/fcp/FCP_Digitalis_花色と盗蜜フラグ_独立野外データ検証_20261013.zip"
+  },
+  "hard_nonclaims": [
+    "Figshare flower-trait source is morphologically surveyed individuals/patches, not representative population colour census",
+    "Observed Robbed_flower field label does not identify insect species or prove nectar removal",
+    "Site effect may reflect phenology, observers, protocol, environment and other site confounding",
+    "The five fixed sites are not independent replicates of continents",
+    "Permutation p is conditioned on site and sampled plant/patch units, not a test of causal selection",
+    "Cross-species general mechanism for within/among-population flower-colour polymorphism remains untested",
+    "Main H1/H2 and prior PR170–179 original scientific results unchanged"
+  ]
+}

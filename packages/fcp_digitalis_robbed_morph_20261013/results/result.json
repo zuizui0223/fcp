@@ -1,0 +1,577 @@
+{
+  "schema": "fcp_digitalis_fixed_pop_morph_robbed_flower_20261013_v1",
+  "date_jst": "2026-10-13",
+  "protocol_path": "docs/FCP_DIGITALIS_ROBBED_FLOWER_MORPH_PROTOCOL_20261013.md",
+  "original_article_doi": "10.1002/ajb2.70186",
+  "source_figshare_doi": "10.6084/m9.figshare.29095451.v2",
+  "source_file_id": 54632993,
+  "scope": "2024 source-selected individual/patch measurements from five fixed study sites, NOT an ecological census or new sampling",
+  "quality": {
+    "source": {
+      "file_size_bytes": 345652,
+      "MD5": "a1200e0197b282ee126700ae234eb95e",
+      "SHA256": "723c7a03b6ffa010e6093996d8203b6770ab1ee1bc6ddc21ec9c3d5b47d3b8c9",
+      "encoding": "cp1252"
+    },
+    "n_source_flower_rows": 1323,
+    "n_2023_source_rows": 193,
+    "n_2024_source_rows": 1130,
+    "n_2024_primary_site_flower_rows": 977,
+    "n_2024_H2_excluded_flower_rows": 153,
+    "n_grouped_units_all_years": 302,
+    "n_grouped_2024_five_sites": 226,
+    "n_conflicting_morph_groups_2024_main": 2,
+    "n_no_morph_groups_2024_main": 1,
+    "n_no_robbed_flag_groups_2024_main": 9,
+    "n_non_yes_no_robbery_rows_2024_main": 33
+  },
+  "all_grouping_counts": [
+    {
+      "Year": 2023,
+      "GPS-code": "GPS-107",
+      "exclusion_reason": "",
+      "n_grouped": 6,
+      "n_flower_rows": 43
+    },
+    {
+      "Year": 2023,
+      "GPS-code": "GPS-111",
+      "exclusion_reason": "",
+      "n_grouped": 3,
+      "n_flower_rows": 32
+    },
+    {
+      "Year": 2023,
+      "GPS-code": "GPS-138",
+      "exclusion_reason": "",
+      "n_grouped": 3,
+      "n_flower_rows": 21
+    },
+    {
+      "Year": 2023,
+      "GPS-code": "GPS-143",
+      "exclusion_reason": "",
+      "n_grouped": 3,
+      "n_flower_rows": 18
+    },
+    {
+      "Year": 2023,
+      "GPS-code": "GPS-153",
+      "exclusion_reason": "",
+      "n_grouped": 9,
+      "n_flower_rows": 60
+    },
+    {
+      "Year": 2023,
+      "GPS-code": "GPS-154",
+      "exclusion_reason": "",
+      "n_grouped": 4,
+      "n_flower_rows": 19
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "GPS-143",
+      "exclusion_reason": "",
+      "n_grouped": 45,
+      "n_flower_rows": 133
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "GPS-143",
+      "exclusion_reason": "NO_ASSESSED_FLOWERS",
+      "n_grouped": 1,
+      "n_flower_rows": 1
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "GPS-160",
+      "exclusion_reason": "",
+      "n_grouped": 40,
+      "n_flower_rows": 110
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "G_1",
+      "exclusion_reason": "",
+      "n_grouped": 46,
+      "n_flower_rows": 378
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_1",
+      "exclusion_reason": "",
+      "n_grouped": 44,
+      "n_flower_rows": 196
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_1",
+      "exclusion_reason": "CONFLICTING_MORPH",
+      "n_grouped": 1,
+      "n_flower_rows": 3
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_1",
+      "exclusion_reason": "NO_ASSESSED_FLOWERS",
+      "n_grouped": 2,
+      "n_flower_rows": 2
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_2",
+      "exclusion_reason": "",
+      "n_grouped": 47,
+      "n_flower_rows": 152
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_2",
+      "exclusion_reason": "NO_ASSESSED_FLOWERS",
+      "n_grouped": 1,
+      "n_flower_rows": 1
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_3",
+      "exclusion_reason": "",
+      "n_grouped": 39,
+      "n_flower_rows": 142
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_3",
+      "exclusion_reason": "CONFLICTING_MORPH",
+      "n_grouped": 1,
+      "n_flower_rows": 4
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_3",
+      "exclusion_reason": "MISSING_MORPH",
+      "n_grouped": 1,
+      "n_flower_rows": 2
+    },
+    {
+      "Year": 2024,
+      "GPS-code": "H_3",
+      "exclusion_reason": "NO_ASSESSED_FLOWERS",
+      "n_grouped": 6,
+      "n_flower_rows": 6
+    }
+  ],
+  "primary_endpoint": "site-equal mean of (violet minus pink) mean robbed-flower yes fraction per surveyed plant/patch",
+  "main_site_contrasts": [
+    {
+      "site": "G_1",
+      "country": "Sweden",
+      "n_violet_groups": 12,
+      "n_pink_groups": 20,
+      "violet_mean": 0.0,
+      "pink_mean": 0.0,
+      "difference_violet_minus_pink": 0.0,
+      "n_inspected_flower_rows": 279
+    },
+    {
+      "site": "H_1",
+      "country": "Sweden",
+      "n_violet_groups": 18,
+      "n_pink_groups": 17,
+      "violet_mean": 0.14109347442680775,
+      "pink_mean": 0.09313725490196079,
+      "difference_violet_minus_pink": 0.047956219524846966,
+      "n_inspected_flower_rows": 167
+    },
+    {
+      "site": "H_3",
+      "country": "Sweden",
+      "n_violet_groups": 7,
+      "n_pink_groups": 28,
+      "violet_mean": 0.0,
+      "pink_mean": 0.0,
+      "difference_violet_minus_pink": 0.0,
+      "n_inspected_flower_rows": 115
+    },
+    {
+      "site": "GPS-143",
+      "country": "Bolivia",
+      "n_violet_groups": 31,
+      "n_pink_groups": 8,
+      "violet_mean": 0.45161290322580644,
+      "pink_mean": 0.41666666666666663,
+      "difference_violet_minus_pink": 0.03494623655913981,
+      "n_inspected_flower_rows": 115
+    },
+    {
+      "site": "GPS-160",
+      "country": "Bolivia",
+      "n_violet_groups": 35,
+      "n_pink_groups": 5,
+      "violet_mean": 0.6857142857142856,
+      "pink_mean": 0.5333333333333333,
+      "difference_violet_minus_pink": 0.15238095238095228,
+      "n_inspected_flower_rows": 110
+    }
+  ],
+  "main_paired_colour_reference": {
+    "site_equal_estimate": 0.04705668169298781,
+    "p_two_sided": 0.2647,
+    "n_permutations": 9999,
+    "permutation_mean": -0.0001625240667629985,
+    "permutation_sd": 0.04149381871046677,
+    "abs_null_q95": 0.08139001837294056,
+    "n_sites": 5,
+    "n_eligible_plant_patch_units": 181,
+    "seed": 2026101302,
+    "test_scope": "observed sites and sampled plant/patch units; no causal assignment",
+    "bootstrap_ci95": [
+      -0.0464684957615065,
+      0.14462771536332572
+    ],
+    "n_bootstraps": 1999,
+    "resampling_unit": "observed plant/patch groups within site and morph; five study sites fixed"
+  },
+  "date_blocked_sensitivity": {
+    "n_supported_sites": 5,
+    "n_supported_groups": 155,
+    "site_day_strata": [
+      {
+        "site": "GPS-143",
+        "date": "25-Nov-24",
+        "n_violet": 31,
+        "n_pink": 7
+      },
+      {
+        "site": "GPS-160",
+        "date": "24-Sep-24",
+        "n_violet": 8,
+        "n_pink": 2
+      },
+      {
+        "site": "GPS-160",
+        "date": "30-Aug-24",
+        "n_violet": 27,
+        "n_pink": 3
+      },
+      {
+        "site": "G_1",
+        "date": "21-Jun-24",
+        "n_violet": 4,
+        "n_pink": 4
+      },
+      {
+        "site": "G_1",
+        "date": "22-Jun-24",
+        "n_violet": 3,
+        "n_pink": 3
+      },
+      {
+        "site": "G_1",
+        "date": "25-Jun-24",
+        "n_violet": 4,
+        "n_pink": 10
+      },
+      {
+        "site": "H_1",
+        "date": "13-Jun-24",
+        "n_violet": 6,
+        "n_pink": 2
+      },
+      {
+        "site": "H_1",
+        "date": "14-Jun-24",
+        "n_violet": 2,
+        "n_pink": 2
+      },
+      {
+        "site": "H_1",
+        "date": "15-Jun-24",
+        "n_violet": 9,
+        "n_pink": 11
+      },
+      {
+        "site": "H_3",
+        "date": "10-Jun-24",
+        "n_violet": 5,
+        "n_pink": 12
+      }
+    ],
+    "excluded_mixed_date_group_count": 18,
+    "min_sites_required": 3,
+    "min_plants_required": 50,
+    "status": "EXPLORATORY_DATE_STRATIFIED",
+    "site_equal_estimate": 0.042543199532446854,
+    "p_two_sided": 0.3679,
+    "n_permutations": 9999,
+    "seed": 2026101304,
+    "limitation": "Complete plant groups only within overlapping site-day strata; selected time strata are not a random field sample"
+  },
+  "descriptive_posthoc_variance_partition": {
+    "status": "DESCRIPTIVE_POSTHOC",
+    "n_plant_patch_units": 214,
+    "total_plant_robbed_fraction_variance": 0.11899882956404582,
+    "site_component_fraction": 0.5963683664509887,
+    "morph_given_site_component_fraction": 0.009438335581959861,
+    "within_site_morph_residual_fraction": 0.3941932979670515,
+    "unit": "One observed plant/patch per row, site frequencies weighted by number of observed groups",
+    "hard_boundary": "Variance decomposition of recorded flags only; not explanatory causal R2, not generalization to sites or regions"
+  },
+  "secondary_flower_length_mm": {
+    "site_contrasts": [
+      {
+        "site": "G_1",
+        "country": "Sweden",
+        "n_violet_groups": 12,
+        "n_pink_groups": 20,
+        "violet_mean": 39.15677146927147,
+        "pink_mean": 39.791974206349195,
+        "difference_violet_minus_pink": -0.6352027370777265,
+        "n_inspected_flower_rows": 279
+      },
+      {
+        "site": "H_1",
+        "country": "Sweden",
+        "n_violet_groups": 18,
+        "n_pink_groups": 17,
+        "violet_mean": 42.6300176366843,
+        "pink_mean": 43.181094771241824,
+        "difference_violet_minus_pink": -0.5510771345575236,
+        "n_inspected_flower_rows": 167
+      },
+      {
+        "site": "H_3",
+        "country": "Sweden",
+        "n_violet_groups": 7,
+        "n_pink_groups": 28,
+        "violet_mean": 43.69285714285714,
+        "pink_mean": 42.153571428571425,
+        "difference_violet_minus_pink": 1.5392857142857181,
+        "n_inspected_flower_rows": 115
+      },
+      {
+        "site": "GPS-143",
+        "country": "Bolivia",
+        "n_violet_groups": 31,
+        "n_pink_groups": 7,
+        "violet_mean": 43.21258064516129,
+        "pink_mean": 43.60142857142857,
+        "difference_violet_minus_pink": -0.3888479262672817,
+        "n_inspected_flower_rows": 114
+      },
+      {
+        "site": "GPS-160",
+        "country": "Bolivia",
+        "n_violet_groups": 33,
+        "n_pink_groups": 5,
+        "violet_mean": 37.88611111111111,
+        "pink_mean": 36.94866666666667,
+        "difference_violet_minus_pink": 0.937444444444445,
+        "n_inspected_flower_rows": 108
+      }
+    ],
+    "within_site_reference": {
+      "site_equal_estimate": 0.18032047216552627,
+      "p_two_sided": 0.778,
+      "n_permutations": 1999,
+      "permutation_mean": -0.023923645693799206,
+      "permutation_sd": 0.6436138918546617,
+      "abs_null_q95": 1.2630185969646839,
+      "n_sites": 5,
+      "n_eligible_plant_patch_units": 178,
+      "seed": 2026101303,
+      "test_scope": "observed sites and sampled plant/patch units; no causal assignment"
+    }
+  },
+  "extra_H2_excluded_site": {
+    "site": "H_2",
+    "country": "Sweden",
+    "n_violet_groups": 21,
+    "n_pink_groups": 14,
+    "violet_mean": 0.015873015873015872,
+    "pink_mean": 0.0,
+    "difference_violet_minus_pink": 0.015873015873015872,
+    "n_inspected_flower_rows": 101
+  },
+  "all_colour_descriptive_site_summary": [
+    {
+      "GPS-code": "GPS-143",
+      "morph": "pink",
+      "n_grouped": 8,
+      "n_assessed": 22,
+      "n_yes": 10,
+      "n_no": 12,
+      "group_mean_robbed_fraction": 0.41666666666666663
+    },
+    {
+      "GPS-code": "GPS-143",
+      "morph": "violet",
+      "n_grouped": 31,
+      "n_assessed": 93,
+      "n_yes": 42,
+      "n_no": 51,
+      "group_mean_robbed_fraction": 0.45161290322580644
+    },
+    {
+      "GPS-code": "GPS-143",
+      "morph": "white",
+      "n_grouped": 6,
+      "n_assessed": 18,
+      "n_yes": 10,
+      "n_no": 8,
+      "group_mean_robbed_fraction": 0.5555555555555555
+    },
+    {
+      "GPS-code": "GPS-160",
+      "morph": "pink",
+      "n_grouped": 5,
+      "n_assessed": 14,
+      "n_yes": 8,
+      "n_no": 6,
+      "group_mean_robbed_fraction": 0.5333333333333333
+    },
+    {
+      "GPS-code": "GPS-160",
+      "morph": "violet",
+      "n_grouped": 35,
+      "n_assessed": 96,
+      "n_yes": 66,
+      "n_no": 30,
+      "group_mean_robbed_fraction": 0.6857142857142857
+    },
+    {
+      "GPS-code": "G_1",
+      "morph": "pink",
+      "n_grouped": 20,
+      "n_assessed": 159,
+      "n_yes": 0,
+      "n_no": 159,
+      "group_mean_robbed_fraction": 0.0
+    },
+    {
+      "GPS-code": "G_1",
+      "morph": "violet",
+      "n_grouped": 12,
+      "n_assessed": 120,
+      "n_yes": 0,
+      "n_no": 120,
+      "group_mean_robbed_fraction": 0.0
+    },
+    {
+      "GPS-code": "G_1",
+      "morph": "white",
+      "n_grouped": 14,
+      "n_assessed": 94,
+      "n_yes": 0,
+      "n_no": 94,
+      "group_mean_robbed_fraction": 0.0
+    },
+    {
+      "GPS-code": "H_1",
+      "morph": "pink",
+      "n_grouped": 17,
+      "n_assessed": 74,
+      "n_yes": 6,
+      "n_no": 68,
+      "group_mean_robbed_fraction": 0.09313725490196079
+    },
+    {
+      "GPS-code": "H_1",
+      "morph": "violet",
+      "n_grouped": 18,
+      "n_assessed": 93,
+      "n_yes": 12,
+      "n_no": 81,
+      "group_mean_robbed_fraction": 0.14109347442680775
+    },
+    {
+      "GPS-code": "H_1",
+      "morph": "white",
+      "n_grouped": 9,
+      "n_assessed": 28,
+      "n_yes": 1,
+      "n_no": 27,
+      "group_mean_robbed_fraction": 0.037037037037037035
+    },
+    {
+      "GPS-code": "H_3",
+      "morph": "pink",
+      "n_grouped": 28,
+      "n_assessed": 92,
+      "n_yes": 0,
+      "n_no": 92,
+      "group_mean_robbed_fraction": 0.0
+    },
+    {
+      "GPS-code": "H_3",
+      "morph": "violet",
+      "n_grouped": 7,
+      "n_assessed": 23,
+      "n_yes": 0,
+      "n_no": 23,
+      "group_mean_robbed_fraction": 0.0
+    },
+    {
+      "GPS-code": "H_3",
+      "morph": "white",
+      "n_grouped": 4,
+      "n_assessed": 12,
+      "n_yes": 0,
+      "n_no": 12,
+      "group_mean_robbed_fraction": 0.0
+    }
+  ],
+  "all_site_observation_context": [
+    {
+      "GPS-code": "GPS-143",
+      "COUNTRY": "Bolivia",
+      "n": 45,
+      "n_yes": 62,
+      "n_no": 71,
+      "mean_group_rob": 0.4592592592592592
+    },
+    {
+      "GPS-code": "GPS-160",
+      "COUNTRY": "Bolivia",
+      "n": 40,
+      "n_yes": 74,
+      "n_no": 36,
+      "mean_group_rob": 0.6666666666666667
+    },
+    {
+      "GPS-code": "G_1",
+      "COUNTRY": "Sweden",
+      "n": 46,
+      "n_yes": 0,
+      "n_no": 373,
+      "mean_group_rob": 0.0
+    },
+    {
+      "GPS-code": "H_1",
+      "COUNTRY": "Sweden",
+      "n": 44,
+      "n_yes": 19,
+      "n_no": 176,
+      "mean_group_rob": 0.10128066378066376
+    },
+    {
+      "GPS-code": "H_3",
+      "COUNTRY": "Sweden",
+      "n": 39,
+      "n_yes": 0,
+      "n_no": 127,
+      "mean_group_rob": 0.0
+    }
+  ],
+  "explicit_limits": [
+    "The source is a selected phenotypic survey, not a randomly sampled flower-color population census.",
+    "Individual/patch source units are not necessarily biological genets, especially in G_1.",
+    "Some site/year observation protocols differ; excluded 2023 source observations cannot be used for out-of-year tests.",
+    "Within-site permutation is a conditional reference assuming exchangeability of observed morph labels; not causal treatment assignment.",
+    "Five source sites fixed, not a random sample of biogeographic regions; country comparison only descriptive and confounded with survey dates.",
+    "Robbed_flower is a source binary observational flag; no verified insect culprit, nectar reward or fitness costs.",
+    "Colour conflict groups excluded; missing robbed flags not converted to negatives.",
+    "Source author reported no consistent flower morphology differences among colour morphs; this does not establish a new general mechanism.",
+    "No genetic polymorphism mechanisms, local adaptation, pollinator preference or population frequency inferred."
+  ],
+  "previous_main_results_changed": false
+}
