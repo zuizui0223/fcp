@@ -91,10 +91,18 @@ jobs:
                       item['zip_members']=[]
                       for info in z.infolist():
                         member={'name':info.filename,'size':info.file_size}
-                        if info.filename.lower().endswith('.txt') and info.file_size<400000:
-                          member['data_preview']=audit_plain(z.read(info))
-                          p=Path(info.filename)
-                          (out/('inside_'+str(spec['record_id'])+'_'+p.name)).write_bytes(z.read(info))
+                        is_primary_txt=(info.filename.startswith('data/') and
+                            not Path(info.filename).name.startswith(('._','.DS_Store')) and
+                            info.filename.lower().endswith('.txt') and info.file_size<400000)
+                        if is_primary_txt:
+                          raw_member=z.read(info)
+                          (out/('inside_'+str(spec['record_id'])+'_'+Path(info.filename).name)).write_bytes(raw_member)
+                          try:
+                            member['data_preview']=audit_plain(raw_member)
+                          except Exception as ex:
+                            member['nonfatal_text_preview_error']=type(ex).__name__+': '+str(ex)[:130]
+                        elif info.filename.startswith('__MACOSX/') or Path(info.filename).name.startswith('._'):
+                          member['ignored_as_apple_metadata']=True
                         item['zip_members'].append(member)
                       item['frequency_txt_present']=any(x['name'].split('/')[-1]=='frequency.txt' for x in item['zip_members'])
                 except Exception as ex:
