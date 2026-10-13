@@ -1,0 +1,20 @@
+{
+  "status": "COMPUTED_POSTHOC_NOT_CONFIRMATORY",
+  "checks": {
+    "sisyrinchium": {
+      "species": "sisyrinchium",
+      "site_equal_original": 0.42687840572201846,
+      "original_p_recomputed": 0.0001,
+      "per_site_null_mean": 0.00011040522387976447,
+      "sites_used": 13
+    },
+    "boechera": {
+      "species": "boechera",
+      "site_equal_original": 0.11697598763081916,
+      "original_p_recomputed": 0.0001,
+      "per_site_null_mean": -9.663494725306999e-05,
+      "sites_used": 6
+    }
+  },
+  "n_left_out_rows": 19
+}

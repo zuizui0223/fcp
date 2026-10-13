@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "independent_method": "csv.DictReader + Fraction + standalone NumPy inventory Monte Carlo; no imports of production code",
+  "checks": 175,
+  "max_abs_difference": 2.220446049250313e-16,
+  "raw_source_md5_sha256_verified": true,
+  "source_qa": {
+    "sisyrinchium_other_l": 4463,
+    "sisyrinchium_other_s": 29,
+    "boechera_id_whitespace_repairs": 3
+  },
+  "checks_include_source_to_plot_to_site_to_null": true,
+  "same_source_not_independent_biological_study": true,
+  "boechera_sitewise_heterogeneity_not_consistent": true
+}
