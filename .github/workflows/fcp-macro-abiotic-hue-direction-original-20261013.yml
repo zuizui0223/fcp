@@ -103,7 +103,7 @@ jobs:
               assert np.allclose(q['family_95_interval_pp'],a['family_95_interval_pp'],atol=1e-8,rtol=0)
           a=pd.read_csv(root/'direction_ledger.csv')
           b=pd.read_csv('results/fcp_macro_direction_20261013/direction_ledger.csv')
-          assert a.shape==b.shape==(1280,18)
+          assert a.shape==b.shape==(1280,17)
           assert list(a.columns)==list(b.columns)
           for c in a.columns:
               if pd.api.types.is_numeric_dtype(a[c]):
