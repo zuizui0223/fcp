@@ -61,11 +61,11 @@ jobs:
           from pathlib import Path
           a=json.loads(Path('/tmp/fcp_white_blue_direction/result.json').read_text())
           p=json.loads(Path('results/fcp_same_genus_ecoregional_rainfall_transport_20261011/source_replay_result.json').read_text())
-          assert a['source_archive_sha256']==p['source_archive_sha256']
+          assert a['source_archive_sha256']==p['provenance']['original_source_sha256']
           assert a['original_classifiable_geoclimate_photo_ids']==45836
-          assert a['n_genus_bootstrap_replicates']==p['n_genus_bootstrap_replicates']==999
+          assert a['n_genus_bootstrap_replicates']==p['provenance']['n_source_bootstrap_replicates']==999
           seen=0
-          for sample, old_cases in p['same_genera_across_geographic_sectors'].items():
+          for sample, old_cases in p['source_equal_species_same_genus_cases'].items():
               for gate, orig in old_cases.items():
                   curr=a['same_genera_across_geographic_sectors'][sample][gate]
                   assert curr['source_qualified_shared_genera']==orig['source_qualified_shared_genera']
