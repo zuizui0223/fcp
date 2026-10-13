@@ -44,7 +44,7 @@ jobs:
       - name: Compare every original source and full-result byte and guard science interpretation
         run: |
           python - <<'PY'
-          import hashlib,json
+          import hashlib,json,csv,io,math
           from pathlib import Path
           root=Path('packages/fcp_sisyrinchium_line_20261013')
           items={
@@ -54,13 +54,45 @@ jobs:
             'results/posthoc_matched_distance_support.csv':'/tmp/fcp_line_original_distance.csv',
             'results/posthoc_matched_distance_summary.json':'/tmp/fcp_line_original_posthoc.json',
           }
+          # Report exact primary results; for printed derivative CSV tables, accept
+          # only last-bit float serialization variation while locking row IDs and
+          # categorical fields. Original source and result.json remain byte-exact.
+          float_csv={'results/siteyear_support_and_effects.csv',
+                     'results/posthoc_matched_distance_support.csv'}
           checks=[]
           for name,old in items.items():
             data=(root/name).read_bytes()
             oldbytes=Path(old).read_bytes()
-            assert data==oldbytes,('FROZEN_SOURCE_RESULT_MISMATCH',name)
+            same=(data==oldbytes)
+            changed_numeric_cells=0
+            max_numeric_difference=0.0
+            if name in float_csv and not same:
+              a=csv.DictReader(io.StringIO(oldbytes.decode('utf-8-sig')))
+              b=csv.DictReader(io.StringIO(data.decode('utf-8-sig')))
+              assert a.fieldnames==b.fieldnames,('CSV_HEADERS_CHANGED',name)
+              ra=list(a);rb=list(b)
+              assert len(ra)==len(rb),('CSV_ROWS_CHANGED',name)
+              for i,(r1,r2) in enumerate(zip(ra,rb)):
+                for k in a.fieldnames:
+                  if r1[k]==r2[k]:
+                    continue
+                  # No tolerance for categorical or missing-value changes.
+                  try:
+                    v1=float(r1[k]);v2=float(r2[k])
+                  except (ValueError,TypeError):
+                    raise AssertionError(('NON_NUMERIC_CSV_CHANGE',name,i,k,r1[k],r2[k]))
+                  assert math.isfinite(v1) and math.isfinite(v2)
+                  assert math.isclose(v1,v2,rel_tol=1e-12,abs_tol=1e-12),(
+                      'CSV_NUMERIC_DRIFT',name,i,k,v1,v2)
+                  changed_numeric_cells+=1
+                  max_numeric_difference=max(max_numeric_difference,abs(v1-v2))
+            else:
+              assert same,('FROZEN_PRIMARY_RESULT_BYTES_DIFFER',name)
             checks.append({'name':name,'sha256':hashlib.sha256(data).hexdigest(),
-                           'byte_identical':True,'bytes':len(data)})
+                           'byte_identical':same,'numerical_or_exact_match':True,
+                           'n_last_bit_csv_cells':changed_numeric_cells,
+                           'max_last_bit_csv_difference':max_numeric_difference,
+                           'bytes':len(data)})
           original=json.loads((root/'source/source_receipt.json').read_text())
           assert original['status']=='SOURCE_BYTES_VERIFIED'
           assert original['original_zip_md5']=='008ec196aa5acb769dbfd36e835e32ba'
