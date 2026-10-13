@@ -1,0 +1,16 @@
+{
+  "schema": "fcp_digitalis_robbed_source_independent_verification_v1",
+  "status": "PASS",
+  "checks": 2134,
+  "source_md5": "a1200e0197b282ee126700ae234eb95e",
+  "source_sha256": "723c7a03b6ffa010e6093996d8203b6770ab1ee1bc6ddc21ec9c3d5b47d3b8c9",
+  "source_n_flower_rows": 1323,
+  "n_grouped_units": 302,
+  "main_fraction_exact_numerator": 351524,
+  "main_fraction_exact_denominator": 7470225,
+  "main_fraction_float": 0.04705668169298783,
+  "permutation_two_sided_p": 0.2647,
+  "verified_date_overlap_units": 155,
+  "morphology_main_mm_diff": 0.18032047216552627,
+  "verification_boundary": "Separate csv.DictReader + rational arithmetic and independently reconstructed permutation; same original study and source, not independent biological replication"
+}

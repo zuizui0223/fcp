@@ -1,0 +1,93 @@
+name: FCP Digitalis observed robbed-flower morph test 20261013
+
+on:
+  pull_request:
+    paths:
+      - 'packages/fcp_digitalis_robbed_morph_20261013/**'
+      - '.github/workflows/fcp-digitalis-robbed-morph-20261013.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_locked_field_analysis:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install reproducibility dependencies
+        run: |
+          python -m pip install -r packages/fcp_digitalis_robbed_morph_20261013/requirements.txt
+      - name: Recover original Figshare source using publisher checksums
+        run: |
+          python - <<'PY'
+          import urllib.request,pathlib,hashlib
+          p=pathlib.Path('packages/fcp_digitalis_robbed_morph_20261013/source')
+          p.mkdir(parents=True,exist_ok=True)
+          req=urllib.request.Request('https://ndownloader.figshare.com/files/54632993',headers={'User-Agent':'FCP-field-ecology-source-verification/1.0'})
+          with urllib.request.urlopen(req,timeout=55) as conn:
+            bs=conn.read(1000000)
+          assert len(bs)==345652,len(bs)
+          assert hashlib.md5(bs).hexdigest()=='a1200e0197b282ee126700ae234eb95e'
+          assert hashlib.sha256(bs).hexdigest()=='723c7a03b6ffa010e6093996d8203b6770ab1ee1bc6ddc21ec9c3d5b47d3b8c9'
+          (p/'digitalis_field_individuals.csv').write_bytes(bs)
+          print('SOURCE_ORIGINAL_MD5_AND_SHA256_PASS')
+          PY
+      - name: Run 13 plant/patch and source-integrity tests
+        run: |
+          python -m pytest -q packages/fcp_digitalis_robbed_morph_20261013/tests/test_robbery.py
+      - name: Refit no models; reconstruct source-defined conditional permutation and plant bootstrap
+        run: |
+          cd packages/fcp_digitalis_robbed_morph_20261013
+          cp results/result.json /tmp/fcp_digitalis_frozen_result.json
+          python src/robbed_morph.py --source source/digitalis_field_individuals.csv --outdir results
+          python src/verify_independent.py --source source/digitalis_field_individuals.csv --outdir results
+      - name: Reconcile frozen original source and all ecological outcomes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, math, hashlib
+          p=Path('packages/fcp_digitalis_robbed_morph_20261013')
+          original=json.loads(Path('/tmp/fcp_digitalis_frozen_result.json').read_text())
+          repeated=json.loads((p/'results/result.json').read_text())
+          checks=[0];maxdiff=[0.]
+          def recursive(a,b,path='root'):
+            checks[0]+=1
+            if isinstance(a,dict):
+              assert isinstance(b,dict) and set(a)==set(b),(path,set(a)^set(b))
+              for k in a:recursive(a[k],b[k],path+'.'+k)
+            elif isinstance(a,list):
+              assert isinstance(b,list) and len(a)==len(b),path
+              for i,(x,y) in enumerate(zip(a,b)):recursive(x,y,path+f'[{i}]')
+            elif isinstance(a,(int,float)) and not isinstance(a,bool):
+              assert math.isclose(a,b,rel_tol=5e-10,abs_tol=5e-10),(path,a,b)
+              maxdiff[0]=max(maxdiff[0],abs(a-b))
+            else:assert a==b,(path,a,b)
+          recursive(original,repeated)
+          q=repeated['main_paired_colour_reference']
+          v=json.loads((p/'results/independent_verification.json').read_text())
+          assert q['n_sites']==5 and q['n_eligible_plant_patch_units']==181
+          assert q['p_two_sided']>0.05 and q['p_two_sided']<1
+          assert v['status']=='PASS' and v['checks']==2134
+          assert original['quality']['source']['SHA256']==repeated['quality']['source']['SHA256']
+          assert repeated['date_blocked_sensitivity']['status']=='EXPLORATORY_DATE_STRATIFIED'
+          info={'status':'PASS','source_original_hash_verified':True,'full_json_frozen_vs_recomputed_numeric_checks':checks[0],
+             'max_abs_numeric_difference':maxdiff[0],
+             'exact_json_bytes_equal':(p/'results/result.json').read_bytes()==Path('/tmp/fcp_digitalis_frozen_result.json').read_bytes(),
+             'focused_tests':13,'independent_field_checks':v['checks'],
+             'recording_is_not_field_census':True,'not_new_field_observation':True,'no_full_repo_suite_claim':True}
+          (p/'results/remote_replay_receipt.json').write_text(json.dumps(info,indent=2)+'\n')
+          print(json.dumps(info))
+          PY
+      - name: Upload original verified public data and exact replay receipts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-digitalis-plant-robbed-flag-source-replay-20261013
+          retention-days: 60
+          path: |
+            packages/fcp_digitalis_robbed_morph_20261013/source/
+            packages/fcp_digitalis_robbed_morph_20261013/results/
