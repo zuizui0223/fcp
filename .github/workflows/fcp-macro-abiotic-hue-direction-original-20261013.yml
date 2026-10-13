@@ -1,0 +1,122 @@
+name: FCP global macro ecological abiotic flower-colour direction audit
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/analysis/fcp_abiotic_hue_direction_macro_20261013.py
+      - scripts/analysis/verify_fcp_macro_direction_20261013.py
+      - scripts/analysis/build_fcp_macro_direction_summary_20261013.py
+      - tests/test_fcp_macro_abiotic_direction_20261013.py
+      - docs/FCP_GLOBAL_COLOUR_ENVIRONMENT_DIRECTION_AND_CAUSAL_GATES_20261013.md
+      - results/fcp_macro_direction_20261013/**
+      - .github/workflows/fcp-macro-abiotic-hue-direction-original-20261013.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-macro-abiotic-direction-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FCP_SOURCE_ORIGINAL_ZIP_ID: "11587115220"
+  FCP_SOURCE_ORIGINAL_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  FCP_SOURCE_ALL36_ZIP_ID: "11653183273"
+  FCP_SOURCE_ALL36_SHA256: "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+
+jobs:
+  macro-direction-source-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install fixed matrix/CSV and testing dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 pytest==8.4.2
+      - name: Source-agnostic unit guards: 8 tests
+        run: |
+          python -m py_compile scripts/analysis/fcp_abiotic_hue_direction_macro_20261013.py scripts/analysis/verify_fcp_macro_direction_20261013.py scripts/analysis/build_fcp_macro_direction_summary_20261013.py
+          python -m pytest -q tests/test_fcp_macro_abiotic_direction_20261013.py
+      - name: Verify both exact original-photo and 36-abiotic archive byte SHA-256 digests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_macro_original
+          gh api -H 'Accept: application/vnd.github+json' \
+            "/repos/$GITHUB_REPOSITORY/actions/artifacts/$FCP_SOURCE_ORIGINAL_ZIP_ID/zip" \
+            > /tmp/fcp_macro_original/original_100543_photo_sites.zip
+          echo "$FCP_SOURCE_ORIGINAL_SHA256  /tmp/fcp_macro_original/original_100543_photo_sites.zip" | sha256sum -c -
+          gh api -H 'Accept: application/vnd.github+json' \
+            "/repos/$GITHUB_REPOSITORY/actions/artifacts/$FCP_SOURCE_ALL36_ZIP_ID/zip" \
+            > /tmp/fcp_macro_original/extended_36_abiotic_photo_sites.zip
+          echo "$FCP_SOURCE_ALL36_SHA256  /tmp/fcp_macro_original/extended_36_abiotic_photo_sites.zip" | sha256sum -c -
+      - name: Fit all 20 source-cohort macro directions, 999 paired-genus bootstraps, maxT families
+        run: |
+          python scripts/analysis/fcp_abiotic_hue_direction_macro_20261013.py \
+            --photo-archive /tmp/fcp_macro_original/original_100543_photo_sites.zip \
+            --environment-archive /tmp/fcp_macro_original/extended_36_abiotic_photo_sites.zip \
+            --bootstrap 999 --outdir /tmp/fcp_abiotic_direction
+      - name: Independently reopen original photo and environment rows and reproduce 352 direct WLS coefficients
+        run: |
+          python scripts/analysis/verify_fcp_macro_direction_20261013.py \
+            --photo-archive /tmp/fcp_macro_original/original_100543_photo_sites.zip \
+            --environment-archive /tmp/fcp_macro_original/extended_36_abiotic_photo_sites.zip \
+            --result-json /tmp/fcp_abiotic_direction/result.json \
+            --output /tmp/fcp_abiotic_direction/independent_verified.json
+      - name: Construct biological inference decision contract
+        run: |
+          python scripts/analysis/build_fcp_macro_direction_summary_20261013.py \
+            --result /tmp/fcp_abiotic_direction/result.json \
+            --ledger /tmp/fcp_abiotic_direction/direction_ledger.csv \
+            --out /tmp/fcp_abiotic_direction/decision_receipt.json
+      - name: Check every source directional row against frozen output and both positive and negative scientific claims
+        run: |
+          python - <<'PY'
+          import json,numpy as np,pandas as pd
+          from pathlib import Path
+          root=Path('/tmp/fcp_abiotic_direction')
+          rec=json.loads((root/'decision_receipt.json').read_text())
+          frozen=json.loads(Path('results/fcp_macro_direction_20261013/decision_receipt.json').read_text())
+          verify=json.loads((root/'independent_verified.json').read_text())
+          assert rec['schema']==frozen['schema']=='fcp_directional_macroecology_20261013_decision_receipt_v1'
+          assert rec['n_macro_scope_cohorts']==20 and rec['directional_estimates_and_sensitivities']==1280
+          assert verify['status']=='PASS'
+          assert verify['direct_source_genus_WLS_colour_coefficients_verified']==352
+          assert verify['max_abs_difference_pp']<1e-8
+          assert rec['scientific_verdict']['universal_global_abiotic_hue_direction']=='NOT_SUPPORTED_BY_ALL_REQUIRED_SENSITIVITIES'
+          assert rec['scientific_verdict']['genetic_maintenance_of_morphs'].startswith('UNIDENTIFIABLE')
+          assert rec['source_source_SHA256']==frozen['source_source_SHA256']
+          assert rec['scope_familywise_maxT_zero_exclusions']==frozen['scope_familywise_maxT_zero_exclusions']
+          for q,a in zip(rec['key_white_directional_observations'],frozen['key_white_directional_observations']):
+              assert (q['mode'],q['quality'],q['region'],q['adjustment'],q['axis'])==(a['mode'],a['quality'],a['region'],a['adjustment'],a['axis'])
+              assert abs(q['point_pp']-a['point_pp'])<1e-8
+              assert np.allclose(q['family_95_interval_pp'],a['family_95_interval_pp'],atol=1e-8,rtol=0)
+          a=pd.read_csv(root/'direction_ledger.csv')
+          b=pd.read_csv('results/fcp_macro_direction_20261013/direction_ledger.csv')
+          assert a.shape==b.shape==(1280,18)
+          assert list(a.columns)==list(b.columns)
+          for c in a.columns:
+              if pd.api.types.is_numeric_dtype(a[c]):
+                  assert np.allclose(a[c].to_numpy(dtype=float),b[c].to_numpy(dtype=float),equal_nan=True,atol=1e-8,rtol=0),c
+              else:
+                  assert a[c].fillna('__MISSING__').equals(b[c].fillna('__MISSING__')),c
+          assert not a.query("mode=='climate' and quality=='strict' and adjustment=='genus_geo' and weight=='genus_equal'")['maxT_excludes_zero'].any()
+          assert not a.query("mode=='climate' and quality=='all' and adjustment=='genus_geocell' and weight=='genus_equal'")['maxT_excludes_zero'].any()
+          print('PASS 1,280 environmental x hue direction estimates, 20 scopes, 352 independent row-level WLS and negative biological causality gates')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global-macro-abiotic-hue-direction-20261013
+          path: /tmp/fcp_abiotic_direction/
+          retention-days: 60
+          if-no-files-found: error
