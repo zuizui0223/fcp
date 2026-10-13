@@ -1,0 +1,120 @@
+name: FCP Sisyrinchium held-out field line ecology prediction
+on:
+  push:
+    branches:
+      - analysis/fcp-sisyrinchium-heldout-line-ecology-20261013
+  pull_request:
+    paths:
+      - 'packages/fcp_sisyrinchium_heldout_line_20261013/**'
+      - 'docs/FCP_SISYRINCHIUM_HELDOUT_LINE_DISTANCE_CONGENER_PREDICTION_PROTOCOL_20261013.md'
+      - '.github/workflows/fcp-sisyrinchium-heldout-line-prediction-20261013.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-authenticated-heldout-lines:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned focused analysis requirements
+        run: python -m pip install -r packages/fcp_sisyrinchium_heldout_line_20261013/requirements-lock.txt
+      - name: Recover original public author field quadrats without modifying publisher bytes
+        run: |
+          python packages/fcp_sisyrinchium_line_20261013/src/recover_original_sources.py \
+            --outdir packages/fcp_sisyrinchium_heldout_line_20261013/source
+      - name: Confirm unchanged protocol code and historical raw-source identity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('packages/fcp_sisyrinchium_heldout_line_20261013')
+          manifest=json.loads((root/'results/frozen_source_code_result_hashes.json').read_text())
+          required=[x for x in manifest['files'] if not x.startswith('results/')]
+          for rel in required:
+            got=hashlib.sha256((root/rel).read_bytes()).hexdigest()
+            assert got==manifest['files'][rel]['sha256'], ('CODE_OR_DOC_CHANGED',rel)
+          zip_hash=hashlib.sha256((root/'source/Sisyrinchium_data.zip').read_bytes()).hexdigest()
+          assert zip_hash==manifest['original_archive_sha256']
+          assert (root/'source/Sisyrinchium_data.zip').stat().st_size==127502
+          print('FROZEN_ORIGINAL_SOURCE_AND_CODE_SHA256_PASS',len(required))
+          PY
+      - name: Preserve frozen source-exposed result receipts before replay
+        run: |
+          mkdir -p /tmp/fcp_sisyrinchium_frozen
+          cp packages/fcp_sisyrinchium_heldout_line_20261013/results/result.json /tmp/fcp_sisyrinchium_frozen/result.json
+          cp packages/fcp_sisyrinchium_heldout_line_20261013/results/posthoc_ridge_sensitivity.json /tmp/fcp_sisyrinchium_frozen/posthoc_ridge_sensitivity.json
+      - name: Focused field/source tests and training-test isolation guards
+        run: python -m pytest -q packages/fcp_sisyrinchium_heldout_line_20261013/tests
+      - name: Recompute each original field-line holdout by deterministic four-model design
+        run: |
+          cd packages/fcp_sisyrinchium_heldout_line_20261013
+          python src/predictive.py --source source/Sisyrinchium_data.zip --outdir results
+          python src/verify_independent.py --root .
+          python src/regularization_sensitivity.py --root .
+          python src/plot.py --root .
+      - name: Verify all scored predictions and source-defined scientific boundaries
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,math,hashlib
+          root=Path('packages/fcp_sisyrinchium_heldout_line_20261013')
+          frozen=json.loads(Path('/tmp/fcp_sisyrinchium_frozen/result.json').read_text())
+          replay=json.loads((root/'results/result.json').read_text())
+          checks=[0]; maxabs=[0.0]
+          def compare(a,b,path='root'):
+              checks[0]+=1
+              if isinstance(a,dict):
+                  assert isinstance(b,dict) and set(a)==set(b),('KEYS_DIFFER',path)
+                  for key in a:compare(a[key],b[key],path+'.'+str(key))
+              elif isinstance(a,list):
+                  assert isinstance(b,list) and len(a)==len(b),('LIST_DIFF',path)
+                  for i,(x,y) in enumerate(zip(a,b)):compare(x,y,path+f'[{i}]')
+              elif type(a)==bool or type(b)==bool:
+                  assert a is b,('BOOLEAN_DIFF',path)
+              elif type(a) in (int,float) and type(b) in (int,float):
+                  assert math.isfinite(a) and math.isfinite(b)
+                  d=abs(a-b)
+                  assert math.isclose(a,b,rel_tol=3e-6,abs_tol=3e-6),('SCIENTIFIC_NUMERIC_DRIFT',path,a,b)
+                  maxabs[0]=max(d,maxabs[0])
+              else:assert a==b,('LABEL_OR_SUPPORT_CHANGED',path,a,b)
+          compare(frozen,replay)
+          original=json.loads(Path('/tmp/fcp_sisyrinchium_frozen/posthoc_ridge_sensitivity.json').read_text())
+          new=json.loads((root/'results/posthoc_ridge_sensitivity.json').read_text())
+          compare(original,new,'posthoc')
+          verify=json.loads((root/'results/independent_verification.json').read_text())
+          assert verify['status']=='PASS' and verify['checks']>=1731 and verify['max_abs_difference']<3e-6
+          assert replay['qa']['n_source_quadrats']==512
+          assert replay['qa']['n_empty_M_quadrats']==126
+          assert replay['qa']['n_missing_distance']==3
+          assert replay['main']['n_sites']==6 and replay['main']['n_lines_heldout']==32
+          assert replay['main']['n_plants_scored']==6692
+          assert not replay['model_specification']['p_values_computed']
+          assert replay['qa']['not_causal'] and replay['qa']['not_new_geographic_site_prediction']
+          assert replay['qa']['unrelated_other_species_L']==4463 and replay['qa']['unrelated_other_species_S']==29
+          original_hash=hashlib.sha256((root/'source/Sisyrinchium_data.zip').read_bytes()).hexdigest()
+          receipt={'status':'PASS','n_compared_nested_entries':checks[0],
+                   'max_source_locked_replay_numeric_difference':maxabs[0],
+                   'source_archive_sha256':original_hash,
+                   'original_512_field_quadrats':True,
+                   'heldout_entire_source_lines':True,
+                   'main_named_sites':6,'main_heldout_lines':32,'main_M_plant_counts_scored':6692,
+                   'independent_newton_checks':verify['checks'],
+                   'not_causal_or_geographically_novel':True,
+                   'original_code_and_results_retained':True,
+                   'whole_repository_pytest_not_run':True}
+          (root/'results/remote_execution_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(receipt,ensure_ascii=False))
+          PY
+      - name: Upload verified original data and inspectable numeric and figure outputs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-sisyrinchium-heldout-field-line-20261013
+          retention-days: 60
+          path: |
+            packages/fcp_sisyrinchium_heldout_line_20261013/source/
+            packages/fcp_sisyrinchium_heldout_line_20261013/results/
+            packages/fcp_sisyrinchium_heldout_line_20261013/docs/*.png

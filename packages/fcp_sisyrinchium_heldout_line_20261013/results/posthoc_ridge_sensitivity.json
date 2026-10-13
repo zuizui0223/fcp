@@ -1,0 +1,169 @@
+{
+  "lambda_values_fixed_for_diagnostic": [
+    1,
+    10,
+    100
+  ],
+  "no_p_values": true,
+  "results": [
+    {
+      "lambda_ridge": 1.0,
+      "mean_distance_gain_over_base": 0.11027105190727661,
+      "mean_extra_congener_beyond_distance": -0.015518344471209755,
+      "n_sites": 6,
+      "n_sites_distance_gain_positive": 6,
+      "n_sites_extra_congener_positive": 2,
+      "siteyear_deltas": [
+        {
+          "congen_minus_both_nats_per_plant": 0.03361296424868089,
+          "dist_minus_both_nats_per_plant": 0.015121262529760059,
+          "distance_gain_over_base": 0.027138742671955998,
+          "lambda_ridge": 1.0,
+          "siteyear": "Y13|banpaku"
+        },
+        {
+          "congen_minus_both_nats_per_plant": -0.007105579781779633,
+          "dist_minus_both_nats_per_plant": -0.017098978960318922,
+          "distance_gain_over_base": 0.04231911938218748,
+          "lambda_ridge": 1.0,
+          "siteyear": "Y13|nature"
+        },
+        {
+          "congen_minus_both_nats_per_plant": -0.017104734223727037,
+          "dist_minus_both_nats_per_plant": -0.12270869595456939,
+          "distance_gain_over_base": 0.15619686127098772,
+          "lambda_ridge": 1.0,
+          "siteyear": "Y11|ootaka"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.18559010169207218,
+          "dist_minus_both_nats_per_plant": 0.05273252323842096,
+          "distance_gain_over_base": 0.09673235825761403,
+          "lambda_ridge": 1.0,
+          "siteyear": "Y11|ootaka2"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.02812157990247329,
+          "dist_minus_both_nats_per_plant": -0.0007884911346995285,
+          "distance_gain_over_base": 0.028463998740138465,
+          "lambda_ridge": 1.0,
+          "siteyear": "Y13|shiga"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.2519788408367679,
+          "dist_minus_both_nats_per_plant": -0.0203676865458517,
+          "distance_gain_over_base": 0.31077523112077604,
+          "lambda_ridge": 1.0,
+          "siteyear": "Y11|toyama"
+        }
+      ]
+    },
+    {
+      "lambda_ridge": 10.0,
+      "mean_distance_gain_over_base": 0.11033694367859419,
+      "mean_extra_congener_beyond_distance": -0.016587983505533036,
+      "n_sites": 6,
+      "n_sites_distance_gain_positive": 6,
+      "n_sites_extra_congener_positive": 2,
+      "siteyear_deltas": [
+        {
+          "congen_minus_both_nats_per_plant": 0.024612356417780763,
+          "dist_minus_both_nats_per_plant": 0.010498979415570452,
+          "distance_gain_over_base": 0.029825261597058374,
+          "lambda_ridge": 10.0,
+          "siteyear": "Y13|banpaku"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.002332190457869119,
+          "dist_minus_both_nats_per_plant": -0.00579690405912602,
+          "distance_gain_over_base": 0.043517230481639406,
+          "lambda_ridge": 10.0,
+          "siteyear": "Y13|nature"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.010491859731710513,
+          "dist_minus_both_nats_per_plant": -0.09767123447120492,
+          "distance_gain_over_base": 0.17436716846518402,
+          "lambda_ridge": 10.0,
+          "siteyear": "Y11|ootaka"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.08992414568104921,
+          "dist_minus_both_nats_per_plant": 0.002594271466788219,
+          "distance_gain_over_base": 0.07423358327425031,
+          "lambda_ridge": 10.0,
+          "siteyear": "Y11|ootaka2"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.028188678068054352,
+          "dist_minus_both_nats_per_plant": -0.0007892417499511107,
+          "distance_gain_over_base": 0.028615083336898012,
+          "lambda_ridge": 10.0,
+          "siteyear": "Y13|shiga"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.2611192590013764,
+          "dist_minus_both_nats_per_plant": -0.00836377163527484,
+          "distance_gain_over_base": 0.31146333491653494,
+          "lambda_ridge": 10.0,
+          "siteyear": "Y11|toyama"
+        }
+      ]
+    },
+    {
+      "lambda_ridge": 100.0,
+      "mean_distance_gain_over_base": 0.0852156418269016,
+      "mean_extra_congener_beyond_distance": 0.0012304336113123854,
+      "n_sites": 6,
+      "n_sites_distance_gain_positive": 6,
+      "n_sites_extra_congener_positive": 3,
+      "siteyear_deltas": [
+        {
+          "congen_minus_both_nats_per_plant": 0.012364380769999874,
+          "dist_minus_both_nats_per_plant": 0.005527804392242837,
+          "distance_gain_over_base": 0.014737539157402384,
+          "lambda_ridge": 100.0,
+          "siteyear": "Y13|banpaku"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.011721940954055337,
+          "dist_minus_both_nats_per_plant": 0.00904151588109928,
+          "distance_gain_over_base": 0.029398974833789213,
+          "lambda_ridge": 100.0,
+          "siteyear": "Y13|nature"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.04827030384924354,
+          "dist_minus_both_nats_per_plant": -0.00581396159136451,
+          "distance_gain_over_base": 0.13407406393388213,
+          "lambda_ridge": 100.0,
+          "siteyear": "Y11|ootaka"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.018265399480196537,
+          "dist_minus_both_nats_per_plant": -0.002083673009789856,
+          "distance_gain_over_base": 0.018173013724311855,
+          "lambda_ridge": 100.0,
+          "siteyear": "Y11|ootaka2"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.028133049846495842,
+          "dist_minus_both_nats_per_plant": -0.000820246855624478,
+          "distance_gain_over_base": 0.029074477912689554,
+          "lambda_ridge": 100.0,
+          "siteyear": "Y13|shiga"
+        },
+        {
+          "congen_minus_both_nats_per_plant": 0.2511856359775318,
+          "dist_minus_both_nats_per_plant": 0.0015311628513110381,
+          "distance_gain_over_base": 0.2858357813993344,
+          "lambda_ridge": 100.0,
+          "siteyear": "Y11|toyama"
+        }
+      ]
+    }
+  ],
+  "same_original_six_sites": true,
+  "status": "PASS",
+  "type": "POSTHOC_FIXED_SUPPORT_RIDGE_SENSITIVITY_NOT_NEW_PRIMARY_MODEL"
+}

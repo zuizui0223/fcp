@@ -1,0 +1,13 @@
+{
+  "checks": 1731,
+  "independent_method": "author-original CR-delimited UTF8 CSV + independent weighted Newton-Hessian logistic + Jeffreys intercept prior + ridge",
+  "max_abs_difference": 1.4490115801679693e-07,
+  "n_folds": 37,
+  "n_independent_heldout_quadrats": 185,
+  "n_latest_named_sites": 6,
+  "not_causal": true,
+  "not_new_field_data": true,
+  "not_new_geographic_site_transfer": true,
+  "source_sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+  "status": "PASS"
+}
