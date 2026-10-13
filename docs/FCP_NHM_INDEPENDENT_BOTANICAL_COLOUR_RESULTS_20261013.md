@@ -1,6 +1,6 @@
 # FCP — Independent NHM botanical flower-colour descriptions do not verify the east rainfall white–blue/purple signal
 
-**Date:** 2026-10-13  /  **Status:** verified original-source GitHub Actions **38404172463 SUCCESS**; this is observational **independently derived colour phenotype**, not independent source climate or an out-of-sample genetic/fitness study. Corresponding FCP Draft PR #191 is outside main. No FCP New Phytologist H1/H2 or historical PR #164/#188–190 effects are changed.
+**Date:** 2026-10-13  /  **Status:** verified original-source GitHub Actions **38405377887 SUCCESS**; this is observational **independently derived colour phenotype**, not independent source climate or an out-of-sample genetic/fitness study. Corresponding FCP Draft PR #191 is outside main. No FCP New Phytologist H1/H2 or historical PR #164/#188–190 effects are changed.
 
 ## Central scientific decision
 
@@ -56,5 +56,11 @@ Critically, the evidence **does not currently justify** saying annual precipitat
 ## Next genuinely independent science
 
 A prospective test needs both **botanically/physically verified organ colour** and **independent species occurrence or sampled population climate data**, ideally across multiple lineages with adequately sampled *white and blue/purple* states. Sampling should pre-fix region, hue definitions, allowed multi-colour species handling, taxonomic matching, photo-quality/missingness rules, the number of distinct genera, and the 4-sector multiplicity family. New colours for the same NHM taxa would not independently replicate the same source.
+
+## Independent original-data verifier — SUCCESS
+
+[Final GitHub Actions #38405377887](https://github.com/zuizui0223/fcp/actions/runs/38405377887) re-downloaded the exact NHM original (17,279,412 bytes and pinned Git blob SHA-1), the FCP site-source archive (pinned SHA-256), and compared the full frozen `result.json` with the source replay. A **second script independently read both sources and recalculated 30 non-HOLD region×support×weight coefficients by direct species-row weighted least-squares**; 2 additional conditions were correctly marked predeclared HOLD. Maximum coefficient difference **8.33e-16 probability units**; synthetic tests 6/6 passed. The bootstrap 95% CI draws were **not independently resimulated** by this verification script; source-replay and frozen numerical output were compared by the GitHub workflow.
+
+Artifact **11818501773**, GitHub Actions archive SHA256 **12e1889f7e3d8518e19f7d5228de4db68e1e877e91b5c1a65e60513b2119befc**. No new independent biological sample was generated.
 
 Source: [NHM data portal](https://data.nhm.ac.uk/dataset/angiosperm-functional-traits-extracted-from-botanical-descriptions); [original GitHub data](https://github.com/NaturalHistoryMuseum/plant-traits); [FCP original geographic hue PR #189](https://github.com/zuizui0223/fcp/pull/189), [PR #190 genus leverage](https://github.com/zuizui0223/fcp/pull/190). All statistics are conditional observational estimates and source-verified in the new Actions result JSON.
