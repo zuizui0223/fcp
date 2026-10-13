@@ -7,7 +7,10 @@ on:
     paths:
       - scripts/analysis/audit_independent_nhm_colour_rain_20261013.py
       - tests/test_independent_nhm_20261013.py
+      - scripts/analysis/verify_independent_nhm_colour_rain_20261013.py
       - docs/FCP_NHM_INDEPENDENT_BOTANICAL_COLOUR_PROTOCOL_20261013.md
+      - docs/FCP_NHM_INDEPENDENT_BOTANICAL_COLOUR_RESULTS_20261013.md
+      - results/fcp_nhm_independent_colour_20261013/**
       - .github/workflows/fcp-nhm-botanical-colour-rain-20261013.yml
   workflow_dispatch:
 
@@ -72,6 +75,13 @@ jobs:
             --fcp-original-source /tmp/fcp_all_original_photo_sites.zip \
             --bootstrap 999 \
             --outdir /tmp/fcp_nhm_independent_botanical
+      - name: Independently refit source phenotype climate relations without importing main estimator
+        run: |
+          python scripts/analysis/verify_independent_nhm_colour_rain_20261013.py \
+            --nhm-csv /tmp/nhm_original_botanical_combined.csv \
+            --fcp-original-source /tmp/fcp_all_original_photo_sites.zip \
+            --result /tmp/fcp_nhm_independent_botanical/result.json \
+            --out /tmp/fcp_nhm_independent_botanical/independent_verification.json
       - name: Scientific support gates, source integrity, no favourable-result-only reporting
         run: |
           python - <<'PY'
@@ -83,6 +93,9 @@ jobs:
           assert z['NHM_source_git_blob_sha1']=='e1cfd2d5c518c2061ec91d1a9e8b64fc7ca69389'
           assert z['original_photo_opportunity']['source_photo_ids']==100543
           assert z['original_photo_opportunity']['source_taxa']==42111
+          assert z['original_photo_opportunity']['source_full_photo_site_climate_opportunities']==100255
+          assert z['overlap']['botanically_labeled_species']==2476
+          assert z['overlap']['original_photo_rows']==8120
           assert len(z['spatial_strata'])==4
           for k,v in z['spatial_strata'].items():
               assert set(v)=={'equal_species','equal_genera'}
@@ -94,7 +107,28 @@ jobs:
                       assert all(s['status']=='OK' for s in q['sectors'])
                       assert all(len(s['estimate']['maxT_4sector_CI95'])==2 for s in q['sectors'])
                   else: assert q['status']=='HOLD_COMPLETE_4SECTOR_FAMILY'
-          print('PASS original source contract; full 4-sector decisions with strict HOLD gates; no FCP image colour labels used')
+          independent=json.loads(Path('/tmp/fcp_nhm_independent_botanical/independent_verification.json').read_text())
+          assert independent['status']=='PASS'
+          assert independent['verified_foursector_weighting_support_cells']==32
+          assert independent['independent_recomputed_regression_contrasts']+independent['held_non_fit_sectors']==32
+          assert independent['max_abs_estimate_difference'] < 1e-9
+          frozen=json.loads(Path('results/fcp_nhm_independent_colour_20261013/result.json').read_text())
+          numeric=0
+          import math
+          def compare(a,b,where='root'):
+              global numeric
+              if isinstance(a,dict):
+                  assert isinstance(b,dict) and set(a)==set(b),where
+                  for key in a:compare(a[key],b[key],where+'/'+str(key))
+              elif isinstance(a,list):
+                  assert isinstance(b,list) and len(a)==len(b),where
+                  for i,(x,y) in enumerate(zip(a,b)):compare(x,y,where+'/'+str(i))
+              elif isinstance(a,(int,float)) and not isinstance(a,bool):
+                  assert math.isclose(a,b,rel_tol=0,abs_tol=1e-9),(where,a,b)
+                  numeric+=1
+              else:assert a==b,(where,a,b)
+          compare(z,frozen)
+          print('PASS original source, 32 support cells, 30 independent regressions, and',numeric,'locked numerical JSON values; no iNat photo hue as outcome')
           PY
       - uses: actions/upload-artifact@v4
         with:
