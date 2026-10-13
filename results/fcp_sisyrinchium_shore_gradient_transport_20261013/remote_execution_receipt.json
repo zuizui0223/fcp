@@ -1,0 +1,116 @@
+{
+  "all_six_sites_same_original_2016_study": true,
+  "date": "2026-10-13",
+  "files": [
+    {
+      "bytes": 127502,
+      "file": "source/Sisyrinchium_data.zip",
+      "sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+      "source_byte_identical": true
+    },
+    {
+      "bytes": 117666,
+      "file": "source/parent_result.json",
+      "sha256": "7745ab3018eb00a1939b9433effb201e1c9cc37034f2a4c2ae8a588e3c2b23ce",
+      "source_byte_identical": true
+    },
+    {
+      "bytes": 21572,
+      "file": "source/parent_predictions.csv",
+      "sha256": "49462e9b1ca377f94b0bb87f58a74b87c600df187fdd5e1337ffa8ce2ebff5c7",
+      "source_byte_identical": true
+    },
+    {
+      "exact": false,
+      "file": "results/result.json",
+      "numerically_verified": true,
+      "remote_sha256": "8c3a8183fceb93de36369a2c44137c7468a97105344b47bc59d500dd48df2f80",
+      "source_sha256": "e874aadcccc296e1937c5311fce81df9e477613559537fac7579779de2662baa"
+    },
+    {
+      "exact": false,
+      "file": "results/posthoc_distance_scale.json",
+      "numerically_verified": true,
+      "remote_sha256": "b5164a73610209cc998a0b51656482238f9a8391cbf7879438c11c51bb8df4a6",
+      "source_sha256": "a3b18b718e8f341a09616bf38f5089d67fd1d6450971f603d55aae2faeb62881"
+    },
+    {
+      "exact": false,
+      "file": "results/independent_verification.json",
+      "numerically_verified": true,
+      "remote_sha256": "30f491800b4b7498971e08475f1f75edc8041dd89cc11c3ca669344ab7d62e3e",
+      "source_sha256": "33f8a1a644418c9f4f25f7d8788daccbd81935462a71a715e42729e530a226d1"
+    },
+    {
+      "exact": false,
+      "file": "results/named_site_transfer_scores.csv",
+      "numerically_verified": true,
+      "remote_sha256": "483835602ad56287476c607e91244412e57f181a04af2997dab577ecb3679cdc",
+      "source_sha256": "32783c34a04519a65cb9fd30299d623a2641df323c87dcc48887806074175d0c"
+    },
+    {
+      "exact": false,
+      "file": "results/borrowed_line_predictions.csv",
+      "numerically_verified": true,
+      "remote_sha256": "0727ecf82289fc7a8f6785e51658396955e0a38e784f2c3d747dbc38bb01439d",
+      "source_sha256": "e6f16876c605d18b52a92956aa35f3fd8c5a1fb1b5cf662c981a6ae517a0e2e8"
+    },
+    {
+      "exact": false,
+      "file": "results/outer_site_and_inner_line_fit_ledger.csv",
+      "numerically_verified": true,
+      "remote_sha256": "391c6e2efed3f1b3c51fcead977bbbad23053b154815e51dadbedb779924b6cf",
+      "source_sha256": "64e027aab6351dc8fbea13156a7842e7b4e4cedf2e7475cc2d73159e1d5ffda0"
+    },
+    {
+      "exact": false,
+      "file": "results/site_deletion_transfer_sensitivity.csv",
+      "numerically_verified": true,
+      "remote_sha256": "d10c7cd2b78b98f97f402e6538d50d5b55d2791c17b4e197aeb761d63e80949b",
+      "source_sha256": "20a361b0540563ac781ba4af70c664f145a90d1eb97a74c72db0a11012b65b5a"
+    },
+    {
+      "exact": false,
+      "file": "results/posthoc_distance_scale_predictions.csv",
+      "numerically_verified": true,
+      "remote_sha256": "466ae882e52c9f927acee6a9584f59a369f1ccb5882671e64e19a0cb1cf49b2c",
+      "source_sha256": "cc072ec61a7107454470b349af26bbb53883973bc9dfd51a5064b6bc7e0913c6"
+    },
+    {
+      "exact": true,
+      "file": "docs/full_site_distance_slopes.png",
+      "sha256": "b2326885c625179947af3941393f97db12e27fa22e870874c226f3168833b8c7"
+    },
+    {
+      "exact": true,
+      "file": "docs/heldout_cross_site_gradient_transport.png",
+      "sha256": "d7c4dd721cc5173d8b57eae0ef91249b380bc54b8734072aa4720eb048502ec9"
+    }
+  ],
+  "focused_tests_passed": 16,
+  "github_actions_source_hashes_exact": true,
+  "github_pr": 186,
+  "github_pr_run": 38367980019,
+  "github_push_job": 115196889358,
+  "github_push_run": 38367758188,
+  "hard_limits": [
+    "No new or independent field sampling",
+    "Six selected named sites are not random evolutionary replicates",
+    "No causal attribution to water, congener interference, selection or genetic differentiation",
+    "Transferred slope excludes target site, but target intercept trained from target other lines",
+    "Floating-point final results numerically equivalent but not byte-exact across execution environments"
+  ],
+  "local_vs_remote_max_absolute_numeric_difference": 3.1646907316940087e-13,
+  "local_vs_remote_recursive_or_csv_checks": 10231,
+  "not_exact_byte_output_same": true,
+  "posthoc_standardized_diagnostic_not_primary": true,
+  "remote_artifact_id": 11797493503,
+  "remote_artifact_sha256": "2ee07238f26a7cc1f92cb719f074d5819d21f081b7549cd82c0ac802530175c6",
+  "remote_artifact_size_bytes": 334504,
+  "schema": "fcp_sisyrinchium_shoreline_gradient_transport_remote_execution_audit_v1",
+  "scientific_commit": "0656a88c6ee13eed4d8d71056d431d39746f2429",
+  "separate_independent_newton_checks_passed": 1112,
+  "source_original_2016_field_study_only": true,
+  "status": "PASS",
+  "whole_repo_pytest_not_run": true
+}
