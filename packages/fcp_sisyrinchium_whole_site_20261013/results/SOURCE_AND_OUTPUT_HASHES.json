@@ -1,0 +1,30 @@
+{
+  "data_doi": "10.5061/dryad.j8q34",
+  "date_jst": "2026-10-13",
+  "frozen_outputs": {
+    "results/independent_verification.json": "ec72e0d10b0ad0534283512a9b1c49c6fa0c9a838479d958d72501d6ff894daf",
+    "results/predictions.csv": "ab07b0c4a7deaec6ca9002369e10d3f31dd06df0103aa3e6f04c2366b6b63cc8",
+    "results/result.json": "9f33859e075a22216858a3d56ad1fb1371e07e268229e2888829b80a0af2f413",
+    "results/sensitivity_site.csv": "9b6162c74eade85fbc7480b58717115250263f94ad6340442a56d7e07263aaab",
+    "results/site_name_leakage_audit.json": "e1773b21a07ff1f2f740efd22360d8c9ec8a023b680024198ff2c44ff9e8b4a6",
+    "results/site_scores.csv": "96d71d655e18ca24836d0d35824f298ea36818704528e2f84ed514e75aba9d35"
+  },
+  "main_parent_pr": 185,
+  "no_population_samples_generated": true,
+  "original_paper_doi": "10.1371/journal.pone.0164381",
+  "pinned_sources_and_code": {
+    "PROTOCOL.md": "81131462ee9c722fe0a125ba4b986ed40ba3b84bd91e9a6dd7939303347c3761",
+    "README.md": "634269d7683d497075fd87a098649ad429bd2870e2b0c21c0825009e7fa84eb3",
+    "docs/REPORT_JA.md": "a57439b7a1d3b83b5a0e97eeada7811e7534a8270fc13185d3a2ce8bc77c8976",
+    "parent/results/result.json": "7745ab3018eb00a1939b9433effb201e1c9cc37034f2a4c2ae8a588e3c2b23ce",
+    "parent/source/Sisyrinchium_data.zip": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+    "parent/src/predictive.py": "caf2001ac919702df970d3a1b8e5490f24b0ac72e6ecf8ea361372252bdcb146",
+    "requirements-lock.txt": "593c510ee8af7799985831f334d55681312656f53b1f2a006aa58e83c0e36888",
+    "src/make_figures.py": "56a8340b68d8c417c03316f3f4e357fbc6be2895f1a0301f82783b62e4da8fdf",
+    "src/transfer.py": "7240641d0063e86b1bd00a7d1e90f526f4814f0fc242f1220e0ce474e9dc5a29",
+    "src/verify_independent.py": "abf72d64aaaa75ee5f624c6b3fd621e885d9a656fa2ce59b520bdce5a753c0b8",
+    "tests/test_transfer.py": "b9a504e3484832ebb808d739ce0e9082c2fe4283e8222e7de7fb8d2d61c16e9b"
+  },
+  "schema": "fcp_sisyrinchium_whole_site_transfer_identity_v1",
+  "zenodo_mirror_record": 5003124
+}

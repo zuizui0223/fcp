@@ -1,0 +1,113 @@
+name: FCP Sisyrinchium leave-entire-field-site-out transfer
+on:
+  push:
+    branches:
+      - analysis/fcp-sisyrinchium-leave-site-out-transfer-20261013
+  pull_request:
+    paths:
+      - 'packages/fcp_sisyrinchium_whole_site_20261013/**'
+      - 'docs/FCP_SISYRINCHIUM_LEAVE_WHOLE_SITE_OUT_TRANSFER_PROTOCOL_20261013.md'
+      - '.github/workflows/fcp-whole-site-transfer-20261013.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-site-holdout:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned reproducibility requirements for the scope
+        run: python -m pip install -r packages/fcp_sisyrinchium_whole_site_20261013/requirements-lock.txt
+      - name: Retrieve original Zenodo mirror with original Dryad DOI and unmodified checksums
+        run: |
+          ROOT=packages/fcp_sisyrinchium_whole_site_20261013
+          mkdir -p "$ROOT/parent/results" "$ROOT/parent/src" "$ROOT/parent/source"
+          cp packages/fcp_sisyrinchium_heldout_line_20261013/results/result.json "$ROOT/parent/results/result.json"
+          cp packages/fcp_sisyrinchium_heldout_line_20261013/src/predictive.py "$ROOT/parent/src/predictive.py"
+          python packages/fcp_sisyrinchium_line_20261013/src/recover_original_sources.py --outdir "$ROOT/parent/source"
+      - name: Verify original plant counts and frozen parent source/analysis code identities
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,zipfile
+          r=Path('packages/fcp_sisyrinchium_whole_site_20261013')
+          manifest=json.loads((r/'results/SOURCE_AND_OUTPUT_HASHES.json').read_text())
+          for p,expected in manifest['pinned_sources_and_code'].items():
+              data=(r/p).read_bytes()
+              got=hashlib.sha256(data).hexdigest()
+              assert got==expected,(p,got,expected)
+          original=(r/'parent/source/Sisyrinchium_data.zip').read_bytes()
+          assert len(original)==127502
+          assert hashlib.md5(original).hexdigest()=='008ec196aa5acb769dbfd36e835e32ba'
+          with zipfile.ZipFile(r/'parent/source/Sisyrinchium_data.zip') as z:
+              assert z.testzip() is None
+              assert hashlib.sha256(z.read('data/frequency.txt')).hexdigest()=='a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e'
+          print('IDENTITY_AND_ORIGINAL_SOURCE_PASS',len(manifest['pinned_sources_and_code']))
+          PY
+      - name: Twelve field-unit and site-name isolation tests
+        run: python -m pytest -q packages/fcp_sisyrinchium_whole_site_20261013/tests
+      - name: Refit all six whole-site-out comparisons with no source-site labels in training
+        run: |
+          ROOT=packages/fcp_sisyrinchium_whole_site_20261013
+          python "$ROOT/src/transfer.py" --archive "$ROOT/parent/source/Sisyrinchium_data.zip" --parent "$ROOT/parent/results/result.json" --parent-code "$ROOT/parent/src/predictive.py" --outdir "$ROOT/replayed"
+          python "$ROOT/src/verify_independent.py" --archive "$ROOT/parent/source/Sisyrinchium_data.zip" --parent "$ROOT/parent/results/result.json" --result "$ROOT/replayed/result.json" --out "$ROOT/replayed/independent_verification.json"
+          python "$ROOT/src/make_figures.py" --root "$ROOT"
+      - name: Compare frozen science with independent replay without masking numeric drift
+        run: |
+          python - <<'PY'
+          import json,math,hashlib
+          from pathlib import Path
+          root=Path('packages/fcp_sisyrinchium_whole_site_20261013')
+          frozen=json.loads((root/'results/result.json').read_text())
+          replay=json.loads((root/'replayed/result.json').read_text())
+          checks=[0];maxdiff=[0.0]
+          def compare(a,b,path='result'):
+              checks[0]+=1
+              if isinstance(a,dict):
+                  assert isinstance(b,dict) and set(a)==set(b),('JSON_KEY_DIFF',path)
+                  for k in a:compare(a[k],b[k],path+'/'+str(k))
+              elif isinstance(a,list):
+                  assert isinstance(b,list) and len(a)==len(b),('JSON_LENGTH_DIFF',path)
+                  for i,(x,y) in enumerate(zip(a,b)):compare(x,y,path+f'/{i}')
+              elif isinstance(a,bool) or isinstance(b,bool):
+                  assert type(a) is type(b) is bool and a==b,('BOOL_DIFF',path)
+              elif type(a) in (int,float) and type(b) in (int,float):
+                  assert math.isfinite(a) and math.isfinite(b)
+                  d=abs(a-b);maxdiff[0]=max(maxdiff[0],d)
+                  assert math.isclose(a,b,rel_tol=1e-8,abs_tol=1e-8),('NUMERIC_DRIFT',path,a,b)
+              else:assert a==b,('LABEL_DIFF',path,a,b)
+          compare(frozen,replay)
+          old=json.loads((root/'parent/results/result.json').read_text())
+          assert len(old['selected_latest'])==6
+          assert len(replay['predictions'])==168 and replay['main']['n_plants_scored']==6692
+          assert replay['original_source_qa']['n_quadrats']==512
+          assert replay['protocol']['whole_site_name_withheld'] and not replay['protocol']['new_external_sites']
+          assert all(x['source_locs_exactly_holdout'] for x in replay['site_name_leakage_audit'])
+          verifier=json.loads((root/'replayed/independent_verification.json').read_text())
+          assert verifier['status']=='PASS' and verifier['compared_newton_results']==1776 and verifier['max_abs_difference']<1e-8
+          check=dict(status='PASS',original_source_sha256=hashlib.sha256((root/'parent/source/Sisyrinchium_data.zip').read_bytes()).hexdigest(),
+                     source_study_count=1,n_named_heldout_sites=6,n_scored_quadrats=168,n_scored_M_plants=6692,
+                     frozen_replay_compared_entries=checks[0],maximum_numerical_difference=maxdiff[0],
+                     original_frozen_json_byte_identical=(root/'results/result.json').read_bytes()==(root/'replayed/result.json').read_bytes(),
+                     independent_checks=verifier['compared_newton_results'],independent_max_difference=verifier['max_abs_difference'],
+                     main_distance_gain=replay['main']['gain_distance'],
+                     main_congener_only_loss=replay['main']['losses']['CONGEN'],
+                     same_observational_source_not_new_external_ecology=True,
+                     full_repository_test_suite_not_run=True,calibrated_hypothesis_p_values_not_reported=True)
+          (root/'replayed/remote_replay_receipt.json').write_text(json.dumps(check,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(check,ensure_ascii=False))
+          PY
+      - name: Upload inspectable source-authenticated site-holdout evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-sisyrinchium-whole-site-transfer-20261013
+          retention-days: 60
+          path: |
+            packages/fcp_sisyrinchium_whole_site_20261013/parent/source/
+            packages/fcp_sisyrinchium_whole_site_20261013/replayed/
+            packages/fcp_sisyrinchium_whole_site_20261013/results/
+            packages/fcp_sisyrinchium_whole_site_20261013/docs/*.png
