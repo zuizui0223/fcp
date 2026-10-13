@@ -129,3 +129,15 @@ def test_standalone_independent_newton_verifier_reads_original():
     v=module.verify(ROOT)
     assert v['status']=='PASS' and v['checks']>=1700
     assert v['max_abs_difference'] < 2e-7
+
+
+def test_exact_hessian_newton_polish_recovers_numerical_optimizer():
+    from predictive import hessian_newton_polish
+    x=np.array([[-1.0,0.0],[0.2,1.1],[1.4,-0.3],[0.9,1.1]],dtype=float)
+    n=np.array([100,300,240,80],float)
+    v=np.array([1,45,200,10],float)
+    rough=np.array([-0.4,0.2,0.1],float)
+    refined=hessian_newton_polish(rough,x,n,v,lam=10)
+    assert np.all(np.isfinite(refined))
+    assert np.max(np.abs(ridge_objective_gradient(refined,x,n,v,lam=10)[1])) < 1e-6
+    assert ridge_objective_gradient(refined,x,n,v,lam=10)[0] <= ridge_objective_gradient(rough,x,n,v,lam=10)[0]

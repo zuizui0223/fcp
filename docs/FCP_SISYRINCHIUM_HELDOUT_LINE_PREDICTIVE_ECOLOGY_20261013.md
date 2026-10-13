@@ -45,9 +45,9 @@ PLOS原著は、他の白花種L/Sが多い場所ではM紫花型が多いとい
 ## 実行・検証
 
 - 解析：`python src/predictive.py --source source/Sisyrinchium_data.zip --outdir results`
-- 独立再計算：`python src/verify_independent.py --root .`。元ZIPから独自にテキストを読み、解析本体をimportせず、解析本体BFGSとは別のNewton/Hessian推定器で37の除外線・185予測調査区を再計算。独立照合**1,731項目PASS**、最大予測確率差 **1.449×10⁻⁷**。原資料自体の別の野外観察ではない。
+- 独立再計算：`python src/verify_independent.py --root .`。元ZIPから独自にテキストを読み、解析本体をimportせず、解析本体BFGSとは別のNewton/Hessian推定器で37の除外線・185予測調査区を再計算。初回遠隔CIでは一部のBFGSが数値精度不足で停止したため、**同じ固定尤度の解析的HessianによるNewton精密化をBFGS後に加えた**。追加の生態学的パラメータを最適化したのではなく、複数実行環境で同じ推定解を得る修正である。独立照合**1,731項目PASS**、最大予測確率差 **9.961×10⁻¹¹**。原資料自体の別の野外観察ではない。
 - 固定λとは別の探索的感度：`python src/regularization_sensitivity.py --root .`
-- テスト：`python -m pytest -q tests/test_predictor.py`、**11件PASS**。オリジナルMD5/SHA256、不適切な花色分母、重複キー、訓練評価の混合、勾配の解析的照合、任意の観測区を勝手にゼロにしない検証、同一入力の完全再計算を含む。
+- テスト：`python -m pytest -q tests/test_predictor.py`、**12件PASS**。オリジナルMD5/SHA256、不適切な花色分母、重複キー、訓練評価の混合、勾配の解析的照合、任意の観測区を勝手にゼロにしない検証、同一入力の完全再計算を含む。
 - 図：`python src/plot.py --root .`。元の出版データを使用し、その他の写真や架空の植物個体は使っていない。
 
 新規フィールドワーク、種を跨ぐ一般則、原著の生殖干渉機構の反証、全リポジトリのテスト成功を主張しない。主論文H1/H2・PR170–184と予約済み分類を変更しない。分離したDraft PRとして保持。

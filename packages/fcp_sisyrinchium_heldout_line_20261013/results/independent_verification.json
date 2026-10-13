@@ -1,7 +1,7 @@
 {
   "checks": 1731,
   "independent_method": "author-original CR-delimited UTF8 CSV + independent weighted Newton-Hessian logistic + Jeffreys intercept prior + ridge",
-  "max_abs_difference": 1.4490115801679693e-07,
+  "max_abs_difference": 9.960920976936904e-11,
   "n_folds": 37,
   "n_independent_heldout_quadrats": 185,
   "n_latest_named_sites": 6,

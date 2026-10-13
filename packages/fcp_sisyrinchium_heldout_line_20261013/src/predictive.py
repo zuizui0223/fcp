@@ -67,6 +67,34 @@ def ridge_objective_gradient(theta,X,n,v,lam=10.0):
     return float(objective),grad
 
 
+
+def hessian_newton_polish(theta,X,n,v,lam=10.0):
+    """Refine the same convex binomial objective after numerical BFGS precision loss.
+
+    No changes to source selection, features, penalties, evaluation, or heldout data.
+    The Hessian is strictly positive-definite from regularization plus pseudo-prior.
+    """
+    theta=np.asarray(theta,dtype=float).copy()
+    design=np.column_stack([np.ones(len(n)),X])
+    for _ in range(40):
+        original,grad=ridge_objective_gradient(theta,X,n,v,lam)
+        if np.max(np.abs(grad))<=1e-8:
+            break
+        q=expit(design@theta)
+        hessian=design.T@(design*(n*q*(1-q))[:,None])
+        hessian[0,0]+=expit(theta[0])*(1-expit(theta[0]))
+        hessian[1:,1:]+=np.eye(len(theta)-1)*lam
+        step=np.linalg.solve(hessian,grad)
+        alpha=1.0
+        while alpha>=2**(-24) and ridge_objective_gradient(theta-alpha*step,X,n,v,lam)[0]>original+1e-11:
+            alpha*=0.5
+        theta-=alpha*step
+    _,grad=ridge_objective_gradient(theta,X,n,v,lam)
+    if not np.all(np.isfinite(theta)) or np.max(np.abs(grad))>1e-6:
+        raise RuntimeError('NEWTON_SAME_OBJECTIVE_REFINEMENT_FAILED')
+    return theta
+
+
 def fit_binomial(train,test,features,lam=10.0):
     if not train or not test:raise ValueError('EMPTY_TRAIN_OR_TEST')
     vn=np.array([x['v'] for x in train],dtype=float)
@@ -85,20 +113,15 @@ def fit_binomial(train,test,features,lam=10.0):
     X[:,~identifiable]=0
     Xt[:,~identifiable]=0
     initial=np.r_[math.log(base/(1-base)),np.zeros(len(features))]
-    # An accurate BFGS minimizer can report precision loss on large binomial sums
-    # even with a nearly vanishing gradient. Retrying at its own last point
-    # refines the *same* fixed objective (no tuning or test data used).
-    for _ in range(3):
-        res=minimize(ridge_objective_gradient,initial,args=(X,n,vn,lam),method='BFGS',jac=True,
-                     options={'gtol':1e-8,'maxiter':1000})
-        initial=res.x
-        if not np.all(np.isfinite(res.x)):
-            raise RuntimeError('NONFINITE_BFGS_SOLUTION')
-        if np.max(np.abs(ridge_objective_gradient(res.x,X,n,vn,lam)[1]))<=1e-5:
-            break
-    if np.max(np.abs(ridge_objective_gradient(res.x,X,n,vn,lam)[1]))>1e-5:
-        raise RuntimeError('NONCONVERGENT_RIDGE_BINOMIAL_FIT '+str(res.message))
-    q=expit(res.x[0]+Xt@res.x[1:])
+    # BFGS can signal precision loss on high-count folds even when the fitted
+    # objective is correct. An analytic Hessian Newton polish refines the SAME
+    # fixed penalized likelihood, using training quadrats only, across runners.
+    res=minimize(ridge_objective_gradient,initial,args=(X,n,vn,lam),method='BFGS',jac=True,
+                 options={'gtol':1e-8,'maxiter':1000})
+    if not np.all(np.isfinite(res.x)):
+        raise RuntimeError('NONFINITE_BFGS_SOLUTION')
+    theta=hessian_newton_polish(res.x,X,n,vn,lam)
+    q=expit(theta[0]+Xt@theta[1:])
     if not np.all(np.isfinite(q)):raise ValueError('NONFINITE_HELDOUT_PROBABILITY')
     return np.clip(q,.01,.99)
 
