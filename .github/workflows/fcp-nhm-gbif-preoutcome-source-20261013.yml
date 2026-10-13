@@ -1,0 +1,83 @@
+name: FCP independent botanical specimen candidates — pre-GBIF freeze
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-nhm-independent-flower-colour-20261013
+    paths:
+      - scripts/analysis/freeze_nhm_gbif_manifest_20261013.py
+      - tests/test_nhm_gbif_manifest_20261013.py
+      - docs/FCP_GBIF_PRESERVED_BOTANICAL_PREOUTCOME_20261013.md
+      - .github/workflows/fcp-nhm-gbif-preoutcome-source-20261013.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-nhm-external-gbif-manifest-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NHM_SOURCE_URL: https://raw.githubusercontent.com/NaturalHistoryMuseum/plant-traits/4843c22bb2fc91018d9828dcddebf067c83b1097/output/raw/ocr-traits/combined.csv
+  NHM_SIZE: "17279412"
+  NHM_GIT_BLOB: "e1cfd2d5c518c2061ec91d1a9e8b64fc7ca69389"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+
+jobs:
+  source-preoutcome-manifest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install frozen extraction/test dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 pytest==8.4.2
+      - name: Recheck deterministic colour-label-only genus selection
+        run: |
+          python -m pytest -q tests/test_nhm_gbif_manifest_20261013.py
+          python -m pytest -q tests/test_independent_nhm_20261013.py
+      - name: Retrieve original independent botanical trait CSV (no GBIF request)
+        run: |
+          set -euo pipefail
+          curl --fail --location --show-error --retry 3 --retry-delay 2 \
+            --output /tmp/nhm_original_combined.csv "$NHM_SOURCE_URL"
+          test "$(wc -c < /tmp/nhm_original_combined.csv)" = "$NHM_SIZE"
+          test "$(git hash-object /tmp/nhm_original_combined.csv)" = "$NHM_GIT_BLOB"
+      - name: Freeze source manifest without using GBIF occurrences or FCP photographs
+        run: |
+          python scripts/analysis/freeze_nhm_gbif_manifest_20261013.py \
+            --nhm-source /tmp/nhm_original_combined.csv \
+            --outdir /tmp/fcp_external_specimen_preoutcome
+      - name: Fail-closed source and taxon identity receipts
+        run: |
+          python - <<'PY'
+          import hashlib,json,pandas as pd
+          from pathlib import Path
+          p=Path('/tmp/fcp_external_specimen_preoutcome')
+          r=json.loads((p/'preflight.json').read_text())
+          q=pd.read_csv(p/'frozen_selected_taxa.csv',dtype=str)
+          assert r['schema']=='fcp_independent_preserved_specimen_preoutcome_taxa_v1'
+          assert r['nhm_source_git_blob_sha1']=='e1cfd2d5c518c2061ec91d1a9e8b64fc7ca69389'
+          assert r['nhm_trait_coverage']['source_rows']==59369
+          assert r['candidate_genera_with_at_least_three_each_hue']>=0
+          assert r['selected_genera']<=96
+          assert r['selected_species']==len(q)
+          assert r['selection_uses_gbif_occurrences'] is False
+          assert r['uses_fcp_occurrence_or_photo_colour'] is False
+          assert q.canonical_name.is_unique
+          assert hashlib.sha256((p/'frozen_selected_taxa.csv').read_bytes()).hexdigest()==r['manifest_sha256']
+          if len(q):
+            assert q.groupby('genus').botanical_colour.nunique().eq(2).all()
+            assert q.groupby('genus').size().le(8).all()
+          print('PASS exact independent NHM source and outcome-blind-to-GBIF species manifest')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-external-nhm-specimen-taxon-freeze-20261013
+          path: /tmp/fcp_external_specimen_preoutcome/
+          retention-days: 60
+          if-no-files-found: error

@@ -1,0 +1,34 @@
+{
+  "schema": "fcp_independent_preserved_specimen_preoutcome_taxa_v1",
+  "nhm_source_size_bytes": 17279412,
+  "nhm_source_git_blob_sha1": "e1cfd2d5c518c2061ec91d1a9e8b64fc7ca69389",
+  "nhm_trait_coverage": {
+    "source_rows": 59369,
+    "strict_binomial_rows": 59369,
+    "strict_binomial_unique_names": 59369,
+    "botanical_label_rows": {
+      "HOLD": 39205,
+      "OTHER": 10579,
+      "white": 6005,
+      "blue_purple": 3580
+    },
+    "ambiguous_conflicted_duplicate_names": 0
+  },
+  "manifest_sha256": "f859bd83deb8eda50cd6527fb399cecf821a38718775fd1bdd5883f7d2be6758",
+  "selection_salt": "FCP_EXTERNAL_GBIF_BOTANICAL_PRESERVED_20261013_v1",
+  "candidate_genera_with_at_least_three_each_hue": 92,
+  "selected_genera": 92,
+  "selected_species": 705,
+  "selected_botanical_colour_counts": {
+    "white": 356,
+    "blue_purple": 349
+  },
+  "max_genera": 96,
+  "per_colour_cap": 4,
+  "minimum_each_hue_per_genus": 3,
+  "uses_fcp_occurrence_or_photo_colour": false,
+  "selection_uses_gbif_occurrences": false,
+  "prior_gbif_api_feasibility_test": "Campanula punctata only; no candidate identity, environment or hue used to select manifest",
+  "source_independence": "NHM botanical description; no FCP photo identities, observed sites or palette labels",
+  "inference_ceiling": "Not prospective relative to the earlier outcome-exposed east white-blue hypothesis"
+}
