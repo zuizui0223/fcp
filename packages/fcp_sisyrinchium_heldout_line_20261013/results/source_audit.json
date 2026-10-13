@@ -1,0 +1,88 @@
+{
+  "M_absent_quadrats": 126,
+  "M_present_unknown_distance_quadrats": 2,
+  "M_purple": 5081,
+  "M_white": 8723,
+  "does_not_predict_new_geographic_site": true,
+  "does_not_randomize_ecological_placement": true,
+  "eligible_siteyears": [
+    "Y11|nature",
+    "Y11|ootaka",
+    "Y11|ootaka2",
+    "Y11|toyama",
+    "Y13|banpaku",
+    "Y13|nature",
+    "Y13|shiga"
+  ],
+  "hold_reasons": {
+    "Y11|otto": [
+      "FEWER_THAN_THREE_MULTIPLOT_LINES",
+      "NO_WATER_DISTANCE_VARIATION",
+      "FEWER_THAN_THREE_TRAINABLE_LEFT_OUT_LINES"
+    ],
+    "Y11|otto2": [
+      "NO_CONGENER_COVARIATE_OVERLAP"
+    ],
+    "Y11|takeda": [
+      "LOW_OR_MONOMORPH_M_COUNTS",
+      "FEWER_THAN_THREE_TRAINABLE_LEFT_OUT_LINES"
+    ],
+    "Y13|chitei": [
+      "NO_CONGENER_COVARIATE_OVERLAP"
+    ],
+    "Y13|hirose": [
+      "FEWER_THAN_THREE_MULTIPLOT_LINES",
+      "FEWER_THAN_THREE_TRAINABLE_LEFT_OUT_LINES"
+    ],
+    "Y13|ibusuki": [
+      "NO_CONGENER_COVARIATE_OVERLAP"
+    ],
+    "Y13|kawaguchi": [
+      "LOW_OR_MONOMORPH_M_COUNTS",
+      "NO_CONGENER_COVARIATE_OVERLAP",
+      "FEWER_THAN_THREE_TRAINABLE_LEFT_OUT_LINES"
+    ],
+    "Y13|ootaka2": [
+      "FEWER_THAN_THREE_MULTIPLOT_LINES",
+      "FEWER_THAN_THREE_TRAINABLE_LEFT_OUT_LINES"
+    ],
+    "Y13|otto2": [
+      "LOW_OR_MONOMORPH_M_COUNTS",
+      "NO_CONGENER_COVARIATE_OVERLAP",
+      "FEWER_THAN_THREE_TRAINABLE_LEFT_OUT_LINES"
+    ]
+  },
+  "hypothesis_is_retrospective_source_exposed": true,
+  "main_heldout_lines": 32,
+  "main_scored_M_plants": 6692,
+  "main_scored_quadrats": 168,
+  "method": "Leave entire original recorded line out; train only on other lines within identical site/year",
+  "named_populations": 13,
+  "not_independent_new_field_study": true,
+  "original_public_data": {
+    "archive_bytes": 127502,
+    "archive_sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+    "article_doi": "10.1371/journal.pone.0164381",
+    "authors": "Takahashi, Takakura, and Kawata (2016)",
+    "dryad_doi": "10.5061/dryad.j8q34",
+    "frequency_member_original_line_endings": "CR only; transformed to LF only in memory for CSV parsing",
+    "frequency_member_sha256": "a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e",
+    "legitimate_Zenodo_original_archive": "https://zenodo.org/records/5003124",
+    "license": "CC0-1.0",
+    "md5": "008ec196aa5acb769dbfd36e835e32ba"
+  },
+  "other_white_species_L": 4463,
+  "other_white_species_S": 29,
+  "primary_latest": [
+    "Y13|banpaku",
+    "Y13|nature",
+    "Y11|ootaka",
+    "Y11|ootaka2",
+    "Y13|shiga",
+    "Y11|toyama"
+  ],
+  "schema": "fcp_sisyrinchium_original_frequency_and_heldout_scope_v1",
+  "siteyear_records": 16,
+  "source_rows": 512,
+  "unknown_distance_quadrats": 3
+}

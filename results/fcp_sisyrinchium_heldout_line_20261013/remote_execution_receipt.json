@@ -1,0 +1,81 @@
+{
+  "actual_downloaded_artifact": {
+    "artifact_id": 11790617917,
+    "crc_passed": true,
+    "sha256": "97919fa37ddc9a7317c7d7bddad15d79d430bfffee596ca836758602e67c0c88",
+    "size_bytes": 261793
+  },
+  "ci": {
+    "first_push_failure": {
+      "cause": "BFGS numerical precision loss on some high-count training folds",
+      "remediation": "Analytic Hessian Newton polishing for SAME original binomial penalized objective, with no data/feature/penalty changes",
+      "run": 38350077864,
+      "science_effect_changed": false
+    },
+    "focused_tests_passed": 12,
+    "full_repository_test_suite_not_run": true,
+    "independent_newton_checks_passed": 1731,
+    "max_frozen_local_remote_numeric_difference": 2.51495768655019e-10,
+    "pull_request": {
+      "conclusion": "success",
+      "run": 38350567449,
+      "url": "https://github.com/zuizui0223/fcp/actions/runs/38350567449"
+    },
+    "push": {
+      "conclusion": "success",
+      "job": 115141749055,
+      "run": 38350562134,
+      "url": "https://github.com/zuizui0223/fcp/actions/runs/38350562134"
+    },
+    "recursive_original_result_fields_compared": 4711
+  },
+  "claim_limits": [
+    "One historical observational study only, not new populations or out-of-region forecast",
+    "Source-exposed protocol not externally preregistered",
+    "Water-distance predictor is not a demonstrated cause",
+    "Concurrent L/S share adds no robust independent predictive gain under evaluated linear models, but cannot be declared biologically irrelevant",
+    "The extra-congener gain changes sign under stronger ridge regularization",
+    "No fitness selection, pollinator mechanism, introgression, or genetic F_ST inferred",
+    "Parent FCP H1/H2 and PR170–184 left untouched"
+  ],
+  "date_jst": "2026-10-13",
+  "local_vs_remote_file_comparison": {
+    "exact": 7,
+    "max_numeric_difference": 2.51495768655019e-10,
+    "no_unexplained_mismatches": true,
+    "numerical_tolerance_matches": 6
+  },
+  "original_author_archive": {
+    "internal_frequency_sha256": "a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e",
+    "md5": "008ec196aa5acb769dbfd36e835e32ba",
+    "original_dryad": "10.5061/dryad.j8q34",
+    "public_zenodo_original_mirror_record": 5003124,
+    "sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1e9f2f988c5"
+  },
+  "original_protocol_commit": "fd704651988b7bb57804163aabb3e69b9474f4f5",
+  "posthoc_ridge_additional_congener_nats": {
+    "lambda_1": -0.015518344471209755,
+    "lambda_10": -0.016587983505533036,
+    "lambda_100": 0.0012304336113123854
+  },
+  "primary_result": {
+    "additional_congener_gain_after_distance": -0.01658798351078966,
+    "distance_gain_over_baseline": 0.1103369436783896,
+    "equal_site_loss": {
+      "BASE": 0.7201113072219353,
+      "BOTH": 0.6263623470543355,
+      "CONGEN": 0.695807095276539,
+      "DIST": 0.6097743635435457
+    },
+    "n_heldout_lines": 32,
+    "n_scored_M_plants": 6692,
+    "n_scored_quadrats": 168,
+    "n_sites": 6,
+    "site_positive_added_congen_after_distance": 2,
+    "site_positive_distance_vs_baseline": 6
+  },
+  "pull_request": 185,
+  "schema": "fcp_sisyrinchium_heldout_line_field_robustness_completed_execution_v1",
+  "scientific_analysis_head": "6f088e9ea84a469026fb5233a46bf09b10fd8638",
+  "status": "SUCCESS_CI_PUSH_PR_AND_RECOVERED_ARTIFACT"
+}

@@ -1,0 +1,80 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 1945,
+      "sha256": "c6c39eb73cb9cf0d87beb2584f5d782152ae2d308068a4fc70a943ab2699a26f"
+    },
+    "docs/PROTOCOL.md": {
+      "bytes": 8072,
+      "sha256": "20a89cfa15db341acba45f44c4ccc0e763ada62a87ca7912554f4ac394b5eb64"
+    },
+    "docs/REPORT_JA.md": {
+      "bytes": 8186,
+      "sha256": "222ff0f09e22b8db3f080f8a3c77c62765250b6850615f33686bace9303903ee"
+    },
+    "requirements-lock.txt": {
+      "bytes": 60,
+      "sha256": "593c510ee8af7799985831f334d55681312656f53b1f2a006aa58e83c0e36888"
+    },
+    "results/fold_support.csv": {
+      "bytes": 1848,
+      "sha256": "0404489b2f09f03dee0cbe9d0dd12bebd9e27ee3fcf05b0257ae5cc9b3b80e0e"
+    },
+    "results/heldout_quadrat_predictions.csv": {
+      "bytes": 21572,
+      "sha256": "49462e9b1ca377f94b0bb87f58a74b87c600df187fdd5e1337ffa8ce2ebff5c7"
+    },
+    "results/independent_verification.json": {
+      "bytes": 505,
+      "sha256": "452047dfa9ccc91fbda744e52dd64ea7ec3e773326f49aefc4827c81e99fa22d"
+    },
+    "results/posthoc_ridge_sensitivity.json": {
+      "bytes": 6218,
+      "sha256": "941cc54cd2521d72fedef6932755f13c9794713b2880d3a1e8fd0c55fc33429d"
+    },
+    "results/result.json": {
+      "bytes": 117666,
+      "sha256": "7745ab3018eb00a1939b9433effb201e1c9cc37034f2a4c2ae8a588e3c2b23ce"
+    },
+    "results/site_deletion_sensitivity.csv": {
+      "bytes": 1837,
+      "sha256": "1e698e876b1da1df2e525c98edcbaf7b1400bf806890339f391dece429bc4f5b"
+    },
+    "results/siteyear_predictive_scores.csv": {
+      "bytes": 2320,
+      "sha256": "b84cc9182fb75c9f8660b4381d6f1d4eb54883a0459cd0d0df3f2fdc1f3916e1"
+    },
+    "results/siteyear_support.csv": {
+      "bytes": 2729,
+      "sha256": "31d5db322d1543ffe095691df818762974d221e0aab5244bfe023d5e1883b7fb"
+    },
+    "results/source_audit.json": {
+      "bytes": 2733,
+      "sha256": "37393bc64f624c2d2af7f60b9bb83a76089338e641d2bffc6dc551e0ebf3c18e"
+    },
+    "src/plot.py": {
+      "bytes": 1796,
+      "sha256": "57c6d5f3eaa9e6753ff22e2e1f8f1e9efd2ae5ce94bcf6b9bb652750c1d4da3b"
+    },
+    "src/predictive.py": {
+      "bytes": 15297,
+      "sha256": "caf2001ac919702df970d3a1b8e5490f24b0ac72e6ecf8ea361372252bdcb146"
+    },
+    "src/regularization_sensitivity.py": {
+      "bytes": 3179,
+      "sha256": "cbcfb730dd042d8f4b3e71e7abe4c53ccc9ec1b6e7d93c4b0589e72cf8c3b33a"
+    },
+    "src/verify_independent.py": {
+      "bytes": 7784,
+      "sha256": "2879ca749eadacf1918f0e836da40fe2b59dc4d900712d4d0cf92acd8f276c2f"
+    },
+    "tests/test_predictor.py": {
+      "bytes": 6216,
+      "sha256": "0f0d7eae90038d30f1a872e4d0df12c63499f813eeed326b835ab790f2111a43"
+    }
+  },
+  "original_archive_md5": "008ec196aa5acb769dbfd36e835e32ba",
+  "original_archive_sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+  "schema": "fcp_sisyrinchium_heldout_line_manifest_v1",
+  "science_stage": "locally_verified_remote_pending"
+}

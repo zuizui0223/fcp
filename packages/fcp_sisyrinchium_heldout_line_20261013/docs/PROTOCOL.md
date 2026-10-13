@@ -1,0 +1,40 @@
+# Sisyrinchium: held-out field-line prediction of purple-flower frequency from water-distance and co-flowering white congeners
+
+2026-10-13 JST. **Posthoc source-exposed exploratory analysis**. This is a computational study of Takahashi, Takakura & Kawata (2016), PLOS ONE DOI 10.1371/journal.pone.0164381. The original authors already reported associations among morphs, white congeners and water-edge distance, with serious confounding. This design is fixed before new holdout predictive scores are read. It is **not prospectively preregistered, a separate field study, or evidence that ecological mechanisms are causal**.
+
+## Ecological question
+
+When an entire original transect **line** is withheld from a named site-year, do the field-observed water-edge distance and/or co-flowering white L/S species' local relative abundance improve the forecast of M-species purple vs white morphs over the site's baseline morph share? A model that explains the already-seen quadrats is not enough; performance must transfer to line groups within the SAME survey site/year.
+
+## Authenticated source
+
+Original Dryad DOI 10.5061/dryad.j8q34, legitimate public original mirror Zenodo record 5003124; original original-source ZIP 127502 bytes MD5 008ec196aa5acb769dbfd36e835e32ba SHA256 4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5; internal `data/frequency.txt` SHA256 a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e. Exactly 512 field-quadrat rows with unique year/popu/line/quad and 13 named populations 2011/2013 (16 site-year records). 
+
+`v` and `w` count purple and white *M-species* plants, respectively. `l` and `s` count other distinct white-flowered L and S species, NEVER added to M-white. Use N_M=v+w, predictor `congener=(l+s)/(v+w+l+s)` for M-present quadrats. Source `distance` is distance to water's edge as recorded; **-1 indicates unknown** in 3 original rows (2 M-present), exclude unknown distance *from ALL predictive models equally*, keep in source audit and do not turn it into 0. Exclude the 126 no-target M-absent quadrats from predictive score but preserve in QA ledger. Do not treat 384 M-present and distance-known quadrats as independent sites. Other-species shares are recorded contemporaneously; prediction conditional on knowledge of heldout plots' other-species abundance is **not a forecast before all plants were surveyed**.
+
+## Source-oblivious support eligibility
+
+For each original (year,population) site-year, compute line groups. A `qualifying heldout line` has >=2 M-present quadrats and >=10 M individuals (after distance screening). Source group candidate must have >=3 such lines, N_M>=50, V>=5, W>=5, at least two distinct valid water-distance values, and enough **congener predictor overlap**: >=3 M-present quadrats with l+s>0 covering >=2 distinct lines, >=3 M-present quadrats with l+s=0 covering >=2 distinct lines. This uses predictor/outcome *support counts only*, not model performance. For every heldout line, train on all other distance-valid M-present quadrats within the SAME site-year (even noneligible heldout lines), requiring remaining N>=50, V>=5, W>=5. If a training fold's congener or distance has zero variance, its standardized predictor column has 0 slope; track this as a support limitation, don't tune/drop based on model score. Site-year must have >=3 eligible heldout lines to enter final primary summary; all 16 original siteyears and every line eligibility/hold reason are preserved.
+
+**Repeated named sites:** For the primary estimand, after the previous support gate keep **only the latest source year per named `population`** so each named survey place votes once. The earlier-year site-year is an explicit repeat-year sensitivity. Do not use prior year's colour information in any heldout line model; all training and tests are contained within the one eligible site-year.
+
+## Four fixed candidate models
+
+Four separate within-site-year fits per heldout line, using **only other lines' M observations**:
+
+1. BASE: Bayesian Jeffreys-smoothed site-year frequency `(V_train+0.5)/(N_train+1)` (no field predictors).
+2. DIST: binomial logistic with recorded water `distance` (linear standardized training feature).
+3. CONGEN: binomial logistic with original other-white-species proportion `a` (linear standardized training feature).
+4. BOTH: binomial logistic with distance and a as additive covariates, **no interaction or model tuning**.
+
+Use an unpenalized intercept and a **fixed ridge penalty lambda=10 per feature in training plant-weighted standardized feature units**. Use a Jeffreys 0.5 pseudo-violet and 0.5 pseudo-white at `x=0` for the model intercept to agree with BASE when all slopes are zero. Optimize regularized concave binomial log-likelihood using deterministic BFGS with analytic gradient, tolerance 1e-9 and 1000 iterations; if optimization fails or nonfinite outputs, HOLD the model fold rather than conceal. Feature center and scale are the M-individual-count-weighted mean and std **of training lines only**; reuse for heldout line. If a predictor has variance zero, set slope=0 explicitly. Predictive probability clip to [0.01,0.99] for log score in all four models; record clipping (not change input sample). No scores or holdout frequencies enter scaling, fitting or lambda choice.
+
+## Evaluation & claim boundaries
+
+Main per line score: individual-weighted binomial negative log loss `[-v log q -w log(1-q)]/n`, aggregated across all valid heldout lines **within a site-year weighted by observed M plant counts**. Report a separate equal-quadrat Brier sensitivity `mean[(v/n-q)^2]`, which is biased by small quadrat n and not directly comparable to Bernoulli Brier without an intrinsic variance correction. Primary across named sites: **equal site weight**, not sum over 13,804 plants. For each candidate, effect is `mean_site(LogLoss_BASE - LogLoss_candidate)` in **nats per surveyed M plant** (positive = model transfers). Main priority comparison: `mean_site(LogLoss_DIST - LogLoss_BOTH)` (whether congeners add predictive information beyond distance). Also `mean_site(LogLoss_CONGEN - LogLoss_BOTH)` (distance beyond congeners). No p-values or model-selection claims from this source-exposed 4-model family; provide signs and leave-one-named-site-out intervals and original siteyear scores. No inference about new geographic sites.
+
+Predeclared sensitivity: include ALL eligible siteyears including repeated same-named locations, equal siteyear weighting; report effect and sample. Also summarize site-specific signs and holdout line failure/feature-variance counts; report case examples of high/low n line diagnostics without tuning model after seeing performance. All siteyear data must be original source data with no source-derived frequency fabricated; no year-holdout as source has only 2 years with different site lines and study regime.
+
+Careful distinction: In the observational field, `a` and site location could both correlate with unknown edaphic conditions; predictive gains do not prove L-species caused pollinator-mediated reproductive interference, introgression, balancing selection, or fitness. Training and test lines can share habitat and unmeasured spatial gradients, so even positive effects are conditional transfer in a single source site. A negative/ambiguous BOTH increment supports holding causal mechanisms unseparated, not evidence of no interaction.
+
+Verification: source ZIP/infile hashes, all original 512 unique keys and counts, 126 M-absent, three `distance<0`, disjoint line train/test, zero-prior predictor support gates, deterministic exact fold count, analytic optimizer gradients checked against numeric finite differences, synthetic known-colour gradients and contrived confounded genera, alternative sklearn reference or independent moment score, independent reproduction of all aggregated score arithmetic. Main H1/H2 and PR170-184 outcomes untouched; isolated draft PR and focused CI only. GitHub workflow success is source-locked replay, not biological replication or full repository test success.
