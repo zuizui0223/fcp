@@ -1,0 +1,17 @@
+{
+  "calibrated_p_values": false,
+  "compared_newton_results": 1776,
+  "independent_method": "csv.DictReader directly on original Mac-CR TXT and independent analytic Newton Hessian, no imports of transfer or parent solver",
+  "max_abs_difference": 6.8659522511893556e-12,
+  "new_external_geographic_site": false,
+  "no_new_field_population_data": true,
+  "old_fixed_result_sha256": "7745ab3018eb00a1939b9433effb201e1c9cc37034f2a4c2ae8a588e3c2b23ce",
+  "original_rows": 512,
+  "scoped_named_sites": 6,
+  "site_name_leakage": false,
+  "source_original_md5": "008ec196aa5acb769dbfd36e835e32ba",
+  "source_original_sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+  "source_test_M_plants": 6692,
+  "source_test_quadrats": 168,
+  "status": "PASS"
+}

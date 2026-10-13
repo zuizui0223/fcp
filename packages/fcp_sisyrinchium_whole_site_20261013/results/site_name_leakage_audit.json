@@ -1,0 +1,110 @@
+[
+  {
+    "site": "banpaku",
+    "train_site_names": [
+      "nature",
+      "ootaka",
+      "ootaka2",
+      "shiga",
+      "toyama"
+    ],
+    "source_locs_exactly_holdout": true,
+    "train_years": [
+      "Y11",
+      "Y13"
+    ],
+    "test_year": "Y13",
+    "n_train_rows": 142,
+    "n_test_rows": 26
+  },
+  {
+    "site": "nature",
+    "train_site_names": [
+      "banpaku",
+      "ootaka",
+      "ootaka2",
+      "shiga",
+      "toyama"
+    ],
+    "source_locs_exactly_holdout": true,
+    "train_years": [
+      "Y11",
+      "Y13"
+    ],
+    "test_year": "Y13",
+    "n_train_rows": 146,
+    "n_test_rows": 22
+  },
+  {
+    "site": "ootaka",
+    "train_site_names": [
+      "banpaku",
+      "nature",
+      "ootaka2",
+      "shiga",
+      "toyama"
+    ],
+    "source_locs_exactly_holdout": true,
+    "train_years": [
+      "Y11",
+      "Y13"
+    ],
+    "test_year": "Y11",
+    "n_train_rows": 159,
+    "n_test_rows": 9
+  },
+  {
+    "site": "ootaka2",
+    "train_site_names": [
+      "banpaku",
+      "nature",
+      "ootaka",
+      "shiga",
+      "toyama"
+    ],
+    "source_locs_exactly_holdout": true,
+    "train_years": [
+      "Y11",
+      "Y13"
+    ],
+    "test_year": "Y11",
+    "n_train_rows": 158,
+    "n_test_rows": 10
+  },
+  {
+    "site": "shiga",
+    "train_site_names": [
+      "banpaku",
+      "nature",
+      "ootaka",
+      "ootaka2",
+      "toyama"
+    ],
+    "source_locs_exactly_holdout": true,
+    "train_years": [
+      "Y11",
+      "Y13"
+    ],
+    "test_year": "Y13",
+    "n_train_rows": 91,
+    "n_test_rows": 77
+  },
+  {
+    "site": "toyama",
+    "train_site_names": [
+      "banpaku",
+      "nature",
+      "ootaka",
+      "ootaka2",
+      "shiga"
+    ],
+    "source_locs_exactly_holdout": true,
+    "train_years": [
+      "Y11",
+      "Y13"
+    ],
+    "test_year": "Y11",
+    "n_train_rows": 144,
+    "n_test_rows": 24
+  }
+]

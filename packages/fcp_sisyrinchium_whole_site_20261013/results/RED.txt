@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+______________________ ERROR collecting test_transfer.py _______________________
+ImportError while importing test module '/mnt/data/fcp_new_site_20261013/tests/test_transfer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+mnt/data/fcp_new_site_20261013/tests/test_transfer.py:9: in <module>
+    from transfer import build_strata, select_source_and_test, evaluate, model_specs, source_qa
+E   ModuleNotFoundError: No module named 'transfer'
+=========================== short test summary info ============================
+ERROR mnt/data/fcp_new_site_20261013/tests/test_transfer.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.10s

@@ -1,0 +1,53 @@
+{
+  "schema": "fcp_sisyrinchium_leave_whole_site_transfer_full_execution_receipt_v1",
+  "date_jst": "2026-10-13",
+  "source_paper": "Takahashi, Takakura & Kawata (2016), PLOS ONE 11:e0164381",
+  "source_doi": "10.5061/dryad.j8q34",
+  "source_mirror": "https://zenodo.org/records/5003124",
+  "original_source_sha256": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+  "prior_PR185_source_sha256": "7745ab3018eb00a1939b9433effb201e1c9cc37034f2a4c2ae8a588e3c2b23ce",
+  "protocol_pre_score_commit": "66f3afb6d8e31ecd4eaafd72b102779b38aa63bd",
+  "scientific_head_commit": "19d1a3cef0b94e8e21c1635320c91e6df9eb4aeb",
+  "pr_number": 187,
+  "github_runs": {
+    "push": {
+      "id": 38368433566,
+      "status": "success",
+      "job": 115199126139
+    },
+    "pull_request": {
+      "id": 38368528062,
+      "status": "success",
+      "job": 115199441352
+    }
+  },
+  "focused_tests": 12,
+  "independent_newton_checks": 1776,
+  "independent_max_absolute_difference": 6.8659522511893556e-12,
+  "remote_frozen_json_comparisons": 4074,
+  "remote_frozen_numeric_max_difference": 0,
+  "downloaded_github_artifact": {
+    "id": 11797896613,
+    "size_bytes": 329780,
+    "sha256": "1e0b7a9f402dba30fa50c425232e15dc13834e84dbb2e361e929dbf0ae53f407"
+  },
+  "local_remote_files_byte_identical": 20,
+  "primary": {
+    "observational_studies": 1,
+    "heldout_site_names": 6,
+    "scored_quadrats": 168,
+    "M_plants_scored": 6692,
+    "within_site_local_distance_gain": 0.1103369436783896,
+    "out_site_distance_gain": -0.04372882633862716,
+    "out_site_congener_sole_predictor_loss": 0.6725753840992809,
+    "out_site_baseline_loss": 0.7130287435240718,
+    "Shiga_distance_gain": -0.35497079320856584,
+    "Shiga_training_out_of_distance_range_M": 1117,
+    "Shiga_test_M": 2949,
+    "outsite_distance_gain_without_Shiga": 0.01851956703536058,
+    "balanced_training_outsite_distance_gain": 0.002708072343913829
+  },
+  "repeated_true_external_site_test": false,
+  "whole_repository_pytest_executed": false,
+  "no_selection_or_reproductive_interference_causal_inference": true
+}
