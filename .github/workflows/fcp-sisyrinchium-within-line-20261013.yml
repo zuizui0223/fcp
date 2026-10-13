@@ -1,0 +1,102 @@
+name: FCP Sisyrinchium within-line congener exposure and colour segregation
+
+on:
+  push:
+    branches:
+      - analysis/fcp-sisyrinchium-line-conditioned-species-20261013
+  pull_request:
+    paths:
+      - 'packages/fcp_sisyrinchium_line_20261013/**'
+      - '.github/workflows/fcp-sisyrinchium-within-line-20261013.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-doi-locked-field-counts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install analysis pins
+        run: python -m pip install -r packages/fcp_sisyrinchium_line_20261013/requirements-lock.txt
+      - name: Recover author original from matching Dryad-DOI Zenodo mirror and reject corrupt bytes
+        run: |
+          cd packages/fcp_sisyrinchium_line_20261013
+          python src/recover_original_sources.py --outdir source
+      - name: Run twelve tests including original counts and exact small-case controls
+        run: python -m pytest -q packages/fcp_sisyrinchium_line_20261013/tests
+      - name: Recompute frozen site-by-line source conditional nulls
+        run: |
+          cd packages/fcp_sisyrinchium_line_20261013
+          cp results/result.json /tmp/fcp_line_original_result.json
+          cp results/siteyear_support_and_effects.csv /tmp/fcp_line_original_siteledger.csv
+          cp results/independent_verification.json /tmp/fcp_line_original_verify.json
+          cp results/posthoc_matched_distance_support.csv /tmp/fcp_line_original_distance.csv
+          cp results/posthoc_matched_distance_summary.json /tmp/fcp_line_original_posthoc.json
+          python src/within_line.py --source source/frequency.txt --outdir results --reps 9999
+          python src/verify_independent.py --source source/frequency.txt --result results/result.json --outdir results
+          python src/posthoc_matched_distance.py --source source/frequency.txt --result results/result.json --outdir results
+          python src/make_figures.py --result results/result.json --out docs
+      - name: Compare every original source and full-result byte and guard science interpretation
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('packages/fcp_sisyrinchium_line_20261013')
+          items={
+            'results/result.json':'/tmp/fcp_line_original_result.json',
+            'results/siteyear_support_and_effects.csv':'/tmp/fcp_line_original_siteledger.csv',
+            'results/independent_verification.json':'/tmp/fcp_line_original_verify.json',
+            'results/posthoc_matched_distance_support.csv':'/tmp/fcp_line_original_distance.csv',
+            'results/posthoc_matched_distance_summary.json':'/tmp/fcp_line_original_posthoc.json',
+          }
+          checks=[]
+          for name,old in items.items():
+            data=(root/name).read_bytes()
+            oldbytes=Path(old).read_bytes()
+            assert data==oldbytes,('FROZEN_SOURCE_RESULT_MISMATCH',name)
+            checks.append({'name':name,'sha256':hashlib.sha256(data).hexdigest(),
+                           'byte_identical':True,'bytes':len(data)})
+          original=json.loads((root/'source/source_receipt.json').read_text())
+          assert original['status']=='SOURCE_BYTES_VERIFIED'
+          assert original['original_zip_md5']=='008ec196aa5acb769dbfd36e835e32ba'
+          assert original['frequency_sha256']=='a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e'
+          result=json.loads((root/'results/result.json').read_text())
+          q=result['full']['results']
+          assert q['exposure']['status']=='ELIGIBLE' and q['exposure']['n']==8
+          assert q['clumping']['status']=='ELIGIBLE' and q['clumping']['n']==11
+          assert q['distance']['status']=='ELIGIBLE' and q['distance']['n']==8
+          assert q['exposure']['holm_two_primary_family']==0.0002
+          assert q['clumping']['holm_two_primary_family']==0.0001
+          assert q['distance']['p_one_sided']==0.0378
+          assert result['no_new_independent_plants']
+          assert result['observational_not_causal']
+          assert result['source_paper_already_reported_cross_site_congener_association']
+          verify=json.loads((root/'results/independent_verification.json').read_text())
+          assert verify['status']=='PASS' and verify['checks']>=220
+          assert verify['max_absolute_difference']<1e-12
+          frag=json.loads((root/'results/posthoc_matched_distance_summary.json').read_text())
+          assert frag['without_banpaku']['p_one_sided']>0.05
+          rec={'status':'PASS','original_DOI':'10.5061/dryad.j8q34',
+               'original_zip_md5':original['original_zip_md5'],
+               'original_frequency_sha256':original['frequency_sha256'],
+               'files':checks,'focused_tests':12,'independent_exact_fraction_checks':verify['checks'],
+               'no_full_repo_suite_run':True,'distance_residual_not_robust_without_banpaku':True,
+               'not_new_biological_dataset_or_causal_mechanism':True}
+          (root/'results/remote_replay_receipt.json').write_text(json.dumps(rec,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(rec))
+          PY
+      - name: Save author original and repeatable results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-sisyrinchium-within-line-20261013
+          retention-days: 60
+          path: |
+            packages/fcp_sisyrinchium_line_20261013/source/
+            packages/fcp_sisyrinchium_line_20261013/results/
+            packages/fcp_sisyrinchium_line_20261013/docs/*.png

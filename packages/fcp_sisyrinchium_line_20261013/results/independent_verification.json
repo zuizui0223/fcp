@@ -1,0 +1,15 @@
+{
+  "checks": 223,
+  "congener_species_are_not_white_M_morph": true,
+  "eligible_siteyears": {
+    "clumping": 11,
+    "distance": 8,
+    "exposure": 8
+  },
+  "independent_method": "csv.DictReader and fractions.Fraction including exact observed site\u00d7line and analytical null, microcase exact enumeration; does not import main script",
+  "max_absolute_difference": 4.864164626638967e-15,
+  "not_causal_test": true,
+  "original_independent_source_sha256": "a12cdf46483a6d8b78bd00110c196a25f3c8849967ae8a2c37d6aee3d29f516e",
+  "simulation_crosscheck": "source-conditioned permutation tail must be rerun by audited primary code; no bogus independent field data",
+  "status": "PASS"
+}
