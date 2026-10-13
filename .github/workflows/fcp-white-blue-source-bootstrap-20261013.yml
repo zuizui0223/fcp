@@ -1,0 +1,103 @@
+name: FCP original-photo white-blue paired genus bootstrap
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-shared-genus-ecoregion-transport-20261011
+    paths:
+      - scripts/analysis/audit_fcp_same_genus_east_elsewhere_rain_tradeoff_20261011.py
+      - tests/test_fcp_white_blue_joint_contrast_20261013.py
+      - docs/FCP_WHITE_BLUE_JOINT_DIRECTION_SOURCE_REPLAY_20261013.md
+      - .github/workflows/fcp-white-blue-source-bootstrap-20261013.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-source-white-blue-paired-genus-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_ARTIFACT_ID: "11587115220"
+  ORIGINAL_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+
+jobs:
+  source-paired-bootstrap:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install identical source numerical runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+      - name: Check old default results unchanged and opt-in new contrast
+        run: |
+          python -m pytest -q tests/test_fcp_same_genus_east_elsewhere_rain_tradeoff_20261011.py tests/test_fcp_white_blue_joint_contrast_20261013.py
+      - name: Recover original 100543 photo ZIP under SHA256
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api -H 'Accept: application/vnd.github+json' "/repos/$GITHUB_REPOSITORY/actions/artifacts/$ORIGINAL_ARTIFACT_ID/zip" > /tmp/fcp_original_source.zip
+          echo "$ORIGINAL_SHA256  /tmp/fcp_original_source.zip" | sha256sum -c -
+      - name: Execute 999 paired source-matched whole-genus bootstrap with opt-in 6-hue maxT
+        run: |
+          python scripts/analysis/audit_fcp_same_genus_east_elsewhere_rain_tradeoff_20261011.py \
+            --source-archive /tmp/fcp_original_source.zip \
+            --bootstrap 999 \
+            --posthoc-white-blue \
+            --outdir /tmp/fcp_white_blue_direction
+      - name: Verify all historical hue outputs match source-frozen parent (all conditions)
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          a=json.loads(Path('/tmp/fcp_white_blue_direction/result.json').read_text())
+          p=json.loads(Path('results/fcp_same_genus_ecoregional_rainfall_transport_20261011/source_replay_result.json').read_text())
+          assert a['source_archive_sha256']==p['source_archive_sha256']
+          assert a['original_classifiable_geoclimate_photo_ids']==45836
+          assert a['n_genus_bootstrap_replicates']==p['n_genus_bootstrap_replicates']==999
+          seen=0
+          for sample, old_cases in p['same_genera_across_geographic_sectors'].items():
+              for gate, orig in old_cases.items():
+                  curr=a['same_genera_across_geographic_sectors'][sample][gate]
+                  assert curr['source_qualified_shared_genera']==orig['source_qualified_shared_genera']
+                  assert curr['n_unique_source_species']==orig['n_unique_source_species']
+                  assert curr['n_original_photo_records']==orig['n_original_photo_records']
+                  if curr.get('status','OK')!='OK':
+                      assert curr==orig
+                      continue
+                  for weight in ('equal_species','equal_genera'):
+                      old=orig['models'][weight]
+                      new=curr['models'][weight]
+                      assert old['status']==new['status']=='OK'
+                      for hue in ('white','yellow_orange','red_pink','blue_purple'):
+                          for key,value in old['response_four_original_photo_hues'][hue].items():
+                              newval=new['response_four_original_photo_hues'][hue][key]
+                              if isinstance(value,list):
+                                  assert all(math.isclose(x,y,abs_tol=1e-9,rel_tol=0) for x,y in zip(value,newval)),(sample,gate,weight,hue,key)
+                              else:
+                                  assert math.isclose(value,newval,abs_tol=1e-9,rel_tol=0),(sample,gate,weight,hue,key)
+                      result=new['posthoc_white_blue_region_rain_contrast']
+                      assert result['not_a_null_hypothesis_p_value']
+                      seen+=1
+          assert seen==16
+          main=a['same_genera_across_geographic_sectors']['all_classified_original_source_photos']['3']['models']
+          for key,expected in [('equal_species',[.0361254,.1138801]),('equal_genera',[.0110117,.0961811])]:
+              c=main[key]['posthoc_white_blue_region_rain_contrast']
+              assert all(abs(got-exp)<0.0002 for got,exp in zip(c['paired_genus_bootstrap_percentile_CI95'],expected))
+          print('PASS 16/16 parent photo hue result reconstructions + paired new white-blue contrast')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-white-blue-source-paired-contrast-20261013
+          retention-days: 60
+          if-no-files-found: error
+          path: /tmp/fcp_white_blue_direction/
