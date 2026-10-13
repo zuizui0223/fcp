@@ -1,0 +1,214 @@
+{
+  "schema": "fcp_two_independent_field_color_spatial_partition_v1",
+  "date_jst": "2026-10-13",
+  "protocol": "docs/FCP_TWO_SPECIES_FIELD_MORPH_SPATIAL_PARTITION_PROTOCOL_20261013.md",
+  "source_dois": {
+    "sisyrinchium": "10.5061/dryad.j8q34",
+    "boechera": "10.5061/dryad.q0032"
+  },
+  "source_sha256": {
+    "Sisyrinchium_data.zip": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+    "Boechera_natural_populations_individual.txt": "57bb9adca230e5ee4f189a1702e41fc8f5f013b27848d8727dc127200c7121c8",
+    "Boechera_natural_populations_plot.txt": "dc4d36603dc399dbcd91bdd693c624e16f92359501c601f2a6dac6f793df69ce"
+  },
+  "source_quality": {
+    "boechera": {
+      "n_individuals": 547,
+      "n_plots": 26,
+      "n_sites": 9,
+      "joined_plantid_typos": 3,
+      "joined_typo_line_numbers": [
+        250,
+        360,
+        463
+      ],
+      "all_26_plots_match_original_individual_counts": true,
+      "n_missing_foliar_herbivory": 6,
+      "n_missing_fruits": 3
+    },
+    "sisyrinchium": {
+      "n_original_quadrats": 512,
+      "n_original_siteyear_strata": 16,
+      "count_v": 5081,
+      "count_w": 8723,
+      "count_l_other_species": 4463,
+      "count_s_other_species": 29,
+      "n_quadrats_without_M": 126,
+      "n_missing_humidity": 391
+    }
+  },
+  "monte_carlo_reps": 9999,
+  "siteyear_eligibility": {
+    "N_min": 20,
+    "V_min": 5,
+    "W_min": 5,
+    "occupied_quadrats_min": 2
+  },
+  "source_exposure": "Retrospective exploratory. Site-morph prevalence and raw source field schemas were inspected before registration; color-clumping p values were not.",
+  "primary": {
+    "sisyrinchium": {
+      "species": "sisyrinchium",
+      "support": {
+        "n_source_siteyear": 16,
+        "n_eligible": 13,
+        "n_held": 3,
+        "n_quadrats_source": 512,
+        "n_total_target_plants_source": 13804,
+        "n_target_plants_eligible": 11924
+      },
+      "inference": "CONDITIONAL_RANDOM_LABEL_BENCHMARK_NOT_CAUSAL",
+      "latest_year_only": false,
+      "min_occupied": 2,
+      "status": "COMPUTED_DESCRIPTIVE_AND_CONDITIONAL_NULL",
+      "results": {
+        "mean_B_observed": 0.4880089014711118,
+        "mean_B_expected_finite_random": 0.06113049574909335,
+        "excess_between_quadrat_diversity_fraction": 0.42687840572201846,
+        "excess_percentage_points": 42.68784057220184,
+        "null_mean_excess": 0.00011040522387976447,
+        "null_excess_CI95": [
+          -0.013581776458442586,
+          0.015799067305800992
+        ],
+        "permutation_upper_tail_p": 0.0001,
+        "observed_site_equal_mixed_quadrat_fraction": 0.5246267845964202,
+        "expected_site_equal_mixed_fraction": 0.7572557343247373,
+        "null_mean_site_equal_mixed_fraction": 0.7573648637038073,
+        "permutation_lower_tail_mixing_p": 0.0001
+      }
+    },
+    "boechera": {
+      "species": "boechera",
+      "support": {
+        "n_source_siteyear": 9,
+        "n_eligible": 6,
+        "n_held": 3,
+        "n_quadrats_source": 26,
+        "n_total_target_plants_source": 547,
+        "n_target_plants_eligible": 472
+      },
+      "inference": "CONDITIONAL_RANDOM_LABEL_BENCHMARK_NOT_CAUSAL",
+      "latest_year_only": false,
+      "min_occupied": 2,
+      "status": "COMPUTED_DESCRIPTIVE_AND_CONDITIONAL_NULL",
+      "results": {
+        "mean_B_observed": 0.14697204521315796,
+        "mean_B_expected_finite_random": 0.029996057582338795,
+        "excess_between_quadrat_diversity_fraction": 0.11697598763081916,
+        "excess_percentage_points": 11.697598763081917,
+        "null_mean_excess": -9.663494725306999e-05,
+        "null_excess_CI95": [
+          -0.019112497825932936,
+          0.030492821523179284
+        ],
+        "permutation_upper_tail_p": 0.0001,
+        "observed_site_equal_mixed_quadrat_fraction": 0.9444444444444443,
+        "expected_site_equal_mixed_fraction": 0.9721363924411346,
+        "null_mean_site_equal_mixed_fraction": 0.9725305863919725,
+        "permutation_lower_tail_mixing_p": 0.4259
+      }
+    }
+  },
+  "sensitivities": {
+    "sisyrinchium__at_least_3_occupied": {
+      "species": "sisyrinchium",
+      "support": {
+        "n_source_siteyear": 16,
+        "n_eligible": 13,
+        "n_held": 3,
+        "n_quadrats_source": 512,
+        "n_total_target_plants_source": 13804,
+        "n_target_plants_eligible": 11924
+      },
+      "inference": "CONDITIONAL_RANDOM_LABEL_BENCHMARK_NOT_CAUSAL",
+      "latest_year_only": false,
+      "min_occupied": 3,
+      "status": "COMPUTED_DESCRIPTIVE_AND_CONDITIONAL_NULL",
+      "results": {
+        "mean_B_observed": 0.4880089014711118,
+        "mean_B_expected_finite_random": 0.06113049574909335,
+        "excess_between_quadrat_diversity_fraction": 0.42687840572201846,
+        "excess_percentage_points": 42.68784057220184,
+        "null_mean_excess": -1.621278849663348e-05,
+        "null_excess_CI95": [
+          -0.013659350618062708,
+          0.015558475573819524
+        ],
+        "permutation_upper_tail_p": 0.0001,
+        "observed_site_equal_mixed_quadrat_fraction": 0.5246267845964202,
+        "expected_site_equal_mixed_fraction": 0.7572557343247373,
+        "null_mean_site_equal_mixed_fraction": 0.757245642983149,
+        "permutation_lower_tail_mixing_p": 0.0001
+      }
+    },
+    "sisyrinchium__latest_year_per_named_site": {
+      "species": "sisyrinchium",
+      "support": {
+        "n_source_siteyear": 13,
+        "n_eligible": 10,
+        "n_held": 3,
+        "n_quadrats_source": 442,
+        "n_total_target_plants_source": 11897,
+        "n_target_plants_eligible": 10017
+      },
+      "inference": "CONDITIONAL_RANDOM_LABEL_BENCHMARK_NOT_CAUSAL",
+      "latest_year_only": true,
+      "min_occupied": 2,
+      "status": "COMPUTED_DESCRIPTIVE_AND_CONDITIONAL_NULL",
+      "results": {
+        "mean_B_observed": 0.5306710366366445,
+        "mean_B_expected_finite_random": 0.06525529752949888,
+        "excess_between_quadrat_diversity_fraction": 0.4654157391071457,
+        "excess_percentage_points": 46.54157391071457,
+        "null_mean_excess": -0.00014082370835010212,
+        "null_excess_CI95": [
+          -0.016515133867598633,
+          0.01933815514213557
+        ],
+        "permutation_upper_tail_p": 0.0001,
+        "observed_site_equal_mixed_quadrat_fraction": 0.5463798993404256,
+        "expected_site_equal_mixed_fraction": 0.8155572605586832,
+        "null_mean_site_equal_mixed_fraction": 0.8156054429849573,
+        "permutation_lower_tail_mixing_p": 0.0001
+      }
+    },
+    "boechera__at_least_3_occupied": {
+      "species": "boechera",
+      "support": {
+        "n_source_siteyear": 9,
+        "n_eligible": 6,
+        "n_held": 3,
+        "n_quadrats_source": 26,
+        "n_total_target_plants_source": 547,
+        "n_target_plants_eligible": 472
+      },
+      "inference": "CONDITIONAL_RANDOM_LABEL_BENCHMARK_NOT_CAUSAL",
+      "latest_year_only": false,
+      "min_occupied": 3,
+      "status": "COMPUTED_DESCRIPTIVE_AND_CONDITIONAL_NULL",
+      "results": {
+        "mean_B_observed": 0.14697204521315796,
+        "mean_B_expected_finite_random": 0.029996057582338795,
+        "excess_between_quadrat_diversity_fraction": 0.11697598763081916,
+        "excess_percentage_points": 11.697598763081917,
+        "null_mean_excess": 0.00020849134920861273,
+        "null_excess_CI95": [
+          -0.01910272637919602,
+          0.031094030620125463
+        ],
+        "permutation_upper_tail_p": 0.0001,
+        "observed_site_equal_mixed_quadrat_fraction": 0.9444444444444443,
+        "expected_site_equal_mixed_fraction": 0.9721363924411346,
+        "null_mean_site_equal_mixed_fraction": 0.972130546387972,
+        "permutation_lower_tail_mixing_p": 0.4291
+      }
+    }
+  },
+  "nonclaims": [
+    "The field studies are independent datasets, but populations and quadrats are nested; source sites not random independent global evolutionary replicates.",
+    "Not genetic Fst, fitness or selection; null only random placement of recorded colour types across fixed quadrat opportunity within each site-year.",
+    "Cannot directly compare the cross-species index as a universal spatial effect due to different quadrat scales, site selection and source ecology.",
+    "Original published studies already discuss pigment/abiotic stress and interaction gradients; this reanalysis does not newly discover them.",
+    "No original field population estimates from selected Digitalis flower-trait subsamples."
+  ]
+}

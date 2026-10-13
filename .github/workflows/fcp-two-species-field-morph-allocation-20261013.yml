@@ -1,0 +1,94 @@
+name: FCP two original field datasets conditional morph spatial clustering
+
+on:
+  pull_request:
+    paths:
+      - 'packages/fcp_two_species_field_20261013/**'
+      - '.github/workflows/fcp-two-species-field-morph-allocation-20261013.yml'
+      - 'docs/FCP_TWO_SPECIES_FIELD_MORPH_SPATIAL_PARTITION_PROTOCOL_20261013.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-original-field-counts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned field-analysis reproducibility dependencies
+        run: python -m pip install -r packages/fcp_two_species_field_20261013/requirements-lock.txt
+      - name: Recover two DOI-authenticated field originals from allowed public Zenodo mirrors
+        run: |
+          python packages/fcp_two_species_field_20261013/src/recover_original_sources.py \
+            --source-dir packages/fcp_two_species_field_20261013/source
+      - name: Run synthetic controls plus original-source quality guards
+        run: python -m pytest -q packages/fcp_two_species_field_20261013/tests
+      - name: Recompute pre-registered endpoints and posthoc fragility separately
+        run: |
+          cd packages/fcp_two_species_field_20261013
+          cp results/result.json /tmp/fcp-field-frozen-result.json
+          cp results/siteyear_metrics.csv /tmp/fcp-field-frozen-sites.csv
+          cp results/quadrat_count_ledger.csv /tmp/fcp-field-frozen-quadrats.csv
+          cp results/posthoc_leave_one_siteyear_out.csv /tmp/fcp-field-frozen-posthoc.csv
+          cp results/independent_verification.json /tmp/fcp-field-frozen-independent.json
+          python src/field_partition.py --source-dir source --outdir results --reps 9999
+          python src/verify_independent.py --root . --reps 9999
+          python src/posthoc_site_fragility.py --source-dir source --outdir results --reps 9999
+          python src/make_figures.py
+      - name: Independently reconcile exact field counts and all frozen numerical outputs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,math,csv
+          root=Path('packages/fcp_two_species_field_20261013')
+          items={
+            'results/result.json':'/tmp/fcp-field-frozen-result.json',
+            'results/siteyear_metrics.csv':'/tmp/fcp-field-frozen-sites.csv',
+            'results/quadrat_count_ledger.csv':'/tmp/fcp-field-frozen-quadrats.csv',
+            'results/posthoc_leave_one_siteyear_out.csv':'/tmp/fcp-field-frozen-posthoc.csv',
+            'results/independent_verification.json':'/tmp/fcp-field-frozen-independent.json',
+          }
+          rec={'status':'PASS','frozen_input_DOIs':['10.5061/dryad.j8q34','10.5061/dryad.q0032'],
+               'source_recovery_receipt':str(root/'source/source_receipt.json'),
+               'source_identities_verified':True,
+               'explicit_posthoc_loo_separate_from_primary':True,
+               'files':[], 'not_an_independent_field_replication':True,
+               'does_not_claim_full_repository_pytest':True}
+          for path,oldpath in items.items():
+            got=(root/path).read_bytes();old=Path(oldpath).read_bytes()
+            same=got==old
+            rec['files'].append({'path':path,'bytes':len(got),
+                                 'sha256':hashlib.sha256(got).hexdigest(),'byte_identical':same})
+            assert same,('FROZEN_OUTPUT_NONIDENTICAL',path)
+          q=json.loads((root/'results/result.json').read_text())
+          assert q['source_quality']['boechera']['all_26_plots_match_original_individual_counts'] is True
+          assert q['primary']['sisyrinchium']['support']['n_eligible']==13
+          assert q['primary']['boechera']['support']['n_eligible']==6
+          assert q['primary']['boechera']['results']['permutation_upper_tail_p']==0.0001
+          assert q['primary']['sisyrinchium']['results']['permutation_upper_tail_p']==0.0001
+          v=json.loads((root/'results/independent_verification.json').read_text())
+          assert v['status']=='PASS' and v['checks']>=170 and v['max_abs_difference']<1e-12
+          lines=list(csv.DictReader((root/'results/posthoc_leave_one_siteyear_out.csv').open()))
+          jj=next(x for x in lines if x['species']=='boechera' and x['excluded_siteyear'].endswith('Judd_Falls'))
+          assert abs(float(jj['after_leave_one_out_delta_percentage_points'])-0.22526370384348796)<1e-9
+          assert abs(float(jj['after_leave_one_out_p_one_sided'])-0.3631)<1e-12
+          s=[x for x in lines if x['species']=='sisyrinchium']
+          assert len(s)==13 and all(float(x['after_leave_one_out_delta_percentage_points'])>40 for x in s)
+          (root/'results/remote_replay_receipt.json').write_text(json.dumps(rec,indent=2)+'\n')
+          print(json.dumps({'status':'PASS','verified_files':len(items),'independent_checks':v['checks'],
+                            'boechera_judd_without_p':float(jj['after_leave_one_out_p_one_sided'])},indent=2))
+          PY
+      - name: Save source-authenticated actual original data and test receipts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-two-original-field-morph-conditional-replay-20261013
+          retention-days: 60
+          path: |
+            packages/fcp_two_species_field_20261013/results/
+            packages/fcp_two_species_field_20261013/source/
+            packages/fcp_two_species_field_20261013/docs/*.png
