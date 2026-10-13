@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-P=Path(__file__).resolve().parents[1]/'scripts/audit_independent_nhm_colour_rain_20261013.py'
+P=Path(__file__).resolve().parents[1]/'scripts/analysis/audit_independent_nhm_colour_rain_20261013.py'
 spec=importlib.util.spec_from_file_location('fcp_nhm_independent',P)
 m=importlib.util.module_from_spec(spec)
 assert spec and spec.loader
