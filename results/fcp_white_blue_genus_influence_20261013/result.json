@@ -1,0 +1,687 @@
+{
+  "schema": "fcp_genus_influence_on_posthoc_white_blue_region_rain_v1",
+  "status": "ORIGINAL_FCP_100543_PHOTO_SOURCE_EXECUTED",
+  "source_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+  "primary_90_180_region_already_selected": true,
+  "full_model_8_covariates": [
+    "wc_bio12",
+    "wc_bio1",
+    "wc_bio5",
+    "wc_bio15",
+    "wc_elevation_m",
+    "abs_lat",
+    "lon_sin",
+    "lon_cos"
+  ],
+  "n_classified_original_photo_env": 45836,
+  "benchmark_parent_all_species_equal_C_pp": 7.62803895744896,
+  "benchmark_parent_all_genus_equal_C_pp": 5.309348222172678,
+  "results": {
+    "all_species_equal": {
+      "n_shared_genera": 394,
+      "n_shared_source_photos": 21176,
+      "n_source_species": 9938,
+      "full_C_pp_per_sd": 7.6280389574489575,
+      "sampled_species_richness_weight_sensitivity_pp": {
+        "0.0": 7.6280389574489575,
+        "0.25": 6.840537432404642,
+        "0.5": 6.174875389688482,
+        "0.75": 5.659642042942721,
+        "1.0": 5.309348222172678
+      },
+      "leave_one_min_pp": 6.99943690644447,
+      "leave_one_max_pp": 8.169334887772068,
+      "leave_one_nonpositive_n": 0,
+      "left_positive_fraction": 1.0,
+      "top_genus_by_absolute_impact": [
+        {
+          "genus": "Veronica",
+          "n_east_species": 50,
+          "n_other_species": 65,
+          "n_total_species_units": 115,
+          "influence_delta_pp": 0.6286020510044871,
+          "omit_C_pp": 6.99943690644447
+        },
+        {
+          "genus": "Solanum",
+          "n_east_species": 57,
+          "n_other_species": 136,
+          "n_total_species_units": 193,
+          "influence_delta_pp": 0.627602671970666,
+          "omit_C_pp": 7.000436285478291
+        },
+        {
+          "genus": "Ranunculus",
+          "n_east_species": 39,
+          "n_other_species": 79,
+          "n_total_species_units": 118,
+          "influence_delta_pp": -0.5412959303231115,
+          "omit_C_pp": 8.169334887772068
+        },
+        {
+          "genus": "Viola",
+          "n_east_species": 48,
+          "n_other_species": 107,
+          "n_total_species_units": 155,
+          "influence_delta_pp": 0.32924030867698684,
+          "omit_C_pp": 7.29879864877197
+        },
+        {
+          "genus": "Oxalis",
+          "n_east_species": 17,
+          "n_other_species": 177,
+          "n_total_species_units": 194,
+          "influence_delta_pp": 0.3272003712231089,
+          "omit_C_pp": 7.300838586225848
+        },
+        {
+          "genus": "Ipomoea",
+          "n_east_species": 31,
+          "n_other_species": 122,
+          "n_total_species_units": 153,
+          "influence_delta_pp": 0.30560740992616325,
+          "omit_C_pp": 7.322431547522794
+        },
+        {
+          "genus": "Ruellia",
+          "n_east_species": 7,
+          "n_other_species": 38,
+          "n_total_species_units": 45,
+          "influence_delta_pp": -0.3027244985988248,
+          "omit_C_pp": 7.9307634560477815
+        },
+        {
+          "genus": "Passiflora",
+          "n_east_species": 9,
+          "n_other_species": 70,
+          "n_total_species_units": 79,
+          "influence_delta_pp": 0.2895366751571232,
+          "omit_C_pp": 7.3385022822918335
+        },
+        {
+          "genus": "Cardamine",
+          "n_east_species": 15,
+          "n_other_species": 34,
+          "n_total_species_units": 49,
+          "influence_delta_pp": 0.28682135917209306,
+          "omit_C_pp": 7.341217598276864
+        },
+        {
+          "genus": "Lobelia",
+          "n_east_species": 27,
+          "n_other_species": 61,
+          "n_total_species_units": 88,
+          "influence_delta_pp": 0.28285244757254163,
+          "omit_C_pp": 7.345186509876416
+        },
+        {
+          "genus": "Stemodia",
+          "n_east_species": 5,
+          "n_other_species": 9,
+          "n_total_species_units": 14,
+          "influence_delta_pp": 0.2762722017137953,
+          "omit_C_pp": 7.351766755735162
+        },
+        {
+          "genus": "Lysimachia",
+          "n_east_species": 17,
+          "n_other_species": 31,
+          "n_total_species_units": 48,
+          "influence_delta_pp": -0.2755825699146744,
+          "omit_C_pp": 7.903621527363631
+        },
+        {
+          "genus": "Wahlenbergia",
+          "n_east_species": 12,
+          "n_other_species": 17,
+          "n_total_species_units": 29,
+          "influence_delta_pp": 0.25358471561139073,
+          "omit_C_pp": 7.374454241837566
+        },
+        {
+          "genus": "Gentianella",
+          "n_east_species": 12,
+          "n_other_species": 22,
+          "n_total_species_units": 34,
+          "influence_delta_pp": 0.2526341593387285,
+          "omit_C_pp": 7.375404798110228
+        },
+        {
+          "genus": "Iris",
+          "n_east_species": 20,
+          "n_other_species": 58,
+          "n_total_species_units": 78,
+          "influence_delta_pp": 0.2380891610190103,
+          "omit_C_pp": 7.3899497964299465
+        }
+      ],
+      "predefined_remove_largest_species_rich_genera_C_pp": {
+        "1": 7.809034577656826,
+        "5": 6.467371235500628,
+        "10": 6.535529601505871,
+        "20": 5.154024090152381
+      },
+      "posthoc_remove_top_abs_influence_C_pp": {
+        "1": 6.99943690644447,
+        "5": 6.143061674873497,
+        "10": 5.107298596873335,
+        "20": 4.763740462756958
+      },
+      "impact_pp_min_max": [
+        -0.5412959303231115,
+        0.6286020510044871
+      ],
+      "spearman_genus_sampled_species_richness_vs_signed_influence": 0.023583865188780605,
+      "source_species_units_per_genus": {
+        "min": 6,
+        "median": 17.5,
+        "p90": 54.69999999999999,
+        "max": 208
+      },
+      "n_genus_positive_signed_influence": 186,
+      "n_genus_negative_signed_influence": 208,
+      "caution": "Genus omission re-fits pooled coefficient and does not identify that genus own flower-color fitness; outcome-ranked removal is posthoc."
+    },
+    "all_genus_equal": {
+      "n_shared_genera": 394,
+      "n_shared_source_photos": 21176,
+      "n_source_species": 9938,
+      "full_C_pp_per_sd": 5.309348222172678,
+      "sampled_species_richness_weight_sensitivity_pp": {
+        "0.0": 7.6280389574489575,
+        "0.25": 6.840537432404642,
+        "0.5": 6.174875389688482,
+        "0.75": 5.659642042942721,
+        "1.0": 5.309348222172678
+      },
+      "leave_one_min_pp": 4.714462371115883,
+      "leave_one_max_pp": 5.675706982294222,
+      "leave_one_nonpositive_n": 0,
+      "left_positive_fraction": 1.0,
+      "top_genus_by_absolute_impact": [
+        {
+          "genus": "Garcinia",
+          "n_east_species": 3,
+          "n_other_species": 3,
+          "n_total_species_units": 6,
+          "influence_delta_pp": 0.5948858510567957,
+          "omit_C_pp": 4.714462371115883
+        },
+        {
+          "genus": "Stemodia",
+          "n_east_species": 5,
+          "n_other_species": 9,
+          "n_total_species_units": 14,
+          "influence_delta_pp": 0.5657452351162551,
+          "omit_C_pp": 4.743602987056423
+        },
+        {
+          "genus": "Lagerstroemia",
+          "n_east_species": 4,
+          "n_other_species": 5,
+          "n_total_species_units": 9,
+          "influence_delta_pp": -0.36635876012154345,
+          "omit_C_pp": 5.675706982294222
+        },
+        {
+          "genus": "Gossypium",
+          "n_east_species": 4,
+          "n_other_species": 4,
+          "n_total_species_units": 8,
+          "influence_delta_pp": 0.35598840455706504,
+          "omit_C_pp": 4.953359817615613
+        },
+        {
+          "genus": "Elsholtzia",
+          "n_east_species": 3,
+          "n_other_species": 4,
+          "n_total_species_units": 7,
+          "influence_delta_pp": 0.3061274957482756,
+          "omit_C_pp": 5.003220726424403
+        },
+        {
+          "genus": "Dendrobium",
+          "n_east_species": 33,
+          "n_other_species": 11,
+          "n_total_species_units": 44,
+          "influence_delta_pp": -0.298084103936367,
+          "omit_C_pp": 5.607432326109046
+        },
+        {
+          "genus": "Amorphophallus",
+          "n_east_species": 5,
+          "n_other_species": 4,
+          "n_total_species_units": 9,
+          "influence_delta_pp": 0.2911403109171498,
+          "omit_C_pp": 5.018207911255529
+        },
+        {
+          "genus": "Muehlenbeckia",
+          "n_east_species": 5,
+          "n_other_species": 3,
+          "n_total_species_units": 8,
+          "influence_delta_pp": 0.28221160996876604,
+          "omit_C_pp": 5.027136612203913
+        },
+        {
+          "genus": "Torenia",
+          "n_east_species": 11,
+          "n_other_species": 6,
+          "n_total_species_units": 17,
+          "influence_delta_pp": -0.27936027745469394,
+          "omit_C_pp": 5.588708499627373
+        },
+        {
+          "genus": "Coleus",
+          "n_east_species": 4,
+          "n_other_species": 22,
+          "n_total_species_units": 26,
+          "influence_delta_pp": -0.27874263282409717,
+          "omit_C_pp": 5.588090854996776
+        },
+        {
+          "genus": "Setaria",
+          "n_east_species": 4,
+          "n_other_species": 5,
+          "n_total_species_units": 9,
+          "influence_delta_pp": -0.2754547715167983,
+          "omit_C_pp": 5.584802993689477
+        },
+        {
+          "genus": "Cynoglossum",
+          "n_east_species": 3,
+          "n_other_species": 14,
+          "n_total_species_units": 17,
+          "influence_delta_pp": 0.268520652580774,
+          "omit_C_pp": 5.0408275695919045
+        },
+        {
+          "genus": "Cymbidium",
+          "n_east_species": 4,
+          "n_other_species": 3,
+          "n_total_species_units": 7,
+          "influence_delta_pp": 0.2683751153400381,
+          "omit_C_pp": 5.040973106832641
+        },
+        {
+          "genus": "Dipsacus",
+          "n_east_species": 3,
+          "n_other_species": 9,
+          "n_total_species_units": 12,
+          "influence_delta_pp": -0.2550477201961207,
+          "omit_C_pp": 5.564395942368799
+        },
+        {
+          "genus": "Hoya",
+          "n_east_species": 4,
+          "n_other_species": 4,
+          "n_total_species_units": 8,
+          "influence_delta_pp": -0.24367057761713815,
+          "omit_C_pp": 5.553018799789817
+        }
+      ],
+      "predefined_remove_largest_species_rich_genera_C_pp": {
+        "1": 5.337702610789203,
+        "5": 5.086744700741677,
+        "10": 5.033276679938227,
+        "20": 4.850529847124142
+      },
+      "posthoc_remove_top_abs_influence_C_pp": {
+        "1": 4.714462371115883,
+        "5": 3.833095538149071,
+        "10": 4.108317050999059,
+        "20": 4.602888113512896
+      },
+      "impact_pp_min_max": [
+        -0.36635876012154345,
+        0.5948858510567957
+      ],
+      "spearman_genus_sampled_species_richness_vs_signed_influence": 0.038314615378137656,
+      "source_species_units_per_genus": {
+        "min": 6,
+        "median": 17.5,
+        "p90": 54.69999999999999,
+        "max": 208
+      },
+      "n_genus_positive_signed_influence": 197,
+      "n_genus_negative_signed_influence": 197,
+      "caution": "Genus omission re-fits pooled coefficient and does not identify that genus own flower-color fitness; outcome-ranked removal is posthoc."
+    },
+    "strict_species_equal": {
+      "n_shared_genera": 77,
+      "n_shared_source_photos": 2496,
+      "n_source_species": 1381,
+      "full_C_pp_per_sd": 9.106608510952697,
+      "sampled_species_richness_weight_sensitivity_pp": {
+        "0.0": 9.106608510952697,
+        "0.25": 9.854537857304413,
+        "0.5": 10.594573516951078,
+        "0.75": 11.296224594332054,
+        "1.0": 11.93763663202747
+      },
+      "leave_one_min_pp": 7.20110186093067,
+      "leave_one_max_pp": 10.476849341104923,
+      "leave_one_nonpositive_n": 0,
+      "left_positive_fraction": 1.0,
+      "top_genus_by_absolute_impact": [
+        {
+          "genus": "Utricularia",
+          "n_east_species": 11,
+          "n_other_species": 17,
+          "n_total_species_units": 28,
+          "influence_delta_pp": 1.9055066500220263,
+          "omit_C_pp": 7.20110186093067
+        },
+        {
+          "genus": "Geranium",
+          "n_east_species": 6,
+          "n_other_species": 27,
+          "n_total_species_units": 33,
+          "influence_delta_pp": 1.7021178224643483,
+          "omit_C_pp": 7.404490688488348
+        },
+        {
+          "genus": "Wahlenbergia",
+          "n_east_species": 3,
+          "n_other_species": 5,
+          "n_total_species_units": 8,
+          "influence_delta_pp": 1.473301189048809,
+          "omit_C_pp": 7.633307321903887
+        },
+        {
+          "genus": "Murdannia",
+          "n_east_species": 4,
+          "n_other_species": 4,
+          "n_total_species_units": 8,
+          "influence_delta_pp": -1.3702408301522278,
+          "omit_C_pp": 10.476849341104923
+        },
+        {
+          "genus": "Ranunculus",
+          "n_east_species": 14,
+          "n_other_species": 30,
+          "n_total_species_units": 44,
+          "influence_delta_pp": -1.3095395355829291,
+          "omit_C_pp": 10.416148046535625
+        },
+        {
+          "genus": "Salvia",
+          "n_east_species": 5,
+          "n_other_species": 22,
+          "n_total_species_units": 27,
+          "influence_delta_pp": 1.1010345705524864,
+          "omit_C_pp": 8.00557394040021
+        },
+        {
+          "genus": "Oxalis",
+          "n_east_species": 8,
+          "n_other_species": 75,
+          "n_total_species_units": 83,
+          "influence_delta_pp": 1.0216211209396557,
+          "omit_C_pp": 8.08498739001304
+        },
+        {
+          "genus": "Ipomoea",
+          "n_east_species": 20,
+          "n_other_species": 57,
+          "n_total_species_units": 77,
+          "influence_delta_pp": -0.9281395397466905,
+          "omit_C_pp": 10.034748050699386
+        },
+        {
+          "genus": "Anemonastrum",
+          "n_east_species": 5,
+          "n_other_species": 8,
+          "n_total_species_units": 13,
+          "influence_delta_pp": 0.8539350962546142,
+          "omit_C_pp": 8.252673414698082
+        },
+        {
+          "genus": "Mimosa",
+          "n_east_species": 3,
+          "n_other_species": 7,
+          "n_total_species_units": 10,
+          "influence_delta_pp": -0.8326626898655431,
+          "omit_C_pp": 9.93927120081824
+        },
+        {
+          "genus": "Gentiana",
+          "n_east_species": 3,
+          "n_other_species": 12,
+          "n_total_species_units": 15,
+          "influence_delta_pp": -0.8236529786062124,
+          "omit_C_pp": 9.930261489558909
+        },
+        {
+          "genus": "Lobelia",
+          "n_east_species": 9,
+          "n_other_species": 10,
+          "n_total_species_units": 19,
+          "influence_delta_pp": 0.8231017868762625,
+          "omit_C_pp": 8.283506724076434
+        },
+        {
+          "genus": "Persicaria",
+          "n_east_species": 6,
+          "n_other_species": 6,
+          "n_total_species_units": 12,
+          "influence_delta_pp": -0.7588358888313551,
+          "omit_C_pp": 9.865444399784051
+        },
+        {
+          "genus": "Impatiens",
+          "n_east_species": 13,
+          "n_other_species": 14,
+          "n_total_species_units": 27,
+          "influence_delta_pp": -0.7585139019311488,
+          "omit_C_pp": 9.865122412883846
+        },
+        {
+          "genus": "Acacia",
+          "n_east_species": 55,
+          "n_other_species": 5,
+          "n_total_species_units": 60,
+          "influence_delta_pp": -0.6968508722801997,
+          "omit_C_pp": 9.803459383232896
+        }
+      ],
+      "predefined_remove_largest_species_rich_genera_C_pp": {
+        "1": 8.08498739001304,
+        "5": 10.16967029112872,
+        "10": 12.470966056112836,
+        "20": 6.620923533593421
+      },
+      "posthoc_remove_top_abs_influence_C_pp": {
+        "1": 7.20110186093067,
+        "5": 6.448675803464611,
+        "10": 4.330939222345838,
+        "20": 3.1486278270706105
+      },
+      "impact_pp_min_max": [
+        -1.3702408301522278,
+        1.9055066500220263
+      ],
+      "spearman_genus_sampled_species_richness_vs_signed_influence": -0.01190329031497593,
+      "source_species_units_per_genus": {
+        "min": 6,
+        "median": 15.0,
+        "p90": 39.400000000000034,
+        "max": 83
+      },
+      "n_genus_positive_signed_influence": 36,
+      "n_genus_negative_signed_influence": 41,
+      "caution": "Genus omission re-fits pooled coefficient and does not identify that genus own flower-color fitness; outcome-ranked removal is posthoc."
+    },
+    "strict_genus_equal": {
+      "n_shared_genera": 77,
+      "n_shared_source_photos": 2496,
+      "n_source_species": 1381,
+      "full_C_pp_per_sd": 11.93763663202747,
+      "sampled_species_richness_weight_sensitivity_pp": {
+        "0.0": 9.106608510952697,
+        "0.25": 9.854537857304413,
+        "0.5": 10.594573516951078,
+        "0.75": 11.296224594332054,
+        "1.0": 11.93763663202747
+      },
+      "leave_one_min_pp": 8.27018419651218,
+      "leave_one_max_pp": 13.86074630227123,
+      "leave_one_nonpositive_n": 0,
+      "left_positive_fraction": 1.0,
+      "top_genus_by_absolute_impact": [
+        {
+          "genus": "Wahlenbergia",
+          "n_east_species": 3,
+          "n_other_species": 5,
+          "n_total_species_units": 8,
+          "influence_delta_pp": 3.667452435515292,
+          "omit_C_pp": 8.27018419651218
+        },
+        {
+          "genus": "Mimosa",
+          "n_east_species": 3,
+          "n_other_species": 7,
+          "n_total_species_units": 10,
+          "influence_delta_pp": -1.9231096702437585,
+          "omit_C_pp": 13.86074630227123
+        },
+        {
+          "genus": "Murdannia",
+          "n_east_species": 4,
+          "n_other_species": 4,
+          "n_total_species_units": 8,
+          "influence_delta_pp": -1.874261504372926,
+          "omit_C_pp": 13.811898136400396
+        },
+        {
+          "genus": "Bistorta",
+          "n_east_species": 3,
+          "n_other_species": 4,
+          "n_total_species_units": 7,
+          "influence_delta_pp": 1.6592557367698628,
+          "omit_C_pp": 10.278380895257607
+        },
+        {
+          "genus": "Utricularia",
+          "n_east_species": 11,
+          "n_other_species": 17,
+          "n_total_species_units": 28,
+          "influence_delta_pp": 1.6332587961055232,
+          "omit_C_pp": 10.304377835921947
+        },
+        {
+          "genus": "Nymphoides",
+          "n_east_species": 3,
+          "n_other_species": 4,
+          "n_total_species_units": 7,
+          "influence_delta_pp": -1.5977860172023712,
+          "omit_C_pp": 13.535422649229842
+        },
+        {
+          "genus": "Geranium",
+          "n_east_species": 6,
+          "n_other_species": 27,
+          "n_total_species_units": 33,
+          "influence_delta_pp": 1.3909942440164107,
+          "omit_C_pp": 10.54664238801106
+        },
+        {
+          "genus": "Salvia",
+          "n_east_species": 5,
+          "n_other_species": 22,
+          "n_total_species_units": 27,
+          "influence_delta_pp": 1.3337433118104105,
+          "omit_C_pp": 10.60389332021706
+        },
+        {
+          "genus": "Lobelia",
+          "n_east_species": 9,
+          "n_other_species": 10,
+          "n_total_species_units": 19,
+          "influence_delta_pp": 1.224571792993248,
+          "omit_C_pp": 10.713064839034223
+        },
+        {
+          "genus": "Geum",
+          "n_east_species": 4,
+          "n_other_species": 6,
+          "n_total_species_units": 10,
+          "influence_delta_pp": 1.0725152392332682,
+          "omit_C_pp": 10.865121392794203
+        },
+        {
+          "genus": "Convolvulus",
+          "n_east_species": 4,
+          "n_other_species": 18,
+          "n_total_species_units": 22,
+          "influence_delta_pp": 1.0013866848000597,
+          "omit_C_pp": 10.936249947227411
+        },
+        {
+          "genus": "Anemonastrum",
+          "n_east_species": 5,
+          "n_other_species": 8,
+          "n_total_species_units": 13,
+          "influence_delta_pp": 0.9944815693966852,
+          "omit_C_pp": 10.943155062630785
+        },
+        {
+          "genus": "Impatiens",
+          "n_east_species": 13,
+          "n_other_species": 14,
+          "n_total_species_units": 27,
+          "influence_delta_pp": -0.9814878003637006,
+          "omit_C_pp": 12.919124432391172
+        },
+        {
+          "genus": "Anemonoides",
+          "n_east_species": 3,
+          "n_other_species": 7,
+          "n_total_species_units": 10,
+          "influence_delta_pp": -0.9120035005987043,
+          "omit_C_pp": 12.849640132626176
+        },
+        {
+          "genus": "Thunbergia",
+          "n_east_species": 4,
+          "n_other_species": 7,
+          "n_total_species_units": 11,
+          "influence_delta_pp": -0.8890450647710407,
+          "omit_C_pp": 12.826681696798511
+        }
+      ],
+      "predefined_remove_largest_species_rich_genera_C_pp": {
+        "1": 11.943953733619974,
+        "5": 12.336777988523862,
+        "10": 12.946591597684051,
+        "20": 8.745296386813528
+      },
+      "posthoc_remove_top_abs_influence_C_pp": {
+        "1": 8.27018419651218,
+        "5": 8.386383366758542,
+        "10": 3.557117487988526,
+        "20": 6.818462713840113
+      },
+      "impact_pp_min_max": [
+        -1.9231096702437585,
+        3.667452435515292
+      ],
+      "spearman_genus_sampled_species_richness_vs_signed_influence": 0.06104386493388098,
+      "source_species_units_per_genus": {
+        "min": 6,
+        "median": 15.0,
+        "p90": 39.400000000000034,
+        "max": 83
+      },
+      "n_genus_positive_signed_influence": 35,
+      "n_genus_negative_signed_influence": 42,
+      "caution": "Genus omission re-fits pooled coefficient and does not identify that genus own flower-color fitness; outcome-ranked removal is posthoc."
+    }
+  },
+  "hard_nonclaims": [
+    "Genus leave-one-out sensitivity is not proof of genus-local rainfall colour responses",
+    "No botanical organ verification, actual pigment cost, adaptation, phylogenetic replication, or independent new data",
+    "Preselected eastern sector and white-blue pair remain outcome-exposed",
+    "Classification missingness / photo exposure / actual environmental overlap remain unresolved"
+  ]
+}
