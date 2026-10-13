@@ -1,0 +1,18 @@
+{
+  "max_absolute_numeric_difference": 8.046985300325105e-11,
+  "method": "Standalone original CR-delimited field TXT read + site-ridge Newton with exact Hessian + independent target intercept root + all holdout predictions",
+  "n_heldout_M_plants": 6692,
+  "n_heldout_quadrats": 168,
+  "n_independent_arithmetic_checks": 1112,
+  "n_inner_heldout_lines": 32,
+  "n_outer_sites": 6,
+  "n_source_sites": 6,
+  "no_geographically_new_field_data": true,
+  "no_production_module_import": true,
+  "not_selection_or_causality": true,
+  "schema": "fcp_sisyrinchium_gradient_transfer_independent_newton_verification_v1",
+  "source_sign_count_negative": 5,
+  "source_sign_count_positive": 1,
+  "source_verified_by_hash": true,
+  "status": "PASS"
+}

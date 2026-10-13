@@ -1,0 +1,158 @@
+{
+  "explanation": "Dimensionless source-site beta/target TRAIN-site distance SD; slope from 5 other sites; target intercept fit only on other target lines",
+  "hard_limits": [
+    "Distance standardisation choice was explored after the primary raw-distance transport failure; not preregistered or confirmatory",
+    "Target site training-line distance SD uses predictors only, not target line response",
+    "No site-level independent evolutionary experiment, no causal water effect, no plant abundance or colour reconstruction"
+  ],
+  "leave_one_named_site_out": [
+    {
+      "gain_std_median_vs_base": 0.045343971670930495,
+      "gain_std_median_vs_local": -0.05218692705416482,
+      "omitted_siteyear": "Y11|ootaka"
+    },
+    {
+      "gain_std_median_vs_base": 0.054258497053335096,
+      "gain_std_median_vs_local": -0.06329911870420682,
+      "omitted_siteyear": "Y11|ootaka2"
+    },
+    {
+      "gain_std_median_vs_base": 0.03906799583438778,
+      "gain_std_median_vs_local": -0.031043669596371726,
+      "omitted_siteyear": "Y11|toyama"
+    },
+    {
+      "gain_std_median_vs_base": 0.10225388254634941,
+      "gain_std_median_vs_local": -0.024185397546635835,
+      "omitted_siteyear": "Y13|banpaku"
+    },
+    {
+      "gain_std_median_vs_base": 0.06308966296454929,
+      "gain_std_median_vs_local": -0.06061122335271368,
+      "omitted_siteyear": "Y13|nature"
+    },
+    {
+      "gain_std_median_vs_base": 0.06754542258930185,
+      "gain_std_median_vs_local": -0.05913589315739075,
+      "omitted_siteyear": "Y13|shiga"
+    }
+  ],
+  "main": {
+    "gain_mean_vs_base": 0.030707940948006458,
+    "gain_median_vs_base": 0.06192657210980899,
+    "mean_logloss": {
+      "BASE": 0.7201113072219353,
+      "BORROW_Z_MEAN": 0.689403366273929,
+      "BORROW_Z_MEDIAN": 0.6581847351121263,
+      "LOCAL_DIST": 0.6097743635435457
+    },
+    "n_M": 6692,
+    "n_folds": 32,
+    "n_gain_median_vs_base": 5,
+    "n_gain_median_vs_local": 3,
+    "n_quadrats": 168,
+    "n_sites": 6
+  },
+  "schema": "fcp_sisyrinchium_posthoc_standardized_shoreline_transfer_sensitivity_v1",
+  "sites": [
+    {
+      "gain_std_mean_vs_base": 0.15033571982482818,
+      "gain_std_median_vs_base": 0.14483957430420147,
+      "gain_std_median_vs_local": -0.02952759414065953,
+      "n_M": 691,
+      "n_lines": 3,
+      "n_quadrats": 9,
+      "score": {
+        "BASE": 0.853977395422895,
+        "BORROW_Z_MEAN": 0.7036416755980668,
+        "BORROW_Z_MEDIAN": 0.7091378211186935,
+        "LOCAL_DIST": 0.679610226978034
+      },
+      "siteyear": "Y11|ootaka"
+    },
+    {
+      "gain_std_mean_vs_base": 0.11208820272105735,
+      "gain_std_median_vs_base": 0.10026694739217845,
+      "gain_std_median_vs_local": 0.026033364109550483,
+      "n_M": 108,
+      "n_lines": 3,
+      "n_quadrats": 10,
+      "score": {
+        "BASE": 0.9111361010141752,
+        "BORROW_Z_MEAN": 0.7990478982931178,
+        "BORROW_Z_MEDIAN": 0.8108691536219967,
+        "LOCAL_DIST": 0.8369025177315472
+      },
+      "siteyear": "Y11|ootaka2"
+    },
+    {
+      "gain_std_mean_vs_base": 0.14356953507841042,
+      "gain_std_median_vs_base": 0.17621945348691503,
+      "gain_std_median_vs_local": -0.135243881429625,
+      "n_M": 2305,
+      "n_lines": 6,
+      "n_quadrats": 24,
+      "score": {
+        "BASE": 0.6812660557895848,
+        "BORROW_Z_MEAN": 0.5376965207111744,
+        "BORROW_Z_MEDIAN": 0.5050466023026697,
+        "LOCAL_DIST": 0.3698027208730447
+      },
+      "siteyear": "Y11|toyama"
+    },
+    {
+      "gain_std_mean_vs_base": -0.30442741144648755,
+      "gain_std_median_vs_base": -0.13970998007289315,
+      "gain_std_median_vs_local": -0.16953524167830447,
+      "n_M": 332,
+      "n_lines": 4,
+      "n_quadrats": 26,
+      "score": {
+        "BASE": 0.5669767180555026,
+        "BORROW_Z_MEAN": 0.8714041295019902,
+        "BORROW_Z_MEDIAN": 0.7066866981283958,
+        "LOCAL_DIST": 0.5371514564500913
+      },
+      "siteyear": "Y13|banpaku"
+    },
+    {
+      "gain_std_mean_vs_base": 0.05557798695531524,
+      "gain_std_median_vs_base": 0.05611111783610745,
+      "gain_std_median_vs_local": 0.012593887352084776,
+      "n_M": 307,
+      "n_lines": 8,
+      "n_quadrats": 22,
+      "score": {
+        "BASE": 0.6160140567857143,
+        "BORROW_Z_MEAN": 0.5604360698303991,
+        "BORROW_Z_MEDIAN": 0.5599029389496069,
+        "LOCAL_DIST": 0.5724968263016916
+      },
+      "siteyear": "Y13|nature"
+    },
+    {
+      "gain_std_mean_vs_base": 0.027103612554915113,
+      "gain_std_median_vs_base": 0.03383231971234468,
+      "gain_std_median_vs_local": 0.005217236375470113,
+      "n_M": 2949,
+      "n_lines": 8,
+      "n_quadrats": 77,
+      "score": {
+        "BASE": 0.6912975162637401,
+        "BORROW_Z_MEAN": 0.664193903708825,
+        "BORROW_Z_MEDIAN": 0.6574651965513955,
+        "LOCAL_DIST": 0.6626824329268656
+      },
+      "siteyear": "Y13|shiga"
+    }
+  ],
+  "source_sites": [
+    "Y11|ootaka",
+    "Y11|ootaka2",
+    "Y11|toyama",
+    "Y13|banpaku",
+    "Y13|nature",
+    "Y13|shiga"
+  ],
+  "status": "POSTHOC_DIAGNOSTIC_NOT_PRIMARY"
+}

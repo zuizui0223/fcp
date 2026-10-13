@@ -1,0 +1,30 @@
+{
+  "frozen_original_output_checksums": {
+    "results/borrowed_line_predictions.csv": "e6f16876c605d18b52a92956aa35f3fd8c5a1fb1b5cf662c981a6ae517a0e2e8",
+    "results/independent_verification.json": "33f8a1a644418c9f4f25f7d8788daccbd81935462a71a715e42729e530a226d1",
+    "results/named_site_transfer_scores.csv": "32783c34a04519a65cb9fd30299d623a2641df323c87dcc48887806074175d0c",
+    "results/outer_site_and_inner_line_fit_ledger.csv": "64e027aab6351dc8fbea13156a7842e7b4e4cedf2e7475cc2d73159e1d5ffda0",
+    "results/posthoc_distance_scale.json": "a3b18b718e8f341a09616bf38f5089d67fd1d6450971f603d55aae2faeb62881",
+    "results/posthoc_distance_scale_predictions.csv": "cc072ec61a7107454470b349af26bbb53883973bc9dfd51a5064b6bc7e0913c6",
+    "results/result.json": "e874aadcccc296e1937c5311fce81df9e477613559537fac7579779de2662baa",
+    "results/site_deletion_transfer_sensitivity.csv": "20a361b0540563ac781ba4af70c664f145a90d1eb97a74c72db0a11012b65b5a"
+  },
+  "not_new_biology": true,
+  "primary_vs_posthoc": "BORROW_MEDIAN coefficient per original raw distance unit is primary; standardized slope transfer explicitly posthoc",
+  "schema": "fcp_sisyrinchium_shore_gradient_transport_locked_input_manifest_v1",
+  "scope": "PREDEFINED_RAW_UNIT_TRANSPORT_PLUS_POSTHOC_STANDARDIZATION",
+  "source_code_input_checksums": {
+    "README.md": "9292fa9ccd295ee8fb290e833850fcfdff437e3acd1b61c79b2a4e74d80903eb",
+    "docs/PROTOCOL.md": "acf627254445c5e7a20f52f1251ba4a2e467bdd031287c8bde801422f268fb94",
+    "requirements-lock.txt": "593c510ee8af7799985831f334d55681312656f53b1f2a006aa58e83c0e36888",
+    "source/Sisyrinchium_data.zip": "4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5",
+    "source/parent_predictions.csv": "49462e9b1ca377f94b0bb87f58a74b87c600df187fdd5e1337ffa8ce2ebff5c7",
+    "source/parent_result.json": "7745ab3018eb00a1939b9433effb201e1c9cc37034f2a4c2ae8a588e3c2b23ce",
+    "src/make_figures.py": "27f6846595164cbe89e81d1541f92a11bb54df14e4e4e8a2459e0f93957790aa",
+    "src/posthoc_standardized.py": "3a32d8078d1b048e7ab45f3ebe315deabd3bcffdc370b0211f9d7fd2e0e063c9",
+    "src/transport.py": "91147f35a0aa2f9ef9d91646fdfef4e1e3c7c8cfa9aef732662fa760245e1679",
+    "src/verify_independent.py": "b69257a24b2687923ac9172399598a67ee746aa4c19f2a9b5e0673ca9f2ab3df",
+    "tests/test_transport.py": "ddce0913bd2280054632e412fb8a656fffc614b7123f3dd387d9a80b51ffee41"
+  },
+  "source_preservation": "Original Dryad DOI 10.5061/dryad.j8q34, Zenodo copy record 5003124"
+}
