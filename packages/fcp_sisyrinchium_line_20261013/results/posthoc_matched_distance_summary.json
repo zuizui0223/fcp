@@ -1,0 +1,16 @@
+{
+  "cannot_separate_distance_habitat_congeners_or_spatial_autocorrelation": true,
+  "distance_linear_adjusted_mean": 0.009956306984297048,
+  "do_not_call_causal_distance_mediation": true,
+  "magnitude_reduction_ratio": 0.925160623476511,
+  "n_siteyears": 8,
+  "nominal_adjusted_p": 0.0378,
+  "repeated_sites_are_not_independent_evolutionary_replicates": true,
+  "status": "BOOKKEEPING_POSTHOC_NOT_NEW_PRIMARY_ENDPOINT",
+  "unadjusted_same_lines_mean": 0.1330356751592148,
+  "without_banpaku": {
+    "dropped_siteyear": "Y13|banpaku",
+    "estimate": -0.00058274915665,
+    "p_one_sided": 0.5548
+  }
+}
