@@ -68,12 +68,14 @@ jobs:
           for sample, old_cases in p['source_equal_species_same_genus_cases'].items():
               for gate, orig in old_cases.items():
                   curr=a['same_genera_across_geographic_sectors'][sample][gate]
+                  # Source HOLD rows carry ONLY status+n_shared_genera, not counts/models.
+                  if orig.get('status','OK')!='OK':
+                      assert curr==orig
+                      continue
+                  assert 'models' in orig and 'models' in curr
                   assert curr['source_qualified_shared_genera']==orig['source_qualified_shared_genera']
                   assert curr['n_unique_source_species']==orig['n_unique_source_species']
                   assert curr['n_original_photo_records']==orig['n_original_photo_records']
-                  if curr.get('status','OK')!='OK':
-                      assert curr==orig
-                      continue
                   for weight in ('equal_species','equal_genera'):
                       old=orig['models'][weight]
                       new=curr['models'][weight]
