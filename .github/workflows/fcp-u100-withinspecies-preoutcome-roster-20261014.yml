@@ -49,6 +49,13 @@ jobs:
           (git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv | head -n 1) || true
           echo "VALIDATION_MEASURED_CSV_COLUMNS_ONLY:"
           (git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv | head -n 1) || true
+      - name: Restore exact legacy measured tables only to read taxon identities (never colour columns)
+        run: |
+          set -euo pipefail
+          git show '5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv' > /tmp/fcp_u100/source/legacy_discovery.csv
+          git show '5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv' > /tmp/fcp_u100/source/legacy_validation.csv
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  /tmp/fcp_u100/source/legacy_discovery.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  /tmp/fcp_u100/source/legacy_validation.csv' | sha256sum -c -
       - name: Recover U100 original P100 P500 frozen parent selection ZIP by historical artifact
         env:
           GH_TOKEN: ${{ github.token }}
@@ -67,6 +74,8 @@ jobs:
             --p100 /tmp/fcp_u100/parent/p100_outcome_blind_pool.csv \
             --p500 /tmp/fcp_u100/parent/p500_frozen_selection.csv \
             --third-selected results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv \
+            --legacy-discovery /tmp/fcp_u100/source/legacy_discovery.csv \
+            --legacy-validation /tmp/fcp_u100/source/legacy_validation.csv \
             --outdir /tmp/fcp_u100/frozen
       - name: Fail closed on any overlap, capacity drift, or outcome exposure
         run: |
@@ -78,7 +87,7 @@ jobs:
           r=json.loads((p/'outcome_blind_roster_receipt.json').read_text())
           a=pd.read_csv(p/'all_u100_4730_species_status.csv')
           b=pd.read_csv(p/'never_selected_2730_preoutcome_species.csv')
-          assert r['schema']=='fcp_u100_within_species_outcome_blind_roster_v1'
+          assert r['schema']=='fcp_u100_within_species_outcome_blind_roster_v2'
           assert r['status']=='U100_IDENTITIES_FROZEN_NO_NEW_COLOUR_OR_ENVIRONMENT_OPENED'
           assert len(a)==4730 and len(b)==2730
           assert r['historical_memberships']=={
@@ -92,7 +101,9 @@ jobs:
           assert a.inat_taxon_id.dtype.kind in 'iu'
           assert r['photo_colours_retrieved_by_this_step']==0
           assert r['new_W_tests_performed']==0 and r['new_within_species_environment_tests_performed']==0
-          assert not r['q_white_changes']
+          assert not r['original_q_white_changed']
+          assert r['legacy_capacity_value_not_in_42111_csv'] is True
+          assert a.loc[a.historical_membership.eq('legacy_discovery_or_validation'),'after_observer_cap'].isna().all()
           for filename,sha in r['output_SHA256'].items():
               assert hashlib.sha256((p/filename).read_bytes()).hexdigest()==sha
           print('PASS authentic 4730 species, pre-historical 1000 / P500 500 / third 500 / never-selected 2730, all frozen photo-free')
