@@ -16,6 +16,8 @@ on:
       - tests/test_polymorphism_manuscript_claims.py
       - tests/test_u100_comparison.py
       - fcp_pipeline/u100_comparison.py
+      - fcp_pipeline/u100_frozen_w_export.py
+      - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
@@ -29,6 +31,8 @@ on:
       - tests/test_polymorphism_manuscript_claims.py
       - tests/test_u100_comparison.py
       - fcp_pipeline/u100_comparison.py
+      - fcp_pipeline/u100_frozen_w_export.py
+      - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
@@ -52,7 +56,7 @@ jobs:
         run: python -m pip install --upgrade pytest numpy pandas scipy
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py -q
 
 
   u100-real-frozen-data-smoke:
@@ -93,6 +97,15 @@ jobs:
           echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/source/prospective.csv' | sha256sum -c -
           echo 'FROZEN_U100_FILE_SHA256:' && sha256sum "$work/source/u100_species.csv"
 
+      - name: Export per-species W from official frozen prospective delta vectors
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_frozen_w_export \
+            --u100 "$work/source/u100_species.csv" \
+            --vectors results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/primary_0_10_delta_vectors.csv \
+            --out "$work/source/w_prospective.csv"
+
       - name: Run the U100 bridge on real frozen cohorts
         run: |
           set -euo pipefail
@@ -102,6 +115,7 @@ jobs:
             --measured "discovery=$work/source/discovery.csv" \
             --measured "validation=$work/source/validation.csv" \
             --measured "prospective=$work/source/prospective.csv" \
+            --w-metrics "$work/source/w_prospective.csv" \
             --expected-u100 4730 --shards 24 --outdir "$work/output"
 
       - name: Verify frozen cohort coverage and publish receipt to log
@@ -120,6 +134,12 @@ jobs:
           assert receipt["measurement_status"].get("not_measured") == 3231, receipt
           assert receipt["measurement_status"].get("D_evaluable") == 1109, receipt
           assert receipt["confirmatory_decisions_changed"] is False
+          observed_w = receipt["cohorts"]["prospective"]["W_alignment_squared"]
+          assert observed_w["n"] == 158, observed_w
+          assert abs(observed_w["mean"] - 0.5172457461053418) < 1e-12, observed_w
+          print("U100_FROZEN_PROSPECTIVE_W", json.dumps(observed_w, sort_keys=True))
+          print("U100_EXPLORATORY_D_W_CORRELATION", json.dumps(
+              receipt["correlations"]["D_vs_w_alignment_sq"], sort_keys=True))
           print("U100_EMPIRICAL_SMOKE_PASS", json.dumps({
               "u100": receipt["n_u100"],
               "measured": receipt["n_measured"],
@@ -134,6 +154,8 @@ jobs:
         with:
           name: fcp-u100-frozen-smoke-audit
           path: |
-            \${{ runner.temp }}/fcp_u100_smoke/output/comparison_summary.json
-            \${{ runner.temp }}/fcp_u100_smoke/output/u100_species_registry.csv
+            ${{ runner.temp }}/fcp_u100_smoke/output/comparison_summary.json
+            ${{ runner.temp }}/fcp_u100_smoke/output/u100_species_registry.csv
+            ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.csv
+            ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.audit.json
           retention-days: 30
