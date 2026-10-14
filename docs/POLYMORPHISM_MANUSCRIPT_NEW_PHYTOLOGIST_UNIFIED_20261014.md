@@ -310,13 +310,27 @@ The discovery D–sampled-span correlation (369 species; rho **0.180**, P **0.00
 
 ## Discussion
 
-### From species means to validated within-species distributions
+The findings connect a measurement advance to two ecological results. **First**, repeated photographic observations can recover species-level distributions and prospectively test directional colour patterns beyond the construction of four visible categories. **Second**, the resulting phenotype structure includes recurrent achromatic–chromatic differences and spatial variation, while worldwide white–coloured composition shows a broad association with moisture-related climates. We discuss these in the order of **method → pattern → ecological mechanism hypothesis**.
+
+### Methodological advance: flower colour as a measured distribution
 
 The first result is methodological but biologically consequential: within-species flower-colour diversity is reproducible across disjoint observer sets under the first-frozen validation design. Fresh-image remeasurement of 136 overlapping species gave very high D agreement (Spearman rho = 0.968; Lin CCC = 0.972), showing transport beyond one observer partition. D is nevertheless imperfectly measured: the stricter deterministic split exposes within-run uncertainty, and fresh transport remains within the same iNaturalist/FCP measurement system.
 
 The methodological contribution is architectural rather than a claim to a new standalone statistic. Gini–Simpson diversity, rank correlations, Hellinger transformation, two-means clustering, Jensen–Shannon divergence, permutation tests and phylogenetic signal statistics are established tools. What is specific to this study is their assembly around fixed high-depth species sampling, observer-disjoint validation, location-blind image measurement, explicit technical-versus-ambiguous missingness, construction-preserving nulls and a new species/photo-disjoint prospective confirmation cohort. This design treats a within-species phenotype distribution as a species-level comparative trait while keeping measurement validity, target discovery and confirmation as separate inferential stages.
 
-### Species-wide flower-colour ITV is distributed among localities
+### Recurring achromatic–chromatic patterns across lineages
+
+A complementary biological result concerns phenotype-space geometry. The original discovery/validation analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
+
+The prospective-confirmation result changes the evidential status of this finding, but in a specific way. The white-axis target was no longer chosen after looking at the new cohort: species selection, measurement support, q_white, W, thresholds and the structured null were fixed before biological opening. At the primary tier, observed W = 0.517 exceeded a structured-null median of 0.457 (p = 0.001). Because that null already preserves coarse-state composition and is itself far above the isotropic expectation of 0.125, the prospectively confirmed quantity is **excess achromatic–chromatic alignment conditional on the measured coarse colour states**, not the existence of white-versus-nonwhite coarse combinations per se.
+
+### What the visible-colour pattern does and does not measure
+
+The white/nonwhite displacement direction is geometric, not a pigment or fitness assay. It does not show whether a white phenotype evolved by pigment loss, whether another colour evolved by gain, or how pollinators, herbivores, drift or migration shaped any transition (Sapir et al. 2021; Narbona et al. 2018).
+
+The structured H2 null explicitly preserves much of the coarse white-state construction; hence the confirmed excess is relative to that baseline, not relative only to colour-space isotropy. Measured white classification is also coupled to image near-clipping (OR **1.444**, 95% CI **1.389–1.502**). Removing 2,205 high-clip photos retained strong W alignment (**0.503** versus null **0.454**, P **0.001**), but retained 89.9% of vectors and narrowly failed the fixed 90% retention gate. The formal machine decision remains INDETERMINATE. Colour-space recurrence is supported under this sensitivity, not proof of an artefact-free biological white class.
+
+### Local colour mixtures and geographic differentiation
 
 The central ecological result is that **conspecific photographic colours are less locally mixed than their species-wide composition predicts**. This pattern recurred in three species-disjoint cohorts at several radii and survived removing same-observer pairs and all white observations, continuous-colour analyses, calendar conditioning and cross-year pairs. Thus variation across a range may reside among geographic localities even when the species appears polymorphic globally.
 
@@ -324,13 +338,13 @@ Previous population-level research reports geographically varying frequencies an
 
 This structure is compatible with spatially varying selection, but cannot distinguish it from colonisation history, drift, dispersal limitation, migration, or plasticity (Delph & Kelly 2014). The spatial pattern is an evolutionary phenomenon to explain, not by itself a mechanism.
 
-### Geographic separation dominates, with a smaller candidate environmental component
+### Spatial context of local colour variation
 
 The continuous nine-colour decomposition retained a positive geographic-distance component in each cohort after BIO5 differences were accounted for; its association was consistently larger than the reciprocal BIO5-associated component. Limited dispersal and historical processes thus remain viable explanations for the geographic colour structure. A smaller unsigned temperature-associated residual occurred in raw photo colours but failed stricter flower-minus-background or observer diagnostics.
 
 Because environmental isolation is a genetic process in landscape genetics (Wang & Bradburd 2014; Sexton et al. 2014), our **phenotypic IBE-like** terminology cannot be replaced by inferred gene flow or adaptation. A much stronger causal precedent is *Linanthus parryae*, where neutral-marker and reciprocal-transplant results supplied evidence beyond a colour cline (Schemske & Bierzychudek 2007). Likewise, a signed BIO5 warm-to-white rule failed its independent-species transport requirement, even though unsigned colour turnover was weakly associated with BIO5; these are different hypotheses.
 
-### Macroecological flower colour corresponds to moisture-related environmental gradients
+### Moisture-associated ecology of white and coloured floral phenotypes
 
 Beyond the replicated geographical distribution of colours within species, the sampled worldwide flora showed broad environment–colour correspondence across named plant species. Photographs classified as white became more frequent along annual precipitation and atmospheric water-vapour gradients among congeners after broad geographic adjustment. This macroecological result complements the within-species analyses: **where colour states are located within a species, which direction they occupy in colour space, and how photographed species' colour compositions covary with climate** are separate but connected descriptions of floral diversity.
 
@@ -338,39 +352,30 @@ The broad photographic associations were most readily identified in the global s
 
 Interpretation must account for the distinct sampling grains. A photograph classified as white is not itself a verified genetic morph, and mean atmospheric vapour pressure is not a direct measure of plant tissue water stress. Species assemblage history, flowering season, observer practices, plant physiology and correlated climate axes may all contribute to the observed correspondence. The existing photographic data address geographic distribution and environmental association, while experimental plant fitness or inheritance data would be required for separate mechanistic studies.
 
-### A complementary cross-species regularity in phenotype space
+### A water-dependent benefit–cost hypothesis for floral pigmentation
 
-A complementary biological result concerns phenotype-space geometry. The original discovery/validation analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
+The recurring achromatic–chromatic axis gives a specific phenotype contrast to consider in ecological terms. Whether visible pigmentation is favoured could depend on **net ecological payoffs** that vary with water availability: any benefits of protection under interacting light, temperature or drought stress must be weighed against pigment-related developmental costs, changes in flower visibility and pollinator or other consumer responses. The relative contribution and even direction of these components can differ across plant taxa and climates. Under such a water-dependent balance, species and lineages occupying different moisture environments could exhibit different frequencies of white versus visibly pigmented flowers.
 
-The prospective-confirmation result changes the evidential status of this finding, but in a specific way. The white-axis target was no longer chosen after looking at the new cohort: species selection, measurement support, q_white, W, thresholds and the structured null were fixed before biological opening. At the primary tier, observed W = 0.517 exceeded a structured-null median of 0.457 (p = 0.001). Because that null already preserves coarse-state composition and is itself far above the isotropic expectation of 0.125, the prospectively confirmed quantity is **excess achromatic–chromatic alignment conditional on the measured coarse colour states**, not the existence of white-versus-nonwhite coarse combinations per se.
+The global photographic analysis supplies an ecological observation relevant to this hypothesis: white-classified colour fractions increased along annual precipitation and atmospheric vapour-pressure gradients among congeners. The analyses do **not** directly measure pigment synthesis, water stress, UV reflectance, photosynthetic costs, pollination or survival, so the hypothesized balance is not a separately estimated fitness mechanism. The finding is an environmental association **consistent with investigation of a moisture-dependent ecological trade-off**, rather than evidence that a particular pigment cost has been demonstrated.
 
-### What the achromatic–chromatic axis does not identify
+Developmental accessibility is a separate part of the explanation. In *Silene littorea*, published RNA and HPLC findings link white flowers with much lower F3h1 expression and altered anthocyanin pathway regulation (Casimiro-Soriguer et al. 2016). Regulatory and structural transitions can have different pleiotropic consequences (Wessinger & Rausher 2012; Larter et al. 2018), and a descriptive reanalysis of published PAL/WAL morph-frequency tables is discussed in Supporting Information S8. These studies motivate, but do not directly establish, a shared molecular or selective explanation for the present global photographic patterns.
 
-The white/nonwhite displacement direction is geometric, not a pigment or fitness assay. It does not show whether a white phenotype evolved by pigment loss, whether another colour evolved by gain, or how pollinators, herbivores, drift or migration shaped any transition (Sapir et al. 2021; Narbona et al. 2018).
 
-The structured H2 null explicitly preserves much of the coarse white-state construction; hence the confirmed excess is relative to that baseline, not relative only to colour-space isotropy. Measured white classification is also coupled to image near-clipping (OR **1.444**, 95% CI **1.389–1.502**). Removing 2,205 high-clip photos retained strong W alignment (**0.503** versus null **0.454**, P **0.001**), but retained 89.9% of vectors and narrowly failed the fixed 90% retention gate. The formal machine decision remains INDETERMINATE. Colour-space recurrence is supported under this sensitivity, not proof of an artefact-free biological white class.
-
-### Possible developmental accessibility of the achromatic–chromatic axis
-
-Why white/nonwhite displacements recur remains mechanistically open. Within-cohort BIO5 direction was observer-sensitive and failed cross-cohort transport; the smaller temperature-associated geographic turnover was likewise not robust under flower-specific or strict observer checks. Climate therefore cannot currently explain the prospective colour-space alignment.
-
-Pigment-network architecture offers a plausible, nonunique hypothesis. In *Silene littorea*, published transcriptome and HPLC observations associated white flowers with greatly reduced F3h1 expression, regulatory candidates and anthocyanin-pathway reconfiguration (Casimiro-Soriguer et al. 2016). Other anthocyanin transitions can involve distinct regulatory or structural routes with differing pleiotropic consequences (Wessinger & Rausher 2012; Larter et al. 2018). Our descriptive reanalysis of published PAL/WAL morph-frequency tables (Supporting Information Section S8) is consistent with differential persistence of floral and whole-plant pigmentation losses, but is not a new mechanistic measurement of the sampled species. Shared developmental accessibility may contribute to colour-space geometry even when geographic causes differ.
-
-### Phenotype-space generality without a universal geographic map
+### Recurring phenotype directions beyond a single world boundary
 
 The present data do not resolve whether geographic colour boundaries themselves are shared among species. Instead, the clearest cross-species regularity occurs in **phenotype space**: within-species colour variation repeatedly contains an achromatic–chromatic component, while its spatial realization may be shared, partly shared or species-specific. This distinction matters because a recurrent direction of variation does not require a recurrent map or a common environmental coefficient. Distinguishing shared from species-specific spatial sorting will require designs in which many species repeatedly sample both sides of the same candidate environmental or geographic contrasts.
 
-### Diversity and geographic organization are related but not interchangeable
+### From species-wide diversity to local composition
 
 Species with greater sampled range-wide D tended to show stronger continuous geographic organization in both original cohorts. Yet fixed-composition local depletion provides a stricter insight: nearby flowers are more similar even when the total colour proportions are held constant. The D–local-depletion association itself was scale-dependent and did not pass the primary discovery–validation rule, so we do not posit a universal diversity–partitioning law.
 
 Three comparative traits remain distinct: range-wide variation, its spatial allocation and the colour-space direction of displacement. Species with the same D can have different local morph mixtures, and similar spatial partitioning need not involve the same hues.
 
-### Two simple explanations fail fresh-data tests
+### Taxonomic history and sampling extent
 
 H3 analyses did not support broad tree-wide phylogenetic conservation of D across three validation-cohort topology placements, and a discovery-only positive association between D and photographic sampling span vanished in species-disjoint validation. These tests weaken simple ancestry-wide or photographic-span explanations for range-wide D. However, they are non-support rather than equivalence tests: finer phylogenetic structure may exist, and sampled photo span is not verified geographic range size.
 
-### Scope, representativeness and source dependence
+### Source coverage and phenotypic interpretation
 
 Neither the 42,111-species opportunity frame nor the 1,499 high-depth cohort is a probability sample permitting inference of global polymorphism prevalence. The sparse photo frame is still selected by photographic opportunity and classifiability, and its environmental source shares iNaturalist sampling with the high-depth analyses.
 
