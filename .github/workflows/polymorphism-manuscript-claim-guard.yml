@@ -111,7 +111,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install test dependency
-        run: python -m pip install --upgrade pytest numpy pandas scipy rasterio
+        run: python -m pip install --upgrade pytest numpy pandas scipy rasterio Pillow
 
       - name: Verify manuscript claims against frozen results
         run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py -q
@@ -617,7 +617,7 @@ jobs:
         run: |
           set -euo pipefail
           root="$RUNNER_TEMP/fcp_fresh_pilot"
-          python scripts/acquisition/run_fcp_uncapped_shard.py \
+          PYTHONPATH=. python scripts/acquisition/run_fcp_uncapped_shard.py \
             --frame "$root/source/42111_taxa.csv" \
             --output-root "$root/metadata" \
             --shards 1 --shard 0 --created-before "$CUTOFF_DATE" \
