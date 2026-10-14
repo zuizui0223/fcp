@@ -1,0 +1,95 @@
+name: FCP U100 4730 within-species preoutcome roster
+
+on:
+  pull_request:
+    branches:
+      - manuscript/new-phytologist-unified-geographic-macroecology-20261014
+    paths:
+      - scripts/analysis/freeze_fcp_u100_intraspecific_roster_20261014.py
+      - tests/test_freeze_u100_species_20261014.py
+      - docs/POLYMORPHISM_U100_INTRA_SPECIES_PROTOCOL_20261014.md
+      - .github/workflows/fcp-u100-withinspecies-preoutcome-roster-20261014.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: fcp-u100-preoutcome-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze-u100-identity-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install source/roster only
+        run: python -m pip install pandas==2.2.3 numpy==2.1.3 pytest==8.4.2
+      - name: Check outcome-blind identity and no-leakage logic
+        run: python -m pytest -q tests/test_freeze_u100_species_20261014.py
+      - name: Read original 42111 metadata-only taxa from exact frozen Git SHA
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_u100/source /tmp/fcp_u100/parent
+          git fetch --no-tags --depth=1 origin 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+          git show '7e538e5c51c05a7cc47b2fcf53eea92634c8a863:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' > /tmp/fcp_u100/source/original42111.csv
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  /tmp/fcp_u100/source/original42111.csv' | sha256sum -c -
+      - name: Recover U100 original P100 P500 frozen parent selection ZIP by historical artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api -H 'Accept: application/vnd.github+json' "/repos/$GITHUB_REPOSITORY/actions/artifacts/10302477571/zip" > /tmp/fcp_u100/parent/history.zip
+          echo '7e43763e3f1d9fa3ff108154dc6ef9443430b70fdb62532e2f6845582d607abb  /tmp/fcp_u100/parent/history.zip' | sha256sum -c -
+          unzip -q /tmp/fcp_u100/parent/history.zip -d /tmp/fcp_u100/parent/
+          echo '1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c  /tmp/fcp_u100/parent/p100_outcome_blind_pool.csv' | sha256sum -c -
+          echo 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4  /tmp/fcp_u100/parent/p500_frozen_selection.csv' | sha256sum -c -
+          echo '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59  results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv' | sha256sum -c -
+      - name: Freeze all 4730 IDs and exact untouched 2730 without access to photos or climate
+        run: |
+          python scripts/analysis/freeze_fcp_u100_intraspecific_roster_20261014.py \
+            --frame /tmp/fcp_u100/source/original42111.csv \
+            --p100 /tmp/fcp_u100/parent/p100_outcome_blind_pool.csv \
+            --p500 /tmp/fcp_u100/parent/p500_frozen_selection.csv \
+            --third-selected results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv \
+            --outdir /tmp/fcp_u100/frozen
+      - name: Fail closed on any overlap, capacity drift, or outcome exposure
+        run: |
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          import pandas as pd
+          p=Path('/tmp/fcp_u100/frozen')
+          r=json.loads((p/'outcome_blind_roster_receipt.json').read_text())
+          a=pd.read_csv(p/'all_u100_4730_species_status.csv')
+          b=pd.read_csv(p/'never_selected_2730_preoutcome_species.csv')
+          assert r['schema']=='fcp_u100_within_species_outcome_blind_roster_v1'
+          assert r['status']=='U100_IDENTITIES_FROZEN_NO_NEW_COLOUR_OR_ENVIRONMENT_OPENED'
+          assert len(a)==4730 and len(b)==2730
+          assert r['historical_memberships']=={
+              'legacy_discovery_or_validation':1000,
+              'earlier_P500_selected_not_new_holdout':500,
+              'third_cohort_selected_500_of_499_measured':500,
+              'still_never_selected_for_high_depth':2730}
+          assert a.inat_taxon_id.is_unique and b.inat_taxon_id.is_unique
+          assert b.inat_taxon_id.isin(a.inat_taxon_id).all()
+          assert b.after_observer_cap.ge(100).all()
+          assert a.inat_taxon_id.dtype.kind in 'iu'
+          assert r['photo_colours_retrieved_by_this_step']==0
+          assert r['new_W_tests_performed']==0 and r['new_within_species_environment_tests_performed']==0
+          assert not r['q_white_changes']
+          for filename,sha in r['output_SHA256'].items():
+              assert hashlib.sha256((p/filename).read_bytes()).hexdigest()==sha
+          print('PASS authentic 4730 species, pre-historical 1000 / P500 500 / third 500 / never-selected 2730, all frozen photo-free')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-u100-4730-outcome-blind-intraspecific-roster-20261014
+          path: /tmp/fcp_u100/frozen/
+          if-no-files-found: error
+          retention-days: 90
