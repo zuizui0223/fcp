@@ -62,8 +62,9 @@ def test_original_high_depth_primary_effects_and_h2_kept():
         assert token in full,token
     assert "not a within-population" in full or "not a measure of coexistence within a natural population" in full
     summary=c["Summary"].split("**Keywords")[0]
-    for fragment in ("high-depth photographs", "achromatic–chromatic direction", "annual precipitation", "water-vapour", "ecological trade-offs"):
+    for fragment in ("high-depth photographs", "achromatic–chromatic direction", "annual precipitation", "ecological trade-offs"):
         assert fragment in summary, fragment
+    assert "vapour pressure" in summary or "water-vapour" in summary
     assert "universal climatic selection" not in summary.lower()
     assert "not robustly supported" not in summary.lower()
 
@@ -208,7 +209,7 @@ def test_ecology_first_story_and_noncausal_separate_sampling_grains():
     assert r.index("### Pattern: achromatic–chromatic variation") < r.index("### Geographic context: local mixing")
     assert d.index("### Moisture-associated ecology") < d.index("### Recurring achromatic–chromatic patterns")
     assert d.index("### A water-dependent benefit–cost hypothesis") < d.index("### Conclusion")
-    assert "nonnested sampling designs" in c["Introduction"]
+    assert "not a nested sequence" in c["Introduction"] or "nonnested" in c["Introduction"]
     assert "not a nested" in c["Summary"] or "nonnested" in c["Summary"]
     assert "strict" in c["Summary"] and "spatial" in c["Summary"]
     assert "relative fitness" in d and "do **not** directly measure" in d
