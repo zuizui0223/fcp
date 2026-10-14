@@ -10,13 +10,13 @@
 
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
-**Word counts (14 October 2026, whitespace-delimited; journal typeset count to verify):**
+**Word counts (14 October 2026, whitespace-delimited; verify journal typeset count):**
 - Summary: 189 words
 - Introduction: 741 words
 - Materials and Methods: 2365 words
-- Results: 1806 words
+- Results: 1840 words
 - Discussion: 1423 words
-- Main text (Introduction through Discussion): 6335 words
+- Main text (Introduction through Discussion): 6369 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -258,7 +258,7 @@ Correction of the Gini–Simpson plug-in estimator had little effect on species 
 
 ### Discovery and species-disjoint localization of the achromatic–chromatic axis
 
-Continuous nine-colour displacement initially showed recurrent **unlabelled geometry** in discovery (152 vector species, leading-axis concentration **0.5414**) and validation (129 species, **0.5350**); validation projection onto the discovery axis was **0.5242** and the two independently estimated directions aligned at approximately **0.986**. The direction was localized *after viewing these data* to a white-versus-equal-nonwhite axis. At the primary 0.10 tier, the corresponding W statistic exceeded a colour-construction-preserving structured null in discovery (**0.514625** versus null median **0.430808**, P **0.001**) and validation (**0.514586** versus **0.466546**, P **0.001**); strict tiers were also supported. Once the white direction was removed, neither the residual axis nor a nonwhite-only hue contrast showed corresponding excess concentration. The named axis was therefore **discovered** here, not prospectively confirmed by these same cohorts.
+Continuous nine-colour displacement initially showed recurrent **unlabelled geometry** in discovery (152 vector species, leading-axis concentration **0.5414**) and validation (129 species, **0.5350**); validation projection onto the discovery axis was **0.5242** and the two independently estimated directions aligned at approximately **0.986**. The direction was localized *after viewing these data* to a white-versus-equal-nonwhite axis. At the primary 0.10 tier, the corresponding W statistic exceeded a colour-construction-preserving structured null in discovery (**0.514625** versus null median **0.430808**, P **0.001**) and validation (**0.514586** versus **0.466546**, P **0.001**); strict tiers were also supported. Once the white direction was removed, neither the residual axis nor a nonwhite-only hue contrast showed corresponding excess concentration. The named axis was therefore **discovered** here, not prospectively confirmed by these same cohorts. Across discovery, validation and prospective cohorts, **152 + 129 + 158 = 439 species** supplied primary-tier vectors; the 439-species summary is descriptive, whereas only the 158 newly sampled species constitute a pre-frozen prospective test.
 
 ### Prospective confirmation measurement gate
 
