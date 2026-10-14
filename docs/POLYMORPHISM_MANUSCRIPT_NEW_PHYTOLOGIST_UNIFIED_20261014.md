@@ -14,9 +14,9 @@
 - Summary: 187 words
 - Introduction: 432 words
 - Materials and Methods: 2545 words
-- Results: 2551 words
-- Discussion: 1964 words
-- Main text (Introduction through Discussion): 7492 words
+- Results: 2555 words
+- Discussion: 1912 words
+- Main text (Introduction through Discussion): 7444 words
 - Figures: 6
 - Tables: 1
 - Supporting Information: unified S1–S21 evidence map and planned source-referenced supplementary figures/tables
@@ -224,29 +224,11 @@ The central high-depth sampling logic is **frame → discovery/validation → fr
 
 ## Results
 
-Results begin with the measured diversity of global photographed flowers and their cross-cell changes, then describe moisture-associated colour composition. The independently sampled high-depth cohorts test within-species phenotypic directions and geographic structure. Finally we examine why these observations do not identify a fitness equilibrium.
+We first document worldwide photographic flower-colour states and geographically separated conspecific differences. Core tests then establish reproducibility, a recurrent within-species colour-space direction and geographic allocation in separately sampled high-depth cohorts. Moisture associations and alternative explanations follow as contextual observational tests, not causes of the repeated phenotype patterns.
 
 ### Global photographed flower-colour diversity and cross-cell variation
 
 In the original one-photo-per-species atlas, **18,457 of 42,111** nominal species had a classifiable four-colour flower photograph: 8,597 white, 6,323 yellow/orange, 2,001 red/pink and 1,536 blue/purple. A second geographically stratified archive measured 85,337 taxon×cell photographic states (39,075 classifiable); overlap between the sources was removed before obtaining 100,543 unique photographed opportunities. Their records are different analytic units, not independent replication. Of **13,416** fixed conspecific, different-observer, cross-cell photo pairs, **3,196** had both colours classifiable; **797 (24.94%, source species-bootstrap 95% interval 23.44–26.44%)** disagreed in their original colour class. The other **10,220 pairs** remained unresolved. These data document geographically separated photographic colour states, **not** global polymorphic-species prevalence (Supporting Information S19).
-
-### Ecology: worldwide flower-colour correspondence with moisture gradients
-
-In the global broad-geo genus-equal analysis, photographed white increased along annual precipitation BIO12 by **+2.255 percentage points per one original global precipitation SD** (six-axis × four-colour simultaneous 95% interval **+0.319 to +4.190**) and along mean vapour pressure by **+3.952 points** (**+1.199 to +6.704**). These are associations among different species' photographed colour compositions, not individual colour changes or field fitness. No comparably general signed direction was established for BIO5 or solar radiation (Fig. 1b).
-
-The global white–BIO12 association was less precise in the strict-quality subset (**+1.229**, simultaneous interval **−2.046 to +4.504**) and in the genus-by-coarse-geographic-cell comparison (**+0.808**, **−3.556 to +5.172**). The broad eastern (90–180° E) slope was **+4.716** (**+1.565 to +7.866**), but strict-quality and cell-conditioned east estimates had intervals including zero. A direct support decomposition used identical photographed species in two model fits: for the **9,370** world-matched taxa in **845** genera, the broad-geo estimate of **+1.326** became **+0.808** with genus-by-cell conditioning. For **2,886** east-matched taxa in **280** genera, **+1.102** became **−2.076**. The paired eastern difference (**+3.178**) had a nominal genus-bootstrap 95% interval **+1.077 to +5.351**, but its **24-contrast simultaneous interval −0.258 to +6.613** included zero. Thus the discrepancy is not simply the consequence of evaluating a smaller *number* of species, but an independently identifiable spatial-adjustment effect or universal climatic selection is not established.
-
-### Matched original photographs reveal a scale-dependent moisture association
-
-On the **same 21,448 original photographs from 6,143 species/787 genera**, photographed-white probability rose with BIO12 rainfall among congeners (**+2.722 percentage points/SD**, 95% paired genus-bootstrap **+0.705 to +4.714**), but the within-named-species slope was **−0.511** (**−1.436 to +0.335**). The original paired between-minus-within difference was **+3.233** (**+1.175 to +5.400**, exploratory one-sided bootstrap P = 0.0005). These fits used the **same photo hue outcomes**, but different between-/within-species estimands; they do not identify selection. A separate continuous white-photo-ROI analysis (14,667 photos/3,351 species) showed the same general between/within contrast, yet its positive congeneric gradient was **not** robust to stricter floral ROI quality (+1.116, 95% −1.169 to +3.401). Thus the global colour–moisture association is **not a shared within-species response** demonstrated by these photographs (S21).
-
-### Global colour–environment prediction carries limited cross-species information
-
-The source showed small geographic-heldout environmental predictive gains beyond genus and photographed geography: climate26 genus-equal Brier **+0.002943** (17,183 test species) and soil36 **+0.001432** (13,961 different test species). No soil effect follows from subtracting nonidentical cohorts. A separate original-source verified unseen-genus comparison restricted to **the same 20,786 soil-available species** found incremental soil gain **+0.0000757** (95% interval **−0.000516 to +0.000653**), not a robust added-soil improvement in that design. Strict photograph and geographical transport further constrain generality (Fig. 1a).
-
-### Sensitivity of moisture–colour correspondence to botanical colour measurement
-
-When we replaced photo-colour classification with unambiguous botanical-description colours for an exactly name-matched subset, the main eastern comparison retained **58** matched genera and **670** species. The east-versus-rest annual-rainfall white-minus-blue/purple slope was **+2.07** percentage points per environmental SD under species-equal weighting (95% bootstrap interval **−13.87 to +19.07**) and **+3.56** under genus-equal weighting (**−15.34 to +22.60**). Four-region simultaneous intervals also included zero. This alternative measurement provided no statistically conclusive convergent direction; its sparse categorical trait, binary hue denominator and reused photo-site climatic coordinates mean that failure to confirm cannot be interpreted as a demonstrated absence of an ecological effect (Fig. 1d).
 
 ### Method: photographic flower-colour distributions are reproducibly measurable
 
@@ -294,14 +276,6 @@ The prospective primary W = **0.517** exceeded its already white-aligned coarse-
 
 Direct reacquisition of all **49,900** prospective photos found available exposure metrics for **44,098**. The response-blind high-clip gate selected **2,205** rows. In a species-stratified sample (23,320 originally classified rows; 461 species), a within-species SD increase in near-clipping predicted white classification at **OR = 1.444**, 95% CI **1.389–1.502**, exceeding the frozen negligible-coupling boundary. Excluding the high-clip set left **142/158** vectors with W = **0.503**, null median **0.454** and P = **0.001**. Because 142/158 = 89.9% missed the frozen ≥90% vector-retention threshold, the executable outcome remained **INDETERMINATE** rather than retrospectively FLAGGED or PASS. Thus the geometric contrast survives exposure exclusion, but the white category is demonstrably exposure-coupled.
 
-### Greater D is associated with stronger within-species geographic colour organization
-
-The positive D–spatial association reproduced across the two species-disjoint high-depth cohorts. The raw association was rho = **0.0892133** (p = **0.034**) in discovery and rho = **0.1016008** (p = **0.025**) in validation.
-
-After controlling for sampled geographic span and clear ROI/flip technical-failure rate, the geometry-preserving analysis remained positive in discovery (partial rho = **0.1266367**, p = **0.007**) and validation (partial rho = **0.0992877**, p = **0.025**). In validation, the matched flower-minus-background response was also positive (partial rho = **0.1162411**, p = **0.010**).
-
-The validation result remained supported under exact uniform ambiguity-endpoint completions: primary D_min4 rho = **0.0970781** (p = **0.029**) and D_max4 rho = **0.1252858** (p = **0.008**); flower-minus-background p-values were **0.009** and **0.006**. Species with greater species-wide sampled colour-state diversity therefore tend to show stronger internal geographic organization, although this association neither partitions D into within- versus among-location components nor identifies the causal process that creates or maintains that organization.
-
 ### Geographic context: local mixing and colour differentiation
 
 The distance-decay result does not by itself say whether range-wide diversity reflects local coexistence or differentiation among localities. A post-outcome composition-preserving test addressed this directly. At the fixed 50-km primary scale, nearby observations contained less four-state colour diversity than expected from each species' exact overall colour composition in all three species-disjoint cohorts. Mean species-wide minus local pairwise diversity was **0.02053** in discovery (n = 166), **0.01867** in validation (n = 181) and **0.01468** in the third cohort (n = 204); the matched vertex-null upper-tail p-value was **0.005** in each cohort. Local depletion was also supported at 25, 100 and 250 km in all three cohorts (Fig. 6).
@@ -309,6 +283,14 @@ The distance-decay result does not by itself say whether range-wide diversity re
 The result survived five direct falsification tests at 50 km. After excluding all same-observer photo pairs, mean depletion remained **0.01998**, **0.01690** and **0.01457** in discovery, validation and the third cohort, respectively (p = **0.005** in each). Removing every white observation and analysing only yellow/orange, red/pink and blue/purple retained positive depletion in all three cohorts (0.01947, p = 0.005; 0.00729, p = 0.025; 0.00891, p = 0.040). Replacing coarse states with continuous nine-colour Jensen–Shannon dissimilarity also retained local homogeneity (mean species-wide minus local JSD = **0.01518**, **0.01366** and **0.01301**; p = **0.005** in each cohort). Calendar-quarter-stratified label permutations likewise retained local depletion in discovery, validation and the third cohort (**0.02287**, **0.02061**, **0.01560**; p = **0.005** in each), as did restricting local comparisons to photographs from different years (**0.02095**, **0.01437**, **0.01377**; p = **0.005** in each). Thus the geographic partitioning is not restricted to the exposure-coupled white classifier, coarse morph assignment, same-observer photo pairs, calendar-quarter composition or same-year sampling.
 
 A stronger claim that higher-D species allocate a larger fraction of their diversity among localities was not scale invariant. At 50 km the D–depletion correlation was unsupported in discovery (rho = 0.0390, p = 0.135) but positive in validation (rho = 0.1171, p = 0.025) and the third cohort (rho = 0.1118, p = 0.005). We therefore treat **local depletion itself**, rather than a universal D–partitioning slope, as the replicated result.
+
+### Greater D is associated with stronger within-species geographic colour organization
+
+The positive D–spatial association reproduced across the two species-disjoint high-depth cohorts. The raw association was rho = **0.0892133** (p = **0.034**) in discovery and rho = **0.1016008** (p = **0.025**) in validation.
+
+After controlling for sampled geographic span and clear ROI/flip technical-failure rate, the geometry-preserving analysis remained positive in discovery (partial rho = **0.1266367**, p = **0.007**) and validation (partial rho = **0.0992877**, p = **0.025**). In validation, the matched flower-minus-background response was also positive (partial rho = **0.1162411**, p = **0.010**).
+
+The validation result remained supported under exact uniform ambiguity-endpoint completions: primary D_min4 rho = **0.0970781** (p = **0.029**) and D_max4 rho = **0.1252858** (p = **0.008**); flower-minus-background p-values were **0.009** and **0.006**. Species with greater species-wide sampled colour-state diversity therefore tend to show stronger internal geographic organization, although this association neither partitions D into within- versus among-location components nor identifies the causal process that creates or maintains that organization.
 
 ### Geographic colour turnover contains both IBD-like and bounded IBE-like components
 
@@ -318,9 +300,23 @@ The BIO5 component is technically bounded. Although continuous flower-colour mea
 
 A broader hypothesis that environmentally heterogeneous species simply maintain more total flower-colour diversity was not supported. The primary multivariate heterogeneity test did not replicate discovery to validation, and a solar-radiation heterogeneity signal selected from the 500+500 screen failed fixed transport to the third cohort (partial rho = 0.0171, p = 0.382).
 
-### Photographic near-half white occurrence does not establish an equilibrium
+### Ecology: worldwide flower-colour correspondence with moisture gradients
 
-Among **45,953** classified world photos, **21,574 (46.95%)** were white; the real-site absolute-latitude bands showed 47.08%, 46.79% and 49.00%. However, **54,590/100,543** photo colours were missing, yielding no-assumption all-photo white bounds of **21.46–75.75%**. The band spread was not exceptionally low under within-species colour-preserving permutations (**P = 0.214**). The proposed negative covariance between species composition and within-species geographic colour shifts was absent (observed **+0.00018144**; negative-compensation **P = 0.997**). Retrospective middle-rainfall local colour-mixing tests also lacked corrected support and had no species evaluable in all three rainfall bins. Hence these photographs do not establish homeostatic maintenance of a genetic 50:50 morph ratio (Supporting Information S18).
+In the global broad-geo genus-equal analysis, photographed white increased along annual precipitation BIO12 by **+2.255 percentage points per one original global precipitation SD** (six-axis × four-colour simultaneous 95% interval **+0.319 to +4.190**) and along mean vapour pressure by **+3.952 points** (**+1.199 to +6.704**). These are associations among different species' photographed colour compositions, not individual colour changes or field fitness. No comparably general signed direction was established for BIO5 or solar radiation (Fig. S13).
+
+The global white–BIO12 association was less precise in the strict-quality subset (**+1.229**, simultaneous interval **−2.046 to +4.504**) and in the genus-by-coarse-geographic-cell comparison (**+0.808**, **−3.556 to +5.172**). The broad eastern (90–180° E) slope was **+4.716** (**+1.565 to +7.866**), but strict-quality and cell-conditioned east estimates had intervals including zero. A direct support decomposition used identical photographed species in two model fits: for the **9,370** world-matched taxa in **845** genera, the broad-geo estimate of **+1.326** became **+0.808** with genus-by-cell conditioning. For **2,886** east-matched taxa in **280** genera, **+1.102** became **−2.076**. The paired eastern difference (**+3.178**) had a nominal genus-bootstrap 95% interval **+1.077 to +5.351**, but its **24-contrast simultaneous interval −0.258 to +6.613** included zero. Thus the discrepancy is not simply the consequence of evaluating a smaller *number* of species, but an independently identifiable spatial-adjustment effect or universal climatic selection is not established.
+
+### Matched original photographs reveal a scale-dependent moisture association
+
+On the **same 21,448 original photographs from 6,143 species/787 genera**, photographed-white probability rose with BIO12 rainfall among congeners (**+2.722 percentage points/SD**, 95% paired genus-bootstrap **+0.705 to +4.714**), but the within-named-species slope was **−0.511** (**−1.436 to +0.335**). The original paired between-minus-within difference was **+3.233** (**+1.175 to +5.400**, exploratory one-sided bootstrap P = 0.0005). These fits used the **same photo hue outcomes**, but different between-/within-species estimands; they do not identify selection. A separate continuous white-photo-ROI analysis (14,667 photos/3,351 species) showed the same general between/within contrast, yet its positive congeneric gradient was **not** robust to stricter floral ROI quality (+1.116, 95% −1.169 to +3.401). Thus the global colour–moisture association is **not a shared within-species response** demonstrated by these photographs (S21).
+
+### Global colour–environment prediction carries limited cross-species information
+
+The source showed small geographic-heldout environmental predictive gains beyond genus and photographed geography: climate26 genus-equal Brier **+0.002943** (17,183 test species) and soil36 **+0.001432** (13,961 different test species). No soil effect follows from subtracting nonidentical cohorts. A separate original-source verified unseen-genus comparison restricted to **the same 20,786 soil-available species** found incremental soil gain **+0.0000757** (95% interval **−0.000516 to +0.000653**), not a robust added-soil improvement in that design. Strict photograph and geographical transport further constrain generality (Fig. S12).
+
+### Sensitivity of moisture–colour correspondence to botanical colour measurement
+
+When we replaced photo-colour classification with unambiguous botanical-description colours for an exactly name-matched subset, the main eastern comparison retained **58** matched genera and **670** species. The east-versus-rest annual-rainfall white-minus-blue/purple slope was **+2.07** percentage points per environmental SD under species-equal weighting (95% bootstrap interval **−13.87 to +19.07**) and **+3.56** under genus-equal weighting (**−15.34 to +22.60**). Four-region simultaneous intervals also included zero. This alternative measurement provided no statistically conclusive convergent direction; its sparse categorical trait, binary hue denominator and reused photo-site climatic coordinates mean that failure to confirm cannot be interpreted as a demonstrated absence of an ecological effect (Fig. S15).
 
 ### The prospective BIO5 association is observer-sensitive and does not transport as a common rule
 
@@ -334,21 +330,17 @@ Validation-cohort Blomberg K tests found no support for broad tree-wide conserva
 
 The discovery D–photo-span correlation (**rho 0.180**, P **0.00090**; 369 species) did not replicate in validation (**rho −0.0026**, P **0.959**; 363 species) or adjusted sensitivity tests. Photographic span is not native range size (S7).
 
+### Photographic near-half white occurrence does not establish an equilibrium
+
+Among **45,953** classified world photos, **21,574 (46.95%)** were white; the real-site absolute-latitude bands showed 47.08%, 46.79% and 49.00%. However, **54,590/100,543** photo colours were missing, yielding no-assumption all-photo white bounds of **21.46–75.75%**. The band spread was not exceptionally low under within-species colour-preserving permutations (**P = 0.214**). The proposed negative covariance between species composition and within-species geographic colour shifts was absent (observed **+0.00018144**; negative-compensation **P = 0.997**). Retrospective middle-rainfall local colour-mixing tests also lacked corrected support and had no species evaluable in all three rainfall bins. Hence these photographs do not establish homeostatic maintenance of a genetic 50:50 morph ratio (Supporting Information S18).
+
 ## Discussion
 
-We distinguish **global photographic colour diversity**, replicated **within-species phenotype geometry and geographic structure**, and a subsequent **ecological mechanism hypothesis**. The two photographic resources differ in sampling resolution and cannot be combined into a causal selection test.
+The principal biological result is not a global rainfall–flower-colour regression: **within-species photographic colour variation has a recurrent achromatic–chromatic direction and is geographically structured** across separately sampled taxa. The world atlas establishes observational scope; environmental associations test contexts without identifying how such variants originate or persist.
 
 ### Global photographed diversity: broad variation does not imply genetic polymorphism prevalence
 
 Globally, four visible flower-colour categories were recovered from tens of thousands of source photos, and one-quarter of the both-classifiable, observer-disjoint conspecific cross-cell pairs showed different categories. This establishes photographic geographic variation conditional on the surviving labels, **not** coexistence within breeding populations. The abundance of unclassified photos and unequal source opportunities limits generalization. The high-depth data therefore supply a *different* inferential resolution rather than a subsample prevalence estimate.
-
-### Moisture-associated ecology of white and coloured floral phenotypes
-
-The global atlas and matched-photo analysis identify a **scale transition**. Although photographed-white composition covaried with rainfall/vapour among congeners, exactly matched original images did not show a common signed rainfall–white slope **within** named species. This directly limits interpreting the broad ecological gradient as morph-frequency adaptation. In high-depth species, the white–nonwhite colour-space direction was nonetheless recurrent, meaning a **shared phenotype-space contrast need not imply a shared environmental response**.
-
-The broad slopes depended on source quality, geography and taxonomic weighting; fixed-species spatial correction and independent botanical-description sensitivity did not firmly confirm them. The paired same-photo contrast is retrospective, still source-conditioned and cannot remove lineage history or photographed flower-organ error.
-
-Atmospheric vapour pressure is not plant tissue water stress, and image-captured white is not biochemical pigment absence. Species history, phenology, observer geography and correlated weather remain confounders; these are not empirical pigmentation payoffs.
 
 ### Methodological advance: flower colour as a measured distribution
 
@@ -358,7 +350,7 @@ The methodological contribution is architectural rather than a claim to a new st
 
 ### Recurring achromatic–chromatic patterns across lineages
 
-The high-depth data add a complementary biological result concerning phenotype-space geometry. The original discovery/validation analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
+The high-depth data identify a recurring pattern of phenotype-space geometry. The original discovery/validation analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
 
 The prospective-confirmation result changes the evidential status of this finding, but in a specific way. The white-axis target was no longer chosen after looking at the new cohort: species selection, measurement support, q_white, W, thresholds and the structured null were fixed before biological opening. At the primary tier, observed W = 0.517 exceeded a structured-null median of 0.457 (p = 0.001). Because that null already preserves coarse-state composition and is itself far above the isotropic expectation of 0.125, the prospectively confirmed quantity is **excess achromatic–chromatic alignment conditional on the measured coarse colour states**, not the existence of white-versus-nonwhite coarse combinations per se.
 
@@ -370,11 +362,17 @@ The structured H2 null explicitly preserves much of the coarse white-state const
 
 ### Local colour mixtures and geographic differentiation
 
-An additional ecological result is that **conspecific photographic colours are less locally mixed than their species-wide composition predicts**. This pattern recurred in three species-disjoint cohorts at several radii and survived removing same-observer pairs and all white observations, continuous-colour analyses, calendar conditioning and cross-year pairs. Thus variation across a range may reside among geographic localities even when the species appears polymorphic globally.
+A second primary result is that **conspecific photographic colours are less locally mixed than their species-wide composition predicts**. This pattern recurred in three species-disjoint cohorts at several radii and survived removing same-observer pairs and all white observations, continuous-colour analyses, calendar conditioning and cross-year pairs. Thus variation across a range may reside among geographic localities even when the species appears polymorphic globally.
 
 Previous population-level research reports geographically varying frequencies and clines of floral morphs, notably in Mediterranean plants (Narbona et al. 2018). The advance here is not discovering such mosaics, but their comparable assessment across hundreds of species under fixed photographic sampling and an exact species-composition null. Range-wide Gini–Simpson D retains overall variation but erases *where* it occurs.
 
 This structure is compatible with spatially varying selection, but cannot distinguish it from colonisation history, drift, dispersal limitation, migration, or plasticity (Delph & Kelly 2014). The spatial pattern is an evolutionary phenomenon to explain, not by itself a mechanism.
+
+### From species-wide diversity to local composition
+
+Species with greater sampled range-wide D tended to show stronger continuous geographic organization in both original cohorts. Yet fixed-composition local depletion provides a stricter insight: nearby flowers are more similar even when the total colour proportions are held constant. The D–local-depletion association itself was scale-dependent and did not pass the primary discovery–validation rule, so we do not posit a universal diversity–partitioning law.
+
+Three comparative traits remain distinct: range-wide variation, its spatial allocation and the colour-space direction of displacement. Species with the same D can have different local morph mixtures, and similar spatial partitioning need not involve the same hues.
 
 ### Spatial context of local colour variation
 
@@ -386,15 +384,13 @@ Because environmental isolation is a genetic process in landscape genetics (Wang
 
 The present data do not resolve whether geographic colour boundaries themselves are shared among species. Instead, the clearest cross-species regularity occurs in **phenotype space**: within-species colour variation repeatedly contains an achromatic–chromatic component, while its spatial realization may be shared, partly shared or species-specific. This distinction matters because a recurrent direction of variation does not require a recurrent map or a common environmental coefficient. Distinguishing shared from species-specific spatial sorting will require designs in which many species repeatedly sample both sides of the same candidate environmental or geographic contrasts.
 
-### From species-wide diversity to local composition
+### Moisture-associated ecology of white and coloured floral phenotypes
 
-Species with greater sampled range-wide D tended to show stronger continuous geographic organization in both original cohorts. Yet fixed-composition local depletion provides a stricter insight: nearby flowers are more similar even when the total colour proportions are held constant. The D–local-depletion association itself was scale-dependent and did not pass the primary discovery–validation rule, so we do not posit a universal diversity–partitioning law.
+The global atlas and matched-photo analysis identify a **scale transition**. Although photographed-white composition covaried with rainfall/vapour among congeners, exactly matched original images did not show a common signed rainfall–white slope **within** named species. This directly limits interpreting the broad ecological gradient as morph-frequency adaptation. In high-depth species, the white–nonwhite colour-space direction was nonetheless recurrent, meaning a **shared phenotype-space contrast need not imply a shared environmental response**.
 
-Three comparative traits remain distinct: range-wide variation, its spatial allocation and the colour-space direction of displacement. Species with the same D can have different local morph mixtures, and similar spatial partitioning need not involve the same hues.
+The broad slopes depended on source quality, geography and taxonomic weighting; fixed-species spatial correction and independent botanical-description sensitivity did not firmly confirm them. The paired same-photo contrast is retrospective, still source-conditioned and cannot remove lineage history or photographed flower-organ error.
 
-### Taxonomic history and sampling extent
-
-H3 analyses did not support broad tree-wide phylogenetic conservation of D across three validation-cohort topology placements, and a discovery-only positive association between D and photographic sampling span vanished in species-disjoint validation. These tests weaken simple ancestry-wide or photographic-span explanations for range-wide D. However, they are non-support rather than equivalence tests: finer phylogenetic structure may exist, and sampled photo span is not verified geographic range size.
+Atmospheric vapour pressure is not plant tissue water stress, and image-captured white is not biochemical pigment absence. Species history, phenology, observer geography and correlated weather remain confounders; these are not empirical pigmentation payoffs.
 
 ### Source coverage and phenotypic interpretation
 
@@ -414,7 +410,6 @@ The global photographic analysis supplies an ecological observation relevant to 
 
 Developmental accessibility is a separate part of the explanation. In *Silene littorea*, published RNA and HPLC findings link white flowers with much lower F3h1 expression and altered anthocyanin pathway regulation (Casimiro-Soriguer et al. 2016). Regulatory and structural transitions can have different pleiotropic consequences (Wessinger & Rausher 2012; Larter et al. 2018), and a descriptive reanalysis of published PAL/WAL morph-frequency tables is discussed in Supporting Information S8. These studies motivate, but do not directly establish, a shared molecular or selective explanation for the present global photographic patterns.
 
-
 ### Conclusion
 
 Original worldwide photographs recovered four visible flower-colour categories across the species-discovery frame and **797 class-discordant conspecific cross-cell photo pairs** among 3,196 both-classifiable pairs. This records a geographically structured photographic phenotype, not global genetic-polymorphism prevalence.
@@ -423,7 +418,7 @@ The global photo-white/rainfall relation was positive **among congeneric species
 
 In separately sampled high-depth species, achromatic–chromatic colour displacement was more recurrent than expected under a construction-preserving null in 158 prospectively eligible species. Within-species colour diversity was geographically structured across three disjoint cohorts. Neither result implies the evolutionary polarity of white and coloured flowers or the maintenance of heritable colour morphs.
 
-Together, these findings focus a testable moisture-dependent pigmentation benefit–cost hypothesis, not an identified causal trade-off. Morph-specific pigment chemistry, physiology, pollinator interactions and relative fitness under contrasting water environments are needed to bridge the species- and photo-level observations.
+Together, the measured results establish **recurrent directions and spatial allocation** of photographed within-species variation, motivating competing developmental, historical, dispersal and ecological explanations; their causes remain untested. Morph-specific pigment chemistry, physiology, pollinator interactions and relative fitness under contrasting water environments are needed to bridge the species- and photo-level observations.
 ---
 
 ## Acknowledgements
