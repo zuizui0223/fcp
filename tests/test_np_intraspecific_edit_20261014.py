@@ -147,3 +147,17 @@ def test_table1_and_figure1_keep_endpoint_specific_species_denominators():
                (("discovery",166),("validation",181),("third",204)))
     assert "439 eligible W vectors" in legend
     assert "No source-wide polymorphism prevalence is estimated" in legend
+
+
+
+def test_submission_readiness_identifies_real_limits_and_requires_human_authority():
+    note=ROOT/"docs/POLYMORPHISM_NP_INTRA_SUBMISSION_READINESS_20261014.md"
+    assert note.exists()
+    t=note.read_text(encoding="utf-8")
+    for phrase in ("1,499", "1,109", "439", "158", "166", "181", "204", "149,900", "4,730"):
+        assert phrase in t,phrase
+    assert "not 439 preregistered confirmed species" in t
+    assert "genetically inherited" not in t or "genetically inherited" in t.lower()
+    assert "INDETERMINATE" in t
+    assert "not a direct measurement" in t or "unmeasured" in t
+    assert "No manuscript has been submitted" in t
