@@ -13,10 +13,10 @@
 **Word counts (14 October 2026, whitespace-delimited; verify after final formatting):**
 - Summary: 187 words
 - Introduction: 432 words
-- Materials and Methods: 2539 words
+- Materials and Methods: 2545 words
 - Results: 2551 words
 - Discussion: 1964 words
-- Main text (Introduction through Discussion): 7486 words
+- Main text (Introduction through Discussion): 7492 words
 - Figures: 6
 - Tables: 1
 - Supporting Information: unified S1–S21 evidence map and planned source-referenced supplementary figures/tables
@@ -35,7 +35,7 @@
 
 ## Introduction
 
-Global photographs document variation in floral colour, but their interpretation changes with sampling unit. A single labelled photo identifies one visible state; even two different photos of the same named species do not prove coexisting heritable morphs in one breeding population. Here, **flower colour is the measured photographic trait and within-species colour variation is the biological question**. We connect the worldwide photo-colour spectrum, colour changes between named-species photo records and recurrent high-depth within-species phenotype directions, while treating morph maintenance and moisture-driven pigmentation costs as untested explanations (Narbona et al. 2018; Sapir et al. 2021).
+Global photographs document visible floral colours, but photographed variation is not necessarily genetically maintained polymorphism. We distinguish **flower-colour variation** (measured photo states and differences) from **flower-colour polymorphism** (biologically verified discrete floral morphs within natural reproductive populations). A photograph cannot characterize within-species diversity, and two differently coloured photos from distant sites do not prove local morph coexistence. We analyse the worldwide photo spectrum, compare between- and within-species rainfall signals on identical source photographs, and test recurrent within-species colour-space structure in high-depth species samples. Pigment-fitness trade-offs remain hypotheses (Narbona et al. 2018; Sapir et al. 2021).
 
 Species-wide colour diversity can arise through local coexistence, differences among populations, or both. Balancing selection may maintain variants locally; drift, colonisation and spatially varying environments can yield geographic mosaics (Delph & Kelly 2014; Narbona et al. 2018). A globally repeated photographic colour contrast is therefore not itself a genetic or demographic polymorphism.
 
@@ -79,13 +79,13 @@ The worldwide original-photo lineage comprised 42,111 single-photo taxon records
 
 ### Photographic measurement and outcome firewall
 
-Flower colours were extracted from ordinary visible-light iNaturalist photographs, **not calibrated petal reflectance or pigment assays**. The frozen location-blind pipeline (source commit `9fae6ccdf684a46026f72ba12e98de2c5c54bf2a`) applied ROI-v4 flower detection and EfficientSAM flower-mask segmentation, then measured normalized nine-colour pixel fractions in the fixed order **white, yellow, orange, red, pink, magenta, purple, blue, bronze**. It also assigned one of four coarse photographic states (white, yellow/orange, red/pink, blue/purple) when classification gates passed. Mask/ROI failures and ambiguous mixed palettes remained nonclassifiable; no missing photo colour was coded white, coloured or monomorphic. Original global colour labels were reused rather than reclassified. Photos were measured without species identity or coordinates during the high-depth pixel pass.
+Flower colours were extracted from ordinary visible-light iNaturalist photographs, **not calibrated spectrophotometry, ultraviolet reflectance or pigment assays**. The frozen location-blind pipeline (source commit `9fae6ccdf684a46026f72ba12e98de2c5c54bf2a`) applied ROI-v4 flower detection and EfficientSAM flower-mask segmentation, then measured normalized nine-colour pixel fractions in the fixed order **white, yellow, orange, red, pink, magenta, purple, blue, bronze**. It also assigned one of four coarse photographic states (white, yellow/orange, red/pink, blue/purple) when classification gates passed. Mask/ROI failures and ambiguous mixed palettes remained nonclassifiable; no missing photo colour was coded white, coloured or monomorphic. Original global colour labels were reused rather than reclassified. Photos were measured without species identity or coordinates during the high-depth pixel pass.
 
 For prospective confirmation, photo IDs were disjoint from previous rows, manifests were checksum-verified, and biological identity and geography remained sealed until all **256** terminal partitions completed. There was no early stopping or replacement, and image pixels/masks were not retained after sealing. Detailed firewall fields and hashes are in the prospective protocol and data-lineage map.
 
 ### Image-level biological states and continuous polymorphism score
 
-The four visible photo categories were white, yellow/orange, red/pink and blue/purple; mixed/uncertain outcomes are missing, not additional biological morphs. For high-depth species with **≥40 classifiable** fixed photos, photographed species-wide diversity was (D_i=1-\sum_{k=1}^{4}p_{ik}^2), where (p_{ik}) is the observed fraction of source photographs classified into hue (k). It is the probability of unlike colours for two sampled classifiable photographs, **not a measure of coexistence within a natural population**. Finite-sample (D_{corr}=Dn/(n-1)) was secondary, correcting multinomial plug-in bias only; it does not correct observer/organ/exposure selection (S1).
+The four visible photo categories were white, yellow/orange, red/pink and blue/purple; mixed/uncertain outcomes are missing, not additional biological morphs. For high-depth species with **≥40 classifiable** fixed photos, photographed species-wide diversity was \(D_i = 1-\sum_{k=1}^4 p_{ik}^2\), where \(p_{ik}\) is the observed fraction of source photographs classified into hue (k). It is the probability of unlike colours for two sampled classifiable photographs, **not a measure of coexistence within a natural population**. Finite-sample \(D_{\mathrm{corr}}=Dn/(n-1)\) was secondary, correcting multinomial plug-in bias only; it does not correct observer/organ/exposure selection (S1).
 
 ### H1: observer-disjoint reproducibility
 
@@ -101,15 +101,15 @@ Two admissibility tiers required minor-mode fractions >=0.10 (primary) or >=0.20
 
 The original discovery/validation geometry localized the recurrent component to the fixed white-versus-equal-nonwhite contrast:
 
-[
-q_{\mathrm{white}} = operatorname{normalize}(1,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8).
-]
+\[
+q_{\mathrm{white}} = \operatorname{normalize}(1,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8).
+\]
 
-For eligible species,
+For eligible species, the sign-invariant cohort statistic is
 
-[
-W = mean_i (u_i^T q_white)^2.
-]
+\[
+W=\frac{1}{n_{\mathrm{eligible}}}\sum_i (u_i^\mathsf{T}q_{\mathrm{white}})^2.
+\]
 
 Because (q_{white}) was named only after the broad geometry was opened, these cohorts provide target localization rather than prospective confirmation. Projection-removal tests ask whether a residual recurrent hue direction remains.
 
@@ -214,6 +214,7 @@ Frozen protocols, machine-readable results, input hashes and no-rescue rules gov
 | Climate annotation | WorldClim 2.1 BIO5, BIO14 and solar radiation assigned to prospective-cohort coordinates; post hoc observer-balanced/paired sensitivities; fixed BIO5 transport to discovery/validation cohorts | Primary panel: 281 species / 12,583 rows; observer-balanced: 352 species; observer-paired: 106 species / 144 paired species-observer strata | Test a simple abiotic explanation, its observer sensitivity and whether it transports across species-disjoint cohorts | Secondary mechanism/alternative-explanation test |
 | Phylogenetic annotation | V.PhyloMaker2 S1–S3 placements joined to validation-cohort D | 341 validation species | Test whether broad shared ancestry accounts for between-species D differences | Alternative-explanation filter |
 | Sparse world photo–environment panel | Sparse iNaturalist original-photo opportunities, joined to 26 climate or 36 total abiotic predictors with the original three identifiers | 100,543 photos / 42,111 taxa; 45,953 classifiable; 45,836 photos / 25,028 species climate26 (20,694 species /1,934 genera eligible); 31,925 photos / 20,786 species soil36 (16,801 /1,665 genus-eligible) | Test taxon-level prediction and directional macroecological response without pooling with high-depth within-species comparisons | Retrospective source-conditional macroecological test, not a new disjoint high-depth cohort |
+| Identical-photograph between/within moisture bridge | Original 4-category flower-photo outcomes, real photo-site BIO12 and shared taxon/observation/photo IDs; continuous white ROI fraction sensitivity | **21,448 photos /6,143 species /787 genera** identical in between/within categorical comparison; **14,667 photos /3,351 species** in continuous photo-white subset | Directly test whether observed congeneric photo-white/rainfall association also appears among photographic sites of the same named species | Retrospective, source-matched and noncausal; not the high-depth W cohort, individual fitness or independent botanical-colour validation |
 | External floral-description panel | Natural History Museum botanical descriptions, exact binomials, concordant unambiguous flower/petal/corolla colour | 2,476 photo-site-matched colour-labelled species; eastern main comparison 58 genera / 670 species | Check selected photographic rainfall–hue direction under a different phenotypic measurement | Distinct colour-measurement source, but same original FCP photographic geographic sites |
 
 The central high-depth sampling logic is **frame → discovery/validation → frozen target → prospective confirmation**. The sparse worldwide and independently text-described colour panels are separately analysed observational extensions, not additional prospective or statistically independent high-depth cohorts. The highlight, high-depth climate, phylogenetic, sparse worldwide and text-colour analyses answer different measurement or explanatory questions. Their outcome denominators are not pooled. The prospective confirmation cohort remains within the same iNaturalist opportunity universe and measurement system, so it is species- and photo-disjoint confirmation rather than independent-source replication.
