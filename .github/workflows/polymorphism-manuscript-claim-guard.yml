@@ -39,6 +39,12 @@ on:
       - tests/test_fcp_environment_profiles.py
       - tests/test_fcp_shared_structure.py
       - tests/test_fcp_uncapped_firewall.py
+      - tests/test_fcp_fresh_study.py
+      - tests/test_fcp_fresh_image_partition.py
+      - tests/test_run_fcp_uncapped_shard.py
+      - fcp_pipeline/fcp_fresh_study.py
+      - scripts/acquisition/run_fcp_uncapped_shard.py
+      - scripts/acquisition/run_fcp_fresh_image_partition.py
       - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
       - scripts/analysis/u100_multiclimate_20261014.py
       - tests/test_u100_multiclimate_20261014.py
@@ -77,6 +83,12 @@ on:
       - tests/test_fcp_environment_profiles.py
       - tests/test_fcp_shared_structure.py
       - tests/test_fcp_uncapped_firewall.py
+      - tests/test_fcp_fresh_study.py
+      - tests/test_fcp_fresh_image_partition.py
+      - tests/test_run_fcp_uncapped_shard.py
+      - fcp_pipeline/fcp_fresh_study.py
+      - scripts/acquisition/run_fcp_uncapped_shard.py
+      - scripts/acquisition/run_fcp_fresh_image_partition.py
       - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
       - scripts/analysis/u100_multiclimate_20261014.py
       - tests/test_u100_multiclimate_20261014.py
@@ -102,7 +114,7 @@ jobs:
         run: python -m pip install --upgrade pytest numpy pandas scipy rasterio
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py -q
 
 
   u100-real-frozen-data-smoke:
@@ -570,3 +582,74 @@ jobs:
             ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/species_environment_heterogeneity.csv
             ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/W_environment_commonality.*
             ${{ runner.temp }}/fcp_original_climate/output/photo_site_climate.receipt.json
+
+  fcp-fresh-one-page-source-pilot:
+    # Actual *metadata* source acquisition; no old photo measurements, no
+    # image pixels, no result that could be mistaken for a complete census.
+    # A single page and single species prevent an unthrottled provider crawl.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      CUTOFF_DATE: "2026-10-14"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install fresh metadata dependencies only
+        run: python -m pip install pandas numpy
+
+      - name: Restore historically defined outcome-blind species opportunity
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/fcp_fresh_pilot"
+          mkdir -p "$root/source" "$root/metadata"
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$root/source/42111_taxa.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$root"'/source/42111_taxa.csv' | sha256sum -c -
+
+      - name: Acquire the first REAL eligible source page, once, without image access
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/fcp_fresh_pilot"
+          python scripts/acquisition/run_fcp_uncapped_shard.py \
+            --frame "$root/source/42111_taxa.csv" \
+            --output-root "$root/metadata" \
+            --shards 1 --shard 0 --created-before "$CUTOFF_DATE" \
+            --pages-per-species-per-run 1 --species-per-run 1
+
+      - name: Validate non-completion and photo/measurement isolation
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_fresh_pilot/metadata/shard_000_of_001"
+          a=json.loads((root/"shard_progress.json").read_text())
+          assert a["expected_source_species"]==42111
+          assert a["n_source_species_in_shard"]==42111
+          assert a["photo_cap"] is None and a["outcome_blind"] is True
+          assert a["new_species_worked_this_invocation"]==1
+          assert a["completed_species"]+a["partial_species"]==1
+          assert a["not_started_species"]==42110
+          assert a["status"]=="in_progress"
+          assert a["pixels_opened"] is False and a["FCP_outcomes_measured"] is False
+          assert a["all_available_photo_ids_confirmed"] is False
+          print("FCP_FRESH_REAL_METADATA_FIRST_PAGE",json.dumps({
+              "species_started":1,"source_species":42111,
+              "discovered_licensed_photo_manifest_rows":a["photo_manifest_rows_including_retry_duplicates"],
+              "study_fully_enumerated":False,"new_biological_colours":0,
+              "historical_photo_colours_reused":False,
+          },sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-fresh-one-page-real-metadata-pilot
+          if-no-files-found: error
+          retention-days: 30
+          path: ${{ runner.temp }}/fcp_fresh_pilot/metadata/shard_000_of_001/
