@@ -11,22 +11,22 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (14 October 2026, whitespace-delimited; verify after final formatting):**
-- Summary: 175 words
+- Summary: 177 words
 - Introduction: 434 words
 - Materials and Methods: 2617 words
-- Results: 2415 words
+- Results: 2425 words
 - Discussion: 2002 words
-- Main text (Introduction through Discussion): 7468 words
+- Main text (Introduction through Discussion): 7478 words
 - Figures: 6
 - Tables: 1
-- Supporting Information: unified S1–S19 evidence map and planned source-referenced supplementary figures/tables
+- Supporting Information: unified S1–S20 evidence map and planned source-referenced supplementary figures/tables
 - Editorial note: source-identical ecology-first figure assets and captions now renumbered; journal formatting and approval remain
 
 ## Summary
 
 - Treating flower colour as one fixed state per species obscures worldwide differences among photographed flowers and the structure of variation within species. We combine a global floral-photo atlas with separate, high-depth species samples.
 - Across 42,111 nominal taxa, 18,457 one-photo colours were classified. Of 13,416 predefined conspecific, observer-disjoint, cross-cell pairs, 3,196 had two classifiable colours and 797 (24.94%) differed. In a separately defined 20,694-species genus-comparison panel, photo-white covaried positively with annual precipitation (+2.255 percentage points per source SD) and atmospheric water-vapour pressure (+3.952), but strict photographic and spatial controls were inconclusive.
-- A distributional photographic framework using 149,900 high-depth photographs from 1,499 species revealed recurrent achromatic–chromatic direction in 158 eligible prospectively sampled species (W = 0.517 versus structured-null median 0.457; P = 0.001). Local colour depletion recurred across three species-disjoint cohorts.
+- Separate high-depth measurement of 149,900 photographs from 1,499 species provided 439 eligible achromatic–chromatic colour-space directions across three species-disjoint cohorts; the independent 158-species prospective test confirmed excess alignment (W = 0.517 versus structured-null median 0.457; P = 0.001). Geographic colour structuring recurred.
 - Among classified original global photos, 46.95% appeared white, but exceptional geographic evenness and compensation were not supported. These nonnested data describe global photographic variation and within-species phenotype geometry; moisture-dependent ecological trade-offs in pigmentation remain experimentally testable, not demonstrated fitness or morph maintenance.
 
 **Keywords (alphabetical):** climatic gradients; flower colour; geographic differentiation; intraspecific variation; macroecology; moisture environment; phenotype distributions
@@ -251,13 +251,15 @@ These results admit D as a reproducible high-depth species phenotype for the sub
 
 ### Finite-sample correction does not alter D-based conclusions
 
-The finite-sample adjustment barely altered D rankings (discovery rho = **0.999977**, validation = **0.999978**) and changed mean D by <0.005. Discovery and validation D–spatial partial rank associations remained positive (corrected rho **0.1263**, P = **0.007**, and **0.0996**, P = **0.025**), as did the validation flower-minus-background result. Neither validation phylogenetic sensitivity nor the null sampled-span replication finding changed. Thus plug-in diversity bias did not explain the main D patterns.
+Finite-sample correction barely changed D rankings (rho **0.999977/0.999978**, discovery/validation; mean D change <0.005), and retained the original D–spatial partial-rank associations (**0.1263**, P=**0.007**; **0.0996**, P=**0.025**). It did not rescue phylogenetic or span nonreplication (S1, S5–S7).
 
 ### Pattern: achromatic–chromatic variation recurs among species
 
 The original H2 discovery and species-disjoint validation cohorts first showed label-free recurrent nine-colour geometry (leading-axis concentration 0.5414 and 0.5350; validation projection onto the frozen discovery axis 0.5242; discovery–validation axis alignment approximately 0.986). The target was subsequently localized, **after these data were viewed**, to the white-versus-equal-nonwhite contrast (Fig. 4).
 
-At the 0.10 primary threshold, discovery (152 vector species) had W = **0.514625** versus structured-null median 0.430808 (P = **0.001**), and validation (129 species) W = **0.514586** versus 0.466546 (P = **0.001**). The 0.20 strict threshold likewise supported this target (discovery n = 75, P = **0.001**; validation n = 65, P = **0.008**). Residual directional concentration after removing the white axis, and a nonwhite-only analysis, were not supported. These observations locate a candidate axis but do not themselves prospectively confirm a post-selected direction.
+At the 0.10 primary threshold, discovery (**152** vector species) had W = **0.514625** versus structured-null median 0.430808 (P = **0.001**), and validation (**129** species) W = **0.514586** versus 0.466546 (P = **0.001**). The 0.20 strict tier retained 75/65 species (P = **0.001/0.008**). Removing the white axis or restricting to nonwhite modes did not support a residual shared hue direction. These two results are **retrospective localization**, not prospective confirmation.
+
+Across all three nonoverlapping high-depth cohorts, already measured primary white-axis vectors total **439 species** (152 discovery +129 validation +158 prospective); at 0.20 strict they total **226**. The species-equal **descriptive** combined observed W is **0.515557**, versus **0.450362** from the species-weighted mean of the **three separate original null means** (difference +0.065194). This is **not a pooled permutation test and has no pooled P-value**; only the 158-species third cohort prospectively tests the pre-frozen axis (S20).
 
 ### Prospective confirmation measurement gate
 
@@ -321,7 +323,7 @@ Validation-cohort Blomberg K tests found no support for broad tree-wide conserva
 
 ### H3b: discovery span effect collapses in validation
 
-The discovery D–sampled-span correlation (369 species; rho **0.180**, P **0.00090**) did not transport to species-disjoint validation (363 species; rho **−0.0026**, P **0.959**), including observer/classifiability adjustment and rank-PGLS sensitivities. Photographic span is not true biological range size, and the discovery correlation is not a general finding.
+The discovery D–photo-span correlation (**rho 0.180**, P **0.00090**; 369 species) did not replicate in validation (**rho −0.0026**, P **0.959**; 363 species) or adjusted sensitivity tests. Photographic span is not native range size (S7).
 
 ## Discussion
 
