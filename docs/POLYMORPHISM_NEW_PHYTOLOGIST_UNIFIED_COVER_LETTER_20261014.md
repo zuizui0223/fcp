@@ -1,27 +1,27 @@
 # Cover letter — single unified New Phytologist Full Paper (working draft, 14 October 2026)
 
-**Submission status:** draft only; Figure 6 source/vector artwork is now prepared, but human author metadata, complete supplementary graphics, final formatted manuscript and unified permanent archive remain incomplete.
+**Submission status:** draft only; ecology-first Figures 1–6 are staged, but human author metadata, complete supplementary graphics, final formatted manuscript and unified permanent archive remain incomplete.
 
 **To the Editors of New Phytologist,**
 
-Please consider our manuscript, **“Moisture-associated floral colours and recurrent achromatic–chromatic variation across plant species,”** as a single Full Paper.
+Please consider our manuscript, **“Global flower-colour diversity reveals recurrent within-species variation and moisture-associated ecological patterns,”** as a single Full Paper.
 
-The paper now follows **global moisture-associated flower-colour composition → recurrent achromatic–chromatic within-species colour variation → a testable benefit–cost hypothesis**. First, a sparse worldwide photographic panel of 20,694 climate-eligible species showed broad positive genus-adjusted associations of photographed white colour with annual precipitation and atmospheric water vapour; strict image and geographic checks limit generalization. Second, a **separate** high-depth resource of 149,900 photographs from 1,499 species enables observer-disjoint measurement and a previously frozen achromatic–chromatic axis confirmed among 158 eligible prospective species. Geographic flower-colour structure recurs in the three high-depth cohorts. These are different inference populations, not a nested filter or a single identified selective pathway.
+The paper follows **worldwide photographic flower-colour variation → reproducible within-species colour geometry → experimentally testable ecological trade-offs**. The original 42,111-taxon image atlas classified single-photo floral colours for 18,457 species; among 13,416 preselected observer-disjoint cross-cell conspecific pairs, 3,196 had two classified colours and 797 were different. A complementary 20,694-species genus-centred macro sample found source-conditional positive photographed-white associations with annual rainfall and atmospheric vapour pressure, weakened by image and geographic sensitivity tests. Separately, 149,900 high-depth photographs from 1,499 sampled species established reproducible distributional measurements, a pre-frozen achromatic–chromatic direction in 158 prospectively eligible species and geographic colour structure. These distinct observational scales do **not** form a nested sample or an identified pigmentation fitness mechanism.
 
-The conceptual advance is not another global climate–flower-colour correlation in isolation, but the combination of a broad environmental context with a replicated **within-species colour-variation direction**. A water-dependent pigmentation benefit–cost balance is a testable explanation, not an established mechanism: pigment chemistry, genotype-frequency change and relative fitness were not measured.
+The contribution is not another isolated climate–colour correlation. We connect documented worldwide photographic colour diversity and geographical differences to prospectively tested **within-species colour-space regularity**. A near-half photo-white share is shown but source-matched geographic constancy/compensation and mid-rain local colour-mixing results do not support a world-scale balancing equilibrium. Moisture-dependent pigmentation benefits and costs remain a testable biological interpretation, not an observed selection mechanism.
 
 As required for editorial assessment, we answer the journal's three questions below. These responses concern **one manuscript**, not companion submissions.
 
 **1. What hypotheses or questions does this work address?**  
-Does floral colour composition covary with global moisture gradients, and is a recurrent achromatic–chromatic direction present in separately sampled within-species variation? How does its geographic distribution constrain possible ecological explanations?
+How much visible flower-colour diversity and conspecific regional discordance are documented worldwide? Does repeated within-species colour variation concentrate along an achromatic–chromatic direction, and can ecological trade-off hypotheses be framed without inferring genetic selection from photographs?
 
 **2. How does this work advance our current understanding of plant science?**  
-We present a 20,694-species global moisture-associated photo-colour pattern alongside a distinct, prospectively confirmed 158-species within-species colour direction. Their separate sampling grains and sensitivity checks constrain the ecological interpretation without conflating association, recurrence and natural selection.
+We combine measured global colour frequencies and cross-cell photographic differences with a separate 1,499-species high-depth measurement programme and a prospective 158-species white–coloured axis test. Explicit unclassified outcomes, source-preserving nulls and negative ecological controls delimit which evolutionary interpretations the data permit.
 
 **3. Why is this work important and timely?**  
-Connecting macroecological association to a repeatable phenotype contrast motivates targeted ecological experiments. The proposed water-dependent pigmentation trade-off can be tested with pigmentation chemistry, water treatments, pollination and relative fitness; it is not inferred as a proven outcome from photographs.
+Global photographs establish visible variation; high-depth data test its recurrent direction. Their integration specifies future pigment, water-treatment, pollination and morph-relative fitness measurements without mistaking photographic composition for a universal 50:50 genetic equilibrium.
 
-A single comprehensive submission dataset will contain the frozen high-depth evidence and the new macroecological source/verification records. The unified supplementary index and Figure 6 vector artwork are prepared; remaining supplementary visual files, source-locked submission packaging and corresponding-author metadata require completion and approval before journal submission.
+A single comprehensive submission dataset will contain the frozen high-depth evidence and the new macroecological source/verification records. The unified S1–S19 supplementary index and six source-linked main figures are prepared; remaining supplementary visual files, source-locked submission packaging and corresponding-author metadata require completion and approval before journal submission.
 
 Sincerely,
 
