@@ -112,7 +112,7 @@ def test_hard_selection_and_genetic_boundaries():
     ledger=CLAIMS.read_text()
     for word in ("42,111","149,900","45,953","INDETERMINATE"):
         assert word in ledger,word
-    assert "not established" in ledger.lower()
+    assert "pigment costs and morph-specific fitness were not measured" in ledger.lower()
 
 
 def test_cover_letter_is_one_submission_and_50_word_questions():
