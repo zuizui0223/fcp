@@ -4,6 +4,10 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## All-photo extension: FCP structural commonality across species
+
+The [uncapped within-species FCP protocol](docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md) removes the former 4,730-taxon × 100-photograph expansion ceiling. It specifies an outcome-blind full available-photo inventory, the exact historical ROI-v4/9-palette/H2 study implementation, **species-level white-versus-chromatic axis W** as the main comparative response, and climate/soil heterogeneity measured at the photographed localities as explanatory axes. D and local geographic sorting are supporting diagnostics. This is an implemented framework and historical-data replay, **not** a completed all-photo biological measurement or a new adaptive/soil effect claim.
+
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture
 
 **This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** Its New Phytologist paper tests observer-disjoint reliability of species-wide colour diversity `D`, geographically structured local colour differences, and a previously frozen white–chromatic colour-space direction `W` (158 untouched prospective species; 439 measured vectors across three cohorts are descriptive only). The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.
