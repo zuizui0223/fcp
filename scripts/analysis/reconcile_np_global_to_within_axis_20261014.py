@@ -40,7 +40,7 @@ def calculate():
     gd = global_data["breadth_single_original_photo_per_species"]
     cx = global_data["observer_disjoint_crosscell_morph_comparison"]
     rp = next(row for row in cx["regional_and_global_descriptive"] if row["region"] == "ALL")
-    n_pairs = rp["n_fixed_pairs"]
+    n_pairs = rp["fixed_observer_disjoint_species_pairs"]
     n_classified_pairs = rp["both_photos_classified"]
     n_disc = rp["discordant_photo_colour"]
     n_unknown = rp["one_or_both_unclassifiable"]
