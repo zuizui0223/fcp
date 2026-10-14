@@ -4,6 +4,12 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## Fresh-source FCP comparison — new sampling from zero
+
+[Fresh-study protocol](docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md) | [Execution status, source checkpoints and research gates](docs/FCP_FRESH_EXECUTION_STATUS_20261015.md)
+
+A **separate, unmerged** research branch starts a new photographic census and remeasures every licensed source photo with the original frozen ROI-v4/9-colour/H2 method. There is **no 100 photos/species cap** and **no old measured-photo CSV input**. Each species is a cross-species replicate; the primary response is its *within-species white–chromatic displacement alignment W*, with species-internal climate/soil heterogeneity as proposed explanatory variables. The source census, segmentation and new environmental inference are not yet completed. Previously published H2 numbers are untouched and do not enter new biological estimates.
+
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture
 
 **This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** Its New Phytologist paper tests observer-disjoint reliability of species-wide colour diversity `D`, geographically structured local colour differences, and a previously frozen white–chromatic colour-space direction `W` (158 untouched prospective species; 439 measured vectors across three cohorts are descriptive only). The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.
