@@ -125,3 +125,78 @@ jobs:
           assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
+
+  fresh-one-species-cursor-continuation:
+    # Bounded real metadata source progress. NEVER opens pixels or reads historical flower colours.
+    # The base checkpoint is an actual past observation-page crawl with 3,303 photo rows.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      SOURCE_DATE: "2026-10-14"
+      SOURCE_BASE_RUN: "38589322067"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install fresh acquisition metadata-only dependencies
+        run: python -m pip install pandas numpy
+      - name: Restore original 42,111-taxon frame and exact one-species checkpoint
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_resume"
+          mkdir -p "$work/frame" "$work/metadata/shard_000_of_001"
+          git fetch --no-tags --depth=1 origin "$SOURCE_COMMIT"
+          git show "$SOURCE_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$work/frame/taxa.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$work"'/frame/taxa.csv' | sha256sum -c -
+          gh run download "$SOURCE_BASE_RUN" --repo "$GITHUB_REPOSITORY"             --name fcp-fresh-one-species-real-metadata-batch             --dir "$work/metadata/shard_000_of_001"
+          echo 'e3c5482c489081c4ea593f278f52166173049eec1e6c06d892a75983e0fb9c2b  '"$work"'/metadata/shard_000_of_001/species/47129/photo_manifest.ndjson' | sha256sum -c -
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_resume/metadata/shard_000_of_001"
+          p=json.loads((root/"species/47129/checkpoint.json").read_text())
+          assert p["taxon_id"]==47129 and p["cursor"]==201872254 and p["batches"]==10
+          assert p["created_d2"]=="2026-10-14" and p["status"]=="in_progress"
+          assert p["colour_pixels_opened"] is False and p["photo_cap"] is None
+          print("FCP_FRESH_SOURCE_RESUME_BASE_VERIFIED",{"photo_metadata_rows":3303,"cursor":p["cursor"]})
+          PY
+      - name: Resume ONE REAL species using provider ID cursor (bounded 40 pages, no biological photo count cap)
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_resume"
+          PYTHONPATH=. python scripts/acquisition/run_fcp_uncapped_shard.py             --frame "$work/frame/taxa.csv"             --output-root "$work/metadata"             --shards 1 --shard 0 --created-before "$SOURCE_DATE"             --pages-per-species-per-run 40 --species-per-run 1
+      - name: Verify new checkpoint remains a provenance-only, globally incomplete sample
+        run: |
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_resume/metadata/shard_000_of_001"
+          s=json.loads((root/"shard_progress.json").read_text())
+          c=json.loads((root/"species/47129/checkpoint.json").read_text())
+          assert c["cursor"]>=201872254 and c["batches"]>10
+          assert s["expected_source_species"]==42111
+          assert s["new_species_worked_this_invocation"]==1
+          assert s["completed_species"]+s["partial_species"]==1
+          assert s["not_started_species"]==42110
+          assert s["pixels_opened"] is False and s["FCP_outcomes_measured"] is False
+          assert s["all_available_photo_ids_confirmed"] is False
+          out={"taxon_id":47129,"source_photo_metadata_rows":s["photo_manifest_rows_including_retry_duplicates"],
+               "source_species_complete":s["completed_species"],"cursor":c["cursor"],
+               "page_count":c["batches"],"new_colours_measured":0,"full_census_done":False}
+          (root/"real_fresh_continuation_receipt.json").write_text(json.dumps(out,indent=2)+"\n")
+          print("FCP_FRESH_REAL_METADATA_CONTINUED",json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-fresh-47129-cursor-continuation-20261015
+          if-no-files-found: error
+          retention-days: 30
+          path: ${{ runner.temp }}/fcp_resume/metadata/shard_000_of_001/
