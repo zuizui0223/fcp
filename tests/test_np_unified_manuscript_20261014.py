@@ -30,7 +30,7 @@ def test_one_manuscript_primary_title_and_source_untouched():
     orig=ORIGINAL.read_text(encoding="utf8")
     current,chunks=sections()
     assert orig.startswith("# Species-wide flower-colour variation is geographically partitioned across plant species")
-    assert current.startswith("# Measuring flower-colour variation reveals recurrent achromatic–chromatic patterns and global moisture associations")
+    assert current.startswith("# Moisture-associated floral colours and recurrent achromatic–chromatic variation across plant species")
     assert "149,900" in current and "100,543" in current
     assert "not a fourth" in current
     assert "not an additional strong causal or confirmatory paper" not in chunks["Discussion"]
@@ -198,3 +198,17 @@ def test_climate26_vs_all36_species_counts_are_distinct_and_source_verified():
     for count in ("25,028","20,694","20,786","16,801","1,934","1,665"):
         assert count in ms and count in memo,count
     assert "20,786 − 20,694 = 92 is *not an attrition step*" in memo
+
+
+def test_ecology_first_story_and_noncausal_separate_sampling_grains():
+    s, c = sections()
+    r, d = c["Results"], c["Discussion"]
+    assert r.index("### Ecology: worldwide flower-colour correspondence") < r.index("### Pattern: achromatic–chromatic variation")
+    assert r.index("### Pattern: achromatic–chromatic variation") < r.index("### Geographic context: local mixing")
+    assert d.index("### Moisture-associated ecology") < d.index("### Recurring achromatic–chromatic patterns")
+    assert d.index("### A water-dependent benefit–cost hypothesis") < d.index("### Conclusion")
+    assert "nonnested sampling designs" in c["Introduction"]
+    assert "not a nested" in c["Summary"]
+    assert "strict" in c["Summary"] and "spatial" in c["Summary"]
+    assert "relative fitness" in d and "do **not** directly measure" in d
+    assert "figures still retain original 1–6 numbering" in s
