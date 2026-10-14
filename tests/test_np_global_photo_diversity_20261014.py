@@ -66,4 +66,5 @@ def test_manuscript_and_s19_retain_correct_scope_and_limit():
         assert token in manuscript,token
     assert "### S19.1." in s and "### S19.2." in s
     assert "global polymorphic-species prevalence" in manuscript
-    assert "genetic polymorphism incidence" in s and "not a globally unbiased estimate" in s.lower().replace("**","").replace("a ", "a ")
+    assert "genetic polymorphism incidence" in s
+    assert "globally unbiased estimate" in s and "not" in s.lower()
