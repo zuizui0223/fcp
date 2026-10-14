@@ -36,6 +36,7 @@ This repository is the paper-facing FCP analysis surface. The generalized trait/
 7. **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
 8. **Secondary mechanism evidence hierarchy:** [`docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`](docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md)
 9. **Frozen provenance release receipt:** [`archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`](archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md)
+10. **U100 4,730-species extension (post hoc / unmeasured-aware):** [`docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md`](docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md)
 
 ## Current evidence surface
 
