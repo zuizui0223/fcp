@@ -212,3 +212,18 @@ def test_ecology_first_story_and_noncausal_separate_sampling_grains():
     assert "strict" in c["Summary"] and "spatial" in c["Summary"]
     assert "relative fitness" in d and "do **not** directly measure" in d
     assert "figures still retain original 1–6 numbering" in s
+
+
+def test_true_high_depth_vs_broad_existing_image_measurements():
+    manuscript=MANUSCRIPT.read_text(encoding="utf8")
+    scaling=(ROOT/"docs/POLYMORPHISM_20K_SCALING_SUPPORT_20261014.md").read_text(encoding="utf8")
+    supporting=(ROOT/"docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md").read_text(encoding="utf8")
+    ledger=CLAIMS.read_text(encoding="utf8")
+    for content in (manuscript, scaling, supporting, ledger):
+        for token in ("4,730", "2,730", "18,457", "39,075", "2,000", "730"):
+            assert token in content, token
+        assert "42,111" in content and "85,337" in content
+    assert "zero new image-colour outcomes" in manuscript
+    assert "METADATA_ONLY_COHORT_SELECTION_FROZEN_NO_BIOLOGICAL_OPENING" in scaling
+    assert "no new biological image measurement" in supporting
+    assert "not the possible maximum" in ledger
