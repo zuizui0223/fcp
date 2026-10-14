@@ -4,9 +4,9 @@ This repository contains the current **New Phytologist** manuscript and reproduc
 
 ## Single New Phytologist integrated submission candidate — 14 October 2026
 
-**One article, not companion papers:** [**Unified Full Paper**](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md) — *Geographic partitioning of flower-colour variation is widespread, while climatic associations are scale dependent*.
+**One article, not companion papers:** [**Unified Full Paper**](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md) — *Measuring flower-colour variation reveals recurrent achromatic–chromatic patterns and global moisture associations*.
 
-The same Full Paper contains (i) three high-depth independent-species cohort tests of geographical allocation, (ii) prospectively frozen achromatic–chromatic phenotype-space geometry, and (iii) retrospective worldwide macroecological environmental–colour analyses with strict spatial, imaging and external-botanical-colour falsifications. It does not equate climate associations to evolutionary selection or genetic morph maintenance. [Unified Supporting Information](docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md) and the [one-paper claim/source ledger](docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md) cover the combined outcomes. The [source-linked Figure 6 SVG](docs/figures/polymorphism_20261014/figure6_unified_environmental_support.svg) is generated with a reproducible code and result input.
+**Paper sequence — method → pattern → ecological mechanism hypothesis:** (i) reproducible distributional photography across observer-disjoint images and distinct species cohorts, (ii) prospectively confirmed achromatic–chromatic colour-space variation, with local mixing and geographic differentiation as complementary spatial information, and (iii) a principal macroecological result showing broad worldwide white-flower photographic correspondence with precipitation and atmospheric water vapour. Moisture-dependent pigment benefits and costs are a testable ecological explanation, not a direct measurement of selective fitness. [Unified Supporting Information](docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md) and the [one-paper claim/source ledger](docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md) cover the combined outcomes. The [source-linked Figure 6 SVG](docs/figures/polymorphism_20261014/figure6_unified_environmental_support.svg) is generated with a reproducible code and result input.
 
 **Version interpretation:** `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md` and the older frozen claim ledger below remain unchanged as the *historical high-depth scientific baseline*, **not a second planned submission**. The new integrated manuscript is the only journal-facing editorial candidate on this development branch. Main branch and historical provenance receipt are unchanged. Submission still requires author approval/metadata, remaining supplementary visual assets and one new unified permanent source archive.
 
@@ -25,6 +25,10 @@ The active manuscript keeps measurement validation, geographic allocation of ITV
 This repository is the paper-facing FCP analysis surface. The generalized trait/interaction **spatiotemporal turnover** programme now lives in [`zuizui0223/turnover`](https://github.com/zuizui0223/turnover) and is intentionally excluded from the active FCP manuscript, workflows, results, tests, and development documents here. Earlier pre-split development remains recoverable from Git history.
 
 ## Start here
+
+**Single integrated Full Paper (current journal-facing candidate):** [unified manuscript](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md); [unified Supporting Information](docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md); [one-paper source ledger](docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md); [Figure 6 water-associated ecology](docs/figures/polymorphism_20261014/figure6_unified_environmental_support.svg).
+
+The numbered list below preserves the **frozen historical high-depth documentation**, not another intended submission.
 
 1. **Manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md)
 2. **Data lineage:** [`docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`](docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md)
