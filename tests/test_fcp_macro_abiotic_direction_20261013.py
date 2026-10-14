@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-P=Path(__file__).resolve().parents[1]/'scripts/fcp_abiotic_hue_direction_macro_20261013.py'
+P=Path(__file__).resolve().parents[1]/'scripts/analysis/fcp_abiotic_hue_direction_macro_20261013.py'
 spec=importlib.util.spec_from_file_location('fcpmacro_direction',P)
 m=importlib.util.module_from_spec(spec);sys.modules[spec.name]=m;spec.loader.exec_module(m)
 
