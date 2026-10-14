@@ -46,7 +46,7 @@ def test_original_taxon_cell_and_crosscell_pairs_not_biological_genetics():
     assert math.isclose(world["discordance_fraction_among_both_classified"],797/3196,abs_tol=1e-13)
     assert world["species_bootstrap_95CI_conditional"][0] < 797/3196 < world["species_bootstrap_95CI_conditional"][1]
     assert world["no_assumption_full_fixed_pair_discordance_bounds"][0] < 797/3196 < world["no_assumption_full_fixed_pair_discordance_bounds"][1]
-    assert "not genetic" in "not genetic"  # no biological genotype values in the source
+    assert any("not genetic" in x or "not genetic or biochemical" in x for x in q["hard_nonclaims"])
 
 
 def test_latitude_pair_counts_have_unassignable_midpoints():
@@ -66,4 +66,4 @@ def test_manuscript_and_s19_retain_correct_scope_and_limit():
         assert token in manuscript,token
     assert "### S19.1." in s and "### S19.2." in s
     assert "global polymorphic-species prevalence" in manuscript
-    assert "not genotypes" in s or "not genotype" in s.lower() or "not a globally unbiased estimate" in s.lower()
+    assert "genetic polymorphism incidence" in s and "not a globally unbiased estimate" in s.lower().replace("**","").replace("a ", "a ")
