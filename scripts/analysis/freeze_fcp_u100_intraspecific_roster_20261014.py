@@ -1,159 +1,132 @@
 #!/usr/bin/env python3
-"""Freeze the historical 4,730 species' outcome-blind identity/status roster.
+"""Reconstruct frozen U100 from history WITHOUT opening phenotype/climate values.
 
-This script reads only (taxon ID, species name, historical observer-capped
-capacity), P100 / P500 membership and the old third-cohort selection; it
-never opens photographic colour measurements, other traits or climate.
+Do NOT infer capacity from the 42,111 metadata source: that historical CSV has
+only taxon ID, species, and discovery provenance. The U100 parents are two
+independent identity surfaces: P100 3,730 (observer-cap available) and the
+original 1,000 discovery/validation species, whose capacity was attested in
+the 2026-09-13 original P100 artifact but not stored per legacy taxon.
 """
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
+import argparse, hashlib, json
 from pathlib import Path
-
 import pandas as pd
 
-VERSION = "fcp_u100_within_species_outcome_blind_roster_v1"
-FRAME_SHA256 = "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc"
-P100_SHA256 = "1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c"
-P500_SHA256 = "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4"
-THIRD_SHA256 = "16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59"
-STATUS = {
-    "legacy_discovery_or_validation": 1000,
-    "earlier_P500_selected_not_new_holdout": 500,
-    "third_cohort_selected_500_of_499_measured": 500,
-    "still_never_selected_for_high_depth": 2730,
+VERSION="fcp_u100_within_species_outcome_blind_roster_v2"
+SOURCE={
+ "frame":"5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+ "P100":"1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c",
+ "P500":"f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4",
+ "third_selected":"16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59",
+ "legacy_discovery":"ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+ "legacy_validation":"0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
 }
-FIELDS = ["inat_taxon_id", "species", "after_observer_cap"]
+EXPECTED={
+ "legacy_discovery_or_validation":1000,
+ "earlier_P500_selected_not_new_holdout":500,
+ "third_cohort_selected_500_of_499_measured":500,
+ "still_never_selected_for_high_depth":2730,
+}
+ID=["inat_taxon_id","species"]
+POOL=ID+["after_observer_cap"]
 
 
-def sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
+def sha(path:Path)->str:
+    h=hashlib.sha256()
+    with path.open('rb') as f:
+        for b in iter(lambda:f.read(1<<20),b''):h.update(b)
     return h.hexdigest()
 
 
-def canonical(df: pd.DataFrame, *, require_cap=True) -> pd.DataFrame:
-    wanted = FIELDS if require_cap else FIELDS[:2]
-    missing = set(wanted) - set(df.columns)
-    if missing:
-        raise ValueError(f"Missing outcome-blind identity columns: {sorted(missing)}")
-    d = df[wanted].copy()
-    d["inat_taxon_id"] = pd.to_numeric(d.inat_taxon_id, errors="raise").astype("int64")
-    d["species"] = d.species.astype("string").str.strip()
-    if d.inat_taxon_id.duplicated().any() or d.species.duplicated().any():
-        raise ValueError("Taxon ID and species name are not one-to-one")
-    if d.species.isna().any() or (d.species.str.len() == 0).any():
-        raise ValueError("Blank species name")
-    if require_cap:
-        d["after_observer_cap"] = pd.to_numeric(d.after_observer_cap, errors="raise").astype(int)
-    return d.sort_values("inat_taxon_id", kind="mergesort").reset_index(drop=True)
+def idframe(df:pd.DataFrame,cap=False)->pd.DataFrame:
+    cols=POOL if cap else ID
+    missing=set(cols)-set(df.columns)
+    if missing:raise ValueError('missing source identity/capacity columns '+str(sorted(missing)))
+    d=df[cols].copy()
+    d.inat_taxon_id=pd.to_numeric(d.inat_taxon_id,errors='raise').astype('int64')
+    d.species=d.species.astype('string').str.strip()
+    if d.inat_taxon_id.duplicated().any() or d.species.duplicated().any():raise ValueError('source taxonomy is not one-to-one')
+    if d.species.isna().any() or d.species.str.len().eq(0).any():raise ValueError('blank species')
+    if cap:d.after_observer_cap=pd.to_numeric(d.after_observer_cap,errors='raise').astype('int64')
+    return d.sort_values('inat_taxon_id',kind='mergesort').reset_index(drop=True)
 
 
-def assert_subframe(child: pd.DataFrame, parent: pd.DataFrame, child_name: str) -> None:
-    identity_parent = dict(zip(parent.inat_taxon_id, parent.species))
-    for tid, name in zip(child.inat_taxon_id, child.species):
-        if identity_parent.get(int(tid)) != name:
-            raise ValueError(f"{child_name} identity missing/mismatched in parent: {tid} / {name}")
+def check_subset(d:pd.DataFrame, parent:pd.DataFrame, name:str):
+    mapping=dict(zip(parent.inat_taxon_id,parent.species))
+    for i,s in zip(d.inat_taxon_id,d.species):
+        if mapping.get(int(i))!=s:raise ValueError(f'{name} missing/mismatched identity {i} {s}')
 
 
-def make_roster(frame: pd.DataFrame, p100: pd.DataFrame, p500: pd.DataFrame, third: pd.DataFrame,
-                *, expect_counts: dict[str, int] | None = None):
-    # The 42,111 row source may contain other metadata, but the only columns used
-    # for the U100 census are three outcome-blind identifiers/capacities.
-    f = canonical(frame)
-    pool = canonical(p100)
-    old500 = canonical(p500)
-    new500 = canonical(third, require_cap=False)
-    universe = f.loc[f.after_observer_cap >= 100].copy()
-    assert_subframe(pool, universe, "P100")
-    assert_subframe(old500, pool, "old P500")
-    assert_subframe(new500, pool, "third 500")
-    if set(old500.inat_taxon_id) & set(new500.inat_taxon_id):
-        raise ValueError("P500 and third-cohort selected species overlap")
-    # Validate capacity from source versus once-frozen P100 selection; never
-    # silently prefer one if historical opportunity changed.
-    capacities = universe.set_index("inat_taxon_id").after_observer_cap
-    if not (pool.set_index("inat_taxon_id").after_observer_cap == capacities.loc[pool.inat_taxon_id].to_numpy()).all():
-        raise ValueError("Historic observer-capped capacity differs between sources")
-
-    ids100 = set(map(int, pool.inat_taxon_id))
-    idsP500 = set(map(int, old500.inat_taxon_id))
-    idsThird = set(map(int, new500.inat_taxon_id))
-    statuses = []
-    for tid in universe.inat_taxon_id:
-        tid = int(tid)
-        if tid not in ids100: status = "legacy_discovery_or_validation"
-        elif tid in idsP500: status = "earlier_P500_selected_not_new_holdout"
-        elif tid in idsThird: status = "third_cohort_selected_500_of_499_measured"
-        else: status = "still_never_selected_for_high_depth"
-        statuses.append(status)
-    universe["historical_membership"] = statuses
-    universe["fresh_outcome_unexposed_candidate"] = universe.historical_membership.eq("still_never_selected_for_high_depth")
-    universe["new_colour_measurement_status"] = "NOT_PERFORMED_BY_THIS_FREEZE"
-    found = {name: int((universe.historical_membership == name).sum()) for name in STATUS}
-    if expect_counts is not None and found != expect_counts:
-        raise ValueError(f"unexpected historical cohort attrition {found} != {expect_counts}")
-    if len(universe) != sum(found.values()):
-        raise ValueError("cohort status coverage failure")
-    return universe.reset_index(drop=True), found
+def roster_from_identities(frame,p100,p500,third,discovery,validation,expected:dict|None=None):
+    f=idframe(frame);p=idframe(p100,cap=True);old=idframe(p500,cap=True)
+    third=idframe(third);a=idframe(discovery);b=idframe(validation)
+    for name,obj,parent in [('P100',p,f),('P500',old,p),('third',third,p),('discovery',a,f),('validation',b,f)]:check_subset(obj,parent,name)
+    legacy=pd.concat([a,b],ignore_index=True)
+    if legacy.inat_taxon_id.duplicated().any() or legacy.species.duplicated().any():raise ValueError('legacy discovery/validation overlap')
+    idsP=set(p.inat_taxon_id);idsLegacy=set(legacy.inat_taxon_id)
+    idsP500=set(old.inat_taxon_id);idsThird=set(third.inat_taxon_id)
+    if idsLegacy & idsP:raise ValueError('legacy/P100 overlap')
+    if idsThird & idsP500:raise ValueError('old P500 / third overlap')
+    if p.after_observer_cap.lt(100).any():raise ValueError('P100 below frozen observer-cap gate')
+    if not old.set_index('inat_taxon_id').after_observer_cap.eq(p.set_index('inat_taxon_id').after_observer_cap.loc[old.inat_taxon_id].to_numpy()).all():
+        raise ValueError('P500 capacity diverged from P100')
+    p=p.copy();p['capacity_provenance']='frozen_P100_observer_cap'
+    l=legacy.copy();l['after_observer_cap']=pd.NA
+    l['capacity_provenance']='legacy_U100_attested_parent_selection_20260913_per_species_value_not_archived'
+    d=pd.concat([p,l],ignore_index=True)
+    d['historical_membership']=[('legacy_discovery_or_validation' if tid in idsLegacy else
+        'earlier_P500_selected_not_new_holdout' if tid in idsP500 else
+        'third_cohort_selected_500_of_499_measured' if tid in idsThird else
+        'still_never_selected_for_high_depth') for tid in d.inat_taxon_id]
+    d['fresh_outcome_unexposed_candidate']=d.historical_membership.eq('still_never_selected_for_high_depth')
+    d['new_colour_measurement_status']='NOT_PERFORMED_BY_THIS_FREEZE'
+    d=d.sort_values('inat_taxon_id',kind='mergesort').reset_index(drop=True)
+    found={k:int(d.historical_membership.eq(k).sum()) for k in EXPECTED}
+    if expected is not None and found!=expected:raise ValueError('unexpected cohort attrition '+str(found))
+    if not d.inat_taxon_id.is_unique or len(d)!=len(p)+len(legacy):raise ValueError('U100 identity double counted')
+    return d,found
 
 
-def run(frame_path: Path, p100_path: Path, p500_path: Path, selected_path: Path, outdir: Path) -> dict:
-    inputs = {"frame": (frame_path, FRAME_SHA256), "P100": (p100_path, P100_SHA256),
-              "P500": (p500_path, P500_SHA256), "third_selected": (selected_path, THIRD_SHA256)}
-    for name, (path, sha) in inputs.items():
-        observed = sha256(path)
-        if observed != sha:
-            raise RuntimeError(f"{name} must match frozen byte SHA-256: {observed} != {sha}")
-    # usecols prohibits accidentally opening picture colour, D, W, local
-    # environment, pigments, phylogenies or any other outcome-derived column.
-    frame = pd.read_csv(frame_path, usecols=FIELDS)
-    p100 = pd.read_csv(p100_path, usecols=FIELDS)
-    p500 = pd.read_csv(p500_path, usecols=FIELDS)
-    third = pd.read_csv(selected_path, sep="\t", usecols=FIELDS[:2])
-    if len(frame) != 42111 or len(p100) != 3730 or len(p500) != 500 or len(third) != 500:
-        raise RuntimeError("historical input denominator mismatch")
-    roster, found = make_roster(frame, p100, p500, third, expect_counts=STATUS)
-    if len(roster) != 4730:
-        raise RuntimeError(f"expected all 4730 historical U100 IDs, not {len(roster)}")
-    outdir.mkdir(parents=True, exist_ok=True)
-    roster_path = outdir / "all_u100_4730_species_status.csv"
-    never_path = outdir / "never_selected_2730_preoutcome_species.csv"
-    roster.to_csv(roster_path, index=False, lineterminator="\n")
-    roster.loc[roster.fresh_outcome_unexposed_candidate, FIELDS].to_csv(never_path, index=False, lineterminator="\n")
-    receipt = {
-        "schema": VERSION,
-        "status": "U100_IDENTITIES_FROZEN_NO_NEW_COLOUR_OR_ENVIRONMENT_OPENED",
-        "historical_opportunity_species": int(len(frame)),
-        "high_depth_opportunity_species": int(len(roster)),
-        "historical_memberships": found,
-        "distinct_unselected_hypothesis_test_candidates": found["still_never_selected_for_high_depth"],
-        "historical_colour_measurement_observation": "The discovery+validation cohort (1000 species) and third group (499/500) have measured photos; original P500 (500) is historically selected and must be audited separately; never-selected 2730 are not measured here",
-        "photo_colours_retrieved_by_this_step": 0,
-        "new_W_tests_performed": 0,
-        "new_within_species_environment_tests_performed": 0,
-        "q_white_changes": False,
-        "original_source_SHA256": {k: v[1] for k,v in inputs.items()},
-        "output_SHA256": {"all_u100_4730_species_status.csv": sha256(roster_path),
-                          "never_selected_2730_preoutcome_species.csv": sha256(never_path)},
-        "source_column_allowlist": FIELDS,
-        "not_measurement_status": "4730 species satisfy historic photo capacity only, NOT 4730 confirmed biological polymorphs nor 4730 observed two-mode W axes",
+def run(inputs:dict[str,Path],out:Path):
+    for key,h in SOURCE.items():
+        if sha(inputs[key])!=h:raise RuntimeError(f'{key} historical SHA256 differs from frozen source: {sha(inputs[key])}')
+    df=pd.read_csv(inputs['frame'],usecols=ID)
+    p=pd.read_csv(inputs['P100'],usecols=POOL)
+    q=pd.read_csv(inputs['P500'],usecols=POOL)
+    t=pd.read_csv(inputs['third_selected'],sep='\t',usecols=ID)
+    a=pd.read_csv(inputs['legacy_discovery'],usecols=ID).drop_duplicates()
+    b=pd.read_csv(inputs['legacy_validation'],usecols=ID).drop_duplicates()
+    if tuple(map(len,[df,p,q,t,a,b]))!=(42111,3730,500,500,500,500):raise RuntimeError('legacy high-depth/photo opportunity source denominators drift')
+    roster,counts=roster_from_identities(df,p,q,t,a,b,EXPECTED)
+    if len(roster)!=4730:raise RuntimeError('not historical U100 4730')
+    out.mkdir(parents=True,exist_ok=True)
+    full=out/'all_u100_4730_species_status.csv';un=out/'never_selected_2730_preoutcome_species.csv'
+    roster.to_csv(full,index=False,lineterminator='\n')
+    roster.loc[roster.fresh_outcome_unexposed_candidate,POOL].to_csv(un,index=False,lineterminator='\n')
+    receipt={
+      'schema':VERSION,'status':'U100_IDENTITIES_FROZEN_NO_NEW_COLOUR_OR_ENVIRONMENT_OPENED',
+      'historical_opportunity_species':len(df),'high_depth_opportunity_species':len(roster),
+      'historical_memberships':counts,'never_selected_high_depth':2730,
+      'legacy_capacity_value_not_in_42111_csv':True,
+      'historic_legacy_U100_membership_attested_in_parent':True,
+      'photo_colours_retrieved_by_this_step':0,'new_W_tests_performed':0,'new_within_species_environment_tests_performed':0,
+      'original_q_white_changed':False,'source_columns_used':['inat_taxon_id','species','after_observer_cap (only P100/P500)'],
+      'source_SHA256':SOURCE,
+      'output_SHA256':{full.name:sha(full),un.name:sha(un)},
+      'claim_ceiling':'original U100 opportunity, not actual 4730 W eligible measurements or genetic polymorphism'
     }
-    (outdir / "outcome_blind_roster_receipt.json").write_text(json.dumps(receipt,indent=2,ensure_ascii=False)+"\n")
-    print(json.dumps({"status":receipt["status"],"n":found,"sha":receipt["output_SHA256"]},ensure_ascii=False))
+    (out/'outcome_blind_roster_receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n')
     return receipt
 
 
 def main():
-    p=argparse.ArgumentParser()
-    for option in ("frame","p100","p500","third-selected"):
-        p.add_argument("--"+option,required=True,type=Path)
-    p.add_argument("--outdir",required=True,type=Path)
-    a=p.parse_args()
-    run(a.frame,a.p100,a.p500,a.third_selected,a.outdir)
+    parser=argparse.ArgumentParser()
+    for key in SOURCE:parser.add_argument('--'+key.replace('_','-'),type=Path,required=True)
+    parser.add_argument('--outdir',type=Path,required=True)
+    a=parser.parse_args()
+    inputs={k:getattr(a,k) for k in SOURCE}
+    res=run(inputs,a.outdir)
+    print(json.dumps({k:res[k] for k in ('status','historical_memberships','output_SHA256')},ensure_ascii=False))
 
-if __name__ == "__main__": main()
+if __name__=='__main__':main()
