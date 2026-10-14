@@ -1,0 +1,166 @@
+{
+  "schema": "fcp_all_original100543_photo_local_rain_morph_comixing_original_species_preserving_null_v1",
+  "date_jst": "2026-10-11",
+  "status": "SOURCE_SHA_VERIFIED_POSTHOC_NEGATIVE_ECOLOGICAL_TEST",
+  "source": {
+    "archive_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "original_photo_union": 100543,
+    "original_plant_taxa": 42111,
+    "photos_original_geography_rain_colour_classifiable": 45836,
+    "species_rain_colour_classifiable": 25028,
+    "species_with_min3_photo_and_both_binary_colours": 1553,
+    "original_colour_labels_changed": false,
+    "unknown_photo_colours_imputed": false
+  },
+  "study": {
+    "primary_outcome": "within-species original photo pair dissimilarity between white and any nonwhite colour among distinct observation IDs in same rainfall band",
+    "rain_bins_defined_on_all_photo_opportunities": {
+      "dry": [
+        0,
+        1
+      ],
+      "middle": [
+        4,
+        5
+      ],
+      "wet": [
+        8,
+        9
+      ]
+    },
+    "radii_km": [
+      100,
+      250,
+      500
+    ],
+    "source_min_photos_per_species": [
+      3,
+      5
+    ],
+    "permutations_exact_species_colour_composition": 999,
+    "primary_tests_Holm": 6,
+    "species_eligible_in_all_three_rain_photo_pair_bins_any_study": 0,
+    "no_true_plant_individual_fitness_or_genetic_morphs_observed": true
+  },
+  "results": {
+    "100km_min3": {
+      "pairs": {
+        "dry": 48,
+        "middle": 43,
+        "wet": 45
+      },
+      "species": {
+        "dry": 44,
+        "middle": 41,
+        "wet": 43
+      },
+      "middle_mix_excess_vs_species_shuffle": 0.02628,
+      "p_one_sided": 0.387,
+      "p_holm": 1,
+      "genus_cluster_95CI": [
+        -0.16344931492807313,
+        0.21003783737233628
+      ],
+      "four_colour_p": 0.452
+    },
+    "250km_min3": {
+      "pairs": {
+        "dry": 95,
+        "middle": 85,
+        "wet": 62
+      },
+      "species": {
+        "dry": 76,
+        "middle": 78,
+        "wet": 58
+      },
+      "middle_mix_excess_vs_species_shuffle": 0.00694,
+      "p_one_sided": 0.448,
+      "p_holm": 1,
+      "genus_cluster_95CI": [
+        -0.12511714761239662,
+        0.13422424186912188
+      ],
+      "four_colour_p": 0.651
+    },
+    "500km_min3": {
+      "pairs": {
+        "dry": 162,
+        "middle": 167,
+        "wet": 79
+      },
+      "species": {
+        "dry": 116,
+        "middle": 135,
+        "wet": 74
+      },
+      "middle_mix_excess_vs_species_shuffle": -0.0286,
+      "p_one_sided": 0.706,
+      "p_holm": 1,
+      "genus_cluster_95CI": [
+        -0.12341142348946656,
+        0.06956773757516516
+      ],
+      "four_colour_p": 0.83
+    },
+    "100km_min5": {
+      "status": "HOLD_SOURCE_SUPPORT_lt15_in_all_three_bins",
+      "species": {
+        "dry": 12,
+        "middle": 18,
+        "wet": 24
+      },
+      "p_one_sided": null
+    },
+    "250km_min5": {
+      "pairs": {
+        "dry": 29,
+        "middle": 50,
+        "wet": 36
+      },
+      "species": {
+        "dry": 26,
+        "middle": 44,
+        "wet": 34
+      },
+      "middle_mix_excess_vs_species_shuffle": -0.01829,
+      "p_one_sided": 0.579,
+      "p_holm": 1,
+      "genus_cluster_95CI": [
+        -0.21035330371841884,
+        0.17468240783781322
+      ],
+      "four_colour_p": 0.795
+    },
+    "500km_min5": {
+      "pairs": {
+        "dry": 63,
+        "middle": 98,
+        "wet": 49
+      },
+      "species": {
+        "dry": 47,
+        "middle": 79,
+        "wet": 46
+      },
+      "middle_mix_excess_vs_species_shuffle": -0.03495,
+      "p_one_sided": 0.687,
+      "p_holm": 1,
+      "genus_cluster_95CI": [
+        -0.15658786296206623,
+        0.09383360517165074
+      ],
+      "four_colour_p": 0.869
+    }
+  },
+  "ecological_conclusion": "Intermediate rainfall does not confer a robust excess of local intraspecific photographic white-chromatic co-occurrence after preserving source species colour totals and actual photo positions.",
+  "limitations": [
+    "Similar yearly mean rainfall sites at <=500km need not be breeding populations.",
+    "Photo labels do not identify petal chemistry, plant individuals, genetic polymorphism or frequency-dependent fitness.",
+    "No species has photo-pair support in all three rain bins in the test; the binwise community composition differs.",
+    "World atlas photo records do not provide observation date for phenological color-shift tests.",
+    "A negative photo co-mixing test does not falsify pigment biosynthetic cost-versus-benefit selection."
+  ],
+  "full_source_code_and_6_passed_synthetic_tests": "Conversation attachment FCP_全球全写真_局所白有色混在と中間降水域トレードオフ帰無検証_20261011.zip",
+  "main_and_frozen_H1_H2_untouched": true
+}
