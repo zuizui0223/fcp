@@ -346,6 +346,20 @@ The BIO5 component is technically bounded. Although continuous flower-colour mea
 
 A broader hypothesis that environmentally heterogeneous species simply maintain more total flower-colour diversity was not supported. The primary multivariate heterogeneity test did not replicate discovery to validation, and a solar-radiation heterogeneity signal selected from the 500+500 screen failed fixed transport to the third cohort (partial rho = 0.0171, p = 0.382).
 
+### Global colour–environment prediction carries limited cross-species information
+
+The sparse photographic source showed small joint environmental predictive improvements over a geography-plus-genus baseline. Climate/nonsoil predictors reduced out-of-fold multiclass Brier error by **0.002943** among **17,183** test taxa under genus-equal weighting; all 36 predictors yielded **0.001432** among **13,961** test taxa on a different soil-complete support. The 36-variable global gain was not consistently positive under species-equal weighting or strict photo quality. A better predictive fit did not identify which hue increased along which gradient.
+
+### Environmental colour direction is conditional on spatial and measurement support
+
+In the global broad-geo genus-equal analysis, photographed white increased along annual precipitation BIO12 by **+2.255 percentage points per one original global precipitation SD** (six-axis × four-colour simultaneous 95% interval **+0.319 to +4.190**) and along mean vapour pressure by **+3.952 points** (**+1.199 to +6.704**). These are associations among different species' photographed colour compositions, not individual colour changes or field fitness. No comparably general signed direction was established for BIO5 or solar radiation.
+
+The global white–BIO12 association was less precise in the strict-quality subset (**+1.229**, simultaneous interval **−2.046 to +4.504**) and in the genus-by-coarse-geographic-cell comparison (**+0.808**, **−3.556 to +5.172**). The broad eastern (90–180° E) slope was **+4.716** (**+1.565 to +7.866**), but strict-quality and cell-conditioned east estimates had intervals including zero. A direct support decomposition used identical photographed species in two model fits: for the **9,370** world-matched taxa in **845** genera, the broad-geo estimate of **+1.326** became **+0.808** with genus-by-cell conditioning. For **2,886** east-matched taxa in **280** genera, **+1.102** became **−2.076**. The paired eastern difference (**+3.178**) had a nominal genus-bootstrap 95% interval **+1.077 to +5.351**, but its **24-contrast simultaneous interval −0.258 to +6.613** included zero. Thus the discrepancy is not simply the consequence of evaluating a smaller *number* of species, but an independently identifiable spatial-adjustment effect or universal climatic selection is not established.
+
+### External botanical colour descriptions do not corroborate the eastern rainfall direction
+
+When we replaced photo-colour classification with unambiguous botanical-description colours for an exactly name-matched subset, the main eastern comparison retained **58** matched genera and **670** species. The east-versus-rest annual-rainfall white-minus-blue/purple slope was **+2.07** percentage points per environmental SD under species-equal weighting (95% bootstrap interval **−13.87 to +19.07**) and **+3.56** under genus-equal weighting (**−15.34 to +22.60**). Four-region simultaneous intervals also included zero. This alternative measurement provided no statistically conclusive convergent direction; its sparse categorical trait, binary hue denominator and reused photo-site climatic coordinates mean that failure to confirm cannot be interpreted as a demonstrated absence of an ecological effect.
+
 ### H3a: no detectable broad tree-wide conservation of D
 
 Validation-cohort Blomberg-K tests were nonsignificant under all three frozen tree-placement scenarios:
