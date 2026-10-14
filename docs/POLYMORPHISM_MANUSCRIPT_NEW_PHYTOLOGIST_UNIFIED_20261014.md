@@ -11,7 +11,7 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (14 October 2026, whitespace-delimited; verify after final formatting):**
-- Summary: 167 words
+- Summary: 172 words
 - Introduction: 566 words
 - Materials and Methods: 2540 words
 - Results: 2283 words
@@ -27,7 +27,7 @@
 - Associations between flower colour and climate are established, but whether they connect to recurrent directions of variation within species is unclear. We begin with global moisture-related colour composition, then test a recurring achromatic–chromatic direction.
 - Worldwide photographs qualified 20,694 species for climate comparisons and 16,801 for soil-inclusive comparisons. White-classified colour covaried positively with annual precipitation (+2.255 percentage points per source SD) and atmospheric water-vapour pressure (+3.952); strict image-quality, spatial and external-colour tests did not establish a general independent direction.
 - Separately, a distributional photographic framework used 149,900 photos from 1,499 high-depth species. Observer-disjoint controls and construction-preserving nulls supported a prospectively frozen achromatic–chromatic direction among 158 eligible species (W = 0.517 versus null median 0.457; P = 0.001); local colour depletion recurred across three disjoint cohorts.
-- Classified original photographs were 46.95% white, but geographic uniformity was not exceptional under a within-species colour-count-preserving null (P = 0.214); geographic compensation lacked support. Both independently sampled scale-specific results motivate future tests of moisture-dependent pigmentation trade-offs, not demonstrated natural selection.
+- Classified original photographs were 46.95% white, but species-conditioned geographic uniformity was not exceptional (P = 0.214), and geographic compensation lacked support. The world and high-depth datasets are not a nested filter; both motivate future tests of moisture-dependent ecological trade-offs involving pigmentation, not established natural selection.
 
 **Keywords (alphabetical):** climatic gradients; flower colour; geographic differentiation; intraspecific variation; macroecology; moisture environment; phenotype distributions
 
