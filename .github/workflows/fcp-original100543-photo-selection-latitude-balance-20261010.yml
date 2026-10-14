@@ -1,0 +1,85 @@
+name: FCP original-photo MAR IPW and latitude balance null
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_fcp_global_photo_rainfall_classifiability_IPW_MNAR_20261010.py
+      - scripts/analysis/audit_fcp_global_photo_latitude_balance_null_20261010.py
+      - tests/test_fcp_photo_selection_latitude_balance_20261010.py
+      - .github/workflows/fcp-original100543-photo-selection-latitude-balance-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-photo-selection-latitude-original-source
+  cancel-in-progress: true
+
+env:
+  SOURCE_ARTIFACT_ID: "11587115220"
+  SOURCE_ARTIFACT_SHA256: "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0"
+  OPENBLAS_NUM_THREADS: "2"
+  OMP_NUM_THREADS: "2"
+
+jobs:
+  full-original-photo-selection-latitude-ecology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Pin numerical inference runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scikit-learn==1.6.1 scipy==1.14.1 pytest==8.4.2
+      - name: Test original-photo identity safeguards, missingness and conditional null
+        run: python -m pytest tests/test_fcp_photo_selection_latitude_balance_20261010.py -q
+      - name: Retrieve EXACT historical original 42,111 plus 85,337 photo source ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api -H "Accept: application/vnd.github+json" \
+            "/repos/$GITHUB_REPOSITORY/actions/artifacts/$SOURCE_ARTIFACT_ID/zip" \
+            > /tmp/fcp_original_source.zip
+          echo "$SOURCE_ARTIFACT_SHA256  /tmp/fcp_original_source.zip" | sha256sum -c -
+      - name: Run cross-fitted original photo classification MAR and MNAR
+        run: |
+          python scripts/analysis/audit_fcp_global_photo_rainfall_classifiability_IPW_MNAR_20261010.py \
+            --source-archive /tmp/fcp_original_source.zip --outdir /tmp/fcp_source_photo_selection
+      - name: Test global latitudinal white colour constancy against fixed-species and genus label nulls
+        run: |
+          python scripts/analysis/audit_fcp_global_photo_latitude_balance_null_20261010.py \
+            --source-archive /tmp/fcp_original_source.zip --outdir /tmp/fcp_source_photo_selection
+      - name: Verify original photo opportunity population, data and inference ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("/tmp/fcp_source_photo_selection")
+          a=json.loads((root/"result.json").read_text())
+          b=json.loads((root/"latitude_uniformity_result.json").read_text())
+          assert a["all_original_unique_photo_ids"]==100543
+          assert a["source_all_classifiable"]==45953
+          assert a["source_all_unclassifiable"]==54590
+          assert a["original_geolocated_rain_photo_opportunities"]==100255
+          assert a["source_georain_classifiable"]==45836
+          assert abs(a["original_photo_wet_minus_dry_unweighted"]-0.11454238195306093)<1e-9
+          assert b["n_original_classified_geotagged_photos"]==45879
+          assert abs(b["observed_range_white_percentage_points"]-2.2130853718274612)<1e-9
+          assert b["conditional_colour_photo_label_nulls"]["within_species"]["group_white_totals_preserved_exactly"]
+          assert b["conditional_colour_photo_label_nulls"]["within_genus"]["group_white_totals_preserved_exactly"]
+          assert a["no_causal_pigment_tradeoff_cost_benefit_estimated"]
+          assert b["latent_adaptive_selection_equilibrium_unidentified"]
+          print("PASS exact historical photo bytes, 100543 opportunity count, noncausal ecological limits")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-photo-100543-MNAR-and-latitude-white-balance-20261010
+          retention-days: 30
+          if-no-files-found: error
+          path: /tmp/fcp_source_photo_selection/
