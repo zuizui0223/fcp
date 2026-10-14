@@ -1,0 +1,161 @@
+{
+  "schema": "fcp_np_global_to_within_white_axis_reporting_20261014_v1",
+  "status": "EXISTING_SOURCE_ARITHMETIC_ONLY_NO_NEW_SOURCE_PHOTOS_OR_PERMUTATIONS",
+  "source": {
+    "global_measured_PR": 135,
+    "global_source_image_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+    "global_provenance_success_run": 37777080395,
+    "old_H2_target_status": "targeted_post_audit_decomposition_not_untouched_confirmatory_test",
+    "new_H2_confirm_status": "untouched_prospective_test_of_previously_frozen_axis",
+    "new_2000_species_metadata_PR": 133
+  },
+  "worldwide_four_colour_coverage": {
+    "one_photo_nominal_species": 42111,
+    "one_photo_colour_classifiable_species": 18457,
+    "one_photo_unknown_species": 23654,
+    "one_photo_original_four_colour_counts": {
+      "white": 8597,
+      "yellow_orange": 6323,
+      "red_pink": 2001,
+      "blue_purple": 1536
+    },
+    "taxon_geographic_cell_photo_records": 85337,
+    "taxon_cell_colour_classifiable": 39075,
+    "merged_unique_photo_ids": 100543,
+    "merged_photo_four_colour_classifiable": 45953,
+    "merged_photo_unknown": 54590,
+    "global_colour_polymorphism_prevalence_estimable": false
+  },
+  "cross_geographic_cell_photo_pairs": {
+    "n_fixed_observer_disjoint_pairs": 13416,
+    "both_classifiable_pairs": 3196,
+    "discordant_four_colour_pairs": 797,
+    "unknown_hue_in_either": 10220,
+    "discordance_among_both_classified": 0.24937421777221527,
+    "no_assumption_full_frame_lower": 0.0594066785927251,
+    "no_assumption_full_frame_upper": 0.8211836612999404,
+    "distinct_individual_plants_or_genotypes_identified": false,
+    "geographic_variation_not_within_population_coexistence": true
+  },
+  "high_depth_sample_coverage": {
+    "n_historical_high_depth_photographed_species": 1499,
+    "n_retained_high_depth_photo_ids": 149900,
+    "n_at_least_40_classifiable_species_all_cohorts": 1109,
+    "n_classifiable_by_cohort": {
+      "discovery": 369,
+      "validation": 363,
+      "prospective": 377
+    },
+    "n_prospective_sampled_species": 499,
+    "n_prospective_photo_rows": 49900,
+    "n_prospective_classifiable_rows": 25788
+  },
+  "white_axis_already_evaluable_three_cohorts": [
+    {
+      "cohort": "discovery",
+      "inferential_role": "retrospective target localization",
+      "primary": {
+        "eligible_species": 152,
+        "observed_W": 0.5146245742375285,
+        "source_null_mean_W": 0.4306619261016736,
+        "source_null_median_W": 0.43080780527625906,
+        "source_original_null_p": 0.001,
+        "source_null_replicates": 999
+      },
+      "strict": {
+        "eligible_species": 75,
+        "observed_W": 0.5423549779816461,
+        "source_null_mean_W": 0.4435413045488863,
+        "source_null_median_W": 0.4436262712943979,
+        "source_original_null_p": 0.001,
+        "source_null_replicates": 999
+      }
+    },
+    {
+      "cohort": "validation",
+      "inferential_role": "retrospective target localization",
+      "primary": {
+        "eligible_species": 129,
+        "observed_W": 0.5145857778624214,
+        "source_null_mean_W": 0.465881302594352,
+        "source_null_median_W": 0.46654633703886256,
+        "source_original_null_p": 0.001,
+        "source_null_replicates": 999
+      },
+      "strict": {
+        "eligible_species": 65,
+        "observed_W": 0.5105174254190324,
+        "source_null_mean_W": 0.4699203804079493,
+        "source_null_median_W": 0.4699433472497884,
+        "source_original_null_p": 0.008,
+        "source_null_replicates": 999
+      }
+    },
+    {
+      "cohort": "prospective",
+      "inferential_role": "untouched prospective confirmation",
+      "primary": {
+        "eligible_species": 158,
+        "observed_W": 0.5172457461053418,
+        "source_null_mean_W": 0.45664389702916275,
+        "source_null_median_W": 0.45714281500506854,
+        "source_original_null_p": 0.001,
+        "source_null_replicates": 999
+      },
+      "strict": {
+        "eligible_species": 86,
+        "observed_W": 0.5329282123135909,
+        "source_null_mean_W": 0.45967400889662496,
+        "source_null_median_W": 0.45931966586726264,
+        "source_original_null_p": 0.001,
+        "source_null_replicates": 999
+      }
+    }
+  ],
+  "white_axis_descriptive_all_cohort_summary": {
+    "primary": {
+      "eligible_species_total": 439,
+      "eligible_species_by_cohort": {
+        "discovery": 152,
+        "validation": 129,
+        "prospective": 158
+      },
+      "species_equal_weighted_observed_W": 0.5155565569772226,
+      "species_equal_weighted_cohort_null_MEANS": 0.45036227000622664,
+      "observed_minus_weighted_null_means": 0.06519428697099594,
+      "no_pooled_null_worlds_constructed": true,
+      "no_pooled_p_value_computed": true,
+      "do_not_relabel_post_audit_cohorts_as_prospective": true
+    },
+    "strict": {
+      "eligible_species_total": 226,
+      "eligible_species_by_cohort": {
+        "discovery": 75,
+        "validation": 65,
+        "prospective": 86
+      },
+      "species_equal_weighted_observed_W": 0.5296109834505726,
+      "species_equal_weighted_cohort_null_MEANS": 0.4572672005875793,
+      "observed_minus_weighted_null_means": 0.07234378286299326,
+      "no_pooled_null_worlds_constructed": true,
+      "no_pooled_p_value_computed": true,
+      "do_not_relabel_post_audit_cohorts_as_prospective": true
+    }
+  },
+  "new_high_depth_species_not_yet_measured": {
+    "historical_u100_metadata_opportunity": 4730,
+    "old_selected_taxon_ids_excluded": 2000,
+    "never_allocated_capacity_species": 2730,
+    "preselected_2000_species_pixels_unopened": 2000,
+    "reserve_730_species_unopened": 730,
+    "max_possible_if_all_new_2000_measured": 3499,
+    "new_colour_axis_confirmation_available": false
+  },
+  "boundaries": [
+    "42,111 single-image or 85,337 taxon-cell records are NOT high-depth within-species colour axes.",
+    "439 is the union of separately fitted original 152+129 and prospectively held-out 158 eligible axes, not 439 untouched confirmatory taxa.",
+    "Weighted average of null cohort MEANS is descriptive expectation, not a reconstructed joint pooled permutation null or p value.",
+    "The historical H2 white state can be affected by camera near-clipping and does not prove pigment absence.",
+    "No universal white/coloured cost/benefit fitness balance is identified, regardless of global observed 46.95 percent photo-white share."
+  ]
+}
