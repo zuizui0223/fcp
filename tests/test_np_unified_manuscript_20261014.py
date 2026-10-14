@@ -211,7 +211,7 @@ def test_ecology_first_story_and_noncausal_separate_sampling_grains():
     assert "not a nested" in c["Summary"]
     assert "strict" in c["Summary"] and "spatial" in c["Summary"]
     assert "relative fitness" in d and "do **not** directly measure" in d
-    captions = re.findall(r"^\\*\\*Figure ([1-6])\\.", s, flags=re.M)
+    captions = re.findall(r"^\*\*Figure ([1-6])\.", s, flags=re.M)
     assert captions == ["1", "2", "3", "4", "5", "6"]
     assert "**Figure 1. Worldwide moisture-associated" in s
     assert "**Figure 6. Species-wide flower-colour variation" in s
@@ -260,5 +260,7 @@ def test_source_locked_s18_does_not_upgrade_photographic_balance_to_fitness():
     part = si[si.index("## S18."):]
     for token in ("21,574", "45,953", "54,590", "P = .214", "P = .997", "2,000", "730"):
         assert token in part, token
-    assert "NOT TESTED" in part and "not a nested" not in part.lower() or "fitness" in part.lower()
+    assert "NOT TESTED" in part
+    assert "not a nested" not in part.lower()
+    assert "fitness" in part.lower()
     assert "relative male/female reproductive fitness" in part
