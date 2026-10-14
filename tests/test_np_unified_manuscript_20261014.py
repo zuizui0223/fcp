@@ -211,7 +211,11 @@ def test_ecology_first_story_and_noncausal_separate_sampling_grains():
     assert "not a nested" in c["Summary"]
     assert "strict" in c["Summary"] and "spatial" in c["Summary"]
     assert "relative fitness" in d and "do **not** directly measure" in d
-    assert "figures still retain original 1–6 numbering" in s
+    captions = re.findall(r"^\\*\\*Figure ([1-6])\\.", s, flags=re.M)
+    assert captions == ["1", "2", "3", "4", "5", "6"]
+    assert "**Figure 1. Worldwide moisture-associated" in s
+    assert "**Figure 6. Species-wide flower-colour variation" in s
+    assert "Supporting Information S18" in s or "S18" in s
 
 
 def test_true_high_depth_vs_broad_existing_image_measurements():
@@ -227,3 +231,34 @@ def test_true_high_depth_vs_broad_existing_image_measurements():
     assert "METADATA_ONLY_COHORT_SELECTION_FROZEN_NO_BIOLOGICAL_OPENING" in scaling
     assert "no new biological image measurement" in supporting
     assert "not the possible maximum" in ledger
+
+
+def test_ecology_first_figures_are_source_identical_reporting_aliases():
+    source = ROOT / "docs/figures/polymorphism_20260918"
+    alias = ROOT / "docs/figures/polymorphism_20261014"
+    pairs = [
+        ("figure1_moisture_association.svg", alias / "figure6_unified_environmental_support.svg"),
+        ("figure2_sampling_frame.png", source / "polymorphism_figure1_measurement_frame.png"),
+        ("figure2_sampling_frame.pdf", source / "polymorphism_figure1_measurement_frame.pdf"),
+        ("figure3_observer_reproducibility.png", source / "polymorphism_figure2_h1_reproducibility.png"),
+        ("figure3_observer_reproducibility.pdf", source / "polymorphism_figure2_h1_reproducibility.pdf"),
+        ("figure4_colour_axis_discovery.png", source / "polymorphism_figure3_h2_target_localization.png"),
+        ("figure4_colour_axis_discovery.pdf", source / "polymorphism_figure3_h2_target_localization.pdf"),
+        ("figure5_prospective_white_axis.png", source / "polymorphism_figure4_prospective_h2.png"),
+        ("figure5_prospective_white_axis.pdf", source / "polymorphism_figure4_prospective_h2.pdf"),
+        ("figure6_geographic_colour_structure.png", source / "polymorphism_figure5_explanatory_boundaries.png"),
+        ("figure6_geographic_colour_structure.pdf", source / "polymorphism_figure5_explanatory_boundaries.pdf"),
+    ]
+    for name, src in pairs:
+        dest = alias / name
+        assert dest.exists() and src.exists(), name
+        assert dest.read_bytes() == src.read_bytes(), name
+
+
+def test_source_locked_s18_does_not_upgrade_photographic_balance_to_fitness():
+    si = (ROOT / "docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md").read_text(encoding="utf8")
+    part = si[si.index("## S18."):]
+    for token in ("21,574", "45,953", "54,590", "P = .214", "P = .997", "2,000", "730"):
+        assert token in part, token
+    assert "NOT TESTED" in part and "not a nested" not in part.lower() or "fitness" in part.lower()
+    assert "relative male/female reproductive fitness" in part
