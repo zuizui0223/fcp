@@ -384,7 +384,7 @@ jobs:
           from pathlib import Path
           import pandas as pd
           root=Path(os.environ["RUNNER_TEMP"])/"fcp_allphoto_original/output"
-          t=pd.concat((pd.read_csv(root/f"W_${c}/species_W_fixed_axis.csv")
+          t=pd.concat((pd.read_csv(root/f"W_{c}/species_W_fixed_axis.csv")
                      for c in ("discovery","validation","prospective")),ignore_index=True)
           assert len(t)==439 and t.inat_taxon_id.is_unique
           t.to_csv(root/"all_439_species_W.csv",index=False,float_format="%.17g")
