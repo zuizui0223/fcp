@@ -10,9 +10,9 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 
 ## How to read this Supporting Information
 
-The reader-facing order mirrors the unified paper's inferential chronology, with original S1–S12 retained and new S13–S16 added:
+The reader-facing index preserves original H1/H2 chronology while adding original-source global variation, matched cross-scale photographic contrasts and their ecological limits in S13–S21:
 
-**sampling frame -> measurement validity -> geometry discovery/prospective confirmation -> geographic allocation of ITV -> spatial-process decomposition -> alternative explanations -> bounded mechanism evidence.**
+**measured global photo-colour diversity and original source identities → matched between/within-species photographic comparison → distributional high-depth measurement validity → prospective colour-axis confirmation and spatial allocation → constrained ecological mechanism hypotheses.** The SI numbering preserves the source-analysis chronology; it does not change the chronological order in which H2 was preregistered and opened.
 
 Workflow IDs, immutable hashes and release receipts are retained where they establish provenance, but they are not additional biological results. The self-contained release bundle remains the deeper reproducibility layer.
 
