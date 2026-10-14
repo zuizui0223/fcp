@@ -107,7 +107,7 @@ def test_hard_selection_and_genetic_boundaries():
     assert "not measured" in c["Materials and Methods"] or "Neither data system estimates" in c["Materials and Methods"]
     assert "drift" in c["Discussion"] and "fitness" in c["Discussion"]
     assert "benefit–cost hypothesis" in c["Discussion"]
-    assert "not directly measure pigment synthesis" in c["Discussion"]
+    assert "pigment synthesis" in c["Discussion"] and "do **not** directly measure" in c["Discussion"]
     assert "moisture" in c["Discussion"].lower()
     ledger=CLAIMS.read_text()
     for word in ("42,111","149,900","45,953","INDETERMINATE"):
