@@ -39,7 +39,7 @@ jobs:
           hdrs=['Introduction','Materials and Methods','Results','Discussion']
           for i,h in enumerate(hdrs):
               a=s.index('## '+h)+len('## '+h)
-              b=s.index('## '+hdrs[i+1],a) if i<3 else s.index('## Acknowledgements',a)
+              b=(s.index('## Table 1.',a) if h=='Materials and Methods' else s.index('## '+hdrs[i+1],a)) if i<3 else s.index('## Acknowledgements',a)
               parts[h]=len(s[a:b].strip().split())
           summary=s[s.index('## Summary')+len('## Summary'):s.index('**Keywords')].strip()
           words=len(summary.split())
