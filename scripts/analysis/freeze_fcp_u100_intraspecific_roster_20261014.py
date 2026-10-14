@@ -122,7 +122,7 @@ def run(inputs:dict[str,Path],out:Path):
 
 def main():
     parser=argparse.ArgumentParser()
-    for key in SOURCE:parser.add_argument('--'+key.replace('_','-'),type=Path,required=True)
+    for key in SOURCE:parser.add_argument('--'+key.lower().replace('_','-'),dest=key,type=Path,required=True)
     parser.add_argument('--outdir',type=Path,required=True)
     a=parser.parse_args()
     inputs={k:getattr(a,k) for k in SOURCE}
