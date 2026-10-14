@@ -1,6 +1,6 @@
 # FCP: uncapped photographic opportunity → shared structure of *within-species* colour variation
 
-**Revised scope: 14 October 2026, following explicit user decision to remove the 4,730 species × 100 photo ceiling.** This protocol is an *exploratory expansion plan and executable acquisition/support framework*, **not** a claim that unlimited photographs have already been measured. The frozen original New Phytologist discovery/validation/prospective H1/H2 results and their source SHA identities remain unchanged.
+**FRESH STUDY revision: 14 October 2026 — source photo collection and all ROI-v4 flower-colour measurements start anew.** The immutable old 149,900 measured-photo CSVs are **NOT biological inputs, not an exclusion list and not mixed with the new results**. They remain technical regression fixtures only. The input source is the frozen outcome-blind 42,111 taxon opportunity registry, not an old colour table. No biological fresh-photo results are claimed until the census/measurement completion receipts pass. The frozen original New Phytologist discovery/validation/prospective H1/H2 results and their source SHA identities remain unchanged.
 
 ## The scientific question, in one sentence
 
@@ -16,7 +16,7 @@ The first immutable sampling frame remains 42,111 **iNaturalist metadata-discove
 - Collect **all available distinct licensed photo IDs** from qualifying research-grade, georeferenced iNaturalist observations of the frozen taxa. Preserve **all** photos even when multiple photographs belong to one observation, but retain observation ID and observer ID. Distinguish the photographed trait (photo) from independent observation units and breeding plants.
 - Freeze a `created_d2` upper bound and API/source version; traverse sorted observation IDs using `id_above` and record every cursor. Do **not** stop at page 50, at 10,000 observations, or once the species reaches a photo target. Document per-species `complete`, `in_progress`, inaccessible, or provider-failure status. For truly massive harvesting prefer source-provider bulk exports and metadata snapshots; follow [iNaturalist API recommended practices](https://www.inaturalist.org/pages/api+recommended+practices).
 - No requery until a desirable amount of colour variation is detected, no replacement of hard-to-classify photographs. An unavailable URL or failed ROI is a **terminal unclassified photo**, not an observation to silently replace.
-- Confirm the same original photo IDs are not counted twice when the 149,900 original high-depth rows are combined with new metadata/measurements. Canonical taxon IDs and names require a logged taxonomy crosswalk if they drift.
+- Each rediscovered photo ID is downloaded and measured *afresh*, even if that photo ID occurred in the historical 149,900-row study. Do NOT concatenate historical colour/measurement rows with fresh rows. Count every distinct photo ID only once in this new study, and note that redownloading an earlier ID is not an independent biological replicate. Canonical taxon IDs and names require a logged taxonomy crosswalk if they drift.
 
 Existing immutable sources: the full 42,111 frame at historical commit `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`, `data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv`; original three measured photo CSVs at `5142f7951af0dde5364bb047a566d67e8c479e51` and `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`. U100=4,730 is retained as a historical subset, no longer the expansion population.
 
@@ -24,7 +24,7 @@ Existing immutable sources: the full 42,111 frame at historical commit `7e538e5c
 
 Reuse the frozen **ROI-v4 detector → EfficientSAM flower mask → fixed nine-colour sRGB/CIELAB palette → four coarse colour states**, with every failed photo preserved as an unclassified outcome. The exact historical measurement runtime is at Git commit `9fae6ccdf684a46026f72ba12e98de2c5c54bf2a`; its original `scripts/analysis/measure_random_photo_first_blind_partition.py` and `fcp_pipeline/photo_first_measurement.py` control the image pipeline. The original detector SHA256 is `f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5`; original EfficientSAM encoder/decoder hashes remain as frozen in the New Phytologist provenance contract.
 
-The new source-audit code writes the **same three-field location-blind worker interface** `measurement_id,image_filename,photo_license` and keeps `photo_url_large`, species/taxon, observer, date and coordinates outside the worker. A complete sealed worker partition/terminal-result/metadata-join receipt is required before environmental information is available to colour measurement. Old H1/H2 numbers must not be recomputed using the later generic `disttrait` two-means implementation: near-tied k-means initializations have documented numerical differences.
+The fresh source-audit code writes the **same three-field location-blind worker interface** `measurement_id,image_filename,photo_license` and keeps `photo_url_large`, species/taxon, observer, date and coordinates outside the worker. A complete sealed worker partition/terminal-result/metadata-join receipt is required before environmental information is available to colour measurement. Old H1/H2 numbers must not be recomputed using the later generic `disttrait` two-means implementation: near-tied k-means initializations have documented numerical differences.
 
 This new acquisition code establishes the *metadata and measurement-firewall interfaces*, **not** an authorization to run all 42,111 taxa or a claim that downloaded image pixels were retained. An expensive full-source collection/measurement run should be separately budgeted, monitored, checkpointed and data-source-compliant.
 
@@ -59,67 +59,91 @@ Separate two environmental estimands rather than treating all tests as the same:
 
 Signed white-minus-nonwhite mean environmental deltas are **secondary** because they test local colour-environment sorting, not a species-level FCP feature. The primary species comparison is `W_i ~ heterogeneity_i(environment)` with original-coarse-state conditioning and confounder/observation-opportunity checks; `D` and 50-km differentiation are only supporting diagnostics. Annual-average floral whiteness from `mois` is never the response. Neither the old BIO5 association nor any exploratory BIO7 or `mois` annual precipitation/soil coefficient becomes causal by rerunning more photographs. **Missing environments remain missing; never zero-fill.** Multiple environment-axis comparisons must be familywise controlled and accompanied by null/negative checks.
 
-## 6. Reproducible program and what is not yet run
+## 6. Exact NEW measurement sequence — ZERO reused historical photo colours
+
+The historical 149,900 photos, H2 vectors and old environment tables are prohibited as **input** to the new biological estimation. Historic immutable scripts and trained weights are permitted **as fixed methods**, plus in separately named technical-regression jobs only. The pipeline MUST NOT use `--already-measured` and MUST NOT supply historical measured CSVs to either `fcp_allphotos` or `fcp_axis_replay` for the new study.
+
+The following commands are a work plan (not evidence that the global fetch has run):
 
 ```bash
-# Outcome-blind inventory: every discovered species, no >=100 gate.
-python -m fcp_pipeline.fcp_allphotos \
-  --opportunity /trusted/42111_species_frame.csv \
-  --outdir results/fcp_allphoto_inventory
+# 1. Original OUTCOME-BLIND 42,111 taxon identities; no species outcome selection.
+# File SHA256 = 5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc
+FRAME=/trusted/historical/outcome_blind_42111_species.csv
+DATE=2026-10-14
 
-# Complete one species metadata enumeration (no max batches and no per-species cap):
-python scripts/acquisition/collect_fcp_uncapped_metadata.py \
-  --taxon-id 12345 --species 'Example species' --created-before 2026-10-14 \
-  --out-dir /frozen/metadata/12345
+# 2. Acquire one resumable shard of the full photo-source census.
+# Compute page budget=10 is a checkpoint, NOT a terminal photo limit.
+python scripts/acquisition/run_fcp_uncapped_shard.py \
+  --frame "$FRAME" --output-root /trusted/fcp_fresh_metadata \
+  --shards 128 --shard 0 --created-before "$DATE" \
+  --pages-per-species-per-run 10
+# Re-run the SAME shard/date until every species checkpoint is 'complete'.
+# Repeat for all 128 shards; HTTP errors remain incomplete. Do not scale
+# independent API clients beyond the provider's allowed overall rate.
 
-# Freeze completed metadata without opening pixels; source URL stays sealed:
-python scripts/acquisition/build_fcp_uncapped_blind_batches.py \
-  --metadata-dir /frozen/metadata/12345 \
-  --output /frozen/blind_workers/12345
+# 3. Only after ALL 42,111 metadata taxa are complete:
+python -m fcp_pipeline.fcp_fresh_study freeze \
+  --source-species "$FRAME" --metadata-root /trusted/fcp_fresh_metadata \
+  --shards 128 --worker-partitions 128 --outdir /trusted/fcp_fresh_firewall
 
-# Once frozen ROI-v4 acquisition/measurement and terminal reassembly exist,
-# ALL photos are accepted, not a 100-photo sample:
-python -m fcp_pipeline.fcp_allphotos \
-  --opportunity /trusted/42111_species_frame.csv \
-  --measured original_discovery=/trusted/discovery.csv \
-  --measured original_validation=/trusted/validation.csv \
-  --measured original_prospective=/trusted/prospective.csv \
-  --measured all_photos_new=/frozen/all_terminal_measured.csv \
-  --outdir results/fcp_allphoto_FCP
+# 4. Reacquire ALL source images. The original source/binary checksums are
+# checked before opening pixels; no historical flower-colour labels are read.
+# Run one job per (partition, work-batch). The 64-row value bounds memory
+# only, NOT source photos or species. Repeat until every job is completed.
+python scripts/acquisition/run_fcp_fresh_image_partition.py \
+  --firewall /trusted/fcp_fresh_firewall \
+  --partition 0 --batch 0 --batch-size 64 \
+  --original-measure-script /trusted/original/measure_random_photo_first_blind_partition.py \
+  --original-detector /trusted/original/jrc_yolo11n_last_v4.pt \
+  --original-efficient-sam /trusted/original/efficient_sam \
+  --output /trusted/fcp_fresh_sealed
 
-# Original H2 *mathematical implementation*, exact historical blob,
-# on every classifiable measured photo; does not refit any novel axis.
-python -m fcp_pipeline.fcp_axis_replay \
-  --measured /complete/species_partition/photo_colour.csv \
-  --opportunity /trusted/42111_species_frame.csv \
-  --frozen-h2-source /historical/7e538e/scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py \
-  --cohort all_photo_expansion --outdir /frozen/W_expansion
-# Inferential W claim requires --frozen-null-source from the same original
-# Git commit to execute 999 coarse-state-preserving worlds.
+# 5. A fresh biological measured table is authorized ONLY once every source
+# photo ID has exactly one attested, SHA-checked terminal record.
+python -m fcp_pipeline.fcp_fresh_study reassemble \
+  --firewall /trusted/fcp_fresh_firewall \
+  --sealed-results /trusted/fcp_fresh_sealed \
+  --method-attestation /trusted/fcp_fresh_sealed/frozen_method_attestation.json \
+  --outdir /trusted/fcp_fresh_complete
 
-# Direct photo-coordinate raster sampling, same 36 variable names as mois.
-# Raster versions, units/depth, monthly reduction and SHA256 must be supplied.
-python -m fcp_pipeline.fcp_direct_environment \
-  --measured /complete/species_partition/photo_colour.csv \
-  --manifest /trusted/fcp_mois36_rasters.json --require-all36 \
-  --out /frozen/photo_environment.csv
+FRESH=/trusted/fcp_fresh_complete/newly_remeasured_photos.csv
+
+# 6. NEW photo-only D/observer/observation support; no old measured inputs:
+python -m fcp_pipeline.fcp_allphotos --opportunity "$FRAME" \
+  --measured fresh_remeasured="$FRESH" \
+  --outdir results/fcp_new_full_FCP
+
+# 7. Original bit-identical frozen H2 geometry and 999-world coarse-state
+# preserving null, with zero axis refitting on environmental predictors:
+python -m fcp_pipeline.fcp_axis_replay --measured "$FRESH" \
+  --opportunity "$FRAME" \
+  --frozen-h2-source /trusted/original/run_polymorphism_delta_geometry_validation_20260912.py \
+  --frozen-null-source /trusted/original/run_polymorphism_delta_geometry_structured_null_20260912.py \
+  --cohort new_full_source --outdir results/fcp_new_W_axis
+
+# 8. Annotate THIS photograph's own position with 36 provenance-pinned
+# environmental raster fields, not nearby mois photo attributes:
+python -m fcp_pipeline.fcp_direct_environment --measured "$FRESH" \
+  --manifest /trusted/provenance_verified_mois36_rasters.json \
+  --require-all36 --out /trusted/new_source_photo_environment.csv
 python -m fcp_pipeline.fcp_environment_profiles \
-  --measured-complete-species-partition /complete/species_partition/photo_colour.csv \
-  --environment /frozen/photo_environment.csv --outdir /frozen/species_environment
+  --measured-complete-species-partition "$FRESH" \
+  --environment /trusted/new_source_photo_environment.csv \
+  --outdir results/fcp_new_species_environment
 
-# Evidence-only cross-species analysis, W primary and D/spatial diagnostic.
+# 9. Species-equal comparisons of W vs species-internal environmental spread.
+# D and 50-km spatial FCP are descriptive/control metrics, not primary response.
 python -m fcp_pipeline.fcp_shared_structure \
-  --ledger results/fcp_allphoto_FCP/all_photo_FCP_species_ledger.csv \
-  --w /frozen/study_specific_H2_species_W.csv \
-  --spatial /frozen/50km_species_metrics.csv \
-  --environment /frozen/species_environment/species_white_nonwhite_environment_sorting.csv \
-  --environment-profile /frozen/species_environment/species_environment_heterogeneity.csv \
-  --outdir results/fcp_uncapped_shared_FCP
+  --ledger results/fcp_new_full_FCP/all_photo_FCP_species_ledger.csv \
+  --w results/fcp_new_W_axis/species_W_fixed_axis.csv \
+  --environment-profile results/fcp_new_species_environment/species_environment_heterogeneity.csv \
+  --environment results/fcp_new_species_environment/species_white_nonwhite_environment_sorting.csv \
+  --outdir results/fcp_new_shared_FCP
 ```
 
-**Original measured photo IDs remain frozen and authoritative.** The blind batching script accepts `--already-measured discovery=...` (similarly validation and prospective), checks the original three data SHA256 values, and excludes those photo IDs from the new acquisition queue without dropping their historical measurements. Exact duplicate retry rows are reconciled; conflicting photo metadata halt the run. A completed metadata manifest is not a fully measured photo dataset.
+**Attention:** Command 9 returns preliminary descriptive species-equal associations. A signed environmental selection result is **not** demonstrated by Spearman correlations. Species-level environmental opportunity nulls, observer/quality, photograph-background, geographic confounding, phylogenetic structure, raster nodata and multiple-testing adjustments are required for ecological inference. The original 999-world H2 null tests recurrent axis concentration, *not* a null distribution for the environmental slope; ecological associations need their own construction-preserving null. A taxon with insufficient photos still counts in the source opportunity denominator but is excluded from W estimation under unchanged H2 gates.
 
-The archive-based CLI must take *actual* photo/image sources; a synthetic or incomplete metadata result cannot be labelled `full`. Metadata and source URL acquisition, pixel processing, 999-world H2 null, 50-km label-permutation null and environmental raster joins are distinct gates. Input photos already used in the 1,499-species historic sets cannot be counted twice. The new module's own output **is an inventory, not a fully performed 42,111-species biological analysis**.
+This study deliberately **does not claim** that all source metadata, original image pixels or 36 raster assets are now downloaded. Actual iNaturalist harvesting must respect provider guidance and may require an approved bulk-export route. A completed one-page pilot is never a completed world photograph census. The source taxon frame is a frozen outcome-blind historical identity layer; a genuinely new taxon discovery frame would require an additional provenance gate.
 
 ## 7. Current evidence ceilings (unchanged)
 
