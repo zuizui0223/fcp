@@ -722,9 +722,9 @@ The original NHM descriptive source had 59,369 records and some mixed or ambiguo
 
 ### Supplemental table availability and non-pooling rule
 
-**Supporting Information Table S1** distinguishes the four levels: 149,900 high-depth images and 1,499 named taxa; 100,543 sparse photographed taxon opportunities and 45,953 classified photo colours; 26/36 environmental complete cases and differing test-species supports; 2,476 external-colour-matched source taxa with original FCP photo geographic sites. The groups are not added to one independent biological sample size.
+**Supporting Information Table S1** now materializes the denominator/source crosswalk for the **42,111** original global opportunities, **18,457** classifiable one-photo plant taxa, **85,337** taxon–cell photographs, **13,416** fixed observer-disjoint cross-cell pairs, the deduplicated **100,543**-photo environment source, and the independent **149,900**-photo high-depth cohorts. It separates photo, taxon, genus, observed pair, field individual and genotype units; unmatched original photo colours are never imputed.
 
-**Supporting Information Table S2** links each published numeric claim to the corresponding frozen JSON/CSV, original photo/environment SHA hashes, Actions replay and photographic or spatial sensitivity. The canonical reporting-only claim-to-source map is `docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md`.
+**Supporting Information Table S2** now lists every relevant claim together with source-locked numeric values, negative quality/geography/missingness tests, trade-off limits and exact PR/archive authority. **Both S1 and S2 are materialized** in `docs/POLYMORPHISM_SUPPORTING_TABLES_ECOLOGY_FIRST_20261014.md`, with the canonical claim ledger in `docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md`. Neither table reopens original photo classifications or repurposes retrospective inference as prospective confirmation.
 
 ## S17. One-paper scientific stopping rules and submission archiving
 
