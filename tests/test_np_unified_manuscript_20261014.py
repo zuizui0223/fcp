@@ -62,7 +62,7 @@ def test_original_high_depth_primary_effects_and_h2_kept():
         assert token in full,token
     assert "not a within-population" in full or "not a measure of coexistence within a natural population" in full
     summary=c["Summary"].split("**Keywords")[0]
-    for fragment in ("distributional photographic framework", "achromatic–chromatic direction", "annual precipitation", "water-vapour", "ecological trade-offs"):
+    for fragment in ("high-depth photographs", "achromatic–chromatic direction", "annual precipitation", "water-vapour", "ecological trade-offs"):
         assert fragment in summary, fragment
     assert "universal climatic selection" not in summary.lower()
     assert "not robustly supported" not in summary.lower()
