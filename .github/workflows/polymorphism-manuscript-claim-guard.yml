@@ -17,6 +17,8 @@ on:
       - tests/test_u100_comparison.py
       - fcp_pipeline/u100_comparison.py
       - fcp_pipeline/u100_frozen_w_export.py
+      - fcp_pipeline/u100_frozen_spatial_export.py
+      - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
@@ -32,6 +34,8 @@ on:
       - tests/test_u100_comparison.py
       - fcp_pipeline/u100_comparison.py
       - fcp_pipeline/u100_frozen_w_export.py
+      - fcp_pipeline/u100_frozen_spatial_export.py
+      - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
@@ -56,7 +60,7 @@ jobs:
         run: python -m pip install --upgrade pytest numpy pandas scipy
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py -q
 
 
   u100-real-frozen-data-smoke:
@@ -106,6 +110,18 @@ jobs:
             --vectors results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/primary_0_10_delta_vectors.csv \
             --out "$work/source/w_prospective.csv"
 
+      - name: Reproduce observed 50 km spatial metrics against frozen study receipt
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_frozen_spatial_export \
+            --u100 "$work/source/u100_species.csv" \
+            --measured "discovery=$work/source/discovery.csv" \
+            --measured "validation=$work/source/validation.csv" \
+            --measured "prospective=$work/source/prospective.csv" \
+            --reference results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json \
+            --out "$work/source/spatial_50km.csv"
+
       - name: Run the U100 bridge on real frozen cohorts
         run: |
           set -euo pipefail
@@ -116,6 +132,7 @@ jobs:
             --measured "validation=$work/source/validation.csv" \
             --measured "prospective=$work/source/prospective.csv" \
             --w-metrics "$work/source/w_prospective.csv" \
+            --spatial-metrics "$work/source/spatial_50km.csv" \
             --expected-u100 4730 --shards 24 --outdir "$work/output"
 
       - name: Verify frozen cohort coverage and publish receipt to log
@@ -138,6 +155,10 @@ jobs:
           assert observed_w["n"] == 158, observed_w
           assert abs(observed_w["mean"] - 0.5172457461053418) < 1e-12, observed_w
           print("U100_FROZEN_PROSPECTIVE_W", json.dumps(observed_w, sort_keys=True))
+          print("U100_EXPLORATORY_W_SPATIAL_CORRELATION", json.dumps(
+              receipt["correlations"]["w_alignment_sq_vs_depletion_50km"], sort_keys=True))
+          print("U100_EXPLORATORY_D_SPATIAL_CORRELATION", json.dumps(
+              receipt["correlations"]["D_vs_depletion_50km"], sort_keys=True))
           print("U100_EXPLORATORY_D_W_CORRELATION", json.dumps(
               receipt["correlations"]["D_vs_w_alignment_sq"], sort_keys=True))
           print("U100_EMPIRICAL_SMOKE_PASS", json.dumps({
@@ -158,4 +179,6 @@ jobs:
             ${{ runner.temp }}/fcp_u100_smoke/output/u100_species_registry.csv
             ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.csv
             ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.audit.json
+            ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.csv
+            ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.audit.json
           retention-days: 30
