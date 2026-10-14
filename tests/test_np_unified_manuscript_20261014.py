@@ -20,7 +20,7 @@ def sections():
     chunks={}
     for i,name in enumerate(names):
         start=s.index("## "+name)+len("## "+name)
-        stop=s.index("## "+names[i+1],start) if i+1<len(names) else s.index("## Acknowledgements",start)
+        stop=(s.index("## Table 1.",start) if name=="Materials and Methods" else s.index("## "+names[i+1],start)) if i+1<len(names) else s.index("## Acknowledgements",start)
         chunks[name]=s[start:stop]
     return s,chunks
 
@@ -104,8 +104,9 @@ def test_hard_selection_and_genetic_boundaries():
     assert "drift" in c["Discussion"] and "fitness" in c["Discussion"]
     assert "universal climatic" in s or "universal climatic" in c["Discussion"]
     ledger=CLAIMS.read_text()
-    for word in ("42,111","149,900","45,953","INDETERMINATE","NOT_ESTABLISHED"):
+    for word in ("42,111","149,900","45,953","INDETERMINATE"):
         assert word in ledger,word
+    assert "not established" in ledger.lower()
 
 
 def test_cover_letter_is_one_submission_and_50_word_questions():
