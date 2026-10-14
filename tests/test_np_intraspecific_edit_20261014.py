@@ -121,3 +121,29 @@ def test_one_cover_letter_asks_three_research_questions():
         assert title in s
     assert "[CORRESPONDING AUTHOR" in s
     assert "No submission has occurred" in s
+
+
+
+def test_table1_and_figure1_keep_endpoint_specific_species_denominators():
+    """Only 158 tested the frozen axis prospectively; 439 is not a new pooled test."""
+    s=PAPER.read_text(encoding="utf-8")
+    table=_section(s,"## Table 1.","## Results")
+    legend=_section(s,"**Figure 1.","**Figure 2.")
+    high=json.loads(H2.read_text())
+    dat=json.loads(H2COHORTS.read_text())
+    spatial=json.loads(SPATIAL.read_text())
+    p=next(x for x in dat["cohorts"] if x["tier"]=="primary")
+    assert high["measurement_support"]["evaluable_species"]==377
+    assert p["n_eligible"]==439
+    assert sum(x["n"] for x in p["cohorts"][:2])==281
+    assert p["cohorts"][2]["n"]==158
+    assert p["pooled_p_value"] is None
+    assert "369 discovery + 363 validation + 377 prospective = 1,109" in table
+    assert "152 discovery + 129 validation + 158 prospective = 439" in table
+    assert "pre-frozen confirmatory test n=158" in table
+    assert "166 discovery / 181 validation / 204 prospective" in table
+    assert "not a sequential 1,499" in table
+    assert all(spatial["primary"][key]["n_species"]==n for key,n in
+               (("discovery",166),("validation",181),("third",204)))
+    assert "439 eligible W vectors" in legend
+    assert "No source-wide polymorphism prevalence is estimated" in legend
