@@ -9,7 +9,7 @@ import pytest
 import rasterio
 from rasterio.transform import from_origin
 
-MODULE=Path(__file__).resolve().parents[1]/'scripts'/'u100_multiclimate_20261014.py'
+MODULE=Path(__file__).resolve().parents[1]/'scripts'/'analysis'/'u100_multiclimate_20261014.py'
 spec=importlib.util.spec_from_file_location('multiclimate',MODULE)
 m=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
