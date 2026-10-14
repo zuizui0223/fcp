@@ -22,7 +22,7 @@ LEGACY_PHOTO_SHA256 = {
 }
 
 FIELDS = ("inat_taxon_id", "species", "observation_id", "photo_id", "photo_url_large",
-          "photo_license", "observer_id", "latitude", "longitude")
+          "photo_license", "observer_id", "observed_on", "latitude", "longitude", "positional_accuracy_m")
 WORKER = ("measurement_id", "image_filename", "photo_license")
 ACQUISITION = ("measurement_id", "image_filename", "photo_url_large", "photo_license")
 SALT = "FCP_ALL_OBSERVABLE_PHOTO_BLIND_20261014_V1"
@@ -75,11 +75,16 @@ def freeze_inputs(directories: list[Path], output: Path, *, partitions: int = 12
                             raise ValueError("Original measured sources overlap, cannot double count") from exc
                         previously_measured += 1
             workers = []
+            acq_partitions=[]
             for part in range(partitions):
                 fh=stack.enter_context((output / f"worker_partition_{part:03}.csv").open("w",encoding="utf-8",newline=""))
                 writer=csv.DictWriter(fh,fieldnames=WORKER)
                 writer.writeheader()
                 workers.append(writer)
+                af=stack.enter_context((output / f"acquisition_partition_{part:03}.csv").open("w",encoding="utf-8",newline=""))
+                aw=csv.DictWriter(af,fieldnames=ACQUISITION)
+                aw.writeheader()
+                acq_partitions.append(aw)
             acq_file=stack.enter_context((output/'acquisition_key.csv').open('w',encoding='utf-8',newline=''))
             meta_file=stack.enter_context((output/'metadata_join_key.csv').open('w',encoding='utf-8',newline=''))
             acq_writer=csv.DictWriter(acq_file,fieldnames=ACQUISITION)
@@ -123,10 +128,12 @@ def freeze_inputs(directories: list[Path], output: Path, *, partitions: int = 12
                         filename=measurement+'.jpg'
                         workers[part].writerow(dict(measurement_id=measurement,
                                                     image_filename=filename,photo_license=v['photo_license']))
-                        acq_writer.writerow(dict(measurement_id=measurement,
-                                                 image_filename=filename,
-                                                 photo_url_large=v['photo_url_large'],
-                                                 photo_license=v['photo_license']))
+                        acquisition_row=dict(measurement_id=measurement,
+                                             image_filename=filename,
+                                             photo_url_large=v['photo_url_large'],
+                                             photo_license=v['photo_license'])
+                        acq_writer.writerow(acquisition_row)
+                        acq_partitions[part].writerow(acquisition_row)
                         join_writer.writerow({'measurement_id':measurement,
                                               **{k:v.get(k) for k in FIELDS if k!='photo_url_large'}})
                         counter += 1
