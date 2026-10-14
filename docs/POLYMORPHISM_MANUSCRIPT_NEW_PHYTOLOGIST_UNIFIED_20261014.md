@@ -1,4 +1,4 @@
-# Moisture-associated floral colours and recurrent achromatic–chromatic variation across plant species
+# Global flower-colour diversity reveals recurrent within-species variation and moisture-associated ecological patterns
 
 **New Phytologist Full Paper — one-paper unified editorial draft, 14 October 2026**
 
@@ -11,23 +11,23 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (14 October 2026, whitespace-delimited; verify after final formatting):**
-- Summary: 172 words
-- Introduction: 566 words
-- Materials and Methods: 2540 words
-- Results: 2298 words
-- Discussion: 1989 words
-- Main text (Introduction through Discussion): 7393 words
+- Summary: 175 words
+- Introduction: 434 words
+- Materials and Methods: 2617 words
+- Results: 2415 words
+- Discussion: 2002 words
+- Main text (Introduction through Discussion): 7468 words
 - Figures: 6
 - Tables: 1
-- Supporting Information: unified S1–S18 evidence map and planned source-referenced supplementary figures/tables
+- Supporting Information: unified S1–S19 evidence map and planned source-referenced supplementary figures/tables
 - Editorial note: source-identical ecology-first figure assets and captions now renumbered; journal formatting and approval remain
 
 ## Summary
 
-- Associations between flower colour and climate are established, but whether they connect to recurrent directions of variation within species is unclear. We begin with global moisture-related colour composition, then test a recurring achromatic–chromatic direction.
-- Worldwide photographs qualified 20,694 species for climate comparisons and 16,801 for soil-inclusive comparisons. White-classified colour covaried positively with annual precipitation (+2.255 percentage points per source SD) and atmospheric water-vapour pressure (+3.952); strict image-quality, spatial and external-colour tests did not establish a general independent direction.
-- Separately, a distributional photographic framework used 149,900 photos from 1,499 high-depth species. Observer-disjoint controls and construction-preserving nulls supported a prospectively frozen achromatic–chromatic direction among 158 eligible species (W = 0.517 versus null median 0.457; P = 0.001); local colour depletion recurred across three disjoint cohorts.
-- Classified original photographs were 46.95% white, but species-conditioned geographic uniformity was not exceptional (P = 0.214), and geographic compensation lacked support. The world and high-depth datasets are not a nested filter; both motivate future tests of moisture-dependent ecological trade-offs involving pigmentation, not established natural selection.
+- Treating flower colour as one fixed state per species obscures worldwide differences among photographed flowers and the structure of variation within species. We combine a global floral-photo atlas with separate, high-depth species samples.
+- Across 42,111 nominal taxa, 18,457 one-photo colours were classified. Of 13,416 predefined conspecific, observer-disjoint, cross-cell pairs, 3,196 had two classifiable colours and 797 (24.94%) differed. In a separately defined 20,694-species genus-comparison panel, photo-white covaried positively with annual precipitation (+2.255 percentage points per source SD) and atmospheric water-vapour pressure (+3.952), but strict photographic and spatial controls were inconclusive.
+- A distributional photographic framework using 149,900 high-depth photographs from 1,499 species revealed recurrent achromatic–chromatic direction in 158 eligible prospectively sampled species (W = 0.517 versus structured-null median 0.457; P = 0.001). Local colour depletion recurred across three species-disjoint cohorts.
+- Among classified original global photos, 46.95% appeared white, but exceptional geographic evenness and compensation were not supported. These nonnested data describe global photographic variation and within-species phenotype geometry; moisture-dependent ecological trade-offs in pigmentation remain experimentally testable, not demonstrated fitness or morph maintenance.
 
 **Keywords (alphabetical):** climatic gradients; flower colour; geographic differentiation; intraspecific variation; macroecology; moisture environment; phenotype distributions
 
@@ -35,26 +35,23 @@
 
 ## Introduction
 
-Flower-colour associations with climate are documented, but an environmental association alone does not explain which floral colour contrasts repeatedly arise within species. Comparative macroecology usually treats flowers as fixed species- or community-level traits (Dalrymple et al. 2020); population studies instead examine variation within species and possible effects of pollinators, abiotic selection, drift, gene flow and mating systems (Narbona et al. 2018; Sapir et al. 2021). We ask whether the observed macroecological association between photographed white colour and moisture can be placed alongside a separately measured, recurrent achromatic–chromatic axis of within-species variation. These are related but different empirical questions, and neither statistical correlation nor a shared visible colour contrast establishes a common evolutionary mechanism.
+Flower-colour diversity is visible across the global flora, but observations at different scales answer different evolutionary questions. A photograph classifies one flower's visible colour; it does not establish whether a species has multiple morphs within one population. Comparative macroecology generally represents species with one colour or an aggregate trait (Dalrymple et al. 2020), whereas floral polymorphism studies address differences among individual flowers, populations and regions (Narbona et al. 2018; Sapir et al. 2021). We ask **how much global photographic colour variation is documented, whether a recurrent direction occurs within species, and what these patterns permit us to hypothesize about moisture-dependent pigmentation trade-offs**.
 
-The within-species question changes the evolutionary meaning of intraspecific trait variation (ITV). Range-wide colour diversity can reflect coexistence within local populations, differentiation among populations, or both. Balancing mechanisms might maintain local morphs, whereas drift, colonisation, migration and spatially varying selection can generate mosaics (Delph & Kelly 2014). Mediterranean cases already exhibit monomorphic populations interspersed with mixed populations (Narbona et al. 2018), but such structure has rarely been compared under shared photographic controls across hundreds of plant species.
+Species-wide colour diversity can arise through local coexistence, differences among populations, or both. Balancing selection may maintain variants locally; drift, colonisation and spatially varying environments can yield geographic mosaics (Delph & Kelly 2014; Narbona et al. 2018). A globally repeated photographic colour contrast is therefore not itself a genetic or demographic polymorphism.
 
-The distinction connects ITV to landscape-evolutionary theory. Greater photographic colour differences across geographic distance are phenotypic IBD-like patterns; correlations with environmental distance after spatial adjustment are only **IBE-like** analogies, not genetic isolation or local adaptation (Wang & Bradburd 2014; Sexton et al. 2014). In *Linanthus parryae*, reciprocal transplants and neutral markers were needed to distinguish adaptive selection from a colour cline (Schemske & Bierzychudek 2007). We lack comparable field fitness and genotypes globally.
+Landscape-evolutionary theory predicts geographic colour differentiation through dispersal history or spatial selection. Photographed colour differences with distance are **IBD-like**, while residual correlations with environmental distance are merely phenotypic **IBE-like** diagnostics (Wang & Bradburd 2014; Sexton et al. 2014). In *Linanthus parryae*, neutral markers and reciprocal transplants were needed to distinguish adaptive colour sorting from a cline (Schemske & Bierzychudek 2007); our worldwide photo source lacks those measurements.
 
-A species-wide trait distribution has three distinguishable properties: total sampled diversity, its allocation across sites, and the direction of displacement in phenotype space. Continuous trait-distribution approaches (Carmona et al. 2019; Palacio et al. 2025) motivate measuring these separately. Recurrent regulatory or biochemical pathways may make certain floral contrasts more accessible (Wessinger & Rausher 2012; Larter et al. 2018), but that does not by itself imply adaptive equilibrium or shared pigment costs.
+A species-wide trait distribution records **overall diversity**, **allocation across locations**, and **phenotypic direction**. Trait-distribution approaches (Carmona et al. 2019; Palacio et al. 2025) motivate separating these dimensions. Recurrent colour geometry might reflect accessible pigment regulatory pathways (Wessinger & Rausher 2012; Larter et al. 2018), but it does not imply a universal cost or fitness equilibrium.
 
-Scaling these questions first requires a measurement problem to be solved. Community-science photographs provide repeated observations over broad ranges, but image conditions and observer behaviour can create apparent colour differences even when the biological distribution is stable (Laitly et al. 2021; Di Cecco et al. 2021). We therefore use fixed high-depth species sampling, observer-disjoint validation, location-blind image measurement, explicit technical missingness and matched composition-preserving nulls. Four frozen biological colour states—white, yellow/orange, red/pink and blue/purple—provide a common species-wide diversity measure, while continuous nine-colour vectors retain finer phenotype geometry.
+Repeated community-science photos make these scales comparable, while observer behaviour, organ misclassification and exposure can masquerade as natural colour variants (Laitly et al. 2021; Di Cecco et al. 2021). Four source-defined visible colours and continuous nine-colour vectors were therefore measured with missing states retained; high-depth inference additionally used observer-disjoint validation and construction-preserving nulls.
 
-The study draws on **two complementary, nonnested sampling designs**. A sparse worldwide photographic panel quantifies genus-adjusted moisture–colour associations across climate26 and soil36 complete-case species sets. A separate high-depth resource sampled 500 discovery, 500 species-disjoint validation and 499 prospective species for distributional measurement, a pre-frozen achromatic–chromatic target and spatial tests. We present results as **global moisture association → recurrent within-species colour variation → geographic organization**, followed by a moisture-dependent pigmentation trade-off hypothesis. The actual high-depth chronology—target discovery, freeze and new-species confirmation—remains unchanged and is described in the Methods.
+We use **two complementary, nonnested sampling designs**. Original sparse world photographs describe four-colour composition, regional cross-cell discordance and taxon-level environmental associations; 26 nonsoil versus 36 soil-inclusive predictors have different complete-case supports. Separate 500/500/499-species high-depth sampling provides colour distributions and a prospectively frozen achromatic–chromatic target. The editorial sequence is **global photographic diversity → within-species variation and geographic structure → competing ecological interpretations and a testable pigmentation benefit–cost hypothesis**. Chronological discovery, freeze and prospective confirmation remain unchanged.
 
----
-
-
-The ecological hypothesis is that moisture environments might alter the relative benefits and costs of floral pigmentation. We test only two observational premises at different scales: global photographic colour composition–moisture correspondence and repeated within-species achromatic–chromatic colour geometry. We do not measure pigment investment, relative fitness, heritable morph changes or the same-species moisture–colour response across the two panels.
+The possible moisture-dependent balance of pigmentation, visibility and protective functions is a **hypothesis**, not a conclusion from photographic frequency. No worldwide pigment costs, genotypes or morph-relative reproductive fitness were measured.
 
 ## Materials and Methods
 
-The workflow is sequential because each stage addresses a different inferential failure mode: outcome-dependent species selection, observer-dependent measurement, target-selection overfitting, and post hoc causal interpretation. We first ask whether repeated photographs define a stable within-species colour phenotype, then whether its geometry recurs across species. A location-blind pipeline yields four-state frequencies for D and continuous nine-colour displacement; geography enters only after phenotypes are defined.
+Analytical chronology was fixed within each source: photographic opportunity and label missingness were audited, high-depth measurement and colour-space geometry were validated using disjoint observers and species, and ecological interpretations were screened retrospectively. The global and high-depth samples are not a literal attrition sequence.
 
 ### Study design, data provenance and why each stage was required
 
@@ -75,6 +72,10 @@ After original data localized the white/nonwhite colour direction, all previousl
 #### Stage 3 — technical and ecological annotations
 
 After prospective H2 terminalization, all photos were reacquired to assess exposure; frozen WorldClim BIO5, BIO14 and solar values, validation-cohort V.PhyloMaker2 placements and sampled geographical span bounded possible explanations. These post-outcome tests do not change the prospective H2 result.
+
+### Global photographed hue atlas and cross-cell comparison
+
+The verified original one-photo-per-named-species frame contained 42,111 records (18,457 four-colour classifiable); a separate 85,337 species×equal-area-cell archive had 39,075 classifiable records. Their union contains **100,543 distinct photo IDs** after removing 26,905 duplicates. A previously frozen cross-cell sample retained **13,416** pairs of photos from different observers and geographic cells for the same named species, of which 3,196 had two classifiable hue labels. The original species bootstrap summarized discordance only among those observed pairs; missing endpoints stayed unresolved. Geographic cells and photos do not establish naturally interbreeding local populations (Supporting Information S19).
 
 ### Photographic measurement and outcome firewall
 
@@ -218,7 +219,11 @@ The central high-depth sampling logic is **frame → discovery/validation → fr
 
 ## Results
 
-The Results begin with world-scale moisture–photographic-colour correspondence and its stringent sensitivity limits, then narrow the **question**, not the species sample, to repeatable high-depth within-species colour variation and geographic organization. Both datasets retain their own denominators and unchanged chronological tests.
+Results begin with the measured diversity of global photographed flowers and their cross-cell changes, then describe moisture-associated colour composition. The independently sampled high-depth cohorts test within-species phenotypic directions and geographic structure. Finally we examine why these observations do not identify a fitness equilibrium.
+
+### Global photographed flower-colour diversity and cross-cell variation
+
+In the original one-photo-per-species atlas, **18,457 of 42,111** nominal species had a classifiable four-colour flower photograph: 8,597 white, 6,323 yellow/orange, 2,001 red/pink and 1,536 blue/purple. A second geographically stratified archive measured 85,337 taxon×cell photographic states (39,075 classifiable); overlap between the sources was removed before obtaining 100,543 unique photographed opportunities. Their records are different analytic units, not independent replication. Of **13,416** fixed conspecific, different-observer, cross-cell photo pairs, **3,196** had both colours classifiable; **797 (24.94%, source species-bootstrap 95% interval 23.44–26.44%)** disagreed in their original colour class. The other **10,220 pairs** remained unresolved. These data document geographically separated photographic colour states, **not** global polymorphic-species prevalence (Supporting Information S19).
 
 ### Ecology: worldwide flower-colour correspondence with moisture gradients
 
@@ -320,15 +325,19 @@ The discovery D–sampled-span correlation (369 species; rho **0.180**, P **0.00
 
 ## Discussion
 
-We interpret the findings in the order **broad ecological association → recurrent phenotype structure → hypothesis to test**. The global comparison and separately sampled high-depth cohorts are not nested confirmations of a causal mechanism. In particular, the water-dependent pigmentation benefit–cost balance below is a proposed explanation rather than a measured fitness trade-off.
+We distinguish **global photographic colour diversity**, replicated **within-species phenotype geometry and geographic structure**, and a subsequent **ecological mechanism hypothesis**. The two photographic resources differ in sampling resolution and cannot be combined into a causal selection test.
+
+### Global photographed diversity: broad variation does not imply genetic polymorphism prevalence
+
+Globally, four visible flower-colour categories were recovered from tens of thousands of source photos, and one-quarter of the both-classifiable, observer-disjoint conspecific cross-cell pairs showed different categories. This establishes photographic geographic variation conditional on the surviving labels, **not** coexistence within breeding populations. The abundance of unclassified photos and unequal source opportunities limits generalization. The high-depth data therefore supply a *different* inferential resolution rather than a subsample prevalence estimate.
 
 ### Moisture-associated ecology of white and coloured floral phenotypes
 
 At the broadest comparison scale, the sampled worldwide flora showed environment–colour correspondence across named plant species. Photographs classified as white became more frequent along annual precipitation and atmospheric water-vapour gradients among congeners after broad geographic adjustment. This macroecological result complements the within-species analyses: **where colour states are located within a species, which direction they occupy in colour space, and how photographed species' colour compositions covary with climate** are separate but connected descriptions of floral diversity.
 
-The broad photographic associations were most readily identified in the global samples, and their magnitudes depended on taxonomic weighting, image-quality support and geographical comparisons. In the fixed-species spatial analysis, changing the conditioning changed estimated slopes even though the flowers and taxa remained identical; the paired difference did not exclude zero after the specified familywise correction. Independently extracted botanical colour descriptions yielded a small, imprecise east-versus-rest rainfall association in a different species subset. These comparisons delimit which observations underpin the global relationship and help target its subsequent ecological interpretation without diminishing the observed broad photographic pattern.
+Global moisture associations were contingent on taxonomic weighting, image quality and spatial adjustment. The identical-species geographic-conditioning contrasts failed their corrected difference tests, and external botanical-colour descriptions did not independently confirm the eastern precipitation direction. These limitations constrain any claim of a common moisture-dependent mechanism.
 
-Interpretation must account for the distinct sampling grains. A photograph classified as white is not itself a verified genetic morph, and mean atmospheric vapour pressure is not a direct measure of plant tissue water stress. Species assemblage history, flowering season, observer practices, plant physiology and correlated climate axes may all contribute to the observed correspondence. The existing photographic data address geographic distribution and environmental association, while experimental plant fitness or inheritance data would be required for separate mechanistic studies.
+Mean atmospheric vapour pressure is not measured plant tissue water stress. Species history, phenology, observer sampling and correlated climate may all explain an association without implying pigmentation fitness. Further, a single shared class of photographed white does not establish shared pigment chemistry or hereditary state.
 
 ### Methodological advance: flower colour as a measured distribution
 
@@ -397,7 +406,9 @@ Developmental accessibility is a separate part of the explanation. In *Silene li
 
 ### Conclusion
 
-The worldwide photographic comparison found positive associations between photographed white floral colour and precipitation or water vapour among congeners. Those associations are bounded by weaker strict-image, finer-spatial and external-colour checks, and do not establish climatic selection.
+Original worldwide photographs recovered four visible flower-colour categories across the species-discovery frame and **797 class-discordant conspecific cross-cell photo pairs** among 3,196 both-classifiable pairs. This records a geographically structured photographic phenotype, not global genetic-polymorphism prevalence.
+
+The worldwide photographic comparison also found positive associations between photographed white floral colour and precipitation or water vapour among congeners. Those associations are bounded by weaker strict-image, finer-spatial and external-colour checks, and do not establish climatic selection.
 
 In separately sampled high-depth species, achromatic–chromatic colour displacement was more recurrent than expected under a construction-preserving null in 158 prospectively eligible species. Within-species colour diversity was geographically structured across three disjoint cohorts. Neither result implies the evolutionary polarity of white and coloured flowers or the maintenance of heritable colour morphs.
 
