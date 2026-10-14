@@ -24,6 +24,9 @@ on:
       - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
+      - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
+      - scripts/analysis/u100_multiclimate_20261014.py
+      - tests/test_u100_multiclimate_20261014.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
     paths:
@@ -44,6 +47,9 @@ on:
       - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
+      - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
+      - scripts/analysis/u100_multiclimate_20261014.py
+      - tests/test_u100_multiclimate_20261014.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
 
@@ -63,10 +69,10 @@ jobs:
           python-version: "3.12"
 
       - name: Install test dependency
-        run: python -m pip install --upgrade pytest numpy pandas scipy
+        run: python -m pip install --upgrade pytest numpy pandas scipy rasterio
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py -q
 
 
   u100-real-frozen-data-smoke:
@@ -209,3 +215,83 @@ jobs:
             ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.audit.json
             ${{ runner.temp }}/fcp_u100_smoke/output/environment_screen/**
           retention-days: 30
+
+  u100-multiclimate-exploratory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      WORLDCLIM_RELEASE: fcp-worldclim-2.1-10m-20260925
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+
+      - name: Install frozen environmental analysis runtime
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest
+          python -m pytest tests/test_u100_multiclimate_20261014.py -q
+
+      - name: Restore immutable prospective photographs and technical clipping seal
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_multiclimate"
+          mkdir -p "$work/input" "$work/bio" "$work/srad" "$work/releases"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$work/input/measured.csv"
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/input/measured.csv' | sha256sum -c -
+          tech=archive/fcp_submission_20260925/highlight
+          test "$(git hash-object "$tech/technical_table.csv.gz")" = "484193b8313ba3dc3523408e1a3f96fcbaaf7dda"
+          test "$(git hash-object "$tech/sealed_join_key.csv")" = "09c781113f0ed809eda158a7b0b6c7f3ea810506"
+          test "$(git hash-object "$tech/high_clip_ids.csv")" = "3f6eb5732a64a7e6ae5c99d40c7595bfc3f4890f"
+
+      - name: Restore checksum-pinned WorldClim 2.1 climate fields
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_multiclimate"
+          gh release download "$WORLDCLIM_RELEASE" --repo zuizui0223/fcp             --pattern 'wc2.1_10m_bio.zip' --pattern 'wc2.1_10m_srad.zip' --dir "$work/releases"
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  '"$work"'/releases/wc2.1_10m_bio.zip' | sha256sum -c -
+          echo 'c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  '"$work"'/releases/wc2.1_10m_srad.zip' | sha256sum -c -
+          unzip -q "$work/releases/wc2.1_10m_bio.zip" -d "$work/bio"
+          unzip -q "$work/releases/wc2.1_10m_srad.zip" -d "$work/srad"
+          test -f "$work/bio/wc2.1_10m_bio_17.tif"
+          test -f "$work/srad/wc2.1_10m_srad_12.tif"
+
+      - name: Reproduce three frozen covariates before opening ten-variable exploratory results
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_multiclimate"
+          tech=archive/fcp_submission_20260925/highlight
+          python scripts/analysis/u100_multiclimate_20261014.py             --measured "$work/input/measured.csv"             --technical "$tech/technical_table.csv.gz"             --join-key "$tech/sealed_join_key.csv"             --high-ids "$tech/high_clip_ids.csv"             --bio-dir "$work/bio" --srad-dir "$work/srad"             --frozen results/polymorphism_white_environment_mechanism_20260925/result.json             --outdir results/u100_multiclimate_exploratory_20261014
+          python - <<'PY'
+          from pathlib import Path
+          import json, pandas as pd
+          root=Path('results/u100_multiclimate_exploratory_20261014')
+          receipt=json.loads((root/'multi_climate_receipt.json').read_text())
+          rows=pd.read_json(root/'multi_climate_summary.json')
+          assert receipt['status']=='EXPLORATORY_10VARIABLE_SCREEN'
+          assert receipt['eligible_species']==281
+          assert receipt['after_high_clip_rows']==12583
+          assert set(receipt['frozen_3var_reproduced'])=={'bio5','bio14','srad_mean'}
+          assert len(rows)==10 and rows.variable.nunique()==10
+          assert all(rows['n']>=0)
+          print('FCP_U100_MULTICLIMATE_VERIFIED',rows[
+              ['variable','family','n','median','p_wilcoxon_two_sided','holm_10_p',
+               'holm_10_supported']].to_json(orient='records'))
+          print('FCP_U100_MULTICLIMATE_IDENTIFICATION',rows[
+              ['variable','observer_balanced','within_observer_paired',
+               'within_1degree_mixed_grid_cells']].to_json(orient='records'))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-u100-multiclimate-exploratory-20261014
+          if-no-files-found: error
+          retention-days: 30
+          path: results/u100_multiclimate_exploratory_20261014/
