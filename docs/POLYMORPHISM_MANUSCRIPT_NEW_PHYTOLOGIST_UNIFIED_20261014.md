@@ -11,7 +11,7 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (14 October 2026, whitespace-delimited; verify after final formatting):**
-- Summary: 177 words
+- Summary: 180 words
 - Introduction: 434 words
 - Materials and Methods: 2617 words
 - Results: 2425 words
@@ -26,7 +26,7 @@
 
 - Treating flower colour as one fixed state per species obscures worldwide differences among photographed flowers and the structure of variation within species. We combine a global floral-photo atlas with separate, high-depth species samples.
 - Across 42,111 nominal taxa, 18,457 one-photo colours were classified. Of 13,416 predefined conspecific, observer-disjoint, cross-cell pairs, 3,196 had two classifiable colours and 797 (24.94%) differed. In a separately defined 20,694-species genus-comparison panel, photo-white covaried positively with annual precipitation (+2.255 percentage points per source SD) and atmospheric water-vapour pressure (+3.952), but strict photographic and spatial controls were inconclusive.
-- Separate high-depth measurement of 149,900 photographs from 1,499 species provided 439 eligible achromatic–chromatic colour-space directions across three species-disjoint cohorts; the independent 158-species prospective test confirmed excess alignment (W = 0.517 versus structured-null median 0.457; P = 0.001). Geographic colour structuring recurred.
+- Separate measurements of 149,900 high-depth photographs from 1,499 species provided 439 eligible tests of a recurrent achromatic–chromatic direction across three species-disjoint cohorts; only the 158-species prospective test provided pre-frozen confirmation (W = 0.517 versus structured-null median 0.457; P = 0.001). Geographic colour structuring recurred.
 - Among classified original global photos, 46.95% appeared white, but exceptional geographic evenness and compensation were not supported. These nonnested data describe global photographic variation and within-species phenotype geometry; moisture-dependent ecological trade-offs in pigmentation remain experimentally testable, not demonstrated fitness or morph maintenance.
 
 **Keywords (alphabetical):** climatic gradients; flower colour; geographic differentiation; intraspecific variation; macroecology; moisture environment; phenotype distributions
