@@ -1,6 +1,6 @@
 # Cover letter — single unified New Phytologist Full Paper (working draft, 14 October 2026)
 
-**Submission status:** draft only; author metadata, submission archive and final Figure 6 artwork remain incomplete.
+**Submission status:** draft only; Figure 6 source/vector artwork is now prepared, but human author metadata, complete supplementary graphics, final formatted manuscript and unified permanent archive remain incomplete.
 
 **To the Editors of New Phytologist,**
 
@@ -21,7 +21,7 @@ We show that geographic partitioning of floral variation recurs across three spe
 **3. Why is this work important and timely?**  
 Large photographic biodiversity resources increasingly support global trait maps, but sampling, spatial history and environmental covariation can masquerade as shared adaptive rules. This study establishes a repeatable spatial phenotype pattern and quantifies where broader climatic explanations cease to transfer, improving inference from macroecological plant-colour data.
 
-A single comprehensive submission dataset will contain the frozen high-depth evidence and the new macroecological source/verification records. The final source-referenced Supporting Information, Figure 6 artwork and corresponding-author metadata must be completed and reviewed before actual submission.
+A single comprehensive submission dataset will contain the frozen high-depth evidence and the new macroecological source/verification records. The unified supplementary index and Figure 6 vector artwork are prepared; remaining supplementary visual files, source-locked submission packaging and corresponding-author metadata require completion and approval before journal submission.
 
 Sincerely,
 
