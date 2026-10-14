@@ -435,3 +435,138 @@ jobs:
             ${{ runner.temp }}/fcp_allphoto_original/output/all_439_species_W.csv
             ${{ runner.temp }}/fcp_allphoto_original/output/W_*/W_axis_receipt.json
             ${{ runner.temp }}/fcp_allphoto_original/output/shared/fcp_commonality_receipt.json
+
+
+  fcp-original1499-W-vs-siteclimate:
+    needs: fcp-allphoto-original-method-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    env:
+      LEGACY_SHA: 5142f7951af0dde5364bb047a566d67e8c479e51
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install pinned BIO/soil coordinate-sampler dependencies
+        run: python -m pip install -r requirements-np-bio5-replay-20260928.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp-allphotos-frozen1499-originalH2-smoke
+          path: /tmp/fcp_frozen_baseline
+      - name: Restore source-locked photos and WorldClim 2.1 rasters
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_original_climate"
+          mkdir -p "$work/input" "$work/bio" "$work/srad" "$work/zip" "$work/output"
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > "$work/input/discovery.csv"
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > "$work/input/validation.csv"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$work/input/prospective.csv"
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  '"$work"'/input/discovery.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  '"$work"'/input/validation.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/input/prospective.csv' | sha256sum -c -
+          gh release download fcp-worldclim-2.1-10m-20260925 --repo zuizui0223/fcp \
+            --pattern wc2.1_10m_bio.zip --pattern wc2.1_10m_srad.zip --dir "$work/zip"
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  '"$work"'/zip/wc2.1_10m_bio.zip' | sha256sum -c -
+          echo 'c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  '"$work"'/zip/wc2.1_10m_srad.zip' | sha256sum -c -
+          unzip -q "$work/zip/wc2.1_10m_bio.zip" -d "$work/bio"
+          unzip -q "$work/zip/wc2.1_10m_srad.zip" -d "$work/srad"
+      - name: Build source-hashed ten-variable *partial* mois-aligned raster manifest
+        run: |
+          python - <<'PY'
+          import os,json,hashlib
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate"
+          def rec(name,files,reducer="identity"):
+              return {"unit":"original_worldclim2.1_raster_units",
+                      "source":"WorldClim 2.1 10-arc-minute checksum-locked FCP release",
+                      "reducer":reducer,
+                      "rasters":[{"path":str(path),"sha256":hashlib.sha256(path.read_bytes()).hexdigest()} for path in files]}
+          b=(1,4,5,6,7,12,14,15,17)
+          features={f"wc_bio{k}":rec(f"wc_bio{k}",[root/"bio"/f"wc2.1_10m_bio_{k}.tif"]) for k in b}
+          features["wc_srad_annual_mean"]=rec("wc_srad_annual_mean",
+              [root/"srad"/f"wc2.1_10m_srad_{m:02d}.tif" for m in range(1,13)],"monthly_mean")
+          manifest={"schema":"fcp_mois36_direct_photo_raster_manifest_v1","features":features}
+          (root/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n")
+          assert len(features)==10 and not any(key.startswith("soil_") for key in features)
+          PY
+      - name: Directly sample every old FCP photograph and calculate within-species climate heterogeneity
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_original_climate"
+          python -m fcp_pipeline.fcp_direct_environment \
+            --measured "$work/input/discovery.csv" \
+            --measured "$work/input/validation.csv" \
+            --measured "$work/input/prospective.csv" \
+            --manifest "$work/manifest.json" \
+            --out "$work/output/photo_site_climate.csv"
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate"
+          a=pd.concat((pd.read_csv(root/f"input/{c}.csv",low_memory=False)
+                    for c in ("discovery","validation","prospective")),ignore_index=True)
+          assert len(a)==149900 and a.photo_id.nunique()==149900
+          a.to_csv(root/"output/measured_photo_union.csv",index=False)
+          PY
+          python -m fcp_pipeline.fcp_environment_profiles \
+            --measured-complete-species-partition "$work/output/measured_photo_union.csv" \
+            --environment "$work/output/photo_site_climate.csv" \
+            --outdir "$work/output/all_sites"
+      - name: Recompute strict <=1-km source-position sensitivity and cross-species white-axis comparison
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_original_climate"
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate"
+          e=pd.read_csv(root/"output/photo_site_climate.csv",low_memory=False)
+          keep=e["accuracy_le1000m"].fillna(False).astype(bool)
+          vars=[x for x in e if x.startswith("wc_")]
+          e.loc[~keep,vars]=float("nan")
+          e.to_csv(root/"output/photo_site_climate_accuracy1000m.csv",index=False)
+          PY
+          python -m fcp_pipeline.fcp_environment_profiles \
+            --measured-complete-species-partition "$work/output/measured_photo_union.csv" \
+            --environment "$work/output/photo_site_climate_accuracy1000m.csv" \
+            --outdir "$work/output/accuracy1000m"
+          python - <<'PY'
+          from pathlib import Path
+          from fcp_pipeline.fcp_shared_structure import baseline,join_metric,with_environment_heterogeneity,inspect_commonality
+          import json,os,pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate/output"
+          baseline_dir=Path("/tmp/fcp_frozen_baseline")
+          led=baseline(baseline_dir/"inventory/all_photo_FCP_species_ledger.csv")
+          led=join_metric(led,baseline_dir/"all_439_species_W.csv","W")
+          for name in ("all_sites","accuracy1000m"):
+              src,p=with_environment_heterogeneity(led,root/name/"species_environment_heterogeneity.csv")
+              report,_=inspect_commonality(src,environmental_spread=p)
+              metrics=report["W_vs_withinspecies_environmental_heterogeneity"]
+              assert len(metrics)==10
+              assert report["W_environment_frozen_construction_null_completed"] is False
+              (root/name/"W_environment_commonality.json").write_text(json.dumps(report,indent=2)+"\n")
+              pd.DataFrame(metrics).to_csv(root/name/"W_environment_commonality.csv",index=False)
+              print("FCP_1499_PHOTO_W_ENVIRONMENT_HETEROGENEITY",name,json.dumps(metrics))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-allphotos-frozen1499-W-environment10-descriptive
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/fcp_original_climate/manifest.json
+            ${{ runner.temp }}/fcp_original_climate/output/all_sites/species_environment_heterogeneity.csv
+            ${{ runner.temp }}/fcp_original_climate/output/all_sites/species_white_nonwhite_environment_sorting.csv
+            ${{ runner.temp }}/fcp_original_climate/output/all_sites/W_environment_commonality.*
+            ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/species_environment_heterogeneity.csv
+            ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/W_environment_commonality.*
+            ${{ runner.temp }}/fcp_original_climate/output/photo_site_climate.receipt.json
