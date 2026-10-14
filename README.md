@@ -1,5 +1,7 @@
 # FCP — within-species flower-colour variation
 
+**Repository boundary — 14 October 2026:** This **fcp** repository is exclusively the current **within-species flower-colour variation** paper: image measurement validity, D, repeated achromatic–chromatic phenotype-space axis W and geographic distribution within sampled plant species. The **global between-species flower-colour × rainfall/vapour/soil study**, including its original macro scripts, 1,280 direction rows and 576 matched spatial coefficients, has been migrated to [**zuizui0223/mois**](https://github.com/zuizui0223/mois). Historical Git branches and FCP photo-frame provenance remain accessible; the superseded integrated one-paper PR #196 should not be merged into FCP main. [Split scope and all-three-cohort within-species axis note](docs/FCP_WITHIN_SPECIES_SCOPE_AFTER_MOIS_20261014.md).
+
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture

@@ -1,0 +1,98 @@
+{
+  "schema": "fcp_intraspecific_white_axis_three_cohort_descriptive_20261014_v1",
+  "status": "ARITHMETIC_ONLY_ORIGINAL_H2_SOURCE_NO_POOLED_NULL",
+  "data_scope": "149900 fixed high-depth photo IDs from 1499 named species; 1109 at least40-classifiable D units; W only after exact frozen minor-mode eligibility",
+  "authority": {
+    "original_discovery_validation": "results/polymorphism_white_axis_targeted_test_20260912/result.json",
+    "prospective_confirmatory": "results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json",
+    "original_target_freeze": "docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md",
+    "original_FCP_main_commit": "88ddfe975b7eeac713badee81c1201448607c66c"
+  },
+  "cohorts": [
+    {
+      "tier": "primary",
+      "cohorts": [
+        {
+          "source": "discovery",
+          "role": "retrospective target discovery",
+          "n": 152,
+          "W": 0.5146245742375285,
+          "null_mean": 0.4306619261016736,
+          "null_median": 0.43080780527625906,
+          "p": 0.001
+        },
+        {
+          "source": "validation",
+          "role": "retrospective target localization",
+          "n": 129,
+          "W": 0.5145857778624214,
+          "null_mean": 0.465881302594352,
+          "null_median": 0.46654633703886256,
+          "p": 0.001
+        },
+        {
+          "source": "prospective",
+          "role": "pre-frozen independent species/photo confirmation within same iNaturalist system",
+          "n": 158,
+          "W": 0.5172457461053418,
+          "null_mean": 0.45664389702916275,
+          "null_median": 0.45714281500506854,
+          "p": 0.001
+        }
+      ],
+      "n_eligible": 439,
+      "observed_species_equal_mean_W": 0.5155565569772226,
+      "weighted_original_separate_cohort_null_means": 0.45036227000622664,
+      "descriptive_difference": 0.06519428697099594,
+      "pooled_p_value": null
+    },
+    {
+      "tier": "strict",
+      "cohorts": [
+        {
+          "source": "discovery",
+          "role": "retrospective target discovery",
+          "n": 75,
+          "W": 0.5423549779816461,
+          "null_mean": 0.4435413045488863,
+          "null_median": 0.4436262712943979,
+          "p": 0.001
+        },
+        {
+          "source": "validation",
+          "role": "retrospective target localization",
+          "n": 65,
+          "W": 0.5105174254190324,
+          "null_mean": 0.4699203804079493,
+          "null_median": 0.4699433472497884,
+          "p": 0.008
+        },
+        {
+          "source": "prospective",
+          "role": "pre-frozen independent species/photo confirmation within same iNaturalist system",
+          "n": 86,
+          "W": 0.5329282123135909,
+          "null_mean": 0.45967400889662496,
+          "null_median": 0.45931966586726264,
+          "p": 0.001
+        }
+      ],
+      "n_eligible": 226,
+      "observed_species_equal_mean_W": 0.5296109834505726,
+      "weighted_original_separate_cohort_null_means": 0.4572672005875793,
+      "descriptive_difference": 0.07234378286299326,
+      "pooled_p_value": null
+    }
+  ],
+  "research_boundary": {
+    "intraspecific_photo_colour_variation": true,
+    "recurrent_white_nonwhite_phenotypic_geometry": true,
+    "main_independent_prospective_H2_n": 158,
+    "shared_source_system": true,
+    "not_genetic_population_morph_fitness": true,
+    "not_global_species_photo_colour_moisture_analysis": true,
+    "not_new_joint_null": true,
+    "no_pooled_p_value": true
+  },
+  "moved_global_interspecific_moisture_repo": "https://github.com/zuizui0223/mois"
+}
