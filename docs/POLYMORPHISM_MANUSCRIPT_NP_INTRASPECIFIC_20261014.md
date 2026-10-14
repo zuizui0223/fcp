@@ -10,18 +10,16 @@
 
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
-**Word counts (current working draft):**
-- Summary: 194 words
-- Introduction: 805 words
-- Materials and Methods: 2,451 words
-- Results: 2,663 words
-- Discussion: 2,319 words
-- Main text (Introduction through Discussion): 8,238 words
+**Word counts (14 October 2026, whitespace-delimited; journal typeset count to verify):**
+- Summary: 189 words
+- Introduction: 741 words
+- Materials and Methods: 2365 words
+- Results: 1806 words
+- Discussion: 1423 words
+- Main text (Introduction through Discussion): 6335 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
-
-**Keywords (alphabetical):** citizen science; distributed polymorphism; flower colour; geographic variation; intraspecific variation; polymorphism
 
 ## Summary
 
@@ -355,6 +353,18 @@ Classical evidence for adaptive floral-colour clines has required more than a ph
 One possible explanation for recurrence across phylogenetically distinct plants is the accessibility of flower-pigmentation regulatory changes. Published *Silene littorea* transcriptomic and biochemical analyses report lower F3h1 expression in white versus pigmented buds, regulatory candidates including Myb1a and altered anthocyanin composition (Casimiro-Soriguer et al. 2016). Other structural or regulatory routes can alter flower colour with different pleiotropic constraints (Wessinger & Rausher 2012; Larter et al. 2018). Our descriptive reanalysis of published PAL/WAL tables is placed in Supporting Information. Such literature provides mechanisms to test; **we did not identify shared alleles or measure pathway activity in the present sampled species**.
 
 Moisture availability could, in principle, alter the balance among protective functions of pigmentation, pigment-related developmental constraints and floral visibility or pollinator responses. This is a **hypothesis about within-species phenotype and fitness**, not an effect estimated from the separate large between-species rainfall atlas. The latter was moved to the distinct source lineage and its congeneric BIO12 slopes cannot be treated as explanations of the prospective within-species W statistic. A rigorous test would need genotyped local morphs, matched field water conditions, calibrated reflectance/pigment measurements and morph-by-environment relative reproductive success. A moisture-related payoff hypothesis can be biologically motivating without being made a present-study causal conclusion.
+
+### Distinguishing within-population maintenance from geographic differentiation
+
+A photograph-derived species-level D can be high even if no one breeding population contains more than one genetically determined colour morph. Conversely, repeated local mixing could reflect genuine coexistence, immigration or environmentally induced colour responses by otherwise similar genotypes. To infer a locally maintained polymorphism, one would need repeated census data resolving individual plants and reproductive populations, experimentally or genetically validated inheritance of colour differences, and temporal evidence that alternative morphs persist. Negative frequency-dependent selection would predict morph-specific relative fitness changing with morph frequency; a spatially variable selective regime would instead predict habitat-by-colour fitness interactions whose combined maintenance depends on dispersal and migration. Drift and founding history can also produce fine-scale mosaics without either form of balancing selection.
+
+The present data can guide *which* source species or geographic contrasts merit those tests, not supply the required allele-frequency or morph-fitness time series. In particular, the photograph-defined white/coloured contrast should not be used as a proxy for a single conserved pigment mutation. Its recurrent geometry is a reproducible statistical feature that may arise by different developmental and ecological routes among lineages.
+
+### An ecological experiment for the water-balance hypothesis
+
+A direct test of moisture-mediated flower-colour trade-offs would independently measure root-zone soil water availability or plant water potential, calibrated petal reflectance (including UV), pigment concentrations, pollinator visitation and seed or pollen reproductive success across verified colour genotypes. Watering and light manipulations could separate water stress from temperature, irradiation and seasonal flowering; reciprocal transplants could test whether local colour morphs have a relative reproductive advantage. Frequency manipulations and multi-generation monitoring would then test whether benefits depend on colour-morph abundance. These experiments distinguish a pigment-mediated physiological mechanism from correlated floristic composition or photographic sampling.
+
+**These are proposed tests, not additional empirical results of the current study.** No global species-rich water/photo-colour regression from a separate interspecific study is treated here as evidence that rainfall causes white or pigmented morphs to persist within species.
 
 ### Generalization and limitations
 
