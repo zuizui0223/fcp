@@ -1,0 +1,55 @@
+# One-paper New Phytologist — integrated evidence, admissible claims and provenance (14 October 2026)
+
+**Only active editorial manuscript:** `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md`. This is ONE integrated Full Paper, not two manuscripts. The previous `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md` remains unchanged as a frozen historical baseline; it is not the intended new submission text. Integration does not re-open old null models, colour classifications, data gates or prospective registration.
+
+## The one scientific question
+
+**How is flower-colour variation organized geographically among species, and why do its apparent worldwide climatic associations fail to generalize reliably across spatial scale, sampled lineages and phenotype measurements?**
+
+Primary positive result: repeatable **geographic allocation of intraspecific photographic colour variation**. A complementary positive result is prospectively frozen white-versus-nonwhite phenotype-space geometry. Environmental prediction and signed gradients are an **explanatory falsification layer**, not an additional strong causal or confirmatory paper.
+
+## Claim-to-source contract (none pooled across incompatible data grains)
+
+| Integrated one-paper claim | Frozen quantitative result | Evidence source and status | Disallowed generalization |
+|---|---|---|---|
+| High-depth colour measurement | 149,900 photo IDs from 1,499 species in discovery 500, validation 500, prospective 499; observer-disjoint validation median split rho 0.789, fresh-image D rho 0.968 among 136 overlapping species | Frozen `main/docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md` and `main/docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md` | High-depth taxa are not a 42,111-species random prevalence sample; fresh transport is not independent source |
+| Local allocation (central claim) | Local mismatched-pair diversity depleted at 50 km by 0.02053, 0.01867 and 0.01468 in the three species-disjoint cohorts, respective composition-preserving null P=0.005 each | Canonical high-depth frozen manuscript/claim ledger and independent cohort results; observer exclusion, no-white and nine-colour robustness | This is not measured natural population, inheritance or local adaptation |
+| Recurrent nine-colour geometry | Frozen prospective W=0.517245746 vs structured-null median=0.457142815, P=.001 among 158 eligible prospective vector species; strict tier also passes | `main/results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json` | No pigment chemistry, evolutionary transition polarity or universal mechanism |
+| Coarse white measurement validity | Near-clip OR 1.444493, 95% CI 1.389332–1.501845; removing high-clip photos keeps W support but only 142/158=89.9% vectors, machine status INDETERMINATE | `main/docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md` sections 5b–5c | Do not call white class free of exposure coupling or recode its frozen decision |
+| Distance versus environmental variation within species | IBD-like continuous colour correlations exceed the BIO5-associated IBE-like components across three cohorts; independent flower-minus-background and strict observer controls do not robustly support BIO5 | Canonical main manuscript, Fig. 5, S11 | Phenotypic distance is not genetic IBE nor natural selection |
+| Cross-species macroenvironment predictive information | Among distinct test taxa, climate26 genus-equal Brier gain +0.002943 (17,183 species); soil36 +0.001432 (13,961 species), different complete-case supports | Draft `PR #166`, plus archived macro source in `PR #193`. Model-dependent genus/geography benchmark; additional strict/spp weight conditions fail | Not a signed effect, causal Shapley decomposition or universal climate selection |
+| Source-wide signed climatic directions | Genus-equal world photographic white/BIO12 +2.255 pp per original SD (within-family max-t95 [+0.319,+4.190]); white/mean atmospheric vapour pressure +3.952 [+1.199,+6.704]. Source photo=100,543 (45,953 hue-classifiable), 36-variable complete-case 31,925 images | `PR #193`, `results/fcp_macro_direction_20261013/direction_ledger.csv` (1,280 rows), `decision_receipt.json`, SHA-verified original archive. Replayed in hosted `PR #194` Actions run 38502660130 | Not a population morph-frequency or independent regional biological effect. Within-family intervals do not correct historical region/method selection |
+| Stricter spatial/photo controls | Global white/BIO12 strict image quality +1.229 [−2.046,+4.504], genus×coarse cell +0.808 [−3.556,+5.172]; both within-scope simultaneous CIs include zero | `PR #193` and `PR #194`. Strict and matched population size differ from broad | Do not claim natural-selection direction disappeared in the same population |
+| Identical-species spatial decomposition | Fixed world B/C: 9,370 species in 845 genera, white/BIO12 broad +1.326 versus within-cell +0.808; fixed East B/C: 2,886 species in 280 genera, broad +1.102 versus within-cell −2.076; East B−C +3.178, 24-contrast max-t CI [−0.258,+6.613] | `PR #194`, `results/fcp_m1_matched_spatial_support_20261014/result.json` and 576-row ledger, archived original-photo and environment Actions 38502660130 | B/C matching controls membership only; changing spatial model is not itself a causal geospatial effect and simultaneous CI includes zero |
+| External floral-colour phenotypes | Exact-match NHM 2,476 white or blue-purple species; primary East 58 genera/670 species, genus-equal white–blue rainfall contrast +3.56 pp [−15.34,+22.60] | `PR #191`, `results/fcp_nhm_independent_colour_20261013/result.json`, source-verified Actions 38405818980; NHM dataset DOI 10.5519/p3dm31kc | Independent *phenotypic measurement*, but FCP photographic site geography reused; binary species denominator differs from photographic four-colour model |
+| Universal geographical colour boundaries | RGFCA G1 hotspot concentration P=.070, cross-species shared boundaries P=.856, unsupported in explored frame | RGFCA historical FCP exploratory branch, separate from primary New Phytologist high-depth test | No single world-common boundary map can be claimed from repeated local depletion |
+| Climate selection and genetic morph maintenance | Neither individual flower-colour genotype nor morph-specific relative reproductive fitness was measured globally | Scientific data limit, not a numerical null test | No climate-induced evolutionary change, balancing selection, pollinator-mediated maintenance or allelic morph persistence can be inferred |
+
+## Source and study-population firewall
+
+- **High-depth prospective target**: 149,900 images / 1,499 species, with 100 photos per named source taxon. This is the only dataset used for three-cohort replicated local spatial organization and prospective H2. Its 42,111-species candidate metadata frame is NOT used to estimate prevalence.
+- **Sparse macro panel**: 100,543 original photo opportunities / 42,111 named species; 45,953 classifiable four-state photo colours, with climate26 complete for 45,836 photos/25,028 species and soil36 complete for 31,925 photos/20,786 species. This is a different *sampling and analytic grain*, not another independent high-depth cohort. Source photo ZIP SHA256 `2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0`; 36-abiotic source ZIP SHA256 `6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca`.
+- **Independent botanical phenotypes**: externally machine-extracted NHM botanical text, 59,369 source records, with unambiguous white or blue/purple labels for 2,476 photographed-overlapping source taxa. Climate locations remained iNaturalist; never call this a full externally sampled geography replication.
+- These estimates are intentionally NOT pooled or counted as independent confirmations of the same null. Taxonomic/genus, photograph, plant morph, site and population are different statistical units.
+
+## Inference chronology: what the manuscript may say
+
+1. **Confirmed** (within the frozen design): H1 as original validation criterion, three-cohort geographic local depletion, prospective structured-null W. Technical issue: white is exposure-coupled, post-confirmatory high-clip decision remains INDETERMINATE.
+2. **Observational/exploratory**: genus-weighted macro colour/climate associations and modest environmental predictive information, including East/photo observations; familywise uncertainty restricted to each analysis scope.
+3. **Not established**: broad environment–colour direction surviving strict photo-quality + within-geographic-cell conditions + external botanical colour; universal climate response or climate-selection law; worldwide shared hotspot; genetic maintenance mechanism.
+4. **Future independent inference**, not an implicit endpoint from the present data: world flower-colour uncertainty-aware atlas, measured relative fitness across independent environmental treatments, within-population genotype and long-term morph-frequency dynamics.
+
+## Figure and supplementary inventory for ONE paper
+
+- **Main**: existing frozen Figures 1–5 keep measurement/geographic/phenotype claims. New Figure 6 uses macro environmental direction and paired spatial/external measurement tests. Main Table 1 expands to separately declare high-depth, sparse photo and NHM data grains.
+- **Supporting**: original S1–S11 retained; new S12 source/covariate block and complete-case prediction; S13 all 1,280 signed coefficient results; S14 576 matched-species spatial-support results; S15 NHM external label-matching and null support. New Tables S1 (grains/missingness) and S2 (full exact claims and provenance).
+- **Editorial release blockers**: draw and inspect Figure 6 (existing bitmap archive has Figures 1–5 only); actually compile S12–S15 / Tables S1–S2 and citations; one SHA-locked submission archive with all new evidence; author list/affiliations/ORCIDs/corresponding data, journal formatting and figure placement; corresponding author sign-off. The integrated manuscript should not be labelled submitted or ready yet.
+
+## Hosted computational verification
+
+- Original high-depth H1/H2: unchanged frozen main claim-ledger source and canonical replay.
+- Macro source/strong spatial sensitivity: [Actions #38502660130](https://github.com/zuizui0223/fcp/actions/runs/38502660130) SUCCESS; 20 original cohorts /1,280 directional rows /352 independent direct WLS checks; matched spatial 576 rows /288 independent WLS checks.
+- External descriptive phenotype: [Actions #38405818980](https://github.com/zuizui0223/fcp/actions/runs/38405818980) SUCCESS; 30 independent direct source estimates, 2 coverage HOLD.
+- Computational reproducibility is not independent biological verification.
+
+**Source authority**: original frozen high-depth result JSON controls H1/H2; original source result JSON controls each macro estimand; this integrated ledger is reporting only and cannot update or retroactively preregister any source result.
