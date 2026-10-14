@@ -583,7 +583,7 @@ jobs:
             ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/W_environment_commonality.*
             ${{ runner.temp }}/fcp_original_climate/output/photo_site_climate.receipt.json
 
-  fcp-fresh-one-page-source-pilot:
+  fcp-fresh-one-species-source-pilot:
     # Actual *metadata* source acquisition; no old photo measurements, no
     # image pixels, no result that could be mistaken for a complete census.
     # A single page and single species prevent an unthrottled provider crawl.
@@ -613,7 +613,7 @@ jobs:
           git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$root/source/42111_taxa.csv"
           echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$root"'/source/42111_taxa.csv' | sha256sum -c -
 
-      - name: Acquire the first REAL eligible source page, once, without image access
+      - name: Acquire a bounded REAL provider-page batch for one source species, no image access
         run: |
           set -euo pipefail
           root="$RUNNER_TEMP/fcp_fresh_pilot"
@@ -621,7 +621,7 @@ jobs:
             --frame "$root/source/42111_taxa.csv" \
             --output-root "$root/metadata" \
             --shards 1 --shard 0 --created-before "$CUTOFF_DATE" \
-            --pages-per-species-per-run 1 --species-per-run 1
+            --pages-per-species-per-run 10 --species-per-run 1
 
       - name: Validate non-completion and photo/measurement isolation
         run: |
@@ -639,7 +639,7 @@ jobs:
           assert a["status"]=="in_progress"
           assert a["pixels_opened"] is False and a["FCP_outcomes_measured"] is False
           assert a["all_available_photo_ids_confirmed"] is False
-          print("FCP_FRESH_REAL_METADATA_FIRST_PAGE",json.dumps({
+          print("FCP_FRESH_REAL_METADATA_ONE_SPECIES_BATCH",json.dumps({
               "species_started":1,"source_species":42111,
               "discovered_licensed_photo_manifest_rows":a["photo_manifest_rows_including_retry_duplicates"],
               "study_fully_enumerated":False,"new_biological_colours":0,
@@ -649,7 +649,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: fcp-fresh-one-page-real-metadata-pilot
+          name: fcp-fresh-one-species-real-metadata-batch
           if-no-files-found: error
           retention-days: 30
           path: ${{ runner.temp }}/fcp_fresh_pilot/metadata/shard_000_of_001/
