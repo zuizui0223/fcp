@@ -117,3 +117,54 @@ def test_cover_letter_is_one_submission_and_50_word_questions():
         assert m is not None,number
         assert len(m.group(1).split())<=50,(number,len(m.group(1).split()))
     assert "[CORRESPONDING AUTHOR" in s
+
+
+
+def test_figure6_vector_and_data_source_match_frozen_macro_results():
+    data_path=ROOT/"results/np_unified_20261014/figure6_source_data.json"
+    svg=ROOT/"docs/figures/polymorphism_20261014/figure6_unified_environmental_support.svg"
+    render=ROOT/"scripts/analysis/render_np_unified_figure6_20261014.py"
+    assert svg.exists() and render.exists() and svg.stat().st_size>100000
+    svg_text=svg.read_text(encoding="utf8")
+    assert "<svg " in svg_text and "</svg>" in svg_text
+    ledger=json.loads(data_path.read_text(encoding="utf8"))
+    assert ledger["schema"]=="fcp_np_unified_figure6_source_20261014_v1"
+    assert set(ledger["panels"])=={"a","b","c","d"}
+    assert sum(len(v["items"]) for v in ledger["panels"].values())==9
+    for panel in ledger["panels"].values():
+        for item in panel["items"]:
+            assert item["lo"]<=item["point"]<=item["hi"]
+    env=json.loads(MACRO.read_text())
+    def env_row(quality,cell):
+        row=[x for x in env["key_white_directional_observations"]
+             if x["mode"]=="climate" and x["region"]=="world" and
+                x["quality"]==quality and x["adjustment"]==("genus_geocell" if cell else "genus_geo") and
+                x["axis"]=="wc_bio12" and x["hue"]=="white"]
+        assert len(row)==1
+        return row[0]
+    for i,(quality,cell) in enumerate([("all",False),("strict",False),("all",True)]):
+        r=env_row(quality,cell);p=ledger["panels"]["b"]["items"][i]
+        assert math.isclose(p["point"],r["point_pp"],abs_tol=1e-9)
+        assert all(math.isclose(p[k],r["family_95_interval_pp"][j],abs_tol=1e-9) for j,k in enumerate(("lo","hi")))
+    sp=json.loads(SPATIAL.read_text())
+    for i,key in enumerate(["world|genus_equal","E90_E180|genus_equal"]):
+        r=sp["BIO12_white_by_region_and_weight"][key]
+        p=ledger["panels"]["c"]["items"][i]
+        assert math.isclose(p["point"],r["paired_adjustment_difference_pp"],abs_tol=1e-9)
+        assert all(math.isclose(p[k],r["paired_24_hue_axis_maxT_95_interval_pp"][j],abs_tol=1e-9) for j,k in enumerate(("lo","hi")))
+    nhm=json.loads(EXTERNAL.read_text())
+    for i,key in enumerate(["equal_species","equal_genera"]):
+        r=nhm["cases"]["min3_all_photo_opportunity"][key]["east_result"]
+        p=ledger["panels"]["d"]["items"][i]
+        assert math.isclose(p["point"],100*r["point"],abs_tol=1e-9)
+        assert all(math.isclose(p[k],100*r["CI95"][j],abs_tol=1e-9) for j,k in enumerate(("lo","hi")))
+
+
+def test_single_unified_supporting_information_includes_all_four_macro_layers():
+    target=ROOT/"docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md"
+    assert target.exists()
+    si=target.read_text(encoding="utf8")
+    for heading in ("## S13.","## S14.","## S15.","## S16."):
+        assert heading in si,heading
+    manuscript=MANUSCRIPT.read_text(encoding="utf8")
+    assert target.name in manuscript
