@@ -4,22 +4,22 @@
 
 **To the Editors of New Phytologist,**
 
-Please consider our manuscript, **“Measuring flower-colour variation reveals recurrent achromatic–chromatic patterns and global moisture associations,”** as a single Full Paper.
+Please consider our manuscript, **“Moisture-associated floral colours and recurrent achromatic–chromatic variation across plant species,”** as a single Full Paper.
 
-The paper advances a coherent **method → pattern → ecological mechanism** framework. First, a distributional photographic approach establishes repeatable four-state and continuous flower-colour measurements across observer-disjoint images and species-disjoint cohorts. Second, an achromatic–chromatic direction is prospectively confirmed in independent species, while the spatial allocation of sampled colour variants combines local mixing with geographic differentiation. Third, a separate worldwide photograph–environment panel identifies positive associations between white-classified floral colour composition and moisture-related conditions, particularly annual rainfall and atmospheric water vapour.
+The paper now follows **global moisture-associated flower-colour composition → recurrent achromatic–chromatic within-species colour variation → a testable benefit–cost hypothesis**. First, a sparse worldwide photographic panel of 20,694 climate-eligible species showed broad positive genus-adjusted associations of photographed white colour with annual precipitation and atmospheric water vapour; strict image and geographic checks limit generalization. Second, a **separate** high-depth resource of 149,900 photographs from 1,499 species enables observer-disjoint measurement and a previously frozen achromatic–chromatic axis confirmed among 158 eligible prospective species. Geographic flower-colour structure recurs in the three high-depth cohorts. These are different inference populations, not a nested filter or a single identified selective pathway.
 
-These are complementary contributions to one biological question: how does measurable floral colour variation recur across plant lineages, and how is its visible colour composition associated with ecological environments? The moisture relationship motivates a testable **benefit–cost balance of floral pigmentation**, potentially involving stress protection, colour-display costs and floral interactions. Relative fitness, pigment investments and genotype dynamics were not measured, so this mechanism is presented as a biological interpretation and future test rather than an experimentally identified selective effect. The observed worldwide colour–moisture association itself is a main ecological result.
+The conceptual advance is not another global climate–flower-colour correlation in isolation, but the combination of a broad environmental context with a replicated **within-species colour-variation direction**. A water-dependent pigmentation benefit–cost balance is a testable explanation, not an established mechanism: pigment chemistry, genotype-frequency change and relative fitness were not measured.
 
 As required for editorial assessment, we answer the journal's three questions below. These responses concern **one manuscript**, not companion submissions.
 
 **1. What hypotheses or questions does this work address?**  
-Can reproducible photographic colour distributions reveal recurring achromatic–chromatic floral variation, and do worldwide species-level colour compositions correspond to moisture-related environmental gradients? Geographic differentiation is examined as an additional facet of the distributions.
+Does floral colour composition covary with global moisture gradients, and is a recurrent achromatic–chromatic direction present in separately sampled within-species variation? How does its geographic distribution constrain possible ecological explanations?
 
 **2. How does this work advance our current understanding of plant science?**  
-We integrate observer-disjoint distributional measurement, prospective species-disjoint confirmation of a recurrent achromatic–chromatic pattern, and macroecological evidence that photographed white colour covaries positively with annual rainfall and atmospheric water vapour among congeners.
+We present a 20,694-species global moisture-associated photo-colour pattern alongside a distinct, prospectively confirmed 158-species within-species colour direction. Their separate sampling grains and sensitivity checks constrain the ecological interpretation without conflating association, recurrence and natural selection.
 
 **3. Why is this work important and timely?**  
-The study links scalable floral colour measurement to an evolutionary pattern and an ecological explanation to test. It makes visible-colour variation comparable across species and identifies global water-related environmental associations without treating photographic correlation as an experimental pigment-fitness measurement.
+Connecting macroecological association to a repeatable phenotype contrast motivates targeted ecological experiments. The proposed water-dependent pigmentation trade-off can be tested with pigmentation chemistry, water treatments, pollination and relative fitness; it is not inferred as a proven outcome from photographs.
 
 A single comprehensive submission dataset will contain the frozen high-depth evidence and the new macroecological source/verification records. The unified supplementary index and Figure 6 vector artwork are prepared; remaining supplementary visual files, source-locked submission packaging and corresponding-author metadata require completion and approval before journal submission.
 
