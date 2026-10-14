@@ -14,6 +14,9 @@ on:
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
       - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
       - tests/test_polymorphism_manuscript_claims.py
+      - tests/test_u100_comparison.py
+      - fcp_pipeline/u100_comparison.py
+      - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
     paths:
@@ -24,6 +27,9 @@ on:
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
       - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
       - tests/test_polymorphism_manuscript_claims.py
+      - tests/test_u100_comparison.py
+      - fcp_pipeline/u100_comparison.py
+      - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
 
@@ -43,7 +49,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install test dependency
-        run: python -m pip install --upgrade pytest
+        run: python -m pip install --upgrade pytest numpy pandas scipy
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py -q
