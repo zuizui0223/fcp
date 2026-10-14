@@ -19,7 +19,7 @@
 - Main text (Introduction through Discussion): 7393 words
 - Figures: 6
 - Tables: 1
-- Supporting Information: unified S1–S17 evidence map and planned source-referenced supplementary figures/tables
+- Supporting Information: unified S1–S18 evidence map and planned source-referenced supplementary figures/tables
 - Editorial note: source-identical ecology-first figure assets and captions now renumbered; journal formatting and approval remain
 
 ## Summary
