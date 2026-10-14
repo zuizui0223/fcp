@@ -42,10 +42,10 @@ def test_journal_four_bullet_summary_under_200_words_and_seven_display_items():
     bullets=[line for line in summary.splitlines() if line.startswith("- ")]
     assert len(bullets)==4
     assert 0 < len(summary.split()) <= 200
-    assert len(re.findall(r"^\*\*Figure [1-6]\\.",full,flags=re.M))==6
-    assert len(re.findall(r"^## Table [1-9]\\.",full,flags=re.M))==1
+    assert len(re.findall(r"^\*\*Figure [1-6]\.",full,flags=re.M))==6
+    assert len(re.findall(r"^## Table [1-9]\.",full,flags=re.M))==1
     assert "Figure 6" in full and "### Global colour–environment prediction" in full
-    assert len(re.findall(r"\*\*Fig\\. S1[2-5]\\.",full))==4
+    assert len(re.findall(r"\*\*Fig\. S1[2-5]\.",full))==4
 
 
 def test_np_word_target_and_discussion_proportion():
@@ -112,7 +112,7 @@ def test_cover_letter_is_one_submission_and_50_word_questions():
     s=COVER.read_text()
     assert "single Full Paper" in s
     for number in (1,2,3):
-        m=re.search(r"^\*\*"+str(number)+r"\\. .+?\*\*\s*\n(.+?)(?=\n\n)",s,flags=re.M|re.S)
+        m=re.search(r"^\*\*"+str(number)+r"\. .+?\*\*\s*\n(.+?)(?=\n\n)",s,flags=re.M|re.S)
         assert m is not None,number
         assert len(m.group(1).split())<=50,(number,len(m.group(1).split()))
     assert "[CORRESPONDING AUTHOR" in s
