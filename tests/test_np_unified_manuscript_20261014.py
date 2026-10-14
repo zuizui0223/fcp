@@ -30,7 +30,7 @@ def test_one_manuscript_primary_title_and_source_untouched():
     orig=ORIGINAL.read_text(encoding="utf8")
     current,chunks=sections()
     assert orig.startswith("# Species-wide flower-colour variation is geographically partitioned across plant species")
-    assert current.startswith("# Geographic partitioning of flower-colour variation is widespread, while climatic associations are scale dependent")
+    assert current.startswith("# Measuring flower-colour variation reveals recurrent achromatic–chromatic patterns and global moisture associations")
     assert "149,900" in current and "100,543" in current
     assert "not a fourth" in current
     assert "not an additional strong causal or confirmatory paper" not in chunks["Discussion"]
@@ -61,7 +61,11 @@ def test_original_high_depth_primary_effects_and_h2_kept():
     for token in ("0.02053","0.01867","0.01468","0.517","0.457","1.444","INDETERMINATE"):
         assert token in full,token
     assert "not a within-population" in full or "not a measure of coexistence within a natural population" in full
-    assert "genetic maintenance" in c["Summary"]
+    summary=c["Summary"].split("**Keywords")[0]
+    for fragment in ("distributional photographic framework", "achromatic–chromatic direction", "annual precipitation", "water-vapour", "ecological trade-offs"):
+        assert fragment in summary, fragment
+    assert "universal climatic selection" not in summary.lower()
+    assert "not robustly supported" not in summary.lower()
 
 
 def test_macro_numeric_claims_backed_by_original_frozen_receipts():
@@ -102,7 +106,9 @@ def test_hard_selection_and_genetic_boundaries():
     assert "not a causal spatial effect" in c["Materials and Methods"]
     assert "not measured" in c["Materials and Methods"] or "Neither data system estimates" in c["Materials and Methods"]
     assert "drift" in c["Discussion"] and "fitness" in c["Discussion"]
-    assert "universal climatic" in s or "universal climatic" in c["Discussion"]
+    assert "benefit–cost hypothesis" in c["Discussion"]
+    assert "not directly measure pigment synthesis" in c["Discussion"]
+    assert "moisture" in c["Discussion"].lower()
     ledger=CLAIMS.read_text()
     for word in ("42,111","149,900","45,953","INDETERMINATE"):
         assert word in ledger,word
