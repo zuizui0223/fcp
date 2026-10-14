@@ -18,6 +18,9 @@ on:
       - fcp_pipeline/u100_comparison.py
       - fcp_pipeline/u100_frozen_w_export.py
       - fcp_pipeline/u100_frozen_spatial_export.py
+      - fcp_pipeline/u100_frozen_environment_bridge.py
+      - tests/test_u100_frozen_environment_bridge.py
+      - data/frozen/polymorphism_white_environment_species_deltas_original_20260925.csv
       - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
@@ -35,6 +38,9 @@ on:
       - fcp_pipeline/u100_comparison.py
       - fcp_pipeline/u100_frozen_w_export.py
       - fcp_pipeline/u100_frozen_spatial_export.py
+      - fcp_pipeline/u100_frozen_environment_bridge.py
+      - tests/test_u100_frozen_environment_bridge.py
+      - data/frozen/polymorphism_white_environment_species_deltas_original_20260925.csv
       - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
@@ -60,7 +66,7 @@ jobs:
         run: python -m pip install --upgrade pytest numpy pandas scipy
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py -q
 
 
   u100-real-frozen-data-smoke:
@@ -135,6 +141,16 @@ jobs:
             --spatial-metrics "$work/source/spatial_50km.csv" \
             --expected-u100 4730 --shards 24 --outdir "$work/output"
 
+      - name: Compare frozen species-level environment contrasts to D, W and 50-km sorting
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_frozen_environment_bridge \
+            --source data/frozen/polymorphism_white_environment_species_deltas_original_20260925.csv \
+            --reference results/polymorphism_white_environment_mechanism_20260925/result.json \
+            --registry "$work/output/u100_species_registry.csv" \
+            --outdir "$work/output/environment_screen"
+
       - name: Verify frozen cohort coverage and publish receipt to log
         run: |
           set -euo pipefail
@@ -159,6 +175,16 @@ jobs:
               receipt["correlations"]["w_alignment_sq_vs_depletion_50km"], sort_keys=True))
           print("U100_EXPLORATORY_D_SPATIAL_CORRELATION", json.dumps(
               receipt["correlations"]["D_vs_depletion_50km"], sort_keys=True))
+          environment_receipt = json.loads((out / "environment_screen/frozen_environment_screen_receipt.json").read_text())
+          assert environment_receipt["num_comparisons"] == 18, environment_receipt
+          assert environment_receipt["source_environment_species"] == 281, environment_receipt
+          assert environment_receipt["original_H2_or_spatial_decisions_changed"] is False
+          print("U100_EXPLORATORY_ENVIRONMENT_SCREEN", json.dumps({
+              "compared": environment_receipt["num_comparisons"],
+              "holm_supported": environment_receipt["holm_18_supported_count"],
+              "min_holm_p": environment_receipt["min_holm_18_p"],
+              "confirmatory": environment_receipt["prespecified_as_confirmatory"],
+          }, sort_keys=True))
           print("U100_EXPLORATORY_D_W_CORRELATION", json.dumps(
               receipt["correlations"]["D_vs_w_alignment_sq"], sort_keys=True))
           print("U100_EMPIRICAL_SMOKE_PASS", json.dumps({
@@ -181,4 +207,5 @@ jobs:
             ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.audit.json
             ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.csv
             ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.audit.json
+            ${{ runner.temp }}/fcp_u100_smoke/output/environment_screen/**
           retention-days: 30
