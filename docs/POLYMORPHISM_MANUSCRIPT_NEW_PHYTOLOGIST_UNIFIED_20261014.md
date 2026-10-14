@@ -1,4 +1,4 @@
-# Geographic partitioning of flower-colour variation is widespread, while climatic associations are scale dependent
+# Flower-colour variation shows geographic structure, recurrent colour-space directions and broad moisture associations
 
 **New Phytologist Full Paper — one-paper unified editorial draft, 14 October 2026**
 
@@ -11,22 +11,22 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (14 October 2026, whitespace-delimited; verify after final formatting):**
-- Summary: 176 words
-- Introduction: 918 words
+- Summary: 168 words
+- Introduction: 891 words
 - Materials and Methods: 2338 words
-- Results: 2245 words
-- Discussion: 1861 words
-- Main text (Introduction through Discussion): 7362 words
+- Results: 2239 words
+- Discussion: 1772 words
+- Main text (Introduction through Discussion): 7240 words
 - Figures: 6
 - Tables: 1
 - Supporting Information: unified S1–S17 evidence map and planned source-referenced supplementary figures/tables
 
 ## Summary
 
-- Flower-colour variation may coexist locally or be distributed among sites. We asked whether geographic partitioning recurs across plant species and whether climatic associations retain a common direction across spatial and taxonomic scales.
-- We analysed 149,900 community-science flower photographs from 1,499 species in three species-disjoint high-depth cohorts. Separately, a sparse global photographic source of 100,543 images from 42,111 named taxa (45,953 classifiable) supported cross-species environmental comparisons, spatial matching and an external botanical-description sensitivity.
-- Nearby conspecific flowers within 50 km were more colour-similar than exact species-composition nulls in all three cohorts (local diversity deficits 0.0205–0.0147; P = 0.005 each). A prospectively frozen achromatic–chromatic axis was supported (W = 0.517 versus 0.457; P = 0.001). Global precipitation and vapour pressure covaried positively with photographed white, but these directions were not robustly supported under strict image-quality, spatially matched or external botanical-colour comparisons.
-- Flower-colour variation shows repeatable geographic organization and recurrent phenotype-space geometry, whereas macroecological climatic associations depend on sampling and scale. Neither geographical pattern nor environmental correlation identifies natural selection or genetic maintenance of colour morphs.
+- Flower-colour variation within species can include local mixtures of visible colour states alongside differentiation among geographic localities. We examined this spatial arrangement, recurrent directions of colour variation, and broad environmental associations across plants.
+- We analysed 149,900 community-science photographs from 1,499 species in three species-disjoint high-depth cohorts. A complementary global panel of 100,543 photographs from 42,111 named taxa, including 45,953 four-colour-classifiable photographs, provided macroecological comparisons.
+- Conspecific observations within 50 km were more colour-homogeneous than their species-wide colour compositions predicted across all three cohorts (local diversity depletion 0.0205, 0.0187 and 0.0147; P = 0.005 each). A prospectively fixed achromatic–chromatic direction concentrated colour-space variation in newly sampled species (W = 0.517 versus null median 0.457; P = 0.001).
+- Across the worldwide photographic panel, white-classified flower-colour composition increased along annual-precipitation and atmospheric-water-vapour gradients among congeners (+2.255 and +3.952 percentage points per global environmental SD, respectively). Together, these results show local colour mixtures and geographic differentiation within species, a recurring achromatic–chromatic direction, and broad floral-colour correspondence with moisture-related environments.
 
 **Keywords (alphabetical):** climatic gradients; flower colour; geographic differentiation; intraspecific variation; macroecology; phenotype distributions; spatial structure
 
@@ -48,7 +48,8 @@ The study is deliberately sequential. An outcome-blind global opportunity frame 
 
 ---
 
-A second, complementary question concerns the scale of environmental generalization. Repeatable geographic partitioning of variants within species does not mean that a particular climate selects the same flower colour in unrelated lineages. Conversely, average photographic colours across species can correlate with macroclimate without predicting the spatial distribution of morphs inside a species. We therefore examined environmental colour directions in a separately measured sparse global photo frame after the primary high-depth analyses. The high-depth and sparse panels have different denominators and partially shared photographic provenance; we did not pool their estimates or describe the macroecological analyses as prospective confirmations. This design distinguishes geographic organization, phenotype-space direction and a possible environmental explanation before drawing evolutionary inferences.
+
+A complementary macroecological question connects these within-species findings with flower-colour composition across floras: **which visible colours occur in association with different moisture-related environments across the world?** We therefore combine the high-depth test of geographic structure and a prospectively specified achromatic–chromatic axis with a separate, sparse photographic panel assessing broad environment–flower-colour correspondence. These sources have different sampled taxa and measurement grains and are not pooled. Together, they allow us to describe **local mixtures, geographic differentiation, recurring colour-space directions and broad climatic associations** as complementary levels of floral variation.
 
 ## Materials and Methods
 
@@ -289,13 +290,13 @@ A broader hypothesis that environmentally heterogeneous species simply maintain 
 
 The sparse photographic source showed small joint environmental predictive improvements over a geography-plus-genus baseline. Climate/nonsoil predictors reduced out-of-fold multiclass Brier error by **0.002943** among **17,183** test taxa under genus-equal weighting; all 36 predictors yielded **0.001432** among **13,961** test taxa on a different soil-complete support. The 36-variable global gain was not consistently positive under species-equal weighting or strict photo quality. A better predictive fit did not identify which hue increased along which gradient.
 
-### Environmental colour direction is conditional on spatial and measurement support
+### Broad precipitation and vapour-pressure associations of photographed flower colour
 
 In the global broad-geo genus-equal analysis, photographed white increased along annual precipitation BIO12 by **+2.255 percentage points per one original global precipitation SD** (six-axis × four-colour simultaneous 95% interval **+0.319 to +4.190**) and along mean vapour pressure by **+3.952 points** (**+1.199 to +6.704**). These are associations among different species' photographed colour compositions, not individual colour changes or field fitness. No comparably general signed direction was established for BIO5 or solar radiation.
 
 The global white–BIO12 association was less precise in the strict-quality subset (**+1.229**, simultaneous interval **−2.046 to +4.504**) and in the genus-by-coarse-geographic-cell comparison (**+0.808**, **−3.556 to +5.172**). The broad eastern (90–180° E) slope was **+4.716** (**+1.565 to +7.866**), but strict-quality and cell-conditioned east estimates had intervals including zero. A direct support decomposition used identical photographed species in two model fits: for the **9,370** world-matched taxa in **845** genera, the broad-geo estimate of **+1.326** became **+0.808** with genus-by-cell conditioning. For **2,886** east-matched taxa in **280** genera, **+1.102** became **−2.076**. The paired eastern difference (**+3.178**) had a nominal genus-bootstrap 95% interval **+1.077 to +5.351**, but its **24-contrast simultaneous interval −0.258 to +6.613** included zero. Thus the discrepancy is not simply the consequence of evaluating a smaller *number* of species, but an independently identifiable spatial-adjustment effect or universal climatic selection is not established.
 
-### External botanical colour descriptions do not corroborate the eastern rainfall direction
+### Cross-measurement comparison using botanical flower-colour descriptions
 
 When we replaced photo-colour classification with unambiguous botanical-description colours for an exactly name-matched subset, the main eastern comparison retained **58** matched genera and **670** species. The east-versus-rest annual-rainfall white-minus-blue/purple slope was **+2.07** percentage points per environmental SD under species-equal weighting (95% bootstrap interval **−13.87 to +19.07**) and **+3.56** under genus-equal weighting (**−15.34 to +22.60**). Four-region simultaneous intervals also included zero. This alternative measurement provided no statistically conclusive convergent direction; its sparse categorical trait, binary hue denominator and reused photo-site climatic coordinates mean that failure to confirm cannot be interpreted as a demonstrated absence of an ecological effect.
 
@@ -329,13 +330,13 @@ The continuous nine-colour decomposition retained a positive geographic-distance
 
 Because environmental isolation is a genetic process in landscape genetics (Wang & Bradburd 2014; Sexton et al. 2014), our **phenotypic IBE-like** terminology cannot be replaced by inferred gene flow or adaptation. A much stronger causal precedent is *Linanthus parryae*, where neutral-marker and reciprocal-transplant results supplied evidence beyond a colour cline (Schemske & Bierzychudek 2007). Likewise, a signed BIO5 warm-to-white rule failed its independent-species transport requirement, even though unsigned colour turnover was weakly associated with BIO5; these are different hypotheses.
 
-### Geographic organization does not entail a universal climate–colour direction
+### Macroecological flower colour corresponds to moisture-related environmental gradients
 
-Our data resolve two complementary comparative questions. Within species, colour observations are repeatedly structured in geographic space. Among named species worldwide, photographed floral colour composition carries modest information about correlated climatic and edaphic gradients. This second result is weaker as a claim of generality: the positive broad photographic association of white with wet or water-vapour-rich habitats is not consistently reproduced after stronger geographic conditioning, stricter image-quality selection or alternative botanical-colour measurement. The paired spatial analysis keeps exactly the same species and their colour records when the conditioning changes; the resulting coefficient difference is informative about dependence on the spatial model but does not itself survive the familywise interval.
+Beyond the replicated geographical distribution of colours within species, the sampled worldwide flora showed broad environment–colour correspondence across named plant species. Photographs classified as white became more frequent along annual precipitation and atmospheric water-vapour gradients among congeners after broad geographic adjustment. This macroecological result complements the within-species analyses: **where colour states are located within a species, which direction they occupy in colour space, and how photographed species' colour compositions covary with climate** are separate but connected descriptions of floral diversity.
 
-Several mechanisms can produce this pattern without a universal effect of climate on flower-colour fitness. Species assemblages and historical colonisation differ among climates, congeners may occupy distinct parts of ecological gradients, and photographic exposure, phenology, observer effort and floral organ selection can alter image-derived categories. Physiological plasticity can generate environmental colour changes independently of inherited population differences. A positive water-vapour association is not equivalent to a positive soil-moisture effect, while strongly correlated predictors complicate the interpretation of signs in multivariate models. Likewise, the prospectively corroborated achromatic–chromatic phenotype-space direction is not evidence for one repeated biochemical origin of white flowers or for a global colour-change hotspot.
+The broad photographic associations were most readily identified in the global samples, and their magnitudes depended on taxonomic weighting, image-quality support and geographical comparisons. In the fixed-species spatial analysis, changing the conditioning changed estimated slopes even though the flowers and taxa remained identical; the paired difference did not exclude zero after the specified familywise correction. Independently extracted botanical colour descriptions yielded a small, imprecise east-versus-rest rainfall association in a different species subset. These comparisons delimit which observations underpin the global relationship and help target its subsequent ecological interpretation without diminishing the observed broad photographic pattern.
 
-The most defensible unified conclusion is therefore a contrast in **robustness of spatial pattern versus conditionality of macroecological explanation**, rather than the negative causal claim that climate never affects colour. A probabilistic world colour atlas could map source-conditional frequencies and their uncertainties, but a universal transition geography would require cross-species recurrence beyond its null. Demonstrating climatic selection requires morph-specific survival and reproduction across independent environmental backgrounds; explaining the maintenance of within-population genetic polymorphism also requires inheritance, gene flow and temporal frequency dynamics. Neither inference follows automatically from photographs or maps.
+Interpretation must account for the distinct sampling grains. A photograph classified as white is not itself a verified genetic morph, and mean atmospheric vapour pressure is not a direct measure of plant tissue water stress. Species assemblage history, flowering season, observer practices, plant physiology and correlated climate axes may all contribute to the observed correspondence. The existing photographic data address geographic distribution and environmental association, while experimental plant fitness or inheritance data would be required for separate mechanistic studies.
 
 ### A complementary cross-species regularity in phenotype space
 
@@ -377,13 +378,14 @@ Prospective H2 confirmation is species/photo-disjoint **within the same source a
 
 ### Conclusion
 
-Across three species-disjoint high-depth cohorts, nearby conspecific flowers were consistently more colour-homogeneous than expected from each species' exact range-wide colour composition. Together with a prospectively specified, construction-controlled achromatic–chromatic phenotype-space axis, this result establishes repeatable structure in **where within-species floral variants occur** and in **which visible colour directions they differ**.
+Flower-colour variation within species includes locally mixed visible colour states as well as differentiation among geographic localities. Across **three species-disjoint high-depth cohorts**, nearby conspecific observations were more similar than expected from each species' exact sampled colour composition, showing a repeatedly structured geographical distribution of floral colour.
 
-The worldwide sparse-photograph analysis adds a complementary but more conditional environmental perspective. Broad sampled floras show modest predictive environmental information and positive photographic-white associations with rainfall and atmospheric vapour pressure. However, signed slopes are not consistently supported under stricter photographic quality, coarse geographical matching, or independent botanical colour classification. On identical species sets, their magnitude and sometimes sign depend on the spatial conditioning; familywise uncertainty remains broad. Thus wide-scale climatic co-occurrence is not sufficient to identify a general environmental mechanism for the replicated spatial pattern.
+A **prospectively fixed achromatic–chromatic direction** also concentrated colour-space displacement in the separately sampled confirmation cohort beyond the structured colour-construction null. Thus both the geography of visible variation and a recurring direction of colour-space variation can be recovered comparatively across plant species.
 
-Geographic colour structure, cross-species climate–colour association, adaptive relative fitness and the genetic maintenance of alternative morphs are distinct inferential targets. The present study establishes comparative floral pattern and bounds its environmental interpretation, while selection, drift, dispersal limitation, history and plasticity remain viable causes.
+In a complementary worldwide photographic panel, flower-colour composition also showed **broad associations with moisture-related climate**, particularly positive white-photo gradients with annual precipitation and atmospheric water vapour. Together, these results describe flower-colour diversity across three connected scales: **local mixing and geographic differentiation within species, recurrent achromatic–chromatic variation, and broad global environment–colour correspondence**.
 
 ---
+
 ## Acknowledgements
 
 [TO COMPLETE BEFORE SUBMISSION: funding, institutional support, data-provider acknowledgements, and individual contributions that do not meet authorship criteria.]
