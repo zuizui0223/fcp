@@ -17,7 +17,7 @@
 - Results: 2,663 words
 - Discussion: 2,319 words
 - Main text (Introduction through Discussion): 8,238 words
-- Figures: 5
+- Figures: 6
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
 
@@ -490,7 +490,11 @@ For end-to-end verification, a self-contained snapshot is maintained under relea
 
 The original third-party iNaturalist image pixels and flower masks were intentionally not retained. Frozen photo identities/source URLs and per-row image hashes permit future reacquired bytes to be checked while the provider continues to serve them. The related general-purpose `disttrait` implementation is **not a bitwise numerical reproducer** of the frozen study-specific H2 pipeline; all reported biological values come from the frozen study-specific implementation. Internal workflow identifiers and archived execution records are retained only for provenance and do not define the manuscript's reader-facing cohorts.
 
+The integrated article also uses original sparse photo environmental source archives distinct from the high-depth release: original photo ZIP SHA256 `2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0` and all-36-variable ZIP SHA256 `6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca`. Source-locked machine-readable complete directional coefficients and matched-species spatial tests are in the versioned FCP exploratory analysis branches (the unified manuscript evidence map gives exact files and Actions verifications); NHM botanical descriptions are independently sourced under DOI `10.5519/p3dm31kc` (CC BY 4.0), while the geographical opportunities for the NHM comparison remain FCP photo sites. **The earlier high-depth release tag does not yet contain all integrated macroecological outputs**; a unified permanent submission archive needs to be frozen before journal submission.
+
 ## References
+
+Araujo, A. C., Hartley, B., & Brummit, N. (2026). *Angiosperm functional traits extracted from botanical descriptions*. Natural History Museum dataset. https://doi.org/10.5519/p3dm31kc
 
 Albert, C. H., Thuiller, W., Yoccoz, N. G., Soudant, A., Boucher, F., Saccone, P., & Lavorel, S. (2010). Intraspecific functional variability: extent, structure and sources of variation. *Journal of Ecology*, 98, 604–613. https://doi.org/10.1111/j.1365-2745.2010.01651.x
 
@@ -564,6 +568,8 @@ Literature-use boundaries are frozen in `docs/POLYMORPHISM_LITERATURE_AUDIT_2026
 
 **Figure 5. Species-wide flower-colour variation is geographically partitioned, with a dominant IBD-like spatial component.** (a) At the fixed 50-km post hoc scale, local four-state pair diversity was lower than expected from each species' exact overall composition in discovery (n = 166, mean depletion = 0.02053), validation (n = 181, 0.01867) and the third cohort (n = 204, 0.01468); matched vertex-null p = 0.005 in each cohort. (b) The same local-depletion pattern persisted when all same-observer pairs were excluded, when all white observations were removed, and when continuous nine-colour Jensen–Shannon dissimilarity replaced coarse states. (c) Continuous colour turnover contained both IBD-like and BIO5-associated IBE-like components in all three cohorts, but the IBD-like partial correlations were larger (discovery 0.02760 vs 0.00925; validation 0.02414 vs 0.00826; third 0.02225 vs 0.01019). The BIO5 residual is phenotypic and technically bounded: validation flower-minus-background and strict same-observer sensitivities do not support a flower-specific, observer-independent environmental effect. Neither spatial component establishes local adaptation.
 
+**Figure 6. Worldwide photographic climate–colour associations and spatial/phenotypic limits of generalization.** (a) Genus-equal geographically held-out predictive Brier improvement over genus/geography-only models for 26 nonsoil variables (+0.002943; 17,183 taxa) and 36 soil-inclusive variables (+0.001432; 13,961 taxa). Different complete-case populations preclude interpretation of their difference as a soil effect. (b) Broad global genus-adjusted white–annual-precipitation (BIO12) slope of +2.255 percentage points per source-global SD (within-family simultaneous 95% interval +0.319 to +4.190), strict-photo-quality subset +1.229 (−2.046 to +4.504), and matched genus-by-coarse-cell subset +0.808 (−3.556 to +5.172). These three panels differ in species support. (c) Identical-species broad versus genus-by-cell conditioning: world n = 9,370 taxa and eastern n = 2,886 taxa. The eastern paired difference +3.178 points has a 24-contrast max-t interval −0.258 to +6.613, including zero. (d) Eastern botanical-description white-minus-blue/purple annual-rainfall contrast among 670 named species in 58 genera: genus-equal +3.56 points, 95% bootstrap interval −15.34 to +22.60. Botanical colour is independently measured, but site climate is derived from the original photo opportunities. All intervals and points describe source-conditional association, not climatic selection or polymorphism maintenance. *Figure 6 is a new integrated specification; the illustrated multi-panel artwork must be generated from the saved coefficients before submission.*
+
 ## Supporting Information
 
 The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`.
@@ -591,3 +597,14 @@ The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATI
 
 **Fig. S11.** Phenotypic IBD/IBE-like diagnostics, including unique geographic and BIO5-associated rank components, matched vertex-null distributions and the failed flower-minus-background/same-observer BIO5 robustness tests.
 
+**Fig. S12.** Global sparse-image environmental prediction: source coverage and missingness, genus-heldout Brier score, 26- versus 36-predictor support, seven correlated environmental groups and historical alternative-model exclusions.
+
+**Fig. S13.** Complete photographic hue-by-environment coefficient inventory across four longitude sectors and the world, two environment-support sets, both taxon-weighting schemes, normal and strict photo quality and within-scope simultaneous inference (1,280 rows).
+
+**Fig. S14.** Paired identical-species macrogeographic support decomposition (A eligible genera, B same spatially supportable species under broad adjustment, C identical B species under genus-by-cell conditioning), including 576 estimates and differences with 999 genus-resampled uncertainties.
+
+**Fig. S15.** Independent botanical-description hue measurement, exact-name and colour-category attrition, four-region east-versus-rest white/blue precipitation comparisons and the source of the remaining geographic sampling dependence.
+
+**Table S1.** Photo/taxon denominator crosswalk and outcome-independence boundaries for high-depth discovery, validation, prospective confirmation, sparse photographic environment and external botanical descriptions.
+
+**Table S2.** Source-locked environmental coefficient, bootstrap, sensitivity and falsification ledger including all nonsupporting estimates and exact archive hashes and workflow identities.
