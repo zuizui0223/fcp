@@ -1,73 +1,53 @@
-"""Synthetic identity and outcome-blind input contract tests."""
 import importlib.util
 from pathlib import Path
 import pandas as pd
 import pytest
+f=Path(__file__).resolve().parents[1]/'scripts/analysis/freeze_fcp_u100_intraspecific_roster_20261014.py'
+spec=importlib.util.spec_from_file_location('u100',f);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 
-SCRIPT=Path(__file__).resolve().parents[1]/'scripts/analysis/freeze_fcp_u100_intraspecific_roster_20261014.py'
-spec=importlib.util.spec_from_file_location('u100_freeze',SCRIPT)
-mod=importlib.util.module_from_spec(spec)
-spec.loader.exec_module(mod)
+def fixture():
+ frame=pd.DataFrame([(i,f'Species {i}') for i in range(1,10)],columns=m.ID)
+ pool=frame[frame.inat_taxon_id.gt(2)].copy();pool['after_observer_cap']=130
+ p500=pool[pool.inat_taxon_id.isin([3,4])].copy()
+ third=pool[pool.inat_taxon_id.isin([5,6])][m.ID].copy()
+ disc=frame[frame.inat_taxon_id.eq(1)].copy();val=frame[frame.inat_taxon_id.eq(2)].copy()
+ return frame,pool,p500,third,disc,val
 
+def test_identity_partition():
+ r,c=m.roster_from_identities(*fixture());assert len(r)==9
+ assert list(c.values())==[2,2,2,3]
+ assert set(r.loc[r.fresh_outcome_unexposed_candidate,'inat_taxon_id'])=={7,8,9}
+ assert r.loc[r.historical_membership.eq('legacy_discovery_or_validation'),'after_observer_cap'].isna().all()
 
-def fixtures():
-    taxa=[(i,f'Species {i}',130) for i in range(1,10)]
-    frame=pd.DataFrame(taxa,columns=mod.FIELDS)
-    p100=frame[frame.inat_taxon_id>2].copy()
-    p500=frame[frame.inat_taxon_id.isin([3,4])].copy()
-    selected=frame[frame.inat_taxon_id.isin([5,6])][mod.FIELDS[:2]].copy()
-    return frame,p100,p500,selected
+def test_invariant_outcome_column_ignored():
+ fs=list(fixture());fs[0]['colour']='pink';fs[1]['W']=0.999
+ r,_=m.roster_from_identities(*fs)
+ assert 'colour' not in r.columns and 'W' not in r.columns
 
+def test_cap_only_historical_parent_no_invented_legacy():
+ r,_=m.roster_from_identities(*fixture())
+ assert r.loc[r.inat_taxon_id.lt(3),'capacity_provenance'].str.contains('attested_parent').all()
+ assert r.loc[r.inat_taxon_id.ge(3),'after_observer_cap'].eq(130).all()
 
-def test_full_roster_yields_disjoint_original_cohorts():
-    x=fixtures()
-    roster,counts=mod.make_roster(*x)
-    assert len(roster)==9
-    assert [counts[k] for k in mod.STATUS]==[2,2,2,3]
-    assert set(roster.loc[roster.fresh_outcome_unexposed_candidate,'inat_taxon_id'])=={7,8,9}
-    assert roster.inat_taxon_id.is_unique
+def test_wrong_mapped_taxon_name_holds():
+ f,p,q,t,a,b=fixture();t.loc[t.inat_taxon_id.eq(5),'species']='Incorrect new botanical name'
+ with pytest.raises(ValueError,match='identity'):m.roster_from_identities(f,p,q,t,a,b)
 
+def test_prior_P500_and_third_overlap_holds():
+ f,p,q,t,a,b=fixture();t.loc[t.inat_taxon_id.eq(6),m.ID]=[4,'Species 4']
+ with pytest.raises(ValueError,match='overlap'):m.roster_from_identities(f,p,q,t,a,b)
 
-def test_identifiers_only_even_if_outcomes_accidentally_supplied():
-    f,p,q,t=fixtures()
-    f['photo_hue']='white'; p['W']=1234; t['local_environment']='fake'
-    r,_=mod.make_roster(f,p,q,t)
-    assert 'photo_hue' not in r.columns and 'W' not in r.columns
-    assert 'local_environment' not in r.columns
+def test_prior_discovery_and_validation_overlap_holds():
+ f,p,q,t,a,b=fixture();b.loc[b.inat_taxon_id.eq(2),m.ID]=[1,'Species 1']
+ with pytest.raises(ValueError,match='overlap'):m.roster_from_identities(f,p,q,t,a,b)
 
+def test_cap_threshold_cannot_be_relaxed():
+ f,p,q,t,a,b=fixture();p.loc[p.inat_taxon_id.eq(8),'after_observer_cap']=99
+ with pytest.raises(ValueError,match='observer-cap'):m.roster_from_identities(f,p,q,t,a,b)
 
-def test_colour_and_environment_columns_cannot_define_source_capacity():
-    f,p,q,t=fixtures()
-    f=f.drop(columns=['after_observer_cap']); f['colour_count']=1000
-    with pytest.raises(ValueError,match='after_observer_cap'):
-        mod.make_roster(f,p,q,t)
+def test_parent_observer_cap_conflict():
+ f,p,q,t,a,b=fixture();q.loc[q.inat_taxon_id.eq(3),'after_observer_cap']=100
+ with pytest.raises(ValueError,match='capacity diverged'):m.roster_from_identities(f,p,q,t,a,b)
 
-
-def test_names_must_agree_for_same_taxon_id():
-    f,p,q,t=fixtures();t.loc[t.inat_taxon_id.eq(5),'species']='Other incorrect ID'
-    with pytest.raises(ValueError,match='identity'):
-        mod.make_roster(f,p,q,t)
-
-
-def test_p500_and_third_cohort_nonoverlap():
-    f,p,q,t=fixtures();t.loc[t.inat_taxon_id.eq(6),['inat_taxon_id','species']]=[4,'Species 4']
-    with pytest.raises(ValueError,match='overlap'):
-        mod.make_roster(f,p,q,t)
-
-
-def test_old_p100_capacity_drift_fails_closed():
-    f,p,q,t=fixtures();p.loc[p.inat_taxon_id.eq(8),'after_observer_cap']=999
-    with pytest.raises(ValueError,match='capacity'):
-        mod.make_roster(f,p,q,t)
-
-
-def test_unexpected_cohort_size_fails_closed():
-    f,p,q,t=fixtures()
-    with pytest.raises(ValueError,match='attrition'):
-        mod.make_roster(f,p,q,t,expect_counts=mod.STATUS)
-
-
-def test_low_capacity_is_not_u100():
-    f,p,q,t=fixtures();f.loc[f.inat_taxon_id.eq(1),'after_observer_cap']=99
-    r,counts=mod.make_roster(f,p,q,t)
-    assert len(r)==8 and counts['legacy_discovery_or_validation']==1
+def test_historical_count_no_rescue():
+ with pytest.raises(ValueError,match='attrition'):m.roster_from_identities(*fixture(),expected=m.EXPECTED)
