@@ -4,19 +4,18 @@ This repository contains the current **New Phytologist** manuscript and reproduc
 
 ## Single New Phytologist integrated submission candidate — 14 October 2026
 
-**One article, not companion papers:** [**Unified Full Paper**](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md) — *Moisture-associated floral colours and recurrent achromatic–chromatic variation across plant species*.
+**One article, not companion papers:** [**Unified Full Paper**](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md) — *Global flower-colour diversity reveals recurrent within-species variation and moisture-associated ecological patterns*.
 
-**Paper sequence — global ecology → recurring phenotype → testable mechanism:** (i) broad moisture-associated photographed white-colour composition in 20,694 climate-eligible species, with a separate soil36 support of 16,801 and nonconfirmatory strict controls; (ii) observer-disjoint high-depth measurements in 1,499 **separately sampled** species, including a prospective achromatic–chromatic direction in 158 eligible species and spatial-colour structure; (iii) a water-dependent pigmentation benefit–cost hypothesis, which requires new fitness and chemistry measurements. This is an expository sequence, not a nested sample filter. Ecology-first Figures 1–6 have source-identical physical aliases; supplemental plot/table production and author approval remain. [Unified Supporting Information](docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md) and the [one-paper claim/source ledger](docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md) cover the combined outcomes. The [source-preserving Figure 1 SVG](docs/figures/polymorphism_20261014/figure1_moisture_association.svg) is generated with a reproducible code and result input.
+**Paper sequence — global flower-colour diversity → within-species polymorphism structure → testable pigmentation trade-off:** Worldwide original photographs include 42,111 named taxa, 18,457 classifiable single-photo flower colours and 797 differing colour pairs among 3,196 observer-disjoint, both-classifiable conspecific cross-cell pairs (original full pair opportunity 13,416). The 20,694-species congeneric climate panel additionally finds broad moisture-associated photo-white gradients, bounded by geography, photo quality, missingness and soil-complete comparison. **Separate** high-depth sampling of 149,900 photographs from 1,499 species establishes reproducible colour distributions, a prospectively confirmed white–chromatic colour-space direction in 158 eligible species and replicated geographic colour allocation. The global photo-white fraction (46.95%) is not a genetic 50:50 equilibrium; source tests reject geographic colour-component compensation and do not support middle-rainfall local colour mixing. Pigment physiology, cost and relative fitness remain unmeasured. These datasets are **not nested**. Source-preserving ecological Figures 1–6, the world atlas/cross-cell receipt and supplementary evidence are linked below.
 
 **Version interpretation:** `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md` and the older frozen claim ledger below remain unchanged as the *historical high-depth scientific baseline*, **not a second planned submission**. The new integrated manuscript is the only journal-facing editorial candidate on this development branch. Main branch and historical provenance receipt are unchanged. Submission still requires author approval/metadata, remaining supplementary visual assets and one new unified permanent source archive.
 
 
-The study asks four linked questions:
+The study asks three linked questions:
 
-1. Can repeated community-science photographs recover a reproducible species-wide flower-colour distribution?
-2. When a species is colour-variable across its range, does that variation coexist locally or is it partitioned among geographic localities?
-3. Does geographic colour turnover contain only distance/history structure, or also a nonredundant environment-associated component?
-4. Does continuous within-species colour displacement repeatedly align along a common achromatic–chromatic direction?
+1. How widely do photographed flower colours vary across named plant species and geographic records worldwide, and how is the observed composition associated with moisture?
+2. Which repeatable colour-space direction and geographic organization describe **within-species** flower-colour variation under high-density, observer-disjoint photographs?
+3. What can be inferred—and what remains untested—about moisture-dependent colour-pigmentation benefits, costs and genuine genetic morph maintenance?
 
 The active manuscript keeps measurement validation, geographic allocation of ITV, spatial-process decomposition and prospective phenotype-space confirmation as distinct inferential layers.
 
