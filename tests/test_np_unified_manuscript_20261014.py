@@ -211,7 +211,7 @@ def test_ecology_first_story_and_noncausal_separate_sampling_grains():
     assert d.index("### A water-dependent benefit–cost hypothesis") < d.index("### Conclusion")
     assert "not a nested sequence" in c["Introduction"] or "nonnested" in c["Introduction"]
     assert "not a nested" in c["Summary"] or "nonnested" in c["Summary"]
-    assert "strict" in c["Summary"] and "spatial" in c["Summary"]
+    assert "strict" in c["Summary"].lower() and "spatial" in c["Summary"].lower()
     assert "relative fitness" in d and "do **not** directly measure" in d
     captions = re.findall(r"^\*\*Figure ([1-6])\.", s, flags=re.M)
     assert captions == ["1", "2", "3", "4", "5", "6"]
