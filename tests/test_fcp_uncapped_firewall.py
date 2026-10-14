@@ -19,7 +19,7 @@ def make_dir(root,count):
             f.write(json.dumps(dict(inat_taxon_id=19,species='S',observation_id=i//3+1,
                         photo_id=i+1,photo_url_large=f'https://example.com/{i}/large.jpg',
                         photo_license='cc-by',observer_id=i//12+1,latitude=35.0,
-                        longitude=137.0,observed_on='2024-07-01'))+'\n')
+                        longitude=137.0,observed_on='2024-07-01',positional_accuracy_m=25))+'\n')
     return d
 
 
