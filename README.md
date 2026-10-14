@@ -2,6 +2,14 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## Repository split: fcp = within-species variation; mois = global interspecific moisture
+
+**This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** Its New Phytologist paper tests observer-disjoint reliability of species-wide colour diversity `D`, geographically structured local colour differences, and a previously frozen white–chromatic colour-space direction `W` (158 untouched prospective species; 439 measured vectors across three cohorts are descriptive only). The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.
+
+**The separate [`mois` repository](https://github.com/zuizui0223/mois) is the active research home for *between-species* global floral colour × rainfall/atmospheric-moisture analysis.** Its source-linked manuscript, 1,280-row environmental coefficient ledger, 576-row matched spatial-support audit, original analysis code, uncertainty/missingness sensitivity records and global moisture figure were copied from their historical FCP branches. The transfer preserves original Git blobs and scientific negative results; it does not rerun the source-photo models. See [the FCP↔mois split receipt](docs/FCP_MOIS_RESEARCH_SCOPE_SPLIT_20261014.md).
+
+**Publication boundary:** the integrated global-plus-ITV Draft [FCP PR #196](https://github.com/zuizui0223/fcp/pull/196) is historical/superseded, not the active FCP manuscript; the [original within-species New Phytologist manuscript](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md) remains authoritative. Prior macro development PRs [#193](https://github.com/zuizui0223/fcp/pull/193) and [#194](https://github.com/zuizui0223/fcp/pull/194) remain source-provenance records and are **not** a second active FCP paper. Neither repository has direct pigment chemistry, genotype-frequency or morph-specific reproductive-fitness evidence.
+
 The study asks four linked questions:
 
 1. Can repeated community-science photographs recover a reproducible species-wide flower-colour distribution?
