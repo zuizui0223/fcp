@@ -174,3 +174,27 @@ def test_single_unified_supporting_information_includes_all_four_macro_layers():
         assert heading in si,heading
     manuscript=MANUSCRIPT.read_text(encoding="utf8")
     assert target.name in manuscript
+
+
+
+def test_climate26_vs_all36_species_counts_are_distinct_and_source_verified():
+    """Do not subtract 20786 - 20694 as if one filter removed 92 taxa."""
+    r=json.loads(MACRO.read_text())
+    observations=r["key_white_directional_observations"]
+    def matching(mode):
+        q=[x for x in observations if
+           x["mode"]==mode and x["quality"]=="all" and x["region"]=="world"
+           and x["adjustment"]=="genus_geo" and x["axis"]=="wc_bio12" and x["hue"]=="white"]
+        assert len(q)==1
+        return q[0]
+    climate=matching("climate")
+    all36=matching("soil")
+    assert (climate["n_photo_species"],climate["n_genera"])==(20694,1934)
+    assert (all36["n_photo_species"],all36["n_genera"])==(16801,1665)
+    assert 25028-20694==4334
+    assert 20786-16801==3985
+    ms=MANUSCRIPT.read_text(encoding="utf8")
+    memo=(ROOT/"docs/POLYMORPHISM_20K_SCALING_SUPPORT_20261014.md").read_text(encoding="utf8")
+    for count in ("25,028","20,694","20,786","16,801","1,934","1,665"):
+        assert count in ms and count in memo,count
+    assert "20,786 − 20,694 = 92 is *not an attrition step*" in memo
