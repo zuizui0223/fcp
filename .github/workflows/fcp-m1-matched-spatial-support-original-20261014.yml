@@ -55,6 +55,49 @@ jobs:
           gh api -H 'Accept: application/vnd.github+json' "/repos/$GITHUB_REPOSITORY/actions/artifacts/$ENV_ARTIFACT_ID/zip" > /tmp/fcp_m1_source/env.zip
           echo "$PHOTO_SHA256  /tmp/fcp_m1_source/photos.zip" | sha256sum -c -
           echo "$ENV_SHA256  /tmp/fcp_m1_source/env.zip" | sha256sum -c -
+      - name: Reproduce all 20 parent PR193 environment-by-hue macro cohorts from both original archives
+        run: |
+          python scripts/analysis/fcp_abiotic_hue_direction_macro_20261013.py \
+            --photo-archive /tmp/fcp_m1_source/photos.zip \
+            --environment-archive /tmp/fcp_m1_source/env.zip \
+            --bootstrap 999 --outdir /tmp/fcp_parent193
+          python scripts/analysis/verify_fcp_macro_direction_20261013.py \
+            --photo-archive /tmp/fcp_m1_source/photos.zip \
+            --environment-archive /tmp/fcp_m1_source/env.zip \
+            --result-json /tmp/fcp_parent193/result.json \
+            --output /tmp/fcp_parent193/independent_verified.json
+          python scripts/analysis/build_fcp_macro_direction_summary_20261013.py \
+            --result /tmp/fcp_parent193/result.json \
+            --ledger /tmp/fcp_parent193/direction_ledger.csv \
+            --out /tmp/fcp_parent193/decision_receipt.json
+      - name: Verify parent 1280 original directional rows and 352 independent slope coefficients
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,math,pandas as pd,numpy as np
+          root=Path('/tmp/fcp_parent193')
+          frozen=Path('results/fcp_macro_direction_20261013')
+          receipts=(json.loads((root/'decision_receipt.json').read_text()),json.loads((frozen/'decision_receipt.json').read_text()))
+          a,b=receipts
+          assert a['schema']==b['schema']=='fcp_directional_macroecology_20261013_decision_receipt_v1'
+          assert a['n_macro_scope_cohorts']==b['n_macro_scope_cohorts']==20
+          assert a['directional_estimates_and_sensitivities']==b['directional_estimates_and_sensitivities']==1280
+          ind=json.loads((root/'independent_verified.json').read_text())
+          assert ind['status']=='PASS'
+          assert ind['direct_source_genus_WLS_colour_coefficients_verified']==352
+          assert ind['max_abs_difference_pp']<1e-8
+          x=pd.read_csv(root/'direction_ledger.csv')
+          y=pd.read_csv(frozen/'direction_ledger.csv')
+          assert x.shape==y.shape==(1280,17)
+          assert x.columns.tolist()==y.columns.tolist()
+          for col in x.columns:
+              if pd.api.types.is_numeric_dtype(x[col]):
+                  assert np.allclose(x[col],y[col],atol=1e-8,rtol=0,equal_nan=True),col
+              else:assert x[col].fillna('___').equals(y[col].fillna('___')),col
+          assert a['scope_familywise_maxT_zero_exclusions']==b['scope_familywise_maxT_zero_exclusions']
+          assert a['scientific_verdict']==b['scientific_verdict']
+          print('PASS parent #193 all 20 cohorts /1280 directional source rows /352 independent WLS /negative global-selection gates')
+          PY
       - name: Run same named genera/species matched original-photo 999 genus bootstrap
         run: |
           python scripts/analysis/fcp_macro_spatial_support_decomposition_20261014.py \
