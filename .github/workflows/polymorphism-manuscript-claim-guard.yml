@@ -24,6 +24,21 @@ on:
       - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
+      - fcp_pipeline/fcp_allphotos.py
+      - fcp_pipeline/fcp_shared_structure.py
+      - fcp_pipeline/fcp_direct_environment.py
+      - fcp_pipeline/fcp_environment_profiles.py
+      - fcp_pipeline/fcp_axis_replay.py
+      - scripts/acquisition/collect_fcp_uncapped_metadata.py
+      - scripts/acquisition/build_fcp_uncapped_blind_batches.py
+      - docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md
+      - tests/test_collect_fcp_uncapped_metadata.py
+      - tests/test_fcp_allphotos.py
+      - tests/test_fcp_axis_replay.py
+      - tests/test_fcp_direct_environment.py
+      - tests/test_fcp_environment_profiles.py
+      - tests/test_fcp_shared_structure.py
+      - tests/test_fcp_uncapped_firewall.py
       - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
       - scripts/analysis/u100_multiclimate_20261014.py
       - tests/test_u100_multiclimate_20261014.py
@@ -47,6 +62,21 @@ on:
       - tests/test_u100_frozen_spatial_export.py
       - tests/test_u100_frozen_w_export.py
       - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
+      - fcp_pipeline/fcp_allphotos.py
+      - fcp_pipeline/fcp_shared_structure.py
+      - fcp_pipeline/fcp_direct_environment.py
+      - fcp_pipeline/fcp_environment_profiles.py
+      - fcp_pipeline/fcp_axis_replay.py
+      - scripts/acquisition/collect_fcp_uncapped_metadata.py
+      - scripts/acquisition/build_fcp_uncapped_blind_batches.py
+      - docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md
+      - tests/test_collect_fcp_uncapped_metadata.py
+      - tests/test_fcp_allphotos.py
+      - tests/test_fcp_axis_replay.py
+      - tests/test_fcp_direct_environment.py
+      - tests/test_fcp_environment_profiles.py
+      - tests/test_fcp_shared_structure.py
+      - tests/test_fcp_uncapped_firewall.py
       - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
       - scripts/analysis/u100_multiclimate_20261014.py
       - tests/test_u100_multiclimate_20261014.py
@@ -72,7 +102,7 @@ jobs:
         run: python -m pip install --upgrade pytest numpy pandas scipy rasterio
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py -q
 
 
   u100-real-frozen-data-smoke:
@@ -295,3 +325,89 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: results/u100_multiclimate_exploratory_20261014/
+
+  fcp-allphoto-original-method-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.14"
+
+      - name: Install original H2 numerical runtime
+        run: python -m pip install -r requirements-np-replay-20260928.txt
+
+      - name: Restore source-locked 42,111-species frame and 49,900 real photographs
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_allphoto_original"
+          mkdir -p "$work/input" "$work/output" "$work/code"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$work/input/full_frame.csv"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$work/input/prospective.csv"
+          git show "$THIRD_SHA:scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py" > "$work/code/frozen_h2.py"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$work"'/input/full_frame.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/input/prospective.csv' | sha256sum -c -
+          test "$(git hash-object "$work/code/frozen_h2.py")" = "6bec7ee121170195f8795238f797ee7167406b48"
+
+      - name: Analyze all source photographs without a 4,730-species or 100-photo cap
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_allphoto_original"
+          python -m fcp_pipeline.fcp_allphotos \
+            --opportunity "$work/input/full_frame.csv" \
+            --measured "prospective=$work/input/prospective.csv" \
+            --outdir "$work/output/inventory"
+          python -m fcp_pipeline.fcp_axis_replay \
+            --measured "$work/input/prospective.csv" \
+            --opportunity "$work/input/full_frame.csv" \
+            --frozen-h2-source "$work/code/frozen_h2.py" \
+            --cohort prospective --outdir "$work/output/original_W"
+          python -m fcp_pipeline.fcp_shared_structure \
+            --ledger "$work/output/inventory/all_photo_FCP_species_ledger.csv" \
+            --w "$work/output/original_W/species_W_fixed_axis.csv" \
+            --outdir "$work/output/shared"
+
+      - name: Assert original prospective observed W and unbounded eligibility counts
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_allphoto_original/output"
+          census=json.loads((root/"inventory/all_photo_FCP_receipt.json").read_text())
+          W=json.loads((root/"original_W/W_axis_receipt.json").read_text())
+          shared=json.loads((root/"shared/fcp_commonality_receipt.json").read_text())
+          assert census["n_source_species"]==42111, census
+          assert census["n_unique_measured_photo_ids"]==49900, census
+          assert census["n_D_evaluable_species"]==377, census
+          assert census["n_H2_coarse_gate_species"]==185, census
+          assert W["n_eligible_W_species"]==158, W
+          assert abs(W["mean_species_equal_W"]-0.5172457461053418)<1e-12, W
+          assert shared["species_equal_descriptive_summaries"]["within_species_W_direction"]["n_species"]==158
+          assert shared["W_environment_frozen_construction_null_completed"] is False
+          print("FCP_UNCAPPED_ORIGINAL_H2_REPLAY_PASS",json.dumps({
+            "candidate_species":census["n_source_species"],
+            "measured_photos":census["n_unique_measured_photo_ids"],
+            "D_evaluable":census["n_D_evaluable_species"],
+            "W_eligible":W["n_eligible_W_species"],
+            "W_observed":W["mean_species_equal_W"],
+            "new_environment_mechanism_inferred":False
+          },sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-allphotos-frozen499-originalH2-smoke
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/fcp_allphoto_original/output/inventory/all_photo_FCP_receipt.json
+            ${{ runner.temp }}/fcp_allphoto_original/output/inventory/all_photo_FCP_species_ledger.csv
+            ${{ runner.temp }}/fcp_allphoto_original/output/original_W/species_W_fixed_axis.csv
+            ${{ runner.temp }}/fcp_allphoto_original/output/original_W/W_axis_receipt.json
+            ${{ runner.temp }}/fcp_allphoto_original/output/shared/fcp_commonality_receipt.json
