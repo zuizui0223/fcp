@@ -212,7 +212,9 @@ The central high-depth sampling logic is **frame → discovery/validation → fr
 
 ## Results
 
-### H1: species-level polymorphism is reproducible across observer-disjoint photo sets
+The Results follow the intended sequence: first establish reproducible distributional photographic measurement; then identify recurring achromatic–chromatic colour variation and its geographical allocation; finally examine worldwide moisture-associated floral colour composition and relevant sensitivity analyses. The high-depth distributional analyses and sparse global environmental comparisons retain their separate species and image denominators.
+
+### Method: photographic flower-colour distributions are reproducibly measurable
 
 The first-frozen repeated-partition H1 test supported observer-disjoint reproducibility in the validation cohort. Across 200 partitions, the median number of paired species was 329. Median split Spearman rho was **0.7891**, with a 5th percentile of **0.7652** and a 95th percentile of 0.8109. Median Lin CCC was **0.8548**, and median Spearman-Brown projected reliability was **0.8821**.
 
@@ -226,7 +228,7 @@ These results admit D as a reproducible high-depth species phenotype for the sub
 
 The finite-sample adjustment barely altered D rankings (discovery rho = **0.999977**, validation = **0.999978**) and changed mean D by <0.005. Discovery and validation D–spatial partial rank associations remained positive (corrected rho **0.1263**, P = **0.007**, and **0.0996**, P = **0.025**), as did the validation flower-minus-background result. Neither validation phylogenetic sensitivity nor the null sampled-span replication finding changed. Thus plug-in diversity bias did not explain the main D patterns.
 
-### H2 discovery and audit: recurrent geometry localizes to white versus nonwhite
+### Pattern: achromatic–chromatic variation recurs among species
 
 The original H2 discovery and species-disjoint validation cohorts first showed label-free recurrent nine-colour geometry (leading-axis concentration 0.5414 and 0.5350; validation projection onto the frozen discovery axis 0.5242; discovery–validation axis alignment approximately 0.986). The target was subsequently localized, **after these data were viewed**, to the white-versus-equal-nonwhite contrast.
 
@@ -238,7 +240,7 @@ The prospective-confirmation run completed all **256 / 256** terminal partitions
 
 Of the 49,900 rows, **25,788** were classifiable into the four biological states and 24,112 were nonclassifiable. Using the prespecified minimum of 40 classifiable rows per species, **377** species were measurement-evaluable, exceeding the required minimum of 250. The measurement-support gate therefore passed before H2 was opened.
 
-### Prospective H2: the frozen white axis is confirmed
+### Prospective confirmation of the frozen achromatic–chromatic pattern
 
 At the primary 0.10 tier, **158** species produced admissible nonzero displacement vectors. Observed W was **0.517**. Across 999 structured-null worlds, the null median was **0.457** and the 95% interval was **0.436–0.475**. Observed W was 1.13 times the null median, with upper-tail p = **0.001**.
 
@@ -256,12 +258,6 @@ The prospective primary W = **0.517** exceeded its already white-aligned coarse-
 
 Direct reacquisition of all **49,900** prospective photos found available exposure metrics for **44,098**. The response-blind high-clip gate selected **2,205** rows. In a species-stratified sample (23,320 originally classified rows; 461 species), a within-species SD increase in near-clipping predicted white classification at **OR = 1.444**, 95% CI **1.389–1.502**, exceeding the frozen negligible-coupling boundary. Excluding the high-clip set left **142/158** vectors with W = **0.503**, null median **0.454** and P = **0.001**. Because 142/158 = 89.9% missed the frozen ≥90% vector-retention threshold, the executable outcome remained **INDETERMINATE** rather than retrospectively FLAGGED or PASS. Thus the geometric contrast survives exposure exclusion, but the white category is demonstrably exposure-coupled.
 
-### The prospective BIO5 association is observer-sensitive and does not transport as a common rule
-
-After high-clip exclusion, the post-confirmatory climate screen retained **281** prospective species (12,583 photographic rows). Within that cohort, white photos were associated with warmer BIO5 (median within-species difference **+0.0690 SD**, Holm-adjusted P = **0.0354**), with species-stratified OR **1.073** per within-species BIO5 SD (95% CI **1.029–1.119**, P = **0.000919**). BIO14 and solar radiation did not pass their frozen tests.
-
-The BIO5 result weakened under post hoc observer constraints. Strict observer-paired inference (106 species; 144 observer strata) had median contrast **0.000 SD**, P = **0.485**, and OR **0.787** (95% CI **0.544–1.138**); observer-balanced species retained positive median **+0.0541 SD** but Wilcoxon P = **0.0750**. Its specified species-disjoint transport failed in discovery (271 species; median **−0.0068 SD**, P = **0.743**, conditional OR 1.033, P = 0.131) and missed the joint species-level replication gate in validation (260 species; median **+0.0662 SD**, P = **0.0541**, despite a positive row-level OR 1.048, P = 0.0319). Accordingly BIO5 is a within-cohort, observer-sensitive association, **not a validated common warm-to-white mechanism** (Fig. S9a).
-
 ### Greater D is associated with stronger within-species geographic colour organization
 
 The positive D–spatial association reproduced across the two species-disjoint high-depth cohorts. The raw association was rho = **0.0892133** (p = **0.034**) in discovery and rho = **0.1016008** (p = **0.025**) in validation.
@@ -270,7 +266,7 @@ After controlling for sampled geographic span and clear ROI/flip technical-failu
 
 The validation result remained supported under exact uniform ambiguity-endpoint completions: primary D_min4 rho = **0.0970781** (p = **0.029**) and D_max4 rho = **0.1252858** (p = **0.008**); flower-minus-background p-values were **0.009** and **0.006**. Species with greater species-wide sampled colour-state diversity therefore tend to show stronger internal geographic organization, although this association neither partitions D into within- versus among-location components nor identifies the causal process that creates or maintains that organization.
 
-### Species-wide flower-colour diversity is geographically partitioned
+### Geographic context: local mixing and colour differentiation
 
 The distance-decay result does not by itself say whether range-wide diversity reflects local coexistence or differentiation among localities. A post-outcome composition-preserving test addressed this directly. At the fixed 50-km primary scale, nearby observations contained less four-state colour diversity than expected from each species' exact overall colour composition in all three species-disjoint cohorts. Mean species-wide minus local pairwise diversity was **0.02053** in discovery (n = 166), **0.01867** in validation (n = 181) and **0.01468** in the third cohort (n = 204); the matched vertex-null upper-tail p-value was **0.005** in each cohort. Local depletion was also supported at 25, 100 and 250 km in all three cohorts.
 
@@ -290,15 +286,21 @@ A broader hypothesis that environmentally heterogeneous species simply maintain 
 
 The sparse photographic source showed small joint environmental predictive improvements over a geography-plus-genus baseline. Climate/nonsoil predictors reduced out-of-fold multiclass Brier error by **0.002943** among **17,183** test taxa under genus-equal weighting; all 36 predictors yielded **0.001432** among **13,961** test taxa on a different soil-complete support. The 36-variable global gain was not consistently positive under species-equal weighting or strict photo quality. A better predictive fit did not identify which hue increased along which gradient.
 
-### Broad precipitation and vapour-pressure associations of photographed flower colour
+### Ecology: worldwide flower-colour correspondence with moisture gradients
 
 In the global broad-geo genus-equal analysis, photographed white increased along annual precipitation BIO12 by **+2.255 percentage points per one original global precipitation SD** (six-axis × four-colour simultaneous 95% interval **+0.319 to +4.190**) and along mean vapour pressure by **+3.952 points** (**+1.199 to +6.704**). These are associations among different species' photographed colour compositions, not individual colour changes or field fitness. No comparably general signed direction was established for BIO5 or solar radiation.
 
 The global white–BIO12 association was less precise in the strict-quality subset (**+1.229**, simultaneous interval **−2.046 to +4.504**) and in the genus-by-coarse-geographic-cell comparison (**+0.808**, **−3.556 to +5.172**). The broad eastern (90–180° E) slope was **+4.716** (**+1.565 to +7.866**), but strict-quality and cell-conditioned east estimates had intervals including zero. A direct support decomposition used identical photographed species in two model fits: for the **9,370** world-matched taxa in **845** genera, the broad-geo estimate of **+1.326** became **+0.808** with genus-by-cell conditioning. For **2,886** east-matched taxa in **280** genera, **+1.102** became **−2.076**. The paired eastern difference (**+3.178**) had a nominal genus-bootstrap 95% interval **+1.077 to +5.351**, but its **24-contrast simultaneous interval −0.258 to +6.613** included zero. Thus the discrepancy is not simply the consequence of evaluating a smaller *number* of species, but an independently identifiable spatial-adjustment effect or universal climatic selection is not established.
 
-### Cross-measurement comparison using botanical flower-colour descriptions
+### Sensitivity of moisture–colour correspondence to botanical colour measurement
 
 When we replaced photo-colour classification with unambiguous botanical-description colours for an exactly name-matched subset, the main eastern comparison retained **58** matched genera and **670** species. The east-versus-rest annual-rainfall white-minus-blue/purple slope was **+2.07** percentage points per environmental SD under species-equal weighting (95% bootstrap interval **−13.87 to +19.07**) and **+3.56** under genus-equal weighting (**−15.34 to +22.60**). Four-region simultaneous intervals also included zero. This alternative measurement provided no statistically conclusive convergent direction; its sparse categorical trait, binary hue denominator and reused photo-site climatic coordinates mean that failure to confirm cannot be interpreted as a demonstrated absence of an ecological effect.
+
+### The prospective BIO5 association is observer-sensitive and does not transport as a common rule
+
+After high-clip exclusion, the post-confirmatory climate screen retained **281** prospective species (12,583 photographic rows). Within that cohort, white photos were associated with warmer BIO5 (median within-species difference **+0.0690 SD**, Holm-adjusted P = **0.0354**), with species-stratified OR **1.073** per within-species BIO5 SD (95% CI **1.029–1.119**, P = **0.000919**). BIO14 and solar radiation did not pass their frozen tests.
+
+The BIO5 result weakened under post hoc observer constraints. Strict observer-paired inference (106 species; 144 observer strata) had median contrast **0.000 SD**, P = **0.485**, and OR **0.787** (95% CI **0.544–1.138**); observer-balanced species retained positive median **+0.0541 SD** but Wilcoxon P = **0.0750**. Its specified species-disjoint transport failed in discovery (271 species; median **−0.0068 SD**, P = **0.743**, conditional OR 1.033, P = 0.131) and missed the joint species-level replication gate in validation (260 species; median **+0.0662 SD**, P = **0.0541**, despite a positive row-level OR 1.048, P = 0.0319). Accordingly BIO5 is a within-cohort, observer-sensitive association, **not a validated common warm-to-white mechanism** (Fig. S9a).
 
 ### H3a: no detectable broad tree-wide conservation of D
 
