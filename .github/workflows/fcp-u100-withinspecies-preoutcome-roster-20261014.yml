@@ -39,6 +39,16 @@ jobs:
           git fetch --no-tags --depth=1 origin 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
           git show '7e538e5c51c05a7cc47b2fcf53eea92634c8a863:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' > /tmp/fcp_u100/source/original42111.csv
           echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  /tmp/fcp_u100/source/original42111.csv' | sha256sum -c -
+      - name: Diagnose original frozen taxonomy-only source schemas without viewing colour fields
+        run: |
+          set -euo pipefail
+          echo "ORIGINAL_42111_FRAME_COLUMNS:"
+          head -n 1 /tmp/fcp_u100/source/original42111.csv
+          git fetch --no-tags --depth=1 origin 5142f7951af0dde5364bb047a566d67e8c479e51
+          echo "DISCOVERY_MEASURED_CSV_COLUMNS_ONLY:"
+          (git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv | head -n 1) || true
+          echo "VALIDATION_MEASURED_CSV_COLUMNS_ONLY:"
+          (git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv | head -n 1) || true
       - name: Recover U100 original P100 P500 frozen parent selection ZIP by historical artifact
         env:
           GH_TOKEN: ${{ github.token }}
