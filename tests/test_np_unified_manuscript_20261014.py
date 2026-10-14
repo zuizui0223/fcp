@@ -30,7 +30,7 @@ def test_one_manuscript_primary_title_and_source_untouched():
     orig=ORIGINAL.read_text(encoding="utf8")
     current,chunks=sections()
     assert orig.startswith("# Species-wide flower-colour variation is geographically partitioned across plant species")
-    assert current.startswith("# Moisture-associated floral colours and recurrent achromatic–chromatic variation across plant species")
+    assert current.startswith("# Global flower-colour diversity reveals recurrent within-species variation and moisture-associated ecological patterns")
     assert "149,900" in current and "100,543" in current
     assert "not a fourth" in current
     assert "not an additional strong causal or confirmatory paper" not in chunks["Discussion"]
@@ -203,12 +203,13 @@ def test_climate26_vs_all36_species_counts_are_distinct_and_source_verified():
 def test_ecology_first_story_and_noncausal_separate_sampling_grains():
     s, c = sections()
     r, d = c["Results"], c["Discussion"]
+    assert r.index("### Global photographed flower-colour diversity and cross-cell variation") < r.index("### Ecology: worldwide flower-colour correspondence")
     assert r.index("### Ecology: worldwide flower-colour correspondence") < r.index("### Pattern: achromatic–chromatic variation")
     assert r.index("### Pattern: achromatic–chromatic variation") < r.index("### Geographic context: local mixing")
     assert d.index("### Moisture-associated ecology") < d.index("### Recurring achromatic–chromatic patterns")
     assert d.index("### A water-dependent benefit–cost hypothesis") < d.index("### Conclusion")
     assert "nonnested sampling designs" in c["Introduction"]
-    assert "not a nested" in c["Summary"]
+    assert "not a nested" in c["Summary"] or "nonnested" in c["Summary"]
     assert "strict" in c["Summary"] and "spatial" in c["Summary"]
     assert "relative fitness" in d and "do **not** directly measure" in d
     captions = re.findall(r"^\*\*Figure ([1-6])\.", s, flags=re.M)
@@ -264,3 +265,18 @@ def test_source_locked_s18_does_not_upgrade_photographic_balance_to_fitness():
     assert "not a nested" not in part.lower()
     assert "fitness" in part.lower()
     assert "relative male/female reproductive fitness" in part
+
+
+def test_worldwide_scope_precedes_within_species_and_tradeoff_in_narrative():
+    manuscript, c = sections()
+    summary = c["Summary"].split("**Keywords")[0]
+    assert "42,111" in summary and "18,457" in summary
+    assert "13,416" in summary and "3,196" in summary and "797" in summary
+    assert "global" in summary.lower() and "within-species" in summary.lower()
+    results = c["Results"]
+    assert results.index("### Global photographed flower-colour diversity") < results.index("### Ecology: worldwide")
+    assert results.index("### Ecology: worldwide") < results.index("### Pattern: achromatic–chromatic")
+    assert "genetic" in results
+    assert manuscript.count("**Figure 1.") == 1
+    assert manuscript.count("**Figure 6.") == 1
+    assert "S19" in manuscript
