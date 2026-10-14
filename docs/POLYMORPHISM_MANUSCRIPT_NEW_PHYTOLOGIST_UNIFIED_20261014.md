@@ -83,7 +83,7 @@ Flower colours were extracted from ordinary visible-light iNaturalist photograph
 
 For prospective confirmation, photo IDs were disjoint from previous rows, manifests were checksum-verified, and biological identity and geography remained sealed until all **256** terminal partitions completed. There was no early stopping or replacement, and image pixels/masks were not retained after sealing. Detailed firewall fields and hashes are in the prospective protocol and data-lineage map.
 
-### Image-level biological states and continuous polymorphism score
+### Photographic flower-colour states and sampled species-wide diversity
 
 The four visible photo categories were white, yellow/orange, red/pink and blue/purple; mixed/uncertain outcomes are missing, not additional biological morphs. For high-depth species with **≥40 classifiable** fixed photos, photographed species-wide diversity was \(D_i = 1-\sum_{k=1}^4 p_{ik}^2\), where \(p_{ik}\) is the observed fraction of source photographs classified into hue (k). It is the probability of unlike colours for two sampled classifiable photographs, **not a measure of coexistence within a natural population**. Finite-sample \(D_{\mathrm{corr}}=Dn/(n-1)\) was secondary, correcting multinomial plug-in bias only; it does not correct observer/organ/exposure selection (S1).
 
