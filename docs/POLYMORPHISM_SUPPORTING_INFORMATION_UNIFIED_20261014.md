@@ -589,7 +589,22 @@ In *S. littorea*, every positive PAL frequency exceeded the maximum positive WAL
 
 A direct PAL/WAL-to-FCP bridge was also audited rather than assumed. Taxonomy-aware resolution preserved the source strings while matching accepted names. The natural-frequency subset overlaps only four D-eligible reserve species: PAL *Gymnadenia rhellicani* (D = 0.6515) and *Silene gallica* (D = 0.2344), plus WAL source *Delphinium nelsonii* resolved to *D. nuttallianum* (D = 0.1659) and source *Silene dioca* resolved as an orthographic candidate to accepted *S. dioica* (D = 0.2055). Discovery overlap and prospective selected overlap are both zero. *Mimulus guttatus* resolves to *Erythranthe guttata* (D = 0) but its source frequency is greenhouse-only and is excluded from the natural-frequency bridge. With only two PAL and two natural-context WAL overlaps, all in one reserve cohort, no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable. Machine-readable receipt: `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`. Taxonomic crosswalk: `docs/POLYMORPHISM_PAL_WAL_TAXONOMIC_ALIAS_AUDIT_20260928.md`.
 
-## S9. Canonical main-text figures
+## S9. Source-preserving canonical main-text figures
+
+The ecology-first article has the following **physical PDF/PNG/SVG aliases** in `docs/figures/polymorphism_20261014/`. Their underlying blobs are unchanged historic original plotting files; renumbering is editorial, NOT recalculation of original nulls, estimates or colour classifications.
+
+| Ecology-first figure | Frozen original plot | Current result |
+|---|---|---|
+| **Fig. 1** `figure1_moisture_association.svg` | Historical Fig. 6 vector and `results/np_unified_20261014/figure6_source_data.json` | Global moisture relationship and strict photograph/spatial/source boundaries |
+| **Fig. 2** `figure2_sampling_frame.{png,pdf}` | September Fig. 1 | Sampling architecture; analytical panels are not nested |
+| **Fig. 3** `figure3_observer_reproducibility.{png,pdf}` | September Fig. 2 | Observer-disjoint diversity reliability |
+| **Fig. 4** `figure4_colour_axis_discovery.{png,pdf}` | September Fig. 3 | H2 source axis discovery |
+| **Fig. 5** `figure5_prospective_white_axis.{png,pdf}` | September Fig. 4 | Previously frozen W on prospective species |
+| **Fig. 6** `figure6_geographic_colour_structure.{png,pdf}` | September Fig. 5 | Geographic organisation of sampled colour variation |
+
+The mapping is checked against original file bytes; coauthor visual review, final journal export and line numbering remain pending.
+
+### Historical source figure inventory
 
 Generated reporting-only from frozen results:
 
