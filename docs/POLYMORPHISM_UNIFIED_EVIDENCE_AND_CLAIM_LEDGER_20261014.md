@@ -41,9 +41,9 @@ Primary positive result: repeatable **geographic allocation of intraspecific pho
 
 ## Figure and supplementary inventory for ONE paper
 
-- **Main**: existing frozen Figures 1–5 keep measurement/geographic/phenotype claims. New Figure 6 uses macro environmental direction and paired spatial/external measurement tests. Main Table 1 expands to separately declare high-depth, sparse photo and NHM data grains.
+- **Main**: existing frozen Figures 1–5 keep measurement/geographic/phenotype claims. Newly rendered Figure 6 source-backed four-panel SVG is at `docs/figures/polymorphism_20261014/figure6_unified_environmental_support.svg`, with its independently reviewable data in `results/np_unified_20261014/figure6_source_data.json` and deterministic code at `scripts/analysis/render_np_unified_figure6_20261014.py`. Main Table 1 separately declares high-depth, sparse photo and NHM data grains.
 - **Supporting**: original S1–S11 retained; new S12 source/covariate block and complete-case prediction; S13 all 1,280 signed coefficient results; S14 576 matched-species spatial-support results; S15 NHM external label-matching and null support. New Tables S1 (grains/missingness) and S2 (full exact claims and provenance).
-- **Editorial release blockers**: draw and inspect Figure 6 (existing bitmap archive has Figures 1–5 only); actually compile S12–S15 / Tables S1–S2 and citations; one SHA-locked submission archive with all new evidence; author list/affiliations/ORCIDs/corresponding data, journal formatting and figure placement; corresponding author sign-off. The integrated manuscript should not be labelled submitted or ready yet.
+- **Editorial release blockers**: Figure 6 SVG and an inspected PNG now exist; coauthor figure approval remains. The new S12–S15 supplemental graphics / Tables S1–S2 require final production and citation review; one SHA-locked submission archive with all new evidence, author list/affiliations/ORCIDs/corresponding metadata, final journal formatting/line numbering and author sign-off also remain. The integrated manuscript must not be labelled submitted or ready yet.
 
 ## Hosted computational verification
 
