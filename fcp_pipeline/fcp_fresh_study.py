@@ -62,6 +62,8 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
     plan=opportunity_schedule(frame,shards)
     frame_sha=sha256_file(frame_path)
     date=None
+    source_kind=None
+    source_metadata_hashes=None
     dirs=[]
     pending=[]
     for i in range(shards):
@@ -78,6 +80,25 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
                 contract.get('photo_cap','INVALID') is not None or
                 contract.get('outcome_blind') is not True):
             raise ValueError(f'Source shard {i} violates fresh frozen census')
+        kind=contract.get('source_kind','inat_api_observations_cursor')
+        if kind not in ('inat_api_observations_cursor','inaturalist_open_dataset_monthly_snapshot'):
+            raise ValueError(f'Unknown photo opportunity provider for shard {i}')
+        if source_kind is None:
+            source_kind=kind
+        elif kind!=source_kind:
+            raise ValueError('Mixed API and monthly Open Data source contracts are not a single frozen census')
+        if kind=='inaturalist_open_dataset_monthly_snapshot':
+            hashes=contract.get('input_metadata_sha256')
+            if (not isinstance(hashes,dict) or set(hashes)!={'taxa','observations','photos'} or
+                    any(not isinstance(v,str) or len(v)!=64 or
+                        any(c not in '0123456789abcdef' for c in v) for v in hashes.values())):
+                raise ValueError('Snapshot taxon, observation and photo byte hashes required')
+            if contract.get('created_d2_field_semantics')!='immutable_source_snapshot_date_not_API_created_d2_query':
+                raise ValueError('Monthly bulk source date is not API created_d2: missing distinction')
+            if source_metadata_hashes is None:
+                source_metadata_hashes=hashes
+            elif hashes!=source_metadata_hashes:
+                raise ValueError('Inconsistent source snapshot input hashes between shards')
         now=str(contract.get('created_d2'))
         if date is not None and now!=date:
             raise ValueError('Source metadata date changed between shards')
@@ -99,13 +120,20 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
                 raise ValueError(f'Wrong metadata identity/outcome firewall for {tax}')
             if record.get('status')!='complete':
                 pending.append(int(tax));continue
-            if not (d/'photo_manifest.ndjson').is_file():
+            manifest=d/'photo_manifest.ndjson'
+            if not manifest.is_file():
                 raise ValueError(f'Completed taxon {tax} has no photo manifest')
+            if kind=='inaturalist_open_dataset_monthly_snapshot':
+                if (record.get('source_kind')!=kind or
+                        record.get('snapshot_source_sha256')!=source_metadata_hashes or
+                        record.get('metadata_sha256')!=sha256_file(manifest)):
+                    raise ValueError(f'Completed bulk snapshot manifest identity/hash mismatch: {tax}')
             dirs.append(d)
     audit={'status':'SOURCE_CENSUS_COMPLETE' if not pending else 'INCOMPLETE_METADATA_NOT_AUTHORIZED',
            'source_species':len(frame),'completed_species':len(dirs),
            'incomplete_species':len(pending),'sample_missing_taxa':pending[:30],
            'source_frame_sha256':frame_sha,'frozen_created_d2':date,
+           'source_kind':source_kind,'source_input_sha256':source_metadata_hashes,
            'source_metadata_only':True,'biological_images_opened':False,
            'historical_measured_photos_used':False,'no_photo_number_cap':True}
     return dirs,audit
