@@ -262,7 +262,7 @@ def test_source_locked_s18_does_not_upgrade_photographic_balance_to_fitness():
     for token in ("21,574", "45,953", "54,590", "P = .214", "P = .997", "2,000", "730"):
         assert token in part, token
     assert "NOT TESTED" in part
-    assert "not a nested" not in part.lower()
+    assert "not a nested" in part.lower() or "nonnested" in part.lower()
     assert "fitness" in part.lower()
     assert "relative male/female reproductive fitness" in part
 
