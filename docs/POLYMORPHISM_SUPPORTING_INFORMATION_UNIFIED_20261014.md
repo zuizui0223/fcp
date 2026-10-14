@@ -717,3 +717,41 @@ The unified Full Paper can claim replicated geographic allocation of photographe
 
 The historical FCP high-depth release does **not** contain all post-October macro results. A single archive containing the unified manuscript, fully rendered Figure 6 and remaining figures, extended SI tables and the new source-hash verified analysis outputs must be frozen for submission. Author metadata and journal-facing file export remain human gates; no publication or submission is claimed.
 
+## S18. Global photographically near-half white and the unverified ecological balance hypothesis
+
+This is a **retrospective reporting-only integration of already-executed source tests**, not a new fitness experiment, independently confirmed dataset or prospective hypothesis. Historical PRs [#158](https://github.com/zuizui0223/fcp/pull/158), [#160](https://github.com/zuizui0223/fcp/pull/160), and [#168](https://github.com/zuizui0223/fcp/pull/168) control their original source inferences. Their exact original JSON receipts are copied unchanged to `results/np_unified_20261014/source_pr*.json`; a standalone arithmetic-only reconstruction and machine guard are `scripts/analysis/build_np_ecological_balance_bridge_20261014.py`, `results/np_unified_20261014/ecological_balance_reporting_reconciliation.json` and `tests/test_np_ecological_balance_20261014.py`. This report does NOT reprocess photographs or rerun historic 999-null simulations.
+
+### Classified photo-white is near one half, but phenotypic missingness makes latent frequency unidentified
+
+After excluding **26,905 duplicate photo IDs** across the archived 42,111-photo breadth and 85,337-photo species×cell measurements, the global source union has **100,543 unique original photos** from **42,111 nominal species**, with 45,953 colour-classifiable and 54,590 unclassified. Of classifiable original photos, **21,574/45,953 = 46.94797% photo-white**; this is photo-weighted, not species-equal, natural morph-frequency or individual-genotype frequency. With NO restrictions on the unknown classifications, white among all photos can range from **21,574/100,543 = 21.45749%** to **(21,574+54,590)/100,543 = 75.75266%**. The published independent one-photo-per-species breadth lineage has **8,597/18,457** white among classifiable species; because source imagery overlaps, agreement is not an independent biological replication.
+
+| Original observed field | Source observation | Source-conditional inferential limit |
+|---|---:|---|
+| World classifiable photo-white | 21,574 / 45,953 = 46.95% | Photos, not equal-weight species |
+| All original-photo unclassifiable hues | 54,590 / 100,543 = 54.30% | True flower hue unknown (MNAR possible) |
+| Absolute-latitude 0–30° white | 9,247 / 19,642 = 47.08% | Only source classifiable geotagged photos |
+| Absolute-latitude 30–60° white | 11,713 / 25,033 = 46.79% | Distinct photographic flora/effort |
+| Absolute-latitude 60–90° white | 590 / 1,204 = 49.00% | Sparse high-latitude source |
+| Latitude spread vs original within-species colour-preserving null | Observed 2.213 pp; null mean 2.687 pp; P = .214 | No unexpectedly constant global white share |
+| Species-composition × local within-species deviation | Covariance +0.00018144; negative-compensation P = .997 | **No supported geographic cancellation maintaining a half-white proportion** |
+| Original wettest–driest opportunity rain deciles | 53.253% minus 41.799% = +11.454 pp photo-white | Observational, selected on classifier success |
+| MNAR tipping (scenario, not estimate) | If missing dry photos are 50% white, missing wet photos need only 41.264% to eliminate all-photo wet–dry contrast | Unobserved photo hue may explain it |
+| Mid-rainfall local photo-white and nonwhite mixing | 5 evaluable tests, minimum unadjusted one-sided P = .387; all Holm P = 1.0 | No support; **zero species** with local-pair support in all three dry/mid/wet bins |
+
+The original within-species 999 shuffle worlds preserve each source species' exact photographic white count and the true photo-site opportunity positions when assessing latitude. The geographical-decomposition test operates on 8,620 repeated-cell original photo species and 96 qualifying cells; the covariance is **positive**, opposite the compensatory negative expectation. A post hoc positive co-clustering permutation tail P=.004 weakens under source minimum-five-photo species and cell bootstrap, so it cannot be substituted as a new universal colour rule.
+
+### Rainfall covariation is between species in the broad design, not an identified within-population selection gradient
+
+The existing global genus-adjusted signed white/BIO12 association used 20,694 qualifying species and had slope +2.255 pp per source SD with family-maxT interval [+0.319,+4.190]. Strict image quality and genus×coarse-cell conditioning gave wider intervals including zero. Another original-source analysis of raw white photo labels found broad genus-adjusted wet–dry contrast +11.454 pp, whereas equal-size photo-source missing-colour sensitivity admits nonrandom hue failure sufficient to erase a *latent* contrast; these are different estimands.
+
+The original unseen-genus matched soil-cohort comparison (PR #168) already evaluates **the same 20,786 soil-available species** under 26 predictors versus 36 including SoilGrids and finds an incremental held-out Brier gain **+0.000075729** (95% interval **−0.000516 to +0.000653**). It is unnecessary to launch a redundant generic 26-versus-36 comparison, though this is not a universal soil exclusion test.
+
+A source-matched within-versus-between-sample study (PR #156) found slightly different rainfall Brier improvements on the same 14,776 original test photos; paired gain difference CI included zero. Original PR #159 had a positive broad rainfall relation for continuous photographic white-pixel fraction that did not survive strict ROI quality. Original PR #161 found a nominal rainfall environmental niche-separation difference among 422 species but nothing survived the 12-hypothesis Bonferroni family. PR #160's locally mixed photographs did **not** show a consistent intermediate-rainfall peak after colour-count-preserving tests. Different response grains, photo/source supports, inferential models and measurement error stop these from being pooled into one universal coefficient.
+
+### Required biological experiment for any pigment benefit–cost conclusion
+
+A true balance mechanism would need independently verified floral morph identity, actual sympatric reproducing populations, genotype or plant-individual tracking, pigment chemistry (including UV-absorbing colourless compounds), water-stress manipulations, pollinator/florivore interactions and **morph-specific relative male/female reproductive fitness**. The leading falsifiable prediction is a reproducible water-treatment × colour-morph interaction in relative fitness, with confounding by taxonomy, flowering season and colour-photo quality controlled. Neither near-50% photographic composition nor an aligned nine-colour axis alone requires that interaction; **a universal 50:50 world frequency is not predicted by the hypothesis**.
+
+The prior FCP NEXT-2000 project (PR #133) has only frozen **2,000 new source-species identities and 730 unopened reserve identities**. It has no new biological colour measurement, and its preallocated taxa must not be reselected in response to this retrospectively constructed moisture-hypothesis narrative.
+
+**Claim gate:** broad moisture–photo-white association = observational with sensitive transport; prospective recurrent white–chromatic axis = supported phenotype geometry conditional on photographic construction and exposure; geographic negative compensation / extraordinary global half = unsupported; measured pigment benefit–cost equilibrium = NOT TESTED.
