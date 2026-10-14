@@ -770,3 +770,45 @@ A true balance mechanism would need independently verified floral morph identity
 The prior FCP NEXT-2000 project (PR #133) has only frozen **2,000 new source-species identities and 730 unopened reserve identities**. It has no new biological colour measurement, and its preallocated taxa must not be reselected in response to this retrospectively constructed moisture-hypothesis narrative.
 
 **Claim gate:** broad moisture–photo-white association = observational with sensitive transport; prospective recurrent white–chromatic axis = supported phenotype geometry conditional on photographic construction and exposure; geographic negative compensation / extraordinary global half = unsupported; measured pigment benefit–cost equilibrium = NOT TESTED.
+
+## S19. Worldwide photographed flower-colour diversity and within-species geographic colour changes
+
+This is the **first observational resolution** of the paper, *not* a globally unbiased estimate of genetic polymorphism incidence. It is restored from the independently source-verified retrospective FCP [PR #135](https://github.com/zuizui0223/fcp/pull/135), the September 2026 archived flower-pixel measurements and the original world photo source. A byte-preserving reporting copy is `results/np_unified_20261014/source_pr135_global_photographic_colour_geography.json`. Its upstream verified source commit is `2b5390ea74f8d196012499d2d35dd477f9795938`, with PR #135 original-source Actions run `37777080395`. The source does not provide genotypes, flower-pigment chemistry or population census frequencies.
+
+### S19.1. Four visible colours over the species-discovery frame
+
+The original outcome-independent species opportunity frame included **42,111 named taxa**. Its **one-photograph-per-species** measurement had **18,457 classifiable colours** and **23,654 unresolved images**. The classified coarse photographed flower-colour totals were:
+
+| Original fixed photo-flower hue | One-photo source species with this label | Fraction among 18,457 classifiable species |
+|---|---:|---:|
+| White | 8,597 | 46.58% |
+| Yellow/orange | 6,323 | 34.26% |
+| Red/pink | 2,001 | 10.84% |
+| Blue/purple | 1,536 | 8.32% |
+| Unknown/no valid four-hue assignment | 23,654 | Missing, not monomorphic |
+
+A **second, geographically stratified** archival photograph-measurement panel had **85,337 species × equal-area geographic-cell records**, **39,075** with a classifiable flower colour and **46,262** unknown; 128 source cells were occupied. Species can recur across cells. The original breadth and geographic-cell sources share 26,905 photo identities; their *deduplicated union* contains **100,543** original photos and **45,953 classifiable** four-state observations. It cannot be treated as two independent confirmations or 127,448 unique images. The deduplicated global union has **21,574 white classified images**, or **46.95% conditional photo-white** (see S18).
+
+### S19.2. Observer-disjoint geographic colour discordance
+
+A metadata-frozen series sampled **13,416** same-species photo pairs from different original equal-area geographic cells and different observers. Among these, **3,196 pairs** had both flower colours classifiable. **797/3,196 = 24.94%** were discordant in the four original colours; the original species-bootstrap conditional 95% interval was **23.44–26.44%**. **10,220** other pairs lacked at least one classifiable endpoint. The no-assumption discordance bounds over all frozen pairs are **5.94–82.12%**. The conditional percentage is not the fraction of true globally polymorphic plant species.
+
+| Original absolute-latitude midpoint band | Fixed different-cell species pairs | Both colours classifiable | Discordant among both classified | Conditional discordance |
+|---|---:|---:|---:|---:|
+| 0–30° | 5,785 | 1,168 | 340 | 29.11% |
+| 30–60° | 6,269 | 1,646 | 375 | 22.78% |
+| 60–90° | 1,335 | 374 | 81 | 21.66% |
+| Entire fixed pair set | 13,416 | 3,196 | 797 | 24.94% |
+
+The original latitude midpoint subset has **27 pairs without an assignable band**, so the three band rows do not algebraically sum to all 13,416 source pairs. Differences across bands can arise from habitat and species composition, unequal photo-classifiability and observer/source geography. These broad photo-cell pairs are not same-year neighbour census plots and do not themselves identify genetic morphs.
+
+### S19.3. What high-depth species-disjoint data establish beyond the world atlas
+
+The world atlas observes photographs across taxa and some separated localities; it cannot estimate a continuous two-mode **within-species** colour-space vector from one photo per taxon. The separate **149,900-photo, 1,499-species** high-depth design supplies the repeated observations needed to test photographic diversity and location-independent colour-space geometry. The H2 prospective **158** species are those with a measurement-admissible colour-displacement vector, not 158 globally sampled populations. Local pair-based colour-depletion comparisons had **166 / 181 / 204** eligible high-depth species across discovery/validation/third cohorts. These denominators are *analytical strata and different original photo supports*, not nested subtraction of 42,111→20,694→1,499→158 species.
+
+A further field-candidate audit in PR [#157](https://github.com/zuizui0223/fcp/pull/157) identified **116** photo-white/nonwhite, different-observer candidate species in the same month/year within 10 km, but only **four** species passed a stricter four-photograph, four-observer, two-white-and-two-coloured screen. This supports **feasibility for targeted field verification**, not proof of locally coexisting genotypes. The distinct PR #133 future new 2,000-species/730-reserve identities remain only frozen *metadata*, without opening new flower-colour pixels.
+
+### S19.4. Population inference remains unidentifiable without genetic or field data
+
+The global photo source contains no sampled genotypic frequencies; both ambiguous flower identity and colour-classifier near-clipping are material. No photo outcome can establish a natural local white–coloured morph balance, temporal persistence, the direction of an evolutionary white/pigment transition, or frequency-dependent seed/pollen fitness. Cross-cell discordance identifies **photographic geographic colour differences** among the observed pairs, and the prospectively replicated W result identifies **photographic phenotype-space alignment** conditional on its construction-preserving null. This does not identify the moisture-driven pigment benefit–cost mechanism discussed in the main text.
+
