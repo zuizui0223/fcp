@@ -1,0 +1,90 @@
+{
+  "schema": "fcp_np_reporting_only_water_axis_balance_bridge_20261014_v1",
+  "status": "RECONCILED_SOURCE_RECEIPTS_NO_NEW_BIOLOGICAL_INFERENCE",
+  "frozen_sources": {
+    "original_photo_zip_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "source_pr158_commit": "0bc53089dc9d1baed207c2ea898b130cb7b07566",
+    "source_pr168_commit": "30a855c28ac060bed084337a85cd09ce1092ee56",
+    "source_pr160_commit": "2601f1ed689cd96678019f331457178ca1150e89",
+    "source_file_names": {
+      "balance": "source_pr158_white_balance.json",
+      "latitude": "source_pr158_latitude_null.json",
+      "missingness": "source_pr158_mnar_sensitivity.json",
+      "soil_matched": "source_pr168_soil_matched.json",
+      "midrain": "source_pr160_midrain_comixing.json"
+    }
+  },
+  "photographic_composition": {
+    "unique_photo_ids": 100543,
+    "classifiable_photos": 45953,
+    "unclassifiable_photos": 54590,
+    "white_classifiable_photos": 21574,
+    "fraction_white_among_classified": 0.4694796857658912,
+    "fraction_classification_missing": 0.5429517718786987,
+    "no_assumption_all_photo_white_lower": 0.21457485851824593,
+    "no_assumption_all_photo_white_upper": 0.7575266303969446,
+    "not_population_morph_prevalence": true
+  },
+  "latitude_near_half_null": {
+    "classifiable_geotagged_photos": 45879,
+    "three_latitude_band_white_fractions": [
+      0.4707769066286529,
+      0.4679023688730875,
+      0.4900332225913621
+    ],
+    "observed_band_range_pp": 2.2130853718274612,
+    "within_species_colour_preserving_null_mean_range_pp": 2.687233367613186,
+    "within_species_colour_preserving_null_p_unusually_even": 0.214,
+    "extraordinary_half_white_homeostasis_not_supported": true
+  },
+  "geographic_compensation_null": {
+    "repeat_species": 8620,
+    "observed_photo_cell_variance": 0.00260619713183053,
+    "reconstructed_photo_cell_variance": 0.0026061971318305298,
+    "reconstruction_absolute_error": 4.336808689942018e-19,
+    "composition_vs_local_covariance": 0.0001814445034021115,
+    "negative_compensation_one_sided_p": 0.997,
+    "hypothesized_geographic_cancellation_not_supported": true
+  },
+  "moisture_opportunity_and_missingness": {
+    "unadjusted_wet_minus_dry_photo_white_pp": 11.454238195306093,
+    "driest_classified_white_fraction": 0.41798835575185705,
+    "wettest_classified_white_fraction": 0.532530737704918,
+    "assumed_dry_unclassified_white_fraction": 0.5,
+    "wet_unclassified_white_fraction_needed_to_erase_contrast": 0.41263685729976646,
+    "unobserved_outcome_colour_mnar_remains_identification_problem": true
+  },
+  "soil_added_on_exact_same_species_unseen_genus_test": {
+    "n_species": 20786,
+    "environmental_brier_increment": 0.00007572926908683275,
+    "original_95_interval": [
+      -0.0005160491839471759,
+      0.0006534916124622868
+    ],
+    "supports_incremental_soil_information": false,
+    "applies_only_to_original_unseen_genus_design": true
+  },
+  "intermediate_rainfall_local_cocomposition": {
+    "reported_nonhold_tests": 5,
+    "smallest_unadjusted_one_sided_p": 0.387,
+    "n_species_in_all_three_rainfall_pair_bins": 0,
+    "supported_local_midrain_mixing_excess": false
+  },
+  "white_axis_separate_frozen_high_depth_source": {
+    "n_high_depth_species": 1499,
+    "prospective_admissible_species": 158,
+    "observed_W": 0.5172457461053418,
+    "null_median_W": 0.45714281500506854,
+    "p_plus_one": 0.001,
+    "source_independent_of_sparse_global_photo_colour_system": false,
+    "cross_scale_morph_fitness_mechanism_tested": false
+  },
+  "scientific_decision": {
+    "source_observational_moisture_correspondence": "BROAD_SAMPLE_ASSOCIATION_ONLY",
+    "prospective_white_coloured_direction": "SUPPORTED_CONDITIONAL_ON_WHITE_CLASSIFIER",
+    "global_near_half_white": "DESCRIPTIVE_NOT_AN_EXCEPTIONAL_EQUILIBRIUM",
+    "geographic_compensation": "NOT_SUPPORTED",
+    "midrain_local_colour_mixing": "NOT_SUPPORTED_OR_INADEQUATELY_IDENTIFIED",
+    "pigmentation_benefit_cost_balance": "TESTABLE_HYPOTHESIS_NO_PIGMENT_OR_RELATIVE_FITNESS"
+  }
+}
