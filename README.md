@@ -2,6 +2,15 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## Single New Phytologist integrated submission candidate — 14 October 2026
+
+**One article, not companion papers:** [**Unified Full Paper**](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST_UNIFIED_20261014.md) — *Geographic partitioning of flower-colour variation is widespread, while climatic associations are scale dependent*.
+
+The same Full Paper contains (i) three high-depth independent-species cohort tests of geographical allocation, (ii) prospectively frozen achromatic–chromatic phenotype-space geometry, and (iii) retrospective worldwide macroecological environmental–colour analyses with strict spatial, imaging and external-botanical-colour falsifications. It does not equate climate associations to evolutionary selection or genetic morph maintenance. [Unified Supporting Information](docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md) and the [one-paper claim/source ledger](docs/POLYMORPHISM_UNIFIED_EVIDENCE_AND_CLAIM_LEDGER_20261014.md) cover the combined outcomes. The [source-linked Figure 6 SVG](docs/figures/polymorphism_20261014/figure6_unified_environmental_support.svg) is generated with a reproducible code and result input.
+
+**Version interpretation:** `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md` and the older frozen claim ledger below remain unchanged as the *historical high-depth scientific baseline*, **not a second planned submission**. The new integrated manuscript is the only journal-facing editorial candidate on this development branch. Main branch and historical provenance receipt are unchanged. Submission still requires author approval/metadata, remaining supplementary visual assets and one new unified permanent source archive.
+
+
 The study asks four linked questions:
 
 1. Can repeated community-science photographs recover a reproducible species-wide flower-colour distribution?
