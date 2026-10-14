@@ -390,7 +390,7 @@ The worldwide photographic comparison found positive associations between photog
 
 In separately sampled high-depth species, achromatic–chromatic colour displacement was more recurrent than expected under a construction-preserving null in 158 prospectively eligible species. Within-species colour diversity was geographically structured across three disjoint cohorts. Neither result implies the evolutionary polarity of white and coloured flowers or the maintenance of heritable colour morphs.
 
-Together, these findings focus a testable moisture-dependent pigmentation benefit–cost hypothesis, not an identified causal trade-off. Morph-specific pigment chemistry, physiology, pollinator interactions and reproductive fitness under contrasting water environments are needed to bridge the species- and photo-level observations.
+Together, these findings focus a testable moisture-dependent pigmentation benefit–cost hypothesis, not an identified causal trade-off. Morph-specific pigment chemistry, physiology, pollinator interactions and relative fitness under contrasting water environments are needed to bridge the species- and photo-level observations.
 ---
 
 ## Acknowledgements
