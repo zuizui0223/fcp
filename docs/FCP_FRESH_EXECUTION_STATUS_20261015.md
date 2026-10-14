@@ -53,6 +53,36 @@ python -m fcp_pipeline.fcp_fresh_study freeze \
 
 **Do not run this as a single unthrottled API crawl.** The full photograph count is unknown until the complete fixed-date source census is finished; provider quotas, suitable bulk extraction, compute/storage costs and provenance retention remain operational requirements. Do not silently treat a CI pilot or synthetic regression as the global dataset.
 
+## Real 9-species source progress and switch to bulk
+
+The follow-up metadata-only GitHub Actions [run 38639092021](https://github.com/zuizui0223/fcp/actions/runs/38639092021), artifact `11928883989`, continued the previously completed first taxon and **attempted another eight** under the same outcome-blind frozen date `2026-10-14`. The result is **4 complete taxa, 5 in-progress taxa, 42,102 not started**; **23,023 source photo-manifest rows** (metadata rows, not globally audited distinct flowers); and **zero fresh flower-colour measurements**. These numbers must not be reported as D, W or soil analysis outputs. All remaining partial taxa can resume from their provider ID checkpoints.
+
+**Provider-rate corrective action:** The original iNaturalist observations API is intended for small/medium batches, about **one request per second and ~10,000 requests/day**; bulk access through the API is discouraged ([official recommended practices](https://www.inaturalist.org/pages/api+recommended+practices)). The recurring pull-request API collection job has therefore been **removed from CI**. This prevents repeated PR commits from automatically multiplying public provider requests. Historical API checkpoints stay as provenance/alternative limited route.
+
+### Bulk snapshot importer: all eligible photos without a page cap
+
+`scripts/acquisition/import_inat_open_data_snapshot.py` reads the official iNaturalist Open Dataset monthly metadata tables (`taxa.csv.gz`, `observations.csv.gz`, `photos.csv.gz`). The [provider's metadata documentation](https://github.com/inaturalist/inaturalist-open-data/blob/main/Metadata/README.md) specifies the gzipped **tab-separated, unquoted** files and dated monthly snapshots.
+
+This is the recommended scalable alternative. A user-selected **immutable dated snapshot**, its original source location, all three SHA256 values and the original 42,111-species frame identity must be recorded **before** import. A mutable `latest` alias is *not* a frozen scientific input. The importer maps included taxon ancestry without colour selection, retains all qualifying research-grade georeferenced licensed photos (including several photos per observation), and emits exactly the same complete per-species source manifests as the original FCP location-blind measurement firewall. Incomplete/zero-photo taxa remain in the census. Old measured flower-colour data are never read or used as a source.
+
+Example using **already downloaded, checksum-frozen** snapshot files (the paths and SHA are placeholders for the actual pinned snapshot; no unverified hash is provided as genuine):
+
+```bash
+python scripts/acquisition/import_inat_open_data_snapshot.py \
+  --species-frame /trusted/frozen_42111_species.csv \
+  --taxa /trusted/snapshot/taxa.csv.gz \
+  --observations /trusted/snapshot/observations.csv.gz \
+  --photos /trusted/snapshot/photos.csv.gz \
+  --snapshot-date YYYY-MM-DD \
+  --taxa-sha256 VERIFIED_TAXA_SHA256 \
+  --observations-sha256 VERIFIED_OBSERVATIONS_SHA256 \
+  --photos-sha256 VERIFIED_PHOTOS_SHA256 \
+  --shards 128 --expected-species 42111 \
+  --output-root /trusted/fcp_fresh_bulk_source
+```
+
+`fcp_pipeline.fcp_fresh_study.freeze` verifies that all 128 shards have a consistent provider, snapshot date, input SHA256 values and no modified photo ledger; mixing API and bulk-source manifests is prohibited. Its date field means the original **Open Dataset snapshot date**, not an API `created_d2` observation filter. An ingestion job may demand extensive disk and compute resources; the bulk metadata are **not yet downloaded or processed** and the full census remains incomplete.
+
 ## What is still NOT accomplished
 
 1. Source census finished across all 42,111 nominal taxa: **NO**.
