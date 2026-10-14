@@ -10,6 +10,7 @@ on:
       - docs/POLYMORPHISM_NEW_PHYTOLOGIST_UNIFIED_COVER_LETTER_20261014.md
       - tests/test_np_unified_manuscript_20261014.py
       - tests/test_np_ecological_balance_20261014.py
+      - tests/test_np_global_photo_diversity_20261014.py
       - docs/POLYMORPHISM_SUPPORTING_INFORMATION_UNIFIED_20261014.md
       - scripts/analysis/build_np_ecological_balance_bridge_20261014.py
       - results/np_unified_20261014/**
@@ -33,7 +34,7 @@ jobs:
       - name: Assert source-confirmed science and New Phytologist format
         run: |
           python scripts/analysis/build_np_ecological_balance_bridge_20261014.py --check
-          python -m pytest -q tests/test_np_unified_manuscript_20261014.py tests/test_np_ecological_balance_20261014.py
+          python -m pytest -q tests/test_np_unified_manuscript_20261014.py tests/test_np_ecological_balance_20261014.py tests/test_np_global_photo_diversity_20261014.py
       - name: Print bounded editorial readiness
         run: |
           python - <<'PY'
