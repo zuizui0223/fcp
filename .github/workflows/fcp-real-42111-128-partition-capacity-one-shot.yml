@@ -1,0 +1,127 @@
+# Source-only capacity quantification. Does not fetch photos or a 36-GB provider tar.
+# Trigger only on this one-shot workflow's original commit/push.
+name: FCP original 42111 verified 128-worker photo capacity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-real-42111-128-partition-capacity-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-20260927-real-93m-photo-source-capacity-one-shot
+  cancel-in-progress: false
+
+jobs:
+  verify-128-worker-capacity-from-original-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out byte-pinned, regression-tested original capacity code
+        uses: actions/checkout@v4
+        with:
+          ref: 2bc8a530e5f09276255f2d5907b7a2bb459fcea3
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify source/audit runs truly succeeded and belong to frozen study
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/$GITHUB_REPOSITORY/actions/runs/38749681793 > "$RUNNER_TEMP/fcp_source_run.json"
+          gh api repos/$GITHUB_REPOSITORY/actions/runs/38818718877 > "$RUNNER_TEMP/fcp_independent_audit_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])
+          source=json.loads((p/'fcp_source_run.json').read_text())
+          audit=json.loads((p/'fcp_independent_audit_run.json').read_text())
+          if (source.get('id')!=38749681793
+              or source.get('conclusion')!='success'
+              or source.get('head_sha')!='b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3'
+              or source.get('head_branch')!='analysis/fcp-fresh-uncapped-zero-20261015'
+              or source.get('run_attempt')!=1
+              or audit.get('id')!=38818718877
+              or audit.get('conclusion')!='success'
+              or audit.get('head_sha')!='52d5acf74c0eafb3f551b960b3e5464d9e536fee'
+              or audit.get('run_attempt')!=1):
+              raise SystemExit('No exact verified 2026-09-27 original-source count and independent audit')
+          print('FCP_42111_PINNED_REAL_SOURCE_AND_AUDIT_VERIFIED')
+          PY
+
+      - name: Download ONLY exact successful source-count and independent audit artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_counts" "$RUNNER_TEMP/fcp_audit" "$RUNNER_TEMP/fcp_capacity"
+          gh run download 38749681793 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours \
+            --dir "$RUNNER_TEMP/fcp_counts"
+          gh run download 38818718877 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-42111-source-photo-opportunity-INDEPENDENT-AUDIT-not-flower-colours \
+            --dir "$RUNNER_TEMP/fcp_audit"
+
+      - name: Run full original-source 128-partition counts without opening one photograph
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os,subprocess,sys
+          from pathlib import Path
+          temp=Path(os.environ['RUNNER_TEMP'])
+          def only(folder,name):
+              paths=list((temp/folder).rglob(name))
+              if len(paths)!=1:
+                  raise SystemExit(f'Expected exactly one {name}: {len(paths)}')
+              return str(paths[0])
+          subprocess.run([sys.executable,'scripts/acquisition/plan_fcp_real_42111_partition_capacity.py',
+                          '--counts',only('fcp_counts','all_42111_species_photo_opportunity_counts.csv'),
+                          '--independent-audit',only('fcp_audit','all_42111_photo_opportunity_audit.json'),
+                          '--output-dir',str(temp/'fcp_capacity')],
+                         check=True)
+          PY
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          base=Path(os.environ['RUNNER_TEMP'])/'fcp_capacity'
+          receipt=json.loads((base/'source_128_partition_capacity_receipt.json').read_text())
+          with (base/'source_128_partition_photo_capacity.csv').open() as h:
+              rows=list(csv.DictReader(h))
+          if (receipt['species']!=42111 or receipt['photos']!=93209351
+              or receipt['status']!='CAPACITY_ESTIMATE_ONLY_ORIGINAL_PHOTO_IDS_NOT_FROZEN'
+              or receipt['source_photo_partitions']!=128 or len(rows)!=128
+              or sum(int(r['source_species']) for r in rows)!=42111
+              or sum(int(r['source_photo_ids']) for r in rows)!=93209351
+              or receipt['nominal_photo_work_units']!=1456459
+              or receipt['largest_partition_photo_ids']!=1260277
+              or receipt['smallest_partition_photo_ids']!=405702
+              or receipt['largest_partition_id']!=5
+              or receipt['source_photo_id_manifests_complete'] is not False
+              or receipt['actual_original_ROI_v4_photo_measurements_completed'] is not False
+              or receipt['H2_W_999world_or_ecological_results'] is not False):
+              raise SystemExit('Real source load plan/biological firewall mismatch')
+          print('FCP_REAL_128_SHARD_CAPACITY_VERIFIED',json.dumps({
+              'taxa':42111,'photos':93209351,'partitions':128,
+              'unmeasured_compute_work_units_64':1456459,
+              'source_photo_IDs_frozen':False},sort_keys=True))
+          PY
+
+      - name: Retain independently audited real 128-partition capacity ledger
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-20260927-real-128-partition-capacity-not-colours
+          retention-days: 60
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/fcp_capacity/source_128_partition_photo_capacity.csv
+            ${{ runner.temp }}/fcp_capacity/source_128_partition_capacity_receipt.json
