@@ -85,3 +85,50 @@ def test_verified_four_table_scratch_is_evicted_only_after_full_import(tmp_path)
     assert len(dirs)==4
     assert json.loads((out/'complete_42111_metadata_source/bulk_source_receipt.json').read_text())[
         'pruned_pinned_temporary_metadata_after_full_scan'] is True
+
+
+def test_aborted_long_stage_persists_true_in_progress_phase(tmp_path, monkeypatch):
+    # Reproduces the 2026-10-15 355-minute GitHub-hosted timeout. The saved
+    # source receipt must NOT falsely claim that only tar extraction happened.
+    from scripts.acquisition.execute_fcp_42111_census import run
+    import scripts.acquisition.execute_fcp_42111_census as module
+    receipt=tmp_path/'full_source_execution_receipt.json'
+    status={'status':'FAILED_OR_UNFINISHED_SOURCE_METADATA_NOT_SCIENTIFIC_RESULTS',
+            'last_completed_stage':'extract_all_four_and_pin_exact_SHA256',
+            'complete_metadata_census':False,
+            'complete_original_images_measured':False}
+    def persist():
+        temp=receipt.with_suffix('.json.pending')
+        temp.write_text(json.dumps(status))
+        temp.replace(receipt)
+    def interrupted(*args, **kwargs):
+        observed=json.loads(receipt.read_text())
+        assert observed['stage']=='scan_entire_dated_source_and_emit_all_photo_manifests'
+        assert observed['stage_in_progress'] is True
+        assert observed['last_completed_stage']=='extract_all_four_and_pin_exact_SHA256'
+        raise KeyboardInterrupt('simulation: hosted runner SIGTERM/timeout')
+    monkeypatch.setattr(module.subprocess,'run',interrupted)
+    with pytest.raises(KeyboardInterrupt):
+        run(['never-executed'],cwd=tmp_path,
+            stage='scan_entire_dated_source_and_emit_all_photo_manifests',
+            status=status,persist_stage=persist)
+    observed=json.loads(receipt.read_text())
+    assert observed['complete_metadata_census'] is False
+    assert observed['complete_original_images_measured'] is False
+    assert observed['stage_in_progress'] is True
+    assert not receipt.with_suffix('.json.pending').exists()
+
+
+def test_successful_long_stage_persists_completed_stage(tmp_path,monkeypatch):
+    from scripts.acquisition.execute_fcp_42111_census import run
+    import scripts.acquisition.execute_fcp_42111_census as module
+    receipt=tmp_path/'full_source_execution_receipt.json'
+    status={'last_completed_stage':'extract_all_four_and_pin_exact_SHA256'}
+    def persist():
+        receipt.write_text(json.dumps(status))
+    monkeypatch.setattr(module.subprocess,'run',lambda *args,**kwargs:None)
+    run(['a-noop'],cwd=tmp_path,stage='scan_entire_dated_source_and_emit_all_photo_manifests',
+        status=status,persist_stage=persist)
+    observed=json.loads(receipt.read_text())
+    assert observed['stage_in_progress'] is False
+    assert observed['last_completed_stage']==observed['stage']
