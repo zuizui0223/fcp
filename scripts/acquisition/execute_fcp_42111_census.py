@@ -93,7 +93,9 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             species:int=42111,shards:int=128,workers:int=128,
             skip_package:bool=False,required_scratch_gb:int=80,
             release_verified_temporary_tables:bool=False,
-            stage_only:bool=False)->dict:
+            stage_only:bool=False,photo_counts_only:bool=False)->dict:
+    if stage_only and photo_counts_only:
+        raise ValueError('Photo-count-only stage is not a resumable SQLite photo-ID stage')
     if workers<1 or shards<1 or species<1:
         raise ValueError('Shards, workers and species must be positive')
     if work.exists() and any(work.iterdir()):
@@ -176,9 +178,36 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             cmd.append('--prune-verified-temporary-tables')
         if stage_only:
             cmd.append('--stage-sqlite-only')
-        run(cmd,cwd=repo,stage=('scan_source_once_and_stage_sqlite_for_sharded_emission'
+        if photo_counts_only:
+            cmd.append('--photo-counts-only')
+        run(cmd,cwd=repo,stage=('scan_complete_source_and_count_all_species_photo_opportunities'
+                               if photo_counts_only else
+                               'scan_source_once_and_stage_sqlite_for_sharded_emission'
                                if stage_only else
-                               'scan_entire_dated_source_and_emit_all_photo_manifests'),status=record,persist_stage=store)
+                               'scan_entire_dated_source_and_emit_all_photo_manifests'),
+            status=record,persist_stage=store)
+        if photo_counts_only:
+            counts=json.loads((dest/'photo_opportunity_counts_only_receipt.json').read_text(encoding='utf-8'))
+            table=dest/'all_42111_species_photo_opportunity_counts.csv'
+            if (counts.get('status')!='COMPLETE_REAL_SOURCE_PHOTO_COUNTS_ONLY_NO_PHOTO_ID_FIREWALL'
+                    or counts.get('source_species')!=species
+                    or counts.get('source_input_sha256')!=h
+                    or counts.get('counts_file_sha256')!=sha256_stream(table)
+                    or counts.get('all_original_photo_ID_manifests_frozen') is not False
+                    or counts.get('source_image_pixels_opened') is not False):
+                raise ValueError('Dated provider source counts are incomplete or malformed')
+            record.update(status='COMPLETE_REAL_42111_PHOTO_OPPORTUNITY_COUNTS_ONLY_NOT_FULL_SOURCE',
+                          complete_metadata_census=False,
+                          source_photo_opportunity_counts_completed=True,
+                          photo_id_manifest_universe_frozen=False,
+                          n_frozen_source_photo_opportunities=counts['n_target_taxon_licensed_photos'],
+                          photo_counts_csv_sha256=counts['counts_file_sha256'],
+                          n_taxa_with_source_photos=counts['n_taxa_with_source_photos'],
+                          n_taxa_without_source_photos=counts['n_taxa_without_source_photos'],
+                          full_pixel_measurement_complete=False,
+                          biological_h2_and_environment_inference_ready=False)
+            store()
+            return record
         if stage_only:
             staged=json.loads((dest/'fcp_staged_sqlite_source_receipt.json').read_text(encoding='utf-8'))
             if (staged.get('status')!='SOURCE_SQLITE_STAGED_SHARDS_NOT_YET_EMITTED'
@@ -270,6 +299,8 @@ def main(argv=None)->int:
     ap.add_argument('--skip-package',action='store_true')
     ap.add_argument('--stage-only',action='store_true',
                     help='Stage full source once on durable storage, then emit photo manifests by shard')
+    ap.add_argument('--photo-counts-only',action='store_true',
+                    help='Scan every eligible original source photo and count each species; NOT full photo-ID census nor flower colour')
     ap.add_argument('--minimum-free-disk-gb',type=int,default=80)
     ap.add_argument('--release-verified-temporary-tables',action='store_true',
                     help='Reclaim only SHA-verified 4-table scratch copies after full source loading')
@@ -278,7 +309,7 @@ def main(argv=None)->int:
                 species=args.expected_species,shards=args.shards,workers=args.worker_partitions,
                 skip_package=args.skip_package,required_scratch_gb=args.minimum_free_disk_gb,
                 release_verified_temporary_tables=args.release_verified_temporary_tables,
-                stage_only=args.stage_only)
+                stage_only=args.stage_only,photo_counts_only=args.photo_counts_only)
     print('FCP_ALL_42111_SOURCE_EXECUTION_RESULT',json.dumps(out,ensure_ascii=False,sort_keys=True))
     return 0
 
