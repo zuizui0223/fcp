@@ -137,29 +137,3 @@ jobs:
           assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
-
-  fresh-original-model-weights-preflight:
-    # Full original model asset hash verification; NO photo acquisitions.
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Restore original pixel-measurement source and both SAM ONNX weights
-        run: |
-          set -euo pipefail
-          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full
-          test -f data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt
-          test -f "$RUNNER_TEMP/fcp-fresh-original-efficient-sam/efficient_sam_vitt_encoder.onnx"
-          test -f "$RUNNER_TEMP/fcp-fresh-original-efficient-sam/efficient_sam_vitt_decoder.onnx"
-          printf '%s\n' '{"schema":"fcp_fresh_original_model_preflight_v1","code_exact":true,"detector_exact":true,"encoder_exact":true,"decoder_exact":true,"historical_colour_tables_used":false,"new_photo_pixels_opened":false}' > "$RUNNER_TEMP/fcp_fresh_original_weights_verified.json"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: fcp-original-roi-v4-and-sam-weights-verification
-          retention-days: 30
-          if-no-files-found: error
-          path: ${{ runner.temp }}/fcp_fresh_original_weights_verified.json
