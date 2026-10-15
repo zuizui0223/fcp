@@ -128,6 +128,101 @@ jobs:
           print("FCP_NEW_PRODUCTION_ORIGINAL_PHOTO_BATCH",d["last_complete_unit"],flush=True)
           PY
 
+      - name: Audit exact sealed first-photo CSV and source ID coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import hashlib
+          import itertools
+          import json
+          import os
+          from pathlib import Path
+          import pandas as pd
+          from fcp_pipeline.fcp_allphotos import sha256_file
+          from fcp_pipeline.fcp_fresh_study import WORKER, validate_method_attestation
+
+          root=Path(os.environ["FCP_BASE"])
+          admitted=json.loads((root/"admission/source_admission_receipt.json").read_text())
+          progress=json.loads((root/"real_partition_000/original_photo_work_queue_progress.json").read_text())
+          sealed=root/"real_partition_000/sealed_terminal_batches"
+          csvs=sorted(sealed.glob("terminal_*.csv"))
+          jsons=sorted(sealed.glob("terminal_*.json"))
+          if len(csvs)!=1 or len(jsons)!=1 or csvs[0].stem!=jsons[0].stem:
+              raise ValueError("Expected exactly one genuine sealed CSV+JSON work-unit pair")
+          receipt=json.loads(jsons[0].read_text())
+          method=validate_method_attestation(sealed/"frozen_method_attestation.json")
+          if receipt.get("method")!=method or progress.get("frozen_original_method")!=method:
+              raise ValueError("ROI-v4 source/model fingerprint changed or is absent")
+          if (admitted.get("status")!="FULL_SOURCE_PHOTO_WORK_PLAN_READY_NO_PIXELS_YET"
+              or admitted.get("source_species")!=42111
+              or admitted.get("worker_partitions")!=128
+              or admitted.get("source_photo_ids")!=progress.get("all_frozen_source_photo_ids")
+              or admitted.get("source_firewall_sha256")!=progress.get("source_firewall_sha256")):
+              raise ValueError("Sealed batch does not belong to complete admitted original source")
+          if (progress.get("n_processed_in_this_invocation")!=1
+              or progress.get("invocation_partition")!=0
+              or progress.get("full_study_original_photo_measurement_complete") is not False
+              or progress.get("n_pending_work_units",0)<1
+              or receipt.get("partition")!=0 or receipt.get("batch")!=0
+              or receipt.get("status")!="COMPLETE_WORK_UNIT"
+              or receipt.get("full_study_complete") is not False
+              or receipt.get("reused_historical_measurement_csv") is not False
+              or receipt.get("image_bytes_persisted") is not False):
+              raise ValueError("Attempted to count a partial, historical, or non-first original work unit")
+          with (root/"source/frozen_location_blind_all_photo_firewall/worker_partition_000.csv").open(newline="") as f:
+              source=list(itertools.islice(csv.DictReader(f),64))
+          first_ids=[r["measurement_id"] for r in source]
+          if not first_ids or len(set(first_ids))!=len(first_ids):
+              raise ValueError("First original source work unit is empty or duplicated")
+          expected_worker_hash=hashlib.sha256(
+              pd.DataFrame(source,columns=list(WORKER)).to_csv(index=False).encode()
+          ).hexdigest()
+          with csvs[0].open(newline="",encoding="utf-8") as f:
+              rows=list(csv.DictReader(f))
+          terminal_ids=[r["measurement_id"] for r in rows]
+          classes=sum(r.get("measurement_status")=="classified_four_state_morph" for r in rows)
+          failed=sum(r.get("measurement_status")=="image_acquisition_failed" for r in rows)
+          n=len(rows)
+          if (n!=len(source) or len(set(terminal_ids))!=n
+              or set(terminal_ids)!=set(first_ids)
+              or receipt.get("n_source_photo_ids")!=n
+              or receipt.get("n_terminal_photo_ids")!=n
+              or receipt.get("n_classifiable")!=classes
+              or receipt.get("n_acquisition_failed")!=failed
+              or classes+failed>n
+              or receipt.get("selected_source_worker_sha256")!=expected_worker_hash
+              or receipt.get("terminal_csv_sha256")!=sha256_file(csvs[0])
+              or progress.get("last_complete_unit",{}).get("terminal_csv_sha256")!=sha256_file(csvs[0])):
+              raise ValueError("New measured original photo IDs, outcomes, or sealed checksums disagree")
+          audit={
+              "schema":"fcp_first_genuine_original_photo_unit_verification_v1",
+              "status":"VALIDATED_ONE_REAL_PHOTO_WORK_UNIT_NOT_FULL_CENSUS",
+              "original_source_photo_ids":admitted["source_photo_ids"],
+              "n_terminal_photo_ids":n,
+              "n_classifiable":classes,
+              "n_acquisition_failed":failed,
+              "n_roi_uncertain":n-classes-failed,
+              "n_pending_work_units":progress["n_pending_work_units"],
+              "source_firewall_sha256":admitted["source_firewall_sha256"],
+              "archive_sha256":admitted["original_archive_sha256"],
+              "four_original_table_sha256":admitted["four_original_table_sha256"],
+              "method":method,
+              "terminal_csv_sha256":sha256_file(csvs[0]),
+              "terminal_json_sha256":sha256_file(jsons[0]),
+              "full_photo_census_complete":False,
+              "h2_null_or_environment_inference_complete":False
+          }
+          report=root/"real_partition_000/first_genuine_photo_unit_verified.json"
+          report.write_text(json.dumps(audit,indent=2,sort_keys=True)+"\n")
+          print("FCP_FIRST_REAL_SOURCE_PHOTO_UNIT_AUDITED",json.dumps({
+              k:audit[k] for k in ("original_source_photo_ids","n_terminal_photo_ids",
+                                   "n_classifiable","n_acquisition_failed","n_roi_uncertain",
+                                   "n_pending_work_units")
+          },sort_keys=True),flush=True)
+          PY
+
       - name: Retain real source-bound photo terminals and counts
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
@@ -138,6 +233,7 @@ jobs:
           path: |
             /tmp/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
             /tmp/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
+            /tmp/fcp_pr200_full_source_first_photo/real_partition_000/first_genuine_photo_unit_verified.json
             /tmp/fcp_pr200_full_source_first_photo/real_partition_000/sealed_terminal_batches/
 
       - name: Retain failures as diagnostics only
