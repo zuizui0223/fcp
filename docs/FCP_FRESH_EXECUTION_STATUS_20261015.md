@@ -145,6 +145,18 @@ The dated source bundle importer now requires a preverified `fcp_source_archive_
 
 The current durable audit is `results/fcp_fresh_source_audit_20261015/source_receipt.json`. It distinguishes 96 real images measured in an *isolated method pilot* from **zero full-study images assembled** behind the mandatory all-42,111-species source census completion gate.
 
+## All 42,111 taxa: real dated source census execution LAUNCHED, NOT COMPLETE
+
+[One-shot GitHub Actions run 38676167958](https://github.com/zuizui0223/fcp/actions/runs/38676167958) was started against the exact publicly dated `metadata/inaturalist-open-data-20260927.tar.gz` (**35,966,549,880 bytes**) and the original frozen 42,111-taxon frame (SHA256 `5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc`). A real runner filesystem check confirmed about **91,984,674,816 bytes free** (not the generic nominal 14-GB standard-runner SSD described in documentation). This run is a **real data transfer/analysis job**, not a synthetic test or claimed completed 42,111-taxon source.
+
+A source-complete receipt is issued **only if** the full archive hash/length validate; all four original metadata TSVs extract and pin; the original-photo lineage/observation/creator/license tables are scanned with full coverage; all 42,111 photo-manifest species checkpoints report complete; and the 128-way source-blind acquisition/ROI worker firewall freezes every original eligible photo ID with no per-species or global photo cap. Raw conflicting photo IDs across different observations are **quarantined by metadata ID**, not resolved by colour or appearance. The exact uppercase/lowercase provider photo URL extension is **preserved** to avoid the two original pilot failures. Photo-to-observation matching now uses batched disk-backed SQL instead of a separate Python database lookup for every raw photo. Even a successful complete metadata source is **not** a completed original image-colour result.
+
+The execution record and all-species photo opportunity counts will be saved as workflow artifacts **only on successful completion**, and failure/partial stages are separately saved with an explicit non-scientific receipt. The source run is deliberately one-shot: its download job was removed from recurring PR CI immediately after it started to avoid repeated 36-GB provider transfers. Original 96-image pilot results remain isolated and cannot satisfy any photo in this full-study measurement census without independently passing the full frozen remeasurement firewall.
+
+For any complete source, `scripts/acquisition/plan_fcp_full_measurements.py` enumerates **every** original photo into 128 partitions and configurable 64-photo work units (batch size is a temporary compute unit, not a species or sampling cap). It verifies exact original photo IDs, partition order, source-blind worker hashes and unaltered ROI-v4 terminal receipts before marking a batch resumably complete. There is no terminal-result completion or ecological H2/W claim until every source image has one original measurement status and the full reassembly and 999-world null gates have passed.
+
+**Latest source code gate:** 51 passing source-only synthetic tests including the four-table full-pipeline integration, uppercase S3 extensions, cross-observation photo collision and distributed resumption. These do not constitute biological sample-size, spatial climate or soil findings.
+
 ## What is still NOT accomplished
 
 1. Source census finished across all 42,111 nominal taxa: **NO**.
