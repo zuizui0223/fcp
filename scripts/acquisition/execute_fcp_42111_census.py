@@ -13,6 +13,7 @@ status; no partial metadata result is published as a frozen source census.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -101,6 +102,13 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
     try:
         if species==42111 and sha256_stream(frame)!=FRAME_SHA256:
             raise ValueError('Full census species opportunity frame SHA256 mismatched')
+        with frame.open('r',encoding='utf-8',newline='') as handle:
+            reader=csv.DictReader(handle)
+            if not {'inat_taxon_id','species'}.issubset(reader.fieldnames or ()):
+                raise ValueError('Complete frozen species frame lacks required taxon fields')
+            actual_species=sum(1 for _ in reader)
+        if actual_species!=species:
+            raise ValueError(f'Frozen opportunity frame count {actual_species} differs from declared {species}')
         original=source_archive
         if original is None:
             original=download_exact_archive(work/'source'/'inaturalist-open-data-20260927.tar.gz',record,
@@ -172,7 +180,7 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
         run([sys.executable,'-m','fcp_pipeline.fcp_fresh_study','freeze',
              '--source-species',str(frame),'--metadata-root',str(dest),
              '--shards',str(shards),'--worker-partitions',str(workers),
-             '--outdir',str(firewall)],
+             '--expected-species',str(species),'--outdir',str(firewall)],
              cwd=repo,stage='seal_every_real_photo_ID_without_opening_a_pixel',status=record)
         fz=json.loads((firewall/'fresh_study_freeze.json').read_text())
         assert fz['status']=='FRESH_BLIND_METADATA_FROZEN'
