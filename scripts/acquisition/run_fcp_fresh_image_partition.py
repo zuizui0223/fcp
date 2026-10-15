@@ -12,7 +12,9 @@ import hashlib
 import importlib.util
 import json
 import math
+import os
 import re
+import threading
 import time
 import subprocess
 import sys
@@ -38,6 +40,61 @@ from fcp_pipeline.fcp_allphotos import sha256_file
 ACQ=('measurement_id','image_filename','photo_url_large','photo_license')
 MAX_IMAGE_BYTES=12*1024*1024
 DEFAULT_PROVIDER_PAUSE_SECONDS=1.1
+_LAST_PROVIDER_REQUEST_MONOTONIC = None
+_PROVIDER_GATE_MUTEX = threading.Lock()
+
+class ProviderRateGateError(RuntimeError):
+    """Global request limiter is unavailable; never record this as photo missingness."""
+
+
+def _pace_provider_request() -> None:
+    """Space real S3 attempts across batches/retries; optionally across processes.
+
+    FCP_PROVIDER_GLOBAL_RATE_FILE coordinates cooperating workers on ONE host or
+    correctly locked shared POSIX filesystem. It is NOT a distributed rate
+    service and cannot govern other users or independent remote hosts.
+    """
+    global _LAST_PROVIDER_REQUEST_MONOTONIC
+    shared = os.environ.get('FCP_PROVIDER_GLOBAL_RATE_FILE')
+    if shared:
+        try:
+            import fcntl
+            path = Path(shared)
+            if not path.is_absolute():
+                raise ProviderRateGateError('Shared original-photo rate file must be absolute')
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open('a+', encoding='ascii') as handle:
+                fcntl.flock(handle, fcntl.LOCK_EX)
+                handle.seek(0)
+                raw = handle.read().strip()
+                now = time.time()
+                if raw:
+                    last = float(raw)
+                    if not math.isfinite(last) or last-now > 5:
+                        raise ProviderRateGateError('Invalid shared provider timestamp or host clock drift')
+                    delay = last + DEFAULT_PROVIDER_PAUSE_SECONDS - now
+                    if delay > 0:
+                        time.sleep(delay)
+                handle.seek(0)
+                handle.truncate()
+                handle.write(repr(time.time())+'\n')
+                handle.flush()
+                os.fsync(handle.fileno())
+                fcntl.flock(handle, fcntl.LOCK_UN)
+        except ProviderRateGateError:
+            raise
+        except (OSError, ValueError, ImportError) as exc:
+            raise ProviderRateGateError('Shared original-photo rate gate unavailable') from exc
+        return
+    with _PROVIDER_GATE_MUTEX:
+        now = time.monotonic()
+        if _LAST_PROVIDER_REQUEST_MONOTONIC is not None:
+            delay = _LAST_PROVIDER_REQUEST_MONOTONIC + DEFAULT_PROVIDER_PAUSE_SECONDS - now
+            if delay > 0:
+                time.sleep(delay)
+        _LAST_PROVIDER_REQUEST_MONOTONIC = time.monotonic()
+
+
 _ORIGINAL_OBJECT=re.compile(r'^/photos/[0-9]+/large\.(?:jpg|jpeg|png)$',re.I)
 
 
@@ -55,6 +112,9 @@ def image_loader(url:str)->bytes:
     req=Request(url,headers={'User-Agent':'fcp-fresh-photo-measurement/1.0 (github.com/zuizui0223/fcp)',
                             'Accept':'image/*'})
     for attempt in range(3):
+        # Before EVERY HTTP attempt, including retries and batch-boundary photos.
+        # A broken global rate gate fails the job, not an individual photo.
+        _pace_provider_request()
         try:
             with urlopen(req,timeout=45) as response:
                 buf=response.read(MAX_IMAGE_BYTES+1)
@@ -180,15 +240,17 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
         work=Path(tmp)
         images=work/'images';images.mkdir()
         okay=[]
-        for index,r in enumerate(acq.itertuples(index=False)):
-            if loader is None and index:
-                time.sleep(DEFAULT_PROVIDER_PAUSE_SECONDS)
+        for r in acq.itertuples(index=False):
             try:
                 payload=(loader or image_loader)(str(r.photo_url_large))
                 if not payload:raise ValueError('empty image')
                 (images/str(r.image_filename)).write_bytes(payload)
                 okay.append({'measurement_id':r.measurement_id,'image_filename':r.image_filename,
                              'photo_license':r.photo_license})
+            except ProviderRateGateError:
+                # System-wide provider access unavailable: STOP, never misclassify
+                # all source photos as terminal missing/failed images.
+                raise
             except Exception as exc:
                 failures.append({'measurement_id':r.measurement_id,'morph':'mixed_uncertain',
                                  'measurement_status':'image_acquisition_failed',
@@ -211,6 +273,8 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
                 'n_acquisition_failed':len(failures),
                 'original_provider_rate_limit_seconds_between_photos':(
                     DEFAULT_PROVIDER_PAUSE_SECONDS if loader is None else None),
+                'provider_cross_process_rate_gate_configured':(
+                    bool(os.environ.get('FCP_PROVIDER_GLOBAL_RATE_FILE')) if loader is None else None),
                 'bounded_provider_original_image_bytes':MAX_IMAGE_BYTES,
                 'photo_failures_preserved_not_replaced':True,
                 'selected_source_worker_sha256':hashlib.sha256(worker.to_csv(index=False).encode()).hexdigest(),
