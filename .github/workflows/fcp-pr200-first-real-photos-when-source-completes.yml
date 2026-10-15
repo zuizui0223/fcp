@@ -20,6 +20,8 @@ jobs:
       ${{
         github.event.workflow_run.id == 38699975166 &&
         github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' &&
+        github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' &&
+        github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
         github.event.workflow_run.conclusion == 'success'
       }}
     runs-on: ubuntu-24.04
@@ -62,7 +64,7 @@ jobs:
             --dir "$FCP_BASE/archive"
           mapfile -t archives < <(find "$FCP_BASE/archive" -type f -name '*.tar.gz')
           test "${#archives[@]}" -eq 1
-          python - "\${archives[0]}" "$FCP_BASE" <<'PY'
+          python - "${archives[0]}" "$FCP_BASE" <<'PY'
           import sys,shutil
           from pathlib import Path
           file=Path(sys.argv[1])
@@ -71,7 +73,7 @@ jobs:
           if free < max(10_000_000_000,2*file.stat().st_size+3_000_000_000):
               raise SystemExit("Need a persistent larger runner for complete source admission")
           PY
-          tar -xzf "\${archives[0]}" -C "$FCP_BASE/source"
+          tar -xzf "${archives[0]}" -C "$FCP_BASE/source"
 
       - name: Admit 42,111 species and EVERY original photo ID without pixel opening
         shell: bash
