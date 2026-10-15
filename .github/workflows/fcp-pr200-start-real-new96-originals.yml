@@ -1,0 +1,153 @@
+name: FCP PR200 START measuring new real originals now
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-pr200-start-real-new96-originals.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-pr200-real-new96-source-offset24
+  cancel-in-progress: false
+
+jobs:
+  actual-real-original-pixels-disjoint-calibration:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: ${{ runner.temp }}/fcp-pr200-new-real-original96
+      SAM: ${{ runner.temp }}/fcp-original-efficient-sam
+    steps:
+      - name: Checkout real source original-pixel worker
+        uses: actions/checkout@v4
+        with:
+          ref: 1e201589e16e342ab96bf907f3a47e6f9d373b60
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original ROI-v4 dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow
+          python -m pip install -r requirements-atlas-roi-v4.txt
+
+      - name: Get original source metadata and certify 96 fresh photo IDs disjoint from earlier pilot
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/meta"
+          gh run download 38639092021 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-fresh-next8-species-source-20261015 --dir "$ROOT/meta"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from scripts.acquisition.run_real_source_roi_pilot import selected_metadata
+          root=Path(os.environ['ROOT'])
+          old,past=selected_metadata(root/'meta',24,offset_each=0)
+          new,source=selected_metadata(root/'meta',24,offset_each=24)
+          old_ids={str(x['photo_id']) for x in old}
+          new_ids={str(x['photo_id']) for x in new}
+          assert len(old_ids)==len(new_ids)==96 and not(old_ids & new_ids)
+          assert len(source['completed_taxa_available'])==4
+          assert source['source_artifact_id']==11928883989
+          assert source['source_snapshot_date']=='2026-10-14'
+          assert source['selection_outcome_blind']
+          assert source['pilot_only_offset_each']==24
+          receipt={'schema':'fcp_new_original_96_metadata_preflight_v1',
+                   'status':'SELECTED_96_UNMEASURED_BY_PREVIOUS_PILOT_SOURCE_PHOTO_IDS',
+                   'new_original_photo_ids':96,'previous_pilot_photo_ids':96,
+                   'intersection':0,'source_taxa':source['completed_taxa_available'],
+                   'source_hash':source['selected_photo_id_pairs_sha256'],
+                   'source_snapshot_date':'2026-10-14',
+                   'no_old_photo_colour_outcomes_read':True,
+                   'full_42111_source_census_complete':False}
+          (root/'source_preflight.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print('FCP_NEW_REAL_ORIGINAL_PHOTO_IDS_DISJOINT',json.dumps(receipt),flush=True)
+          PY
+
+      - name: Bootstrap SHA-frozen 1499-species original ROI-v4 and EfficientSAM
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
+
+      - name: ACTUALLY download and measure 96 NEW original photo pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/run_real_source_roi_pilot.py \
+            --source-metadata-root "$ROOT/meta" \
+            --output-root "$ROOT/results" \
+            --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --original-efficient-sam "$SAM" \
+            --per-complete-species 24 --offset-each 24 --delay-seconds 1.1
+
+      - name: Independently verify real-new-photo ID terminals and model hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          import pandas as pd
+          from fcp_pipeline.fcp_allphotos import sha256_file
+          root=Path(os.environ['ROOT'])
+          pre=json.loads((root/'source_preflight.json').read_text())
+          csv=root/'results/real_original_roi_v4_new_photo_pilot.csv'
+          r=json.loads((root/'results/real_original_roi_v4_new_photo_pilot_receipt.json').read_text())
+          rows=pd.read_csv(csv,dtype={'photo_id':str,'measurement_id':str})
+          assert r['status']=='COMPLETE_REAL_ORIGINAL_PHOTO_TECHNICAL_PILOT_NOT_42111_CENSUS'
+          assert r['source']['pilot_only_offset_each']==24
+          assert r['source']['selected_photo_id_pairs_sha256']==pre['source_hash']
+          assert r['n_real_source_original_photo_ids']==96
+          assert r['n_original_historical_colour_rows_loaded']==0
+          assert r['eligible_for_main_fcp_W_null_or_climate_inference'] is False
+          assert r['full_source_census_complete'] is False
+          assert len(rows)==96 and not rows.photo_id.duplicated().any()
+          assert sha256_file(csv)==r['real_fresh_photo_terminal_csv_sha256']
+          assert r['n_real_original_images_processed_by_frozen_roi_v4']>=1
+          assert int(rows.measurement_status.eq('classified_four_state_morph').sum())==r['n_real_photo_colour_classified']
+          report={'status':'Genuine original pixels measured; QUARANTINED technical cohort, NOT full FCP census',
+                  'n_selected_new_photo_ids':96,
+                  'n_real_pixels_measured':r['n_real_original_images_processed_by_frozen_roi_v4'],
+                  'n_classifiable':r['n_real_photo_colour_classified'],
+                  'n_acquisition_failed':r['n_original_provider_download_failures'],
+                  'sealed_terminal_sha256':sha256_file(csv),
+                  'frozen_original_method':r['original_roi_v4_method_hashes'],
+                  'biological_full_source_complete':False}
+          (root/'new_original_pixel_measurement_audit.json').write_text(json.dumps(report,indent=2)+'\n')
+          print('FCP_ACTUAL_NEW_ORIGINAL_PIXELS_MEASURED',json.dumps(report),flush=True)
+          PY
+
+      - name: Preserve real photographic terminal results and method fingerprints
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-new96-unique-original-pixels-offset24-technical-not-full
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            ${{ env.ROOT }}/source_preflight.json
+            ${{ env.ROOT }}/new_original_pixel_measurement_audit.json
+            ${{ env.ROOT }}/results/real_original_roi_v4_new_photo_pilot.csv
+            ${{ env.ROOT }}/results/real_original_roi_v4_new_photo_pilot_receipt.json
+
+      - name: Retain preliminary diagnostics if real pixel run fails
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-new96-source-preflight-FAILED-NOT-RESULT
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            ${{ env.ROOT }}/source_preflight.json
+            ${{ env.ROOT }}/results/real_original_roi_v4_new_photo_pilot_receipt.json
