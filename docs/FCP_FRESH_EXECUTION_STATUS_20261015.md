@@ -121,6 +121,12 @@ python scripts/acquisition/import_inat_open_data_snapshot.py \
 
 `fcp_pipeline.fcp_fresh_study.freeze` verifies that all 128 shards have a consistent provider, snapshot date, input SHA256 values and no modified photo ledger; mixing API and bulk-source manifests is prohibited. Its date field means the original **Open Dataset snapshot date**, not an API `created_d2` observation filter. An ingestion job may demand extensive disk and compute resources; the bulk metadata are **not yet downloaded or processed** and the full census remains incomplete.
 
+## Model checksum and offline regression gate — PASS
+
+The standalone fresh-code [GitHub Actions run 38663398717](https://github.com/zuizui0223/fcp/actions/runs/38663398717) passed **42 synthetic regression tests** plus the existing frozen New Phytologist manuscript claim checks. The original ROI-v4 detector and both EfficientSAM encoder/decoder ONNX weights were actually fetched and their SHA256 checks compared to the historical 1,499-species model identities; **all three matched**. This is recorded in artifact `11940305372` and the permanent `results/fcp_fresh_source_audit_20261015/source_receipt.json`. No source image or biological flower-colour value was opened. The full model-binary check is deliberately a one-shot provenance preflight, not a compulsory network download on every subsequent PR commit.
+
+The dated source bundle importer now requires a preverified `fcp_source_archive_pin.json` for the actual 42,111-taxonomy study: (a) S3 key precisely corresponding to its declared snapshot date, (b) full original archive SHA256, (c) **all four** original metadata files' SHA256 values, and (d) the original 42,111-taxon frame's fixed checksum. The `fcp_pipeline.fcp_fresh_study.freeze` gate compares archive pin hashes on all 128 shards and will **not** allow mixing a mutable API sample with the dated bulk sample. Three fake tar fixtures (both raw and gzipped original table members, plus corrupted archive/alias cases) passed, but the 36-GB archive itself has NOT been fully downloaded yet.
+
 ## What is still NOT accomplished
 
 1. Source census finished across all 42,111 nominal taxa: **NO**.
