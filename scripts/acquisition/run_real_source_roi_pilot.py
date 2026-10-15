@@ -79,6 +79,7 @@ def selected_metadata(metadata_root: Path, n_each: int) -> tuple[list[dict], dic
             raise ValueError('Completed source checkpoint disagrees with its photo manifest')
         species=[]
         seen={}
+        conflicting_photo_ids=set()
         with manifest.open('r',encoding='utf-8') as f:
             for line in f:
                 obj=json.loads(line)
@@ -88,10 +89,15 @@ def selected_metadata(metadata_root: Path, n_each: int) -> tuple[list[dict], dic
                     raise ValueError('Original dated photo metadata provenance / license / creator changed')
                 if pid in seen:
                     if seen[pid]!=obj:
-                        raise ValueError('Same source photo has inconsistent provider facts')
+                        # The same original image appeared in multiple observations.
+                        # It is unsuitable for photo-site attribution. Quarantine
+                        # its photo ID entirely; never count repeated observations
+                        # as independent flowers. This exclusion uses metadata only.
+                        conflicting_photo_ids.add(pid)
                     continue
                 seen[pid]=obj
                 species.append(obj)
+        species=[v for v in species if str(v['photo_id']) not in conflicting_photo_ids]
         if not species:
             continue
         # Deterministic, species-equal, blind to image colour and geography.
@@ -104,7 +110,9 @@ def selected_metadata(metadata_root: Path, n_each: int) -> tuple[list[dict], dic
             global_ids.add(pid)
         photos.extend(chosen)
         archives[str(tid)]={'species':status['species'],'full_manifest_sha256':digest,
-                            'complete_source_rows':len(species),'pilot_selected':len(chosen)}
+                            'complete_source_unique_unambiguous_photo_ids':len(species),
+                            'duplicate_conflicting_original_photo_ids_quarantined':len(conflicting_photo_ids),
+                            'pilot_selected':len(chosen)}
         taxa.append(tid)
     if len(taxa)!=4 or 47129 not in taxa:
         raise ValueError(f'Prior artifact audit showed exactly four completed taxa, got {taxa}')
