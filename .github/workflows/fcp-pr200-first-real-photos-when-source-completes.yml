@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows:
       - Polymorphism manuscript claim guard
+      - FCP PR200 fallback indexed full source
     types: [completed]
 
 permissions:
@@ -18,16 +19,21 @@ jobs:
   first-real-full-study-photo-unit:
     if: >-
       ${{
-        github.event.workflow_run.id == 38699975166 &&
-        github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' &&
-        github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' &&
+        github.event.workflow_run.conclusion == 'success' &&
         github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
-        github.event.workflow_run.conclusion == 'success'
+        (
+          (github.event.workflow_run.id == 38699975166 &&
+           github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' &&
+           github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015') ||
+          (github.event.workflow_run.name == 'FCP PR200 fallback indexed full source' &&
+           github.event.workflow_run.head_branch == 'main' &&
+           github.event.workflow_run.event == 'workflow_run')
+        )
       }}
     runs-on: ubuntu-24.04
     timeout-minutes: 350
     env:
-      SOURCE_RUN: "38699975166"
+      SOURCE_RUN: ${{ github.event.workflow_run.id }}
       GH_TOKEN: ${{ github.token }}
       FCP_BASE: /tmp/fcp_pr200_full_source_first_photo
     steps:
@@ -66,15 +72,29 @@ jobs:
           d=json.loads(subprocess.check_output(
               ["gh","api",f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{run}"],text=True))
           if (d.get("status")!="completed" or d.get("conclusion")!="success"
-              or d.get("head_sha")!="a6012411ca8d48fb6f9d65fd3e2839b2880194f1"):
-              raise SystemExit("Source census has not produced a successful frozen complete run")
-          print("FCP_SOURCE_RUN_CONFIRMED_SUCCESS",run,flush=True)
+              or d.get("head_repository",{}).get("full_name")!="zuizui0223/fcp"):
+              raise SystemExit("Source run never produced authorized successful complete source")
+          if run=="38699975166":
+              if (d.get("head_sha")!="a6012411ca8d48fb6f9d65fd3e2839b2880194f1"
+                  or d.get("head_branch")!="analysis/fcp-fresh-uncapped-zero-20261015"):
+                  raise SystemExit("Original recovery source identity mismatch")
+          elif (d.get("name")!="FCP PR200 fallback indexed full source"
+                or d.get("head_branch")!="main" or d.get("event")!="workflow_run"):
+              raise SystemExit("Unrecognized indexed fallback source run")
+          print("FCP_SOURCE_RUN_CONFIRMED_SUCCESS",run,d.get("name"),flush=True)
           PY
+          if [[ "$SOURCE_RUN" == "38699975166" ]]; then
+            STATUS_ARTIFACT=fcp-42111-recovery-20260927-status-and-original-hashes
+            SOURCE_ARTIFACT=fcp-42111-recovery-20260927-complete-source-and-blind-photo-firewall
+          else
+            STATUS_ARTIFACT=fcp-42111-indexed-recovery-20260927-status-and-original-hashes
+            SOURCE_ARTIFACT=fcp-42111-indexed-recovery-20260927-complete-source-and-blind-photo-firewall
+          fi
           gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
-            --name fcp-42111-recovery-20260927-status-and-original-hashes \
+            --name "$STATUS_ARTIFACT" \
             --dir "$FCP_BASE/status"
           gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
-            --name fcp-42111-recovery-20260927-complete-source-and-blind-photo-firewall \
+            --name "$SOURCE_ARTIFACT" \
             --dir "$FCP_BASE/archive"
           mapfile -t archives < <(find "$FCP_BASE/archive" -type f -name '*.tar.gz')
           test "${#archives[@]}" -eq 1
