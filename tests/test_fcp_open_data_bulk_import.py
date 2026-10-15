@@ -162,3 +162,46 @@ def test_full_snapshot_source_pin_requires_matching_original_dated_archive(tmp_p
     pin.write_text(json.dumps(receipt))
     with pytest.raises(ValueError,match='attestation missing or disagrees'):
         verify_source_archive_pin(pin,'2026-09-27',pinned)
+
+
+def test_case_sensitive_s3_extension_is_not_lowercased(tmp_path):
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
+    with gzip.open(photos,'rt',encoding='utf-8') as h:
+        original=h.read()
+    assert '\t1003\t' not in original  # Original rows are one photo ID per first column.
+    assert '1003\to-2\t2\tpng' in original
+    with gzip.open(photos,'wt',encoding='utf-8') as h:
+        h.write(original.replace('1003\to-2\t2\tpng','1003\to-2\t2\tJPG'))
+    pinned['photos']=sha256_file(photos)
+    out=tmp_path/'newcase'
+    got=ingest(frame,taxa,obs,photos,out,'2026-10-14',shards=2,
+               expected_species=4,input_sha256=pinned,observers=observers)
+    plan=opportunity_schedule(opportunity_frame(frame,4),2).set_index('inat_taxon_id')
+    loc=out/f"shard_{int(plan.loc[12,'partition']):03}_of_002"/'species'/'12'/'photo_manifest.ndjson'
+    row=json.loads(loc.read_text().strip())
+    assert row['photo_id']=='1003' and row['photo_url_large'].endswith('/1003/large.JPG')
+    assert got['original_S3_extension_case_preserved']
+
+
+def test_cross_observation_duplicate_photo_id_is_quarantined_without_downsampling(tmp_path):
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
+    # Photo #1003 was first credited to observation o-2, later re-used in o-1.
+    with gzip.open(photos,'rt',encoding='utf-8') as h:
+        original=h.read()
+    with gzip.open(photos,'wt',encoding='utf-8') as h:
+        h.write(original+'1003\to-1\t1\tJPG\tCC-BY\t1024\t768\n')
+    pinned['photos']=sha256_file(photos)
+    out=tmp_path/'deduplicated'
+    got=ingest(frame,taxa,obs,photos,out,'2026-10-14',shards=2,
+               expected_species=4,input_sha256=pinned,observers=observers)
+    assert got['n_source_photos_scanned']==8
+    assert got['n_target_taxon_licensed_photo_metadata_rows']==4
+    assert got['n_target_taxon_licensed_photos']==2
+    assert got['n_conflicting_photo_ids_quarantined']==1
+    assert got['n_taxa_with_source_photos']==1
+    dirs,audit=required_source_dirs(frame,out,shards=2,expected=4)
+    assert audit['status']=='SOURCE_CENSUS_COMPLETE'
+    manifest_rows=[json.loads(line) for d in dirs for line in
+                   (d/'photo_manifest.ndjson').read_text().splitlines()]
+    assert {r['photo_id'] for r in manifest_rows}=={'1001','1002'}
+    assert len(manifest_rows)==2
