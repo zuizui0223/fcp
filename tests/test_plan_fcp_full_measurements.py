@@ -49,3 +49,30 @@ def test_resume_rejects_forged_or_mixed_terminal_outcomes(tmp_path):
     p.write_text(json.dumps(d))
     with pytest.raises(ValueError,match='synthetic terminal batch|changed or synthetic'):
         plan_jobs(f,t,tmp_path/'tampered_plan',batch_size=100,_test_only_small_source=True)
+
+
+
+def test_partition_only_plan_is_fast_scope_not_global_completion(tmp_path):
+    f=make_firewall(tmp_path)
+    part=plan_jobs(f,tmp_path/'sealed',tmp_path/'part_only',batch_size=2,
+                   partition=1,_test_only_small_source=True)
+    assert part['partition_scope']==1
+    assert part['is_global_all_photo_plan'] is False
+    assert part['all_photo_ids_included_once'] is False
+    assert part['status']=='SELECTED_ORIGINAL_PHOTO_PARTITION_PLAN_NOT_GLOBAL_COMPLETION'
+    assert part['all_frozen_source_photo_ids']==8
+    assert 0<part['source_photo_ids']<8
+    assert part['n_pending_work_units']==part['work_units']
+    work=[json.loads(x) for x in
+          (tmp_path/'part_only/all_photo_ROI_v4_work_units.ndjson').read_text().splitlines()]
+    assert work and all(x['partition']==1 for x in work)
+    assert sum(x['n_source_photo_ids'] for x in work)==part['source_photo_ids']
+    full=plan_jobs(f,tmp_path/'sealed',tmp_path/'whole_source',batch_size=2,
+                   _test_only_small_source=True)
+    assert full['is_global_all_photo_plan'] is True
+    assert full['all_photo_ids_included_once'] is True
+    assert full['source_photo_ids']==8
+    assert full['n_pending_work_units']>part['n_pending_work_units']
+    with pytest.raises(ValueError,match='outside frozen partition'):
+        plan_jobs(f,tmp_path/'sealed',tmp_path/'bad_partition',batch_size=2,
+                  partition=2,_test_only_small_source=True)
