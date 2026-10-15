@@ -89,7 +89,7 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
             raise ValueError('Mixed API and monthly Open Data source contracts are not a single frozen census')
         if kind=='inaturalist_open_dataset_monthly_snapshot':
             hashes=contract.get('input_metadata_sha256')
-            if (not isinstance(hashes,dict) or set(hashes)!={'taxa','observations','photos'} or
+            if (not isinstance(hashes,dict) or set(hashes)!={'taxa','observations','observers','photos'} or
                     any(not isinstance(v,str) or len(v)!=64 or
                         any(c not in '0123456789abcdef' for c in v) for v in hashes.values())):
                 raise ValueError('Snapshot taxon, observation and photo byte hashes required')
