@@ -66,10 +66,10 @@ jobs:
           print('FCP_VERIFIED_INDEXED_SOURCE_FALLBACK_ELIGIBLE',flush=True)
           PY
 
-      - name: Checkout fixed source census with streaming photo index
+      - name: Checkout verified staged-source and 128-shard runtime
         uses: actions/checkout@v4
         with:
-          ref: 324e5b0926001272e8864d4517fc198c639e0e24
+          ref: 244e101dc01261037f9b2bd8c78ff96c6e6873c4
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -96,7 +96,7 @@ jobs:
             > "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv"
           echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$RUNNER_TEMP"'/fcp_indexed_frame/42111_species.csv' | sha256sum -c -
 
-      - name: Execute one real indexed complete 42,111 source census
+      - name: Stage one real complete provider photo-ID database, no metadata manifests yet
         run: |
           set -euo pipefail
           python scripts/acquisition/execute_fcp_42111_census.py \
@@ -104,7 +104,33 @@ jobs:
             --work "$RUNNER_TEMP/fcp_indexed_source_20260927" \
             --expected-species 42111 --shards 128 --worker-partitions 128 \
             --minimum-free-disk-gb 80 \
-            --release-verified-temporary-tables
+            --release-verified-temporary-tables --stage-only
+          echo FCP_STAGED_ALL_SOURCE_PHOTO_IDS_NOT_YET_MEASURED
+          df -h "$RUNNER_TEMP"
+
+      - name: Emit all 128 disjoint original-photo metadata partitions, 8 at a time
+        run: |
+          set -euo pipefail
+          for start in $(seq 0 8 120); do
+            stop=$((start+8))
+            python scripts/acquisition/emit_fcp_staged_source_shards.py \
+              --frame "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv" \
+              --staged-metadata "$RUNNER_TEMP/fcp_indexed_source_20260927/complete_42111_metadata_source" \
+              --expected-species 42111 --shards 128 \
+              --shard-start "$start" --shard-stop "$stop"
+            echo "FCP_EIGHT_SOURCE_SHARDS_SEALED_FROM_PINNED_SQLITE" "$start" "$stop"
+            df -h "$RUNNER_TEMP"
+          done
+
+      - name: Finalize complete photo-ID manifest universe only after all 128 source shards
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/finalize_fcp_staged_source.py \
+            --frame "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv" \
+            --work "$RUNNER_TEMP/fcp_indexed_source_20260927" \
+            --expected-species 42111 --shards 128 --worker-partitions 128
+          echo FCP_ALL_42111_PHOTO_SOURCE_FINALIZED_NOT_IMAGE_MEASURED
+          df -h "$RUNNER_TEMP"
 
       - name: Keep exact source status and all four original archive/table SHA claims even on failure
         if: always()
