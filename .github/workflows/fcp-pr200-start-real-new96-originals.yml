@@ -1,10 +1,8 @@
 name: FCP PR200 START measuring new real originals now
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/fcp-pr200-start-real-new96-originals.yml
+  # This run has ALREADY succeeded with all 96 genuine photos.
+  # Never re-download these originals on unrelated code edits.
   workflow_dispatch:
 
 permissions:
@@ -25,7 +23,6 @@ jobs:
       PYTHONPATH: ${{ github.workspace }}
       ROOT: /tmp/fcp-pr200-new-real-original96
       SAM: /tmp/fcp-original-efficient-sam
-      PYTHONPATH: ${{ github.workspace }}
     steps:
       - name: Checkout real source original-pixel worker
         uses: actions/checkout@v4
