@@ -128,7 +128,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
            shards: int = 128, expected_species: int = 42111,
            input_sha256: dict[str, str] | None = None,
            prune_verified_temporary_tables: bool = False,
-           stage_sqlite_only: bool = False,\n           photo_counts_only: bool = False) -> dict:
+           stage_sqlite_only: bool = False,
+           photo_counts_only: bool = False) -> dict:
     from datetime import date
     if date.fromisoformat(snapshot_date).isoformat() != snapshot_date:
         raise ValueError("Snapshot must have an explicit immutable YYYY-MM-DD date")
@@ -605,7 +606,8 @@ def main(argv: list[str] | None = None) -> int:
                                           "observers": args.observers_sha256,
                                           "photos": args.photos_sha256},
                             prune_verified_temporary_tables=args.prune_verified_temporary_tables,
-                            stage_sqlite_only=args.stage_sqlite_only,\n                            photo_counts_only=args.photo_counts_only),indent=2))
+                            stage_sqlite_only=args.stage_sqlite_only,
+                            photo_counts_only=args.photo_counts_only),indent=2))
     return 0
 
 
