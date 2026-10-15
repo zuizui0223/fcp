@@ -5,7 +5,7 @@ Provider-recommended BULK alternative to crawling tens of thousands of taxa
 through the observations API. No historical flower-colour CSV, image pixels,
 pigment labels, environment rasters or statistical results are read.
 
-Input: the official tab-delimited gz metadata files taxa, observations, photos.
+Input: the official tab-delimited gz metadata files taxa, observations, observers, photos.
 Output: the same per-species complete manifest/checkpoint contract consumed by
 `fcp_pipeline.fcp_fresh_study.freeze`, retaining *all* licensed photographs.
 
@@ -97,11 +97,14 @@ def _digest(path: Path):
 
 
 def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
-           outdir: Path, snapshot_date: str, *, shards: int = 128,
-           expected_species: int = 42111, input_sha256: dict[str, str] | None = None) -> dict:
+           outdir: Path, snapshot_date: str, *, observers: Path | None = None,
+           shards: int = 128, expected_species: int = 42111,
+           input_sha256: dict[str, str] | None = None) -> dict:
     from datetime import date
     if date.fromisoformat(snapshot_date).isoformat() != snapshot_date:
         raise ValueError("Snapshot must have an explicit immutable YYYY-MM-DD date")
+    if observers is None:
+        raise ValueError("Official observer table required for copyright/source attribution")
     if shards < 1:
         raise ValueError("shards must be positive")
     if outdir.exists() and any(outdir.iterdir()):
@@ -113,7 +116,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
     plan = opportunity_schedule(frame, shards)
     names = dict(zip(frame.inat_taxon_id.astype(int), frame.species.astype(str)))
     partition = dict(zip(plan.inat_taxon_id.astype(int), plan.partition.astype(int)))
-    hashes = {label: _digest(p) for label, p in [("taxa", taxa), ("observations", observations), ("photos", photos)]}
+    hashes = {label: _digest(p) for label, p in [("taxa", taxa), ("observations", observations), ("observers", observers), ("photos", photos)]}
     if input_sha256 is None or set(input_sha256) != set(hashes) or any(
             input_sha256[k] != hashes[k] for k in hashes):
         raise ValueError("Every official monthly snapshot input must have a matching pre-pinned SHA256")
@@ -130,6 +133,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         db.execute("PRAGMA cache_size=-128000")
         db.execute("CREATE TABLE observations (uuid TEXT PRIMARY KEY, taxon INTEGER, observer TEXT, observed_on TEXT, lat REAL, lon REAL, accuracy TEXT)")
         db.execute("CREATE TABLE photos (photo_id TEXT PRIMARY KEY, uuid TEXT, license TEXT, extension TEXT, photographer TEXT)")
+        db.execute("CREATE TABLE observer_labels (observer_id TEXT PRIMARY KEY, login TEXT, name TEXT)")
         batch = []
         required = {"observation_uuid", "taxon_id", "observer_id", "latitude", "longitude", "positional_accuracy", "quality_grade", "observed_on"}
         for rec in read_tsv(observations, required):
@@ -155,6 +159,22 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             pass_obs += len(batch)
             db.commit()
         del batch
+        observer_batch=[]
+        observer_rows=0
+        for rec in read_tsv(observers, {"observer_id", "login", "name"}):
+            observer_rows += 1
+            ident=integer(rec["observer_id"])
+            if ident is None:
+                continue
+            observer_batch.append((str(ident),str(rec["login"] or ""),str(rec["name"] or "")))
+            if len(observer_batch)>=10000:
+                db.executemany("INSERT INTO observer_labels VALUES (?,?,?)",observer_batch)
+                db.commit()
+                observer_batch.clear()
+        if observer_batch:
+            db.executemany("INSERT INTO observer_labels VALUES (?,?,?)",observer_batch)
+            db.commit()
+        del observer_batch
         photos_batch = []
         required = {"photo_id", "observation_uuid", "observer_id", "extension", "license"}
         for rec in read_tsv(photos, required):
@@ -197,17 +217,36 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         current_tax = None
         writer = None
         counter = {}
-        rows = db.execute("SELECT observations.taxon,observations.uuid,observations.observer,observations.observed_on,observations.lat,observations.lon,observations.accuracy, photos.photo_id,photos.license,photos.extension,photos.photographer FROM photos JOIN observations ON photos.uuid=observations.uuid ORDER BY observations.taxon,CAST(photos.photo_id AS INTEGER)")
-        for (tax, uuid, observer, observed_on,lat,lon,accuracy,pid,lic,ext,photographer) in rows:
+        attributable=0
+        unresolved=0
+        rows = db.execute("""SELECT observations.taxon,observations.uuid,observations.observer,
+            observations.observed_on,observations.lat,observations.lon,observations.accuracy,
+            photos.photo_id,photos.license,photos.extension,photos.photographer,
+            observer_labels.login,observer_labels.name
+            FROM photos JOIN observations ON photos.uuid=observations.uuid
+            LEFT JOIN observer_labels ON photos.photographer=observer_labels.observer_id
+            ORDER BY observations.taxon,CAST(photos.photo_id AS INTEGER)""")
+        for (tax, uuid, observer, observed_on,lat,lon,accuracy,pid,lic,ext,photographer,login,person_name) in rows:
             if tax != current_tax:
                 if writer is not None: writer.close()
                 current_tax = int(tax)
                 directory = contracts[partition[current_tax]] / "species" / str(current_tax)
                 directory.mkdir(parents=True, exist_ok=True)
                 writer = (directory / "photo_manifest.ndjson").open("w",encoding="utf-8")
+            # Attribution uses the PHOTO creator, who may differ from the observation owner.
+            photo_author=integer(photographer)
+            who=str(person_name or "").strip() or str(login or "").strip()
+            if who:
+                attributable+=1
+            else:
+                unresolved+=1
+                who=f"iNaturalist photo creator {photo_author}" if photo_author else "iNaturalist photographer not resolved"
+            profile=f"https://www.inaturalist.org/users/{photo_author}" if photo_author else "https://www.inaturalist.org/"
+            attribution=(f"{who} ({profile}), CC0 public domain" if lic=="cc0"
+                         else f"© {who} ({profile}), {lic.upper()}")
             obj = dict(zip(FIELDS,(int(tax),names[tax],str(uuid),str(pid),
                        f"https://inaturalist-open-data.s3.amazonaws.com/photos/{pid}/large.{ext}",
-                       lic,"",observer,str(observed_on or ""),lat,lon,
+                       lic,attribution,observer,str(observed_on or ""),lat,lon,
                        accuracy,snapshot_date,SNAPSHOT_SOURCE)))
             writer.write(json.dumps(obj,sort_keys=True,ensure_ascii=False)+"\n")
             counter[tax] = counter.get(tax,0)+1
@@ -233,8 +272,11 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "taxa_in_initial_frame":len(names),
                  "n_source_observations_scanned":source_obs,
                  "n_target_taxon_research_grade_observations":pass_obs,
+                 "n_source_observers_scanned":observer_rows,
                  "n_source_photos_scanned":source_photo,
                  "n_target_taxon_licensed_photos":pass_photos,
+                 "n_target_photos_with_named_creator":attributable,
+                 "n_target_photos_creator_unresolved":unresolved,
                  "n_taxa_with_source_photos":len(counter),
                  "n_taxa_without_source_photos":len(names)-len(counter),
                  "metadata_snapshots_sha256":hashes,
@@ -254,6 +296,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--species-frame",type=Path,required=True)
     p.add_argument("--taxa",type=Path,required=True)
     p.add_argument("--observations",type=Path,required=True)
+    p.add_argument("--observers",type=Path,required=True)
     p.add_argument("--photos",type=Path,required=True)
     p.add_argument("--snapshot-date",required=True)
     p.add_argument("--shards",type=int,default=128)
@@ -261,13 +304,15 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--output-root",type=Path,required=True)
     p.add_argument("--taxa-sha256",required=True)
     p.add_argument("--observations-sha256",required=True)
+    p.add_argument("--observers-sha256",required=True)
     p.add_argument("--photos-sha256",required=True)
     args=p.parse_args(argv)
     print(json.dumps(ingest(args.species_frame,args.taxa,args.observations,args.photos,
                             args.output_root,args.snapshot_date,shards=args.shards,
-                            expected_species=args.expected_species,
+                            expected_species=args.expected_species,observers=args.observers,
                             input_sha256={"taxa": args.taxa_sha256,
                                           "observations": args.observations_sha256,
+                                          "observers": args.observers_sha256,
                                           "photos": args.photos_sha256}),indent=2))
     return 0
 
