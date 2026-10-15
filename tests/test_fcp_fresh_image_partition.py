@@ -97,3 +97,74 @@ def test_synthetic_batch_cannot_pass_biological_assembly(tmp_path):
                 loader=lambda _:fake_png(),evaluator=fake_measure,_test_only_skip_method_check=True)
     with pytest.raises(ValueError,match='frozen method'):
         reassemble_fresh(firewall,tmp_path/'fake',attestation(tmp_path),tmp_path/'reject')
+
+def test_real_s3_loader_preserves_uppercase_extension_and_bans_foreign_urls(monkeypatch):
+    import urllib.error
+    payload=fake_png()
+    calls=[]
+    class FakeResponse:
+        def __enter__(self):return self
+        def __exit__(self,*args):return False
+        def read(self,n):
+            assert n==m.MAX_IMAGE_BYTES+1
+            return payload
+    def open_local_only(req,timeout):
+        calls.append(req.full_url)
+        assert timeout==45
+        return FakeResponse()
+    monkeypatch.setattr(m,'urlopen',open_local_only)
+    allowed='https://inaturalist-open-data.s3.amazonaws.com/photos/1234/large.JPG'
+    assert m.image_loader(allowed)==payload
+    assert calls==[allowed]
+    for url in ('http://inaturalist-open-data.s3.amazonaws.com/photos/1234/large.jpg',
+                'https://other.example.org/photos/1234/large.jpg',
+                'https://inaturalist-open-data.s3.amazonaws.com/photos/1234/large.jpg?resize=1',
+                'https://inaturalist-open-data.s3.amazonaws.com/private/1234.jpg'):
+        with pytest.raises(ValueError,match='frozen original provider'):
+            m.image_loader(url)
+    assert calls==[allowed]
+
+
+def test_real_s3_loader_retries_transient_http_but_never_replaces_source_photo(monkeypatch):
+    from urllib.error import HTTPError
+    calls=[]
+    sleeps=[]
+    payload=fake_png()
+    class FakeResponse:
+        def __enter__(self):return self
+        def __exit__(self,*args):return False
+        def read(self,n):return payload
+    def opener(req,timeout):
+        calls.append(req.full_url)
+        if len(calls)<3:
+            raise HTTPError(req.full_url,429,'rate limited',None,None)
+        return FakeResponse()
+    monkeypatch.setattr(m,'urlopen',opener)
+    monkeypatch.setattr(m.time,'sleep',sleeps.append)
+    url='https://inaturalist-open-data.s3.amazonaws.com/photos/5555/large.jpeg'
+    assert m.image_loader(url)==payload
+    assert calls==[url]*3 and sleeps==[1,2]
+    calls.clear();sleeps.clear()
+    def missing(req,timeout):
+        calls.append(req.full_url)
+        raise HTTPError(req.full_url,404,'original image missing',None,None)
+    monkeypatch.setattr(m,'urlopen',missing)
+    with pytest.raises(HTTPError):
+        m.image_loader(url)
+    assert calls==[url] and not sleeps
+
+
+def test_production_image_request_spacing_does_not_change_photo_coverage(tmp_path,monkeypatch):
+    frame,src=setup_source(tmp_path)
+    firewall=tmp_path/'freeze'
+    freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
+    delays=[]
+    monkeypatch.setattr(m,'image_loader',lambda url:fake_png())
+    monkeypatch.setattr(m.time,'sleep',delays.append)
+    r=m.run_batch(firewall,0,0,3,tmp_path/'sealed',source=tmp_path/'x',
+                  detector=tmp_path/'y',sam=tmp_path/'z',evaluator=fake_measure,
+                  _test_only_skip_method_check=True)
+    assert r['n_terminal_photo_ids']==3
+    assert delays==[m.DEFAULT_PROVIDER_PAUSE_SECONDS]*2
+    assert r['original_provider_rate_limit_seconds_between_photos']==m.DEFAULT_PROVIDER_PAUSE_SECONDS
+    assert r['photo_failures_preserved_not_replaced'] is True
