@@ -137,3 +137,57 @@ jobs:
           assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
+
+  fresh-real-original-photos-roi-pilot:
+    # One-shot real external-original-photo processing (not the 42111-taxon dataset).
+    # Exactly the previously frozen metadata IDs are used; zero old pixel outcomes.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore the previously collected nine-species SOURCE metadata artifact
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_real_technical_source"
+          gh run download 38639092021 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name fcp-fresh-next8-species-source-20261015 \
+            --dir "$RUNNER_TEMP/fcp_real_technical_source"
+          test -f "$RUNNER_TEMP/fcp_real_technical_source/source_contract.json"
+          test -f "$RUNNER_TEMP/fcp_real_technical_source/species/47129/checkpoint.json"
+          echo '78c7e533c19a9099dd1f2de96dc7864ee65253abfe17dbfa2c536252a1665403  '"$RUNNER_TEMP"'/fcp_real_technical_source/species/47129/photo_manifest.ndjson' | sha256sum -c -
+      - name: Restore byte-identical frozen historical ROI-v4 models and original code
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full
+      - name: Install CPU-based original runtime
+        run: |
+          python -m pip install -r requirements-atlas-roi-v4.txt
+          python -m pip install 'pandas<3' pillow
+      - name: Download 24 hash-selected original source photos per complete taxon and REALLY infer pixels
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python scripts/acquisition/run_real_source_roi_pilot.py \
+            --source-metadata-root "$RUNNER_TEMP/fcp_real_technical_source" \
+            --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --original-efficient-sam "$RUNNER_TEMP/fcp-fresh-original-efficient-sam" \
+            --per-complete-species 24 --delay-seconds 1.1 \
+            --output-root "$RUNNER_TEMP/fcp_real_technical_pixel_output"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-real-original-photos-roi-v4-pilot-20261015
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/fcp_real_technical_pixel_output/real_original_roi_v4_new_photo_pilot.csv
+            ${{ runner.temp }}/fcp_real_technical_pixel_output/real_original_roi_v4_new_photo_pilot_receipt.json
