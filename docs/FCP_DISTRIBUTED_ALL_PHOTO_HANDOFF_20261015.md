@@ -6,13 +6,15 @@
 A complete dated 2026-09-27 source is mandatory. Accept only a retained run artifact whose full_source_execution_receipt.json says COMPLETE_42111_SOURCE_METADATA_FROZEN_PIXEL_MEASUREMENT_STILL_NOT_DONE with complete_metadata_census=true, 4 pinned original metadata SHA256s and 42,111 complete taxon checkpoints. Its frozen_location_blind_all_photo_firewall/fresh_study_freeze.json must say FRESH_BLIND_METADATA_FROZEN, source_species=42111, worker_packets=128, and carry the full distinct photo-ID worker ledger. Source photo total is unknown until that exact source audit finishes. Do not reuse old 149,900 photo colour outcomes.
 
 ## Workers: partition-local output, never concurrent shared output
-**Provider rate is a global constraint.** The ≥1.1-second original-photo pause is per worker, NOT an authorized global throughput of 128 requests/second. Do not start 128 concurrent public S3 downloaders without coordinated or approved provider access, aggregate throttling and persistent compute/storage. The original GitHub Actions source runner is ephemeral; an artifact must be moved to durable storage before heavy ROI work.
+**Provider rate is a global constraint.** The image loader now enforces ≥1.1 seconds between actual S3 attempts (including retries and across work-unit boundaries) within a process. For multiple cooperating processes on the **same Linux/POSIX-locking storage with synchronized clocks**, set the **same absolute** `FCP_PROVIDER_GLOBAL_RATE_FILE` for every worker; its locked timestamp also covers separate invocations. Without that variable, only process-local pacing is guaranteed. This does **not** globally coordinate geographically separate hosts, third-party downloads or a public-provider-approved quota. Do not start 128 concurrent public S3 downloaders without independently approved aggregate access, pacing and persistent compute/storage. An unavailable/malformed rate lock is an execution error, not a license to declare photographs unclassified. The original GitHub Actions source runner is ephemeral; an artifact must be moved to durable storage before heavy ROI work.
 
 For one partition, after materializing the original source + detector/EfficientSAM SHA-verified model assets, invoke:
 
 ~~~bash
 F=/persistent/fcp/frozen_location_blind_all_photo_firewall
 ROOT=/persistent/fcp/partition_outputs
+# Same absolute path in every cooperating worker process; POSIX lock required.
+export FCP_PROVIDER_GLOBAL_RATE_FILE=/persistent/fcp/provider_s3_rate.lock
 bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full
 
 python scripts/acquisition/execute_fcp_full_photo_work_queue.py \
