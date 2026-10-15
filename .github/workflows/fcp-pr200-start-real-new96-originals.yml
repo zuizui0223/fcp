@@ -24,6 +24,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       ROOT: /tmp/fcp-pr200-new-real-original96
       SAM: /tmp/fcp-original-efficient-sam
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - name: Checkout real source original-pixel worker
         uses: actions/checkout@v4
@@ -85,7 +86,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python scripts/acquisition/run_real_source_roi_pilot.py \
+          python -m scripts.acquisition.run_real_source_roi_pilot \
             --source-metadata-root "$ROOT/meta" \
             --output-root "$ROOT/results" \
             --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
