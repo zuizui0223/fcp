@@ -1,6 +1,6 @@
 # FCP PR #200 — distributed original-photo production handoff (2026-10-15)
 
-**Status at authoring:** 42,111-taxon source census [Actions 38676167958](https://github.com/zuizui0223/fcp/actions/runs/38676167958) is running, **not finished**. Zero full-study images have passed final assembly. The separate 96-image pilot is not biological full-census input. This file is an operating procedure, NOT an all-species finding.
+**Execution status (15 October 2026):** The first 42,111-taxon source job [38676167958](https://github.com/zuizui0223/fcp/actions/runs/38676167958) **failed** while writing full photo manifests (`OSError: [Errno 28] No space left on device`) after successfully verifying the 36-GB dated archive and all four metadata tables. The corrected disk-reclamation recovery [38699975166](https://github.com/zuizui0223/fcp/actions/runs/38699975166) began at 07:37 UTC and remained **in progress at 09:50 UTC**; no complete source artifact or new full-study ROI-v4 measurement was available at that check. Note that a later indexed SQLite streaming optimization was committed **after** recovery started, so its improvement is not part of this currently running recovery. The separate 96-image pilot is not biological full-census input. This file is an operating procedure, NOT a completed all-species finding.
 
 ## Admission before pixels
 A complete dated 2026-09-27 source is mandatory. Accept only a retained run artifact whose full_source_execution_receipt.json says COMPLETE_42111_SOURCE_METADATA_FROZEN_PIXEL_MEASUREMENT_STILL_NOT_DONE with complete_metadata_census=true, 4 pinned original metadata SHA256s and 42,111 complete taxon checkpoints. Its frozen_location_blind_all_photo_firewall/fresh_study_freeze.json must say FRESH_BLIND_METADATA_FROZEN, source_species=42111, worker_packets=128, and carry the full distinct photo-ID worker ledger. Source photo total is unknown until that exact source audit finishes. Do not reuse old 149,900 photo colour outcomes.
@@ -8,7 +8,8 @@ A complete dated 2026-09-27 source is mandatory. Accept only a retained run arti
 ## Automated admission after source completion
 
 Download **both** the successful source-status artifact and complete-source
-tar.gz artifact from Actions #38676167958 onto durable storage, then unpack
+tar.gz artifact from the **successful 42,111-species recovery run**, currently
+[Actions #38699975166](https://github.com/zuizui0223/fcp/actions/runs/38699975166), onto durable storage, then unpack
 the complete source archive without reselecting taxa. The status artifact
 carries the receipt, dated archive pin and 42,111-row photo-count ledger;
 the complete-source artifact carries all manifests and the blind firewall.
@@ -47,7 +48,9 @@ F=/persistent/fcp/frozen_location_blind_all_photo_firewall
 ROOT=/persistent/fcp/partition_outputs
 # Same absolute path in every cooperating worker process; POSIX lock required.
 export FCP_PROVIDER_GLOBAL_RATE_FILE=/persistent/fcp/provider_s3_rate.lock
-bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full
+bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir /persistent/models/fcp-original-efficient-sam
+# Install frozen method dependencies in the intended production environment.
+python -m pip install -r requirements-atlas-roi-v4.txt
 
 python scripts/acquisition/execute_fcp_full_photo_work_queue.py \
   --firewall "$F" --output "$ROOT/partition_000" \
