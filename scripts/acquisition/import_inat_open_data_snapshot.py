@@ -22,6 +22,7 @@ import json
 import math
 import re
 import sqlite3
+import shutil
 from pathlib import Path
 
 from fcp_pipeline.fcp_allphotos import opportunity_frame, opportunity_schedule, sha256_file
@@ -173,7 +174,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         db.execute("PRAGMA journal_mode=DELETE")
         db.execute("PRAGMA cache_size=-128000")
         db.execute("CREATE TABLE observations (uuid TEXT PRIMARY KEY, taxon INTEGER, observer TEXT, observed_on TEXT, lat REAL, lon REAL, accuracy TEXT)")
-        db.execute("CREATE TABLE photos (photo_id TEXT PRIMARY KEY, uuid TEXT, license TEXT, extension TEXT, photographer TEXT, ambiguous INTEGER NOT NULL DEFAULT 0)")
+        db.execute("CREATE TABLE photos (photo_id TEXT PRIMARY KEY, uuid TEXT, license TEXT, extension TEXT, photographer TEXT, taxon INTEGER NOT NULL, ambiguous INTEGER NOT NULL DEFAULT 0)")
         db.execute("CREATE TEMP TABLE photo_candidates (photo_id TEXT, uuid TEXT, license TEXT, extension TEXT, photographer TEXT)")
         db.execute("CREATE TABLE observer_labels (observer_id TEXT PRIMARY KEY, login TEXT, name TEXT)")
         batch = []
@@ -228,12 +229,13 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             # 100+ million original photo rows otherwise become impractical.
             pass_photos += db.execute("""SELECT COUNT(*) FROM photo_candidates AS c
                 INNER JOIN observations AS o ON c.uuid=o.uuid""").fetchone()[0]
-            db.execute("""INSERT INTO photos(photo_id,uuid,license,extension,photographer)
-                SELECT c.photo_id,c.uuid,c.license,c.extension,c.photographer
+            db.execute("""INSERT INTO photos(photo_id,uuid,license,extension,photographer,taxon)
+                SELECT c.photo_id,c.uuid,c.license,c.extension,c.photographer,o.taxon
                 FROM photo_candidates AS c JOIN observations AS o ON c.uuid=o.uuid
                 WHERE 1
                 ON CONFLICT(photo_id) DO UPDATE SET
                    ambiguous=CASE WHEN photos.uuid!=excluded.uuid
+                              OR photos.taxon!=excluded.taxon
                               OR photos.license!=excluded.license
                               OR photos.extension!=excluded.extension
                               OR photos.photographer!=excluded.photographer
@@ -293,14 +295,34 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         counter = {}
         attributable=0
         unresolved=0
-        rows = db.execute("""SELECT observations.taxon,observations.uuid,observations.observer,
+        # Materialise photo.taxon during the streaming UUID join. The previous
+        # cross-table ORDER BY observations.taxon required an enormous temporary
+        # SQLite B-tree *while* writing the uncapped manifests, exhausting the
+        # runner after the 36GB download had already succeeded. A partial
+        # covering order index lets SQLite stream in taxon/photo-ID order.
+        # Build it only after all source rows have been consumed (and optional
+        # SHA-pinned disposable input tables released).
+        db.execute("""CREATE INDEX photos_taxon_numeric_order
+            ON photos(taxon, CAST(photo_id AS INTEGER))
+            WHERE ambiguous=0""")
+        db.commit()
+        manifest_sql = """SELECT photos.taxon,observations.uuid,observations.observer,
             observations.observed_on,observations.lat,observations.lon,observations.accuracy,
             photos.photo_id,photos.license,photos.extension,photos.photographer,
             observer_labels.login,observer_labels.name
-            FROM photos JOIN observations ON photos.uuid=observations.uuid
+            FROM photos INDEXED BY photos_taxon_numeric_order
+            JOIN observations ON photos.uuid=observations.uuid
             LEFT JOIN observer_labels ON photos.photographer=observer_labels.observer_id
             WHERE photos.ambiguous=0
-            ORDER BY observations.taxon,CAST(photos.photo_id AS INTEGER)""")
+            ORDER BY photos.taxon,CAST(photos.photo_id AS INTEGER)"""
+        plan_details = [str(p[3]) for p in db.execute("EXPLAIN QUERY PLAN "+manifest_sql)]
+        if any("USE TEMP B-TREE FOR ORDER BY" in p.upper() for p in plan_details):
+            raise RuntimeError("FCP manifest query would spill a full-source ORDER BY onto scratch disk")
+        if not any("photos_taxon_numeric_order" in p for p in plan_details):
+            raise RuntimeError("FCP photo manifest order index was not used")
+        print("FCP_MANIFEST_INDEXED_STREAM_PLAN",json.dumps(plan_details),flush=True)
+        rows = db.execute(manifest_sql)
+        emitted_photo_rows = 0
         for (tax, uuid, observer, observed_on,lat,lon,accuracy,pid,lic,ext,photographer,login,person_name) in rows:
             if tax != current_tax:
                 if writer is not None: writer.close()
@@ -325,7 +347,21 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                        accuracy,snapshot_date,SNAPSHOT_SOURCE)))
             writer.write(json.dumps(obj,sort_keys=True,ensure_ascii=False)+"\n")
             counter[tax] = counter.get(tax,0)+1
+            emitted_photo_rows += 1
+            # Fail closed with space for a diagnostic artifact, rather than
+            # allowing a disk-full OSError after hours of manifest emission.
+            if expected_species == 42111 and emitted_photo_rows % 100000 == 0:
+                free_bytes = shutil.disk_usage(outdir).free
+                if free_bytes < 6_000_000_000:
+                    raise RuntimeError(
+                        f"FCP_MANIFEST_DISK_RESERVE_EXHAUSTED: free={free_bytes}; "
+                        f"emitted={emitted_photo_rows}, total={unique_valid_photos}; "
+                        "resume only on a provisioned persistent-volume runner")
         if writer is not None: writer.close()
+        if emitted_photo_rows != unique_valid_photos:
+            raise ValueError(
+                f"Source-photo ID loss/duplication at manifest materialization: "
+                f"{emitted_photo_rows} emitted != {unique_valid_photos} unique valid")
         for tid, name in names.items():
             directory = contracts[partition[tid]] / "species" / str(tid)
             directory.mkdir(parents=True, exist_ok=True)
@@ -351,6 +387,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "n_source_photos_scanned":source_photo,
                  "n_target_taxon_licensed_photo_metadata_rows":pass_photos,
                  "n_target_taxon_licensed_photos":unique_valid_photos,
+                 "n_photo_manifest_rows_written":emitted_photo_rows,
+                 "manifest_indexed_stream_without_sqlite_order_temp_btree":True,
                  "n_conflicting_photo_ids_quarantined":ambiguous_photos,
                  "n_target_photos_with_named_creator":attributable,
                  "n_target_photos_creator_unresolved":unresolved,
