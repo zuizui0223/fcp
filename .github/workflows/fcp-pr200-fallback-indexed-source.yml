@@ -1,0 +1,132 @@
+name: FCP PR200 fallback indexed full source
+
+on:
+  workflow_run:
+    workflows:
+      - Polymorphism manuscript claim guard
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-pr200-one-shot-indexed-source-fallback
+  cancel-in-progress: false
+
+jobs:
+  indexed-recovery-only-after-documented-census-scan-failure:
+    # Only a specific failed real-source run is eligible. A successful run
+    # already invokes the first-real-photo workflow; never duplicate it.
+    if: >-
+      ${{ github.event.workflow_run.id == 38699975166 && github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' && github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    env:
+      SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify source retry is scientifically justified by prior real metadata receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_indexed_failure_receipt"
+          gh run download 38699975166 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-recovery-20260927-status-and-original-hashes \
+            --dir "$RUNNER_TEMP/fcp_indexed_failure_receipt"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          folder=Path(os.environ['RUNNER_TEMP'])/'fcp_indexed_failure_receipt'
+          candidates=list(folder.rglob('full_source_execution_receipt.json'))
+          pins=list(folder.rglob('fcp_source_archive_pin.json'))
+          if len(candidates)!=1 or len(pins)!=1:
+              raise SystemExit('No unique complete-source failure receipt and dated archive pin; no third bulk transfer')
+          doc=json.loads(candidates[0].read_text())
+          pin=json.loads(pins[0].read_text())
+          prior_sha='bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e'
+          expected={
+            'observations':'6c8b93cd808bdb0503690a60719a2d0a6478d3494eda7c8623db8c7f454b125b',
+            'observers':'735d8112f24c1d1951622bc09fee4a6a07850d87937b3aa77d6c65289e357d63',
+            'photos':'0033f67f2362acae0509314c4a7b8429f1f6ff85323cb3c86eeb7cbb83ecc6b6',
+            'taxa':'71c1b2909c3c1c409da71c6f778939b00c5e1cc97a10449b755aa569c700e2d0'
+          }
+          if not (doc.get('status')=='FAILED_OR_UNFINISHED_SOURCE_METADATA_NOT_SCIENTIFIC_RESULTS'
+              and doc.get('complete_metadata_census') is False
+              and doc.get('original_archive_sha256')==prior_sha
+              and doc.get('original_archive_bytes')==35966549880
+              and doc.get('last_completed_stage')=='extract_all_four_and_pin_exact_SHA256'
+              and doc.get('stage')=='scan_entire_dated_source_and_emit_all_photo_manifests'
+              and doc.get('all_four_extracted_table_sha256')==expected
+              and doc.get('old_measured_flower_colours_used') is False
+              and doc.get('target_frame_species')==42111
+              and pin.get('metadata_files_sha256')==expected
+              and pin.get('full_bundle_sha256')==prior_sha):
+              raise SystemExit('Prior failure not safely identified as fully hash-verified source scan; refuse additional 36GB transfer')
+          print('FCP_VERIFIED_INDEXED_SOURCE_FALLBACK_ELIGIBLE',flush=True)
+          PY
+
+      - name: Checkout fixed source census with streaming photo index
+        uses: actions/checkout@v4
+        with:
+          ref: 324e5b0926001272e8864d4517fc198c639e0e24
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Recover ephemeral space before transfer
+        run: |
+          set -euo pipefail
+          for p in /usr/local/lib/android /usr/share/dotnet /usr/local/share/powershell /usr/share/swift; do
+            if test -d "$p"; then sudo rm -rf -- "$p"; fi
+          done
+          df -h "$RUNNER_TEMP"
+
+      - name: Install frozen monthly Open Data importer
+        run: python -m pip install --upgrade "numpy<3" "pandas<3"
+
+      - name: Restore exact authoritative 42,111 taxa by frozen SHA
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_indexed_frame"
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" \
+            > "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$RUNNER_TEMP"'/fcp_indexed_frame/42111_species.csv' | sha256sum -c -
+
+      - name: Execute one real indexed complete 42,111 source census
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/execute_fcp_42111_census.py \
+            --frame "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv" \
+            --work "$RUNNER_TEMP/fcp_indexed_source_20260927" \
+            --expected-species 42111 --shards 128 --worker-partitions 128 \
+            --minimum-free-disk-gb 80 \
+            --release-verified-temporary-tables
+
+      - name: Keep exact source status and all four original archive/table SHA claims even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-indexed-recovery-20260927-status-and-original-hashes
+          retention-days: 45
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/fcp_indexed_source_20260927/full_source_execution_receipt.json
+            ${{ runner.temp }}/fcp_indexed_source_20260927/source_archive_sha256_before_source_data.txt
+            ${{ runner.temp }}/fcp_indexed_source_20260927/frozen_4_metadata_tables/fcp_source_archive_pin.json
+            ${{ runner.temp }}/fcp_indexed_source_20260927/complete_42111_metadata_source/bulk_source_receipt.json
+            ${{ runner.temp }}/fcp_indexed_source_20260927/frozen_location_blind_all_photo_firewall/fresh_study_freeze.json
+            ${{ runner.temp }}/fcp_indexed_source_20260927/all_42111_species_source_photo_counts.csv
+
+      - name: Archive ALL source photo IDs and 128 frozen workers only on full success
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-indexed-recovery-20260927-complete-source-and-blind-photo-firewall
+          retention-days: 45
+          if-no-files-found: error
+          compression-level: 0
+          path: ${{ runner.temp }}/fcp_indexed_source_20260927/fcp_complete_42111_source_and_blind_firewall.tar.gz
