@@ -237,3 +237,74 @@ def test_broken_global_rate_state_is_fatal_not_ordinary_image_failure(tmp_path,m
     url='https://inaturalist-open-data.s3.amazonaws.com/photos/17/large.jpg'
     with pytest.raises(m.ProviderRateGateError,match='absolute'):
         m.image_loader(url)
+
+
+def test_persistent_rate_limit_aborts_original_photo_work_unit_without_sealing(tmp_path,monkeypatch):
+    """A 429 exhaustion is provider throttling, never missing flower phenotype."""
+    from urllib.error import HTTPError
+    frame,src=setup_source(tmp_path)
+    firewall=tmp_path/'frozen'
+    freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
+    calls=[]
+    def denied(req,timeout):
+        calls.append(req.full_url)
+        raise HTTPError(req.full_url,429,'provider busy',None,None)
+    monkeypatch.setattr(m,'urlopen',denied)
+    monkeypatch.setattr(m,'_pace_provider_request',lambda:None)
+    monkeypatch.setattr(m.time,'sleep',lambda _:None)
+    frozen_url='https://inaturalist-open-data.s3.amazonaws.com/photos/17/large.JPG'
+    with pytest.raises(m.ProviderTransientAccessError,match='HTTP 429'):
+        m.image_loader(frozen_url)
+    assert calls==[frozen_url]*3
+    calls.clear()
+    target=tmp_path/'unsealed'
+    with pytest.raises(m.ProviderTransientAccessError,match='HTTP 429'):
+        m.run_batch(firewall,0,0,2,target,
+                    source=tmp_path/'mock_source.py',detector=tmp_path/'mock_detector.pt',
+                    sam=tmp_path/'mock_sam',loader=lambda _:m.image_loader(frozen_url),
+                    evaluator=fake_measure,_test_only_skip_method_check=True)
+    assert not list(target.glob('terminal_*.csv'))
+    assert not list(target.glob('terminal_*.json'))
+
+
+def test_provider_forbidden_and_network_timeouts_fail_closed(monkeypatch):
+    from urllib.error import HTTPError,URLError
+    url='https://inaturalist-open-data.s3.amazonaws.com/photos/18/large.jpg'
+    monkeypatch.setattr(m,'_pace_provider_request',lambda:None)
+    monkeypatch.setattr(m.time,'sleep',lambda _:None)
+    calls=[]
+    def forbidden(req,timeout):
+        calls.append(req.full_url)
+        raise HTTPError(req.full_url,403,'access denied',None,None)
+    monkeypatch.setattr(m,'urlopen',forbidden)
+    with pytest.raises(m.ProviderTransientAccessError,match='HTTP 403'):
+        m.image_loader(url)
+    assert len(calls)==1
+    def unavailable(req,timeout):
+        calls.append(req.full_url)
+        raise URLError('temporary network outage')
+    monkeypatch.setattr(m,'urlopen',unavailable)
+    with pytest.raises(m.ProviderTransientAccessError,match='connection unavailable'):
+        m.image_loader(url)
+    assert len(calls)==4  # One 403 plus three bounded network retries
+
+
+def test_permanently_missing_original_can_still_be_terminal_without_substitution(tmp_path):
+    """404 is source-object missingness, not a global S3 throttle."""
+    from urllib.error import HTTPError
+    frame,src=setup_source(tmp_path)
+    firewall=tmp_path/'frozen'
+    freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
+    def missing(_url):
+        raise HTTPError('https://example.com/404',404,'object gone',None,None)
+    target=tmp_path/'sealed'
+    result=m.run_batch(firewall,0,0,1,target,source=tmp_path/'source.py',
+                       detector=tmp_path/'detector.pt',sam=tmp_path/'sam',
+                       loader=missing,evaluator=fake_measure,
+                       _test_only_skip_method_check=True)
+    assert result['n_terminal_photo_ids']==1
+    assert result['n_acquisition_failed']==1
+    assert result['n_classifiable']==0
+    rows=pd.read_csv(next(target.glob('terminal_*.csv')))
+    assert rows.measurement_status.tolist()==['image_acquisition_failed']
+    assert rows.morph.tolist()==['mixed_uncertain']
