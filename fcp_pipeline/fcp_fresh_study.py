@@ -54,6 +54,13 @@ def _builder():
     return module
 
 
+def now_compact_date(value) -> str:
+    """Convert the source-dated ISO cutoff, never an invented observation filter."""
+    from datetime import date
+    d=date.fromisoformat(str(value))
+    return d.strftime('%Y%m%d')
+
+
 def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expected:int)->tuple[list[Path],dict]:
     """A complete source census means EVERY canonical species, not a chosen subset."""
     if shards<1:
@@ -64,6 +71,7 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
     date=None
     source_kind=None
     source_metadata_hashes=None
+    source_archive_claim=None
     dirs=[]
     pending=[]
     for i in range(shards):
@@ -99,6 +107,19 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
                 source_metadata_hashes=hashes
             elif hashes!=source_metadata_hashes:
                 raise ValueError('Inconsistent source snapshot input hashes between shards')
+            if expected == 42111:
+                claim={key:contract.get(key) for key in
+                       ('source_archive_key','source_archive_sha256','source_archive_pin_sha256')}
+                if (claim['source_archive_key']!=
+                        f"metadata/inaturalist-open-data-{now_compact_date(contract.get('created_d2'))}.tar.gz"
+                        or any(not isinstance(claim[k],str) or len(claim[k])!=64 or
+                               any(c not in '0123456789abcdef' for c in claim[k])
+                               for k in ('source_archive_sha256','source_archive_pin_sha256'))):
+                    raise ValueError('Full FCP monthly source lacks dated archive SHA pin')
+                if source_archive_claim is None:
+                    source_archive_claim=claim
+                elif claim!=source_archive_claim:
+                    raise ValueError('Different monthly source archive pins across shards')
         now=str(contract.get('created_d2'))
         if date is not None and now!=date:
             raise ValueError('Source metadata date changed between shards')
@@ -134,6 +155,7 @@ def required_source_dirs(frame_path:Path, metadata_root:Path,*,shards:int,expect
            'incomplete_species':len(pending),'sample_missing_taxa':pending[:30],
            'source_frame_sha256':frame_sha,'frozen_created_d2':date,
            'source_kind':source_kind,'source_input_sha256':source_metadata_hashes,
+           'source_archive_claim':source_archive_claim,
            'source_metadata_only':True,'biological_images_opened':False,
            'historical_measured_photos_used':False,'no_photo_number_cap':True}
     return dirs,audit
