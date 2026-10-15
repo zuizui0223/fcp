@@ -155,3 +155,24 @@ def test_reusing_all_sealed_shards_never_rewrites_original_photo_manifests(tmp_p
     assert frozen=={
         str(p.relative_to(staged)):sha256_file(p)
         for p in staged.glob('shard_*_of_*/species/*/photo_manifest.ndjson')}
+
+
+
+def test_real_source_progress_receipt_is_diagnostic_only_and_preserves_stage(tmp_path):
+    frame,original,mono,staged,stage=stage_and_full(tmp_path)
+    trace=staged/'fcp_source_progress.ndjson'
+    events=[json.loads(line) for line in trace.read_text().splitlines()]
+    phases=[e['phase'] for e in events]
+    assert phases[0]=='begin_verified_provider_scan'
+    assert 'all_original_observations_scanned' in phases
+    assert 'all_original_photos_scanned' in phases
+    assert 'original_photo_ids_globally_deduplicated' in phases
+    assert phases[-1]=='source_sqlite_staged_ready_for_independent_shards'
+    assert events[-1]['n_candidate_rows_retained']==3
+    assert all(e['source_census_complete'] is False for e in events)
+    assert all(e['original_pixels_measured'] is False for e in events)
+    assert all(e['source_frame_sha256']==sha256_file(frame) for e in events)
+    assert all(e['scratch_free_bytes']>=0 for e in events)
+    assert all(e['sqlite_file_bytes']>=0 for e in events)
+    assert stage['full_source_census_complete'] is False
+    assert not (staged/'bulk_source_receipt.json').exists()
