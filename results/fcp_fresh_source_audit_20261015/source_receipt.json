@@ -43,5 +43,21 @@
     "coloured_phenotype_data_reexamined": false,
     "environment_mechanism_estimated": false,
     "results_scientifically_final": false
+  },
+  "original_frozen_ROI_v4_model_verification": {
+    "github_actions_run": 38663398717,
+    "artifact_id": 11940305372,
+    "frozen_method_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "roi_detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "code_model_hash_matches": true,
+    "historical_measured_photo_colours_opened": false,
+    "new_image_pixel_outcomes_opened": false
+  },
+  "current_fresh_code_unit_test_run": {
+    "github_actions_run": 38663398717,
+    "synthetic_tests_passed": 42,
+    "biological_fresh_results": false
   }
 }
