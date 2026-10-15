@@ -29,6 +29,7 @@ ARCHIVE_KEY='metadata/inaturalist-open-data-20260927.tar.gz'
 ARCHIVE_URL='https://inaturalist-open-data.s3.amazonaws.com/'+ARCHIVE_KEY
 ARCHIVE_SIZE=35_966_549_880
 FRAME_SHA256='5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc'
+REPRODUCED_ARCHIVE_SHA256='bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e'
 FROZEN_DATE='2026-09-27'
 
 
@@ -80,7 +81,8 @@ def download_exact_archive(path:Path,status:dict,min_space:int):
 
 def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             species:int=42111,shards:int=128,workers:int=128,
-            skip_package:bool=False,required_scratch_gb:int=80)->dict:
+            skip_package:bool=False,required_scratch_gb:int=80,
+            release_verified_temporary_tables:bool=False)->dict:
     if workers<1 or shards<1 or species<1:
         raise ValueError('Shards, workers and species must be positive')
     if work.exists() and any(work.iterdir()):
@@ -120,6 +122,8 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             record['archive_downloaded_from_verified_dated_public_s3']=False
         record['stage']='hash_complete_original_archive'
         observed=sha256_stream(original)
+        if species==42111 and observed!=REPRODUCED_ARCHIVE_SHA256:
+            raise ValueError('2026-09-27 source archive differs from previously observed verified 36GB SHA')
         record['original_archive_sha256']=observed
         record['original_archive_bytes']=original.stat().st_size
         if source_archive is None and record['original_archive_bytes']!=ARCHIVE_SIZE:
@@ -154,11 +158,16 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
              '--observers-sha256',h['observers'],'--photos-sha256',h['photos'],
              '--expected-species',str(species),'--shards',str(shards),
              '--output-root',str(dest)]
+        if release_verified_temporary_tables:
+            cmd.append('--prune-verified-temporary-tables')
         run(cmd,cwd=repo,stage='scan_entire_dated_source_and_emit_all_photo_manifests',status=record)
         census=json.loads((dest/'bulk_source_receipt.json').read_text(encoding='utf-8'))
         if census['status']!='COMPLETE_SNAPSHOT_METADATA_ALL_NOMINATED_TAXA' or census['taxa_in_initial_frame']!=species:
             raise ValueError('Not every target species was source-censused')
         record['full_source_census_receipt']=census
+        record['pruned_verified_scratch_tables_after_scan']=census.get(
+            'pruned_pinned_temporary_metadata_after_full_scan',False)
+        record['pruned_verified_scratch_table_bytes']=census.get('pruned_temporary_table_bytes',0)
         store()
         from csv import writer
         counts=work/'all_42111_species_source_photo_counts.csv'
@@ -224,10 +233,13 @@ def main(argv=None)->int:
     ap.add_argument('--worker-partitions',type=int,default=128)
     ap.add_argument('--skip-package',action='store_true')
     ap.add_argument('--minimum-free-disk-gb',type=int,default=80)
+    ap.add_argument('--release-verified-temporary-tables',action='store_true',
+                    help='Reclaim only SHA-verified 4-table scratch copies after full source loading')
     args=ap.parse_args(argv)
     out=execute(args.frame.resolve(),args.work.resolve(),source_archive=args.archive.resolve() if args.archive else None,
                 species=args.expected_species,shards=args.shards,workers=args.worker_partitions,
-                skip_package=args.skip_package,required_scratch_gb=args.minimum_free_disk_gb)
+                skip_package=args.skip_package,required_scratch_gb=args.minimum_free_disk_gb,
+                release_verified_temporary_tables=args.release_verified_temporary_tables)
     print('FCP_ALL_42111_SOURCE_EXECUTION_RESULT',json.dumps(out,ensure_ascii=False,sort_keys=True))
     return 0
 
