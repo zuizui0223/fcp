@@ -109,6 +109,8 @@ class FrozenPartitionSourceIndex:
                 worker_rows.append(worker)
                 acquisition_rows.append(acq)
         blind = pd.DataFrame(worker_rows, columns=list(WORKER))
+        # Match the frozen legacy preflight's iloc slice index semantics.
+        blind.index = range(begin,end)
         keyed = pd.DataFrame(acquisition_rows, columns=list(ACQUISITION))
         # Keep the worker's 3-column interface completely independent from
         # source URLs; acquisition lookup is never presented to the evaluator.
