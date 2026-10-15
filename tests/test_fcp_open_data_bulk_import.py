@@ -143,7 +143,7 @@ def test_full_snapshot_source_pin_requires_matching_original_dated_archive(tmp_p
         'status':'FOUR_ORIGINAL_METADATA_TABLES_EXTRACTED_AND_PINNED',
         'snapshot_date':'2026-09-27',
         's3_object_key':'metadata/inaturalist-open-data-20260927.tar.gz',
-        'metadata_files_sha256':pinned,
+        'metadata_files_sha256':dict(pinned),
         'full_bundle_sha256':'a'*64,
         'source_images_opened':False,
         'historical_photo_colours_read':False,
