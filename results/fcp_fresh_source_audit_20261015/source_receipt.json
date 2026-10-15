@@ -56,8 +56,20 @@
     "new_image_pixel_outcomes_opened": false
   },
   "current_fresh_code_unit_test_run": {
-    "github_actions_run": 38663398717,
-    "synthetic_tests_passed": 42,
+    "github_actions_run": 38666471849,
+    "synthetic_tests_passed": 43,
     "biological_fresh_results": false
+  },
+  "original_roi_v4_actual_synthetic_runtime": {
+    "github_actions_run": 38666471849,
+    "artifact_id": 11941525917,
+    "generated_images": 1,
+    "provider_photo_images_opened": 0,
+    "status": "ORIGINAL_FULL_RUNTIME_ONE_SYNTHETIC_IMAGE_EXECUTED",
+    "outcome": "mixed_uncertain",
+    "terminal_status": "not_evaluable_roi_or_flip_gate",
+    "original_method_executed": true,
+    "full_original_frozen_roi_detector_and_efficient_sam": true,
+    "biological_effect_estimated": false
   }
 }
