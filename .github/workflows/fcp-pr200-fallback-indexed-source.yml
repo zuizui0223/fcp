@@ -108,19 +108,21 @@ jobs:
           echo FCP_STAGED_ALL_SOURCE_PHOTO_IDS_NOT_YET_MEASURED
           df -h "$RUNNER_TEMP"
 
-      - name: Emit all 128 disjoint original-photo metadata partitions, 8 at a time
+      - name: Emit all 128 independently checkpointed original-photo source shards from one verified SQLite session
         run: |
           set -euo pipefail
-          for start in $(seq 0 8 120); do
-            stop=$((start+8))
-            python scripts/acquisition/emit_fcp_staged_source_shards.py \
-              --frame "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv" \
-              --staged-metadata "$RUNNER_TEMP/fcp_indexed_source_20260927/complete_42111_metadata_source" \
-              --expected-species 42111 --shards 128 \
-              --shard-start "$start" --shard-stop "$stop"
-            echo "FCP_EIGHT_SOURCE_SHARDS_SEALED_FROM_PINNED_SQLITE" "$start" "$stop"
-            df -h "$RUNNER_TEMP"
-          done
+          # The staged SQL database is SHA256-checked and SQLite quick_check'ed
+          # once for the complete 128-shard pass, not 16 expensive full-DB
+          # integrity/hash scans. Each source shard still seals its own
+          # taxon manifests and immutable receipt before proceeding.
+          # A crashed partial shard is never called complete.
+          python scripts/acquisition/emit_fcp_staged_source_shards.py \
+            --frame "$RUNNER_TEMP/fcp_indexed_frame/42111_species.csv" \
+            --staged-metadata "$RUNNER_TEMP/fcp_indexed_source_20260927/complete_42111_metadata_source" \
+            --expected-species 42111 --shards 128 \
+            --shard-start 0 --shard-stop 128
+          echo "FCP_ALL_128_INDEPENDENT_SOURCE_SHARDS_WRITTEN_NOT_YET_FINALIZED"
+          df -h "$RUNNER_TEMP"
 
       - name: Finalize complete photo-ID manifest universe only after all 128 source shards
         run: |
