@@ -5,6 +5,24 @@
 ## Admission before pixels
 A complete dated 2026-09-27 source is mandatory. Accept only a retained run artifact whose full_source_execution_receipt.json says COMPLETE_42111_SOURCE_METADATA_FROZEN_PIXEL_MEASUREMENT_STILL_NOT_DONE with complete_metadata_census=true, 4 pinned original metadata SHA256s and 42,111 complete taxon checkpoints. Its frozen_location_blind_all_photo_firewall/fresh_study_freeze.json must say FRESH_BLIND_METADATA_FROZEN, source_species=42111, worker_packets=128, and carry the full distinct photo-ID worker ledger. Source photo total is unknown until that exact source audit finishes. Do not reuse old 149,900 photo colour outcomes.
 
+## One-shot recovery and real first-photo auto-handoff (15 October 2026)
+
+The first full snapshot census failed while writing species photo manifests, after the
+immutable 36GB archive and four source tables were SHA-verified, due to exhausted
+GitHub Actions scratch. The disk-reclaimed second source run is
+[38699975166](https://github.com/zuizui0223/fcp/actions/runs/38699975166).
+Do not treat its running state or CI test passes as a real source receipt.
+
+There are **two disjoint, source-gated paths** already wired on `main`:
+
+- If recovery #38699975166 succeeds, the [first original-photo automation](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-pr200-first-real-photos-when-source-completes.yml) accepts the exact run SHA and both source artifacts, then executes one 64-photo genuine ROI-v4 work unit.
+- If recovery #38699975166 **fails**, the [indexed source fallback](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-pr200-fallback-indexed-source.yml) downloads its status artifact *first* and refuses another 36GB transfer unless the archive/metadata hashes are correct, all 42,111 original taxa were targeted, and the failure is in the source photo-manifest scan after all four metadata tables were extracted. The fallback uses pinned source code `324e5b0926001272e8864d4517fc198c639e0e24`, which adds the indexed SQLite streaming scan absent from the already running second attempt. Only successful fallback artifacts are eligible for the **same** first real photo automation.
+
+Neither path autoruns the remaining uncapped millions of source photos without
+durable capacity and coordinated lawful provider access. No all-species
+measurement, fixed W/H2 test or direct soil/climate association may be claimed
+from a metadata-only receipt or a 64-photo first work unit.
+
 ## Automated admission after source completion
 
 Download **both** the successful source-status artifact and complete-source
