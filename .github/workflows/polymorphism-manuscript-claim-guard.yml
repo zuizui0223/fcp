@@ -147,3 +147,64 @@ jobs:
           assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
+
+  fcp-complete-42111-source-census-one-shot:
+    # Explicit 42111-taxon request; first stage of full biological FCP, NO
+    # original-photo image pixels or historical measured-photo outcomes.
+    # This does not automatically re-run on other pull requests.
+    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'analysis/fcp-fresh-uncapped-zero-20261015' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    permissions:
+      contents: read
+    env:
+      SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install disk-streaming metadata census runtime
+        run: |
+          python -m pip install --upgrade "numpy<3" "pandas<3"
+      - name: Restore frozen 42111 original taxon opportunity frame
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_20260927_input"
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$RUNNER_TEMP/fcp_20260927_input/42111_species.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$RUNNER_TEMP"'/fcp_20260927_input/42111_species.csv' | sha256sum -c -
+      - name: ACTUALLY download fixed 36GB Open Data snapshot and census all 42111 species
+        run: |
+          set -euo pipefail
+          df -h "$RUNNER_TEMP"
+          python scripts/acquisition/execute_fcp_42111_census.py \
+            --frame "$RUNNER_TEMP/fcp_20260927_input/42111_species.csv" \
+            --work "$RUNNER_TEMP/fcp_full_real_source_20260927" \
+            --minimum-free-disk-gb 80 \
+            --expected-species 42111 --shards 128 --worker-partitions 128
+      - name: Save provenance and counts EVEN ON FAILURE (not a completed source claim)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-full-dated-snapshot-source-status-20260927
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/fcp_full_real_source_20260927/full_source_execution_receipt.json
+            ${{ runner.temp }}/fcp_full_real_source_20260927/source_archive_sha256_before_source_data.txt
+            ${{ runner.temp }}/fcp_full_real_source_20260927/frozen_4_metadata_tables/fcp_source_archive_pin.json
+            ${{ runner.temp }}/fcp_full_real_source_20260927/complete_42111_metadata_source/bulk_source_receipt.json
+            ${{ runner.temp }}/fcp_full_real_source_20260927/frozen_location_blind_all_photo_firewall/fresh_study_freeze.json
+            ${{ runner.temp }}/fcp_full_real_source_20260927/all_42111_species_source_photo_counts.csv
+      - name: Archive complete photo manifest and blind worker packets if census finished
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-complete-new-source-manifests-and-blind-firewall-20260927
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+          path: ${{ runner.temp }}/fcp_full_real_source_20260927/fcp_complete_42111_source_and_blind_firewall.tar.gz
