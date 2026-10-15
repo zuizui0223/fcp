@@ -34,7 +34,7 @@ jobs:
       - name: Checkout reviewed and frozen PR200 runtime
         uses: actions/checkout@v4
         with:
-          ref: 0cb8302c5c471dbc3f1563cb0d195542f5ed7196
+          ref: ca14a6a38a7e05b1e75d49156a6452bc67c815ec
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -164,7 +164,9 @@ jobs:
           if (progress.get("n_processed_in_this_invocation")!=1
               or progress.get("invocation_partition")!=0
               or progress.get("full_study_original_photo_measurement_complete") is not False
-              or progress.get("n_pending_work_units",0)<1
+              or progress.get("completion_audit_scope")!="one_partition"
+              or progress.get("selected_partition_source_photo_ids",0)<1
+              or progress.get("n_pending_work_units",-1)<0
               or receipt.get("partition")!=0 or receipt.get("batch")!=0
               or receipt.get("status")!="COMPLETE_WORK_UNIT"
               or receipt.get("full_study_complete") is not False
