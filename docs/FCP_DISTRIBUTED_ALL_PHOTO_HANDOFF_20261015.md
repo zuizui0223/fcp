@@ -46,16 +46,18 @@ python scripts/acquisition/execute_fcp_42111_census.py \
   --expected-species 42111 --shards 128 --worker-partitions 128 \
   --stage-only --release-verified-temporary-tables
 
-# B. Only the selected SOURCE shards; repeat independently after interruption.
-#    Never rerun successful complete shards or reuse old measured flower colours.
-for start in $(seq 0 8 120); do
-  stop=$((start+8))
-  python scripts/acquisition/emit_fcp_staged_source_shards.py \
-    --frame "$FRAME" \
-    --staged-metadata "$ROOT/complete_42111_metadata_source" \
-    --shards 128 --expected-species 42111 \
-    --shard-start "$start" --shard-stop "$stop"
-done
+# B. SHA256/integrity-check the huge SQLite source ONCE, emit and seal
+#    128 independent source shards in this same process. Each shard gets its
+#    own complete receipt; failure leaves previously completed shards intact.
+python scripts/acquisition/emit_fcp_staged_source_shards.py \
+  --frame "$FRAME" \
+  --staged-metadata "$ROOT/complete_42111_metadata_source" \
+  --shards 128 --expected-species 42111 \
+  --shard-start 0 --shard-stop 128
+
+# An interrupted durable run can be resumed by requesting the same range.
+# Each previously sealed shard is independently hash-checked and not rewritten.
+# A partially written unsealed shard must be inspected/quarantined first.
 
 # C. Audit all shards, only then freeze all 128 blind photo workers and
 #    pack the portable complete metadata source WITHOUT the huge scratch DB.
@@ -73,7 +75,7 @@ sufficiently large storage: this change does **not** make the initial full
 provider scan fit on an undersized ephemeral CI disk and does **not** authorize
 multiple bulk downloads or unconstrained image requests.
 
-The separate fixed-run indexed fallback on [main](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-pr200-fallback-indexed-source.yml)
+To reduce very large SQLite rechecks, the live *conditional* main fallback now runs all 128 independently sealing shards inside a single verified SQLite session. This avoids 16 redundant full-database SHA256 and integrity scans while retaining 128 per-shard receipts. Source metadata processing still has no photo cap, and these engineering gains do not guarantee sufficient disk or within-job time. The separate fixed-run indexed fallback on [main](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-pr200-fallback-indexed-source.yml)
 is now configured to use this single-source, 8-shards-at-a-time path if the
 still-running second bulk census fails its strict hash/phase gate. That
 fallback still uses an ephemeral GitHub-hosted runner, so its checkpoints may
