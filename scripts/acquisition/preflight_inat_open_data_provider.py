@@ -12,6 +12,7 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode
 from urllib.error import HTTPError
+import tarfile
 from xml.etree import ElementTree
 import zlib
 
@@ -21,7 +22,6 @@ EXPECTED = {
     'observations': {'observation_uuid', 'taxon_id', 'observer_id', 'latitude', 'longitude',
                      'positional_accuracy', 'quality_grade', 'observed_on'},
     'photos': {'photo_id', 'observation_uuid', 'observer_id', 'extension', 'license'},
-    'observers': {'observer_id', 'login', 'name'},
 }
 MAX_PROBE_BYTES = 131072
 
@@ -83,6 +83,34 @@ def list_dated_archives() -> dict:
         return {'status': 'list_unavailable', 'reason': type(exc).__name__}
 
 
+def probe_dated_bundle_prefix() -> dict:
+    """Read <=256KiB of a dated archive to identify its real tar member schema."""
+    key='metadata/inaturalist-open-data-20260927.tar.gz'
+    url=BUCKET+key
+    limit=262144
+    with urlopen(Request(url,method='HEAD'),timeout=25) as response:
+        if response.status!=200:
+            raise RuntimeError('S3 dated archive HEAD failed')
+        source_size=int(response.headers.get('Content-Length','-1'))
+        etag=response.headers.get('ETag')
+    with urlopen(Request(url,headers={'Range':f'bytes=0-{limit-1}'}),timeout=25) as response:
+        if response.status!=206:
+            raise RuntimeError('Dated metadata archive did not honor HTTP range')
+        content=response.read(limit+1)
+        if len(content)>limit:
+            raise RuntimeError('Dated archive prefix exceeded exact safety budget')
+    # The first gzip record yields a plain POSIX tar header; this is NOT a
+    # checksum of the full dated snapshot or a complete source download.
+    prefix=zlib.decompressobj(16+zlib.MAX_WBITS).decompress(content)
+    if len(prefix)<512:
+        raise RuntimeError('Tar prefix too short for first metadata member')
+    member=tarfile.TarInfo.frombuf(prefix[:512],encoding='utf-8',errors='surrogateescape')
+    return {'s3_key':key,'source_archive_bytes':source_size,
+            'etag_not_a_sha256':etag,'first_member_name':member.name,
+            'first_member_size':member.size,'first_member_type':member.type.decode('latin1'),
+            'partial_range_bytes':len(content),'full_archive_sha256_verified':False}
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
@@ -94,7 +122,8 @@ def main(argv=None) -> int:
                'measured_photo_rows': 0, 'used_prior_colour_labels': False,
                'fully_downloaded_any_source': False, 'snapshot_sha256_pinned': False,
                'objects': {name: probe_object(name) for name in EXPECTED},
-               'dated_archive_availability': list_dated_archives()}
+               'dated_archive_availability': list_dated_archives(),
+               'dated_bundle_prefix': probe_dated_bundle_prefix()}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(receipt, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(receipt, ensure_ascii=False, sort_keys=True))
