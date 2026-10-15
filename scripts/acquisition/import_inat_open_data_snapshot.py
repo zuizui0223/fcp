@@ -126,7 +126,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
            source_archive_pin: Path | None = None,
            shards: int = 128, expected_species: int = 42111,
            input_sha256: dict[str, str] | None = None,
-           prune_verified_temporary_tables: bool = False) -> dict:
+           prune_verified_temporary_tables: bool = False,
+           stage_sqlite_only: bool = False) -> dict:
     from datetime import date
     if date.fromisoformat(snapshot_date).isoformat() != snapshot_date:
         raise ValueError("Snapshot must have an explicit immutable YYYY-MM-DD date")
@@ -273,6 +274,53 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                               'tables_sha256':hashes},sort_keys=True),flush=True)
         ambiguous_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=1").fetchone()[0])
         unique_valid_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=0").fetchone()[0])
+        if stage_sqlite_only:
+            # Freeze the full provider photo-ID universe ONCE as a resumable,
+            # exact-date SQLite source. Manifest workers can then emit a few
+            # disjoint taxa/shards at a time without re-downloading the 36GB
+            # source, rebuilding source observations, or parsing old colours.
+            # A durable volume (not ephemeral GitHub Actions scratch) is needed.
+            db.execute("""CREATE INDEX photos_taxon_numeric_order
+                ON photos(taxon, CAST(photo_id AS INTEGER))
+                WHERE ambiguous=0""")
+            db.commit()
+            db.close()
+            stage={
+                "schema":"fcp_staged_sqlite_photo_universe_v1",
+                "status":"SOURCE_SQLITE_STAGED_SHARDS_NOT_YET_EMITTED",
+                "full_source_census_complete":False,
+                "full_study_original_images_measured":False,
+                "source_species":len(names),
+                "source_species_frame_sha256":sha256_file(source_frame),
+                "source_snapshot_date":snapshot_date,
+                "source_kind":SNAPSHOT_SOURCE,
+                "source_input_sha256":hashes,
+                "verified_original_dated_archive":attestation,
+                "sqlite_basename":path.name,
+                "sqlite_sha256":sha256_file(path),
+                "sqlite_bytes":path.stat().st_size,
+                "shards":shards,
+                "n_source_observations_scanned":source_obs,
+                "n_target_taxon_research_grade_observations":pass_obs,
+                "n_source_observers_scanned":observer_rows,
+                "n_source_photos_scanned":source_photo,
+                "n_target_taxon_licensed_photo_metadata_rows":pass_photos,
+                "n_target_taxon_licensed_photos":unique_valid_photos,
+                "n_conflicting_photo_ids_quarantined":ambiguous_photos,
+                "pruned_pinned_temporary_metadata_after_full_scan":bool(prune_verified_temporary_tables),
+                "pruned_temporary_table_bytes":pruned_table_bytes,
+                "historical_flower_colour_csv_used":False,
+                "source_image_pixels_opened":False,
+                "original_photo_ids_deduplicated_globally":True,
+            }
+            receipt=outdir/"fcp_staged_sqlite_source_receipt.json"
+            tmp=receipt.with_suffix(".json.tmp")
+            tmp.write_text(json.dumps(stage,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+            tmp.replace(receipt)
+            print("FCP_SOURCE_STAGED_FOR_INCREMENTAL_SHARDS",json.dumps({
+                "source_species":len(names),"source_photos":unique_valid_photos,
+                "sqlite_bytes":stage["sqlite_bytes"],"shards":shards}),flush=True)
+            return stage
         # Frozen census as complete source manifests, even for zero-photo taxa.
         contracts = {}
         for shard in range(shards):
@@ -408,7 +456,10 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         return receipt
     finally:
         db.close()
-        if path.exists(): path.unlink()
+        # The staged SQLite DB is intentionally retained until every shard
+        # has been checked and finalized. An aborted staging attempt is NOT a
+        # source-complete receipt and must be explicitly quarantined.
+        if path.exists() and not stage_sqlite_only: path.unlink()
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -427,6 +478,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--observations-sha256",required=True)
     p.add_argument("--observers-sha256",required=True)
     p.add_argument("--photos-sha256",required=True)
+    p.add_argument("--stage-sqlite-only",action="store_true",
+                   help="Freeze once into a durable SQLite photo-ID source; generate shards in later invocations")
     p.add_argument("--prune-verified-temporary-tables",action="store_true",
                    help="Only for byte-verified disposable dated source copies, never caller-owned metadata")
     args=p.parse_args(argv)
@@ -438,7 +491,8 @@ def main(argv: list[str] | None = None) -> int:
                                           "observations": args.observations_sha256,
                                           "observers": args.observers_sha256,
                                           "photos": args.photos_sha256},
-                            prune_verified_temporary_tables=args.prune_verified_temporary_tables),indent=2))
+                            prune_verified_temporary_tables=args.prune_verified_temporary_tables,
+                            stage_sqlite_only=args.stage_sqlite_only),indent=2))
     return 0
 
 
