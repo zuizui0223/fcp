@@ -96,8 +96,31 @@ def _digest(path: Path):
     return sha256_file(path)
 
 
+
+def verify_source_archive_pin(path: Path, snapshot_date: str, hashes: dict[str, str]) -> dict:
+    """Pin the original *dated* 36-GB S3 tar before the fresh photo study."""
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    if (receipt.get("schema") != "fcp_dated_inaturalist_metadata_bundle_pin_v1"
+            or receipt.get("status") != "FOUR_ORIGINAL_METADATA_TABLES_EXTRACTED_AND_PINNED"
+            or receipt.get("snapshot_date") != snapshot_date
+            or receipt.get("metadata_files_sha256") != hashes
+            or receipt.get("source_images_opened") is not False
+            or receipt.get("historical_photo_colours_read") is not False):
+        raise ValueError("Frozen monthly archive attestation missing or disagrees with inputs")
+    key = str(receipt.get("s3_object_key") or "")
+    date_compact = snapshot_date.replace("-", "")
+    if key != f"metadata/inaturalist-open-data-{date_compact}.tar.gz":
+        raise ValueError("Dated immutable snapshot archive key differs from frozen date")
+    bundle_sha = str(receipt.get("full_bundle_sha256") or "")
+    if len(bundle_sha) != 64 or any(x not in "0123456789abcdef" for x in bundle_sha):
+        raise ValueError("Original full archive SHA256 is missing from source pin")
+    return {"source_archive_key": key, "source_archive_sha256": bundle_sha,
+            "source_archive_pin_sha256": sha256_file(path)}
+
+
 def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
            outdir: Path, snapshot_date: str, *, observers: Path | None = None,
+           source_archive_pin: Path | None = None,
            shards: int = 128, expected_species: int = 42111,
            input_sha256: dict[str, str] | None = None) -> dict:
     from datetime import date
@@ -120,6 +143,10 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
     if input_sha256 is None or set(input_sha256) != set(hashes) or any(
             input_sha256[k] != hashes[k] for k in hashes):
         raise ValueError("Every official monthly snapshot input must have a matching pre-pinned SHA256")
+    if expected_species == 42111 and source_archive_pin is None:
+        raise ValueError("Full 42,111 species require original dated source archive attestation")
+    attestation = (verify_source_archive_pin(source_archive_pin, snapshot_date, hashes)
+                   if source_archive_pin is not None else {})
     crosswalk = source_crosswalk(taxa, set(names))
     path = outdir / "_working_fcp_snapshot.sqlite"
     db = sqlite3.connect(path)
@@ -211,6 +238,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                         "source_kind": SNAPSHOT_SOURCE,
                         "created_d2_field_semantics": "immutable_source_snapshot_date_not_API_created_d2_query",
                         "input_metadata_sha256": hashes,
+                        **attestation,
                         "photo_cap": None, "outcome_blind": True}
             (directory / "source_contract.json").write_text(json.dumps(contract, indent=2) + "\n",encoding="utf-8")
             contracts[shard] = directory
@@ -280,6 +308,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "n_taxa_with_source_photos":len(counter),
                  "n_taxa_without_source_photos":len(names)-len(counter),
                  "metadata_snapshots_sha256":hashes,
+                 "verified_original_dated_archive":attestation,
                  "photo_cap":None,"all_available_snapshot_photo_ids_included":True,
                  "source_has_immutable_monthly_cutoff":True,
                  "not_literally_live_API_created_d2_window":True,
@@ -299,6 +328,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--observers",type=Path,required=True)
     p.add_argument("--photos",type=Path,required=True)
     p.add_argument("--snapshot-date",required=True)
+    p.add_argument("--snapshot-pin",type=Path,help="Full archive SHA and four extracted table SHA receipt; mandatory for full 42111 study")
     p.add_argument("--shards",type=int,default=128)
     p.add_argument("--expected-species",type=int,default=42111)
     p.add_argument("--output-root",type=Path,required=True)
@@ -310,6 +340,7 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps(ingest(args.species_frame,args.taxa,args.observations,args.photos,
                             args.output_root,args.snapshot_date,shards=args.shards,
                             expected_species=args.expected_species,observers=args.observers,
+                            source_archive_pin=args.snapshot_pin,
                             input_sha256={"taxa": args.taxa_sha256,
                                           "observations": args.observations_sha256,
                                           "observers": args.observers_sha256,
