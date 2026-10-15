@@ -59,9 +59,15 @@ The follow-up metadata-only GitHub Actions [run 38639092021](https://github.com/
 
 **Provider-rate corrective action:** The original iNaturalist observations API is intended for small/medium batches, about **one request per second and ~10,000 requests/day**; bulk access through the API is discouraged ([official recommended practices](https://www.inaturalist.org/pages/api+recommended+practices)). The recurring pull-request API collection job has therefore been **removed from CI**. This prevents repeated PR commits from automatically multiplying public provider requests. Historical API checkpoints stay as provenance/alternative limited route.
 
+### Verified provider inventory and capacity (15 October 2026)
+
+A **real byte-range/HEAD** GitHub Actions preflight ([run 38662030712](https://github.com/zuizui0223/fcp/actions/runs/38662030712), artifact `11939715787`) checked the complete original metadata headers at the provider's mutable root without downloading all rows. The observations (`13,420,521,411` bytes), photos (`20,668,099,997` bytes), and taxa (`39,999,332` bytes) required columns are present. All four data tables including photographers are now required by the new importer. The public bucket lists a **dated September 27, 2026 snapshot archive**, `metadata/inaturalist-open-data-20260927.tar.gz`, of **35,966,549,880 compressed bytes** (~36 GB). Dated snapshots are preferable for fixed-source analysis; mutable top-level CSV aliases are admissible for *schema/identity preflight only*.
+
+**Do not download this giant snapshot onto a standard GitHub Actions runner.** Full production needs sufficiently large persistent disk for the compressed source, extracted metadata, SQL join and many fresh images, plus a separate documented data-ingest budget. Official provider media/API guidance also limits large repeated image downloads; coordinate an approved bulk/access plan before full-scale image acquisition. The current PR only proves format, source identity checks, bootstrap and complete-fail gates; it does not imply a 36-GB corpus or any photo pixels were imported.
+
 ### Bulk snapshot importer: all eligible photos without a page cap
 
-`scripts/acquisition/import_inat_open_data_snapshot.py` reads the official iNaturalist Open Dataset monthly metadata tables (`taxa.csv.gz`, `observations.csv.gz`, `photos.csv.gz`). The [provider's metadata documentation](https://github.com/inaturalist/inaturalist-open-data/blob/main/Metadata/README.md) specifies the gzipped **tab-separated, unquoted** files and dated monthly snapshots.
+`scripts/acquisition/import_inat_open_data_snapshot.py` reads the official iNaturalist Open Dataset monthly metadata tables (`taxa.csv.gz`, `observations.csv.gz`, **`observers.csv.gz`**, `photos.csv.gz`). The fourth observer table is mandatory for each photo's copyright attribution (photographer may differ from observation owner). The [provider's metadata documentation](https://github.com/inaturalist/inaturalist-open-data/blob/main/Metadata/README.md) specifies the gzipped **tab-separated, unquoted** files and dated monthly snapshots.
 
 This is the recommended scalable alternative. A user-selected **immutable dated snapshot**, its original source location, all three SHA256 values and the original 42,111-species frame identity must be recorded **before** import. A mutable `latest` alias is *not* a frozen scientific input. The importer maps included taxon ancestry without colour selection, retains all qualifying research-grade georeferenced licensed photos (including several photos per observation), and emits exactly the same complete per-species source manifests as the original FCP location-blind measurement firewall. Incomplete/zero-photo taxa remain in the census. Old measured flower-colour data are never read or used as a source.
 
@@ -72,10 +78,12 @@ python scripts/acquisition/import_inat_open_data_snapshot.py \
   --species-frame /trusted/frozen_42111_species.csv \
   --taxa /trusted/snapshot/taxa.csv.gz \
   --observations /trusted/snapshot/observations.csv.gz \
+  --observers /trusted/snapshot/observers.csv.gz \
   --photos /trusted/snapshot/photos.csv.gz \
   --snapshot-date YYYY-MM-DD \
   --taxa-sha256 VERIFIED_TAXA_SHA256 \
   --observations-sha256 VERIFIED_OBSERVATIONS_SHA256 \
+  --observers-sha256 VERIFIED_OBSERVERS_SHA256 \
   --photos-sha256 VERIFIED_PHOTOS_SHA256 \
   --shards 128 --expected-species 42111 \
   --output-root /trusted/fcp_fresh_bulk_source
