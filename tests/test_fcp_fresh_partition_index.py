@@ -47,11 +47,11 @@ def test_indexed_photo_batches_match_traditional_frozen_metadata_preflight(tmp_p
 def test_index_rejects_modified_url_and_crosswired_source_identity(tmp_path):
     firewall=sample(tmp_path)
     acquired=firewall/'acquisition_partition_000.csv'
-    old=acquired.read_text()
-    acquired.write_text(old.replace('example.org','other.example.org'))
+    old=acquired.read_bytes()
+    acquired.write_bytes(old.replace(b'example.org',b'other.example.org'))
     with pytest.raises(ValueError,match='SHA256 changed'):
         FrozenPartitionSourceIndex(firewall,0)
-    acquired.write_text(old)
+    acquired.write_bytes(old)
     assert FrozenPartitionSourceIndex(firewall,0).total_photo_ids>=2
     with acquired.open(newline='') as h:
         rows=list(csv.DictReader(h))
