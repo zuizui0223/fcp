@@ -139,7 +139,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
     if outdir.exists() and any(outdir.iterdir()):
         raise ValueError("Source output must be empty; cannot mix snapshots/API sources")
     outdir.mkdir(parents=True, exist_ok=True)
-    if expected_species == 42111 and sha256_file(source_frame) != AUTHORITATIVE_42111_SHA256:
+    frame_digest = sha256_file(source_frame)
+    if expected_species == 42111 and frame_digest != AUTHORITATIVE_42111_SHA256:
         raise ValueError("Authoritative 42,111-taxon frame byte SHA256 mismatch")
     frame = opportunity_frame(source_frame, expected_species)
     plan = opportunity_schedule(frame, shards)
@@ -177,7 +178,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             'schema': 'fcp_provider_metadata_ingest_progress_v1',
             'phase': phase,
             'snapshot_date': snapshot_date,
-            'source_frame_sha256': sha256_file(source_frame),
+            'source_frame_sha256': frame_digest,
             'n_source_rows_scanned': scanned,
             'n_candidate_rows_retained': retained,
             'stage_complete': False,
