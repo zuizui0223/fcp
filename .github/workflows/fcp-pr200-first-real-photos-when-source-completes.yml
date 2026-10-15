@@ -18,14 +18,14 @@ jobs:
   first-real-full-study-photo-unit:
     if: >-
       ${{
-        github.event.workflow_run.id == 38676167958 &&
-        github.event.workflow_run.head_sha == '5b4156d1056c24e7874cbc7668914e60fc5f9bc8' &&
+        github.event.workflow_run.id == 38699975166 &&
+        github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' &&
         github.event.workflow_run.conclusion == 'success'
       }}
     runs-on: ubuntu-24.04
     timeout-minutes: 350
     env:
-      SOURCE_RUN: "38676167958"
+      SOURCE_RUN: "38699975166"
       GH_TOKEN: ${{ github.token }}
       FCP_BASE: /tmp/fcp_pr200_full_source_first_photo
     steps:
@@ -50,15 +50,15 @@ jobs:
           d=json.loads(subprocess.check_output(
               ["gh","api",f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{run}"],text=True))
           if (d.get("status")!="completed" or d.get("conclusion")!="success"
-              or d.get("head_sha")!="5b4156d1056c24e7874cbc7668914e60fc5f9bc8"):
+              or d.get("head_sha")!="a6012411ca8d48fb6f9d65fd3e2839b2880194f1"):
               raise SystemExit("Source census has not produced a successful frozen complete run")
           print("FCP_SOURCE_RUN_CONFIRMED_SUCCESS",run,flush=True)
           PY
           gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
-            --name fcp-42111-full-dated-snapshot-source-status-20260927 \
+            --name fcp-42111-recovery-20260927-status-and-original-hashes \
             --dir "$FCP_BASE/status"
           gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
-            --name fcp-42111-complete-new-source-manifests-and-blind-firewall-20260927 \
+            --name fcp-42111-recovery-20260927-complete-source-and-blind-photo-firewall \
             --dir "$FCP_BASE/archive"
           mapfile -t archives < <(find "$FCP_BASE/archive" -type f -name '*.tar.gz')
           test "${#archives[@]}" -eq 1
