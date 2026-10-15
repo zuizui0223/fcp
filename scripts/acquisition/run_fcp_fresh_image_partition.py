@@ -28,7 +28,7 @@ from urllib.error import HTTPError, URLError
 
 import numpy as np
 import pandas as pd
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 
 from fcp_pipeline.fcp_fresh_study import (
     SOURCE_METHOD_COMMIT,SOURCE_MEASUREMENT_BLOB,SOURCE_DETECTOR_SHA256,
@@ -49,6 +49,10 @@ class ProviderRateGateError(RuntimeError):
 
 class ProviderTransientAccessError(RuntimeError):
     """Provider-wide/retryable outage. Abort work unit rather than seal fake missing photos."""
+
+
+class PermanentOriginalPhotoError(ValueError):
+    """The frozen source photo is permanently inaccessible or not processable as an image."""
 
 
 def _pace_provider_request() -> None:
@@ -123,21 +127,31 @@ def image_loader(url:str)->bytes:
             with urlopen(req,timeout=45) as response:
                 buf=response.read(MAX_IMAGE_BYTES+1)
             if not buf or len(buf)>MAX_IMAGE_BYTES:
-                raise ValueError('Original photo empty or exceeds 12MiB bounded acquisition')
-            with Image.open(BytesIO(buf)) as img:
-                img.verify()
+                raise PermanentOriginalPhotoError(
+                    'Frozen photo empty or exceeds the predeclared 12MiB per-photo acquisition cap')
+            try:
+                with Image.open(BytesIO(buf)) as img:
+                    img.verify()
+            except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:
+                raise PermanentOriginalPhotoError(
+                    'Frozen provider returned undecodable original photo pixels') from exc
             return buf
         except HTTPError as exc:
             # A persistent provider rate limit/outage is not evidence that one
             # original photograph is permanently missing. Preserve this whole
             # batch as unfinished so its source ID can be retried unchanged.
+            if exc.code in (404,410):
+                # Verified object-specific permanent absence; keep this exact
+                # original photo ID as explicitly unclassifiable, not replaced.
+                raise PermanentOriginalPhotoError(
+                    f'Frozen original source photo HTTP {exc.code}: unavailable') from exc
             if exc.code in (401,403):
                 raise ProviderTransientAccessError(
                     f'Original-photo provider access refused HTTP {exc.code}; no photo terminal can be sealed') from exc
             if exc.code not in (408,425,429,500,502,503,504):
-                # Object-level permanent missingness (404/410) is recorded
-                # separately by run_batch; never colour-replace a lost image.
-                raise
+                # Unrecognized remote response is not proof of permanent loss.
+                raise ProviderTransientAccessError(
+                    f'Unexpected provider HTTP {exc.code}; manual source audit required') from exc
             if attempt==2:
                 raise ProviderTransientAccessError(
                     f'Original-photo provider transient HTTP {exc.code} after bounded retries; unsealed work unit') from exc
@@ -259,16 +273,16 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
         for r in acq.itertuples(index=False):
             try:
                 payload=(loader or image_loader)(str(r.photo_url_large))
-                if not payload:raise ValueError('empty image')
+                if not payload:
+                    raise PermanentOriginalPhotoError('Frozen photo empty under declared loader contract')
+                # Local disk/write failures must abort the whole unit, never
+                # count as irretrievably missing biological photo evidence.
                 (images/str(r.image_filename)).write_bytes(payload)
                 okay.append({'measurement_id':r.measurement_id,'image_filename':r.image_filename,
                              'photo_license':r.photo_license})
-            except (ProviderRateGateError, ProviderTransientAccessError):
-                # Source-server outage, rate throttling, or shared gate failure
-                # is NOT a permanent property of one photograph. Do not seal
-                # this work unit; checkpointed IDs remain pending for replay.
-                raise
-            except Exception as exc:
+            except PermanentOriginalPhotoError as exc:
+                # Only a validated source-photo terminal condition may be
+                # sealed as unclassifiable; unexpected I/O/code errors escape.
                 failures.append({'measurement_id':r.measurement_id,'morph':'mixed_uncertain',
                                  'measurement_status':'image_acquisition_failed',
                                  'failure_reasons':f'{type(exc).__name__}:{str(exc)[:160]}',
