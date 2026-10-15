@@ -132,3 +132,33 @@ def test_successful_long_stage_persists_completed_stage(tmp_path,monkeypatch):
     observed=json.loads(receipt.read_text())
     assert observed['stage_in_progress'] is False
     assert observed['last_completed_stage']==observed['stage']
+
+
+def test_photo_opportunities_cover_all_nominated_taxa_without_opening_original_pixels(tmp_path):
+    # Real production's first bounded output: exact all-species source counts.
+    # A complete COUNT output is not the frozen photo-ID firewall or W.
+    import csv
+    frame,taxa,observations,photos,observers,_=fixture(tmp_path)
+    original=pack_archive(tmp_path/'source_counts_archive.tar.gz',{
+        'taxa':taxa,'observations':observations,'photos':photos,'observers':observers})
+    out=tmp_path/'counts_study'
+    got=execute(frame,out,source_archive=original,species=4,shards=2,workers=2,
+                photo_counts_only=True)
+    assert got['status']=='COMPLETE_REAL_42111_PHOTO_OPPORTUNITY_COUNTS_ONLY_NOT_FULL_SOURCE'
+    assert got['source_photo_opportunity_counts_completed'] is True
+    assert got['complete_metadata_census'] is False
+    assert got['complete_original_images_measured'] is False
+    assert got['photo_id_manifest_universe_frozen'] is False
+    assert got['n_frozen_source_photo_opportunities']==3
+    with (out/'complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv').open() as hdl:
+        rows=list(csv.DictReader(hdl))
+    assert len(rows)==4
+    assert {row['inat_taxon_id']:int(row['n_unique_source_photo_ids']) for row in rows}=={
+        '11':2,'12':1,'13':0,'14':0}
+    assert not (out/'frozen_location_blind_all_photo_firewall').exists()
+    assert original.is_file()
+    assert not (out/'complete_42111_metadata_source/_working_fcp_snapshot.sqlite').exists()
+    receipt=json.loads((out/'full_source_execution_receipt.json').read_text())
+    assert receipt['status']==got['status']
+    assert receipt['new_W_or_environment_results_computed'] is False
+    assert receipt['last_completed_stage']=='scan_complete_source_and_count_all_species_photo_opportunities'
