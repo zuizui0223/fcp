@@ -32,7 +32,8 @@ def sha256(path: Path) -> str:
 
 
 def audit(counts_file: Path, source_receipt_file: Path,
-          execution_receipt_file: Path, *, species: int = 42111) -> dict:
+          execution_receipt_file: Path, *, species: int = 42111,
+          frame_file: Path | None = None) -> dict:
     source = json.loads(source_receipt_file.read_text(encoding="utf-8"))
     execution = json.loads(execution_receipt_file.read_text(encoding="utf-8"))
     if (source.get("schema") != "fcp_full_source_photo_opportunity_counts_v1"
@@ -84,6 +85,40 @@ def audit(counts_file: Path, source_receipt_file: Path,
             names_seen.add(key)
             counts.append(value)
 
+    # A count receipt containing 42,111 plausible IDs is NOT evidence those
+    # are the original 42,111 biological taxa. Independently match exact
+    # species identities and names against the byte-frozen original frame.
+    # Refuse all real full-frame reports if that original frame is unavailable.
+    original_frame_matched = False
+    if species == 42111 and frame_file is None:
+        raise ValueError("Real 42111 audit needs independently verified original taxon frame")
+    if frame_file is not None:
+        if species == 42111 and sha256(frame_file) != FRAME_SHA:
+            raise ValueError("Original 42111 taxon frame SHA256 mismatch")
+        expected_names = {}
+        with frame_file.open("r", encoding="utf-8", newline="") as f:
+            original = csv.DictReader(f)
+            if not {"inat_taxon_id", "species"}.issubset(set(original.fieldnames or ())):
+                raise ValueError("Original source frame has no taxon ID/species fields")
+            for row in original:
+                ident = str(row["inat_taxon_id"])
+                if not ident.isdecimal() or int(ident) <= 0 or int(ident) in expected_names:
+                    raise ValueError("Original source frame contains duplicate or invalid taxon IDs")
+                expected_names[int(ident)] = str(row["species"])
+        if len(expected_names) != species:
+            raise ValueError("Original source frame cardinality mismatches expected 42111")
+        # Re-read COUNT ledger rather than trusting only aggregate set/count.
+        matched_count = 0
+        with counts_file.open("r", encoding="utf-8", newline="") as f:
+            for row in csv.DictReader(f):
+                ident = int(row["inat_taxon_id"])
+                if ident not in expected_names or row["species"] != expected_names[ident]:
+                    raise ValueError("Original 42111 source taxon ID or taxonomic name mismatch")
+                matched_count += 1
+        if matched_count != species or names_seen != set(expected_names):
+            raise ValueError("Original 42111 source taxon ID coverage mismatch")
+        original_frame_matched = True
+
     n_taxa = len(counts)
     n_with = sum(n > 0 for n in counts)
     n_zero = n_taxa - n_with
@@ -108,6 +143,7 @@ def audit(counts_file: Path, source_receipt_file: Path,
         "source_frame_species": species,
         "source_archive_sha256": ARCHIVE_SHA,
         "source_frame_sha256": FRAME_SHA,
+        "original_source_taxon_IDs_and_names_independently_matched": original_frame_matched,
         "count_ledger_sha256": digest,
         "all_source_photo_opportunity_ids": total,
         "taxa_with_at_least_one_photo": n_with,
@@ -143,9 +179,12 @@ def main(argv=None) -> int:
     ap.add_argument("--counts", type=Path, required=True)
     ap.add_argument("--source-receipt", type=Path, required=True)
     ap.add_argument("--execution-receipt", type=Path, required=True)
+    ap.add_argument("--original-frame", type=Path,
+                    help="Byte-frozen original 42,111 taxon file; required for full original-source audit")
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args(argv)
-    result = audit(args.counts, args.source_receipt, args.execution_receipt)
+    result = audit(args.counts, args.source_receipt, args.execution_receipt,
+                   frame_file=args.original_frame)
     if args.output.exists():
         raise ValueError("Audit output already exists: refuse silent overwrite")
     args.output.parent.mkdir(parents=True, exist_ok=True)
