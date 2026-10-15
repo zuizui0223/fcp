@@ -113,3 +113,43 @@ def test_duplicate_source_taxon_id_cannot_be_inferred_as_two_species(tmp_path):
     execution.write_text(json.dumps(e), encoding="utf-8")
     with pytest.raises(ValueError, match="Duplicate"):
         audit(counts, source, execution, species=4)
+
+
+def test_ledger_must_match_original_frozen_frame_exact_taxa_and_names(tmp_path):
+    counts, source, execution = fixture(tmp_path)
+    frame = tmp_path / "original_frame.csv"
+    with frame.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["inat_taxon_id", "species"])
+        w.writerows([[11, "Test species A"], [12, "Test species B"],
+                     [13, "Test species C"], [14, "Test species D"]])
+    result = audit(counts, source, execution, species=4, frame_file=frame)
+    assert result["original_source_taxon_IDs_and_names_independently_matched"] is True
+
+    # An otherwise SHA-matched result could falsely replace one target taxon
+    # with a different biological species. Recompute the derived CSV hashes
+    # as a realistic isolated count-input corruption, but keep frozen frame.
+    old = counts.read_text(encoding="utf-8")
+    counts.write_text(old.replace("14,Test species D,5", "999,Test species D,5"),
+                      encoding="utf-8")
+    digest = hashlib.sha256(counts.read_bytes()).hexdigest()
+    src = json.loads(source.read_text())
+    exe = json.loads(execution.read_text())
+    src["counts_file_sha256"] = digest
+    exe["photo_counts_csv_sha256"] = digest
+    source.write_text(json.dumps(src))
+    execution.write_text(json.dumps(exe))
+    with pytest.raises(ValueError, match="taxon ID or taxonomic name mismatch"):
+        audit(counts, source, execution, species=4, frame_file=frame)
+
+
+def test_original_frame_taxon_names_must_match_not_only_ids(tmp_path):
+    counts, source, execution = fixture(tmp_path)
+    frame = tmp_path / "original_frame.csv"
+    with frame.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["inat_taxon_id", "species"])
+        w.writerows([[11, "Test species A"], [12, "Test species B"],
+                     [13, "Test species C"], [14, "Wrong species D"]])
+    with pytest.raises(ValueError, match="taxon ID or taxonomic name mismatch"):
+        audit(counts, source, execution, species=4, frame_file=frame)
