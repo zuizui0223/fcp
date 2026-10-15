@@ -255,9 +255,9 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
                 reader=csv.DictReader(f)
                 if tuple(reader.fieldnames or ())!=WORKER:
                     raise ValueError('Worker sees non-blind or changed metadata columns')
-                for row in reader:
-                    cur=db.execute('UPDATE exp SET worker_seen=worker_seen+1 WHERE measurement_id=? AND license=?',
-                                   (row['measurement_id'],row['photo_license']))
+                for worker_index,row in enumerate(reader):
+                    cur=db.execute('UPDATE exp SET worker_seen=worker_seen+1,worker_part=?,worker_index=?,worker_filename=? WHERE measurement_id=? AND license=?',
+                                   (part,worker_index,row['image_filename'],row['measurement_id'],row['photo_license']))
                     if cur.rowcount!=1:
                         raise ValueError('Worker entry unknown or licence inconsistent with source')
                     n_part+=1
@@ -293,6 +293,22 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
             from math import ceil
             if claimed_batches!=ceil(worker_count_by_part[part]/batch_size):
                 raise ValueError('Work-unit batch count inconsistent with photo census')
+            low=batch*batch_size
+            high=min((batch+1)*batch_size,worker_count_by_part[part])
+            if high<=low:
+                raise ValueError('Incomplete fresh ROI-v4 work unit: unexpected empty batch')
+            expected_source_rows=list(db.execute(
+                'SELECT measurement_id,worker_filename,license FROM exp WHERE worker_part=? AND worker_index>=? AND worker_index<? ORDER BY worker_index',
+                (part,low,high)))
+            if len(expected_source_rows)!=high-low:
+                raise ValueError('Frozen source worker sequence did not match expected batch')
+            batch_hash=hashlib.sha256(
+                pd.DataFrame(expected_source_rows,columns=list(WORKER)).to_csv(index=False).encode()).hexdigest()
+            if receipt.get('selected_source_worker_sha256')!=batch_hash:
+                raise ValueError('Terminal batch worker subset SHA256 does not match frozen source order')
+            if receipt.get('n_source_photo_ids')!=len(expected_source_rows):
+                raise ValueError('Incomplete fresh ROI-v4 terminal batch relative to frozen source')
+            expected_unit_photo_ids={row[0] for row in expected_source_rows}
             units_by_part[part].append((batch,batch_size))
             seen_in_file=0
             with path.open('r',encoding='utf-8',newline='') as f:
@@ -302,6 +318,8 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
                 if {'species','observer_id','photo_id','latitude','longitude','photo_url_large'} & set(reader.fieldnames or ()):
                     raise ValueError('ROI-v4 terminal results leaked identity or geography')
                 for row in reader:
+                    if row['measurement_id'] not in expected_unit_photo_ids:
+                        raise ValueError('Terminal photo measurement does not belong to its frozen source batch')
                     status=row['measurement_status']
                     is_class=status=='classified_four_state_morph'
                     if is_class!=(row['morph'] in MORPHS):
@@ -319,8 +337,12 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
                 raise ValueError('Incomplete fresh ROI-v4 terminal batch relative to source manifest')
             expected_unit_counts[part]+=seen_in_file
         for part,n in worker_count_by_part.items():
+            sizes={size for _,size in units_by_part[part]}
+            from math import ceil
+            target_batch_count=(ceil(n/next(iter(sizes))) if len(sizes)==1 else 0)
             if (expected_unit_counts[part]!=n or
-                    set(batch for batch,_ in units_by_part[part])!=set(range(len(units_by_part[part])))):
+                    len(sizes)!=(1 if n else 0) or
+                    set(batch for batch,_ in units_by_part[part])!=set(range(target_batch_count))):
                 raise ValueError('Incomplete fresh ROI-v4 partitions/batches')
         n_terminal=db.execute('SELECT COUNT(*) FROM obs').fetchone()[0]
         if n_terminal!=expected_count:
