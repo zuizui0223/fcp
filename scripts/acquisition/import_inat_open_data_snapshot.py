@@ -128,7 +128,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
            shards: int = 128, expected_species: int = 42111,
            input_sha256: dict[str, str] | None = None,
            prune_verified_temporary_tables: bool = False,
-           stage_sqlite_only: bool = False) -> dict:
+           stage_sqlite_only: bool = False,\n           photo_counts_only: bool = False) -> dict:
     from datetime import date
     if date.fromisoformat(snapshot_date).isoformat() != snapshot_date:
         raise ValueError("Snapshot must have an explicit immutable YYYY-MM-DD date")
@@ -136,6 +136,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         raise ValueError("Official observer table required for copyright/source attribution")
     if shards < 1:
         raise ValueError("shards must be positive")
+    if photo_counts_only and stage_sqlite_only:
+        raise ValueError('Counts-only and staged immutable photo-ID SQLite are different incomplete-source products')
     if outdir.exists() and any(outdir.iterdir()):
         raise ValueError("Source output must be empty; cannot mix snapshots/API sources")
     outdir.mkdir(parents=True, exist_ok=True)
@@ -321,6 +323,60 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         unique_valid_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=0").fetchone()[0])
         progress('original_photo_ids_globally_deduplicated',
                  scanned=source_photo,retained=unique_valid_photos)
+        if photo_counts_only:
+            # A complete, REAL, provider-frozen 42,111-taxon PHOTO OPPORTUNITY
+            # count is useful to size persistent compute. It is explicitly
+            # not the full frozen per-photo-ID census required for ROI pixels.
+            raw_counts=list(db.execute(
+                'SELECT taxon, COUNT(*) FROM photos WHERE ambiguous=0 GROUP BY taxon'))
+            counts={int(t):int(n) for t,n in raw_counts}
+            if set(counts)-set(names) or sum(counts.values())!=unique_valid_photos:
+                raise ValueError('Photo opportunity aggregation disagrees with globally deduplicated source IDs')
+            counts_path=outdir/'all_42111_species_photo_opportunity_counts.csv'
+            with counts_path.open('w',encoding='utf-8',newline='') as hdl:
+                writer=csv.writer(hdl)
+                writer.writerow(['inat_taxon_id','species','n_unique_source_photo_ids','snapshot_date'])
+                for tax in sorted(names):
+                    writer.writerow([tax,names[tax],counts.get(tax,0),snapshot_date])
+            with counts_path.open('r',encoding='utf-8',newline='') as hdl:
+                if sum(1 for _ in csv.DictReader(hdl))!=len(names):
+                    raise ValueError('Not all nominated species have a photo-opportunity count row')
+            report={
+                'schema':'fcp_full_source_photo_opportunity_counts_v1',
+                'status':'COMPLETE_REAL_SOURCE_PHOTO_COUNTS_ONLY_NO_PHOTO_ID_FIREWALL',
+                'source_species':len(names),
+                'source_species_frame_sha256':frame_digest,
+                'snapshot_date':snapshot_date,
+                'source_kind':SNAPSHOT_SOURCE,
+                'source_archive_attestation':attestation,
+                'source_input_sha256':hashes,
+                'counts_file_sha256':sha256_file(counts_path),
+                'n_source_observations_scanned':source_obs,
+                'n_source_photos_scanned':source_photo,
+                'n_target_taxon_research_grade_observations':pass_obs,
+                'n_target_taxon_licensed_photo_metadata_rows':pass_photos,
+                'n_target_taxon_licensed_photos':unique_valid_photos,
+                'n_conflicting_photo_ids_quarantined':ambiguous_photos,
+                'n_taxa_with_source_photos':sum(n>0 for n in counts.values()),
+                'n_taxa_without_source_photos':len(names)-len(counts),
+                'counts_cover_every_target_taxon':True,
+                'all_original_photo_ID_manifests_frozen':False,
+                'full_source_census_complete':False,
+                'full_study_original_images_measured':False,
+                'biological_flower_colour_inference_ready':False,
+                'historical_flower_colour_csv_used':False,
+                'source_image_pixels_opened':False,
+                'photo_cap':None
+            }
+            (outdir/'photo_opportunity_counts_only_receipt.json').write_text(
+                json.dumps(report,ensure_ascii=False,indent=2,sort_keys=True)+'\n',
+                encoding='utf-8')
+            progress('all_42111_source_photo_opportunity_counts_complete_no_photo_ID_firewall',
+                     scanned=source_photo,retained=unique_valid_photos)
+            print('FCP_ALL_TAXA_REAL_SOURCE_PHOTO_OPPORTUNITY_COUNTS_ONLY',
+                  json.dumps({'source_species':len(names),
+                  'n_target_taxon_licensed_photos':unique_valid_photos}),flush=True)
+            return report
         if stage_sqlite_only:
             # Freeze the full provider photo-ID universe ONCE as a resumable,
             # exact-date SQLite source. Manifest workers can then emit a few
@@ -535,6 +591,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--photos-sha256",required=True)
     p.add_argument("--stage-sqlite-only",action="store_true",
                    help="Freeze once into a durable SQLite photo-ID source; generate shards in later invocations")
+    p.add_argument("--photo-counts-only",action="store_true",
+                   help="Count ALL frozen source photos per nominated species, without claiming full photo-ID manifests or flower colours")
     p.add_argument("--prune-verified-temporary-tables",action="store_true",
                    help="Only for byte-verified disposable dated source copies, never caller-owned metadata")
     args=p.parse_args(argv)
@@ -547,7 +605,7 @@ def main(argv: list[str] | None = None) -> int:
                                           "observers": args.observers_sha256,
                                           "photos": args.photos_sha256},
                             prune_verified_temporary_tables=args.prune_verified_temporary_tables,
-                            stage_sqlite_only=args.stage_sqlite_only),indent=2))
+                            stage_sqlite_only=args.stage_sqlite_only,\n                            photo_counts_only=args.photo_counts_only),indent=2))
     return 0
 
 
