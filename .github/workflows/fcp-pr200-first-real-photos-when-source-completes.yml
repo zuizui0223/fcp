@@ -34,7 +34,7 @@ jobs:
       - name: Checkout reviewed and frozen PR200 runtime
         uses: actions/checkout@v4
         with:
-          ref: ca14a6a38a7e05b1e75d49156a6452bc67c815ec
+          ref: 7bc6330fb06494c1464be0095551f2922e6d4969
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
