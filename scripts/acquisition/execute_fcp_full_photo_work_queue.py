@@ -103,8 +103,15 @@ def execute_pending(firewall:Path,output:Path,*,source:Path,detector:Path,sam:Pa
            'reused_historical_flower_colours':False,
            'W_or_environment_analyses_done':False}
     _write_atomic(report_path,state)
+    indexed_partition=None
+    indexed_source=None
     for job in selected:
         part,batch=int(job['partition']),int(job['batch'])
+        if part != indexed_partition:
+            # One byte-hashed metadata pass per partition, never one full
+            # worker/URL CSV reread per bounded ROI-v4 image work unit.
+            indexed_source=roi.FrozenPartitionSourceIndex(firewall,part)
+            indexed_partition=part
         stem=f'terminal_p{part:03}_b{batch:07}'
         stage=stages/stem
         if stage.exists():
@@ -114,7 +121,8 @@ def execute_pending(firewall:Path,output:Path,*,source:Path,detector:Path,sam:Pa
         stage.mkdir()
         try:
             result=roi.run_batch(firewall,part,batch,batch_size,stage,
-                                 source=source,detector=detector,sam=sam)
+                                 source=source,detector=detector,sam=sam,
+                                 indexed_source=indexed_source)
             terminal=stage/(stem+'.csv')
             receipt=stage/(stem+'.json')
             if (not terminal.is_file() or not receipt.is_file() or
