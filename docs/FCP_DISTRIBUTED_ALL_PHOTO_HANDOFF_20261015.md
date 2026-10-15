@@ -23,6 +23,64 @@ durable capacity and coordinated lawful provider access. No all-species
 measurement, fixed W/H2 test or direct soil/climate association may be claimed
 from a metadata-only receipt or a 64-photo first work unit.
 
+## Split the SOURCE census itself, not just the image model
+
+The global 42,111-taxon study no longer has to re-read the original ~36GB dated
+iNaturalist archive for every source photo-manifest shard. In the **new opt-in
+durable-storage path**, scan all four SHA-pinned provider tables into a
+disk-backed, globally deduplicated SQLite source **exactly once**, preserve
+that database with an immutable SHA256 receipt, and create up to 128 complete,
+disjoint metadata/photograph-ID shards in small resumable batches.
+
+On a **persistent disk** with sufficient real free capacity, and a local
+trusted original archive (or one deliberately authorised download), run:
+
+~~~bash
+ROOT=/persistent/fcp/complete_42111_durable_source
+FRAME=/persistent/fcp/42111_species.csv
+ARCHIVE=/persistent/fcp/inaturalist-open-data-20260927.tar.gz
+
+# A. Global observation/photo ID join once, preserve exact SQLite bytes.
+python scripts/acquisition/execute_fcp_42111_census.py \
+  --frame "$FRAME" --archive "$ARCHIVE" --work "$ROOT" \
+  --expected-species 42111 --shards 128 --worker-partitions 128 \
+  --stage-only --release-verified-temporary-tables
+
+# B. Only the selected SOURCE shards; repeat independently after interruption.
+#    Never rerun successful complete shards or reuse old measured flower colours.
+for start in $(seq 0 8 120); do
+  stop=$((start+8))
+  python scripts/acquisition/emit_fcp_staged_source_shards.py \
+    --frame "$FRAME" \
+    --staged-metadata "$ROOT/complete_42111_metadata_source" \
+    --shards 128 --expected-species 42111 \
+    --shard-start "$start" --shard-stop "$stop"
+done
+
+# C. Audit all shards, only then freeze all 128 blind photo workers and
+#    pack the portable complete metadata source WITHOUT the huge scratch DB.
+python scripts/acquisition/finalize_fcp_staged_source.py \
+  --frame "$FRAME" --work "$ROOT" \
+  --expected-species 42111 --shards 128 --worker-partitions 128
+~~~
+
+**Important:** This is genuine *source-side* splitting; original image
+measurement is a further, independently partitioned phase. A completed source
+shard is never a complete flower-colour result. A failed partially written
+shard is quarantined for review rather than overwritten, while previously
+sealed shards remain intact. The original SQLite source requires durable,
+sufficiently large storage: this change does **not** make the initial full
+provider scan fit on an undersized ephemeral CI disk and does **not** authorize
+multiple bulk downloads or unconstrained image requests.
+
+The separate fixed-run indexed fallback on [main](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-pr200-fallback-indexed-source.yml)
+is now configured to use this single-source, 8-shards-at-a-time path if the
+still-running second bulk census fails its strict hash/phase gate. That
+fallback still uses an ephemeral GitHub-hosted runner, so its checkpoints may
+be lost if the *whole* job fails; a persistent machine is necessary for
+durable **cross-job** resumption. The staging SQLite is excluded from the
+portable source artifact only after all 128 shards have verified complete.
+
 ## Automated admission after source completion
 
 Download **both** the successful source-status artifact and complete-source
