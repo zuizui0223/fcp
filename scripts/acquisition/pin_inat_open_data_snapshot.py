@@ -83,7 +83,7 @@ def unpack_dated_metadata(archive:Path, outdir:Path, *, s3_key:str,
                 else:
                     # tar.gz bundles may contain UNCOMPRESSED CSV tables.
                     # Recompress deterministically to avoid huge multi-100GB plain CSV output.
-                    with gzip.GzipFile(fileobj=destination,mode='wb',filename='',mtime=0) as zipped:
+                    with gzip.GzipFile(fileobj=destination,mode='wb',filename='',mtime=0,compresslevel=1) as zipped:
                         shutil.copyfileobj(source,zipped,CHUNK)
             with gzip.open(target,'rb') as check:
                 header=check.readline(10000)
