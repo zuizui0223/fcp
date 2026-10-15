@@ -82,7 +82,8 @@ def download_exact_archive(path:Path,status:dict,min_space:int):
 def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             species:int=42111,shards:int=128,workers:int=128,
             skip_package:bool=False,required_scratch_gb:int=80,
-            release_verified_temporary_tables:bool=False)->dict:
+            release_verified_temporary_tables:bool=False,
+            stage_only:bool=False)->dict:
     if workers<1 or shards<1 or species<1:
         raise ValueError('Shards, workers and species must be positive')
     if work.exists() and any(work.iterdir()):
@@ -160,7 +161,29 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
              '--output-root',str(dest)]
         if release_verified_temporary_tables:
             cmd.append('--prune-verified-temporary-tables')
-        run(cmd,cwd=repo,stage='scan_entire_dated_source_and_emit_all_photo_manifests',status=record)
+        if stage_only:
+            cmd.append('--stage-sqlite-only')
+        run(cmd,cwd=repo,stage=('scan_source_once_and_stage_sqlite_for_sharded_emission'
+                               if stage_only else
+                               'scan_entire_dated_source_and_emit_all_photo_manifests'),status=record)
+        if stage_only:
+            staged=json.loads((dest/'fcp_staged_sqlite_source_receipt.json').read_text(encoding='utf-8'))
+            if (staged.get('status')!='SOURCE_SQLITE_STAGED_SHARDS_NOT_YET_EMITTED'
+                    or staged.get('source_species')!=species
+                    or staged.get('source_input_sha256')!=h
+                    or staged.get('n_target_taxon_licensed_photos',-1)<0):
+                raise ValueError('Provider snapshot did not yield one complete immutable SQLite stage')
+            record.update(
+                status='SOURCE_SQLITE_STAGED_FOR_INDEPENDENT_SHARDS_NOT_FULL_CENSUS',
+                complete_metadata_census=False,
+                staged_original_source_photo_ids=staged['n_target_taxon_licensed_photos'],
+                staged_source_sqlite_sha256=staged['sqlite_sha256'],
+                staged_sqlite_bytes=staged['sqlite_bytes'],
+                n_shards_still_to_emit=shards,
+                full_pixel_measurement_complete=False,
+                biological_h2_and_environment_inference_ready=False)
+            store()
+            return record
         census=json.loads((dest/'bulk_source_receipt.json').read_text(encoding='utf-8'))
         if census['status']!='COMPLETE_SNAPSHOT_METADATA_ALL_NOMINATED_TAXA' or census['taxa_in_initial_frame']!=species:
             raise ValueError('Not every target species was source-censused')
@@ -232,6 +255,8 @@ def main(argv=None)->int:
     ap.add_argument('--shards',type=int,default=128)
     ap.add_argument('--worker-partitions',type=int,default=128)
     ap.add_argument('--skip-package',action='store_true')
+    ap.add_argument('--stage-only',action='store_true',
+                    help='Stage full source once on durable storage, then emit photo manifests by shard')
     ap.add_argument('--minimum-free-disk-gb',type=int,default=80)
     ap.add_argument('--release-verified-temporary-tables',action='store_true',
                     help='Reclaim only SHA-verified 4-table scratch copies after full source loading')
@@ -239,7 +264,8 @@ def main(argv=None)->int:
     out=execute(args.frame.resolve(),args.work.resolve(),source_archive=args.archive.resolve() if args.archive else None,
                 species=args.expected_species,shards=args.shards,workers=args.worker_partitions,
                 skip_package=args.skip_package,required_scratch_gb=args.minimum_free_disk_gb,
-                release_verified_temporary_tables=args.release_verified_temporary_tables)
+                release_verified_temporary_tables=args.release_verified_temporary_tables,
+                stage_only=args.stage_only)
     print('FCP_ALL_42111_SOURCE_EXECUTION_RESULT',json.dumps(out,ensure_ascii=False,sort_keys=True))
     return 0
 
