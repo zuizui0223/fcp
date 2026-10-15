@@ -1,0 +1,47 @@
+{
+  "schema": "fcp_fresh_source_actual_provider_receipt_v1",
+  "review_date_jst": "2026-10-15",
+  "status": "REAL_PROVIDER_METADATA_SCHEMA_AND_TAXONOMY_VERIFIED_NOT_BIOLOGICAL_MEASUREMENT",
+  "branch": "analysis/fcp-fresh-uncapped-zero-20261015",
+  "original_fcp_42111_frame_sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+  "source_audit": {
+    "provenance_workflow_run": 38662636329,
+    "artifact_id": 11939771321,
+    "source_root_kind": "mutable_latest_metadata_not_original_snapshot_pin",
+    "source_taxa_gzip_bytes": 39999332,
+    "source_taxa_sha256": "a9440e4c1ad1e7b9a8e13d0e8c5b7d35e7a7c5a9f3ec53894f717656edf9348b",
+    "actual_provider_taxa_rows": 1668467,
+    "original_FCP_taxon_ids": 42111,
+    "exact_ID_present": 42111,
+    "missing_IDs": 0,
+    "name_mismatches": 0,
+    "rank_mismatches": 0,
+    "provider_taxon_nodes_mapped_to_FCP": 67505
+  },
+  "real_S3_schema_probe": {
+    "provenance_workflow_run": 38662916042,
+    "source": "inaturalist-open-data public S3 metadata, HTTP HEAD + byte-range",
+    "required_columns_found_in": [
+      "taxa",
+      "observations",
+      "observers",
+      "photos"
+    ],
+    "dated_S3_key": "metadata/inaturalist-open-data-20260927.tar.gz",
+    "dated_archive_bytes": 35966549880,
+    "first_tar_member": "inaturalist-open-data-20260927",
+    "last_modified_root_metadata": "2026-09-27",
+    "archive_sha256_verified": false,
+    "complete_original_archive_downloaded": false
+  },
+  "methods": {
+    "full_bundle_extraction_requires": "externally recorded complete archive SHA256 before source admission",
+    "source_identity_gate": "all 128 source shards and 4 separate metadata table hashes must agree",
+    "original_pixel_method": "ROI-v4/EfficientSAM frozen at 9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "original_image_measurement_values_used": false,
+    "fresh_measurement_completed_photo_rows": 0,
+    "coloured_phenotype_data_reexamined": false,
+    "environment_mechanism_estimated": false,
+    "results_scientifically_final": false
+  }
+}
