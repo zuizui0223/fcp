@@ -18,7 +18,7 @@ def make_dir(root,count):
         for i in range(count):
             f.write(json.dumps(dict(inat_taxon_id=19,species='S',observation_id=i//3+1,
                         photo_id=i+1,photo_url_large=f'https://example.com/{i}/large.jpg',
-                        photo_license='cc-by',observer_id=i//12+1,latitude=35.0,
+                        photo_license='cc-by',attribution='© synthetic creator, CC-BY',observer_id=i//12+1,latitude=35.0,
                         longitude=137.0,observed_on='2024-07-01',positional_accuracy_m=25))+'\n')
     return d
 
@@ -38,6 +38,8 @@ def test_every_photo_included_and_workers_blind(tmp_path):
     assert all('https://' not in json.dumps(x) for x in allworkers)
     assert 'photo_url_large' in (tmp_path/'out'/'acquisition_key.csv').read_text().splitlines()[0]
     assert 'species' in (tmp_path/'out'/'metadata_join_key.csv').read_text().splitlines()[0]
+    assert 'attribution' in (tmp_path/'out'/'metadata_join_key.csv').read_text().splitlines()[0]
+    assert all('attribution' not in (tmp_path/'out'/f'worker_partition_{i:03}.csv').read_text().splitlines()[0] for i in range(7))
 
 
 def test_incomplete_manifest_cannot_freeze(tmp_path):
