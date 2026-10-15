@@ -43,6 +43,8 @@ on:
       - tests/test_fcp_open_data_bulk_import.py
       - scripts/acquisition/pin_inat_open_data_snapshot.py
       - tests/test_pin_inat_open_data_snapshot.py
+      - scripts/acquisition/execute_fcp_42111_census.py
+      - tests/test_execute_fcp_42111_census.py
       - scripts/acquisition/run_real_source_roi_pilot.py
       - scripts/acquisition/repair_real_source_roi_pilot.py
       - tests/test_fcp_real_photo_pilot_repair.py
@@ -85,6 +87,8 @@ on:
       - tests/test_fcp_open_data_bulk_import.py
       - scripts/acquisition/pin_inat_open_data_snapshot.py
       - tests/test_pin_inat_open_data_snapshot.py
+      - scripts/acquisition/execute_fcp_42111_census.py
+      - tests/test_execute_fcp_42111_census.py
       - scripts/acquisition/run_real_source_roi_pilot.py
       - scripts/acquisition/repair_real_source_roi_pilot.py
       - tests/test_fcp_real_photo_pilot_repair.py
@@ -128,7 +132,7 @@ jobs:
       - name: Install FCP fresh-only source/geo and test dependencies
         run: python -m pip install --upgrade pytest numpy pandas scipy Pillow scikit-image rasterio
       - name: Check fresh source acquisition / zero-legacy / null-guard contracts
-        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_pin_inat_open_data_snapshot.py tests/test_fcp_real_photo_pilot_repair.py -q
+        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_pin_inat_open_data_snapshot.py tests/test_fcp_real_photo_pilot_repair.py tests/test_execute_fcp_42111_census.py -q
       - name: Verify original method bootstrap script syntax
         run: bash -n scripts/acquisition/bootstrap_fcp_original_roi_v4.sh
       - name: Restore and fingerprint original ROI-v4 code without ANY old photo colours
@@ -143,47 +147,3 @@ jobs:
           assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
-
-  fcp-full-source-resource-probe:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 8
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - name: Verify 20260927 dated archive layout and runner capacity without downloading 36GB
-        run: |
-          python - <<'PY'
-          import os,sys,shutil,json,zlib,urllib.request,tarfile
-          from pathlib import Path
-          root=Path(os.environ['RUNNER_TEMP'])
-          disk=shutil.disk_usage(root)
-          key='metadata/inaturalist-open-data-20260927.tar.gz'
-          url='https://inaturalist-open-data.s3.amazonaws.com/'+key
-          req=urllib.request.Request(url,method='HEAD')
-          with urllib.request.urlopen(req,timeout=30) as v:
-              size=int(v.headers['Content-Length']);etag=v.headers.get('ETag')
-          rq=urllib.request.Request(url,headers={'Range':'bytes=0-1048575'})
-          with urllib.request.urlopen(rq,timeout=30) as resp:
-              assert resp.status==206
-              prefix=resp.read(1048577)
-          assert len(prefix)<=1048576
-          p=zlib.decompressobj(16+zlib.MAX_WBITS).decompress(prefix, max_length=1048576)
-          assert len(p)>=1024 and tarfile.TarInfo.frombuf(p[:512],encoding='utf-8',errors='surrogateescape').isdir()
-          m=tarfile.TarInfo.frombuf(p[512:1024],encoding='utf-8',errors='surrogateescape')
-          report={'schema':'fcp_full_source_resource_preflight_v1',
-                  'archive_key':key,'archive_bytes':size,'s3_etag_not_sha256':etag,
-                  'runner_disk_total_bytes':disk.total,'runner_disk_free_bytes':disk.free,
-                  'first_metadata_entry':m.name,'first_metadata_entry_bytes':m.size,
-                  'first_metadata_entry_kind':m.type.decode('latin1'),
-                  'could_store_archive_alone':disk.free>=size,
-                  'full_42111_census_completed':False,'new_photo_colours_measured':0}
-          out=root/'fcp_full_source_capacity.json'
-          out.write_text(json.dumps(report,indent=2)+'\n')
-          print('FCP_FULL_SOURCE_CAPACITY',json.dumps(report,sort_keys=True))
-          PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: fcp-full-source-capacity-and-tar-prefix-check-20261015
-          retention-days: 30
-          path: ${{ runner.temp }}/fcp_full_source_capacity.json
