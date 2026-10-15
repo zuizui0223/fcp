@@ -22,8 +22,8 @@ jobs:
     timeout-minutes: 300
     env:
       GH_TOKEN: ${{ github.token }}
-      ROOT: ${{ runner.temp }}/fcp-pr200-new-real-original96
-      SAM: ${{ runner.temp }}/fcp-original-efficient-sam
+      ROOT: /tmp/fcp-pr200-new-real-original96
+      SAM: /tmp/fcp-original-efficient-sam
     steps:
       - name: Checkout real source original-pixel worker
         uses: actions/checkout@v4
