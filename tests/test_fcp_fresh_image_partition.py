@@ -64,7 +64,7 @@ def test_failed_download_is_terminal_and_unselected_photo_stays_future_work(tmp_
     def loader(url):
         calls.append(url)
         if len(calls)==2:
-            raise OSError('synthetic 429')
+            raise m.PermanentOriginalPhotoError('synthetic frozen-photo 404')
         return fake_png()
     receipt=m.run_batch(firewall,0,0,3,tmp_path/'out',source=tmp_path/'x',detector=tmp_path/'y',sam=tmp_path/'z',
                         loader=loader,evaluator=fake_measure,_test_only_skip_method_check=True)
@@ -296,7 +296,7 @@ def test_permanently_missing_original_can_still_be_terminal_without_substitution
     firewall=tmp_path/'frozen'
     freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
     def missing(_url):
-        raise HTTPError('https://example.com/404',404,'object gone',None,None)
+        raise m.PermanentOriginalPhotoError('frozen original provider photo HTTP 404')
     target=tmp_path/'sealed'
     result=m.run_batch(firewall,0,0,1,target,source=tmp_path/'source.py',
                        detector=tmp_path/'detector.pt',sam=tmp_path/'sam',
@@ -308,3 +308,67 @@ def test_permanently_missing_original_can_still_be_terminal_without_substitution
     rows=pd.read_csv(next(target.glob('terminal_*.csv')))
     assert rows.measurement_status.tolist()==['image_acquisition_failed']
     assert rows.morph.tolist()==['mixed_uncertain']
+
+
+
+def test_unexpected_local_image_write_error_cannot_become_a_sealed_photo_failure(tmp_path, monkeypatch):
+    frame,src=setup_source(tmp_path)
+    firewall=tmp_path/'freeze'
+    freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
+    orig_write_bytes=Path.write_bytes
+    def fail_only_original_image(self, payload):
+        if self.name.startswith('FCPR-') and self.suffix=='.jpg':
+            raise OSError('simulated filesystem full while writing frozen photo')
+        return orig_write_bytes(self,payload)
+    monkeypatch.setattr(Path,'write_bytes',fail_only_original_image)
+    output=tmp_path/'output'
+    with pytest.raises(OSError,match='filesystem full'):
+        m.run_batch(firewall,0,0,1,output,source=tmp_path/'m.py',
+                    detector=tmp_path/'d.pt',sam=tmp_path/'sam',
+                    loader=lambda _:fake_png(),evaluator=fake_measure,
+                    _test_only_skip_method_check=True)
+    assert not list(output.glob('terminal_*.csv'))
+    assert not list(output.glob('terminal_*.json'))
+
+
+def test_real_original_s3_404_yields_explicit_photo_terminal_but_418_aborts(monkeypatch):
+    from urllib.error import HTTPError
+    monkeypatch.setattr(m,'_pace_provider_request',lambda:None)
+    url='https://inaturalist-open-data.s3.amazonaws.com/photos/15/large.JPG'
+    def not_found(req,timeout):
+        raise HTTPError(req.full_url,404,'not found',None,None)
+    monkeypatch.setattr(m,'urlopen',not_found)
+    with pytest.raises(m.PermanentOriginalPhotoError,match='HTTP 404'):
+        m.image_loader(url)
+    def unknown(req,timeout):
+        raise HTTPError(req.full_url,418,'unexpected response',None,None)
+    monkeypatch.setattr(m,'urlopen',unknown)
+    with pytest.raises(m.ProviderTransientAccessError,match='Unexpected provider HTTP 418'):
+        m.image_loader(url)
+
+
+def test_undecodable_frozen_photo_is_explicit_not_a_local_disk_error(monkeypatch):
+    monkeypatch.setattr(m,'_pace_provider_request',lambda:None)
+    class FakeResponse:
+        def __enter__(self):return self
+        def __exit__(self,*args):return False
+        def read(self,n):return b'not-a-jpeg'
+    monkeypatch.setattr(m,'urlopen',lambda req,timeout:FakeResponse())
+    url='https://inaturalist-open-data.s3.amazonaws.com/photos/15/large.jpg'
+    with pytest.raises(m.PermanentOriginalPhotoError,match='undecodable original photo'):
+        m.image_loader(url)
+
+
+def test_invalid_source_photo_url_is_not_a_per_photo_missing_terminal(tmp_path):
+    frame,src=setup_source(tmp_path)
+    firewall=tmp_path/'freeze'
+    freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
+    # This test source deliberately has example.org rather than the
+    # only authorized provider. No attempt to download any URL may occur.
+    output=tmp_path/'bad_source'
+    with pytest.raises(ValueError,match='not a frozen original provider'):
+        m.run_batch(firewall,0,0,1,output,
+                    source=tmp_path/'m.py',detector=tmp_path/'d.pt',
+                    sam=tmp_path/'sam',loader=m.image_loader,
+                    evaluator=fake_measure,_test_only_skip_method_check=True)
+    assert not list(output.glob('terminal_*.csv'))
