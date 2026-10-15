@@ -159,7 +159,7 @@ def test_real_s3_loader_retries_transient_http_but_never_replaces_source_photo(m
         calls.append(req.full_url)
         raise HTTPError(req.full_url,404,'original image missing',None,None)
     monkeypatch.setattr(m,'urlopen',missing)
-    with pytest.raises(HTTPError):
+    with pytest.raises(m.PermanentOriginalPhotoError, match='HTTP 404'):
         m.image_loader(url)
     assert calls==[url] and sleeps==pytest.approx([m.DEFAULT_PROVIDER_PAUSE_SECONDS])
 
