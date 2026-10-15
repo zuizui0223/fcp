@@ -124,7 +124,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
            outdir: Path, snapshot_date: str, *, observers: Path | None = None,
            source_archive_pin: Path | None = None,
            shards: int = 128, expected_species: int = 42111,
-           input_sha256: dict[str, str] | None = None) -> dict:
+           input_sha256: dict[str, str] | None = None,
+           prune_verified_temporary_tables: bool = False) -> dict:
     from datetime import date
     if date.fromisoformat(snapshot_date).isoformat() != snapshot_date:
         raise ValueError("Snapshot must have an explicit immutable YYYY-MM-DD date")
@@ -149,6 +150,17 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         raise ValueError("Full 42,111 species require original dated source archive attestation")
     attestation = (verify_source_archive_pin(source_archive_pin, snapshot_date, hashes)
                    if source_archive_pin is not None else {})
+    if prune_verified_temporary_tables:
+        # Delete only the verified, dated *scratch* gz table copies; do not
+        # touch caller-owned or symlinked source files.
+        if source_archive_pin is None:
+            raise ValueError('Scratch prune requires immutable dated archive attestation')
+        original=(taxa,observations,observers,photos)
+        labels=('taxa','observations','observers','photos')
+        if (any(x.is_symlink() or x.parent.resolve()!=source_archive_pin.parent.resolve()
+                for x in original) or
+            any(x.name!=f'{label}.csv.gz' for label,x in zip(labels,original))):
+            raise ValueError('Cannot prune external, symlinked or non-original metadata files')
     crosswalk = source_crosswalk(taxa, set(names))
     path = outdir / "_working_fcp_snapshot.sqlite"
     db = sqlite3.connect(path)
@@ -245,6 +257,18 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                 flush_photo_batch()
         flush_photo_batch()
         del photos_batch
+        # All raw source rows and hashes have been read. Preserve original
+        # bundle and all four table digests in source_archive_pin.json, while
+        # reclaiming disposable compressed scratch copies BEFORE the large
+        # per-taxon JSON manifest and blind-worker expansion.
+        pruned_table_bytes=0
+        if prune_verified_temporary_tables:
+            for p in (taxa,observations,observers,photos):
+                pruned_table_bytes+=p.stat().st_size
+                p.unlink()
+            print('FCP_VERIFIED_SCRATCH_SOURCE_TABLES_RELEASED',
+                  json.dumps({'freed_bytes':pruned_table_bytes,
+                              'tables_sha256':hashes},sort_keys=True),flush=True)
         ambiguous_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=1").fetchone()[0])
         unique_valid_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=0").fetchone()[0])
         # Frozen census as complete source manifests, even for zero-photo taxa.
@@ -339,7 +363,9 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "not_literally_live_API_created_d2_window":True,
                  "unavailable_or_unlicensed_photo_not_called_polymorphic":True,
                  "original_S3_extension_case_preserved":True,
-                 "conflicting_reused_photo_IDs_quarantined_without_morph_selection":True}
+                 "conflicting_reused_photo_IDs_quarantined_without_morph_selection":True,
+                 "pruned_pinned_temporary_metadata_after_full_scan":bool(prune_verified_temporary_tables),
+                 "pruned_temporary_table_bytes":pruned_table_bytes}
         (outdir/"bulk_source_receipt.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")
         return receipt
     finally:
@@ -363,6 +389,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--observations-sha256",required=True)
     p.add_argument("--observers-sha256",required=True)
     p.add_argument("--photos-sha256",required=True)
+    p.add_argument("--prune-verified-temporary-tables",action="store_true",
+                   help="Only for byte-verified disposable dated source copies, never caller-owned metadata")
     args=p.parse_args(argv)
     print(json.dumps(ingest(args.species_frame,args.taxa,args.observations,args.photos,
                             args.output_root,args.snapshot_date,shards=args.shards,
@@ -371,7 +399,8 @@ def main(argv: list[str] | None = None) -> int:
                             input_sha256={"taxa": args.taxa_sha256,
                                           "observations": args.observations_sha256,
                                           "observers": args.observers_sha256,
-                                          "photos": args.photos_sha256}),indent=2))
+                                          "photos": args.photos_sha256},
+                            prune_verified_temporary_tables=args.prune_verified_temporary_tables),indent=2))
     return 0
 
 
