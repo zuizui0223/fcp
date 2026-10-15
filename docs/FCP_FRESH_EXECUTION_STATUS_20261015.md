@@ -157,6 +157,32 @@ For any complete source, `scripts/acquisition/plan_fcp_full_measurements.py` enu
 
 **Latest source code gate:** 51 passing source-only synthetic tests including the four-table full-pipeline integration, uppercase S3 extensions, cross-observation photo collision and distributed resumption. These do not constitute biological sample-size, spatial climate or soil findings.
 
+## Full original-photo ROI-v4 execution path: validated, awaiting source census
+
+The exact full-source photo runner is now `scripts/acquisition/execute_fcp_full_photo_work_queue.py`. **Only after the 42,111-species source freeze** returns `FRESH_BLIND_METADATA_FROZEN`, it validates every original photo ID and every source-bound 128-partition worker hash; runs the identical historical ROI-v4 YOLO + EfficientSAM estimator on **every pending original photo**, with bounded 64-photo compute units and terminal failure statuses; seals a finished batch as a paired CSV + SHA256 receipt; and refuses to count an unsealed interrupted batch, forged terminal, wrong model, unexpected source ID, or other study's outcomes. `--max-work-units` limits **only the runtime of a single invocation** (0 = no compute-budget bound) and `--partition` can distribute work. **Neither limits the study's species or photographs.**
+
+For production, original S3 photographs are now restricted to the exact provider host/path (case-sensitive original `.JPG` URLs accepted), bounded to 12 MiB of temporary bytes, spaced at ≥1.1 s between images in each worker, and retried only on transient HTTP/network errors; failures remain terminal missingness, never colour-replaced photos. Under a conservative single-threaded cadence, complete image remeasurement is a substantial separately provisioned compute/access problem, not something a single small CI job can truthfully finish.
+
+Once the complete source firewall and original model binaries exist on **durable** storage, the exact invocation is:
+
+```bash
+# Source photo census MUST be complete. These are actual original photo bytes,
+# never the quarantined 96-image pilot and never historic flower-colour labels.
+python scripts/acquisition/execute_fcp_full_photo_work_queue.py \
+  --firewall /persistent/fcp/frozen_location_blind_all_photo_firewall \
+  --output /persistent/fcp/original_roi_v4_outputs \
+  --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
+  --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+  --original-efficient-sam /persistent/models/fcp-original-efficient-sam \
+  --batch-size 64 --max-work-units 32
+
+# Repeat or distribute by --partition until the sealed-work-unit count is 100%.
+# At that point, and ONLY then, run fcp_fresh_study reassemble; it requires
+# every source image, every 9-palette terminal, and the identical method hash.
+```
+
+[GitHub Actions 38678583094](https://github.com/zuizui0223/fcp/actions/runs/38678583094) passed **57 regression tests**, including full source ingestion, case-sensitive original S3 URL handling, transient photo download retries, strict provider cadence, a resumable multi-invocation all-photo work queue, complete synthetic reassembly and anti-forgery/inflight refusal. These tests are **not** full-study original photo measurements. The actual 36-GB dated source ingestion job [38676167958](https://github.com/zuizui0223/fcp/actions/runs/38676167958) was still **in progress** at last checked status; its final source census result is **not yet confirmed**.
+
 ## What is still NOT accomplished
 
 1. Source census finished across all 42,111 nominal taxa: **NO**.
