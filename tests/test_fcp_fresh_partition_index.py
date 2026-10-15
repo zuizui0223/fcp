@@ -40,7 +40,7 @@ def test_indexed_photo_batches_match_traditional_frozen_metadata_preflight(tmp_p
         if index.total_photo_ids:
             with pytest.raises(ValueError,match='past last source photograph'):
                 index.get_batch(part,index.total_photo_ids,1)
-    with pytest.raises(ValueError,match='outside frozen partition'):
+    with pytest.raises(ValueError,match='valid frozen source partition'):
         FrozenPartitionSourceIndex(firewall,2)
 
 
