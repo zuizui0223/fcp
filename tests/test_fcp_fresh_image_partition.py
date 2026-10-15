@@ -113,6 +113,7 @@ def test_real_s3_loader_preserves_uppercase_extension_and_bans_foreign_urls(monk
         assert timeout==45
         return FakeResponse()
     monkeypatch.setattr(m,'urlopen',open_local_only)
+    monkeypatch.setattr(m,'_LAST_PROVIDER_REQUEST_MONOTONIC',None)
     allowed='https://inaturalist-open-data.s3.amazonaws.com/photos/1234/large.JPG'
     assert m.image_loader(allowed)==payload
     assert calls==[allowed]
@@ -140,7 +141,13 @@ def test_real_s3_loader_retries_transient_http_but_never_replaces_source_photo(m
             raise HTTPError(req.full_url,429,'rate limited',None,None)
         return FakeResponse()
     monkeypatch.setattr(m,'urlopen',opener)
-    monkeypatch.setattr(m.time,'sleep',sleeps.append)
+    monkeypatch.setattr(m,'_LAST_PROVIDER_REQUEST_MONOTONIC',None)
+    clock=[0.0]
+    monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+    def fake_sleep(seconds):
+        sleeps.append(seconds)
+        clock[0]+=seconds
+    monkeypatch.setattr(m.time,'sleep',fake_sleep)
     url='https://inaturalist-open-data.s3.amazonaws.com/photos/5555/large.jpeg'
     assert m.image_loader(url)==payload
     assert calls==[url]*3 and sleeps==[1,2]
@@ -151,20 +158,74 @@ def test_real_s3_loader_retries_transient_http_but_never_replaces_source_photo(m
     monkeypatch.setattr(m,'urlopen',missing)
     with pytest.raises(HTTPError):
         m.image_loader(url)
-    assert calls==[url] and not sleeps
+    assert calls==[url] and sleeps==[m.DEFAULT_PROVIDER_PAUSE_SECONDS]
 
 
-def test_production_image_request_spacing_does_not_change_photo_coverage(tmp_path,monkeypatch):
+def test_real_provider_spacing_across_one_photo_batches(tmp_path,monkeypatch):
     frame,src=setup_source(tmp_path)
     firewall=tmp_path/'freeze'
     freeze_fresh(frame,src,firewall,shards=2,workers=2,expected=4)
+    clock=[0.0]
+    attempt_times=[]
     delays=[]
-    monkeypatch.setattr(m,'image_loader',lambda url:fake_png())
-    monkeypatch.setattr(m.time,'sleep',delays.append)
-    r=m.run_batch(firewall,0,0,3,tmp_path/'sealed',source=tmp_path/'x',
+    monkeypatch.delenv('FCP_PROVIDER_GLOBAL_RATE_FILE',raising=False)
+    monkeypatch.setattr(m,'_LAST_PROVIDER_REQUEST_MONOTONIC',None)
+    monkeypatch.setattr(m.time,'monotonic',lambda:clock[0])
+    def delay(seconds):
+        assert seconds>=0
+        delays.append(seconds)
+        clock[0]+=seconds
+    monkeypatch.setattr(m.time,'sleep',delay)
+    payload=fake_png()
+    class FakeResponse:
+        def __enter__(self):return self
+        def __exit__(self,*args):return False
+        def read(self,n):return payload
+    def opener(req,timeout):
+        attempt_times.append(clock[0])
+        return FakeResponse()
+    monkeypatch.setattr(m,'urlopen',opener)
+    out=tmp_path/'sealed'
+    first=m.run_batch(firewall,0,0,1,out,source=tmp_path/'x',
                   detector=tmp_path/'y',sam=tmp_path/'z',evaluator=fake_measure,
                   _test_only_skip_method_check=True)
-    assert r['n_terminal_photo_ids']==3
-    assert delays==[m.DEFAULT_PROVIDER_PAUSE_SECONDS]*2
-    assert r['original_provider_rate_limit_seconds_between_photos']==m.DEFAULT_PROVIDER_PAUSE_SECONDS
-    assert r['photo_failures_preserved_not_replaced'] is True
+    second=m.run_batch(firewall,0,1,1,out,source=tmp_path/'x',
+                  detector=tmp_path/'y',sam=tmp_path/'z',evaluator=fake_measure,
+                  _test_only_skip_method_check=True)
+    assert first['n_terminal_photo_ids']==second['n_terminal_photo_ids']==1
+    assert attempt_times==[0.0,m.DEFAULT_PROVIDER_PAUSE_SECONDS]
+    assert delays==[m.DEFAULT_PROVIDER_PAUSE_SECONDS]
+    assert first['photo_failures_preserved_not_replaced'] is True
+    assert first['original_provider_rate_limit_seconds_between_photos']==m.DEFAULT_PROVIDER_PAUSE_SECONDS
+
+
+def test_global_file_enforces_spacing_even_after_process_state_reset(tmp_path,monkeypatch):
+    path=tmp_path/'shared-original-photo-requests.txt'
+    clock=[100.0]
+    calls=[]
+    monkeypatch.setenv('FCP_PROVIDER_GLOBAL_RATE_FILE',str(path))
+    monkeypatch.setattr(m.time,'time',lambda:clock[0])
+    monkeypatch.setattr(m.time,'sleep',lambda d:clock.__setitem__(0,clock[0]+d))
+    monkeypatch.setattr(m,'_LAST_PROVIDER_REQUEST_MONOTONIC',None)
+    class FakeResponse:
+        def __enter__(self):return self
+        def __exit__(self,*args):return False
+        def read(self,n):return fake_png()
+    def opener(req,timeout):
+        calls.append(clock[0])
+        return FakeResponse()
+    monkeypatch.setattr(m,'urlopen',opener)
+    url='https://inaturalist-open-data.s3.amazonaws.com/photos/17/large.jpg'
+    m.image_loader(url)
+    # Simulates starting another worker process with no in-memory request history.
+    monkeypatch.setattr(m,'_LAST_PROVIDER_REQUEST_MONOTONIC',None)
+    m.image_loader(url)
+    assert calls==[100.0,101.1]
+    assert float(path.read_text())==101.1
+
+
+def test_broken_global_rate_state_is_fatal_not_ordinary_image_failure(tmp_path,monkeypatch):
+    monkeypatch.setenv('FCP_PROVIDER_GLOBAL_RATE_FILE','relative-not-trusted')
+    url='https://inaturalist-open-data.s3.amazonaws.com/photos/17/large.jpg'
+    with pytest.raises(m.ProviderRateGateError,match='absolute'):
+        m.image_loader(url)
