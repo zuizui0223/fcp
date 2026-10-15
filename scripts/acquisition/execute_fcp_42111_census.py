@@ -45,14 +45,24 @@ def disk_free(path:Path)->int:
     return shutil.disk_usage(path).free
 
 
-def run(argv:list[str],*,cwd:Path,stage:str,status:dict):
+def run(argv:list[str],*,cwd:Path,stage:str,status:dict,
+        persist_stage=None):
+    # Persist BEFORE executing a long external process. A hosted-runner SIGTERM
+    # or job timeout bypasses Python's failure handler; its durable receipt must
+    # still name the true in-progress stage rather than the last completed one.
     status['stage']=stage
     status['stage_started_utc']=datetime.now(timezone.utc).isoformat()
+    status['stage_in_progress']=True
+    if persist_stage is not None:
+        persist_stage()
     print('FCP_42111_FULL_SOURCE_STAGE',stage,flush=True)
     env=os.environ.copy()
     env['PYTHONPATH']=str(cwd)+(os.pathsep+env['PYTHONPATH'] if env.get('PYTHONPATH') else '')
     subprocess.run(argv,cwd=cwd,check=True,env=env)
     status['last_completed_stage']=stage
+    status['stage_in_progress']=False
+    if persist_stage is not None:
+        persist_stage()
 
 
 def download_exact_archive(path:Path,status:dict,min_space:int):
@@ -100,7 +110,10 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             'started_utc':datetime.now(timezone.utc).isoformat()}
     receipt=work/'full_source_execution_receipt.json'
     def store():
-        receipt.write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+        # An atomic receipt remains parseable if a SIGTERM arrives mid-write.
+        pending=receipt.with_suffix('.json.pending')
+        pending.write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+        os.replace(pending,receipt)
     store()
     try:
         if species==42111 and sha256_stream(frame)!=FRAME_SHA256:
@@ -137,7 +150,7 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
         run([sys.executable,'scripts/acquisition/pin_inat_open_data_snapshot.py',
              '--archive',str(original),'--s3-key',ARCHIVE_KEY,
              '--archive-sha256',observed,'--outdir',str(frozen)],
-             cwd=repo,stage='extract_all_four_and_pin_exact_SHA256',status=record)
+             cwd=repo,stage='extract_all_four_and_pin_exact_SHA256',status=record,persist_stage=store)
         if source_archive is None:
             original.unlink()  # Verified original digest retained; frees ~36GB.
             record['source_archive_deleted_after_full_SHA_verification']=True
@@ -165,7 +178,7 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             cmd.append('--stage-sqlite-only')
         run(cmd,cwd=repo,stage=('scan_source_once_and_stage_sqlite_for_sharded_emission'
                                if stage_only else
-                               'scan_entire_dated_source_and_emit_all_photo_manifests'),status=record)
+                               'scan_entire_dated_source_and_emit_all_photo_manifests'),status=record,persist_stage=store)
         if stage_only:
             staged=json.loads((dest/'fcp_staged_sqlite_source_receipt.json').read_text(encoding='utf-8'))
             if (staged.get('status')!='SOURCE_SQLITE_STAGED_SHARDS_NOT_YET_EMITTED'
@@ -213,7 +226,7 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
              '--source-species',str(frame),'--metadata-root',str(dest),
              '--shards',str(shards),'--worker-partitions',str(workers),
              '--expected-species',str(species),'--outdir',str(firewall)],
-             cwd=repo,stage='seal_every_real_photo_ID_without_opening_a_pixel',status=record)
+             cwd=repo,stage='seal_every_real_photo_ID_without_opening_a_pixel',status=record,persist_stage=store)
         fz=json.loads((firewall/'fresh_study_freeze.json').read_text())
         assert fz['status']=='FRESH_BLIND_METADATA_FROZEN'
         assert fz['source_species']==species
@@ -232,7 +245,7 @@ def execute(frame:Path,work:Path,*,source_archive:Path|None=None,
             archive=work/'fcp_complete_42111_source_and_blind_firewall.tar.gz'
             run(['tar','-C',str(work),'-czf',str(archive),
                  dest.name,firewall.name],cwd=repo,
-                stage='archive_verbatim_complete_source_manifests_and_firewall',status=record)
+                stage='archive_verbatim_complete_source_manifests_and_firewall',status=record,persist_stage=store)
             record['packed_all_source_manifests_sha256']=sha256_stream(archive)
             record['packed_all_source_manifests_bytes']=archive.stat().st_size
             record['packed_all_source_manifests_path']=str(archive)
