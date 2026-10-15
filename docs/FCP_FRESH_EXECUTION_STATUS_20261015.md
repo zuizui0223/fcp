@@ -65,6 +65,35 @@ A **real byte-range/HEAD** GitHub Actions preflight ([run 38662030712](https://g
 
 **Do not download this giant snapshot onto a standard GitHub Actions runner.** Full production needs sufficiently large persistent disk for the compressed source, extracted metadata, SQL join and many fresh images, plus a separate documented data-ingest budget. Official provider media/API guidance also limits large repeated image downloads; coordinate an approved bulk/access plan before full-scale image acquisition. The current PR only proves format, source identity checks, bootstrap and complete-fail gates; it does not imply a 36-GB corpus or any photo pixels were imported.
 
+### Real 42,111-taxon source identity: verified, not biologically sampled
+
+In [GitHub Actions run 38662636329](https://github.com/zuizui0223/fcp/actions/runs/38662636329), the complete public `taxa.csv.gz` (39,999,332 bytes; SHA256 `a9440e4c1ad1e7b9a8e13d0e8c5b7d35e7a7c5a9f3ec53894f717656edf9348b`) was re-opened **from real provider bytes** against the frozen FCP 42,111-taxon frame. Among **1,668,467** actual taxon rows, **42,111/42,111** FCP taxon IDs were found, with **0 missing IDs, 0 name mismatches, 0 rank mismatches**. An additional 25,394 subordinate taxon nodes were mapped into the target species; the total source taxonomy nodes mapped to these taxa is **67,505**. This validates original taxon identity and ancestry mapping, NOT the availability, colour, genome, local co-occurrence or photo counts of those taxa. The complete 42,111-row source audit is stored in workflow artifact `11939771321`; the key numbers are also frozen in `results/fcp_fresh_source_audit_20261015/source_receipt.json`.
+
+The original dated bundle `metadata/inaturalist-open-data-20260927.tar.gz` is **35,966,549,880 bytes**, confirmed by S3 inventory and bounded gzip/tar header inspection. Its first member is the directory `inaturalist-open-data-20260927`, not a root CSV file. The new tar-extraction helper allows that *verified* dated prefix and supports either plain .csv or pre-gzipped table members; it rejects mutable `latest` aliases, wrong SHA256 values, incomplete tables or reuse of an existing extraction folder. Downloading the full bundle and re-measuring its images have **not** occurred.
+
+### How to freeze the complete source archive, before any new colour results
+
+Run this only on a persistent storage/compute machine with adequate free disk, not the default small GitHub CI runner. The expected archive digest must be recorded *before* source admission; no value is invented here.
+
+```bash
+# The source object exists publicly but is a ~36-GB transfer.
+aws s3 --no-sign-request --region us-east-1 cp \
+  s3://inaturalist-open-data/metadata/inaturalist-open-data-20260927.tar.gz \
+  /trusted/snapshots/inaturalist-open-data-20260927.tar.gz
+
+sha256sum /trusted/snapshots/inaturalist-open-data-20260927.tar.gz
+# Freeze the actual printed SHA256 in the source study ledger before proceeding.
+
+python scripts/acquisition/pin_inat_open_data_snapshot.py \
+  --archive /trusted/snapshots/inaturalist-open-data-20260927.tar.gz \
+  --s3-key metadata/inaturalist-open-data-20260927.tar.gz \
+  --archive-sha256 VERIFIED_FULL_DATED_ARCHIVE_SHA256 \
+  --outdir /trusted/snapshots/20260927_extracted
+
+# These extracted original four metadata tables and their verified SHA256 values
+# are the ONLY permitted inputs to the full 42,111-taxon source photo census.
+```
+
 ### Bulk snapshot importer: all eligible photos without a page cap
 
 `scripts/acquisition/import_inat_open_data_snapshot.py` reads the official iNaturalist Open Dataset monthly metadata tables (`taxa.csv.gz`, `observations.csv.gz`, **`observers.csv.gz`**, `photos.csv.gz`). The fourth observer table is mandatory for each photo's copyright attribution (photographer may differ from observation owner). The [provider's metadata documentation](https://github.com/inaturalist/inaturalist-open-data/blob/main/Metadata/README.md) specifies the gzipped **tab-separated, unquoted** files and dated monthly snapshots.
@@ -85,6 +114,7 @@ python scripts/acquisition/import_inat_open_data_snapshot.py \
   --observations-sha256 VERIFIED_OBSERVATIONS_SHA256 \
   --observers-sha256 VERIFIED_OBSERVERS_SHA256 \
   --photos-sha256 VERIFIED_PHOTOS_SHA256 \
+  --snapshot-pin /trusted/snapshots/20260927_extracted/fcp_source_archive_pin.json \
   --shards 128 --expected-species 42111 \
   --output-root /trusted/fcp_fresh_bulk_source
 ```
