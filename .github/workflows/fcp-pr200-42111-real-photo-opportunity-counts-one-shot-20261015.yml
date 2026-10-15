@@ -1,0 +1,134 @@
+# One-shot REAL 42,111-taxon dated-source counts, NOT flower-colour measurement.
+# The workflow itself is the sole trigger file, so later PR updates do not
+# silently repeat a ~36 GB provider archive download.
+name: FCP 42111 REAL dated-source photo opportunity census ONE SHOT
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-42111-real-photo-opportunity-counts-one-shot-20261015.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-pr200-20260927-one-immutable-photo-opportunity-census
+  cancel-in-progress: false
+
+jobs:
+  measure-all-42111-source-photo-counts-not-colours:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      FCP_RUN_ROOT: ${{ runner.temp }}/fcp_real_42111_source_counts_20260927
+    steps:
+      - name: Check out verified 42111 photo-count implementation
+        uses: actions/checkout@v4
+        with:
+          ref: 1530a181d4777c3c03fec5772cf55a0c72a7c087
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Free disposable runner SDK scratch before original source import
+        shell: bash
+        run: |
+          set -euo pipefail
+          for p in /usr/local/lib/android /usr/share/dotnet /usr/local/share/powershell /usr/share/swift; do
+            if test -d "$p"; then sudo rm -rf -- "$p"; fi
+          done
+          echo FCP_REAL_SOURCE_DISK_FREE; df -h "$RUNNER_TEMP"
+
+      - name: Verify audited source-count code using synthetic fixtures BEFORE giant transfer
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pytest numpy pandas scipy Pillow scikit-image rasterio
+          python -m py_compile scripts/acquisition/execute_fcp_42111_census.py scripts/acquisition/import_inat_open_data_snapshot.py
+          python -m pytest tests/test_execute_fcp_42111_census.py tests/test_fcp_open_data_bulk_import.py -q
+
+      - name: Obtain EXACT original 42,111 taxonomy source with SHA256
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_real_42111_frame"
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$RUNNER_TEMP/fcp_real_42111_frame/42111_species.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$RUNNER_TEMP"'/fcp_real_42111_frame/42111_species.csv' | sha256sum -c -
+
+      - name: ACTUAL frozen 2026-09-27 full-provider 42111-taxon photographic source counts
+        shell: bash
+        timeout-minutes: 335
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/execute_fcp_42111_census.py \
+            --frame "$RUNNER_TEMP/fcp_real_42111_frame/42111_species.csv" \
+            --work "$FCP_RUN_ROOT" \
+            --expected-species 42111 --shards 128 --worker-partitions 128 \
+            --minimum-free-disk-gb 80 --release-verified-temporary-tables \
+            --photo-counts-only
+          echo FCP_REAL_42111_PHOTO_OPPORTUNITY_COUNTS_PRODUCED_NO_PHOTO_PIXELS
+
+      - name: Audit all species including zero-photo taxa and frozen archive identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['FCP_RUN_ROOT'])
+          status=json.loads((root/'full_source_execution_receipt.json').read_text())
+          source=root/'complete_42111_metadata_source'
+          receipt=json.loads((source/'photo_opportunity_counts_only_receipt.json').read_text())
+          table=source/'all_42111_species_photo_opportunity_counts.csv'
+          rows=list(csv.DictReader(table.open(encoding='utf-8',newline='')))
+          expected='bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e'
+          digest=hashlib.sha256(table.read_bytes()).hexdigest()
+          assert status['status']=='COMPLETE_REAL_42111_PHOTO_OPPORTUNITY_COUNTS_ONLY_NOT_FULL_SOURCE'
+          assert status['original_archive_sha256']==expected
+          assert receipt['source_archive_attestation']['source_archive_sha256']==expected
+          assert digest==receipt['counts_file_sha256']
+          assert len(rows)==42111 and len({r['inat_taxon_id'] for r in rows})==42111
+          assert sum(int(r['n_unique_source_photo_ids']) for r in rows)==receipt['n_target_taxon_licensed_photos']
+          assert receipt['counts_cover_every_target_taxon'] is True
+          assert receipt['full_source_census_complete'] is False
+          assert receipt['full_study_original_images_measured'] is False
+          assert status['complete_metadata_census'] is False
+          assert status['new_W_or_environment_results_computed'] is False
+          print('FCP_REAL_SOURCE_COUNT_ONLY_ACCEPTED',json.dumps({
+              'taxa':len(rows),'licensed_unique_photo_ids':receipt['n_target_taxon_licensed_photos'],
+              'taxa_with_photos':receipt['n_taxa_with_source_photos'],
+              'taxa_without_photos':receipt['n_taxa_without_source_photos'],
+              'frozen_snapshot_sha256':expected,'not_flower_colours':True},sort_keys=True),flush=True)
+          PY
+
+      - name: Save EXACT complete 42111-taxon real-photo opportunity measurements
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/full_source_execution_receipt.json
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/source_archive_sha256_before_source_data.txt
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/frozen_4_metadata_tables/fcp_source_archive_pin.json
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/complete_42111_metadata_source/photo_opportunity_counts_only_receipt.json
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv
+
+      - name: Save failure/source-progress receipt without implying science completion
+        if: ${{ failure() || cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-real-source-photo-counts-failure-or-timeout-NOT-RESULT
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/full_source_execution_receipt.json
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/source_archive_sha256_before_source_data.txt
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/frozen_4_metadata_tables/fcp_source_archive_pin.json
+            ${{ runner.temp }}/fcp_real_42111_source_counts_20260927/complete_42111_metadata_source/fcp_source_progress.ndjson
