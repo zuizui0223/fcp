@@ -56,9 +56,10 @@
     "new_image_pixel_outcomes_opened": false
   },
   "current_fresh_code_unit_test_run": {
-    "github_actions_run": 38666471849,
-    "synthetic_tests_passed": 43,
-    "biological_fresh_results": false
+    "github_actions_run": 38673995478,
+    "synthetic_tests_passed": 45,
+    "biological_fresh_results": false,
+    "real_original_photo_technical_pilot_separate": true
   },
   "original_roi_v4_actual_synthetic_runtime": {
     "github_actions_run": 38666471849,
@@ -71,5 +72,34 @@
     "original_method_executed": true,
     "full_original_frozen_roi_detector_and_efficient_sam": true,
     "biological_effect_estimated": false
+  },
+  "real_original_photo_technical_pilot": {
+    "execution_kind": "QUARANTINED_TECHNICAL_TEST_NOT_42111_SPECIES_BIOLOGICAL_ESTIMATE",
+    "original_96_actions_run": 38671341143,
+    "original_96_artifact_id": 11944359701,
+    "repaired_two_actions_run": 38673995478,
+    "final_repaired_artifact_id": 11945168406,
+    "original_94_terminal_csv_sha256": "772dda9c51cf24fa4fdabf6408d16b2ba96fc965b532af82533c150cf0144c09",
+    "final_96_terminal_csv_sha256": "911ec9edd10a7126bee28cfa67738cef0ff4d275b1f0ca1c06e3f26e7e290039",
+    "frozen_source_photo_selection_sha256": "c304794187632c726e11c9af919ab5f3699f8e8f83682a656750e6e6301e6c98",
+    "n_real_photo_ids": 96,
+    "n_real_original_image_payloads_downloaded": 96,
+    "n_original_images_evaluated_with_actual_ROI_v4_EfficientSAM": 96,
+    "prior_94_terminal_rows_verified_unchanged": 94,
+    "repaired_source_photo_ids": [
+      "840402",
+      "3201197"
+    ],
+    "repaired_url_problem": "Original .JPG uppercase extension, URL rejected by faulty strict parser; fixed without changing URL",
+    "n_morph_classified": 20,
+    "n_not_evaluable_roi_flip": 67,
+    "n_not_evaluable_ambiguous_palette": 9,
+    "n_image_acquisition_failed": 0,
+    "full_42111_source_census_complete": false,
+    "number_of_species_in_pilot": 4,
+    "eligibility_for_h2_W_or_ecological_claim": false,
+    "original_old_measured_colours_reused": false,
+    "original_images_saved_to_repository": false,
+    "note": "All source photos are actual new image bytes and were processed by unchanged historical code/model; only 20/96 met strict frozen terminal phenotype gates. Remaining source photos were NOT scored as negative phenotype."
   }
 }
