@@ -5,6 +5,38 @@
 ## Admission before pixels
 A complete dated 2026-09-27 source is mandatory. Accept only a retained run artifact whose full_source_execution_receipt.json says COMPLETE_42111_SOURCE_METADATA_FROZEN_PIXEL_MEASUREMENT_STILL_NOT_DONE with complete_metadata_census=true, 4 pinned original metadata SHA256s and 42,111 complete taxon checkpoints. Its frozen_location_blind_all_photo_firewall/fresh_study_freeze.json must say FRESH_BLIND_METADATA_FROZEN, source_species=42111, worker_packets=128, and carry the full distinct photo-ID worker ledger. Source photo total is unknown until that exact source audit finishes. Do not reuse old 149,900 photo colour outcomes.
 
+## Automated admission after source completion
+
+Download **both** the successful source-status artifact and complete-source
+tar.gz artifact from Actions #38676167958 onto durable storage, then unpack
+the complete source archive without reselecting taxa. The status artifact
+carries the receipt, dated archive pin and 42,111-row photo-count ledger;
+the complete-source artifact carries all manifests and the blind firewall.
+
+Run this **non-image** admission check before ANY source-photo requests:
+
+~~~bash
+python scripts/acquisition/admit_fcp_complete_photo_source.py \
+  --source-package-root /persistent/fcp/unpacked_source \
+  --source-status-receipt /persistent/fcp/source_status/full_source_execution_receipt.json \
+  --original-pin /persistent/fcp/source_status/fcp_source_archive_pin.json \
+  --source-counts /persistent/fcp/source_status/all_42111_species_source_photo_counts.csv \
+  --out /persistent/fcp/new_measurement_workplan --batch-size 64
+~~~
+
+The tool refuses incomplete source receipts, changed dated archive/table hashes,
+missing or duplicate species, corrupted manifests, inconsistent photo counts
+and blind-worker hash drift. Its source_admission_receipt.json must read
+FULL_SOURCE_PHOTO_WORK_PLAN_READY_NO_PIXELS_YET with **42,111 taxa and 128
+source-blind worker partitions** plus the exact all-photo denominator.
+
+Admission is not execution. The receipt reports a theoretical minimum
+single-stream duration based solely on 1.1 seconds between new HTTP
+attempts, NOT an actual measurement ETA or an endorsement of large-scale
+provider downloads. Dedicated durable compute and an appropriate
+provider-approved global access plan are still necessary. Never re-download
+a 36-GB source archive merely because the first run is still in progress.
+
 ## Workers: partition-local output, never concurrent shared output
 **Provider rate is a global constraint.** The image loader now enforces ≥1.1 seconds between actual S3 attempts (including retries and across work-unit boundaries) within a process. For multiple cooperating processes on the **same Linux/POSIX-locking storage with synchronized clocks**, set the **same absolute** `FCP_PROVIDER_GLOBAL_RATE_FILE` for every worker; its locked timestamp also covers separate invocations. Without that variable, only process-local pacing is guaranteed. This does **not** globally coordinate geographically separate hosts, third-party downloads or a public-provider-approved quota. Do not start 128 concurrent public S3 downloaders without independently approved aggregate access, pacing and persistent compute/storage. An unavailable/malformed rate lock is an execution error, not a license to declare photographs unclassified. The original GitHub Actions source runner is ephemeral; an artifact must be moved to durable storage before heavy ROI work.
 
