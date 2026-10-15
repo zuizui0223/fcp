@@ -16,10 +16,13 @@ concurrency:
 
 jobs:
   indexed-recovery-only-after-documented-census-scan-failure:
-    # Only a specific failed real-source run is eligible. A successful run
-    # already invokes the first-real-photo workflow; never duplicate it.
+    # Only the pinned real-source run is eligible. GitHub returned cancelled
+    # when its 355-minute execution ceiling stopped the full metadata scan.
+    # The first job still requires a genuine failure receipt, exact dated
+    # archive and all four metadata SHA256s before any third bulk transfer.
+    # Success is separately routed to first-real-photo, never duplicated.
     if: >-
-      ${{ github.event.workflow_run.id == 38699975166 && github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' && github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && (github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'timed_out') }}
+      ${{ github.event.workflow_run.id == 38699975166 && github.event.workflow_run.head_sha == 'a6012411ca8d48fb6f9d65fd3e2839b2880194f1' && github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && (github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'timed_out' || github.event.workflow_run.conclusion == 'cancelled') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 355
     env:
