@@ -22,7 +22,7 @@ LEGACY_PHOTO_SHA256 = {
 }
 
 FIELDS = ("inat_taxon_id", "species", "observation_id", "photo_id", "photo_url_large",
-          "photo_license", "observer_id", "observed_on", "latitude", "longitude", "positional_accuracy_m")
+          "photo_license", "attribution", "observer_id", "observed_on", "latitude", "longitude", "positional_accuracy_m")
 WORKER = ("measurement_id", "image_filename", "photo_license")
 ACQUISITION = ("measurement_id", "image_filename", "photo_url_large", "photo_license")
 SALT = "FCP_ALL_OBSERVABLE_PHOTO_BLIND_20261014_V1"
