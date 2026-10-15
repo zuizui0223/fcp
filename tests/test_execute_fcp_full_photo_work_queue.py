@@ -120,3 +120,21 @@ def test_systemic_provider_failure_keeps_work_unit_unsealed_for_explicit_recover
     # A retry must first explicitly reconcile the unsealed interrupted stage.
     with pytest.raises(ValueError,match='requires review'):
         call(firewall,output,budget=1)
+
+
+
+def test_partition_executor_cannot_claim_all_photos_after_one_partition(tmp_path,monkeypatch):
+    firewall=sample(tmp_path)
+    patch_full_method(monkeypatch,tmp_path)
+    only=call(firewall,tmp_path/'partition_queue',budget=0,partition=0)
+    assert only['completion_audit_scope']=='one_partition'
+    assert only['n_pending_work_units']==0
+    assert only['status']=='SELECTED_PARTITION_ORIGINAL_PHOTO_TERMINALS_COMPLETE_NOT_FULL_STUDY'
+    assert only['full_study_original_photo_measurement_complete'] is False
+    assert only['n_completed_original_photo_terminals'] is None
+    assert only['all_frozen_source_photo_ids']==8
+    assert 0<only['selected_partition_source_photo_ids']<8
+    whole=call(firewall,tmp_path/'global_queue',budget=0)
+    assert whole['completion_audit_scope']=='global'
+    assert whole['full_study_original_photo_measurement_complete'] is True
+    assert whole['n_completed_original_photo_terminals']==8
