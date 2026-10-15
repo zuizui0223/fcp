@@ -36,6 +36,7 @@ from fcp_pipeline.fcp_fresh_study import (
     validate_method_attestation,
 )
 from fcp_pipeline.fcp_allphotos import sha256_file
+from scripts.acquisition.fcp_fresh_partition_index import FrozenPartitionSourceIndex
 
 ACQ=('measurement_id','image_filename','photo_url_large','photo_license')
 MAX_IMAGE_BYTES=12*1024*1024
@@ -245,8 +246,13 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
               *, source:Path,detector:Path,sam:Path,
               loader:Callable[[str],bytes]|None=None,
               evaluator:Callable|None=None,
-              _test_only_skip_method_check:bool=False)->dict:
-    worker,acq,number_batches=preflight(firewall,part,batch,batch_size)
+              _test_only_skip_method_check:bool=False,
+              indexed_source:FrozenPartitionSourceIndex|None=None)->dict:
+    # The production executor verifies/indexes the immutable partition once
+    # per invocation, instead of parsing all source URLs per 64-photo unit.
+    worker,acq,number_batches=(indexed_source.get_batch(part,batch,batch_size)
+                               if indexed_source is not None
+                               else preflight(firewall,part,batch,batch_size))
     if _test_only_skip_method_check:
         if evaluator is None:raise ValueError('Frozen source checks may only be bypassed for synthetic evaluator tests')
         fingerprint={'synthetic_test_only':True,'no_old_measurement_csv_inputs':True}
