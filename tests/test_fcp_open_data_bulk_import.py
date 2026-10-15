@@ -205,3 +205,22 @@ def test_cross_observation_duplicate_photo_id_is_quarantined_without_downsamplin
                    (d/'photo_manifest.ndjson').read_text().splitlines()]
     assert {r['photo_id'] for r in manifest_rows}=={'1001','1002'}
     assert len(manifest_rows)==2
+
+
+def test_full_census_manifests_use_indexed_numeric_photo_order(tmp_path):
+    """No cross-table SQLite ORDER BY spill; output IDs remain globally unique."""
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
+    with gzip.open(photos,'at',encoding='utf-8') as h:
+        h.write('20\to-1\t1\tJPG\tCC-BY\t800\t600\n')
+        h.write('3\to-1\t1\tjpg\tCC-BY\t800\t600\n')
+    pinned['photos']=sha256_file(photos)
+    out=tmp_path/'indexed_source'
+    result=ingest(frame,taxa,obs,photos,out,'2026-10-14',
+                  shards=2,expected_species=4,input_sha256=pinned,observers=observers)
+    assert result['manifest_indexed_stream_without_sqlite_order_temp_btree'] is True
+    assert result['n_photo_manifest_rows_written']==result['n_target_taxon_licensed_photos']==5
+    plan=opportunity_schedule(opportunity_frame(frame,4),2).set_index('inat_taxon_id')
+    manifest=out/f"shard_{int(plan.loc[11,'partition']):03}_of_002"/'species'/'11'/'photo_manifest.ndjson'
+    ids=[json.loads(line)['photo_id'] for line in manifest.read_text().splitlines()]
+    assert ids==['3','20','1001','1002']
+    assert not (out/'_working_fcp_snapshot.sqlite').exists()
