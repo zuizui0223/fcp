@@ -47,7 +47,9 @@ def run(argv:list[str],*,cwd:Path,stage:str,status:dict):
     status['stage']=stage
     status['stage_started_utc']=datetime.now(timezone.utc).isoformat()
     print('FCP_42111_FULL_SOURCE_STAGE',stage,flush=True)
-    subprocess.run(argv,cwd=cwd,check=True)
+    env=os.environ.copy()
+    env['PYTHONPATH']=str(cwd)+(os.pathsep+env['PYTHONPATH'] if env.get('PYTHONPATH') else '')
+    subprocess.run(argv,cwd=cwd,check=True,env=env)
     status['last_completed_stage']=stage
 
 
