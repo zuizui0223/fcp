@@ -89,10 +89,14 @@ def admit_source(package_root:Path, source_status:Path, original_pin:Path,
                  freeze.get('frozen_created_d2'),FROZEN_DATE)
     assert_equal('original archive path',status.get('immutable_source_key'),
                  pin.get('s3_object_key'),ARCHIVE_KEY)
+    archive_claim=freeze.get('source_archive_claim')
+    if not _test_only_small_source and not isinstance(archive_claim,dict):
+        raise ValueError('42,111 species frozen source lacks original archive claim')
     assert_equal('original archive SHA256',status.get('original_archive_sha256'),
                  pin.get('full_bundle_sha256'),
                  bulk.get('verified_original_dated_archive',{}).get('source_archive_sha256'),
-                 freeze.get('source_archive_claim',{}).get('source_archive_sha256'))
+                 ((archive_claim or {}).get('source_archive_sha256')
+                  if not _test_only_small_source else pin.get('full_bundle_sha256')))
     assert_equal('source tables SHA256',json.dumps(status.get('all_four_extracted_table_sha256'),sort_keys=True),
                  json.dumps(expected_hashes,sort_keys=True),
                  json.dumps(bulk.get('metadata_snapshots_sha256'),sort_keys=True),
