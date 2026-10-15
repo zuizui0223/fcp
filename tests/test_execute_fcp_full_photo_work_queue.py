@@ -99,3 +99,24 @@ def test_interrupted_inflight_never_silently_overwritten(tmp_path,monkeypatch):
     with pytest.raises(ValueError,match='requires review'):
         call(firewall,out,budget=0)
     assert (quarantined/'crashed_note.txt').is_file()
+
+
+def test_systemic_provider_failure_keeps_work_unit_unsealed_for_explicit_recovery(tmp_path,monkeypatch):
+    """Not even a fully enumerated photo corpus may count 429 as completion."""
+    firewall=sample(tmp_path)
+    patch_full_method(monkeypatch,tmp_path)
+    output=tmp_path/'queue'
+    def outage(_url):
+        raise executor.roi.ProviderTransientAccessError('synthetic HTTP 429 exhaustion')
+    monkeypatch.setattr(executor.roi,'image_loader',outage)
+    with pytest.raises(executor.roi.ProviderTransientAccessError,match='HTTP 429'):
+        call(firewall,output,budget=1)
+    assert not list((output/'sealed_terminal_batches').glob('terminal_*.csv'))
+    assert not list((output/'sealed_terminal_batches').glob('terminal_*.json'))
+    pending=list((output/'unsealed_inflight_batches').glob('terminal_*'))
+    assert len(pending)==1
+    progress=json.loads((output/'original_photo_work_queue_progress.json').read_text())
+    assert progress['full_study_original_photo_measurement_complete'] is False
+    # A retry must first explicitly reconcile the unsealed interrupted stage.
+    with pytest.raises(ValueError,match='requires review'):
+        call(firewall,output,budget=1)
