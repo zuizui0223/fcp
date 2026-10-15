@@ -88,8 +88,10 @@ def normalize_license(raw: str) -> str | None:
 
 
 def accepted_extension(raw: str) -> str | None:
-    ext = str(raw or "").strip().lower().lstrip(".")
-    return ext if ext in {"jpg", "jpeg", "png"} else None
+    # S3 object keys are CASE-SENSITIVE. Preserve exactly the provider's extension
+    # spelling (e.g. "JPG") rather than silently constructing a broken ".jpg" URL.
+    ext = str(raw or "").strip().lstrip(".")
+    return ext if ext.casefold() in {"jpg", "jpeg", "png"} else None
 
 
 def _digest(path: Path):
@@ -159,7 +161,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         db.execute("PRAGMA journal_mode=DELETE")
         db.execute("PRAGMA cache_size=-128000")
         db.execute("CREATE TABLE observations (uuid TEXT PRIMARY KEY, taxon INTEGER, observer TEXT, observed_on TEXT, lat REAL, lon REAL, accuracy TEXT)")
-        db.execute("CREATE TABLE photos (photo_id TEXT PRIMARY KEY, uuid TEXT, license TEXT, extension TEXT, photographer TEXT)")
+        db.execute("CREATE TABLE photos (photo_id TEXT PRIMARY KEY, uuid TEXT, license TEXT, extension TEXT, photographer TEXT, ambiguous INTEGER NOT NULL DEFAULT 0)")
+        db.execute("CREATE TEMP TABLE photo_candidates (photo_id TEXT, uuid TEXT, license TEXT, extension TEXT, photographer TEXT)")
         db.execute("CREATE TABLE observer_labels (observer_id TEXT PRIMARY KEY, login TEXT, name TEXT)")
         batch = []
         required = {"observation_uuid", "taxon_id", "observer_id", "latitude", "longitude", "positional_accuracy", "quality_grade", "observed_on"}
@@ -204,6 +207,29 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         del observer_batch
         photos_batch = []
         required = {"photo_id", "observation_uuid", "observer_id", "extension", "license"}
+        def flush_photo_batch():
+            nonlocal pass_photos
+            if not photos_batch:
+                return
+            db.executemany("INSERT INTO photo_candidates VALUES (?,?,?,?,?)", photos_batch)
+            # JOIN in SQLite instead of 1 Python-SQLite round-trip per source photo;
+            # 100+ million original photo rows otherwise become impractical.
+            pass_photos += db.execute("""SELECT COUNT(*) FROM photo_candidates AS c
+                INNER JOIN observations AS o ON c.uuid=o.uuid""").fetchone()[0]
+            db.execute("""INSERT INTO photos(photo_id,uuid,license,extension,photographer)
+                SELECT c.photo_id,c.uuid,c.license,c.extension,c.photographer
+                FROM photo_candidates AS c JOIN observations AS o ON c.uuid=o.uuid
+                WHERE 1
+                ON CONFLICT(photo_id) DO UPDATE SET
+                   ambiguous=CASE WHEN photos.uuid!=excluded.uuid
+                              OR photos.license!=excluded.license
+                              OR photos.extension!=excluded.extension
+                              OR photos.photographer!=excluded.photographer
+                          THEN 1 ELSE photos.ambiguous END
+                """)
+            db.execute("DELETE FROM photo_candidates")
+            db.commit()
+            photos_batch.clear()
         for rec in read_tsv(photos, required):
             source_photo += 1
             pid = integer(rec["photo_id"])
@@ -212,19 +238,15 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             if pid is None or ext is None or lic is None:
                 continue
             uuid = str(rec["observation_uuid"]).strip()
-            if not uuid or db.execute("SELECT 1 FROM observations WHERE uuid=?",(uuid,)).fetchone() is None:
+            if not uuid:
                 continue
             photos_batch.append((str(pid), uuid, lic, ext, str(rec.get("observer_id") or "")))
             if len(photos_batch) >= 10000:
-                db.executemany("INSERT INTO photos VALUES (?,?,?,?,?)", photos_batch)
-                db.commit()
-                pass_photos += len(photos_batch)
-                photos_batch.clear()
-        if photos_batch:
-            db.executemany("INSERT INTO photos VALUES (?,?,?,?,?)", photos_batch)
-            pass_photos += len(photos_batch)
-            db.commit()
+                flush_photo_batch()
+        flush_photo_batch()
         del photos_batch
+        ambiguous_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=1").fetchone()[0])
+        unique_valid_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=0").fetchone()[0])
         # Frozen census as complete source manifests, even for zero-photo taxa.
         contracts = {}
         for shard in range(shards):
@@ -253,6 +275,7 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             observer_labels.login,observer_labels.name
             FROM photos JOIN observations ON photos.uuid=observations.uuid
             LEFT JOIN observer_labels ON photos.photographer=observer_labels.observer_id
+            WHERE photos.ambiguous=0
             ORDER BY observations.taxon,CAST(photos.photo_id AS INTEGER)""")
         for (tax, uuid, observer, observed_on,lat,lon,accuracy,pid,lic,ext,photographer,login,person_name) in rows:
             if tax != current_tax:
@@ -302,7 +325,9 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "n_target_taxon_research_grade_observations":pass_obs,
                  "n_source_observers_scanned":observer_rows,
                  "n_source_photos_scanned":source_photo,
-                 "n_target_taxon_licensed_photos":pass_photos,
+                 "n_target_taxon_licensed_photo_metadata_rows":pass_photos,
+                 "n_target_taxon_licensed_photos":unique_valid_photos,
+                 "n_conflicting_photo_ids_quarantined":ambiguous_photos,
                  "n_target_photos_with_named_creator":attributable,
                  "n_target_photos_creator_unresolved":unresolved,
                  "n_taxa_with_source_photos":len(counter),
@@ -312,7 +337,9 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "photo_cap":None,"all_available_snapshot_photo_ids_included":True,
                  "source_has_immutable_monthly_cutoff":True,
                  "not_literally_live_API_created_d2_window":True,
-                 "unavailable_or_unlicensed_photo_not_called_polymorphic":True}
+                 "unavailable_or_unlicensed_photo_not_called_polymorphic":True,
+                 "original_S3_extension_case_preserved":True,
+                 "conflicting_reused_photo_IDs_quarantined_without_morph_selection":True}
         (outdir/"bulk_source_receipt.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")
         return receipt
     finally:
