@@ -2,9 +2,10 @@
 """Enumerate EVERY original-photo ROI-v4 work unit from one COMPLETE FCP freeze.
 
 No species/sample/photo cap; batch_size caps TEMPORARY work-unit memory only.
-All 128 source-blind partitions are inspected without opening source images,
-old colour labels, or environmental values.  Existing successful terminal
-batches are validated before being marked complete for resumable execution.
+By default ALL 128 partitions are inspected. Production workers can request
+ONE source-blind partition for quick local resumption, without pretending that
+this is a global completion audit. The final collector still scans all 128.
+No source pixels, historic colours, or environmental data are opened here.
 The output is a task ledger, NOT flower-colour or ecological evidence.
 """
 from __future__ import annotations
@@ -22,7 +23,8 @@ from fcp_pipeline.fcp_fresh_study import WORKER, validate_method_attestation
 
 
 def plan_jobs(firewall: Path, completed: Path, out: Path,
-              *, batch_size: int = 64, _test_only_small_source: bool = False) -> dict:
+              *, batch_size: int = 64, partition: int | None = None,
+              _test_only_small_source: bool = False) -> dict:
     if batch_size < 1 or batch_size > 1024:
         raise ValueError('Compute work unit must be between 1 and 1024, NEVER an inclusion cap')
     if out.exists() and any(out.iterdir()):
@@ -39,6 +41,9 @@ def plan_jobs(firewall: Path, completed: Path, out: Path,
             raise ValueError('Synthetic short-source bypass is only for tiny regression fixtures')
     elif doc.get('source_species') != 42111 or doc.get('worker_packets') != 128:
         raise ValueError('Main 42111 species / 128-partition source must be fully frozen')
+    if partition is not None and (type(partition) is not int or
+                                  not 0 <= partition < int(doc['worker_packets'])):
+        raise ValueError('Requested source-only work partition is outside frozen partition universe')
     receipt=firewall/'firewall_receipt.json'
     if doc.get('blind_firewall_sha256') != sha256_file(receipt):
         raise ValueError('Frozen source firewall bytes changed')
@@ -55,8 +60,10 @@ def plan_jobs(firewall: Path, completed: Path, out: Path,
             else:
                 raise ValueError('Unexpected output in sealed terminal batch directory')
     queue=out/'all_photo_ROI_v4_work_units.ndjson'
+    n_jobs_by_part={i:0 for i in range(int(doc['worker_packets']))}
+    parts=(range(int(doc['worker_packets'])) if partition is None else (partition,))
     with queue.open('w',encoding='utf-8') as h:
-        for part in range(int(doc['worker_packets'])):
+        for part in parts:
             worker_name=f'worker_partition_{part:03}.csv'
             key_name=f'acquisition_partition_{part:03}.csv'
             for name in (worker_name,key_name):
@@ -115,8 +122,6 @@ def plan_jobs(firewall: Path, completed: Path, out: Path,
                                     'n_source_photo_ids':len(sub),
                                     'source_worker_sha256':worker_hash,
                                     'status':state},sort_keys=True)+'\n')
-            if part==0:
-                n_jobs_by_part={i:0 for i in range(int(doc['worker_packets']))}
             with worker.open('r',encoding='utf-8',newline='') as source:
                 reader=csv.DictReader(source)
                 if tuple(reader.fieldnames or ())!=WORKER:
@@ -133,16 +138,23 @@ def plan_jobs(firewall: Path, completed: Path, out: Path,
                 flush(buffer)
     if existing_files:
         raise ValueError(f'Unknown sealed real ROI-v4 terminal files: {sorted(existing_files)[:6]}')
-    if n_photos!=doc['all_available_licensed_photo_ids']:
+    if partition is None and n_photos!=doc['all_available_licensed_photo_ids']:
         raise ValueError('All-photo work units do not cover the complete source census')
+    if partition is not None and n_photos>doc['all_available_licensed_photo_ids']:
+        raise ValueError('Selected photo partition exceeds frozen global source denominator')
     result={'schema':'fcp_all_42111_original_photo_work_plan_v1',
-            'status':'COMPLETE_UNCAPPED_SOURCE_PHOTO_WORK_PLAN_NOT_ALL_IMAGES_MEASURED',
+            'status':('COMPLETE_UNCAPPED_SOURCE_PHOTO_WORK_PLAN_NOT_ALL_IMAGES_MEASURED'
+                      if partition is None else
+                      'SELECTED_ORIGINAL_PHOTO_PARTITION_PLAN_NOT_GLOBAL_COMPLETION'),
             'source_species':doc['source_species'],'source_photo_ids':n_photos,
+            'all_frozen_source_photo_ids':doc['all_available_licensed_photo_ids'],
+            'partition_scope':partition,
+            'is_global_all_photo_plan':partition is None,
             'work_units':n_jobs,'n_completed_work_units':output_counts['complete'],
             'n_pending_work_units':output_counts['pending'],
             'source_firewall_sha256':doc['blind_firewall_sha256'],
             'work_unit_ledger_sha256':sha256_file(queue),
-            'all_photo_ids_included_once':True,
+            'all_photo_ids_included_once':partition is None,
             'target_classifiable_min_per_species':40,
             'this_queue_not_genetic_or_environmental_inference':True,
             'full_biological_analysis_complete':False,
@@ -157,8 +169,11 @@ def main(argv=None):
     p.add_argument('--completed',type=Path,required=True)
     p.add_argument('--out',type=Path,required=True)
     p.add_argument('--batch-size',type=int,default=64)
+    p.add_argument('--partition',type=int,default=None,
+                   help='Fast one-partition worker plan; NEVER proves global photo completion')
     a=p.parse_args(argv)
-    print(json.dumps(plan_jobs(a.firewall,a.completed,a.out,batch_size=a.batch_size),sort_keys=True))
+    print(json.dumps(plan_jobs(a.firewall,a.completed,a.out,batch_size=a.batch_size,
+                               partition=a.partition),sort_keys=True))
     return 0
 
 if __name__=='__main__':
