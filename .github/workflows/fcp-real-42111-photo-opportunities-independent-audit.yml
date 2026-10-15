@@ -3,6 +3,10 @@
 name: FCP one-shot complete 42111 source-photo-count independent audit
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-real-42111-photo-opportunities-independent-audit.yml
   workflow_run:
     workflows:
       - FCP 42111 REAL dated-source photo opportunity census ONE SHOT
@@ -18,14 +22,20 @@ concurrency:
 
 jobs:
   verify-real-original-source-counts-not-colours:
+    # One-shot push activation works even when the source workflow lives only
+    # on the study branch (workflow_run of a non-default workflow does not
+    # necessarily fire on main). The next step independently authenticates
+    # the exact successful original source run before reading any artifact.
     if: >-
       ${{
-        github.event.workflow_run.id == 38749681793 &&
-        github.event.workflow_run.head_sha == 'b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3' &&
-        github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' &&
-        github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
-        github.event.workflow_run.name == 'FCP 42111 REAL dated-source photo opportunity census ONE SHOT' &&
-        github.event.workflow_run.conclusion == 'success'
+        (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+        (github.event_name == 'workflow_run' &&
+         github.event.workflow_run.id == 38749681793 &&
+         github.event.workflow_run.head_sha == 'b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3' &&
+         github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' &&
+         github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+         github.event.workflow_run.name == 'FCP 42111 REAL dated-source photo opportunity census ONE SHOT' &&
+         github.event.workflow_run.conclusion == 'success')
       }}
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -42,6 +52,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Verify exact genuine successful provider run and study code identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TARGET_RUN" > "$RUNNER_TEMP/fcp_provider_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          doc=json.loads((Path(os.environ['RUNNER_TEMP'])/'fcp_provider_run.json').read_text())
+          if (doc.get('id')!=38749681793
+              or doc.get('status')!='completed'
+              or doc.get('conclusion')!='success'
+              or doc.get('run_attempt')!=1
+              or doc.get('head_sha')!='b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3'
+              or doc.get('head_branch')!='analysis/fcp-fresh-uncapped-zero-20261015'
+              or doc.get('head_repository',{}).get('full_name')!='zuizui0223/fcp'
+              or doc.get('name')!='FCP 42111 REAL dated-source photo opportunity census ONE SHOT'):
+              raise SystemExit('Not the exact successful original provider source run; do not admit counts')
+          print('FCP_REAL_42111_PINNED_SOURCE_RUN_VERIFIED')
+          PY
 
       - name: Download source counts from EXACT successful pinned run without source or photo requests
         shell: bash
