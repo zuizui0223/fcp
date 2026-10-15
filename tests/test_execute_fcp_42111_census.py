@@ -61,3 +61,27 @@ def test_census_failure_leaves_explicit_incomplete_receipt_without_fake_results(
     assert receipt['complete_metadata_census'] is False
     assert receipt['complete_original_images_measured'] is False
     assert receipt['status']=='FAILED_OR_UNFINISHED_SOURCE_METADATA_NOT_SCIENTIFIC_RESULTS'
+
+
+def test_verified_four_table_scratch_is_evicted_only_after_full_import(tmp_path):
+    frame,taxa,observations,photos,observers,_=fixture(tmp_path)
+    original=pack_archive(tmp_path/'dated_original.tar.gz',{
+        'taxa':taxa,'observations':observations,'photos':photos,'observers':observers})
+    out=tmp_path/'complete_pruned_source'
+    got=execute(frame,out,source_archive=original,species=4,shards=2,workers=2,
+                skip_package=True,release_verified_temporary_tables=True)
+    assert got['complete_metadata_census'] is True
+    assert got['pruned_verified_scratch_tables_after_scan'] is True
+    assert got['pruned_verified_scratch_table_bytes']>0
+    extracted=out/'frozen_4_metadata_tables'
+    assert (extracted/'fcp_source_archive_pin.json').is_file()
+    assert not list(extracted.glob('*.csv.gz'))
+    assert original.is_file()  # Never delete caller-owned source archive.
+    assert got['complete_original_images_measured'] is False
+    from fcp_pipeline.fcp_fresh_study import required_source_dirs
+    dirs,audit=required_source_dirs(
+        frame,out/'complete_42111_metadata_source',shards=2,expected=4)
+    assert audit['status']=='SOURCE_CENSUS_COMPLETE'
+    assert len(dirs)==4
+    assert json.loads((out/'complete_42111_metadata_source/bulk_source_receipt.json').read_text())[
+        'pruned_pinned_temporary_metadata_after_full_scan'] is True
