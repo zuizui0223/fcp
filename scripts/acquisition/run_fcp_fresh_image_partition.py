@@ -47,6 +47,10 @@ class ProviderRateGateError(RuntimeError):
     """Global request limiter is unavailable; never record this as photo missingness."""
 
 
+class ProviderTransientAccessError(RuntimeError):
+    """Provider-wide/retryable outage. Abort work unit rather than seal fake missing photos."""
+
+
 def _pace_provider_request() -> None:
     """Space real S3 attempts across batches/retries; optionally across processes.
 
@@ -124,13 +128,25 @@ def image_loader(url:str)->bytes:
                 img.verify()
             return buf
         except HTTPError as exc:
-            if exc.code not in (408,425,429,500,502,503,504) or attempt==2:
+            # A persistent provider rate limit/outage is not evidence that one
+            # original photograph is permanently missing. Preserve this whole
+            # batch as unfinished so its source ID can be retried unchanged.
+            if exc.code in (401,403):
+                raise ProviderTransientAccessError(
+                    f'Original-photo provider access refused HTTP {exc.code}; no photo terminal can be sealed') from exc
+            if exc.code not in (408,425,429,500,502,503,504):
+                # Object-level permanent missingness (404/410) is recorded
+                # separately by run_batch; never colour-replace a lost image.
                 raise
-        except (URLError,TimeoutError,ConnectionError):
             if attempt==2:
-                raise
+                raise ProviderTransientAccessError(
+                    f'Original-photo provider transient HTTP {exc.code} after bounded retries; unsealed work unit') from exc
+        except (URLError,TimeoutError,ConnectionError) as exc:
+            if attempt==2:
+                raise ProviderTransientAccessError(
+                    'Original-photo provider connection unavailable after bounded retries; unsealed work unit') from exc
         time.sleep(2**attempt)
-    raise RuntimeError('Original photo retries exhausted')
+    raise ProviderTransientAccessError('Original-photo transient retry budget exhausted')
 
 
 def verify_frozen_method(source:Path, detector:Path, sam:Path)->dict:
@@ -247,9 +263,10 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
                 (images/str(r.image_filename)).write_bytes(payload)
                 okay.append({'measurement_id':r.measurement_id,'image_filename':r.image_filename,
                              'photo_license':r.photo_license})
-            except ProviderRateGateError:
-                # System-wide provider access unavailable: STOP, never misclassify
-                # all source photos as terminal missing/failed images.
+            except (ProviderRateGateError, ProviderTransientAccessError):
+                # Source-server outage, rate throttling, or shared gate failure
+                # is NOT a permanent property of one photograph. Do not seal
+                # this work unit; checkpointed IDs remain pending for replay.
                 raise
             except Exception as exc:
                 failures.append({'measurement_id':r.measurement_id,'morph':'mixed_uncertain',
