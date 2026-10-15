@@ -117,3 +117,41 @@ def test_out_of_range_partition_emission_fails_before_any_source_change(tmp_path
     with pytest.raises(ValueError,match='outside full immutable'):
         emit_shards(frame,staged,start=2,stop=3,expected=4,shards=2)
     assert not list(staged.glob('shard_*/shard_source_receipt.json'))
+
+
+
+def test_full_shard_range_hashes_and_integrity_checks_global_db_once(tmp_path,monkeypatch):
+    """A 128-shard emission must not rehash the huge SQLite 128/8 times."""
+    import scripts.acquisition.emit_fcp_staged_source_shards as shard_module
+    frame,original,mono,staged,stage=stage_and_full(tmp_path)
+    checks=[]
+    verify=shard_module._validate_stage
+
+    def count_source_integrity(*args,**kwargs):
+        checks.append(True)
+        return verify(*args,**kwargs)
+
+    monkeypatch.setattr(shard_module,'_validate_stage',count_source_integrity)
+    result=shard_module.emit_shards(
+        frame,staged,start=0,stop=2,expected=4,shards=2)
+    assert len(checks)==1
+    assert result['completed_here']==2
+    assert result['newly_or_previously_sealed_photo_ids_in_range']==3
+    assert len(list(staged.glob('shard_*_of_*/shard_source_receipt.json')))==2
+    assert shard_module.finalize_shards(
+        frame,staged,expected=4,shards=2
+    )['n_target_taxon_licensed_photos']==3
+    assert len(checks)==2   # Independent full-source finalization also audits.
+
+
+def test_reusing_all_sealed_shards_never_rewrites_original_photo_manifests(tmp_path):
+    frame,original,mono,staged,stage=stage_and_full(tmp_path)
+    emit_shards(frame,staged,start=0,stop=2,expected=4,shards=2)
+    frozen={str(p.relative_to(staged)):sha256_file(p)
+            for p in staged.glob('shard_*_of_*/species/*/photo_manifest.ndjson')}
+    assert frozen
+    result=emit_shards(frame,staged,start=0,stop=2,expected=4,shards=2)
+    assert result['completed_here']==2
+    assert frozen=={
+        str(p.relative_to(staged)):sha256_file(p)
+        for p in staged.glob('shard_*_of_*/species/*/photo_manifest.ndjson')}
