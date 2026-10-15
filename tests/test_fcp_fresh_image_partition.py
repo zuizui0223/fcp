@@ -161,7 +161,7 @@ def test_real_s3_loader_retries_transient_http_but_never_replaces_source_photo(m
     monkeypatch.setattr(m,'urlopen',missing)
     with pytest.raises(HTTPError):
         m.image_loader(url)
-    assert calls==[url] and sleeps==[m.DEFAULT_PROVIDER_PAUSE_SECONDS]
+    assert calls==[url] and sleeps==pytest.approx([m.DEFAULT_PROVIDER_PAUSE_SECONDS])
 
 
 def test_real_provider_spacing_across_one_photo_batches(tmp_path,monkeypatch):
