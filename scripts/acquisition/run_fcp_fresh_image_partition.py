@@ -12,6 +12,8 @@ import hashlib
 import importlib.util
 import json
 import math
+import re
+import time
 import subprocess
 import sys
 import tempfile
@@ -19,6 +21,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Callable
 from urllib.request import Request, urlopen
+from urllib.parse import urlsplit
+from urllib.error import HTTPError, URLError
 
 import numpy as np
 import pandas as pd
@@ -32,6 +36,9 @@ from fcp_pipeline.fcp_fresh_study import (
 from fcp_pipeline.fcp_allphotos import sha256_file
 
 ACQ=('measurement_id','image_filename','photo_url_large','photo_license')
+MAX_IMAGE_BYTES=12*1024*1024
+DEFAULT_PROVIDER_PAUSE_SECONDS=1.1
+_ORIGINAL_OBJECT=re.compile(r'^/photos/[0-9]+/large\.(?:jpg|jpeg|png)$',re.I)
 
 
 def _git_blob(path:Path)->str:
@@ -40,16 +47,30 @@ def _git_blob(path:Path)->str:
 
 
 def image_loader(url:str)->bytes:
-    if not url.startswith('https://'):
-        raise ValueError('Image URL must be an original https provider URL')
+    """Download original source image with bounded memory and transient retry."""
+    u=urlsplit(url)
+    if (u.scheme!='https' or u.netloc!='inaturalist-open-data.s3.amazonaws.com'
+            or u.query or u.fragment or not _ORIGINAL_OBJECT.fullmatch(u.path)):
+        raise ValueError('Photo URL is not a frozen original provider S3 object')
     req=Request(url,headers={'User-Agent':'fcp-fresh-photo-measurement/1.0 (github.com/zuizui0223/fcp)',
                             'Accept':'image/*'})
-    with urlopen(req,timeout=45) as response:
-        buf=response.read()
-    if not buf:raise ValueError('empty photo payload')
-    with Image.open(BytesIO(buf)) as img:
-        img.verify()
-    return buf
+    for attempt in range(3):
+        try:
+            with urlopen(req,timeout=45) as response:
+                buf=response.read(MAX_IMAGE_BYTES+1)
+            if not buf or len(buf)>MAX_IMAGE_BYTES:
+                raise ValueError('Original photo empty or exceeds 12MiB bounded acquisition')
+            with Image.open(BytesIO(buf)) as img:
+                img.verify()
+            return buf
+        except HTTPError as exc:
+            if exc.code not in (408,425,429,500,502,503,504) or attempt==2:
+                raise
+        except (URLError,TimeoutError,ConnectionError):
+            if attempt==2:
+                raise
+        time.sleep(2**attempt)
+    raise RuntimeError('Original photo retries exhausted')
 
 
 def verify_frozen_method(source:Path, detector:Path, sam:Path)->dict:
@@ -159,7 +180,9 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
         work=Path(tmp)
         images=work/'images';images.mkdir()
         okay=[]
-        for r in acq.itertuples(index=False):
+        for index,r in enumerate(acq.itertuples(index=False)):
+            if loader is None and index:
+                time.sleep(DEFAULT_PROVIDER_PAUSE_SECONDS)
             try:
                 payload=(loader or image_loader)(str(r.photo_url_large))
                 if not payload:raise ValueError('empty image')
@@ -186,6 +209,10 @@ def run_batch(firewall:Path, part:int,batch:int,batch_size:int, outdir:Path,
                 'n_source_photo_ids':len(worker),'n_terminal_photo_ids':len(results),
                 'n_classifiable':int(results.measurement_status.eq('classified_four_state_morph').sum()),
                 'n_acquisition_failed':len(failures),
+                'original_provider_rate_limit_seconds_between_photos':(
+                    DEFAULT_PROVIDER_PAUSE_SECONDS if loader is None else None),
+                'bounded_provider_original_image_bytes':MAX_IMAGE_BYTES,
+                'photo_failures_preserved_not_replaced':True,
                 'selected_source_worker_sha256':hashlib.sha256(worker.to_csv(index=False).encode()).hexdigest(),
                 'terminal_csv_sha256':sha256_file(result_file),
                 'method':fingerprint,
