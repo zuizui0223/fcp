@@ -47,9 +47,11 @@ MAX_BYTES = 12 * 1024 * 1024
 MAX_PER_SPECIES = 24
 
 
-def selected_metadata(metadata_root: Path, n_each: int) -> tuple[list[dict], dict]:
+def selected_metadata(metadata_root: Path, n_each: int, *, offset_each: int = 0) -> tuple[list[dict], dict]:
     if not 1 <= n_each <= MAX_PER_SPECIES:
         raise ValueError('Real-photo tech pilot per-species bound must be 1..24')
+    if not 0 <= offset_each <= 480:
+        raise ValueError('Real-photo technical selection offset must be 0..480')
     contract = json.loads((metadata_root / 'source_contract.json').read_text(encoding='utf-8'))
     if (contract.get('source_species_frame_sha256') != SOURCE_FRAME_SHA or
             contract.get('created_d2') != SOURCE_CREATED_DATE or
@@ -102,7 +104,11 @@ def selected_metadata(metadata_root: Path, n_each: int) -> tuple[list[dict], dic
             continue
         # Deterministic, species-equal, blind to image colour and geography.
         species.sort(key=lambda x:hashlib.sha256(f'{SALT}:{tid}:{x["photo_id"]}'.encode()).digest())
-        chosen=species[:n_each]
+        chosen=species[offset_each:offset_each+n_each]
+        if len(chosen)!=n_each:
+            raise ValueError(
+                f'Tech pilot requires {n_each} distinct source photo IDs beyond '
+                f'offset {offset_each} for each completed species {tid}')
         for obj in chosen:
             pid=str(obj['photo_id'])
             if pid in global_ids:
@@ -121,7 +127,10 @@ def selected_metadata(metadata_root: Path, n_each: int) -> tuple[list[dict], dic
     return photos,{'source_artifact_id':SOURCE_ARTIFACT,'source_run_id':SOURCE_RUN,
                    'source_snapshot_date':SOURCE_CREATED_DATE,'initial_frame_sha256':SOURCE_FRAME_SHA,
                    'completed_taxa_available':taxa,'species':archives,'selected_photo_id_pairs_sha256':selected_hash,
-                   'selection_outcome_blind':True,'pilot_only_max_photos_per_species':n_each}
+                   'selection_outcome_blind':True,
+                   'pilot_only_offset_each':offset_each,
+                   'pilot_only_max_photos_per_species':n_each,
+                   'disjoint_from_prior_24_per_taxon_pilot':offset_each>=24}
 
 
 def original_photo_bytes(url:str,pid:str)->bytes:
@@ -144,12 +153,13 @@ def original_photo_bytes(url:str,pid:str)->bytes:
 
 
 def run_pilot(meta:Path,outdir:Path,source:Path,detector:Path,sam:Path,
-              *,n_each:int=24,delay_seconds:float=1.1)->dict:
+              *,n_each:int=24,delay_seconds:float=1.1,
+              offset_each:int=0)->dict:
     if delay_seconds<1.0:
         raise ValueError('At most one original photo request per second')
     if outdir.exists() and any(outdir.iterdir()):
         raise ValueError('One-shot real-photo output must be empty; never silently overwrite pilot')
-    chosen, provenance=selected_metadata(meta,n_each)
+    chosen, provenance=selected_metadata(meta,n_each,offset_each=offset_each)
     method=verify_frozen_method(source,detector,sam)
     outdir.mkdir(parents=True,exist_ok=True)
     failures={}
@@ -265,11 +275,14 @@ def main(argv=None)->int:
     parser.add_argument('--original-detector',type=Path,required=True)
     parser.add_argument('--original-efficient-sam',type=Path,required=True)
     parser.add_argument('--per-complete-species',type=int,default=24)
+    parser.add_argument('--offset-each',type=int,default=0,
+                        help='Source-ID-only deterministic offset, 24 skips previous 96-photo pilot')
     parser.add_argument('--delay-seconds',type=float,default=1.1)
     a=parser.parse_args(argv)
     run_pilot(a.source_metadata_root,a.output_root,a.original_measure_script,
               a.original_detector,a.original_efficient_sam,
-              n_each=a.per_complete_species,delay_seconds=a.delay_seconds)
+              n_each=a.per_complete_species,delay_seconds=a.delay_seconds,
+              offset_each=a.offset_each)
     return 0
 
 if __name__=='__main__':
