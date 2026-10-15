@@ -188,6 +188,11 @@ def test_real_provider_spacing_across_one_photo_batches(tmp_path,monkeypatch):
         attempt_times.append(clock[0])
         return FakeResponse()
     monkeypatch.setattr(m,'urlopen',opener)
+    # Synthetic source fixtures use non-provider dummy URLs. Route only this
+    # test's two images through the REAL S3 loader with a valid fake S3 key.
+    real_s3_loader=m.image_loader
+    monkeypatch.setattr(m,'image_loader',lambda _url:real_s3_loader(
+        'https://inaturalist-open-data.s3.amazonaws.com/photos/17/large.JPG'))
     out=tmp_path/'sealed'
     first=m.run_batch(firewall,0,0,1,out,source=tmp_path/'x',
                   detector=tmp_path/'y',sam=tmp_path/'z',evaluator=fake_measure,
