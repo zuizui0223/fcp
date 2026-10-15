@@ -59,6 +59,8 @@ on:
       - tests/test_execute_fcp_full_photo_work_queue.py
       - tests/test_collect_fcp_partition_measurements.py
       - tests/test_admit_fcp_complete_photo_source.py
+      - scripts/acquisition/summarize_fcp_real_photo_opportunities.py
+      - tests/test_summarize_fcp_real_photo_opportunities.py
       - scripts/acquisition/run_real_source_roi_pilot.py
       - scripts/acquisition/repair_real_source_roi_pilot.py
       - tests/test_fcp_real_photo_pilot_repair.py
@@ -117,6 +119,8 @@ on:
       - tests/test_execute_fcp_full_photo_work_queue.py
       - tests/test_collect_fcp_partition_measurements.py
       - tests/test_admit_fcp_complete_photo_source.py
+      - scripts/acquisition/summarize_fcp_real_photo_opportunities.py
+      - tests/test_summarize_fcp_real_photo_opportunities.py
       - scripts/acquisition/run_real_source_roi_pilot.py
       - scripts/acquisition/repair_real_source_roi_pilot.py
       - tests/test_fcp_real_photo_pilot_repair.py
@@ -160,7 +164,7 @@ jobs:
       - name: Install FCP fresh-only source/geo and test dependencies
         run: python -m pip install --upgrade pytest numpy pandas scipy Pillow scikit-image rasterio
       - name: Check fresh source acquisition / zero-legacy / null-guard contracts
-        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_fcp_fresh_partition_index.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_emit_fcp_staged_source_shards.py tests/test_finalize_fcp_staged_source.py tests/test_pin_inat_open_data_snapshot.py tests/test_fcp_real_photo_pilot_repair.py tests/test_execute_fcp_42111_census.py tests/test_plan_fcp_full_measurements.py tests/test_execute_fcp_full_photo_work_queue.py tests/test_collect_fcp_partition_measurements.py tests/test_admit_fcp_complete_photo_source.py -q
+        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_fcp_fresh_partition_index.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_emit_fcp_staged_source_shards.py tests/test_finalize_fcp_staged_source.py tests/test_pin_inat_open_data_snapshot.py tests/test_fcp_real_photo_pilot_repair.py tests/test_execute_fcp_42111_census.py tests/test_plan_fcp_full_measurements.py tests/test_execute_fcp_full_photo_work_queue.py tests/test_collect_fcp_partition_measurements.py tests/test_admit_fcp_complete_photo_source.py tests/test_summarize_fcp_real_photo_opportunities.py -q
       - name: Verify original method bootstrap script syntax
         run: bash -n scripts/acquisition/bootstrap_fcp_original_roi_v4.sh
       - name: Restore and fingerprint original ROI-v4 code without ANY old photo colours
