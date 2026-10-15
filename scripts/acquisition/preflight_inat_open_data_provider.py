@@ -21,6 +21,7 @@ EXPECTED = {
     'observations': {'observation_uuid', 'taxon_id', 'observer_id', 'latitude', 'longitude',
                      'positional_accuracy', 'quality_grade', 'observed_on'},
     'photos': {'photo_id', 'observation_uuid', 'observer_id', 'extension', 'license'},
+    'observers': {'observer_id', 'login', 'name'},
 }
 MAX_PROBE_BYTES = 131072
 
