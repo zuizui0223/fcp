@@ -41,6 +41,20 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Reclaim unused preinstalled SDKs for large immutable source handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "FCP_FIRST_REAL_PHOTO_DISK_BEFORE"; df -h "$RUNNER_TEMP"
+          # Same previously validated cleanup as recovery Actions #38699975166.
+          # Never remove Python, Git, OS packages or frozen scientific inputs.
+          for p in /usr/local/lib/android /usr/share/dotnet /usr/local/share/powershell /usr/share/swift; do
+            if test -d "$p"; then
+              sudo rm -rf -- "$p"
+            fi
+          done
+          echo "FCP_FIRST_REAL_PHOTO_DISK_AFTER"; df -h "$RUNNER_TEMP"
+
       - name: Reuse source census artifacts, NEVER re-download provider 36GB
         shell: bash
         run: |
