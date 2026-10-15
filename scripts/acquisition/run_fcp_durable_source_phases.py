@@ -53,8 +53,11 @@ def _read(path: Path) -> dict:
 def validate_root(root: Path, runner_temp: str | None = None) -> Path:
     if not root.is_absolute():
         raise ValueError("FCP_DURABLE_ROOT must be an absolute path")
+    if root.is_symlink():
+        raise ValueError("FCP_DURABLE_ROOT must not be a symbolic link")
     root = root.resolve()
-    forbidden = [Path("/"), Path("/tmp"), Path("/var/tmp"), Path("/dev/shm")]
+    forbidden = [Path("/"), Path("/tmp"), Path("/var/tmp"), Path("/dev/shm"),
+                 Path("/home/runner/work"), Path("/home/runner/_work")]
     if runner_temp:
         forbidden.append(Path(runner_temp).resolve())
     if any(root == x or x in root.parents for x in forbidden):
