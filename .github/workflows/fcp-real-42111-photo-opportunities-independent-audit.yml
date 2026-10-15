@@ -1,0 +1,106 @@
+# Independent, source-only REAL FCP count audit; never accesses provider/photo pixels.
+# This workflow is on main because GitHub workflow_run hooks live on default branch.
+name: FCP one-shot complete 42111 source-photo-count independent audit
+
+on:
+  workflow_run:
+    workflows:
+      - FCP 42111 REAL dated-source photo opportunity census ONE SHOT
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-one-shot-42111-20260927-source-photo-count-audit
+  cancel-in-progress: false
+
+jobs:
+  verify-real-original-source-counts-not-colours:
+    if: >-
+      ${{
+        github.event.workflow_run.id == 38749681793 &&
+        github.event.workflow_run.head_sha == 'b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3' &&
+        github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' &&
+        github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+        github.event.workflow_run.name == 'FCP 42111 REAL dated-source photo opportunity census ONE SHOT' &&
+        github.event.workflow_run.conclusion == 'success'
+      }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TARGET_RUN: '38749681793'
+    steps:
+      - name: Checkout audited immutable FCP receipt-analysis code
+        uses: actions/checkout@v4
+        with:
+          ref: 284d7128540a489300d2904d95bd834214b8a8c4
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download source counts from EXACT successful pinned run without source or photo requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_verified_counts" "$RUNNER_TEMP/fcp_independent_audit"
+          gh run download "$TARGET_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours \
+            --dir "$RUNNER_TEMP/fcp_verified_counts"
+          echo "FCP_REAL_COUNT_ARTIFACT_DOWNLOADED_NO_PROVIDER_REQUESTS"
+
+      - name: Independently audit 42111 rows, date, SHA256, missing taxa and biological firewall
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess,sys
+          from pathlib import Path
+          folder=Path(os.environ["RUNNER_TEMP"])/"fcp_verified_counts"
+          def unique(basename):
+              paths=list(folder.rglob(basename))
+              if len(paths)!=1 or not paths[0].is_file():
+                  raise SystemExit(f"Expected precisely one verified original source file {basename}, got {len(paths)}")
+              return paths[0]
+          counts=unique("all_42111_species_photo_opportunity_counts.csv")
+          source=unique("photo_opportunity_counts_only_receipt.json")
+          status=unique("full_source_execution_receipt.json")
+          pin=unique("fcp_source_archive_pin.json")
+          doc=json.loads(pin.read_text(encoding="utf-8"))
+          from scripts.acquisition.summarize_fcp_real_photo_opportunities import (
+              ARCHIVE_SHA, TABLE_SHA)
+          if (doc.get("full_bundle_sha256")!=ARCHIVE_SHA
+                  or doc.get("metadata_files_sha256")!=TABLE_SHA
+                  or doc.get("snapshot_date")!="2026-09-27"):
+              raise SystemExit("Immutable original complete source archive provenance mismatch")
+          output=Path(os.environ["RUNNER_TEMP"])/"fcp_independent_audit"/"all_42111_photo_opportunity_audit.json"
+          subprocess.run([sys.executable,
+              "scripts/acquisition/summarize_fcp_real_photo_opportunities.py",
+              "--counts",str(counts),"--source-receipt",str(source),
+              "--execution-receipt",str(status),"--output",str(output)],check=True)
+          result=json.loads(output.read_text(encoding="utf-8"))
+          if (result.get("status")!="VERIFIED_COMPLETE_COUNTS_ONLY_NOT_COLOUR_MEASUREMENT"
+              or result.get("source_frame_species")!=42111
+              or result.get("all_source_photo_id_manifests_frozen") is not False
+              or result.get("all_original_image_pixels_measured") is not False
+              or result.get("W_D_H2_or_climate_soil_results") is not False):
+              raise SystemExit("Source-only audit cannot be a claimed biological colour result")
+          print("FCP_42111_REAL_COUNTS_INDEPENDENT_AUDIT_PASS",json.dumps({
+              "taxa":42111,"original_photo_opportunities":result["all_source_photo_opportunity_ids"],
+              "zero_photo_taxa":result["taxa_with_zero_photos"],
+              "source_photo_depth_ge_40":result["minimum_source_photo_depth_upper_bound_for_W"]["40"],
+              "not_fcp_flower_colour":True},sort_keys=True))
+          PY
+
+      - name: Retain separate independently verified actual source-count report
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-42111-source-photo-opportunity-INDEPENDENT-AUDIT-not-flower-colours
+          retention-days: 60
+          if-no-files-found: error
+          path: ${{ runner.temp }}/fcp_independent_audit/all_42111_photo_opportunity_audit.json
