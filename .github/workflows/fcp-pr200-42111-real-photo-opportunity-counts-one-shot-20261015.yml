@@ -23,7 +23,6 @@ jobs:
     timeout-minutes: 350
     env:
       SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
-      FCP_RUN_ROOT: ${{ runner.temp }}/fcp_real_42111_source_counts_20260927
     steps:
       - name: Check out verified 42111 photo-count implementation
         uses: actions/checkout@v4
@@ -42,6 +41,7 @@ jobs:
           for p in /usr/local/lib/android /usr/share/dotnet /usr/local/share/powershell /usr/share/swift; do
             if test -d "$p"; then sudo rm -rf -- "$p"; fi
           done
+          echo "FCP_RUN_ROOT=$RUNNER_TEMP/fcp_real_42111_source_counts_20260927" >> "$GITHUB_ENV"
           echo FCP_REAL_SOURCE_DISK_FREE; df -h "$RUNNER_TEMP"
 
       - name: Verify audited source-count code using synthetic fixtures BEFORE giant transfer
