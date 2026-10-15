@@ -36,7 +36,7 @@ jobs:
       - name: Checkout audited immutable FCP receipt-analysis code
         uses: actions/checkout@v4
         with:
-          ref: 284d7128540a489300d2904d95bd834214b8a8c4
+          ref: f0a6f9ac00cf4863b2d57854183f1dfbb148cd39
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -52,6 +52,16 @@ jobs:
             --name fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours \
             --dir "$RUNNER_TEMP/fcp_verified_counts"
           echo "FCP_REAL_COUNT_ARTIFACT_DOWNLOADED_NO_PROVIDER_REQUESTS"
+
+      - name: Independently restore byte-frozen taxon frame and verify SHA256
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_FRAME_COMMIT=7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" \
+            > "$RUNNER_TEMP/fcp_verified_counts/original_42111_taxa.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$RUNNER_TEMP"'/fcp_verified_counts/original_42111_taxa.csv' | sha256sum -c -
 
       - name: Independently audit 42111 rows, date, SHA256, missing taxa and biological firewall
         shell: bash
@@ -70,6 +80,7 @@ jobs:
           source=unique("photo_opportunity_counts_only_receipt.json")
           status=unique("full_source_execution_receipt.json")
           pin=unique("fcp_source_archive_pin.json")
+          frozen_frame=unique("original_42111_taxa.csv")
           doc=json.loads(pin.read_text(encoding="utf-8"))
           from scripts.acquisition.summarize_fcp_real_photo_opportunities import (
               ARCHIVE_SHA, TABLE_SHA)
@@ -81,10 +92,12 @@ jobs:
           subprocess.run([sys.executable,
               "scripts/acquisition/summarize_fcp_real_photo_opportunities.py",
               "--counts",str(counts),"--source-receipt",str(source),
-              "--execution-receipt",str(status),"--output",str(output)],check=True)
+              "--execution-receipt",str(status),"--original-frame",str(frozen_frame),
+              "--output",str(output)],check=True)
           result=json.loads(output.read_text(encoding="utf-8"))
           if (result.get("status")!="VERIFIED_COMPLETE_COUNTS_ONLY_NOT_COLOUR_MEASUREMENT"
               or result.get("source_frame_species")!=42111
+              or result.get("original_source_taxon_IDs_and_names_independently_matched") is not True
               or result.get("all_source_photo_id_manifests_frozen") is not False
               or result.get("all_original_image_pixels_measured") is not False
               or result.get("W_D_H2_or_climate_soil_results") is not False):
