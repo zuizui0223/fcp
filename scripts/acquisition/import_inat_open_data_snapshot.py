@@ -23,6 +23,7 @@ import math
 import re
 import sqlite3
 import shutil
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fcp_pipeline.fcp_allphotos import opportunity_frame, opportunity_schedule, sha256_file
@@ -165,6 +166,37 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             raise ValueError('Cannot prune external, symlinked or non-original metadata files')
     crosswalk = source_crosswalk(taxa, set(names))
     path = outdir / "_working_fcp_snapshot.sqlite"
+    progress_path = outdir / "fcp_source_progress.ndjson"
+    if progress_path.exists():
+        raise ValueError('Previous source progress trace already present: no mixed source runs')
+
+    def progress(phase: str, *, scanned: int, retained: int) -> None:
+        # An append-only source METADATA diagnostic, never a photo measurement
+        # or a resumable checkpoint. Kept by the GitHub failure artifact.
+        event = {
+            'schema': 'fcp_provider_metadata_ingest_progress_v1',
+            'phase': phase,
+            'snapshot_date': snapshot_date,
+            'source_frame_sha256': sha256_file(source_frame),
+            'n_source_rows_scanned': scanned,
+            'n_candidate_rows_retained': retained,
+            'stage_complete': False,
+            'source_census_complete': False,
+            'original_pixels_measured': False,
+            'scratch_free_bytes': shutil.disk_usage(outdir).free,
+            'sqlite_file_bytes': path.stat().st_size if path.exists() else 0,
+            'logged_at_utc': datetime.now(timezone.utc).isoformat()
+        }
+        with progress_path.open('a',encoding='utf-8') as trace:
+            trace.write(json.dumps(event,sort_keys=True)+'\n')
+            trace.flush()
+        print('FCP_ORIGINAL_SOURCE_INGEST_PROGRESS',
+              json.dumps({k:event[k] for k in
+                          ('phase','n_source_rows_scanned','n_candidate_rows_retained',
+                           'sqlite_file_bytes','scratch_free_bytes')}),
+              flush=True)
+
+    progress('begin_verified_provider_scan',scanned=0,retained=0)
     db = sqlite3.connect(path)
     source_obs = 0
     source_photo = 0
@@ -182,6 +214,9 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         required = {"observation_uuid", "taxon_id", "observer_id", "latitude", "longitude", "positional_accuracy", "quality_grade", "observed_on"}
         for rec in read_tsv(observations, required):
             source_obs += 1
+            if source_obs % 1_000_000 == 0:
+                progress('scanning_original_observations',scanned=source_obs,
+                         retained=pass_obs+len(batch))
             if str(rec["quality_grade"]).strip().casefold() not in {"research grade", "research"}:
                 continue
             uuid = str(rec["observation_uuid"]).strip()
@@ -203,6 +238,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             pass_obs += len(batch)
             db.commit()
         del batch
+        progress('all_original_observations_scanned',scanned=source_obs,
+                 retained=pass_obs)
         observer_batch=[]
         observer_rows=0
         for rec in read_tsv(observers, {"observer_id", "login", "name"}):
@@ -219,6 +256,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             db.executemany("INSERT INTO observer_labels VALUES (?,?,?)",observer_batch)
             db.commit()
         del observer_batch
+        progress('all_original_observers_scanned',scanned=observer_rows,
+                 retained=observer_rows)
         photos_batch = []
         required = {"photo_id", "observation_uuid", "observer_id", "extension", "license"}
         def flush_photo_batch():
@@ -247,6 +286,9 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             photos_batch.clear()
         for rec in read_tsv(photos, required):
             source_photo += 1
+            if source_photo % 1_000_000 == 0:
+                progress('scanning_original_photos',scanned=source_photo,
+                         retained=pass_photos)
             pid = integer(rec["photo_id"])
             ext = accepted_extension(rec["extension"])
             lic = normalize_license(rec["license"])
@@ -260,6 +302,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                 flush_photo_batch()
         flush_photo_batch()
         del photos_batch
+        progress('all_original_photos_scanned',scanned=source_photo,
+                 retained=pass_photos)
         # All raw source rows and hashes have been read. Preserve original
         # bundle and all four table digests in source_archive_pin.json, while
         # reclaiming disposable compressed scratch copies BEFORE the large
@@ -274,6 +318,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                               'tables_sha256':hashes},sort_keys=True),flush=True)
         ambiguous_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=1").fetchone()[0])
         unique_valid_photos=int(db.execute("SELECT COUNT(*) FROM photos WHERE ambiguous=0").fetchone()[0])
+        progress('original_photo_ids_globally_deduplicated',
+                 scanned=source_photo,retained=unique_valid_photos)
         if stage_sqlite_only:
             # Freeze the full provider photo-ID universe ONCE as a resumable,
             # exact-date SQLite source. Manifest workers can then emit a few
@@ -317,6 +363,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             tmp=receipt.with_suffix(".json.tmp")
             tmp.write_text(json.dumps(stage,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
             tmp.replace(receipt)
+            progress('source_sqlite_staged_ready_for_independent_shards',
+                     scanned=source_photo,retained=unique_valid_photos)
             print("FCP_SOURCE_STAGED_FOR_INCREMENTAL_SHARDS",json.dumps({
                 "source_species":len(names),"source_photos":unique_valid_photos,
                 "sqlite_bytes":stage["sqlite_bytes"],"shards":shards}),flush=True)
@@ -369,6 +417,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
         if not any("photos_taxon_numeric_order" in p for p in plan_details):
             raise RuntimeError("FCP photo manifest order index was not used")
         print("FCP_MANIFEST_INDEXED_STREAM_PLAN",json.dumps(plan_details),flush=True)
+        progress('starting_all_taxon_photo_manifest_stream',
+                 scanned=source_photo,retained=unique_valid_photos)
         rows = db.execute(manifest_sql)
         emitted_photo_rows = 0
         for (tax, uuid, observer, observed_on,lat,lon,accuracy,pid,lic,ext,photographer,login,person_name) in rows:
@@ -399,6 +449,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
             # Fail closed with space for a diagnostic artifact, rather than
             # allowing a disk-full OSError after hours of manifest emission.
             if expected_species == 42111 and emitted_photo_rows % 100000 == 0:
+                progress('writing_taxon_photo_manifests',
+                         scanned=emitted_photo_rows,retained=unique_valid_photos)
                 free_bytes = shutil.disk_usage(outdir).free
                 if free_bytes < 6_000_000_000:
                     raise RuntimeError(
@@ -453,6 +505,8 @@ def ingest(source_frame: Path, taxa: Path, observations: Path, photos: Path,
                  "pruned_pinned_temporary_metadata_after_full_scan":bool(prune_verified_temporary_tables),
                  "pruned_temporary_table_bytes":pruned_table_bytes}
         (outdir/"bulk_source_receipt.json").write_text(json.dumps(receipt,indent=2)+"\n",encoding="utf-8")
+        progress('all_original_source_photo_manifests_written',
+                 scanned=source_photo,retained=unique_valid_photos)
         return receipt
     finally:
         db.close()
