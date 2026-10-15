@@ -69,7 +69,7 @@ def download_exact_archive(path:Path,status:dict,min_space:int):
     # immutable date-selected object; end-to-end SHA/length is always verified.
     partial=path.with_suffix('.tar.gz.part')
     status['stage']='download_exact_dated_archive'
-    subprocess.run(['curl','--fail','--location','--retry','4','--retry-delay','10',
+    subprocess.run(['curl','--fail','--silent','--show-error','--location','--retry','4','--retry-delay','10',
                     '--retry-all-errors','--connect-timeout','60',
                     '--continue-at','-','--output',str(partial),ARCHIVE_URL],check=True)
     if partial.stat().st_size!=ARCHIVE_SIZE:
