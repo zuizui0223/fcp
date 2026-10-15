@@ -27,7 +27,7 @@ jobs:
     env:
       SOURCE_RUN: "38676167958"
       GH_TOKEN: ${{ github.token }}
-      FCP_BASE: ${{ runner.temp }}/fcp_pr200_full_source_first_photo
+      FCP_BASE: /tmp/fcp_pr200_full_source_first_photo
     steps:
       - name: Checkout reviewed and frozen PR200 runtime
         uses: actions/checkout@v4
@@ -134,9 +134,9 @@ jobs:
           if-no-files-found: error
           retention-days: 90
           path: |
-            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
-            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
-            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/real_partition_000/sealed_terminal_batches/
+            /tmp/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
+            /tmp/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
+            /tmp/fcp_pr200_full_source_first_photo/real_partition_000/sealed_terminal_batches/
 
       - name: Retain failures as diagnostics only
         if: ${{ failure() }}
@@ -146,5 +146,5 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
           path: |
-            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
-            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
+            /tmp/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
+            /tmp/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
