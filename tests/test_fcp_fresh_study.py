@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,7 +12,7 @@ import pytest
 from fcp_pipeline.fcp_allphotos import opportunity_frame, opportunity_schedule, sha256_file
 from fcp_pipeline.fcp_fresh_study import (
     SOURCE_MEASUREMENT_BLOB, SOURCE_METHOD_COMMIT, SOURCE_ENCODER_SHA256,
-    SOURCE_DECODER_SHA256, SOURCE_DETECTOR_SHA256, BIO, freeze_fresh,
+    SOURCE_DECODER_SHA256, SOURCE_DETECTOR_SHA256, BIO, WORKER, freeze_fresh,
     reassemble_fresh, required_source_dirs,
 )
 
@@ -97,7 +98,10 @@ def terminal(tmp:Path, fw:Path,*,missing:bool=False)->Path:
         receipt={'status':'COMPLETE_WORK_UNIT','partition':part,'batch':0,
                  'compute_batch_size_not_photo_cap':100,'number_batches_for_this_partition':1,
                  'n_source_photo_ids':written,'n_terminal_photo_ids':written,
-                 'terminal_csv_sha256':sha256_file(filename),'image_bytes_persisted':False,
+                 'terminal_csv_sha256':sha256_file(filename),
+                 'selected_source_worker_sha256':hashlib.sha256(
+                     pd.DataFrame(workers,columns=list(WORKER)).to_csv(index=False).encode()).hexdigest(),
+                 'image_bytes_persisted':False,
                  'reused_historical_measurement_csv':False,'full_study_complete':False,
                  'method':method}
         filename.with_suffix('.json').write_text(json.dumps(receipt))
@@ -176,3 +180,36 @@ def test_no_colour_based_species_eligibility_and_refuse_source_swap(tmp_path):
     altered.to_csv(p,index=False)
     with pytest.raises(ValueError,match='Source'):
         freeze_fresh(p,meta,tmp_path/'different',shards=2,expected=4)
+
+def test_terminal_batch_must_match_frozen_worker_order_and_photo_attribution(tmp_path):
+    p,meta=setup_source(tmp_path)
+    fw=tmp_path/'firewall'
+    freeze_fresh(p,meta,fw,shards=2,expected=4,workers=3)
+    sealed=terminal(tmp_path,fw)
+    parts=sorted(sealed.glob('terminal_*.csv'))
+    assert len(parts)>=2
+    victim=parts[0]
+    # A forged receipt with the correct terminal CSV hash but a mismatched
+    # frozen worker subset is never a valid new biological measurement.
+    receipt=victim.with_suffix('.json')
+    doc=json.loads(receipt.read_text())
+    doc['selected_source_worker_sha256']='0'*64
+    receipt.write_text(json.dumps(doc))
+    with pytest.raises(ValueError,match='batch worker subset SHA256'):
+        reassemble_fresh(fw,sealed,attestation(tmp_path),tmp_path/'invalid_subset')
+    # Repair subset fingerprint, but replace a row by an ID from another partition.
+    victim_part=int(victim.stem.split('_')[1][1:])
+    workers=list(csv.DictReader((fw/f'worker_partition_{victim_part:03}.csv').open()))
+    doc['selected_source_worker_sha256']=hashlib.sha256(
+        pd.DataFrame(workers,columns=list(WORKER)).to_csv(index=False).encode()).hexdigest()
+    rows=list(csv.DictReader(victim.open()))
+    fieldnames=list(rows[0])
+    rows[0]['measurement_id']=next(csv.DictReader(
+        (fw/f'worker_partition_{int(parts[1].stem.split("_")[1][1:]):03}.csv').open()
+    ))['measurement_id']
+    with victim.open('w',newline='') as h:
+        w=csv.DictWriter(h,fieldnames=fieldnames);w.writeheader();w.writerows(rows)
+    doc['terminal_csv_sha256']=sha256_file(victim)
+    receipt.write_text(json.dumps(doc))
+    with pytest.raises(ValueError,match='does not belong to its frozen source batch'):
+        reassemble_fresh(fw,sealed,attestation(tmp_path),tmp_path/'wrong_photo_partition')
