@@ -38,6 +38,7 @@ on:
       - tests/test_fcp_fresh_image_partition.py
       - tests/test_run_fcp_uncapped_shard.py
       - scripts/acquisition/import_inat_open_data_snapshot.py
+      - scripts/acquisition/preflight_inat_open_data_provider.py
       - tests/test_fcp_open_data_bulk_import.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
@@ -73,6 +74,7 @@ on:
       - tests/test_fcp_fresh_image_partition.py
       - tests/test_run_fcp_uncapped_shard.py
       - scripts/acquisition/import_inat_open_data_snapshot.py
+      - scripts/acquisition/preflight_inat_open_data_provider.py
       - tests/test_fcp_open_data_bulk_import.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
@@ -129,3 +131,27 @@ jobs:
           assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
+
+  fresh-real-provider-schema-probe:
+    # Small schema probe only: THREE S3 HEADs + at most 128KiB per mutable metadata file.
+    # No original photo downloads, no labelled flower responses, no bulk crawl.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check actual provider headers against fresh photo importer
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/preflight_inat_open_data_provider.py \
+            --out "$RUNNER_TEMP/fcp_real_provider_schema_receipt.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-open-data-real-provider-schema-20261015
+          if-no-files-found: error
+          retention-days: 30
+          path: ${{ runner.temp }}/fcp_real_provider_schema_receipt.json
