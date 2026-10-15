@@ -35,7 +35,7 @@ MORPHS=('white','yellow_orange','red_pink','blue_purple')
 BIO=('white','yellow','orange','red','pink','magenta','purple','blue','bronze')
 WORKER=('measurement_id','image_filename','photo_license')
 ANNOTATION=('inat_taxon_id','species','observation_id','photo_id','photo_license',
-            'observer_id','observed_on','latitude','longitude','positional_accuracy_m')
+            'observer_id','observed_on','latitude','longitude','positional_accuracy_m','attribution')
 
 
 def _read_json(path:Path)->dict:
@@ -235,7 +235,7 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
     db=sqlite3.connect(db_path)
     complete=False
     try:
-        db.execute('CREATE TABLE exp (measurement_id TEXT PRIMARY KEY, photo_id TEXT UNIQUE, taxon INTEGER, species TEXT, observation TEXT, observer TEXT, license TEXT, observed_on TEXT, latitude TEXT, longitude TEXT, accuracy TEXT, worker_seen INTEGER DEFAULT 0)')
+        db.execute('CREATE TABLE exp (measurement_id TEXT PRIMARY KEY, photo_id TEXT UNIQUE, taxon INTEGER, species TEXT, observation TEXT, observer TEXT, license TEXT, observed_on TEXT, latitude TEXT, longitude TEXT, accuracy TEXT, worker_seen INTEGER DEFAULT 0, attribution TEXT, worker_part INTEGER, worker_index INTEGER, worker_filename TEXT)')
         db.execute('CREATE TABLE obs (measurement_id TEXT PRIMARY KEY, json TEXT NOT NULL)')
         with (firewall/'metadata_join_key.csv').open('r',encoding='utf-8',newline='') as f:
             reader=csv.DictReader(f)
@@ -243,8 +243,8 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
                 raise ValueError('Fresh metadata join key incomplete')
             for v in reader:
                 mid=v['measurement_id']
-                db.execute('INSERT INTO exp(measurement_id,photo_id,taxon,species,observation,observer,license,observed_on,latitude,longitude,accuracy) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
-                        (mid,v['photo_id'],int(v['inat_taxon_id']),v['species'],v['observation_id'],v['observer_id'],v['photo_license'],v['observed_on'],v['latitude'],v['longitude'],v.get('positional_accuracy_m','')))
+                db.execute('INSERT INTO exp(measurement_id,photo_id,taxon,species,observation,observer,license,observed_on,latitude,longitude,accuracy,attribution) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+                        (mid,v['photo_id'],int(v['inat_taxon_id']),v['species'],v['observation_id'],v['observer_id'],v['photo_license'],v['observed_on'],v['latitude'],v['longitude'],v.get('positional_accuracy_m',''),v['attribution']))
         expected_count=db.execute('SELECT COUNT(*) FROM exp').fetchone()[0]
         if expected_count!=int(freeze['all_available_licensed_photo_ids']):
             raise ValueError('All-photo source denominator does not match metadata join identity')
@@ -330,13 +330,13 @@ def reassemble_fresh(firewall:Path, sealed_dir:Path, attestation:Path, outdir:Pa
         dest=outdir/'newly_remeasured_photos.csv'
         count=0;classified=0
         with dest.open('w',encoding='utf-8',newline='') as f:
-            header=['inat_taxon_id','species','photo_id','observation_id','observer_id','observed_on','latitude','longitude','positional_accuracy_m','photo_license','morph','measurement_status','global_classifiable',*[f'flower_fraction_{c}' for c in BIO]]
+            header=['inat_taxon_id','species','photo_id','observation_id','observer_id','observed_on','latitude','longitude','positional_accuracy_m','photo_license','attribution','morph','measurement_status','global_classifiable',*[f'flower_fraction_{c}' for c in BIO]]
             writer=csv.DictWriter(f,fieldnames=header);writer.writeheader()
-            for tax,sp,pid,obs,ob,day,lat,lon,accuracy,lic,raw in db.execute('SELECT exp.taxon,exp.species,exp.photo_id,exp.observation,exp.observer,exp.observed_on,exp.latitude,exp.longitude,exp.accuracy,exp.license,obs.json FROM exp JOIN obs USING(measurement_id) ORDER BY exp.taxon,CAST(exp.photo_id AS INTEGER)'):
+            for tax,sp,pid,obs,ob,day,lat,lon,accuracy,lic,attribution,raw in db.execute('SELECT exp.taxon,exp.species,exp.photo_id,exp.observation,exp.observer,exp.observed_on,exp.latitude,exp.longitude,exp.accuracy,exp.license,exp.attribution,obs.json FROM exp JOIN obs USING(measurement_id) ORDER BY exp.taxon,CAST(exp.photo_id AS INTEGER)'):
                 measured=json.loads(raw)
                 usable=measured['measurement_status']=='classified_four_state_morph'
                 writer.writerow({'inat_taxon_id':tax,'species':sp,'photo_id':pid,'observation_id':obs,'observer_id':ob,
-                                 'observed_on':day,'latitude':lat,'longitude':lon,'positional_accuracy_m':accuracy,'photo_license':lic,
+                                 'observed_on':day,'latitude':lat,'longitude':lon,'positional_accuracy_m':accuracy,'photo_license':lic,'attribution':attribution,
                                  'morph':measured['morph'],'measurement_status':measured['measurement_status'],
                                  'global_classifiable':str(usable).lower(),
                                  **{f'flower_fraction_{c}':measured[f'flower_fraction_{c}'] for c in BIO}})
