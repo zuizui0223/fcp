@@ -43,6 +43,9 @@ on:
       - tests/test_fcp_open_data_bulk_import.py
       - scripts/acquisition/pin_inat_open_data_snapshot.py
       - tests/test_pin_inat_open_data_snapshot.py
+      - scripts/acquisition/run_real_source_roi_pilot.py
+      - scripts/acquisition/repair_real_source_roi_pilot.py
+      - tests/test_fcp_real_photo_pilot_repair.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
     paths:
@@ -82,6 +85,9 @@ on:
       - tests/test_fcp_open_data_bulk_import.py
       - scripts/acquisition/pin_inat_open_data_snapshot.py
       - tests/test_pin_inat_open_data_snapshot.py
+      - scripts/acquisition/run_real_source_roi_pilot.py
+      - scripts/acquisition/repair_real_source_roi_pilot.py
+      - tests/test_fcp_real_photo_pilot_repair.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
 
@@ -122,7 +128,7 @@ jobs:
       - name: Install FCP fresh-only source/geo and test dependencies
         run: python -m pip install --upgrade pytest numpy pandas scipy Pillow scikit-image rasterio
       - name: Check fresh source acquisition / zero-legacy / null-guard contracts
-        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_pin_inat_open_data_snapshot.py -q
+        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_pin_inat_open_data_snapshot.py tests/test_fcp_real_photo_pilot_repair.py -q
       - name: Verify original method bootstrap script syntax
         run: bash -n scripts/acquisition/bootstrap_fcp_original_roi_v4.sh
       - name: Restore and fingerprint original ROI-v4 code without ANY old photo colours
@@ -138,11 +144,11 @@ jobs:
           print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
           PY
 
-  fresh-real-original-photos-roi-pilot:
-    # One-shot real external-original-photo processing (not the 42111-taxon dataset).
-    # Exactly the previously frozen metadata IDs are used; zero old pixel outcomes.
+  fresh-case-sensitive-source-photo-repair:
+    # One-shot 2-photo correction, preserving immutable first 94 real ROI-v4 outputs.
+    # Provider request count <=2; quarantine main biological study unchanged.
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 30
     permissions:
       contents: read
       actions: read
@@ -153,41 +159,42 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Restore the previously collected nine-species SOURCE metadata artifact
+      - name: Recover immutable source + original 96-real-photo pilot artifacts
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/fcp_real_technical_source"
-          gh run download 38639092021 \
-            --repo "$GITHUB_REPOSITORY" \
+          mkdir -p "$RUNNER_TEMP/fcp_original_source" "$RUNNER_TEMP/fcp_prior_real_images"
+          gh run download 38639092021 --repo "$GITHUB_REPOSITORY" \
             --name fcp-fresh-next8-species-source-20261015 \
-            --dir "$RUNNER_TEMP/fcp_real_technical_source"
-          test -f "$RUNNER_TEMP/fcp_real_technical_source/source_contract.json"
-          test -f "$RUNNER_TEMP/fcp_real_technical_source/species/47129/checkpoint.json"
-          echo '78c7e533c19a9099dd1f2de96dc7864ee65253abfe17dbfa2c536252a1665403  '"$RUNNER_TEMP"'/fcp_real_technical_source/species/47129/photo_manifest.ndjson' | sha256sum -c -
-      - name: Restore byte-identical frozen historical ROI-v4 models and original code
-        run: |
-          set -euo pipefail
-          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full
-      - name: Install CPU-based original runtime
+            --dir "$RUNNER_TEMP/fcp_original_source"
+          gh run download 38671341143 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-original-photos-roi-v4-pilot-20261015 \
+            --dir "$RUNNER_TEMP/fcp_prior_real_images"
+          echo '78c7e533c19a9099dd1f2de96dc7864ee65253abfe17dbfa2c536252a1665403  '"$RUNNER_TEMP"'/fcp_original_source/species/47129/photo_manifest.ndjson' | sha256sum -c -
+          echo '772dda9c51cf24fa4fdabf6408d16b2ba96fc965b532af82533c150cf0144c09  '"$RUNNER_TEMP"'/fcp_prior_real_images/real_original_roi_v4_new_photo_pilot.csv' | sha256sum -c -
+      - name: Restore original ROI-v4 method and byte-frozen model assets
+        run: bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full
+      - name: Install original CPU model dependencies
         run: |
           python -m pip install -r requirements-atlas-roi-v4.txt
           python -m pip install 'pandas<3' pillow
-      - name: Download 24 hash-selected original source photos per complete taxon and REALLY infer pixels
+      - name: Repair ONLY two historical uppercase JPEG-extension failures using REAL images
         run: |
           set -euo pipefail
-          PYTHONPATH=. python scripts/acquisition/run_real_source_roi_pilot.py \
-            --source-metadata-root "$RUNNER_TEMP/fcp_real_technical_source" \
+          PYTHONPATH=. python scripts/acquisition/repair_real_source_roi_pilot.py \
+            --original-pilot-csv "$RUNNER_TEMP/fcp_prior_real_images/real_original_roi_v4_new_photo_pilot.csv" \
+            --original-pilot-receipt "$RUNNER_TEMP/fcp_prior_real_images/real_original_roi_v4_new_photo_pilot_receipt.json" \
+            --source-metadata-root "$RUNNER_TEMP/fcp_original_source" \
             --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
             --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
             --original-efficient-sam "$RUNNER_TEMP/fcp-fresh-original-efficient-sam" \
-            --per-complete-species 24 --delay-seconds 1.1 \
-            --output-root "$RUNNER_TEMP/fcp_real_technical_pixel_output"
+            --delay-seconds 1.1 \
+            --output-root "$RUNNER_TEMP/fcp_real_pixel_extension_repair"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: fcp-real-original-photos-roi-v4-pilot-20261015
-          retention-days: 90
+          name: fcp-real-original-photo-96-case-extension-repair-20261015
           if-no-files-found: warn
+          retention-days: 90
           path: |
-            ${{ runner.temp }}/fcp_real_technical_pixel_output/real_original_roi_v4_new_photo_pilot.csv
-            ${{ runner.temp }}/fcp_real_technical_pixel_output/real_original_roi_v4_new_photo_pilot_receipt.json
+            ${{ runner.temp }}/fcp_real_pixel_extension_repair/real_original_roi_v4_new_photo_pilot_repaired.csv
+            ${{ runner.temp }}/fcp_real_pixel_extension_repair/real_original_roi_v4_new_photo_pilot_repaired_receipt.json
