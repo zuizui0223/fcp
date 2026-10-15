@@ -1,0 +1,150 @@
+name: FCP PR200 first real photo after complete source
+
+on:
+  workflow_run:
+    workflows:
+      - Polymorphism manuscript claim guard
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-pr200-first-original-photo-production
+  cancel-in-progress: false
+
+jobs:
+  first-real-full-study-photo-unit:
+    if: >-
+      ${{
+        github.event.workflow_run.id == 38676167958 &&
+        github.event.workflow_run.head_sha == '5b4156d1056c24e7874cbc7668914e60fc5f9bc8' &&
+        github.event.workflow_run.conclusion == 'success'
+      }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      SOURCE_RUN: "38676167958"
+      GH_TOKEN: ${{ github.token }}
+      FCP_BASE: ${{ runner.temp }}/fcp_pr200_full_source_first_photo
+    steps:
+      - name: Checkout reviewed and frozen PR200 runtime
+        uses: actions/checkout@v4
+        with:
+          ref: 0cb8302c5c471dbc3f1563cb0d195542f5ed7196
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Reuse source census artifacts, NEVER re-download provider 36GB
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$FCP_BASE/status" "$FCP_BASE/archive" "$FCP_BASE/source"
+          python - <<'PY'
+          import json,os,subprocess
+          run=os.environ["SOURCE_RUN"]
+          d=json.loads(subprocess.check_output(
+              ["gh","api",f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{run}"],text=True))
+          if (d.get("status")!="completed" or d.get("conclusion")!="success"
+              or d.get("head_sha")!="5b4156d1056c24e7874cbc7668914e60fc5f9bc8"):
+              raise SystemExit("Source census has not produced a successful frozen complete run")
+          print("FCP_SOURCE_RUN_CONFIRMED_SUCCESS",run,flush=True)
+          PY
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-full-dated-snapshot-source-status-20260927 \
+            --dir "$FCP_BASE/status"
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-complete-new-source-manifests-and-blind-firewall-20260927 \
+            --dir "$FCP_BASE/archive"
+          mapfile -t archives < <(find "$FCP_BASE/archive" -type f -name '*.tar.gz')
+          test "${#archives[@]}" -eq 1
+          python - "\${archives[0]}" "$FCP_BASE" <<'PY'
+          import sys,shutil
+          from pathlib import Path
+          file=Path(sys.argv[1])
+          free=shutil.disk_usage(sys.argv[2]).free
+          print("FCP_SOURCE_HANDOFF_DISK_BYTES",{"free":free,"archive":file.stat().st_size},flush=True)
+          if free < max(10_000_000_000,2*file.stat().st_size+3_000_000_000):
+              raise SystemExit("Need a persistent larger runner for complete source admission")
+          PY
+          tar -xzf "\${archives[0]}" -C "$FCP_BASE/source"
+
+      - name: Admit 42,111 species and EVERY original photo ID without pixel opening
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(find "$FCP_BASE/status" -name full_source_execution_receipt.json -print -quit)"
+          pin="$(find "$FCP_BASE/status" -name fcp_source_archive_pin.json -print -quit)"
+          counts="$(find "$FCP_BASE/status" -name all_42111_species_source_photo_counts.csv -print -quit)"
+          test -s "$status" && test -s "$pin" && test -s "$counts"
+          python -m pip install "numpy<3" "pandas<3" scipy Pillow
+          python scripts/acquisition/admit_fcp_complete_photo_source.py \
+            --source-package-root "$FCP_BASE/source" \
+            --source-status-receipt "$status" --original-pin "$pin" \
+            --source-counts "$counts" --out "$FCP_BASE/admission" --batch-size 64
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['FCP_BASE'])/'admission/source_admission_receipt.json').read_text())
+          assert d["status"]=="FULL_SOURCE_PHOTO_WORK_PLAN_READY_NO_PIXELS_YET"
+          assert d["source_species"]==42111 and d["worker_partitions"]==128
+          assert d["pending_work_units"]==d["work_units"]
+          print("FCP_TOTAL_REAL_PHOTO_IDS_ADMITTED",d["source_photo_ids"],flush=True)
+          PY
+
+      - name: Restore exact historical ROI-v4 + EfficientSAM models
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh \
+            --full --sam-dir "$FCP_BASE/original_sam"
+          python -m pip install -r requirements-atlas-roi-v4.txt
+
+      - name: Execute ONE genuine full-census photo unit, source-bound and resumable
+        shell: bash
+        env:
+          FCP_PROVIDER_GLOBAL_RATE_FILE: ${{ runner.temp }}/fcp_pr200_original_s3_rate.lock
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/execute_fcp_full_photo_work_queue.py \
+            --firewall "$FCP_BASE/source/frozen_location_blind_all_photo_firewall" \
+            --output "$FCP_BASE/real_partition_000" \
+            --partition 0 --batch-size 64 --max-work-units 1 \
+            --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --original-efficient-sam "$FCP_BASE/original_sam"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['FCP_BASE'])/'real_partition_000/original_photo_work_queue_progress.json').read_text())
+          assert d["n_processed_in_this_invocation"]==1
+          assert d["full_study_original_photo_measurement_complete"] is False
+          print("FCP_NEW_PRODUCTION_ORIGINAL_PHOTO_BATCH",d["last_complete_unit"],flush=True)
+          PY
+
+      - name: Retain real source-bound photo terminals and counts
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-pr200-first-genuine-full-source-original-photo-unit
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
+            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
+            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/real_partition_000/sealed_terminal_batches/
+
+      - name: Retain failures as diagnostics only
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-pr200-full-photo-handoff-failure-NOT-SCIENTIFIC
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/admission/source_admission_receipt.json
+            ${{ runner.temp }}/fcp_pr200_full_source_first_photo/real_partition_000/original_photo_work_queue_progress.json
