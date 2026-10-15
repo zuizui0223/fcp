@@ -39,6 +39,7 @@ on:
       - tests/test_run_fcp_uncapped_shard.py
       - scripts/acquisition/import_inat_open_data_snapshot.py
       - scripts/acquisition/preflight_inat_open_data_provider.py
+      - scripts/acquisition/audit_inat_open_data_taxonomy.py
       - tests/test_fcp_open_data_bulk_import.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
@@ -75,6 +76,7 @@ on:
       - tests/test_run_fcp_uncapped_shard.py
       - scripts/acquisition/import_inat_open_data_snapshot.py
       - scripts/acquisition/preflight_inat_open_data_provider.py
+      - scripts/acquisition/audit_inat_open_data_taxonomy.py
       - tests/test_fcp_open_data_bulk_import.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
@@ -155,3 +157,63 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           path: ${{ runner.temp }}/fcp_real_provider_schema_receipt.json
+
+  fresh-real-taxonomy-42111-audit:
+    # Real mutable Open Data taxonomy, small enough to inspect; not a source-frozen biological sample.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    env:
+      SOURCE_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install taxonomy-read dependencies
+        run: python -m pip install numpy pandas
+      - name: Fetch original 42111 identities and one real root taxonomy table
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_real_taxonomy"
+          mkdir -p "$work/source" "$work/out"
+          git fetch --no-tags --depth=1 origin "$SOURCE_SHA"
+          git show "$SOURCE_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$work/source/fcp_42111_taxa.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$work"'/source/fcp_42111_taxa.csv' | sha256sum -c -
+          curl --fail --location --retry 3 --retry-delay 5 --max-time 300             --max-filesize 100000000             'https://inaturalist-open-data.s3.amazonaws.com/taxa.csv.gz'             -o "$work/source/taxa.csv.gz"
+          gzip -t "$work/source/taxa.csv.gz"
+          sha256sum "$work/source/taxa.csv.gz"
+      - name: Audit the full original species frame against actual source taxonomy
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_real_taxonomy"
+          python scripts/acquisition/audit_inat_open_data_taxonomy.py             --frame "$work/source/fcp_42111_taxa.csv"             --taxa "$work/source/taxa.csv.gz"             --outdir "$work/out"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          work=Path(os.environ['RUNNER_TEMP'])/'fcp_real_taxonomy'
+          receipt=json.loads((work/'out/taxonomy_source_audit.json').read_text())
+          assert receipt['frame_species']==42111 and receipt['provider_taxon_rows']>100000
+          assert receipt['old_flower_colour_measurements_read'] is False
+          assert receipt['photo_pixels_opened'] is False
+          assert receipt['ready_for_full_photo_pixel_measurement'] is False
+          print('FCP_REAL_TAXONOMY_AUDIT_ONLY',json.dumps({
+              'fcp_taxa':42111,'source_taxon_ids_present':receipt['source_taxon_ids_present'],
+              'missing':receipt['source_taxon_ids_missing'],
+              'name_mismatches':receipt['source_name_mismatches'],
+              'rank_mismatches':receipt['source_rank_mismatches'],
+              'provider_taxa_sha256':receipt['current_provider_taxa_sha256'],
+              'source_photo_measured':0
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-real-taxonomy-crosswalk-audit-20261015
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/fcp_real_taxonomy/out/taxonomy_source_audit.json
+            ${{ runner.temp }}/fcp_real_taxonomy/out/fcp_taxa_crosswalk_42111.csv
