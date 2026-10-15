@@ -44,10 +44,11 @@ def _write_atomic(path:Path,obj:dict)->None:
 
 
 def _sealed_status(firewall:Path,completed:Path,batch_size:int,
-                   *,_test_only_small_source:bool=False)->tuple[dict,list[dict]]:
+                   *,partition:int|None=None,
+                   _test_only_small_source:bool=False)->tuple[dict,list[dict]]:
     with tempfile.TemporaryDirectory(prefix='fcp_all_photo_queue_check_') as tmp:
         checked=plan_jobs(firewall,completed,Path(tmp)/'plan',
-                          batch_size=batch_size,
+                          batch_size=batch_size,partition=partition,
                           _test_only_small_source=_test_only_small_source)
         path=Path(tmp)/'plan/all_photo_ROI_v4_work_units.ndjson'
         queue=[json.loads(line) for line in path.read_text().splitlines()]
@@ -69,7 +70,7 @@ def execute_pending(firewall:Path,output:Path,*,source:Path,detector:Path,sam:Pa
     completed=output/'sealed_terminal_batches'
     stages=output/'unsealed_inflight_batches'
     report_path=output/'original_photo_work_queue_progress.json'
-    checked,queue=_sealed_status(firewall,completed,batch_size,
+    checked,queue=_sealed_status(firewall,completed,batch_size,partition=partition,
                                  _test_only_small_source=_test_only_small_source)
     if not _test_only_small_source and checked['source_species']!=42111:
         raise ValueError('Only the actual 42,111-taxon complete frozen source is admissible')
@@ -87,7 +88,10 @@ def execute_pending(firewall:Path,output:Path,*,source:Path,detector:Path,sam:Pa
     state={'schema':'fcp_full_original_photo_roi_v4_execution_progress_v1',
            'status':'INCOMPLETE_FRESH_ORIGINAL_IMAGE_TERMINALS_NOT_H2',
            'started_utc':_utc(), 'source_species':checked['source_species'],
-           'all_frozen_source_photo_ids':checked['source_photo_ids'],
+           'all_frozen_source_photo_ids':checked['all_frozen_source_photo_ids'],
+           'selected_partition_source_photo_ids':(checked['source_photo_ids']
+                                                 if partition is not None else None),
+           'completion_audit_scope':('global' if partition is None else 'one_partition'),
            'compute_batch_size_not_photo_cap':batch_size,
            'invocation_work_unit_budget_not_sample_cap':max_work_units,
            'invocation_partition':partition,
@@ -148,16 +152,22 @@ def execute_pending(firewall:Path,output:Path,*,source:Path,detector:Path,sam:Pa
             # sealed set; preserve all incomplete files for explicit diagnosis.
             if (completed/(stem+'.csv')).is_file() and (completed/(stem+'.json')).is_file():
                 shutil.rmtree(stage)
-    after,_=_sealed_status(firewall,completed,batch_size,
+    after,_=_sealed_status(firewall,completed,batch_size,partition=partition,
                            _test_only_small_source=_test_only_small_source)
     state.update(n_total_completed_work_units=after['n_completed_work_units'],
                  n_pending_work_units=after['n_pending_work_units'],
                  n_completed_original_photo_terminals=(
-                     after['source_photo_ids'] if not after['n_pending_work_units'] else None),
+                     after['source_photo_ids'] if partition is None and
+                     not after['n_pending_work_units'] else None),
                  checked_at_utc=_utc())
     if not after['n_pending_work_units']:
-        state['status']='ALL_FROZEN_SOURCE_IMAGES_TERMINAL_READY_FOR_REASSEMBLY_NOT_H2'
-        state['full_study_original_photo_measurement_complete']=True
+        if partition is None:
+            state['status']='ALL_FROZEN_SOURCE_IMAGES_TERMINAL_READY_FOR_REASSEMBLY_NOT_H2'
+            state['full_study_original_photo_measurement_complete']=True
+        else:
+            # Finishing one compute partition does NOT finish 42,111 taxa.
+            # Only the independent all-128 collector can verify full coverage.
+            state['status']='SELECTED_PARTITION_ORIGINAL_PHOTO_TERMINALS_COMPLETE_NOT_FULL_STUDY'
     _write_atomic(report_path,state)
     return state
 
