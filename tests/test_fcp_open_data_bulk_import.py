@@ -48,14 +48,19 @@ def fixture(tmp_path:Path):
         [1005,'o-3',3,'jpg','cc-by',1024,768],
         [1006,'o-4',4,'jpg','cc-by',1024,768],
         [1007,'o-5',5,'jpg','cc-by',1024,768]])
-    pinned={k:sha256_file(v) for k,v in [('taxa',taxa),('observations',obs),('photos',photos)]}
-    return frame,taxa,obs,photos,pinned
+    observers=tsv_gz(tmp_path/'observers.csv.gz',
+        ['observer_id','login','name'],[
+        [1,'alice_i','Alice Flower'],[2,'bob_i','Bob Botany'],
+        [3,'charlie_i','Charlie'],[4,'dora_i','Dora'],[5,'erin_i','Erin']])
+    pinned={k:sha256_file(v) for k,v in [('taxa',taxa),('observations',obs),
+                                           ('observers',observers),('photos',photos)]}
+    return frame,taxa,obs,photos,observers,pinned
 
 
 def test_source_snapshot_retains_all_photos_and_all_zero_photo_taxa(tmp_path):
-    frame,taxa,obs,photos,pinned=fixture(tmp_path)
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
     out=tmp_path/'source'
-    r=ingest(frame,taxa,obs,photos,out,'2026-10-14',shards=2,expected_species=4,input_sha256=pinned)
+    r=ingest(frame,taxa,obs,photos,out,'2026-10-14',shards=2,expected_species=4,input_sha256=pinned,observers=observers)
     assert r['status']=='COMPLETE_SNAPSHOT_METADATA_ALL_NOMINATED_TAXA'
     assert r['n_source_observations_scanned']==5
     assert r['n_target_taxon_research_grade_observations']==2
@@ -72,6 +77,12 @@ def test_source_snapshot_retains_all_photos_and_all_zero_photo_taxa(tmp_path):
     assert all(x['source_snapshot_date']=='2026-10-14' for x in values)
     assert values[0]['observation_id']=='o-1'
     assert values[0]['photo_url_large'].endswith('/1001/large.jpeg')
+    assert 'Alice Flower' in values[0]['attribution']
+    assert 'www.inaturalist.org/users/1' in values[0]['attribution']
+    assert 'CC-BY' in values[0]['attribution']
+    assert r['n_target_photos_with_named_creator']==3
+    assert r['n_target_photos_creator_unresolved']==0
+    assert r['n_source_observers_scanned']==5
     assert all(x['source_query']==SNAPSHOT_SOURCE for x in values)
     species13=out/f"shard_{int(plan.loc[13,'partition']):03}_of_002"/'species'/'13'/'photo_manifest.ndjson'
     assert species13.exists() and species13.stat().st_size==0
@@ -80,10 +91,10 @@ def test_source_snapshot_retains_all_photos_and_all_zero_photo_taxa(tmp_path):
 
 
 def test_original_frame_and_all_input_byte_hashes_are_mandatory(tmp_path):
-    frame,taxa,obs,photos,pinned=fixture(tmp_path)
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
     with pytest.raises(ValueError,match='pre-pinned SHA256'):
         ingest(frame,taxa,obs,photos,tmp_path/'bad','2026-10-14',shards=2,
-               expected_species=4,input_sha256={**pinned,'photos':'0'*64})
+               expected_species=4,input_sha256={**pinned,'photos':'0'*64},observers=observers)
     changed=pd.read_csv(frame);changed.loc[0,'species']='Different species';changed.to_csv(frame,index=False)
     # The census may only start from the exact externally frozen source frame.
     assert sha256_file(frame)!='5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc'
@@ -97,11 +108,19 @@ def test_lineage_and_licenses_are_metadata_only():
     assert normalize_license('CC-BY-NC')=='cc-by-nc'
     assert normalize_license('CC-BY-ND') is None
 
+def test_official_observer_metadata_required_before_any_source_manifest(tmp_path):
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
+    with pytest.raises(ValueError,match='observer table required'):
+        ingest(frame,taxa,obs,photos,tmp_path/'without_authors',
+               '2026-10-14',shards=2,expected_species=4,input_sha256=pinned)
+    assert not (tmp_path/'without_authors').exists()
+
+
 
 def test_bulk_snapshot_cannot_mix_with_api_or_altered_photo_manifest(tmp_path):
-    frame,taxa,obs,photos,pinned=fixture(tmp_path)
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
     out=tmp_path/'bulk'
-    ingest(frame,taxa,obs,photos,out,'2026-10-14',shards=2,expected_species=4,input_sha256=pinned)
+    ingest(frame,taxa,obs,photos,out,'2026-10-14',shards=2,expected_species=4,input_sha256=pinned,observers=observers)
     contract=next(out.glob('shard_000_*/source_contract.json'))
     original=contract.read_text()
     changed=json.loads(original)
