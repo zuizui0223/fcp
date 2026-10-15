@@ -10,7 +10,7 @@ import pandas as pd
 import pytest
 
 from scripts.acquisition.import_inat_open_data_snapshot import (
-    ingest, lineage_source_taxon, normalize_license, SNAPSHOT_SOURCE,
+    ingest, lineage_source_taxon, normalize_license, SNAPSHOT_SOURCE, verify_source_archive_pin,
 )
 from fcp_pipeline.fcp_allphotos import opportunity_schedule, opportunity_frame, sha256_file
 from fcp_pipeline.fcp_fresh_study import required_source_dirs
@@ -134,3 +134,31 @@ def test_bulk_snapshot_cannot_mix_with_api_or_altered_photo_manifest(tmp_path):
     with m.open('a') as f:f.write('{"unexpected":true}\n')
     with pytest.raises(ValueError,match='snapshot manifest identity/hash mismatch'):
         required_source_dirs(frame,out,shards=2,expected=4)
+
+
+def test_full_snapshot_source_pin_requires_matching_original_dated_archive(tmp_path):
+    frame,taxa,obs,photos,observers,pinned=fixture(tmp_path)
+    receipt={
+        'schema':'fcp_dated_inaturalist_metadata_bundle_pin_v1',
+        'status':'FOUR_ORIGINAL_METADATA_TABLES_EXTRACTED_AND_PINNED',
+        'snapshot_date':'2026-09-27',
+        's3_object_key':'metadata/inaturalist-open-data-20260927.tar.gz',
+        'metadata_files_sha256':pinned,
+        'full_bundle_sha256':'a'*64,
+        'source_images_opened':False,
+        'historical_photo_colours_read':False,
+    }
+    pin=tmp_path/'source_archive_pin.json'
+    pin.write_text(json.dumps(receipt))
+    result=verify_source_archive_pin(pin,'2026-09-27',pinned)
+    assert result['source_archive_sha256']=='a'*64
+    assert result['source_archive_key'].endswith('20260927.tar.gz')
+    receipt['s3_object_key']='metadata/inaturalist-open-data-latest.tar.gz'
+    pin.write_text(json.dumps(receipt))
+    with pytest.raises(ValueError,match='Dated immutable snapshot archive key'):
+        verify_source_archive_pin(pin,'2026-09-27',pinned)
+    receipt['s3_object_key']='metadata/inaturalist-open-data-20260927.tar.gz'
+    receipt['metadata_files_sha256']['observers']='b'*64
+    pin.write_text(json.dumps(receipt))
+    with pytest.raises(ValueError,match='attestation missing or disagrees'):
+        verify_source_archive_pin(pin,'2026-09-27',pinned)
