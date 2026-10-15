@@ -150,7 +150,10 @@ def test_real_s3_loader_retries_transient_http_but_never_replaces_source_photo(m
     monkeypatch.setattr(m.time,'sleep',fake_sleep)
     url='https://inaturalist-open-data.s3.amazonaws.com/photos/5555/large.jpeg'
     assert m.image_loader(url)==payload
-    assert calls==[url]*3 and sleeps==[1,2]
+    assert calls==[url]*3
+    assert sleeps[0]==1
+    assert sleeps[1]==pytest.approx(m.DEFAULT_PROVIDER_PAUSE_SECONDS-1)
+    assert sleeps[2]==2
     calls.clear();sleeps.clear()
     def missing(req,timeout):
         calls.append(req.full_url)
