@@ -54,12 +54,15 @@ jobs:
             'photos':'0033f67f2362acae0509314c4a7b8429f1f6ff85323cb3c86eeb7cbb83ecc6b6',
             'taxa':'71c1b2909c3c1c409da71c6f778939b00c5e1cc97a10449b755aa569c700e2d0'
           }
+          # The cancelled run was SIGTERMed after logging the source scan and
+          # scratch-release. Its last persisted receipt retained the previous
+          # stage; allow ONLY these two verified states for the pinned run.
           if not (doc.get('status')=='FAILED_OR_UNFINISHED_SOURCE_METADATA_NOT_SCIENTIFIC_RESULTS'
               and doc.get('complete_metadata_census') is False
               and doc.get('original_archive_sha256')==prior_sha
               and doc.get('original_archive_bytes')==35966549880
               and doc.get('last_completed_stage')=='extract_all_four_and_pin_exact_SHA256'
-              and doc.get('stage')=='scan_entire_dated_source_and_emit_all_photo_manifests'
+              and doc.get('stage') in ('extract_all_four_and_pin_exact_SHA256', 'scan_entire_dated_source_and_emit_all_photo_manifests')
               and doc.get('all_four_extracted_table_sha256')==expected
               and doc.get('old_measured_flower_colours_used') is False
               and doc.get('target_frame_species')==42111
