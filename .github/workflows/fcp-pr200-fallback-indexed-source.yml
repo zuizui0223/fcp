@@ -69,7 +69,7 @@ jobs:
       - name: Checkout verified staged-source and 128-shard runtime
         uses: actions/checkout@v4
         with:
-          ref: 244e101dc01261037f9b2bd8c78ff96c6e6873c4
+          ref: a1d85f388f7b5ec42bde51611c183c37f93682c3
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -146,6 +146,7 @@ jobs:
             ${{ runner.temp }}/fcp_indexed_source_20260927/source_archive_sha256_before_source_data.txt
             ${{ runner.temp }}/fcp_indexed_source_20260927/frozen_4_metadata_tables/fcp_source_archive_pin.json
             ${{ runner.temp }}/fcp_indexed_source_20260927/complete_42111_metadata_source/bulk_source_receipt.json
+            ${{ runner.temp }}/fcp_indexed_source_20260927/complete_42111_metadata_source/fcp_source_progress.ndjson
             ${{ runner.temp }}/fcp_indexed_source_20260927/frozen_location_blind_all_photo_firewall/fresh_study_freeze.json
             ${{ runner.temp }}/fcp_indexed_source_20260927/all_42111_species_source_photo_counts.csv
 
