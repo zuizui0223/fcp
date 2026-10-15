@@ -190,7 +190,7 @@ jobs:
         run: |
           set -euo pipefail
           work="$RUNNER_TEMP/fcp_real_taxonomy"
-          python scripts/acquisition/audit_inat_open_data_taxonomy.py             --frame "$work/source/fcp_42111_taxa.csv"             --taxa "$work/source/taxa.csv.gz"             --outdir "$work/out"
+          PYTHONPATH=. python scripts/acquisition/audit_inat_open_data_taxonomy.py             --frame "$work/source/fcp_42111_taxa.csv"             --taxa "$work/source/taxa.csv.gz"             --outdir "$work/out"
           python - <<'PY'
           import os,json
           from pathlib import Path
