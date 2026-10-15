@@ -125,6 +125,9 @@ def test_fresh_freeze_includes_every_taxon_and_remeasures_even_old_id(tmp_path):
     assert measured.global_classifiable.sum()==4
     assert measured[~measured.global_classifiable].morph.eq('mixed_uncertain').all()
     assert 12345 in measured.photo_id.to_numpy()
+    assert measured['attribution'].eq('synthetic').all()
+    assert 'attribution' in (fw/'metadata_join_key.csv').read_text().splitlines()[0]
+    assert not any('attribution' in (fw/f'worker_partition_{i:03}.csv').read_text().splitlines()[0] for i in range(3))
 
 
 def test_incomplete_metadata_cannot_freeze_or_be_rebranded(tmp_path):
