@@ -1,0 +1,388 @@
+#!/usr/bin/env python3
+"""Measure the FIRST source-supported broad/narrow taxon PAIR, not an arbitrary photo batch.
+
+Only runs after independent complete 2026-09-27 source-ID, original image
+selection and 128 worker packet hashes have been verified. Selects the first
+metadata-eligible pre-colour broad vs narrow taxon pair, 4..16 original images
+from each independent observer fold in EACH species (16..64 images total).
+Source geography/identity never enters the exact frozen ROI-v4 evaluator.
+
+The result is the first authentic MONTHLY-SOURCE pixel technical work unit,
+not 1,000-taxon coverage, genetic polymorphism, a geographic effect estimate,
+or a sample-independent randomized FCP inference.
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import re
+from collections import defaultdict
+from pathlib import Path
+
+import pandas as pd
+
+from fcp_pipeline.photo_polymorphism_screen import sha256
+from scripts.acquisition.build_fcp_uncapped_blind_batches import new_id
+from scripts.acquisition.plan_fcp_photo_first_screen import SELECTED_FIELDS
+from scripts.acquisition.prepare_first_rgfca_original_monthly_roi_unit import prepare
+from scripts.acquisition.run_fcp_fresh_image_partition import run_batch
+from scripts.acquisition.freeze_fcp_photo_first_blind_workers import WORKER,ACQUISITION
+
+PHOTO_RE=re.compile(
+    r"^https://inaturalist-open-data\.s3\.amazonaws\.com/photos/([0-9]+)/large\.(jpg|jpeg|png)$",
+    re.I,
+)
+SOURCE_DATE="2026-09-27"
+GEO_STATUS="SOURCE_ONLY_GEOGRAPHIC_PRIORITY_NO_FLOWER_PIXELS"
+PHOTO_SCHEMA="fcp_original_rgfca_geographically_matched_real_roi_first_unit_v1"
+
+SELECTION_JOIN=(
+    "measurement_id","inat_taxon_id","species","photo_id",
+    "observation_id","observer_id","latitude","longitude","screen_fold",
+)
+OUTPUT_COLUMNS=(*SELECTION_JOIN,"geographic_comparison_group","matched_pair_id")
+PER_FOLD_MIN=4
+PER_FOLD_TARGET=16
+
+
+def read_doc(p:Path)->dict:
+    v=json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(v,dict):
+        raise ValueError("Frozen original dated source receipt must be JSON object")
+    return v
+
+
+def read_csv(path:Path)->list[dict]:
+    with path.open("r",newline="",encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
+                _synthetic_source_gate:bool=False)->dict:
+    """Create the independently source-signed, colour-blind first broad/narrow unit."""
+    if outdir.exists() and any(outdir.iterdir()):
+        raise ValueError("Cannot overwrite a frozen geographically matched ROI unit")
+    full=source_root/"rgfca_1000_exact_source_photo_IDs"
+    source_doc=full/"rgfca_1000_targeted_monthly_photo_ID_receipt.json"
+    selection=source_root/"rgfca_1000_photo_colour_blind_selection"
+    sample_doc=selection/"photo_screen_source_selection_receipt.json"
+    sample_csv=selection/"photo_screen_original_metadata_selected.csv"
+    firewall=source_root/"rgfca_1000_original_photo_blind_worker_freeze"
+    frozen_doc=firewall/"photo_screen_freeze.json"
+    geo_doc=geo_root/"rgfca_1000_precolour_geographic_span_receipt.json"
+    geo_taxa_csv=geo_root/"rgfca_1000_original_source_observed_geographic_span.csv"
+    geo_pair_csv=geo_root/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv"
+    for p in (source_doc,sample_doc,sample_csv,frozen_doc,geo_doc,geo_taxa_csv,
+              geo_pair_csv,firewall/"metadata_join_key.csv"):
+        if not p.is_file():
+            raise ValueError(f"Missing immutable 2026-09-27 pre-ROI source: {p.name}")
+    # The full historical original source/128 worker receipts must be checked
+    # before selecting or opening a single original image. The synthetic-only
+    # override never exists on the public CLI.
+    if not _synthetic_source_gate:
+        prepare(source_root,outdir/"precolour_full_source_gate")
+    full_doc=read_doc(source_doc)
+    sample=read_doc(sample_doc)
+    freeze=read_doc(frozen_doc)
+    geo=read_doc(geo_doc)
+    if (full_doc.get("source_snapshot_date")!=SOURCE_DATE
+        or sample.get("source_snapshot_date")!=SOURCE_DATE
+        or geo.get("status")!=GEO_STATUS
+        or geo.get("source_species")!=(4 if _synthetic_source_gate else 1000)
+        or geo.get("original_20260927_targeted_source_receipt_sha256")!=sha256(source_doc)
+        or geo.get("original_20260927_targeted_manifest_sha256")!=
+            full_doc.get("selected_all_photo_IDs_csv_sha256")
+        or geo.get("precolour_geographic_span_csv_sha256")!=sha256(geo_taxa_csv)
+        or geo.get("geographic_matching_pair_csv_sha256")!=sha256(geo_pair_csv)
+        or sample.get("photo_selection_csv_sha256")!=sha256(sample_csv)
+        or freeze.get("pre_colour_selection_csv_sha256")!=sha256(sample_csv)
+        or freeze.get("source_photo_screen_selection_receipt_sha256")!=sha256(sample_doc)
+        or freeze.get("image_worker_sees_only_three_fields") is not True
+        or freeze.get("no_old_photo_colour_rows_loaded") is not True
+        or geo.get("selection_before_any_original_photo_pixel") is not True
+        or geo.get("n_original_new_pixels_measured")!=0
+        or full_doc.get("original_image_pixels_opened") is not False
+        or full_doc.get("historical_flower_colour_CSV_imported") is not False
+        or sample.get("selected_sample_photo_pixels_measured") is not False
+        or freeze.get("original_image_pixels_opened") is not False):
+        raise ValueError("Geographic pair is not signed by the complete frozen ORIGINAL monthly photo ID universe")
+
+    groups={}
+    for row in read_csv(geo_taxa_csv):
+        tid=row["inat_taxon_id"]
+        if tid in groups:
+            raise ValueError("Duplicated species geography source identity")
+        groups[tid]=row
+    pairs=read_csv(geo_pair_csv)
+    if not pairs:
+        raise ValueError("No source-supported broad/narrow comparison pairs; keep 1000 taxa and report no matched control")
+
+    with sample_csv.open("r",newline="",encoding="utf-8") as f:
+        reader=csv.DictReader(f)
+        if tuple(reader.fieldnames or ())!=tuple(SELECTED_FIELDS):
+            raise ValueError("Frozen original pre-colour photo selection columns changed")
+        source_photo_ids=set()
+        photo_rows=defaultdict(lambda:{0:[],1:[]})
+        photo_count=0
+        for row in reader:
+            pid=row["photo_id"]
+            if (not pid.isdecimal() or pid in source_photo_ids
+                or row["source_snapshot_date"]!=SOURCE_DATE
+                or not (url:=PHOTO_RE.fullmatch(row["photo_url_large"]))
+                or url.group(1)!=pid
+                or row["screen_fold"] not in ("0","1")
+                or not row["observer_id"].strip()
+                or not row["observation_id"].strip()
+                or not row["photo_license"]
+                or len(row["selection_hash"])!=16):
+                raise ValueError("Photo ID, observer fold, source URL or license deviated from original source")
+            source_photo_ids.add(pid)
+            photo_count+=1
+            photo_rows[row["inat_taxon_id"]][int(row["screen_fold"])].append(row)
+    if photo_count!=sample.get("selected_photo_IDs"):
+        raise ValueError("Original selected source-photo-ID count drifted")
+    if set(photo_rows)-set(groups):
+        raise ValueError("Original photo selection contains unrostered geographic taxon")
+
+    first_pair=None
+    for pair in pairs:
+        b,n=pair["broad_taxon_id"],pair["narrow_taxon_id"]
+        if (b not in groups or n not in groups
+            or groups[b]["geographic_sampling_category"]!="broad_observed_1000km_supported"
+            or groups[n]["geographic_sampling_category"]!="narrow_observed_p95_le200km"
+            or groups[b]["opportunity_stratum"]!=groups[n]["opportunity_stratum"]
+            or groups[b]["opportunity_stratum"]!=pair["opportunity_stratum"]
+            or max(int(groups[b]["source_photo_opportunities"]),
+                   int(groups[n]["source_photo_opportunities"])) >
+                   4*min(int(groups[b]["source_photo_opportunities"]),
+                         int(groups[n]["source_photo_opportunities"]))
+            or pair["matched_before_any_original_photo_pixels"]!="True"):
+            raise ValueError("Geographic comparison pair is ungrounded or unmatched by source opportunity")
+        if all(len(photo_rows[tid][fold])>=PER_FOLD_MIN
+               for tid in (b,n) for fold in (0,1)):
+            first_pair=pair
+            break
+    if first_pair is None:
+        raise ValueError("No matched broad/narrow pair has four independent-fold photos per taxon")
+
+    b,n=first_pair["broad_taxon_id"],first_pair["narrow_taxon_id"]
+    each=min(PER_FOLD_TARGET,*(len(photo_rows[tid][fold])
+                              for tid in (b,n) for fold in (0,1)))
+    if not PER_FOLD_MIN<=each<=PER_FOLD_TARGET:
+        raise ValueError("Invalid immutable original ROI image compute batch bound")
+    chosen=[]
+    for tid,label in ((b,"broad"),(n,"narrow")):
+        for fold in (0,1):
+            pool=photo_rows[tid][fold]
+            order=sorted(pool,key=lambda x:(x["selection_hash"],int(x["photo_id"])))
+            for entry in order[:each]:
+                chosen.append((entry,label))
+    if not 16<=len(chosen)<=64 or len({r["photo_id"] for r,_ in chosen})!=len(chosen):
+        raise ValueError("Broad/narrow original photo unit improperly selected")
+
+    # Join by stable blinded measurement_id to the *SHA-frozen* photo source
+    # biological metadata. All original worker/acquisition files were verified
+    # by prepare() above; nothing other than THREE original fields is sent
+    # into the historical ROI-v4 source/model.
+    wanted={new_id(r["photo_id"]):(r,label) for r,label in chosen}
+    source_join={}
+    with (firewall/"metadata_join_key.csv").open("r",newline="",encoding="utf-8") as f:
+        reader=csv.DictReader(f)
+        if not set(SELECTION_JOIN).issubset(reader.fieldnames or []):
+            raise ValueError("Original frozen metadata/source biological join absent")
+        for row in reader:
+            mid=row["measurement_id"]
+            if mid in wanted:
+                if mid in source_join:
+                    raise ValueError("Original source measurement key was duplicated")
+                src,_=wanted[mid]
+                for col in ("inat_taxon_id","species","photo_id",
+                            "observation_id","observer_id","screen_fold"):
+                    if row[col]!=src[col]:
+                        raise ValueError("Original frozen source/photo observer identity changed")
+                source_join[mid]=row
+    if set(source_join)!=set(wanted):
+        raise ValueError("Selected original photo IDs not found in the source-frozen 128-packet firewall")
+
+    blind=[]
+    acquisition=[]
+    sidecar=[]
+    for entry,label in chosen:
+        mid=new_id(entry["photo_id"])
+        filename=mid+".jpg"
+        blind.append({"measurement_id":mid,"image_filename":filename,
+                      "photo_license":entry["photo_license"]})
+        acquisition.append({"measurement_id":mid,"image_filename":filename,
+                            "photo_url_large":entry["photo_url_large"],
+                            "photo_license":entry["photo_license"]})
+        sidecar.append({**{k:source_join[mid][k] for k in SELECTION_JOIN},
+                        "geographic_comparison_group":label,
+                        "matched_pair_id":first_pair["pair_id"]})
+    outdir.mkdir(parents=True,exist_ok=True)
+    def save_rows(filename,cols,rows):
+        path=outdir/filename
+        with path.open("x",newline="",encoding="utf-8") as f:
+            writer=csv.DictWriter(f,fieldnames=cols,lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
+        return sha256(path)
+    blinded_sha=save_rows("first_matched_pair_original_blind_worker.csv",WORKER,blind)
+    acquisition_sha=save_rows("first_matched_pair_original_photo_source_acquisition.csv",ACQUISITION,acquisition)
+    source_sha=save_rows("first_matched_pair_original_source_join_key.csv",OUTPUT_COLUMNS,sidecar)
+    summary={
+        "schema":PHOTO_SCHEMA,
+        "status":"ORIGINAL_MONTHLY_SOURCE_GEOGRAPHIC_PAIR_PREPARED_NO_PIXELS",
+        "source_snapshot_date":SOURCE_DATE,
+        "n_enrolled_species":geo["source_species"],
+        "n_original_source_photo_ids_in_monthly_cohort":full_doc["n_selected_original_photo_IDs"],
+        "n_photo_id_opportunities_selected_precolour":photo_count,
+        "precolour_source_selection_sha256":sha256(sample_csv),
+        "original_source_ID_receipt_sha256":sha256(source_doc),
+        "frozen_worker_receipt_sha256":sha256(frozen_doc),
+        "geographic_pair_csv_sha256":sha256(geo_pair_csv),
+        "geographic_span_receipt_sha256":sha256(geo_doc),
+        "matched_pair_id":first_pair["pair_id"],
+        "broad_taxon_id":b,"narrow_taxon_id":n,
+        "opportunity_stratum":first_pair["opportunity_stratum"],
+        "per_taxon_per_observer_fold_photo_depth":each,
+        "number_original_photo_IDs_in_first_unit":len(chosen),
+        "n_broad_original_photos":2*each,
+        "n_narrow_original_photos":2*each,
+        "original_blind_worker_sha256":blinded_sha,
+        "original_source_acquisition_sha256":acquisition_sha,
+        "original_biological_join_sha256":source_sha,
+        "n_original_photo_pixels_opened":0,
+        "selection_uses_no_flower_colour_or_environment":True,
+        "source_image_IDs_from_verified_monthly_20260927":not _synthetic_source_gate,
+        "new_colour_W_H2_or_geographic_association_estimated":False,
+        "full_RGFCAROI1000_complete":False,
+    }
+    (outdir/"first_matched_pair_precolour_source_receipt.json").write_text(
+        json.dumps(summary,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    return summary
+
+
+class PairSourceIndex:
+    def __init__(self,source_root:Path):
+        self.worker=pd.read_csv(source_root/"first_matched_pair_original_blind_worker.csv",
+                                dtype=str).fillna("")
+        self.acq=pd.read_csv(source_root/"first_matched_pair_original_photo_source_acquisition.csv",
+                             dtype=str).fillna("")
+        if tuple(self.worker.columns)!=WORKER or tuple(self.acq.columns)!=ACQUISITION:
+            raise ValueError("Original ROI photo worker is not 3-field blind")
+        if (not 1<=len(self.worker)<=64
+            or len(self.acq)!=len(self.worker)
+            or len(set(self.worker.measurement_id))!=len(self.worker)
+            or len(set(self.acq.measurement_id))!=len(self.acq)):
+            raise ValueError("Original matched geographic ROI photo IDs are not unique")
+        joined=self.worker.merge(self.acq,on=list(WORKER),how="left",validate="one_to_one")
+        if joined.photo_url_large.isna().any():
+            raise ValueError("Selected original source photo URL absent from frozen blind sample")
+        self.acq=joined
+
+    def get_batch(self,part,batch,size):
+        if (part,batch,size)!=(0,0,64):
+            raise ValueError("Only the first bounded original geographic pair is permitted")
+        return self.worker,self.acq,1
+
+
+def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Path,
+                 loader=None,evaluator=None)->dict:
+    receipt=read_doc(source_unit/"first_matched_pair_precolour_source_receipt.json")
+    if receipt.get("schema")!=PHOTO_SCHEMA or receipt.get("status")!=\
+       "ORIGINAL_MONTHLY_SOURCE_GEOGRAPHIC_PAIR_PREPARED_NO_PIXELS":
+        raise ValueError("No valid original monthly photo pair receipt")
+    for filename,key in (
+        ("first_matched_pair_original_blind_worker.csv","original_blind_worker_sha256"),
+        ("first_matched_pair_original_photo_source_acquisition.csv","original_source_acquisition_sha256"),
+        ("first_matched_pair_original_source_join_key.csv","original_biological_join_sha256")):
+        if sha256(source_unit/filename)!=receipt.get(key):
+            raise ValueError("Original pre-colour pair metadata altered after selecting the ROI work unit")
+    test_only=loader is not None or evaluator is not None
+    if test_only and (loader is None or evaluator is None):
+        raise ValueError("Synthetic evaluator and loader must be supplied together")
+    if test_only != (receipt["source_image_IDs_from_verified_monthly_20260927"] is False):
+        raise ValueError("Production original image pixels cannot use a synthetic provenance gate")
+    if outdir.exists() and any(outdir.iterdir()):
+        raise ValueError("Original photographic measurement output already sealed; no image reprocessing")
+    idx=PairSourceIndex(source_unit)
+    report=run_batch(source_unit,0,0,64,outdir,
+                     source=method,detector=detector,sam=sam,
+                     indexed_source=idx,loader=loader,evaluator=evaluator,
+                     _test_only_skip_method_check=test_only)
+    source_rows=read_csv(source_unit/"first_matched_pair_original_source_join_key.csv")
+    terminals=pd.read_csv(outdir/"terminal_p000_b0000000.csv",dtype=str).fillna("")
+    details=pd.DataFrame(source_rows,dtype=str)
+    if len(terminals)!=len(details) or terminals.measurement_id.duplicated().any():
+        raise ValueError("Measured original photo terminal IDs do not cover prepared pair")
+    joined=details.merge(terminals,on="measurement_id",validate="one_to_one")
+    if len(joined)!=len(details) or joined.measurement_id.duplicated().any():
+        raise ValueError("Original individual photo terminal/source biological join failed")
+    merged=outdir/"first_original_geographically_matched_photo_terminal.csv"
+    joined.to_csv(merged,index=False)
+    if report["n_source_photo_ids"]!=receipt["number_original_photo_IDs_in_first_unit"]:
+        raise ValueError("Original source photo acquisition/ROI count contradicted the source")
+    if joined.measurement_status.eq("classified_four_state_morph").sum()!=report["n_classifiable"]:
+        raise ValueError("Original ROI coarse flower status contradicted exact terminal receipt")
+    groups={}
+    for name,group in joined.groupby("geographic_comparison_group"):
+        groups[str(name)]={
+            "n_original_images_measured":len(group),
+            "n_newly_four_state_classifiable":
+                int(group.measurement_status.eq("classified_four_state_morph").sum()),
+            "n_original_provider_photo_acquisition_failed":
+                int(group.measurement_status.eq("image_acquisition_failed").sum()),
+        }
+    if set(groups)!={"broad","narrow"}:
+        raise ValueError("Broad/narrow species group lost in the source-to-pixel join")
+    result={
+        "schema":"fcp_rgfca_genuine_original_monthly_geographic_pair_ROI64_v1",
+        "status":("SYNTHETIC_ORIGINAL_GEOGRAPHIC_PAIR_TEST_NOT_BIOLOGY" if test_only
+                  else "FIRST_GENUINE_MONTHLY_ORIGINAL_GEO_MATCHED_PIXELS_MEASURED_NOT_1000_SPECIES"),
+        "source_snapshot_date":SOURCE_DATE,
+        "precolour_source_unit_receipt_sha256":sha256(
+            source_unit/"first_matched_pair_precolour_source_receipt.json"),
+        "new_original_photo_pixels_processed":report["n_source_photo_ids"],
+        "n_classifiable":report["n_classifiable"],
+        "by_geographic_observed_source_group":groups,
+        "n_original_image_acquisition_failed":report["n_acquisition_failed"],
+        "original_pixel_terminal_sha256":report["terminal_csv_sha256"],
+        "original_geographic_source_join_terminal_sha256":sha256(merged),
+        "original_unmodified_roi_method_fingerprint":report["method"],
+        "full_RGFCAROI1000_complete":False,
+        "confirmed_genetic_FCP_species":0,
+        "measured_geographic_effect_estimates":0,
+        "old_measured_colours_imported":False,
+    }
+    (outdir/"first_geo_pair_real_pixel_receipt.json").write_text(
+        json.dumps(result,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    print("FCP_ORIGINAL_GEO_PAIR_FIRST_PIXELS",json.dumps(
+        {k:result[k] for k in ("status","new_original_photo_pixels_processed",
+                               "n_classifiable","by_geographic_observed_source_group")},sort_keys=True),
+          flush=True)
+    return result
+
+
+def main(argv=None):
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--dated-source-artifact-root",required=True,type=Path)
+    p.add_argument("--geographic-matched-pair-result-root",required=True,type=Path)
+    p.add_argument("--prepared-first-original-source-unit",required=True,type=Path)
+    p.add_argument("--measurement-outdir",required=True,type=Path)
+    p.add_argument("--original-measure-script",required=True,type=Path)
+    p.add_argument("--original-detector",required=True,type=Path)
+    p.add_argument("--original-efficient-sam",required=True,type=Path)
+    args=p.parse_args(argv)
+    source=select_unit(args.dated_source_artifact_root,
+                       args.geographic_matched_pair_result_root,
+                       args.prepared_first_original_source_unit)
+    result=measure_unit(args.prepared_first_original_source_unit,args.measurement_outdir,
+                       method=args.original_measure_script,
+                       detector=args.original_detector,sam=args.original_efficient_sam)
+    print(json.dumps({"source":source,"result":result},sort_keys=True))
+    return 0
+
+
+if __name__=="__main__":
+    raise SystemExit(main())
