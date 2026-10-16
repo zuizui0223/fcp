@@ -1,0 +1,82 @@
+{
+  "schema": "fcp_mois_photoid_disjoint_spatial_sensitivity_decision_receipt_v1",
+  "study": "fcp",
+  "date_jst": "2026-10-16",
+  "source_verified_run_url": "https://github.com/zuizui0223/fcp/actions/runs/38919300707",
+  "source_verified_artifact_id": 12053482949,
+  "source_verified_artifact_name": "fcp-mois-original-photo-id-overlap-20261016",
+  "source_verified_result_member": "fcp_50km_after_mois_photo_overlap_exclusion.json",
+  "cross_study_overlap_receipt": "results/fcp_mois_original_photo_id_overlap_20261016.json",
+  "source_sha256": {
+    "mois": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "prospective": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "analysis": "FCP 50km conspecific local-versus-specieswide photo-colour diversity after outcome-blind exclusion of every photo ID also in original MOIS 100543-photo atlas",
+  "role": "posthoc_overlap_falsification_not_prospective_confirmation",
+  "original_overlap_unique_photo_ids": 3411,
+  "fixed_original_primary_radius_km": 50,
+  "fixed_vertex_permutations": 199,
+  "cohorts": {
+    "discovery": {
+      "original_n_species": 166,
+      "original_mean_depletion": 0.020529254583812922,
+      "excluded_all_photo_id_rows": 1248,
+      "excluded_original_fcp_classifiable_rows": 544,
+      "after_n_species": 162,
+      "after_mean_depletion": 0.02186257109700765,
+      "after_permutation_p_upper": 0.005,
+      "matched_species_n": 162,
+      "paired_mean_change": -0.00016503823185485132,
+      "paired_species_bootstrap95": [
+        -0.001815670456365128,
+        0.0014598940893991465
+      ],
+      "spearman_species_D_pre_post": 0.9978735038590678
+    },
+    "validation": {
+      "original_n_species": 181,
+      "original_mean_depletion": 0.018672971642749295,
+      "excluded_all_photo_id_rows": 1326,
+      "excluded_original_fcp_classifiable_rows": 520,
+      "after_n_species": 176,
+      "after_mean_depletion": 0.018335387395358695,
+      "after_permutation_p_upper": 0.005,
+      "matched_species_n": 176,
+      "paired_mean_change": 0.0002594314056000657,
+      "paired_species_bootstrap95": [
+        -0.0007207472560390788,
+        0.0011302009781898451
+      ],
+      "spearman_species_D_pre_post": 0.9992179811468884
+    },
+    "prospective": {
+      "original_n_species": 204,
+      "original_mean_depletion": 0.01468491968437185,
+      "excluded_all_photo_id_rows": 837,
+      "excluded_original_fcp_classifiable_rows": 318,
+      "after_n_species": 200,
+      "after_mean_depletion": 0.014887982049397376,
+      "after_permutation_p_upper": 0.005,
+      "matched_species_n": 200,
+      "paired_mean_change": 0.00003013794922781643,
+      "paired_species_bootstrap95": [
+        -0.0007408642957670009,
+        0.0007544386723562421
+      ],
+      "spearman_species_D_pre_post": 0.9988541128795853
+    }
+  },
+  "decision": {
+    "same_sign_local_depletion_all_three": true,
+    "permutation_p_under_0_05_all_three": true,
+    "paired_change_CI95_includes_zero_all_three": true,
+    "valid_bootstrap_finite_all_three": true,
+    "frozen_fcp_result_overwritten": false,
+    "independent_photographic_source_replication": false,
+    "climate_selection_causality_identified": false,
+    "new_biological_morph_frequency_identified": false
+  },
+  "limitation": "The photo-ID exclusion tests literal reuse of the same originals, not the shared iNaturalist provider, classifier, photographer ecology or biological sampling processes. The same FCP colour-composition-preserving vertex null was recomputed on reduced samples. The paired 95% intervals are posthoc species-bootstrap diagnostics, not tests of equivalence or independent experiments."
+}

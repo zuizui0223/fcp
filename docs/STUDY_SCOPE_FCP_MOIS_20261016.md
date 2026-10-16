@@ -26,6 +26,23 @@ Both pipelines originate from the same iNaturalist source and measurement family
 
 The older JBI literature-derived within-population `C` / geographically structured `S` evidence is retained as archived comparative provenance in this repository. It is not equivalent to photographed high-depth `D`, and absence of evidence for `C` is not evidence of monomorphism. The current New Phytologist manuscript remains `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`.
 
+## Independent post hoc photo-ID exclusion falsification (16 October 2026)
+
+To rule out literal cross-paper photo reuse as the sole reason for FCP's local geographic clustering, the fixed FCP 50-km colour-pair statistic was **refitted without any of the original MOIS 100,543 photo IDs**, preserving the original 199 whole-species colour-label vertex permutations and >=30 local-pair condition. The exact 149,900 FCP original photos and MOIS archive passed their original frozen SHA256 checks. No new hue outcome was imputed or selected.
+
+| Cohort | Original 50-km eligible species / depletion | After excluding MOIS originals | New p | Within-identical-species paired change / 95% bootstrap |
+|---|---|---|---|---|
+| Discovery | 166 / 0.020529 | 162 / 0.021863 | 0.005 | −0.000165 [−0.001816, +0.001460] |
+| Validation | 181 / 0.018673 | 176 / 0.018335 | 0.005 | +0.000259 [−0.000721, +0.001130] |
+| Prospective | 204 / 0.014685 | 200 / 0.014888 | 0.005 | +0.000030 [−0.000741, +0.000754] |
+
+**Inference:** positive within-species spatial geographic partitioning persists after eliminating exact MOIS-shared photos from FCP across all three species-disjoint FCP cohorts. This is a **post hoc** data reuse falsification, not independent source replication or a demonstration of biological local adaptation. The paired bootstrap contrasts are restricted to taxa with >=30 valid local pairs **both before and after exclusion**, thereby avoiding an earlier NaN pitfall; zero-containing CIs do not prove equivalence.
+
+- Frozen numerical receipt: `results/fcp_mois_photoid_disjoint_spatial_20261016_decision_receipt.json`
+- Analysis: `scripts/analysis/fcp_mois_overlap_exclusion_spatial_20261016.py`
+- Exact replay and complete JSON: [GitHub Actions 38919300707](https://github.com/zuizui0223/fcp/actions/runs/38919300707), artifact ID `12053482949`.
+- The unmodified **original published-paper claims** remain in their separately frozen result JSONs; this extra sensitivity must be placed under Supplementary/limitations, not silently promoted to H2 confirmatory evidence.
+
 ## Next FCP-specific analysis, independently of mois
 
 For each well-sampled species, make within-species geographic `D_{s,g}`, expected photo-colour pair diversity and colour-vector turnover conditional on its own range-wide colour counts. Stratify or adjust for observers, photo colour classifiability/near-clipping, observed flowering dates, spatial sampling opportunity and site distance. Test nulls that preserve species membership and, where appropriate, observer/site/season sampling blocks. Do not use a between-genus coefficient as a within-species effect.
@@ -34,6 +51,6 @@ The **season dimension here** is the temporal heterogeneity of **conspecific mor
 
 ## Engineering gate
 
-`python scripts/check_study_scope.py` reads the immutable H2 and 50-km receipt files, verifies this inferential level, the fixed original counts and absence of the migrated mois primary result/script paths. CI executes it separately from the repository layout regression tests. It **does not** refit source-photo models, recompute p-values, or resolve the unknown cross-paper photo-ID overlap. The script deliberately guards primary result locations, not historical archived source references. It also requires the frozen cross-paper original-photo overlap receipt at `results/fcp_mois_original_photo_id_overlap_20261016.json`. Audit source code and SHA-locked original-photo workflow live at `scripts/audit_fcp_mois_photo_id_overlap.py` and `.github/workflows/fcp-mois-original-photo-id-overlap.yml`.
+`python scripts/check_study_scope.py` reads the immutable H2 and 50-km receipt files, verifies this inferential level, the fixed original counts and absence of the migrated mois primary result/script paths. The layout CI executes the scope guard separately from paper tests; it **does not** refit source-photo models. The separate FCP–MOIS photo-ID workflow verifies the actual overlap and now recomputes the fixed FCP spatial statistic after excluding MOIS photo IDs, without changing the frozen original paper result. The script deliberately guards primary result locations, not historical archived source references. It also requires the frozen cross-paper original-photo overlap receipt at `results/fcp_mois_original_photo_id_overlap_20261016.json`. Audit source code and SHA-locked original-photo workflow live at `scripts/audit_fcp_mois_photo_id_overlap.py` and `.github/workflows/fcp-mois-original-photo-id-overlap.yml`.
 
 See the complement in `zuizui0223/mois/docs/STUDY_SCOPE_FCP_MOIS_20261016.md`.
