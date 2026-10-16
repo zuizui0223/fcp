@@ -97,5 +97,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-mois-original-photo-id-overlap-20261016
-          path: result_cross_paper/photo_id_overlap_20261016.json
+          path: result_cross_paper/
           retention-days: 90
