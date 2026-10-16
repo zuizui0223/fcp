@@ -1,0 +1,145 @@
+# Technical source/pixel wave only: 6 RGFCA taxa, two per pre-colour
+# opportunity stratum; no entire 2026-09-27 original snapshot has been frozen
+# and no global P_poly / genetics / W inference is authorized.
+name: FCP RGFCA six original taxa REAL ROI technical pilot
+
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - .github/workflows/fcp-rgfca-six-taxon-real-ROI-pilot-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-six-taxon-real-original-ROI-20261016-one-shot
+  cancel-in-progress: false
+
+jobs:
+  actually-measure-original-photo-pixels-not-main:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      ROOT: /tmp/fcp_rgfca_six_real_original_pilot
+      SAM: /tmp/fcp_rgfca_pilot_original_sam
+    steps:
+      - name: Check out tested photo outcome-blind six taxon pilot
+        uses: actions/checkout@v4
+        with:
+          ref: 2a1651b167e683ff1baf53b7cfd30797836005bb
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install unmodified ROI-v4 analysis runtime; test provider-photo pilot BEFORE live requests
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow pytest \
+            ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
+          python -m pytest tests/test_run_rgfca_real_1000_enrolled_six_photo_pilot.py -q
+
+      - name: Certify original 1000 pre-colour RGFCA species drawn from REAL audited source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/roster"
+          gh run download 38832284491 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-calibrated120-no-pixels \
+            --dir "$ROOT/roster"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          from scripts.acquisition.run_rgfca_real_1000_enrolled_six_photo_pilot import pilot_taxa
+          p=Path(os.environ["ROOT"])/"roster"
+          sample=p/"rgfca_species_1000_original_source_only.csv"
+          r=json.loads((p/"rgfca_sample_receipt.json").read_text())
+          assert hashlib.sha256(sample.read_bytes()).hexdigest()=="88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c"
+          assert r["status"]=="ORIGINAL_SOURCE_BALANCED_REPETITION_PLAN_NO_COLOUR_MEASURED"
+          assert r["primary_repeated_photo_draw_per_species"]==120
+          assert r["selected_species"]==1000
+          assert r["new_flower_images_opened"] is False
+          tax=pilot_taxa(sample)
+          assert len(tax)==6
+          print("FCP_REAL_RGFCA_SIX_SOURCE_ONLY_ENROLLED_TAXA",json.dumps(tax,sort_keys=True),flush=True)
+          PY
+
+      - name: BOUNDED live iNaturalist API original photo metadata (not full 2026-09-27 snapshot)
+        timeout-minutes: 30
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/run_rgfca_real_1000_enrolled_six_photo_pilot.py source \
+            --rgfca-roster "$ROOT/roster/rgfca_species_1000_original_source_only.csv" \
+            --outdir "$ROOT/source_precolour"
+
+      - name: Bootstrap exact frozen historical ROI-v4 detector and EfficientSAM model
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
+
+      - name: ACTUALLY download and score new original photo pixels; preserve failures, never invent P_poly
+        timeout-minutes: 200
+        shell: bash
+        run: |
+          set -euo pipefail
+          export FCP_PROVIDER_GLOBAL_RATE_FILE="$RUNNER_TEMP/fcp_rgfca_six_real_photo_rate.lock"
+          python scripts/acquisition/run_rgfca_real_1000_enrolled_six_photo_pilot.py measure \
+            --precolour-source "$ROOT/source_precolour" \
+            --outdir "$ROOT/original_roi_results" \
+            --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --original-efficient-sam "$SAM"
+          python - <<'PY'
+          import csv,hashlib,json,os
+          from pathlib import Path
+          p=Path(os.environ["ROOT"])/"original_roi_results"
+          receipt=json.loads((p/"rgfca_original_new_photo_six_taxa_live_API_technical_receipt.json").read_text())
+          original=p/"rgfca_original_new_photo_six_taxa_live_API_technical.csv"
+          rows=list(csv.DictReader(original.open(newline="",encoding="utf-8")))
+          assert receipt["status"]=="REAL_NEW_ORIGINAL_PIXELS_TECHNICAL_PILOT_NOT_RGFCA_PPOLY"
+          assert receipt["prior_FCP_measured_colours_loaded"] is False
+          assert receipt["exact_dated_20260927_source_membership_admitted"] is False
+          assert receipt["RGFCA_200x250_Ppoly_not_estimated"] is True
+          assert receipt["full_1000_species_ROI_study_complete"] is False
+          assert receipt["original_pixels_ROI_v4_evaluated"]>=1
+          assert len(rows)==receipt["selected_real_original_photo_IDs"]
+          assert len({r["photo_id"] for r in rows})==len(rows)
+          assert hashlib.sha256(original.read_bytes()).hexdigest()==receipt["new_terminal_photo_csv_sha256"]
+          assert sum(r["global_classifiable"]=="true" for r in rows)==receipt["n_classifiable_original_flower_photos"]
+          print("FCP_RGFCA_REAL_SIX_ORIGINAL_PHOTO_PILOT_VERIFIED",json.dumps({
+            "selected_original_photo_IDs":len(rows),
+            "downloaded":receipt["original_pixels_downloaded"],
+            "classifiable":receipt["n_classifiable_original_flower_photos"],
+            "NOT_200_round_P_poly":True},sort_keys=True),flush=True)
+          PY
+
+      - name: Retain REAL image outcomes separately from immutable dated-source FCP science
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp_rgfca_six_real_original_pilot/source_precolour/rgfca_six_source_photo_candidates_before_colour.csv
+            /tmp/fcp_rgfca_six_real_original_pilot/source_precolour/rgfca_six_source_precolour_receipt.json
+            /tmp/fcp_rgfca_six_real_original_pilot/original_roi_results/rgfca_original_new_photo_six_taxa_live_API_technical.csv
+            /tmp/fcp_rgfca_six_real_original_pilot/original_roi_results/rgfca_original_new_photo_six_taxa_live_API_technical_receipt.json
+
+      - name: Retain source diagnostics only if technical run fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-six-original-photo-pilot-FAILED-NOT-BIOLOGY
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp_rgfca_six_real_original_pilot/source_precolour/rgfca_six_source_photo_candidates_before_colour.csv
+            /tmp/fcp_rgfca_six_real_original_pilot/source_precolour/rgfca_six_source_precolour_receipt.json
