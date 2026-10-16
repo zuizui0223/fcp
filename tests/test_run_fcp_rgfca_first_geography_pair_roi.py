@@ -474,3 +474,18 @@ def test_next_strict_roi_rejects_unverified_previous_taxon_ids_before_pixel_acce
         select_unit(src,geo,tmp_path/"unknown-previous",
                     excluded_previously_measured_taxa={"999999"},
                     _synthetic_source_gate=True)
+
+
+def test_disjoint_second_original_roi_demands_four_full_sixteen_photo_folds(tmp_path):
+    """A 64-row pixel method must not be fed a 16-to-63-row source packet."""
+    src,geo,_,_,_=setup(tmp_path)
+    with pytest.raises(ValueError,match="per-fold sample bound"):
+        select_unit(src,geo,tmp_path/"bad-depth",
+                    minimum_per_fold_depth=17,
+                    _synthetic_source_gate=True)
+    # The synthetic fixture has a safe 6-per-fold source, but not 16.
+    with pytest.raises(ValueError,match="No matched broad/narrow pair"):
+        select_unit(src,geo,tmp_path/"only-six-per-fold",
+                    minimum_per_fold_depth=16,
+                    _synthetic_source_gate=True)
+    assert not (tmp_path/"only-six-per-fold"/"first_matched_pair_original_blind_worker.csv").exists()
