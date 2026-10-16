@@ -92,7 +92,9 @@ jobs:
           for run_id,sha in expected.items():
               doc=json.loads((root/f"workflow_{run_id}.json").read_text())
               if (doc.get("id")!=run_id or doc.get("head_sha")!=sha
-                  or doc.get("head_branch")!="analysis/fcp-fresh-uncapped-zero-20261015"
+                  or doc.get("head_branch")!=(
+                      "main" if run_id==38818718877
+                      else "analysis/fcp-fresh-uncapped-zero-20261015")
                   or doc.get("run_attempt")!=1 or doc.get("status")!="completed"
                   or doc.get("conclusion")!="success"
                   or doc.get("head_repository",{}).get("full_name")!="zuizui0223/fcp"):
@@ -226,11 +228,11 @@ jobs:
           if-no-files-found: error
           compression-level: 5
           path: |
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_original_photo_ID_counts.csv
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_photo_colour_blind_selection/
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_original_photo_blind_worker_freeze/
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_original_photo_ID_counts.csv
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_photo_colour_blind_selection/
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_original_photo_blind_worker_freeze/
 
       - name: Preserve incomplete source stage and count mismatch evidence, NEVER classify photos if failed
         if: failure() || cancelled()
@@ -240,7 +242,7 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
           path: |
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/inputs/workflow_*.json
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/frozen_4_original_metadata_tables/fcp_source_archive_pin.json
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/scanning_real_20260927_rgfca_source_progress.json
-            ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/FAILED_selected_source_taxon_count_mismatches.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/inputs/workflow_*.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/frozen_4_original_metadata_tables/fcp_source_archive_pin.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/scanning_real_20260927_rgfca_source_progress.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/FAILED_selected_source_taxon_count_mismatches.json
