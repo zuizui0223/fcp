@@ -18,7 +18,8 @@ from fcp_pipeline.fcp_fresh_study import BIO
 from scripts.acquisition.build_fcp_uncapped_blind_batches import new_id
 from scripts.acquisition.plan_fcp_photo_first_screen import SELECTED_FIELDS
 from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import (
-    PHOTO_SCHEMA,WORKER,ACQUISITION,select_unit,measure_unit
+    PHOTO_SCHEMA,WORKER,ACQUISITION,geographical_cell,
+    geo_balanced_first_photos,select_unit,measure_unit
 )
 from scripts.acquisition.stratify_fcp_rgfca_geographic_span import run as geo_run
 from test_stratify_fcp_rgfca_geographic_span import fixture as geo_fixture
@@ -100,6 +101,8 @@ def test_first_matched_pair_is_source_blind_and_does_not_rewrite_1000_taxa(tmp_p
     assert receipt["source_image_IDs_from_verified_monthly_20260927"] is False
     assert receipt["number_original_photo_IDs_in_first_unit"]==24
     assert receipt["per_taxon_per_observer_fold_photo_depth"]==6
+    assert receipt["original_photo_first_unit_geographic_cell_round_robin"] is True
+    assert receipt["n_source_geographic_cells_selected_by_group"]["broad"]>=2
     worker=list(csv.DictReader((output/"first_matched_pair_original_blind_worker.csv").open()))
     acq=list(csv.DictReader((output/"first_matched_pair_original_photo_source_acquisition.csv").open()))
     sidecar=list(csv.DictReader((output/"first_matched_pair_original_source_join_key.csv").open()))
@@ -147,6 +150,12 @@ def test_original_roi_terminal_preserves_observer_blindness_and_source_IDs(tmp_p
     assert done["new_original_photo_pixels_processed"]==24
     assert done["n_classifiable"]==12
     assert done["n_original_image_acquisition_failed"]==0
+    assert done["by_geographic_observed_source_group"]["broad"][
+        "n_same_original_roi_white_and_yellow_both_ge10pct"]==0
+    assert done["by_geographic_observed_source_group"]["narrow"][
+        "n_same_original_roi_white_and_yellow_both_ge10pct"]==0
+    assert done["by_geographic_observed_source_group"]["broad"][
+        "n_distinct_geographic_5degree_cells_in_measured_photos"]>=2
     assert done["old_measured_colours_imported"] is False
     assert done["full_RGFCAROI1000_complete"] is False
     assert len(exposure)==24
@@ -178,3 +187,59 @@ def test_real_production_cannot_use_fake_source_gate_or_synthetic_method(tmp_pat
     with pytest.raises(ValueError,match="Production original image pixels cannot use a synthetic provenance gate"):
         measure_unit(prepared,tmp_path/"false_production",method=tmp_path/"model.py",
                      detector=tmp_path/"det.pt",sam=tmp_path/"sam")
+
+
+
+def test_first_roi_localities_round_robin_instead_of_one_city_photo_hashes():
+    photos=[]
+    for cell,longitude in enumerate([2.,32.,75.,121.]):
+        for j in range(5):
+            # All photos in first cell have lower original colour-blind hashes:
+            # naive hash-order sample would consume just the first region.
+            photos.append({
+                "photo_id":str(10000+cell*100+j),
+                "latitude":"10.5","longitude":str(longitude),
+                "selection_hash":f"{cell*100+j:016x}",
+            })
+    got=geo_balanced_first_photos(photos,8)
+    from collections import Counter
+    counts=Counter(geographical_cell(r) for r in got)
+    assert sorted(counts.values())==[2,2,2,2]
+    assert len({r["photo_id"] for r in got})==8
+    assert geographical_cell({"latitude":"0","longitude":"180"})==\
+        geographical_cell({"latitude":"0","longitude":"-180"})
+    with pytest.raises(ValueError,match="geographic coordinate invalid"):
+        geographical_cell({"latitude":"invalid","longitude":"5"})
+
+
+def test_original_photographic_yellow_white_same_roi_is_separate_structural_QC(tmp_path):
+    src,geo,_,_,_=setup(tmp_path)
+    unit=tmp_path/"prepared"
+    select_unit(src,geo,unit,_synthetic_source_gate=True)
+
+    def fake_evaluator(worker,images,model,detector,sam,dst):
+        df=pd.read_csv(worker,dtype=str)
+        output=[]
+        for j,rec in df.iterrows():
+            composition={f"flower_fraction_{key}":0.0 for key in BIO}
+            composition["flower_fraction_white"]=0.7
+            composition["flower_fraction_yellow"]=0.3
+            output.append({"measurement_id":rec.measurement_id,
+                           "measurement_status":"classified_four_state_morph",
+                           "morph":"white",**composition})
+        return pd.DataFrame(output)
+
+    receipt=measure_unit(unit,tmp_path/"measured",method=tmp_path/"code.py",
+                         detector=tmp_path/"model.pt",sam=tmp_path/"sam",
+                         loader=lambda _:b"fake_byte_payload",
+                         evaluator=fake_evaluator)
+    assert receipt["n_classifiable"]==24
+    for group in ("broad","narrow"):
+        part=receipt["by_geographic_observed_source_group"][group]
+        assert part["n_same_original_roi_white_and_yellow_both_ge10pct"]==12
+        assert part["n_distinct_source_observations_in_measured_photos"]==12
+    with (tmp_path/"measured"/"first_original_geographically_matched_photo_terminal.csv").open() as f:
+        rows=list(csv.DictReader(f))
+    assert all(r["same_roi_white_and_yellow_both_ge10pct"]=="True" for r in rows)
+    assert receipt["measured_geographic_effect_estimates"]==0
+    assert receipt["confirmed_genetic_FCP_species"]==0
