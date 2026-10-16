@@ -48,6 +48,10 @@ def make_two(tmp_path):
                 data[f"depth_{depth}_positive_photo_label_repetitions"]=positive
                 data[f"depth_{depth}_conditional_photo_label_detection"]=(
                     positive/eligible if eligible else "")
+                data[f"depth_{depth}_realized_photo_ID_overlap_fraction"]=(
+                    1.0 if depth==48 else .6)
+                data[f"depth_{depth}_distinct_source_photo_ID_draw_sets"]=(
+                    1 if depth==48 else 120)
             rows.append(data)
         table=root/f"wave{wave}_original_ROI_observer_geocell_mixed_colour_QC.csv"
         with table.open("w",newline="") as f:
@@ -86,6 +90,9 @@ def test_photo_bias_two_original_technical_waves_remain_no_genetic_claim(tmp_pat
     assert report["n_species_with_at_least_30_evaluable_96raw_photo_redraws"]==6
     assert report["n_species_with_repeatably_detected_RAW_photo_label_pair"]==6
     assert report["n_species_with_label_pair_and_structural_colour_QC_hold"]==6
+    assert report["n_species_with_no_actual_photo_ID_draw_variation_at_pilot_depth96"]==12
+    assert report["n_200_repetitions_are_biologically_independent"]==0
+    assert report["photo_ID_overlap_is_observed_from_real_source_photo_ID_selection"] is True
     assert report["technical_resampling_reuses_max_96_photos_per_species_NOT_120_main"] is True
     assert report["actual_1000_taxon_200x250_formal_Ppoly_estimated"] is False
     assert report["actual_20260927_original_source_photo_ID_membership_verified"] is False
@@ -98,6 +105,8 @@ def test_photo_bias_two_original_technical_waves_remain_no_genetic_claim(tmp_pat
         float(x["P_evaluable_depth96_photo_technical"])
         for x in data)
     assert all(x["genetic_polymorphism_confirmed"]=="False" for x in data)
+    assert all(float(x["actual_RGFCA_96rawphoto_mean_pairwise_source_ID_overlap_fraction"])==1 for x in data)
+    assert all(x["n_distinct_original_photo_ID_sets_in_200_depth96_draws"]=="1" for x in data)
     assert all(v["n_taxa"]==4
                for v in report["available_photo_opportunity_strata"].values())
 
