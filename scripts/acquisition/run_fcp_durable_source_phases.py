@@ -144,22 +144,26 @@ def run_phase(root: Path, phase: str, start: int = 0, stop: int = 4,
         if free < MIN_BYTES[phase]:
             raise ValueError(f"Persistent disk free={free} bytes; phase {phase} requires >= {MIN_BYTES[phase]}")
 
+        # Module execution keeps the repository root on sys.path even when
+        # the entry point lives under scripts/acquisition/. Direct file-style
+        # execution failed for the 2026-10-15 indexed fallback with
+        # ModuleNotFoundError: No module named fcp_pipeline.
         commands = {
             "stage": [
-                sys.executable, "scripts/acquisition/execute_fcp_42111_census.py",
+                sys.executable, "-m", "scripts.acquisition.execute_fcp_42111_census",
                 "--frame", str(frame), "--archive", str(archive), "--work", str(work),
                 "--expected-species", str(SPECIES), "--shards", str(SHARDS),
                 "--worker-partitions", str(SHARDS), "--stage-only",
                 "--release-verified-temporary-tables",
             ],
             "emit": [
-                sys.executable, "scripts/acquisition/emit_fcp_staged_source_shards.py",
+                sys.executable, "-m", "scripts.acquisition.emit_fcp_staged_source_shards",
                 "--frame", str(frame), "--staged-metadata", str(staged),
                 "--expected-species", str(SPECIES), "--shards", str(SHARDS),
                 "--shard-start", str(start), "--shard-stop", str(stop),
             ],
             "finalize": [
-                sys.executable, "scripts/acquisition/finalize_fcp_staged_source.py",
+                sys.executable, "-m", "scripts.acquisition.finalize_fcp_staged_source",
                 "--frame", str(frame), "--work", str(work), "--expected-species", str(SPECIES),
                 "--shards", str(SHARDS), "--worker-partitions", str(SHARDS),
                 "--skip-package",
@@ -176,7 +180,7 @@ def run_phase(root: Path, phase: str, start: int = 0, stop: int = 4,
             if phase == "finalize":
                 admitted = work / "independent_original_all_ID_source_admission.json"
                 subprocess.run([
-                    sys.executable, "scripts/acquisition/verify_fcp_complete_photo_ids_vs_original_counts.py",
+                    sys.executable, "-m", "scripts.acquisition.verify_fcp_complete_photo_ids_vs_original_counts",
                     "--baseline-counts", str(root / "references/all_42111_species_photo_opportunity_counts.csv"),
                     "--independent-audit", str(root / "references/all_42111_photo_opportunity_audit.json"),
                     "--complete-source-counts", str(work / "all_42111_species_source_photo_counts.csv"),
