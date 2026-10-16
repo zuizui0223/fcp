@@ -50,6 +50,10 @@ def test_bounded_rgfca_real_photo_label_resampling_not_genetic_certification():
     assert rep["depth_40_evaluable_repetitions"]==30
     assert rep["depth_40_positive_photo_label_repetitions"]>=22
     assert rep["depth_48_conditional_photo_label_detection"]==1.0
+    assert rep["depth_48_realized_photo_ID_overlap_fraction"]==1.0
+    assert rep["depth_48_distinct_source_photo_ID_draw_sets"]==1
+    assert rep["depth_40_realized_photo_ID_overlap_fraction"]<1.0
+    assert rep["depth_40_distinct_source_photo_ID_draw_sets"]>1
 
 
 def test_single_coarse_morph_not_monomorphic():
