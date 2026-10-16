@@ -23,7 +23,7 @@ from fcp_pipeline.photo_polymorphism_screen import (
     MORPHS, PALETTE, POSITIVE, _finalize, sha256,
     observer_split,
 )
-from fcp_pipeline.rgfca_photo_repeatability import _photo_priority
+from fcp_pipeline.rgfca_photo_repeatability import _photo_priority, _photo_resample_overlap
 
 RUN_ID = 38832829706
 SOURCE_ROSTER_SHA = "88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c"
@@ -79,6 +79,7 @@ def _draw(taxon: int, species: str, photos: list[dict], repeat: int, depth: int)
     evaluable = n_valid >= 40 and min(n_fold) >= 20
     return {
         "n_photo":len(picked), "n_classifiable":n_valid,
+        "_selected_source_photo_IDs":[x["photo_id"] for x in picked],
         "evaluable":bool(evaluable),
         "photo_label_pair_detected":bool(evaluable and
                                         result["photographic_colour_status"] == POSITIVE),
@@ -128,6 +129,14 @@ def repeat_descriptive(taxon: int, species: str, photos: list[dict],
             "" if ev==0 else round(positive/ev,8))
         rows[f"depth_{n}_median_classifiable_photo_count"] = sorted(
             x["n_classifiable"] for x in trials)[repeat_count//2]
+        # Distinguish Monte Carlo source-photo REWEIGHTING from independent
+        # natural flower sampling. At 48+48 of a fixed 48+48 pool the
+        # 200 photo-ID draw sets are identical: overlap = 1, unique sets = 1.
+        overlap = _photo_resample_overlap(trials)
+        rows[f"depth_{n}_realized_photo_ID_overlap_fraction"] = overlap[
+            "observed_mean_pairwise_source_photo_overlap_share"]
+        rows[f"depth_{n}_distinct_source_photo_ID_draw_sets"] = overlap[
+            "distinct_original_source_photo_ID_sets"]
     return rows
 
 
@@ -247,6 +256,8 @@ def audit(pilot_root: Path, rgfca_roster: Path, outdir: Path) -> dict:
         "ROI_classifiable_fraction":202/552,
         "pilot_repeat_draws_per_species":N_REPS,
         "pilot_depths_per_independent_observer_fold":list(DEPTHS),
+        "photo_ID_overlap_checked_for_each_empirical_repeat_depth":True,
+        "realizations_with_identical_ID_sets_not_independent_photo_replications":True,
         "original_RGFCA_200x250_species_REAL_photo_Ppoly_computed":False,
         "source_20260927_exact_archived_ID_membership_verified":False,
         "independent_new_biological_replicates_from_Monte_Carlo":0,
