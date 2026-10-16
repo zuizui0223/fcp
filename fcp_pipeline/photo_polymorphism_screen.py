@@ -237,6 +237,7 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
     obs_to_observer = {}
     split_photo = [Counter(), Counter()]
     photo_ids = set()
+    dual_white_yellow_ROI_count = 0
     processed = 0
 
     def flush() -> None:
@@ -246,6 +247,21 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
                         source[current]["n_source_photo_ids"],
                         photo_count, good_count, morph_counts, obs_to_labels,
                         obs_to_observer, split_photo)
+        # POST-PILOT CALIBRATION, prior to the full 1000-species ROI study:
+        # 58/64 Matricaria photos contained BOTH white and yellow within ONE
+        # ROI. The same inflorescence's ray/disc colours can generate a
+        # repeated two-coarse-state signature without among-plant morphs.
+        dual_fraction = dual_white_yellow_ROI_count / good_count if good_count else 0.0
+        structural_hold = bool(
+            good_count >= MIN_CLASSIFIABLE
+            and morph_counts["white"] > 0 and morph_counts["yellow_orange"] > 0
+            and dual_fraction >= 0.50)
+        row["n_white_and_yellow_in_same_ROI_ge10"] = dual_white_yellow_ROI_count
+        row["within_ROI_white_yellow_both_ge10_fraction"] = round(dual_fraction,12)
+        row["structural_flower_architecture_manual_review_required"] = structural_hold
+        if structural_hold and row["photographic_colour_status"] == POSITIVE:
+            row["photographic_colour_status"] = (
+                "repeated_coarse_photo_labels_STRUCTURAL_QC_HOLD_not_FCP")
         result.append(row)
         (positive if row["photographic_colour_status"] == POSITIVE
          else unresolved).append(row)
@@ -277,6 +293,7 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
                 obs_to_observer = {}
                 split_photo = [Counter(), Counter()]
                 photo_ids = set()
+                dual_white_yellow_ROI_count = 0
             pid = str(row["photo_id"]).strip()
             if not pid or pid in photo_ids:
                 raise ValueError("Duplicate/blank original photo ID in species")
@@ -296,6 +313,8 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
             vals = [float(row[f"flower_fraction_{p}"]) for p in PALETTE]
             if any(not math.isfinite(v) or v < 0 or v > 1 for v in vals):
                 raise ValueError("Original colour fractions invalid")
+            if vals[0] >= 0.10 and vals[1] >= 0.10:
+                dual_white_yellow_ROI_count += 1
             good_count += 1
             morph_counts[morph] += 1
             obs_to_labels.setdefault(obs, set()).add(morph)
@@ -308,6 +327,9 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
         if taxon not in visited:
             row = _finalize(taxon, data["species"], data["n_source_photo_ids"],
                             0, 0, Counter(), {}, {}, [Counter(), Counter()])
+            row["n_white_and_yellow_in_same_ROI_ge10"] = 0
+            row["within_ROI_white_yellow_both_ge10_fraction"] = 0.0
+            row["structural_flower_architecture_manual_review_required"] = False
             result.append(row)
             unresolved.append(row)
     result.sort(key=lambda x: x["inat_taxon_id"])
@@ -338,6 +360,10 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
         "source_species": len(source),
         "original_photo_terminals_screened": processed,
         "photo_supported_polymorphic_species": len(positive),
+        "n_repeated_photo_states_structural_ROI_review_holds": sum(
+            x["photographic_colour_status"] ==
+            "repeated_coarse_photo_labels_STRUCTURAL_QC_HOLD_not_FCP" for x in result),
+        "post_pilot_mixed_ROI_white_yellow_review_rule_technical_not_genetic_inference": True,
         "photo_states_not_literature_sources_decide_inclusion": True,
         "heldout_observer_disjoint_validation_required": True,
         "classifiable_min": MIN_CLASSIFIABLE,
@@ -354,7 +380,10 @@ def screen(measured: Path, frame: Path, counts: Path, receipt: Path,
         "warning": ("A photo-positive requires two coarse morphs with independent "
                     "observer-held-out replication. Nonpositives are never evidence "
                     "of biological monomorphism. Local coexistence requires separate "
-                    "geographically and population-aware verification."),
+                    "geographically and population-aware verification. "
+                    "Postpilot flag: recurrent white/yellow inside the SAME "
+                    "flower ROI is sent for structural (ray/disc etc.) visual "
+                    "review, never automatically called among-individual FCP."),
     }
     (outdir / "photo_screen_receipt.json").write_text(
         json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
