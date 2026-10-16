@@ -155,19 +155,48 @@ def test_exact_date_selected_2_of_4_taxa_photo_IDs_match_globally_deduplicated_o
     assert all(r["source_snapshot_date"]=="2026-09-27" for r in rows)
 
 
-def test_all_other_original_photo_ID_conflicts_are_conservatively_quarantined_not_admitted(tmp_path):
+def test_outside_source_unqualified_photo_reuse_cannot_be_misclassified_as_global_conflict(tmp_path):
     frame,counts,audit,roster,receipt,pin,tables=setup(
         tmp_path,invalid_external_collision=True)
-    # Source photo 100 occurs in the selected source + outside legitimate
-    # Research Grade observations; global 42111-source census would keep it,
-    # but our conservative raw collision pass must REFUSE to overclaim.
-    dest=tmp_path/"collision_not_fcp"
-    with pytest.raises(ValueError,match="globally audited full universe"):
-        process(frame,counts,audit,roster,receipt,pin,tables,dest,synthetic=True)
-    doc=json.loads((dest/"FAILED_selected_source_taxon_count_mismatches.json").read_text())
-    assert doc["status"]=="REJECTED_NOT_ORIGINAL_PHOTO_ID_FCP"
-    assert doc["n_mismatched_selected_taxa"]>=1
-    assert not (dest/"rgfca_1000_targeted_monthly_photo_ID_receipt.json").exists()
+    # Original source photo #100 is also (illegally for this audit)
+    # attached to an ineligible Needs-ID observation. The original FULL
+    # 42,111 importer legitimately RETAINS the selected photo (because
+    # the other observation is not research-grade).
+    out=tmp_path/"admitted_identically_to_complete_original_source"
+    result=process(frame,counts,audit,roster,receipt,pin,tables,out,synthetic=True)
+    assert result["n_selected_original_photo_IDs"]==5
+    assert result["n_distinct_potential_external_observation_UUIDs"]>=1
+    assert result["n_original_observation_rows_rescanned_for_global_collision"]==6
+    assert result["n_original_photo_IDs_quarantined_by_external_eligible_sources"]==0
+    assert result["outside_source_or_not_research_grade_duplicate_does_not_erase_valid_photo"] is True
+    with (out/"rgfca_1000_complete_original_source_photo_IDs.csv").open(newline="") as f:
+        rows=list(csv.DictReader(f))
+    assert {r["photo_id"] for r in rows}=={"100","101","103","102","202"}
+
+
+def test_original_full_importer_ignores_nonresearch_collisions_exactly_as_targeted(tmp_path):
+    from scripts.acquisition.import_inat_open_data_snapshot import ingest
+    frame,counts,audit,roster,receipt,pin,tables=setup(
+        tmp_path,invalid_external_collision=True)
+    hashes={key:sha256_file(path) for key,path in tables.items()}
+    full_dir=tmp_path/"complete_source"
+    genuine=ingest(frame,tables["taxa"],tables["observations"],
+                  tables["photos"],full_dir,"2026-09-27",
+                  observers=tables["observers"],source_archive_pin=pin,
+                  input_sha256=hashes,expected_species=4,shards=2)
+    assert genuine["n_target_taxon_licensed_photos"]==7
+    out=tmp_path/"targeted_1000"
+    chosen=process(frame,counts,audit,roster,receipt,pin,tables,out,synthetic=True)
+    assert chosen["n_selected_original_photo_IDs"]==5
+    full_ids=set()
+    for taxon in (11,12):
+        paths=list(full_dir.glob(f"shard_*_of_002/species/{taxon}/photo_manifest.ndjson"))
+        assert len(paths)==1
+        full_ids.update(json.loads(line)["photo_id"]
+                        for line in paths[0].read_text().splitlines())
+    with (out/"rgfca_1000_complete_original_source_photo_IDs.csv").open(newline="") as f:
+        target_ids={row["photo_id"] for row in csv.DictReader(f)}
+    assert full_ids==target_ids=={"100","101","103","102","202"}
 
 
 def test_rgfca_source_only_selection_metadata_cannot_be_replaced_by_colour_or_literature(tmp_path):
