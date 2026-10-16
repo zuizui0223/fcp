@@ -65,6 +65,7 @@ def setup(tmp_path):
         "selected_species":2,"realizations":50,
         "species_per_realization":2,"species_inclusions_each":50,
         "old_149900_flower_colours_used":False,
+        "new_flower_images_opened":False,
         "photographic_poly_probabilities_measured":False
     }))
     measured=tmp_path/"fresh_original_ROI_screen.csv"
@@ -168,7 +169,7 @@ def test_fake_balanced_schedule_rejected(tmp_path):
     cohort,sched,provenance,measured,receipt=setup(tmp_path)
     lines=sched.read_text()
     sched.write_text(lines.replace("Species alwayswhite","Fake red flower species"))
-    with pytest.raises(ValueError,match="Unfrozen/adaptive"):
+    with pytest.raises(ValueError,match="nonoriginal or phenotype-adaptive"):
         validate_schedule(cohort,sched,provenance,synthetic=True)
 
 
