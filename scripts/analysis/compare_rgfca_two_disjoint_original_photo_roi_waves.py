@@ -17,8 +17,7 @@ import json
 from collections import Counter,defaultdict
 from pathlib import Path
 
-ROSTER_SHA = "88aba565e1bdeef48ad3dc5eec0121c52448ad3dc5eec0121c52448fda434aca849e542bb615f9d547c"
-# The literal biological enrolment SHA is externally attested by Actions.
+# Original RGFCA 1000 selected-species CSV SHA from independent metadata-only CI.
 ROSTER_SHA = "88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c"
 DEPTHS=(20,32,40,44,48)
 COLOURS=("white","yellow_orange","red_pink","blue_purple")
