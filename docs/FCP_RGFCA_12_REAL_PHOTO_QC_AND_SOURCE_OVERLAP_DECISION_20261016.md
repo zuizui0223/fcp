@@ -67,3 +67,38 @@ For taxon i, let R_i denote the 50 scheduled balanced species inclusions, E_i th
 All 1,034 measured pixels in the two six-taxon technical waves came from the *live iNaturalist observation API* with a created-before 2026-09-27 filter. Taxon identities were drawn from the dated 2026-09-27 original source roster, **but exact sampled PHOTO IDs were NOT reconciled to the original immutable 36-GB monthly 2026-09-27 archive**. Consequently neither pilot's colour labels are admissible as the full dated-source, 1,000-taxon formal RGFCA P_poly result. The 36-GB archive and 93-million-photo-ID SQLite are not saved in the GitHub-hosted ephemeral source-counting scratch. Further *live-API technical pilots are not a substitute* for that immutable provenance unless a separately declared prospective source cohort and a matching sampling frame are adopted.
 
 **Decision:** move the 1,000-species real-photo screen only when source photo-ID admission and a systematic photo-ROI acquisition protocol are available; use measured P_eval, P_photo-colour|eval, P_joint, empirical photo-ID overlap and floral-organ structural review to decide whether repeated photo colour states represent reliable evidence. Do not expand image counts blindly, treat poor-quality species as colour-negative, or claim that a repeated shared global RGFCA hotspot was supported (historical G1 p=0.070).
+
+
+## Audited actual repeat-photo-ID sets, and modified main RGFCA criterion
+
+The earlier table gives expected overlaps under complete uniform source-photo sampling. The **new independently replayed real original-photo source-ID audit**, not a theoretical calculation, is [GitHub Actions #38845056079](https://github.com/zuizui0223/fcp/actions/runs/38845056079), successful; artifact \`12023026437\`. It re-read both original 552 + 482 ROI photo-ID manifests, retained original observer folds, and replayed 200 salted source-ID draws per technical taxon without downloading a single new image.
+
+**Actual mean fraction of source photo IDs shared by pairs of re-draws**, averaged equally over 12 technical taxa:
+
+| Photos selected per observer split | Actual mean photo-ID reuse |
+|---|---:|
+| 20 | 0.4900 |
+| 32 | 0.7343 |
+| 40 | 0.8774 |
+| 44 | 0.9415 |
+| 48 | **1.0000** |
+
+At **48 photos per split**, **all 12 taxa** had exactly **one distinct photo-ID set in all 200 repeated Monte Carlo realizations**. This includes the apparently striking Matricaria repeatability=1.0; it did **not** constitute 200 independent original-photo samples. Some taxa with low observer availability already had full-pool repetition at shallower depths. Real source observer constraints explain why mean overlap was higher than the complete-balanced 48-per-fold theoretical values at earlier depths.
+
+### Main 1,000-species RGFCA rule corrected AFTER the two technical pilot waves, BEFORE main original-photo measurements
+
+The 1,000 original species and 200 × 250 exact-balanced *species* inclusion schedule are preserved unchanged. But with **64 source-photo IDs per observer group**, the old primary **60+60 photo** re-draw shares ~93.75% of photo IDs, in expectation, between two draws. It is a high-depth photo-**detectability** readout rather than meaningful independent photo-sampling robustness.
+
+The strengthened, *pre-main-image-measurement, post-technical-pilot* method retains **60+60** as a high-power detection screen but adds **48+48** source-photo re-draws for mandatory robustness qualification:
+
+- Minimum **30 evaluable** lower-depth (48+48) species realizations.
+- At least **80%** of those lower-depth evaluable realizations reproduce the two photo labels in both observer-disjoint halves.
+- Actual measured pairwise source photo-ID overlap in the 48+48 draws must be **≤0.80**, and there must be **≥30 distinct selected photo-ID sets**. In a full 64+64 pool, the theoretical expected overlap fraction is 48/64=0.75; in a smaller effective pool, the recorded overlap determines whether a repeated signal was actually perturbed.
+- Simultaneous **P(photo labels | evaluable) ≥0.80** in the 60+60 high-power draws, and adequate evaluable 60+60 support.
+- Photo-label positives dominated by white/yellow in the SAME single flower ROI remain on the **structural-organ manual review hold**.
+
+If the lower-depth protocol cannot be evaluated because there are too few classifiable flower images, the species is **\`repeatability unresolved\`**, not biologically monomorphic. The above fractions are repeated *photo-label* stability, not heritable genetic polymorphism probabilities. The 0.80 overlap cutoff and dual-depth confirmation are **posttechnical calibration choices**: do not retroactively claim they were fixed before the first six-taxon pilot. A subsequent independent cohort would be needed to establish the reliability of these gates.
+
+The implementation reports three separate denominator-protected quantities **P_eval**, **P_photo-colour|eval**, and **P_joint** for the primary 60+60 source-photo draw, along with actual photo-ID overlap and independent photo-set counts for depths **40/80/96/120/128**. A photo ID is never treated as a new biological replicate simply because it reappears in another RGFCA realization.
+
+**Production remains gated on truly source-admitted photograph IDs** and newly measured original ROI-v4 outcomes for the prospective 1,000 source-sampled species. No original 2026-09-27 dated-photo 1,000-species formal \`P_poly\` has been estimated from these 12 technical taxa.
