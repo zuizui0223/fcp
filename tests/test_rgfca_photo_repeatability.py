@@ -249,3 +249,41 @@ def test_experimental_original_roi_loader_preserves_within_photo_palette(tmp_pat
         for item in samples:
             if item["classifiable"]:
                 assert len(item["within_ROI_white_yellow"]) == 2
+
+
+def test_real_photo_robustness_separates_eligibility_conditional_and_unconditional_detection(tmp_path):
+    # Even if all evaluable pictures show two morphs, photos are not
+    # biologically robust when 9 of 10 balanced draws are unevaluable.
+    species={11:{"species":"Source-only example","source_photo_opportunities":"1024"}}
+    assignments=[{"realization":r,"inat_taxon_id":11} for r in range(1,51)]
+    rows=original_photos(11,variable=True)
+    # Only 24/128 pictures are classifiable; any 120-photo primary
+    # draw fails >=40 viable ROI, but this is NOT evidence of a single morph.
+    for row in rows:
+        row["classifiable"]=int(row["photo_id"])%1000 < 12
+        if not row["classifiable"]:
+            row["morph"]=None
+    out=tmp_path/"low_classifiable"
+    result=repeat(species,assignments,{11:rows},out,synthetic=True)
+    assert result["P_eval_evaluable_over_all_balanced_draws_separately_reported"] is True
+    assert result["P_joint_positive_over_all_balanced_draws_separately_reported"] is True
+    with (out/"species_rgfca_repeated_photo_polymorphism.csv").open() as f:
+        low=next(csv.DictReader(f))
+    assert low["rgfca_species_inclusions"]=="50"
+    assert low["evaluable_40photo_observer_disjoint_draws"]=="0"
+    assert float(low["P_evaluable_under_random_photo_draw"])==0
+    assert float(low["P_detect_both_evaluable_and_multicolour"])==0
+    assert low["conditional_photo_colour_P_poly"]==""
+    assert low["repeatability_0_80_status"]=="not_evaluable_or_insufficient_repeated_roi_support"
+
+    positive=tmp_path/"sufficient"
+    repeat(species,assignments,{11:original_photos(11,variable=True)},
+           positive,synthetic=True)
+    with (positive/"species_rgfca_repeated_photo_polymorphism.csv").open() as f:
+        enough=next(csv.DictReader(f))
+    conditional=float(enough["conditional_photo_colour_P_poly"])
+    coverage=float(enough["P_evaluable_under_random_photo_draw"])
+    joint=float(enough["P_detect_both_evaluable_and_multicolour"])
+    assert 0<=conditional<=1 and 0<=coverage<=1 and 0<=joint<=1
+    assert joint==pytest.approx(coverage*conditional,abs=1e-10)
+    assert coverage==1
