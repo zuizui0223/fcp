@@ -64,7 +64,12 @@ def load_cohort(frame: Path, count_path: Path, independent_audit: Path,
                               sha256_file(count_path) != COUNT_SHA,
                               sha256_file(roster_path) != ROSTER_SHA)):
         raise ValueError("Original outcome-blind species frame/census/RGFCA enrolment SHA mismatch")
-    all_taxa = opportunity_frame(frame, None if synthetic else FULL_TAXA)
+    if synthetic:
+        with frame.open("r", encoding="utf-8", newline="") as h:
+            expected_taxa=sum(1 for _ in csv.DictReader(h))
+    else:
+        expected_taxa=FULL_TAXA
+    all_taxa = opportunity_frame(frame, expected_taxa)
     names = dict(zip(all_taxa.inat_taxon_id.astype(int),all_taxa.species.astype(str)))
     if not synthetic and len(names)!=FULL_TAXA:
         raise ValueError("Original 42111 source taxonomy incomplete")
