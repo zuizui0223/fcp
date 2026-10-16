@@ -200,10 +200,45 @@ def one_draw(taxon: int, species: str, n_source: int, original_rows: list[dict],
     detected = evaluable and result["photographic_colour_status"] == POSITIVE
     return {
         "n_selected":len(selection), "n_classifiable":good,
+        # PHOTO IDs are never exported to the biological result CSV.
+        # Kept only within the current species to quantify actual overlap
+        # among same-source Monte Carlo resamples, without assuming draws
+        # are independent biological replicates.
+        "_selected_source_photo_IDs":[row["photo_id"] for row in selection],
         "fold_0_classifiable":per_fold_good[0],
         "fold_1_classifiable":per_fold_good[1],
         "evaluable":bool(evaluable), "photo_poly_detected":bool(detected),
         "coarse_morph_status":result["photographic_colour_status"]
+    }
+
+
+def _photo_resample_overlap(series: list[dict]) -> dict:
+    """Actual all-pairs intersection / mean draw size, O(R × nphotos).
+
+    For R repeated source-photo draws, photo i appears f_i times.
+    The sum of pairwise intersections is Σ_i choose(f_i,2).
+    This is a descriptive source/photo sampling statistic, not an
+    effective number of independent flowering plants.
+    """
+    n_draws=len(series)
+    photo_use=Counter(
+        photo_id for trial in series
+        for photo_id in trial["_selected_source_photo_IDs"])
+    mean_n=(sum(len(t["_selected_source_photo_IDs"]) for t in series)/n_draws
+            if n_draws else 0.0)
+    if n_draws<2 or mean_n<=0:
+        overlap=None
+    else:
+        joint=sum(n*(n-1)/2 for n in photo_use.values())
+        overlap=(joint/(n_draws*(n_draws-1)/2))/mean_n
+    distinct=len({tuple(sorted(x["_selected_source_photo_IDs"])) for x in series})
+    if overlap is not None and not -1e-12<=overlap<=1+1e-12:
+        raise ValueError("Repeated photographic source ID overlap invalid")
+    return {
+        "observed_mean_pairwise_source_photo_overlap_share":
+            "" if overlap is None else round(overlap,12),
+        "distinct_original_source_photo_ID_sets":distinct,
+        "mean_selected_original_photo_IDs_per_realization":round(mean_n,12),
     }
 
 
@@ -268,9 +303,17 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             str(fold_n*2): {
                 "evaluable":sum(v["evaluable"] for v in series),
                 "positive":sum(v["photo_poly_detected"] for v in series),
+                **_photo_resample_overlap(series),
             }
             for fold_n, series in depth_trials.items()
         }
+        primary_overlap = depths["120"]["observed_mean_pairwise_source_photo_overlap_share"]
+        # Conditional P_poly can approach 1 simply because two source-photo
+        # draws reuse >90% of identical images. Report it but never claim
+        # independent biological robustness when the effective perturbation
+        # was too small.
+        high_primary_photo_ID_overlap = (
+            primary_overlap != "" and primary_overlap >= 0.90)
         if not rows or eligible < 30:
             tier = "not_evaluable_or_insufficient_repeated_roi_support"
         elif reliability is not None and reliability >= .8 and structural_hold:
@@ -292,6 +335,11 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             "P_evaluable_under_random_photo_draw":"" if evaluation_rate is None else round(evaluation_rate,12),
             "P_detect_both_evaluable_and_multicolour":"" if unconditional_detection_rate is None else round(unconditional_detection_rate,12),
             "P_poly_primary_photo_draw":120,
+            "actual_primary_120photo_pairwise_ID_overlap_share":primary_overlap,
+            "actual_primary_120photo_distinct_ID_draw_sets":
+                depths["120"]["distinct_original_source_photo_ID_sets"],
+            "primary_MC_resamples_share_ge90percent_original_photo_IDs":
+                high_primary_photo_ID_overlap,
             "draw_depth_sensitivity_counts":json.dumps(depths,sort_keys=True),
             "repeatability_0_80_status":tier,
             "n_classifiable_pool_photos_with_both_white_yellow_ge10":within_ROI_dual,
@@ -324,6 +372,11 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         "P_eval_evaluable_over_all_balanced_draws_separately_reported":True,
         "P_joint_positive_over_all_balanced_draws_separately_reported":True,
         "P_poly_given_eval_must_not_be_called_overall_detection_probability":True,
+        "original_photo_ID_overlap_measured_empirically_each_draw_depth":True,
+        "high_photo_ID_reuse_cannot_support_independent_biological_replication":True,
+        "n_phenotype_screen_taxa_primary_repeats_share_ge90percent_photo_IDs":sum(
+            r["primary_MC_resamples_share_ge90percent_original_photo_IDs"]
+            for r in species_rows),
         "n_repeated_phenotypic_polymorphism_species":tiers.get(
             "repeatably_photo_polymorphic_phenotype",0),
         "n_coarse_photo_label_recurring_but_structural_QC_HOLD":tiers.get(
