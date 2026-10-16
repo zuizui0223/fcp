@@ -5,6 +5,13 @@ on:
     workflows:
       - FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT
     types: [completed]
+  # Source has already completed with exact immutable SHA. A single edit to
+  # THIS workflow itself safely initiates the now-authorized metadata-only
+  # date census, independent of the GitHub workflow_run listener queue.
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-rgfca-all-original-observation-month-source-after-exact-20261016.yml
 
 permissions:
   contents: read
@@ -18,11 +25,13 @@ jobs:
   dated-original-photo-opportunities-not-flower-pixels:
     if: >-
       ${{ github.repository == 'zuizui0223/fcp' &&
-          github.event.workflow_run.id == 38884223530 &&
-          github.event.workflow_run.conclusion == 'success' &&
-          github.event.workflow_run.head_sha == 'b0656b6a677a8440c188939074a0fe3c8cd4ac16' &&
-          github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
-          github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' }}
+          ((github.event_name == 'workflow_run' &&
+            github.event.workflow_run.id == 38884223530 &&
+            github.event.workflow_run.conclusion == 'success' &&
+            github.event.workflow_run.head_sha == 'b0656b6a677a8440c188939074a0fe3c8cd4ac16' &&
+            github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+            github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015')
+           || (github.event_name == 'push' && github.ref == 'refs/heads/main')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 110
     env:
