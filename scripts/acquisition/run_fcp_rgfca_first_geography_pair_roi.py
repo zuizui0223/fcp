@@ -76,6 +76,24 @@ def geographical_cell(row:dict)->tuple[int,int]:
             int(math.floor(((lon+180)%360)/5)))
 
 
+def original_source_photo_position_qualified(row:dict)->bool:
+    """Original 2026-09-27 photo position has known, acceptable accuracy.
+
+    A row with missing accuracy can stay in the frozen 3.43-million
+    denominator, but must not be selected as a strict first broad/narrow
+    geographic comparison photo. This test never reads flower colours.
+    """
+    raw=str(row.get("positional_accuracy_m","")).strip()
+    if not raw:
+        return False
+    try:
+        accuracy=float(raw)
+        geographical_cell(row)
+    except (ValueError,TypeError,KeyError):
+        return False
+    return math.isfinite(accuracy) and 0<=accuracy<=50000
+
+
 def geo_balanced_first_photos(pool:list[dict], target:int)->list[dict]:
     """First-stage original pixels geographically balanced WITHOUT flower labels.
 
@@ -86,6 +104,8 @@ def geo_balanced_first_photos(pool:list[dict], target:int)->list[dict]:
     """
     if not 1<=target<=16 or len(pool)<target:
         raise ValueError("Geographic first-pixel resource depth cannot be met")
+    if any(not original_source_photo_position_qualified(row) for row in pool):
+        raise ValueError("First geographic ROI source pool includes unknown/invalid position accuracy")
     cells=defaultdict(list)
     for row in pool:
         cells[geographical_cell(row)].append(row)
@@ -186,9 +206,16 @@ def reserve_two_supported_distant_sites(
         raise ValueError("Geographically supported original source folds invalid")
     if any(len(folds[fold])<per_fold for fold in (0,1)):
         raise ValueError("Frozen source lacks original photos for both observer folds")
+    accurate_folds={
+        fold:[row for row in folds[fold]
+              if original_source_photo_position_qualified(row)]
+        for fold in (0,1)
+    }
+    if any(len(accurate_folds[fold])<per_fold for fold in (0,1)):
+        return None
     candidates=defaultdict(list)
     for fold in (0,1):
-        for row in folds[fold]:
+        for row in accurate_folds[fold]:
             raw=str(row.get("positional_accuracy_m","")).strip()
             try:
                 accuracy=float(raw)
@@ -247,7 +274,7 @@ def reserve_two_supported_distant_sites(
         for fold in (0,1):
             remaining=per_fold-len(by_fold[fold])
             if remaining>0:
-                pool=[r for r in folds[fold] if r["photo_id"] not in used]
+                pool=[r for r in accurate_folds[fold] if r["photo_id"] not in used]
                 if len(pool)<remaining:
                     continue
                 by_fold[fold].extend(geo_balanced_first_photos(pool,remaining))
@@ -410,14 +437,20 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                          int(groups[n]["source_photo_opportunities"]))
             or pair["matched_before_any_original_photo_pixels"]!="True"):
             raise ValueError("Geographic comparison pair is ungrounded or unmatched by source opportunity")
-        if not all(len(photo_rows[tid][fold])>=PER_FOLD_MIN
+        accurate_photo_rows={
+            tid:{fold:[row for row in photo_rows[tid][fold]
+                       if original_source_photo_position_qualified(row)]
+                 for fold in (0,1)}
+            for tid in (b,n)
+        }
+        if not all(len(accurate_photo_rows[tid][fold])>=PER_FOLD_MIN
                    for tid in (b,n) for fold in (0,1)):
             continue
-        depth=min(PER_FOLD_TARGET,*(len(photo_rows[tid][fold])
+        depth=min(PER_FOLD_TARGET,*(len(accurate_photo_rows[tid][fold])
                                    for tid in (b,n) for fold in (0,1)))
         if not PER_FOLD_MIN<=depth<=PER_FOLD_TARGET:
             raise ValueError("Invalid immutable original ROI image compute batch bound")
-        spread=reserve_two_supported_distant_sites(photo_rows[b],depth)
+        spread=reserve_two_supported_distant_sites(accurate_photo_rows[b],depth)
         if spread is None:
             # Full colour-blind 64+64 photo pool has inadequate independent
             # regional support even if the 1000-species metadata range is wide.
@@ -427,7 +460,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         for fold in (0,1):
             candidate.extend((entry,"broad") for entry in broad_folds[fold])
             candidate.extend((entry,"narrow") for entry in
-                geo_balanced_first_photos(photo_rows[n][fold],depth))
+                geo_balanced_first_photos(accurate_photo_rows[n][fold],depth))
         first_pair=pair
         chosen=candidate
         each=depth
@@ -440,6 +473,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     b,n=first_pair["broad_taxon_id"],first_pair["narrow_taxon_id"]
     if not 16<=len(chosen)<=64 or len({r["photo_id"] for r,_ in chosen})!=len(chosen):
         raise ValueError("Broad/narrow original photo unit improperly selected")
+    if any(not original_source_photo_position_qualified(row) for row,_ in chosen):
+        raise ValueError("Selected geographic first photo has unknown/invalid original position accuracy")
     geographic_cells_by_group={
         name:len({geographical_cell(row) for row,label in chosen if label==name})
         for name in ("broad","narrow")
@@ -519,6 +554,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "original_photo_first_unit_geographic_cell_round_robin":True,
         "broad_original_first_pixel_geographic_support":selected_geo_support,
         "source_location_accuracy_reverified_in_first_ROI_photo_subset":True,
+        "all_selected_original_photo_positions_known_and_le50km":True,
         "original_photo_accuracy_kept_out_of_blind_image_evaluator":True,
         "original_observation_date_recovered_from_dated_monthly_source":True,
         "original_observation_date_kept_out_of_blind_image_evaluator":True,
