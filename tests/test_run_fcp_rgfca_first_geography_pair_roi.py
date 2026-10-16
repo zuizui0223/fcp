@@ -446,3 +446,31 @@ def test_first_roi_rejects_unknown_position_accuracy_in_every_chosen_photo():
             geo_balanced_first_photos([good,bad],1)
     # Inputs and legal photo IDs stay frozen. Only their eligibility as a
     # source-supported geographic FIRST ROI draw changes; no pixel inference.
+
+
+def test_next_strict_roi_excludes_previously_measured_original_source_species(tmp_path):
+    """Never repeat the genuine first 64 photo IDs by choosing their taxa."""
+    src,geo,_,_,_=setup(tmp_path)
+    # This 4-species synthetic fixture contains only ONE valid broad/narrow
+    # geographic pair, so forbidding a taxon must fail without any pixels.
+    before=(src/"rgfca_1000_exact_source_photo_IDs"/
+            "rgfca_1000_complete_original_source_photo_IDs.csv")
+    original_hash=sha256(before)
+    with pytest.raises(ValueError,match="No matched broad/narrow pair"):
+        select_unit(src,geo,tmp_path/"disjoint",
+                    excluded_previously_measured_taxa={"101","104"},
+                    _synthetic_source_gate=True)
+    assert sha256(before)==original_hash
+    assert not (tmp_path/"disjoint"/"first_matched_pair_original_blind_worker.csv").exists()
+
+
+def test_next_strict_roi_rejects_unverified_previous_taxon_ids_before_pixel_access(tmp_path):
+    src,geo,_,_,_=setup(tmp_path)
+    with pytest.raises(ValueError,match="exact original numeric taxon"):
+        select_unit(src,geo,tmp_path/"nonnumeric",
+                    excluded_previously_measured_taxa={"not-source-id"},
+                    _synthetic_source_gate=True)
+    with pytest.raises(ValueError,match="Previously measured species not present"):
+        select_unit(src,geo,tmp_path/"unknown-previous",
+                    excluded_previously_measured_taxa={"999999"},
+                    _synthetic_source_gate=True)
