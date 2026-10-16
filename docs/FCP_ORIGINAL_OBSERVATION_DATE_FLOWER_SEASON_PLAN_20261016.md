@@ -103,3 +103,54 @@ passed 16 synthetic tests; this does NOT prove full-real 357-taxonomy
 reconciliation. The 3,430,502 original photo IDs of the 1,000-taxon group,
 and eventually all 42,111 photo IDs, must be authenticated and new pixels
 classified before running a real season-climate-white analysis.
+
+## 2026-10-16 extension: season-year matching and full original observed-on opportunity coverage
+
+**Cell/year comparison, 12 synthetic checks PASS:** `scripts/analysis/fcp_match_original_season_site_year.py`
+compares the same taxon in the same original 5-degree source geocell and
+meteorological season-year only when both seasons have nonzero independent,
+consistent flowering ROI observation labels. Northern Dec 2025 / Jan 2026
+form a single winter 2026; Southern Dec/Jan form local summer 2026;
+tropical months remain month-only. Match-weighted white fractions use
+`min(n_observations_season_A, n_observations_season_B)` per shared
+cell-year, so surplus images from unmatched locations do not influence the
+matched contrast. Publish the unmatched pooled difference separately as an
+explicit observational-geography sensitivity. A 5-degree cell is FAR too
+coarse to identify one population, and the aggregate table cannot establish
+observer-disjoint seasonal replication. Thus results are explicitly
+descriptive with no significance or climate-causality claim. [CI 12/12 pass](
+https://github.com/zuizui0223/fcp/actions/runs/38891959436).
+
+**Every source photo, not a 100-image cap, has an observed-on census ready:**
+`scripts/acquisition/audit_fcp_original_rgfca_monthly_photo_opportunities.py`
+takes the authentic full 1,000-taxon 3,430,502-photo-ID signed original
+manifest when and ONLY when the count/identity gate passes. It partitions
+EVERY original photo into exact valid observed-on day vs missing, invalid or
+future-to-snapshot date. Separately provides source-date opportunities,
+distinct original observations and independent observers by taxon/month;
+a 0.25-degree source-cell/month diagnostic requires stated positional
+accuracy >0 and <=5 km. A source-cell-year is calendar-supported only if
+there are >=2 months, each with >=2 separate observations and >=2 source
+observers. These are not flowering photo counts or positive-colour results.
+[CI 6/6 pass](https://github.com/zuizui0223/fcp/actions/runs/38892631080).
+
+The source-success-only actual-data runner, installed on default branch,
+is `.github/workflows/fcp-rgfca-all-original-observation-month-source-after-exact-20261016.yml`.
+It accepts exclusively source [run #38884223530](
+https://github.com/zuizui0223/fcp/actions/runs/38884223530),
+exact source-commit `b0656b6a677a8440c188939074a0fe3c8cd4ac16`,
+and original full source receipt SHA. It reuses the saved 3.43M-ID
+artifact; **it neither downloads the entire 36GB provider tarball again
+nor opens one flower image**, and refuses partial source results.
+Its counts/metadata will be a genuine result ONLY when the source scan
+succeeds and source-only census workflow completes. At this document
+revision, real scan #38884223530 is still scanning and no biological
+season-by-climate estimate exists.
+
+The genuine first 16–64 original ROI pixel downstream workflow on
+`main` now emits BOTH the original dated descriptive month QC and this
+within-geocell meteorological season-overlap table. These early outputs
+are a technical first-pair unit, not prevalence estimates for all
+1,000/42,111 taxa. Month and hemisphere help exclude seasonal geographic
+sampling confounding, not prove that any individual flower changes
+colour during the season.
