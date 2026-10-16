@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: cdcf1df16fff82fab701095e4f0f8a4aa732b9e3
+          ref: 5c5c9507d76542877846af89840b1d6ed0e2ee85
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -127,6 +127,7 @@ jobs:
           assert supported['geographic_accuracy_of_selected_subset_independently_verified'] is True
           assert supported['selected_positions_from_exact_original_monthly_photo_IDs'] is True
           assert supported['n_supported_selected_cells']>=2
+          assert supported['n_distant_cell_pairs_with_four_distinct_source_observers']>=1
           assert supported['max_supported_selected_cell_centroid_distance_km']>=1000
           assert supported['distant_support_regions_reserved_before_regular_sampling'] is True
           assert supported['observer_fold_source_photo_count_each']==record['per_taxon_per_observer_fold_photo_depth']
