@@ -1,0 +1,139 @@
+name: FCP REAL first matched 2025 summer autumn 128 original photo source
+
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - .github/workflows/fcp-rgfca-real-season-source-observer-128-once.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-original-20260927-season-2025-first-observer128-one-shot
+  cancel-in-progress: false
+
+jobs:
+  freeze-original-128-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp-season-2025-first-observer-128
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: e993a049088c6f2bdfd57376c16e9f5c5aec3bc2
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recheck synthetic exact-source no-colour selection before bulk reads
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest
+          python -m pytest tests/test_freeze_fcp_original_matched_season_observer_photos_20261016.py -q
+
+      - name: Verify immutable successful 2026-09-27 original source and calendar runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/source" "$ROOT/calendar"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38884223530" > "$ROOT/source_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38901290387" > "$ROOT/calendar_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          for filename,run,sha in (
+              ('source_run.json',38884223530,'b0656b6a677a8440c188939074a0fe3c8cd4ac16'),
+              ('calendar_run.json',38901290387,'92aa45a277b5a40416801861d7e0d118eb6b0622')):
+              q=json.loads((root/filename).read_text())
+              assert q['id']==run and q['status']=='completed' and q['conclusion']=='success'
+              assert q['run_attempt']==1 and q['head_sha']==sha
+              assert q['head_repository']['full_name']=='zuizui0223/fcp'
+          print('FCP_ORIGINAL_SOURCE_AND_CALENDAR_IMMUTABLE_SOURCE_RECEIPTS_VERIFIED')
+          PY
+
+      - name: Download SHA-signed saved source archives, never 36GB provider tar
+        run: |
+          set -euo pipefail
+          gh run download 38884223530 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/source"
+          gh run download 38901290387 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-1000-original-monthly-observation-calendar-all-photo-IDS-NO-COLOURS \
+            --dir "$ROOT/calendar"
+
+      - name: Real seasonal source support and 128 observer-unique source photo freeze
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.freeze_fcp_original_matched_season_observer_photos_20261016 \
+            --complete-original-source "$ROOT/source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --original-source-receipt "$ROOT/source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --source-site-month "$ROOT/calendar/results/all_original_1000_source_month_0p25degree_5km_accuracy.csv" \
+            --original-calendar-receipt "$ROOT/calendar/results/original_dated_source_opportunity_receipt.json" \
+            --outdir "$ROOT/frozen" --per-season-total 64
+
+      - name: Verify balanced independent source IDs without any flower colour or pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json,os,hashlib
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])/'frozen'
+          q=json.loads((root/'original_season_photo_freeze_receipt.json').read_text())
+          assert q['status']=='REAL_ORIGINAL_SEASONAL_SOURCE_PHOTOS_FROZEN_NO_PIXELS'
+          assert q['original_source_photo_ids_count']==3430502
+          assert q['precolour_site_year_pairs']==268
+          assert q['selected_photo_ids']==128 and q['photos_per_wave']==64
+          assert q['original_pixels_opened']==0
+          assert q['no_climate_or_colour_outcome_used_to_select_photos'] is True
+          assert q['prior_random_sample_106376_stays_unchanged'] is True
+          p=q['selected_source_pair']
+          assert (p['inat_taxon_id'],p['species'],p['season_year'])==('47911','Asclepias syriaca',2025)
+          assert (p['site_cell_lat_0p25'],p['site_cell_lon_0p25'])==(529,435)
+          assert {p['local_season_a'],p['local_season_b']}=={'summer','autumn'}
+          assert min(p['disjoint_observers_a'],p['disjoint_observers_b'])>=64
+          with (root/'original_source_season_frozen_128_photos.csv').open(newline='') as h:
+              rows=list(csv.DictReader(h))
+          assert len(rows)==128
+          for field in ('measurement_id','photo_id','observation_id','observer_id'):
+              assert len({r[field] for r in rows})==128
+          for season in ('summer','autumn'):
+              assert sum(r['local_season']==season for r in rows)==64
+              for wave in ('first','reserve'):
+                  assert sum(r['local_season']==season and r['wave']==wave for r in rows)==32
+          for file,digest in q['file_sha256'].items():
+              h=hashlib.sha256((root/file).read_bytes()).hexdigest()
+              assert h==digest
+          print('FCP_FIRST_REAL_SEASON_ORIGINAL128_SOURCE_ONLY_SUCCESS',json.dumps(p,sort_keys=True))
+          PY
+
+      - name: Archive source signed blind photo worker source, no colour outcomes
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-2025-real-original-source-matched-season-128-observers-NO-PIXELS
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-season-2025-first-observer-128/source_run.json
+            /tmp/fcp-season-2025-first-observer-128/calendar_run.json
+            /tmp/fcp-season-2025-first-observer-128/frozen/
+
+      - name: Preserve failure diagnostic, never unsealed phenotype
+        if: ${{ failure() || cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-season-first-128-not-admitted-no-biology
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-season-2025-first-observer-128/source_run.json
+            /tmp/fcp-season-2025-first-observer-128/calendar_run.json
+            /tmp/fcp-season-2025-first-observer-128/frozen/original_season_photo_freeze_receipt.json
