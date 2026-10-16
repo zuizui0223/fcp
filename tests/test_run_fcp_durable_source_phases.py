@@ -109,6 +109,7 @@ def test_stage_requires_zero_existing_work_and_exact_photo_id_denominator(tmp_pa
     assert "--stage-only" in calls[0]
     assert "--release-verified-temporary-tables" in calls[0]
     assert "--archive" in calls[0]
+    assert calls[0][1:3] == ["-m", "scripts.acquisition.execute_fcp_42111_census"]
     with pytest.raises(ValueError, match="inspection"):
         mod.run_phase(root, "stage", repo=repo)
 
@@ -127,6 +128,7 @@ def test_emit_requires_staged_source_and_is_four_shard_bounded(tmp_path, monkeyp
     assert report["phase"] == "emit"
     assert report["start"] == 12 and report["stop"] == 16
     assert "--shard-stop" in calls[0] and "16" in calls[0]
+    assert calls[0][1:3] == ["-m", "scripts.acquisition.emit_fcp_staged_source_shards"]
     assert report["original_photo_pixels_measured"] is False
 
 
@@ -139,7 +141,7 @@ def test_finalization_requires_independent_93m_photo_id_count_admission(tmp_path
 
     def faux_process(cmd, *, check, cwd):
         calls.append(cmd)
-        if "verify_fcp_complete_photo_ids_vs_original_counts.py" in " ".join(cmd):
+        if "scripts.acquisition.verify_fcp_complete_photo_ids_vs_original_counts" in " ".join(cmd):
             admission = root / "source_20260927/independent_original_all_ID_source_admission.json"
             admission.write_text(json.dumps({
                 "status": mod.ADMITTED,
@@ -150,13 +152,14 @@ def test_finalization_requires_independent_93m_photo_id_count_admission(tmp_path
     got = mod.run_phase(root, "finalize", repo=repo)
     assert len(calls) == 2
     assert "--skip-package" in calls[0]
-    assert "verify_fcp_complete_photo_ids_vs_original_counts.py" in calls[1][1]
+    assert calls[0][1:3] == ["-m", "scripts.acquisition.finalize_fcp_staged_source"]
+    assert calls[1][1:3] == ["-m", "scripts.acquisition.verify_fcp_complete_photo_ids_vs_original_counts"]
     assert got["full_source_photo_ID_universe_frozen"] is True
     assert got["original_photo_pixels_measured"] is False
 
     # False claim of a complete original image measurement cannot pass.
     def false_admission(cmd, *, check, cwd):
-        if "verify_fcp_complete_photo_ids_vs_original_counts.py" in " ".join(cmd):
+        if "scripts.acquisition.verify_fcp_complete_photo_ids_vs_original_counts" in " ".join(cmd):
             admission = root / "source_20260927/independent_original_all_ID_source_admission.json"
             admission.write_text(json.dumps({
                 "status": mod.ADMITTED,
