@@ -107,6 +107,8 @@ def test_first_matched_pair_is_source_blind_and_does_not_rewrite_1000_taxa(tmp_p
     assert receipt["broad_original_first_pixel_geographic_support"][
         "max_supported_selected_cell_centroid_distance_km"]>=1000
     assert receipt["source_location_accuracy_reverified_in_first_ROI_photo_subset"] is True
+    assert receipt["original_observation_date_recovered_from_dated_monthly_source"] is True
+    assert receipt["original_observation_date_kept_out_of_blind_image_evaluator"] is True
     assert receipt["n_source_geographic_cells_selected_by_group"]["broad"]>=2
     worker=list(csv.DictReader((output/"first_matched_pair_original_blind_worker.csv").open()))
     acq=list(csv.DictReader((output/"first_matched_pair_original_photo_source_acquisition.csv").open()))
@@ -114,7 +116,11 @@ def test_first_matched_pair_is_source_blind_and_does_not_rewrite_1000_taxa(tmp_p
     assert len(worker)==len(acq)==len(sidecar)==24
     assert list(worker[0])==list(WORKER)
     assert list(acq[0])==list(ACQUISITION)
-    assert all("species" not in x and "photo_url_large" not in x for x in worker)
+    assert all("species" not in x and "photo_url_large" not in x and
+               "observed_on" not in x and "positional_accuracy_m" not in x
+               for x in worker)
+    assert all(r["observed_on"]=="2026-08-20" for r in sidecar)
+    assert all(r["positional_accuracy_m"]=="250" for r in sidecar)
     assert {r["geographic_comparison_group"] for r in sidecar}=={"broad","narrow"}
     assert {r["inat_taxon_id"] for r in sidecar}=={"101","104"}
     assert all(acq[i]["measurement_id"]==worker[i]["measurement_id"] for i in range(24))
@@ -155,6 +161,13 @@ def test_original_roi_terminal_preserves_observer_blindness_and_source_IDs(tmp_p
     assert done["new_original_photo_pixels_processed"]==24
     assert done["n_classifiable"]==12
     assert done["n_original_image_acquisition_failed"]==0
+    assert done["geography_vs_season_sampling_confounding_reported"] is True
+    assert done["shared_source_calendar_months_between_broad_and_narrow"]==["2026-08"]
+    for side in ("broad","narrow"):
+        audit=done["by_geographic_observed_source_group"][side]
+        assert audit["n_source_photos_with_valid_original_observation_month"]==12
+        assert audit["n_distinct_original_observation_calendar_months"]==1
+        assert audit["n_distinct_original_observation_years"]==1
     assert done["by_geographic_observed_source_group"]["broad"][
         "n_same_original_roi_white_and_yellow_both_ge10pct"]==0
     assert done["by_geographic_observed_source_group"]["narrow"][
@@ -166,6 +179,8 @@ def test_original_roi_terminal_preserves_observer_blindness_and_source_IDs(tmp_p
     assert len(exposure)==24
     rows=list(csv.DictReader((tmp_path/"measure"/"first_original_geographically_matched_photo_terminal.csv").open()))
     assert len(rows)==24
+    assert all(r["source_observation_month"]=="2026-08" for r in rows)
+    assert all(r["observed_on"]=="2026-08-20" for r in rows)
     assert {r["geographic_comparison_group"] for r in rows}=={"broad","narrow"}
     assert done["original_geographic_source_join_terminal_sha256"]==sha256(
         tmp_path/"measure"/"first_original_geographically_matched_photo_terminal.csv")
@@ -298,3 +313,24 @@ def test_tampered_original_dated_photo_location_never_enters_real_pixel_roi(tmp_
     receipt_file.write_text(json.dumps(doc))
     with pytest.raises(ValueError,match="not signed|site differs|monthly"):
         select_unit(original,geo,tmp_path/"bad_geo",_synthetic_source_gate=True)
+
+
+
+def test_original_observation_date_drift_is_rejected_before_geographic_image_pixels(tmp_path):
+    source,geo,_,_,_=setup(tmp_path)
+    full=source/"rgfca_1000_exact_source_photo_IDs"
+    manifest=full/"rgfca_1000_complete_original_source_photo_IDs.csv"
+    with manifest.open(newline="") as handle:
+        rows=list(csv.DictReader(handle))
+    rows[0]["observed_on"]="2031-01-01"
+    with manifest.open("w",newline="") as handle:
+        w=csv.DictWriter(handle,fieldnames=list(rows[0]))
+        w.writeheader();w.writerows(rows)
+    receipt=full/"rgfca_1000_targeted_monthly_photo_ID_receipt.json"
+    doc=json.loads(receipt.read_text())
+    doc["selected_all_photo_IDs_csv_sha256"]=sha256(manifest)
+    receipt.write_text(json.dumps(doc))
+    # The separately issued geographical original-source receipt must reject
+    # the fake date even if a compromised source receipt recomputes its own SHA.
+    with pytest.raises(ValueError,match="signed"):
+        select_unit(source,geo,tmp_path/"tampered_dates",_synthetic_source_gate=True)
