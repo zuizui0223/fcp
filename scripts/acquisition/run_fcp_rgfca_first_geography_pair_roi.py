@@ -294,8 +294,17 @@ def reserve_two_supported_distant_sites(
 
 
 def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
-                _synthetic_source_gate:bool=False)->dict:
-    """Create the independently source-signed, colour-blind first broad/narrow unit."""
+                _synthetic_source_gate:bool=False,
+                excluded_previously_measured_taxa:set[str]|None=None)->dict:
+    """Create one strictly source-signed, colour-blind geographic pair.
+
+    Explicitly exclude source taxa belonging to previous genuine ROI pixels.
+    This excludes their photo IDs at SOURCE-IDENTITY level, rather than relying
+    on image resemblance, timing, colour, observer, or geolocation.
+    """
+    excluded=set(excluded_previously_measured_taxa or ())
+    if any(not isinstance(t,str) or not t.isdecimal() for t in excluded):
+        raise ValueError("Previously measured taxa require exact original numeric taxon IDs")
     if outdir.exists() and any(outdir.iterdir()):
         raise ValueError("Cannot overwrite a frozen geographically matched ROI unit")
     full=source_root/"rgfca_1000_exact_source_photo_IDs"
@@ -339,6 +348,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         or freeze.get("no_old_photo_colour_rows_loaded") is not True
         or geo.get("selection_before_any_original_photo_pixel") is not True
         or geo.get("n_original_new_pixels_measured")!=0
+        or (not _synthetic_source_gate and
+            geo.get("unknown_position_accuracy_excluded_from_geographic_support") is not True)
         or full_doc.get("original_image_pixels_opened") is not False
         or full_doc.get("historical_flower_colour_CSV_imported") is not False
         or sample.get("selected_sample_photo_pixels_measured") is not False
@@ -354,6 +365,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     pairs=read_csv(geo_pair_csv)
     if not pairs:
         raise ValueError("No source-supported broad/narrow comparison pairs; keep 1000 taxa and report no matched control")
+    if excluded and not excluded.issubset(groups):
+        raise ValueError("Previously measured species not present in frozen source geography")
 
     with sample_csv.open("r",newline="",encoding="utf-8") as f:
         reader=csv.DictReader(f)
@@ -426,6 +439,11 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     selected_geo_support=None
     for pair in pairs:
         b,n=pair["broad_taxon_id"],pair["narrow_taxon_id"]
+        # Previous authentic monthly ROI images are never measured a second
+        # time. Source photo IDs are globally unique across the 1000 species.
+        # Select a NEW paired taxon identity from the same frozen cohort.
+        if b in excluded or n in excluded:
+            continue
         if (b not in groups or n not in groups
             or groups[b]["geographic_sampling_category"]!="broad_observed_1000km_supported"
             or groups[n]["geographic_sampling_category"]!="narrow_observed_p95_le200km"
@@ -545,6 +563,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "geographic_span_receipt_sha256":sha256(geo_doc),
         "matched_pair_id":first_pair["pair_id"],
         "broad_taxon_id":b,"narrow_taxon_id":n,
+        "previously_measured_taxa_excluded_by_source_identity":sorted(excluded,key=int),
+        "excluded_taxa_cannot_contribute_original_image_pixels":True,
         "opportunity_stratum":first_pair["opportunity_stratum"],
         "per_taxon_per_observer_fold_photo_depth":each,
         "number_original_photo_IDs_in_first_unit":len(chosen),
