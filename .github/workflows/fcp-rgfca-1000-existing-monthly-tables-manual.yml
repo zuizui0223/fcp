@@ -19,12 +19,12 @@ concurrency:
 
 jobs:
   source-only-on-operator-approved-durable-runner:
-    if: \${{ github.repository == 'zuizui0223/fcp' }}
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
     runs-on: [self-hosted, linux, x64, fcp-rgfca-durable]
     timeout-minutes: 1440
     env:
-      ROOT: \${{ vars.FCP_RGFCA_ROOT }}
-      PHASE: \${{ inputs.phase }}
+      ROOT: ${{ vars.FCP_RGFCA_ROOT }}
+      PHASE: ${{ inputs.phase }}
     steps:
       - name: Checkout pinned corrected exact 1000-source code
         uses: actions/checkout@v4
@@ -114,7 +114,7 @@ jobs:
           PY
 
       - name: Build exact 3,430,502 original IDs from existing dated four source tables only
-        if: \${{ inputs.phase == 'source_ids' }}
+        if: ${{ inputs.phase == 'source_ids' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -143,7 +143,7 @@ jobs:
           PY
 
       - name: Source-bound 64+64 screen and 128 three-field blind worker partitions
-        if: \${{ inputs.phase == 'screen_workers' }}
+        if: ${{ inputs.phase == 'screen_workers' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -180,22 +180,22 @@ jobs:
           PY
 
       - name: Publish compact source progress and failure receipts ONLY
-        if: \${{ always() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: fcp-rgfca-1000-existing-source-status-\${{ inputs.phase }}-\${{ github.run_id }}
+          name: fcp-rgfca-1000-existing-source-status-${{ inputs.phase }}-${{ github.run_id }}
           if-no-files-found: warn
           retention-days: 30
           path: |
-            \${{ vars.FCP_RGFCA_ROOT }}/frozen_4_original_metadata_tables/fcp_source_archive_pin.json
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/scanning_real_20260927_rgfca_source_progress.json
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/FAILED_selected_source_taxon_count_mismatches.json
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_original_photo_blind_worker_freeze/photo_screen_freeze.json
+            ${{ vars.FCP_RGFCA_ROOT }}/frozen_4_original_metadata_tables/fcp_source_archive_pin.json
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/scanning_real_20260927_rgfca_source_progress.json
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/FAILED_selected_source_taxon_count_mismatches.json
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_original_photo_blind_worker_freeze/photo_screen_freeze.json
 
       - name: Upload verified original 1000 source and 128 workers, never pixels
-        if: \${{ success() && inputs.phase == 'screen_workers' }}
+        if: ${{ success() && inputs.phase == 'screen_workers' }}
         uses: actions/upload-artifact@v4
         with:
           name: fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS
@@ -203,8 +203,8 @@ jobs:
           retention-days: 90
           compression-level: 5
           path: |
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_original_photo_ID_counts.csv
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_photo_colour_blind_selection/
-            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_original_photo_blind_worker_freeze/
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_original_photo_ID_counts.csv
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_photo_colour_blind_selection/
+            ${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_original_photo_blind_worker_freeze/
