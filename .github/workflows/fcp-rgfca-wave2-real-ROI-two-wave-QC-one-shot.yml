@@ -1,7 +1,7 @@
 # Exact 2026-09-27 main original-photo-ID source is NOT available here.
 # Independently validate actual six+six original ROI-v4 tech photo audits.
 # NO live iNaturalist calls, NO image requests, NO W/H2/genetic inference.
-name: FCP RGFCA wave2 REAL ROI and two-wave 12-taxa photo QC
+name: FCP RGFCA 12 original-photo taxa actual photo ID resampling-overlap audit
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
       - name: Checkout code already verified by full RGFCA/FCP source-no-legacy CI
         uses: actions/checkout@v4
         with:
-          ref: 87fdd2facaaa0006cbea64ee4b5796a2bc11f8b0
+          ref: 2128e1ac3764011688f6968c44da9e546a804758
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
@@ -65,16 +65,38 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/wave1_qc" "$RUNNER_TEMP/wave2_raw" "$RUNNER_TEMP/roster"
-          gh run download 38841451431 --repo "$GITHUB_REPOSITORY" \
-            --name fcp-real-rgfca-wave1-552-ROI-observer-geocell-200-redraw-TECHNICAL-QC \
-            --dir "$RUNNER_TEMP/wave1_qc"
+          mkdir -p "$RUNNER_TEMP/wave1_raw" "$RUNNER_TEMP/wave1_qc" "$RUNNER_TEMP/wave2_raw" "$RUNNER_TEMP/roster"
+          gh run download 38832829706 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
+            --dir "$RUNNER_TEMP/wave1_raw"
           gh run download 38840579008 --repo "$GITHUB_REPOSITORY" \
             --name fcp-rgfca-disjoint-wave2-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
             --dir "$RUNNER_TEMP/wave2_raw"
           gh run download 38828417100 --repo "$GITHUB_REPOSITORY" \
             --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
             --dir "$RUNNER_TEMP/roster"
+      - name: Revalidate wave1 original 552 ROI photos and prove actual photo-ID overlap in 200 Monte Carlo re-draws
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.analysis.audit_rgfca_real_photo_observer_geocell_mixture \
+            --pilot-root "$RUNNER_TEMP/wave1_raw" \
+            --original-rgfca-roster "$RUNNER_TEMP/roster/rgfca_species_1000_original_source_only.csv" \
+            --outdir "$RUNNER_TEMP/wave1_qc"
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"wave1_qc"
+          d=json.loads((p/"wave1_original_ROI_observer_geocell_mixed_colour_QC.json").read_text())
+          rows=list(csv.DictReader((p/"wave1_original_ROI_observer_geocell_mixed_colour_QC.csv").open()))
+          if (d["n_original_ROI_photos"]!=552 or d["n_classifiable_flower_ROIs"]!=202
+              or d["n_taxa"]!=6 or d["source_pilot_random_photo_draws_per_taxon"]!=200
+              or d["actual_pairwise_source_photo_ID_overlap_by_draw_depth_included"] is not True
+              or any(float(r["depth_48_realized_photo_ID_overlap_fraction"])!=1.0 for r in rows)
+              or any(int(r["depth_48_distinct_source_photo_ID_draw_sets"])!=1 for r in rows)):
+              raise SystemExit("Wave1 original photo-ID re-draw is not the exact same full selected source")
+          print("FCP_WAVE1_552_ACTUAL_PIXELS_200_RE_DRAWS_SAME_PHOTO_IDS_AT_FULL_DEPTH")
+          PY
       - name: Verify wave2 REAL new original photo ROIs and 200 redrawn technical photo-label tests by taxon/observer/site
         shell: bash
         run: |
@@ -124,6 +146,9 @@ jobs:
               or summary["n_species_with_at_least_30_evaluable_96raw_photo_redraws"]!=3
               or summary["n_species_with_repeatably_detected_RAW_photo_label_pair"]!=1
               or summary["n_species_with_label_pair_and_structural_colour_QC_hold"]!=1
+              or summary["n_species_with_no_actual_photo_ID_draw_variation_at_pilot_depth96"]!=12
+              or summary["n_200_repetitions_are_biologically_independent"]!=0
+              or summary["photo_ID_overlap_is_observed_from_real_source_photo_ID_selection"] is not True
               or summary["technical_resampling_reuses_max_96_photos_per_species_NOT_120_main"] is not True
               or summary["actual_20260927_original_source_photo_ID_membership_verified"] is not False
               or summary["actual_1000_taxon_200x250_formal_Ppoly_estimated"] is not False
@@ -137,6 +162,7 @@ jobs:
               "n_technical_species_evaluable_in_at_least_30_resamples":summary["n_species_with_at_least_30_evaluable_96raw_photo_redraws"],
               "n_repeated_raw_two_colour_photo_labels":summary["n_species_with_repeatably_detected_RAW_photo_label_pair"],
               "n_repeated_photo_labels_structural_QC_hold":summary["n_species_with_label_pair_and_structural_colour_QC_hold"],
+              "n_species_200_repeats_of_identical_source_photo_IDs_at_pilot_maxdepth":summary["n_species_with_no_actual_photo_ID_draw_variation_at_pilot_depth96"],
               "n_structural_colour_review_holds":summary["n_species_flagged_for_flower_organ_structure_review"],
               "photo_depth_strata":summary["available_photo_opportunity_strata"]
           },sort_keys=True))
@@ -149,5 +175,6 @@ jobs:
           retention-days: 90
           if-no-files-found: error
           path: |
+            ${{ runner.temp }}/wave1_qc/
             ${{ runner.temp }}/wave2_qc/
             ${{ runner.temp }}/combined_qc/
