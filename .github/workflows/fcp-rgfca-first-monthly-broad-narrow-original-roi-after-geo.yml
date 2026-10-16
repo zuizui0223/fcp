@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: 4436a352941c7878b1db920c2236b70de466ebb3
+          ref: afcfe0e69f7d1dbdf045e7b74ede818826979c08
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -116,6 +116,9 @@ jobs:
           assert record['n_original_photo_pixels_opened']==0
           assert record['n_broad_original_photos']==record['n_narrow_original_photos']
           assert record['selection_uses_no_flower_colour_or_environment'] is True
+          assert record['original_photo_first_unit_geographic_cell_round_robin'] is True
+          assert record['n_source_geographic_cells_selected_by_group']['broad']>=1
+          assert record['n_source_geographic_cells_selected_by_group']['narrow']>=1
           print('FCP_REAL_ORIGINAL_MONTHLY_BROAD_NARROW_PAIR_PRECOLOUR_READY',
                 json.dumps({k:record[k] for k in
                 ('matched_pair_id','broad_taxon_id','narrow_taxon_id',
@@ -149,6 +152,14 @@ jobs:
               or record['full_RGFCAROI1000_complete'] is not False
               or record['old_measured_colours_imported'] is not False):
               raise SystemExit('Original source geographic pair real pixel receipt not admissible')
+          groups=record['by_geographic_observed_source_group']
+          assert set(groups)=={'broad','narrow'}
+          assert (groups['broad']['n_original_images_measured']+
+                  groups['narrow']['n_original_images_measured'])==record['new_original_photo_pixels_processed']
+          for group in groups.values():
+              assert 0<=group['n_same_original_roi_white_and_yellow_both_ge10pct']<=group['n_newly_four_state_classifiable']
+              assert group['n_distinct_geographic_5degree_cells_in_measured_photos']>=1
+              assert group['n_distinct_source_observers_in_measured_photos']>=2
           PY
 
       - name: Retain actual real original photo terminals and all per-source hashes, NOT inferred polymorphism
