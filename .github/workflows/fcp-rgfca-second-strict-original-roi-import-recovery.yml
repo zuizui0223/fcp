@@ -142,7 +142,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m pytest tests/test_fcp_fresh_image_partition.py -q
+          # The rate lock is for REAL provider S3 calls, not mocked clock tests.
+          # Unset it ONLY for this isolated synthetic pytest subprocess.
+          env -u FCP_PROVIDER_GLOBAL_RATE_FILE python -m pytest tests/test_fcp_fresh_image_partition.py -q
           PYTHONPATH="$GITHUB_WORKSPACE" python scripts/analysis/measure_random_photo_first_blind_partition.py --help >/dev/null
           python - <<'PY'
           from scripts.acquisition.run_fcp_fresh_image_partition import evaluate_with_frozen_source
