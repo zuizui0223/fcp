@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -56,6 +57,51 @@ def read_doc(p:Path)->dict:
 def read_csv(path:Path)->list[dict]:
     with path.open("r",newline="",encoding="utf-8") as fh:
         return list(csv.DictReader(fh))
+
+
+def geographical_cell(row:dict)->tuple[int,int]:
+    try:
+        lat,lon=float(row["latitude"]),float(row["longitude"])
+    except (TypeError,ValueError,KeyError) as exc:
+        raise ValueError("Frozen original photo geographic coordinate invalid") from exc
+    if (not math.isfinite(lat) or not math.isfinite(lon)
+        or abs(lat)>90 or abs(lon)>180):
+        raise ValueError("Original source photo location outside valid sphere")
+    # Both +180 and -180 map to one longitude grid rather than two.
+    return (min(35,int(math.floor((lat+90)/5))),
+            int(math.floor(((lon+180)%360)/5)))
+
+
+def geo_balanced_first_photos(pool:list[dict], target:int)->list[dict]:
+    """First-stage original pixels geographically balanced WITHOUT flower labels.
+
+    A pre-existing observer-disjoint source pool is partitioned into 5-degree
+    sampling cells, then a deterministic round robin spreads the first
+    few real pixels across localities instead of re-sorting all by photo ID
+    hash alone. The original 64+64 source pool is NEVER reselected.
+    """
+    if not 1<=target<=16 or len(pool)<target:
+        raise ValueError("Geographic first-pixel resource depth cannot be met")
+    cells=defaultdict(list)
+    for row in pool:
+        cells[geographical_cell(row)].append(row)
+    for rows in cells.values():
+        rows.sort(key=lambda x:(x["selection_hash"],int(x["photo_id"])))
+    selected=[]
+    ordered=sorted(cells)
+    while len(selected)<target:
+        progressed=False
+        for cell in ordered:
+            if cells[cell]:
+                selected.append(cells[cell].pop(0))
+                progressed=True
+                if len(selected)==target:
+                    break
+        if not progressed:
+            raise ValueError("Source geographic-balanced first-pixel allocation incomplete")
+    if len({r["photo_id"] for r in selected})!=len(selected):
+        raise ValueError("Geographic first-pixel source ID reused")
+    return selected
 
 
 def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
@@ -175,11 +221,14 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     for tid,label in ((b,"broad"),(n,"narrow")):
         for fold in (0,1):
             pool=photo_rows[tid][fold]
-            order=sorted(pool,key=lambda x:(x["selection_hash"],int(x["photo_id"])))
-            for entry in order[:each]:
+            for entry in geo_balanced_first_photos(pool,each):
                 chosen.append((entry,label))
     if not 16<=len(chosen)<=64 or len({r["photo_id"] for r,_ in chosen})!=len(chosen):
         raise ValueError("Broad/narrow original photo unit improperly selected")
+    geographic_cells_by_group={
+        name:len({geographical_cell(row) for row,label in chosen if label==name})
+        for name in ("broad","narrow")
+    }
 
     # Join by stable blinded measurement_id to the *SHA-frozen* photo source
     # biological metadata. All original worker/acquisition files were verified
@@ -249,6 +298,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "number_original_photo_IDs_in_first_unit":len(chosen),
         "n_broad_original_photos":2*each,
         "n_narrow_original_photos":2*each,
+        "n_source_geographic_cells_selected_by_group":geographic_cells_by_group,
+        "original_photo_first_unit_geographic_cell_round_robin":True,
         "original_blind_worker_sha256":blinded_sha,
         "original_source_acquisition_sha256":acquisition_sha,
         "original_biological_join_sha256":source_sha,
@@ -320,11 +371,19 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
     if len(joined)!=len(details) or joined.measurement_id.duplicated().any():
         raise ValueError("Original individual photo terminal/source biological join failed")
     merged=outdir/"first_original_geographically_matched_photo_terminal.csv"
-    joined.to_csv(merged,index=False)
     if report["n_source_photo_ids"]!=receipt["number_original_photo_IDs_in_first_unit"]:
         raise ValueError("Original source photo acquisition/ROI count contradicted the source")
     if joined.measurement_status.eq("classified_four_state_morph").sum()!=report["n_classifiable"]:
         raise ValueError("Original ROI coarse flower status contradicted exact terminal receipt")
+    # A white ray + yellow disc capitulum can produce multiple photographic
+    # coarse states WITHOUT two biological flower-colour morphs. Report this
+    # separately from among-individual colour differences in each species.
+    white=pd.to_numeric(joined["flower_fraction_white"],errors="coerce")
+    yellow=pd.to_numeric(joined["flower_fraction_yellow"],errors="coerce")
+    classifiable=joined.measurement_status.eq("classified_four_state_morph")
+    join_mixed=classifiable & white.ge(.10) & yellow.ge(.10)
+    joined["same_roi_white_and_yellow_both_ge10pct"]=join_mixed
+    joined.to_csv(merged,index=False)
     groups={}
     for name,group in joined.groupby("geographic_comparison_group"):
         groups[str(name)]={
@@ -333,6 +392,14 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
                 int(group.measurement_status.eq("classified_four_state_morph").sum()),
             "n_original_provider_photo_acquisition_failed":
                 int(group.measurement_status.eq("image_acquisition_failed").sum()),
+            "n_same_original_roi_white_and_yellow_both_ge10pct":
+                int(group.same_roi_white_and_yellow_both_ge10pct.sum()),
+            "n_distinct_source_observers_in_measured_photos":
+                int(group.observer_id.nunique()),
+            "n_distinct_source_observations_in_measured_photos":
+                int(group.observation_id.nunique()),
+            "n_distinct_geographic_5degree_cells_in_measured_photos":
+                len({geographical_cell(r) for r in group.to_dict("records")}),
         }
     if set(groups)!={"broad","narrow"}:
         raise ValueError("Broad/narrow species group lost in the source-to-pixel join")
