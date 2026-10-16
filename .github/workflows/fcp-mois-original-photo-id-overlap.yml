@@ -83,15 +83,28 @@ jobs:
             --overlap-receipt results/fcp_mois_original_photo_id_overlap_20261016.json \
             --output result_cross_paper/fcp_50km_after_mois_photo_overlap_exclusion.json
           python - <<'PY'
-          import json
+          import json, math
           from pathlib import Path
-          d=json.loads(Path('result_cross_paper/fcp_50km_after_mois_photo_overlap_exclusion.json').read_text())
+          d=json.loads(Path('result_cross_paper/fcp_50km_after_mois_photo_overlap_exclusion.json').read_text(),
+                       parse_constant=lambda x: (_ for _ in ()).throw(ValueError(x)))
+          receipt=json.loads(Path('results/fcp_mois_photoid_disjoint_spatial_20261016_decision_receipt.json').read_text())
           assert not d['historical_FCP_inference_changed']
           assert not d['independent_photo_provider_replication']
-          for v in d['cohorts'].values():
-              assert v['frozen_before_exclusion']['mean_depletion'] > 0
-              assert v['after_overlap_exclusion']['n_species'] > 0
-              assert v['matched_taxa']['n_species_evaluable_both'] > 0
+          assert d['original_mois_archive_sha256']==receipt['source_sha256']['mois']
+          for cohort, v in d['cohorts'].items():
+              frozen=receipt['cohorts'][cohort]
+              assert v['original_all_photo_ID_intersection']==frozen['excluded_all_photo_id_rows']
+              assert v['excluded_classifiable_fcp_photo_rows']==frozen['excluded_original_fcp_classifiable_rows']
+              assert v['after_overlap_exclusion']['n_species']==frozen['after_n_species']
+              assert v['matched_taxa']['n_species_evaluable_both']==frozen['matched_species_n']
+              assert v['after_overlap_exclusion']['mean_depletion_p_upper']==frozen['after_permutation_p_upper']
+              assert abs(v['frozen_before_exclusion']['mean_depletion']-frozen['original_mean_depletion'])<1e-10
+              assert abs(v['after_overlap_exclusion']['mean_depletion']-frozen['after_mean_depletion'])<1e-10
+              assert abs(v['matched_taxa']['mean_depletion_change']-frozen['paired_mean_change'])<1e-10
+              actual_ci=v['matched_taxa']['species_bootstrap_95_change_interval']
+              assert all(math.isfinite(z) for z in actual_ci)
+              assert all(abs(a-b)<1e-10 for a,b in zip(actual_ci,frozen['paired_species_bootstrap95']))
+              assert actual_ci[0]<=0<=actual_ci[1]
           print("FCP_POSTHOC_MOIS_OVERLAP_EXCLUSION_SPATIAL_PASS")
           PY
       - uses: actions/upload-artifact@v4
