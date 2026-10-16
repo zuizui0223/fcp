@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: ab1086e696ae1865a0f8f43a41e29dd9f1a181ca
+          ref: 25ebdf92509aad06594c30899bdb395280c523e0
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -146,8 +146,9 @@ jobs:
         run: |
           set -euo pipefail
           python - <<'PY'
-          import os
+          import os,csv,json
           from pathlib import Path
+          from fcp_pipeline.photo_polymorphism_screen import sha256
           from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import measure_unit
           root=Path(os.environ['ROOT'])
           record=measure_unit(
@@ -175,6 +176,25 @@ jobs:
               assert 0<=group['n_source_photos_with_valid_original_observation_month']<=group['n_original_images_measured']
               assert group['n_distinct_original_observation_calendar_months']==len(
                   group['source_calendar_months_with_photographs_sorted'])
+          assert record['geographic_site_photo_label_table_is_descriptive_not_FCP_test'] is True
+          cell_path=root/'measured'/'first_original_geographic_5degree_cell_photo_colour_QC.csv'
+          assert record['original_geographic_5degree_cell_photo_QC_csv_sha256']==sha256(cell_path)
+          with cell_path.open(newline='',encoding='utf-8') as f:
+              cells=list(csv.DictReader(f))
+          assert len(cells)==record['n_original_geographic_5degree_cells_with_photo_terminals']
+          assert sum(int(x['n_measured_original_photo_ids']) for x in cells)==record['new_original_photo_pixels_processed']
+          assert sum(int(x['n_original_photo_ROIs_classifiable']) for x in cells)==record['n_classifiable']
+          assert all(x['is_genetic_or_population_FCP_test']=='False' for x in cells)
+          assert {x['geographic_comparison_group'] for x in cells}=={'broad','narrow'}
+          for x in cells:
+              assert int(x['n_measured_original_photo_ids'])==(
+                  int(x['n_original_photo_ROIs_classifiable'])+
+                  int(x['n_original_photo_ROIs_unclassifiable']))
+              assert int(x['n_original_photo_ROIs_classifiable'])==sum(
+                  int(x[f'n_{label}_photo_labels']) for label in
+                  ('white','yellow_orange','red_pink','blue_purple'))
+              assert isinstance(json.loads(x['original_observation_months_json']),list)
+          print('FCP_REAL_GEO_SITE_COLOUR_SEASON_QC_SHAS_VERIFIED',len(cells),flush=True)
           PY
 
       - name: Retain actual real original photo terminals and all per-source hashes, NOT inferred polymorphism
