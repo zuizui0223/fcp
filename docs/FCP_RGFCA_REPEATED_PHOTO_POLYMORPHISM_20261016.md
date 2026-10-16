@@ -30,7 +30,7 @@ Then RGFCA-balanced repeated species inclusion was computed on the **genuine 42,
 - convergence/coverage at R = 25, 50, 100, 150, 200 has exactly the original species-count balance property (at R=200: min=max=50);
 - actual original provider source photo IDs across the 1,000 selected taxa: **3,430,502**, but these are only source opportunities;
 - planned original ROI-v4/EfficientSAM unique image requests are **at most 1,000 × 128 = 128,000** for the first study pool, and can be fewer when observers, valid flowers or files are scarce;
-- 200 × 250 × 80 = **4,000,000 repeated photo DRAW assignments** (if all selected pools support 80 each). These repeated assignments sample the **same fixed original image pool**: they do **not** require 4 million downloads and they do **not** create 4 million independent flowering plants.
+- 200 × 250 × 120 = **6,000,000 repeated photo DRAW assignments** (if all selected pools support 80 each). These repeated assignments sample the **same fixed original image pool**: they do **not** require 4 million downloads and they do **not** create 4 million independent flowering plants.
 
 Actual real-data CI: [RGFCA source-only execution #38828417100](https://github.com/zuizui0223/fcp/actions/runs/38828417100), **success**, artifact `12015683657`: `fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels`. Deterministic:
 - 1,000-taxon frame SHA: `88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c`;
@@ -44,7 +44,7 @@ Use the existing source-only [photo-first protocol](FCP_PHOTO_DEFINED_POLYMORPHI
 
 Each selected taxon gets up to 64 original photos from each of two observer-disjoint folds, all selected **before opening pixels**; different localities/observers are preferentially represented under the fixed hashed plan. Only a real original ROI-v4 model + EfficientSAM evaluator may score those exact photo IDs. Failed or ambiguous images are retained as unclassifiable terminals.
 
-The repeated robustness engine `fcp_pipeline/rgfca_photo_repeatability.py` then uses the *same* real sealed original photo results in each RGFCA inclusion to draw **40 photos per observer fold (80 per species/realization)**. Within each repeated draw:
+The repeated robustness engine `fcp_pipeline/rgfca_photo_repeatability.py` then uses the *same* real sealed original photo results in each RGFCA inclusion to draw **60 photos per observer fold (120 per species/realization)**. Within each repeated draw:
 
 - at least 40 photos must actually contain a classifiable original flower ROI;
 - at least 20 of those must come from each observer-disjoint fold;
@@ -56,14 +56,25 @@ The species-level descriptive robustness estimand is
 
 `P_poly(i) = n_positive_evaluable_realizations_i / n_evaluable_realizations_i`
 
-with an eligibility ledger alongside it. A primary **robust photo-phenotype** flag requires at least **30 evaluable species realizations and P_poly >= 0.80**. Sensitivity thresholds 0.60 and 0.90 and photo-draw depths 40, 64 and 80 should be reported to avoid a single arbitrary cutoff deciding conclusions. Non-detection is never monomorphism: `unevaluable`, `unstable`, and `single_photo_state_detected` remain separate. An 80-photo draw sampled from up to 128 frozen photos is repeated Monte Carlo *reweighting* of an existing photograph pool, not a biological replicate or an independent p-value.
+with an eligibility ledger alongside it. A primary **robust photo-phenotype** flag requires at least **30 evaluable species realizations and P_poly >= 0.80**. Sensitivity thresholds 0.60 and 0.90 and photo-draw depths 40, 80 and 128 are separately recorded alongside the calibrated 120-primary draw to avoid a single arbitrary cutoff deciding conclusions. Non-detection is never monomorphism: `unevaluable`, `unstable`, and `single_photo_state_detected` remain separate. A 120-photo draw sampled from up to 128 frozen photos has substantial source-ID overlap across realizations and is repeated Monte Carlo *reweighting* of an existing photograph pool, not a biological replicate or an independent p-value.
 
-For a true minority morph rate of 10% with independent perfectly scored photos, the probability of seeing at least two minority observations in **each of two 40-photo folds** is only about 0.846. With failed original ROIs, dependent individuals or unequal observer contributions, power falls. A strict P_poly threshold must therefore be paired with sensitivity and missingness information.
+For a true minority morph rate of 10% with independent perfectly scored photos, the probability of seeing at least two minority observations in **each of two 60-photo folds** is about 0.973. With failed original ROIs, dependent individuals or unequal observer contributions, power falls. A strict P_poly threshold must therefore be paired with sensitivity and missingness information.
+
+
+### Explicit pre-image technical-power amendment (16 October 2026)
+
+A separate **96-real-original-photo** SHA-frozen technical pilot (4 other taxa, not members of the RGFCA 1,000-species cohort) classified **39/96** original ROI-v4 images as flowers (40.625%). This is not an estimate of 1,000-species classifiability. If each photo's classification were independent with the same hypothetical probability, an **80-photo** draw would achieve 40 classifiable images only **5.64%** of the time, versus **95.85%** for a **120-photo** draw. The same 2×observer-fold minimum of 20 usable photos also matters. To avoid spending most of 200 realizations in the `unevaluable` state for a predictable sampling-depth reason, BEFORE opening any ROI photo of the newly sampled 1,000 taxa the primary was amended to **120 photos, 60 per observer fold**, with 40/80/128 sensitivities. This DOES NOT change the 1,000 selected species, 200×250 balanced inclusion list, or original 93,209,351 source opportunity denominator.
+
+Using a deliberately simplistic shared-probability Beta(1,1)→Beta(40,58) update from that separate pilot yields a 95% interval of **31.3%–50.7%** for the pilot classifiability parameter; Beta-binomial predicted probability of reaching 40 usable photos is **12.45%** for an 80-photo draw and **88.25%** for 120. The two-fold 20-usable threshold pushes the true joint evaluability below these values. These are resource-planning sensitivity values only, *not* a validated general population photo-quality model or empirical polymorphism frequency.
+
+Recalibrated genuine source-only sampling job: [#38832284491](https://github.com/zuizui0223/fcp/actions/runs/38832284491), **success**, artifact `12018230611`. Original species cohort and 200×250 species inclusion SHA digests are unchanged; the pre-image receipt now specifies 120/60 and comparison draw depths 40/80/128.
+
+A separate actual-pixel calibration job [#38832829706](https://github.com/zuizui0223/fcp/actions/runs/38832829706) was launched for **six** new taxa drawn colour-blind from the frozen 1,000 species (two from each opportunity-depth tier). That job uses **live iNaturalist API observations created through 2026-09-27**, capped at two metadata pages per taxon; its photo IDs cannot be declared exact members of the *dated September 27 bulk archive*. Its source-only and ROI output (if successfully sealed) will be quarantined as technical QC. It does not produce scientific `P_poly`, even if real image masks are measured.
 
 ## C. Executable order once the true dated photo-ID stage is available
 
 ```bash
-# Get exact real 1000-taxon frame + full 200×250 schedule from Actions #38828417100.
+# Get the corrected pre-image 120-photo RGFCA source schedule from Actions #38832284491.
 # The original 2026-09-27 all-photo metadata database must already be staged
 # on persistent storage. The existing source-only 42,111 count CSV and
 # provenance receipts must match their independently frozen SHA values.
