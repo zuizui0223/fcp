@@ -167,7 +167,10 @@ def test_outside_source_unqualified_photo_reuse_cannot_be_misclassified_as_globa
     assert result["n_selected_original_photo_IDs"]==5
     assert result["n_distinct_potential_external_observation_UUIDs"]>=1
     assert result["n_original_observation_rows_rescanned_for_global_collision"]==6
-    assert result["n_original_photo_IDs_quarantined_by_external_eligible_sources"]==0
+    # Photo #200 is separately reused by a VALID out-of-cohort taxon and
+    # must be quarantined. Photo #100 is reused only by an INELIGIBLE
+    # Needs-ID observation, and must be retained as per full importer.
+    assert result["n_original_photo_IDs_quarantined_by_external_eligible_sources"]==1
     assert result["outside_source_or_not_research_grade_duplicate_does_not_erase_valid_photo"] is True
     with (out/"rgfca_1000_complete_original_source_photo_IDs.csv").open(newline="") as f:
         rows=list(csv.DictReader(f))
