@@ -52,6 +52,13 @@
 元の写真観測精度、緯度経度、花色・地理区分等は**測定後の結合用サイドカー**だけに残し、YOLO/EfficientSAM花色評価器は引き続き最小3列のblind workerのみを受け取る。元の花ROI内部に白と黄がそれぞれ10%以上含まれる状態は、個体間多型の根拠ではなく花器官混在の独立QCとして報告する。
 
 追加テストは遠距離の1写真と位置誤差150 kmの偽広域候補を拒否し、正しい元月次photo IDのsource座標を改変したケースも測定前に拒否。[CI #38856359514](https://github.com/zuizui0223/fcp/actions/runs/38856359514) **224 passed**。mainのfirst ROI workflowはSHA固定コミット `2d6b1ac279063fe3692e966b22ffb0ce3a0145f7` で本処理に接続した。全てソース品質・測定コードの検証であり、新規本番の花色効果・生物学的広域多型率ではない。
+### サイト×観察月での花色品質集計（新規追加）
+
+元の月次2026-09-27データの `observed_on` と位置精度を original photo ID/観察IDから SHA 照合して回復し、実際の原画像ROI-v4判定の後でのみ結合する。地理分類や写真の再選択には月・年、花色結果を利用しない。広域／狭域の種全体に加え、元観察の5°地理セル別に、対象写真ID数、独立観察数、独立観察者数、classifiable/unclear、4状態の粗色ラベル、同じROIの白＋黄混色QC、写真観察月リストを集計。これにより『異なる地域の異なる花色が、実は撮影月の違いだった』という交絡を明示する。
+
+成果物：`first_original_geographic_5degree_cell_photo_colour_QC.csv`、写真ごとの観察月を加えた `first_original_geographically_matched_photo_terminal.csv`、両方のSHA256と総数一致を記録した `first_geo_pair_real_pixel_receipt.json`。位置と観察日の列は完全に**ROI画像評価器外**のpost-measurement biology sidecarに保持。ラベルが二つ見つかっても個体間・集団内の遺伝的多型とは判定しない。
+
+[原本と季節の結合テスト成功 #38857830852](https://github.com/zuizui0223/fcp/actions/runs/38857830852)、さらに[地理セル×色状態の回帰テスト成功 #38858188411](https://github.com/zuizui0223/fcp/actions/runs/38858188411)。**225 passed**。mainの新規実測ワークフロー `fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml` はSHA pinコミット`8b05dafb26efb1ff89f943c46a619a784cb3fe12`で更新済み。実際の広域対狭域の原本画像実測は元1,000種sourceとgeo結果が完全成功するまで未開始のまま。
 ## 実装・実行境界
 
 - 原本3,430,502枚のtargeted source metadata CSVを色測定前に検証し、全1,000種を対象とした地理的範囲CSV、広域先行ROI実行順CSV、SHA256付きJSONを出す。
