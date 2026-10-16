@@ -76,7 +76,7 @@ def verify(counts: Path, audit: Path, budget: Path, *,
     if (len(n)!=expected_taxa or sum(n)!=expected_photos or
         r['source_species']!=expected_taxa or
         r['source_photo_opportunities']!=expected_photos or
-        r['source_count_ledger_sha256']!=hashes[0] or
+        r['exact_original_source_counts_sha256']!=hashes[0] or
         r['independently_verified_audit_sha256']!=hashes[1]):
         raise ValueError('Frozen 42111 full count/source wave denominator drifted')
     if (sum(x>0 for x in n)!=a['taxa_with_at_least_one_photo']
