@@ -224,6 +224,21 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
         del batch
         record("all_original_observations_scanned_only_1000_stored",scanned_obs)
 
+        # The original photo TSV has hundreds of millions of records,
+        # whereas ONLY 1000 pre-colour source taxa belong to this study.
+        # Filter against those exact qualified observation UUIDs in Python
+        # BEFORE inserting into SQLite. The earlier version inserted EVERY
+        # licensed provider photo into a TEMP SQLite table and only then
+        # joined it to the small selected table, creating ~500m unnecessary
+        # SQL writes. This bounded set contains SOURCE UUIDs ONLY, no pixels,
+        # photo morphs or environment; selecting taxa is already frozen.
+        selected_obs_uuids={
+            uuid for (uuid,) in db.execute("SELECT uuid FROM observations")}
+        if len(selected_obs_uuids)!=eligible_obs:
+            raise ValueError("Unique selected original observation IDs drifted")
+        record("source_observation_uuid_membership_frozen_no_colour",
+               len(selected_obs_uuids))
+
         pass_candidates=0
         source_photo_rows=0
         batch=[]
@@ -250,17 +265,19 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
         record("scanning_original_501m_photos_for_selected_observations",0)
         for raw in read_tsv(tables["photos"],required):
             source_photo_rows+=1
-            pid=integer(raw["photo_id"])
-            ext=accepted_extension(raw["extension"])
-            lic=normalize_license(raw["license"])
             uuid=str(raw["observation_uuid"]).strip()
-            if pid is not None and ext is not None and lic is not None and uuid:
-                batch.append((str(pid),uuid,lic,ext,str(raw.get("observer_id") or "")))
-            if len(batch)>=10000:flush_photo()
+            if uuid in selected_obs_uuids:
+                pid=integer(raw["photo_id"])
+                ext=accepted_extension(raw["extension"])
+                lic=normalize_license(raw["license"])
+                if pid is not None and ext is not None and lic is not None:
+                    batch.append((str(pid),uuid,lic,ext,
+                                  str(raw.get("observer_id") or "")))
+                    if len(batch)>=10000:flush_photo()
             if source_photo_rows%20_000_000==0:
                 record("scanning_original_photos_for_selected_observation",source_photo_rows)
         flush_photo()
-        del batch
+        del batch, selected_obs_uuids
         record("all_original_photos_scanned_for_selected_observations",source_photo_rows)
 
         # Match the EXACT four-table semantics of the full 42,111 importer:
@@ -483,6 +500,8 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
             **fixed,
             "n_original_observations_scanned":scanned_obs,
             "n_selected_research_grade_geo_observations":eligible_obs,
+            "global_provider_photo_rows_SQLite_filtered_to_preselected_observations":True,
+            "new_colour_or_literature_outcomes_used_to_filter_original_rows":False,
             "n_original_photo_rows_scanned_twice":source_photo_rows,
             "n_original_observer_rows_scanned":scanned_creators,
             "n_source_creator_IDs_retained_for_attribution":matched_creators,
