@@ -170,3 +170,66 @@ def test_no_overwrite_or_untrusted_unlimited_pilot(tmp_path):
     with pytest.raises(ValueError,match="Invalid first-stage"):
         plan(stage,frame,counts,tmp_path/"bad",photos_per_fold=1000,
              max_per_observer=2,_synthetic=True)
+
+
+def test_original_rgfca_1000_indexed_subset_does_not_scan_all_species(tmp_path):
+    stage,frame,counts,original_rows=setup_source(tmp_path)
+    # Synthetic miniature RGFCA panel; the production path separately
+    # requires all 1,000 eligible source species >=128 photo opportunities.
+    import hashlib
+    enrolment=tmp_path/"rgfca_enrolment.csv"
+    with enrolment.open("w",newline="",encoding="utf-8") as handle:
+        w=csv.writer(handle)
+        w.writerow(["inat_taxon_id","species","source_photo_opportunities",
+                    "opportunity_stratum","enrolment_hash"])
+        w.writerows([[11,"Spec alba",8,"shallow_128_255","h1"],
+                     [14,"Spec species",8,"shallow_128_255","h2"]])
+    evidence=tmp_path/"rgfca_source_receipt.json"
+    evidence.write_text(json.dumps({
+        "schema":"fcp_rgfca_photo_polymorphism_balanced_sample_v1",
+        "status":"ORIGINAL_SOURCE_BALANCED_REPETITION_PLAN_NO_COLOUR_MEASURED",
+        "selected_species_csv_sha256":sha256(enrolment),
+        "selected_species":2,
+        "old_149900_flower_colours_used":False,
+        "new_flower_images_opened":False,
+        "photographic_poly_probabilities_measured":False
+    }))
+    out=tmp_path/"only_rgfca_selected"
+    report=plan(stage,frame,counts,out,photos_per_fold=2,max_per_observer=2,
+                cell_candidate_limit=4,_synthetic=True,
+                rgfca_enrolment=enrolment,rgfca_receipt=evidence)
+    assert report["source_species"]==4
+    assert report["original_source_photo_ids_globally_considered"]==len(original_rows)
+    assert report["original_source_SQLite_photo_rows_examined"]==16
+    assert report["RGFCA_enrolment_species_count"]==2
+    assert report["RGFCA_enrolment_metadata_only_no_literature_or_colour"] is True
+    chosen=read_csv(out/"photo_screen_original_metadata_selected.csv")
+    assert {r["inat_taxon_id"] for r in chosen}<={"11","14"}
+    all_taxa=read_csv(out/"photo_screen_all_species_opportunities.csv")
+    assert len(all_taxa)==4
+    excluded=next(r for r in all_taxa if r["inat_taxon_id"]=="12")
+    assert excluded["total_selected_for_image_screen"]=="0"
+    assert excluded["source_photo_opportunities"]=="5"
+    assert excluded["screen_unmeasured_is_not_monomorphism"]=="True"
+
+
+def test_changed_rgfca_taxon_and_source_attestation_fails_before_pixels(tmp_path):
+    stage,frame,counts,rows=setup_source(tmp_path)
+    enrolment=tmp_path/"rgfca_enrolment.csv"
+    enrolment.write_text(
+        "inat_taxon_id,species,source_photo_opportunities,opportunity_stratum,enrolment_hash\n"
+        "11,Spec alba,8,shallow_128_255,h1\n")
+    receipt=tmp_path/"rgfca_receipt.json"
+    receipt.write_text(json.dumps({
+        "schema":"fcp_rgfca_photo_polymorphism_balanced_sample_v1",
+        "status":"ORIGINAL_SOURCE_BALANCED_REPETITION_PLAN_NO_COLOUR_MEASURED",
+        "selected_species_csv_sha256":"BAD_HASH",
+        "selected_species":1,
+        "old_149900_flower_colours_used":False,
+        "new_flower_images_opened":False,
+        "photographic_poly_probabilities_measured":False
+    }))
+    with pytest.raises(ValueError,match="must be frozen"):
+        plan(stage,frame,counts,tmp_path/"invalid",photos_per_fold=2,
+             cell_candidate_limit=4,max_per_observer=2,_synthetic=True,
+             rgfca_enrolment=enrolment,rgfca_receipt=receipt)
