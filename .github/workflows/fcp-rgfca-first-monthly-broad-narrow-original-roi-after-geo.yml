@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: 25ebdf92509aad06594c30899bdb395280c523e0
+          ref: cdcf1df16fff82fab701095e4f0f8a4aa732b9e3
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -128,6 +128,9 @@ jobs:
           assert supported['selected_positions_from_exact_original_monthly_photo_IDs'] is True
           assert supported['n_supported_selected_cells']>=2
           assert supported['max_supported_selected_cell_centroid_distance_km']>=1000
+          assert supported['distant_support_regions_reserved_before_regular_sampling'] is True
+          assert supported['observer_fold_source_photo_count_each']==record['per_taxon_per_observer_fold_photo_depth']
+          assert len(supported['reserved_geographic_cells'])==2
           print('FCP_REAL_ORIGINAL_MONTHLY_BROAD_NARROW_PAIR_PRECOLOUR_READY',
                 json.dumps({k:record[k] for k in
                 ('matched_pair_id','broad_taxon_id','narrow_taxon_id',
