@@ -147,12 +147,23 @@ def supported_broad_photo_spread(selected_rows:list[dict])->dict:
         length=math.sqrt(sum(x*x for x in mean))
         if length<1e-10:
             continue
-        supported.append((cell,tuple(x/length for x in mean)))
+        supported.append((cell,tuple(x/length for x in mean),source["observers"]))
     max_km=0.
+    n_independent_distant_pairs=0
     for a in range(len(supported)):
         for b in range(a+1,len(supported)):
-            max_km=max(max_km,_angle_km(supported[a][1],supported[b][1]))
+            # The original species-level broad-range certificate requires
+            # at least FOUR distinct reporters across the two regions.
+            # Never manufacture broad replication with the same two people
+            # photographing both distant places.
+            if len(supported[a][2]|supported[b][2])<4:
+                continue
+            d=_angle_km(supported[a][1],supported[b][1])
+            max_km=max(max_km,d)
+            n_independent_distant_pairs+=int(d>=1000)
     return {"n_supported_selected_cells":len(supported),
+            "n_distant_cell_pairs_with_four_distinct_source_observers":
+                n_independent_distant_pairs,
             "max_supported_selected_cell_centroid_distance_km":round(max_km,3),
             "geographic_accuracy_of_selected_subset_independently_verified":True,
             "selected_positions_from_exact_original_monthly_photo_IDs":True,
