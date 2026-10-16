@@ -31,7 +31,7 @@ def observation(oid: int, tid: int, user: int, pid: int):
         "id": oid,
         "taxon": {"id":tid,"ancestor_ids":[]},
         "user":{"id":user},
-        "geojson":{"coordinates":[130.0+oid*.001,35.0]},
+        "geojson":{"coordinates":[130.0,35.0 + (oid % 100)*.001]},
         "observed_on":"2026-08-01",
         "photos":[{"id":pid,"license_code":"cc-by",
                    "url":f"https://inaturalist-open-data.s3.amazonaws.com/photos/{pid}/medium.JPG",
