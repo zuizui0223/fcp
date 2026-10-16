@@ -236,9 +236,20 @@ def validate_terminal(rows:pd.DataFrame, expected:list[str])->None:
 
 
 def evaluate_with_frozen_source(worker:Path,images:Path,source:Path,detector:Path,sam:Path,out:Path):
+    # When python executes scripts/analysis/*.py by path, sys.path[0]
+    # points into scripts/analysis rather than the repository root. The
+    # genuinely measured second RGFCA monthly ROI batch failed here with
+    # ModuleNotFoundError: No module named 'fcp_pipeline' after fetching its
+    # images. Pass the repository package location explicitly to the frozen
+    # original measurement subprocess without editing the source/model bytes.
+    root=str(Path(__file__).resolve().parents[2])
+    current=os.environ.get('PYTHONPATH','')
+    child_env=os.environ.copy()
+    child_env['PYTHONPATH']=os.pathsep.join(x for x in (root,current) if x)
     subprocess.run([sys.executable,str(source),'--worker-manifest',str(worker),
                     '--images-dir',str(images),'--detector-weight',str(detector),
-                    '--efficient-sam-dir',str(sam),'--output-csv',str(out)],check=True)
+                    '--efficient-sam-dir',str(sam),'--output-csv',str(out)],
+                   check=True,env=child_env)
     return pd.read_csv(out,dtype={'measurement_id':str})
 
 
