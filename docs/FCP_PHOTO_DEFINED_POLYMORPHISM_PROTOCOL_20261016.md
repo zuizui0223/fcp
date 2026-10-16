@@ -40,6 +40,42 @@ python scripts/acquisition/plan_fcp_photo_first_screen.py \
 
 出力は `photo_screen_original_metadata_selected.csv`、`photo_screen_all_species_opportunities.csv`、`photo_screen_source_selection_receipt.json`。サンプルは元画像を取得しておらず、画像による多型候補はまだ0件も確定していない（0候補という生物学的結果ではなく、測定未実施）。
 
+## 一次スクリーニングから元画像計測までの封印された実行経路
+
+`photo_screen_original_metadata_selected.csv`ができたら、文献のC/S分類表には一切触れず、画像ワーカー入力を固定する。
+
+```bash
+# 1. 選抜された写真IDだけを128分割し、元の測定モデルには3列のみ公開。
+python scripts/acquisition/freeze_fcp_photo_first_blind_workers.py \
+  --selected-metadata /persistent/fcp/photo_first_screen_selection/photo_screen_original_metadata_selected.csv \
+  --selection-receipt /persistent/fcp/photo_first_screen_selection/photo_screen_source_selection_receipt.json \
+  --source-frame /persistent/fcp/inputs/42111_species.csv \
+  --source-counts /persistent/fcp/references/all_42111_species_photo_opportunity_counts.csv \
+  --outdir /persistent/fcp/photo_first_screen_firewall
+
+# 2. 同じ元ROI-v4 YOLO・EfficientSAMモデルのSHAを検証してから、
+#    選抜された64枚の1バッチだけを処理。実写真へのprovider-rate管理が必須。
+export FCP_PROVIDER_GLOBAL_RATE_FILE=/persistent/fcp/provider_s3_rate.lock
+bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full \
+  --sam-dir /persistent/fcp/original_sam
+python scripts/acquisition/run_fcp_photo_first_roi_work_unit.py \
+  --firewall /persistent/fcp/photo_first_screen_firewall \
+  --partition 0 --batch 0 --batch-size 64 \
+  --original-measure-script scripts/analysis/measure_random_photo_first_blind_partition.py \
+  --original-detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+  --original-efficient-sam /persistent/fcp/original_sam \
+  --output /persistent/fcp/photo_first_roi_terminals/partition_000
+
+# 3. 全128分割について、存在する全バッチを重複なく処理した後だけ、
+#    元photo ID↔blind測定IDを再結合する。
+python scripts/acquisition/reassemble_fcp_photo_first_screen.py \
+  --screen-firewall /persistent/fcp/photo_first_screen_firewall \
+  --screen-terminal-root /persistent/fcp/photo_first_roi_terminals \
+  --outdir /persistent/fcp/photo_first_roi_joined
+```
+
+ここで初めて`newly_remeasured_photo_screen.csv`と`sealed_photo_screen_terminal.json`が成立する。どのワーカーでも旧149,900枚の色結果を読んではならず、`run_fcp_photo_first_roi_work_unit.py`が使う画像評価器は凍結された元のROI-v4である。未完バッチ、偽のfull-census結果、異なるモデルを混ぜた結果は結合で拒否する。**このコマンド群はコードとして実装したが、永続実行環境上の原写真計測がまだ成功していないので、新規多型種数は未算出。**
+
 ## 分類済み写真だけから本解析対象を決める
 
 `fcp_pipeline/photo_polymorphism_screen.py` は、完全な本研究ROI画像測定台帳または独立に封印した非網羅スクリーニングの計測結果だけを入力とし、元42,111種ID・元写真計数・元測定ハッシュと照合する。文献リスト、気候、土壌、遺伝情報から種を選ばない。
@@ -53,7 +89,7 @@ python -m fcp_pipeline.photo_polymorphism_screen \
   --outdir /persistent/fcp/photo_first_polymorphism_cohort
 ```
 
-結果は`photo_supported_polymorphic_species.csv`（画像判定が支持）、`not_proven_polymorphic_do_not_call_monomorphic.csv`（追加測定・品質審査対象）、`all_42111_photo_polymorphism_screen.csv`（全種台帳）。独立した画像ワーカー出力の封印・結合機構が揃うまで、この`--measured`実ファイルと有効な`--measurement-receipt`は存在しないため、**計測済みとは報告しない**。
+結果は`photo_supported_polymorphic_species.csv`（画像判定が支持）、`not_proven_polymorphic_do_not_call_monomorphic.csv`（追加測定・品質審査対象）、`all_42111_photo_polymorphism_screen.csv`（全種台帳）。封印・結合のコードは実装済みだが、原写真の本番計測ジョブは未完了である。したがって`--measured`の生物学的実データと有効な`--measurement-receipt`はまだ得られておらず、**実写真から多型種が何種見つかったかは未算出**。
 
 ## 論文で説明できる範囲
 
