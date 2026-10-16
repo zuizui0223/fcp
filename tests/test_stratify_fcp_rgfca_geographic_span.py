@@ -210,7 +210,7 @@ def test_unknown_position_accuracy_never_makes_a_taxon_geographically_broad(tmp_
             affected+=1
     assert affected==8
     with raw.open("w",encoding="utf-8",newline="") as f:
-        writer=csv.DictWriter(f,fieldnames=CSV_FIELDS,lineterminator="\\n")
+        writer=csv.DictWriter(f,fieldnames=CSV_FIELDS,lineterminator="\n")
         writer.writeheader();writer.writerows(rows)
     rec=json.loads(receipt.read_text(encoding="utf-8"))
     rec["selected_all_photo_IDs_csv_sha256"]=sha256(raw)
