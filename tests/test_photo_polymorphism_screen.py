@@ -236,3 +236,40 @@ def test_no_40_classifiable_photos_cannot_be_proven_monomorphic(tmp_path):
               for x in read_table(out / "all_42111_photo_polymorphism_screen.csv")}
     assert status[14].startswith("insufficient_")
     assert "monomorphic" not in status[15]
+
+
+def test_double_colour_inside_one_original_flower_roi_is_qc_hold_not_fcp(tmp_path):
+    frame, counts, measured, receipt = fake_data(tmp_path)
+    rows = read_table(measured)
+    for row in rows:
+        if row["inat_taxon_id"] != "11":
+            continue
+        if row["morph"] == "red_pink":
+            row["morph"] = "yellow_orange"
+        # The ONE original photo ROI contains BOTH white and yellow:
+        # high repeated label stability must not imply independent morphs.
+        for colour in PALETTE:
+            row[f"flower_fraction_{colour}"] = (
+                ".52" if colour == "white" else
+                ".48" if colour == "yellow" else "0")
+    with measured.open("w", newline="") as f:
+        writer = csv.DictWriter(f, list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    doc = json.loads(receipt.read_text(encoding="utf-8"))
+    doc["new_photo_table_sha256"] = sha256(measured)
+    receipt.write_text(json.dumps(doc), encoding="utf-8")
+    out = tmp_path / "postpilot_structural_screen"
+    result = screen(measured, frame, counts, receipt, out, _synthetic=True)
+    species = {r["inat_taxon_id"]:r for r in read_table(
+        out / "all_42111_photo_polymorphism_screen.csv")}
+    source = species["11"]
+    assert source["structural_flower_architecture_manual_review_required"] == "True"
+    assert float(source["within_ROI_white_yellow_both_ge10_fraction"]) == 1.0
+    assert source["photographic_colour_status"] == (
+        "repeated_coarse_photo_labels_STRUCTURAL_QC_HOLD_not_FCP")
+    assert result["n_repeated_photo_states_structural_ROI_review_holds"] == 1
+    assert result["photo_supported_polymorphic_species"] == 0
+    assert len(read_table(out / "photo_supported_polymorphic_species.csv")) == 0
+    assert len(read_table(
+        out / "not_proven_polymorphic_do_not_call_monomorphic.csv")) == 5
