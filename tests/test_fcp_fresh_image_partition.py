@@ -372,3 +372,29 @@ def test_invalid_source_photo_url_is_not_a_per_photo_missing_terminal(tmp_path):
                     sam=tmp_path/'sam',loader=m.image_loader,
                     evaluator=fake_measure,_test_only_skip_method_check=True)
     assert not list(output.glob('terminal_*.csv'))
+
+
+def test_frozen_original_roi_subprocess_inherits_repository_module_path(monkeypatch,tmp_path):
+    """Prevent real provider pixels from being lost to a missing import path."""
+    from pathlib import Path
+    import os
+    calls=[]
+    monkeypatch.setenv('PYTHONPATH','/tmp/retain-caller-safety')
+    out=tmp_path/'original_blind.csv'
+    def capture(cmd,*,check,env):
+        calls.append((cmd,check,env))
+        out.write_text('measurement_id,morph,measurement_status\\nsource_photo_1,white,classified_four_state_morph\\n')
+    monkeypatch.setattr(m.subprocess,'run',capture)
+    got=m.evaluate_with_frozen_source(
+        tmp_path/'worker.csv',tmp_path/'images',
+        Path('scripts/analysis/measure_random_photo_first_blind_partition.py'),
+        tmp_path/'model.pt',tmp_path/'sam',out)
+    assert len(calls)==1
+    cmd,checked,env=calls[0]
+    assert checked is True
+    assert cmd[0]==m.sys.executable
+    assert cmd[1]=='scripts/analysis/measure_random_photo_first_blind_partition.py'
+    paths=env['PYTHONPATH'].split(os.pathsep)
+    assert paths[0]==str(Path(m.__file__).resolve().parents[2])
+    assert '/tmp/retain-caller-safety' in paths
+    assert got['measurement_id'].tolist()==['source_photo_1']
