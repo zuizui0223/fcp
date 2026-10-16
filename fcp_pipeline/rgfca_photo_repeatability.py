@@ -137,14 +137,16 @@ def load_new_roi(measured: Path, receipt: Path, registry: dict,
             if (not observer or not obs or fold not in {"0","1"}
                 or observer_split(ident, observer) != int(fold)):
                 raise ValueError("Original observer/photo split was modified")
+            white_yellow = None
             if classified:
                 v = [float(raw[f"flower_fraction_{p}"]) for p in PALETTE]
                 if any(not math.isfinite(x) or x < 0 or x > 1 for x in v) or abs(sum(v)-1)>1e-7:
                     raise ValueError("Original nine-colour flower ROI fractions invalid")
+                white_yellow = (v[0], v[1])
             groups[ident].append({
                 "photo_id":pid, "observer_id":observer, "observation_id":obs,
                 "fold":int(fold), "morph":raw["morph"] if classified else None,
-                "classifiable":classified,
+                "classifiable":classified, "within_ROI_white_yellow":white_yellow,
             })
     if counted != evidence.get("n_terminal_measurements"):
         raise ValueError("Whole sealed source photo selection is not reproduced")
@@ -238,6 +240,21 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         eligible = sum(v["evaluable"] for _,v in trials)
         positives = sum(v["photo_poly_detected"] for _,v in trials)
         reliability = positives/eligible if eligible else None
+        classifiable_pool = [r for r in rows if r["classifiable"]]
+        within_ROI_dual = sum(
+            pair is not None and pair[0] >= .10 and pair[1] >= .10
+            for pair in (r.get("within_ROI_white_yellow") for r in classifiable_pool))
+        dual_fraction = (within_ROI_dual / len(classifiable_pool)
+                         if classifiable_pool else 0.0)
+        morphs_in_pool = {r["morph"] for r in classifiable_pool}
+        # TECHNICAL calibration discovered AFTER the isolated six-tax member
+        # pilot, BEFORE the future 1000-taxon complete original-image sample.
+        # Photo-hash stability never proves separate biological morphs when
+        # one flower's ROI routinely combines e.g. white rays + yellow discs.
+        structural_hold = bool(
+            len(classifiable_pool) >= 40
+            and {"white", "yellow_orange"}.issubset(morphs_in_pool)
+            and dual_fraction >= .50)
         depths = {
             str(fold_n*2): {
                 "evaluable":sum(v["evaluable"] for v in series),
@@ -247,6 +264,8 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         }
         if not rows or eligible < 30:
             tier = "not_evaluable_or_insufficient_repeated_roi_support"
+        elif reliability is not None and reliability >= .8 and structural_hold:
+            tier = "repeatable_colour_LABELS_WITHIN_ROI_STRUCTURAL_QC_HOLD"
         elif reliability is not None and reliability >= .8:
             tier = "repeatably_photo_polymorphic_phenotype"
         elif positives:
@@ -264,6 +283,9 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             "P_poly_primary_photo_draw":120,
             "draw_depth_sensitivity_counts":json.dumps(depths,sort_keys=True),
             "repeatability_0_80_status":tier,
+            "n_classifiable_pool_photos_with_both_white_yellow_ge10":within_ROI_dual,
+            "white_yellow_within_single_ROI_fraction":round(dual_fraction,12),
+            "structural_organ_colour_review_hold":structural_hold,
             "genetic_polymorphism_established":False,
             "monomorphic_if_not_detected":False,
         })
@@ -290,6 +312,9 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         "probability_estimated_only_conditional_on_classified_original_photos":True,
         "n_repeated_phenotypic_polymorphism_species":tiers.get(
             "repeatably_photo_polymorphic_phenotype",0),
+        "n_coarse_photo_label_recurring_but_structural_QC_HOLD":tiers.get(
+            "repeatable_colour_LABELS_WITHIN_ROI_STRUCTURAL_QC_HOLD",0),
+        "post_pilot_intra_ROI_white_yellow_artifact_QC_calibration":True,
         "n_species_unresolved_or_not_evaluable":tiers.get(
             "not_evaluable_or_insufficient_repeated_roi_support",0),
         "detection_tiers":dict(tiers),
