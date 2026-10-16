@@ -213,6 +213,8 @@ def prepare(source:Path,roi_receipt:Path,monthly_receipt:Path,out:Path,*,
                 join="missing_or_invalid_original_observation_day"
             elif not precise_geo:
                 join="source_position_uncertainty_above_5km_or_unknown"
+            elif int(ym[:4])<1958:
+                join="source_observation_year_before_supported_climate_history"
             elif int(ym[:4])>last_verified_climate_year:
                 join="year_not_in_independently_verified_monthly_climate_release"
             else:
