@@ -84,7 +84,12 @@ def test_current_paper_entrypoints_are_stable() -> None:
 
 def test_active_actions_surface_is_intentionally_small() -> None:
     names = {p.name for p in ACTIVE.glob("*.yml")}
-    assert names == EXPECTED_ACTIVE
+    assert EXPECTED_ACTIVE.issubset(names), sorted(EXPECTED_ACTIVE - names)
+    # New active photo-source/RGFCA workflows may be added without altering the
+    # scientific-paper scope; unknown interspecific workflow families may not.
+    additional = names - EXPECTED_ACTIVE
+    assert all(name.startswith(("fcp-", "polymorphism-")) for name in additional), sorted(additional)
+    assert not any(name.startswith(("mois-", "fcp-macro-")) for name in names)
     assert not any(name.startswith("jbi-") for name in names)
     assert not any(name.startswith("disttrait-") for name in names)
     assert "global-literature-discovery.yml" not in names
