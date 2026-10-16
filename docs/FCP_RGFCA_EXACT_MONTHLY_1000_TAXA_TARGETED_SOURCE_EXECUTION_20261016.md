@@ -4,7 +4,7 @@
 
 実データで確定済みの42,111種・93,209,351件は**植物写真の取得機会**であって花色測定ではない。事前に無作為抽出・固定した1,000種の対象原本機会数は **3,430,502件**。対象種名／種IDと200反復×250種の**種等重み**（各種50回）は変えていない。
 
-**実行開始済み**：[FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT — GitHub Actions #38846974428](https://github.com/zuizui0223/fcp/actions/runs/38846974428)。これは過去の画像技術試験のlive APIではなく、SHA256を固定した**真正の2026年9月27日版 Open Dataset原本**を対象とする。ユーザーによる本番画像解析・多型種数への昇格はしない。
+**実行開始済み**：[FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT — GitHub Actions #38847189688](https://github.com/zuizui0223/fcp/actions/runs/38847189688)。初回 #38846974428 は監査用の元ジョブが `main` で成功した事実を分岐の誤照合で拒否し、**原本取得前に失敗**。元SHAと成功状態を検証し直し、監査runだけ `main` を許可して修正した。これは過去の画像技術試験のlive APIではなく、SHA256を固定した**真正の2026年9月27日版 Open Dataset原本**を対象とする。ユーザーによる本番画像解析・多型種数への昇格はしない。
 
 ### 何を変更したか
 
