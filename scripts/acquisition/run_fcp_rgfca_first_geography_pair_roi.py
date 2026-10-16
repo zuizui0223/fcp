@@ -20,7 +20,7 @@ import json
 import math
 import re
 from datetime import date
-from collections import defaultdict
+from collections import defaultdict, Counter
 from pathlib import Path
 
 import pandas as pd
@@ -157,6 +157,102 @@ def supported_broad_photo_spread(selected_rows:list[dict])->dict:
             "geographic_accuracy_of_selected_subset_independently_verified":True,
             "selected_positions_from_exact_original_monthly_photo_IDs":True,
             "source_geo_classification_provenance_verified":True}
+
+
+def reserve_two_supported_distant_sites(
+    folds:dict[int,list[dict]], per_fold:int,
+)->tuple[dict[int,list[dict]],dict] | None:
+    """Start with independently supported distant sites BEFORE normal geo fill.
+
+    The existing colour-blind preselected photos are never replaced. Simple
+    round-robin over dozens of 5-degree cells can leave only ONE photo at each
+    distant locality, failing a legitimate broad-vs-narrow comparison. Reserve
+    two different original observations AND observers in two distant cells,
+    while preserving each pre-existing observer-disjoint fold's photo budget.
+    The chosen sites depend ONLY on original source geolocation and IDs.
+    """
+    if set(folds)!={0,1} or not 1<=per_fold<=16:
+        raise ValueError("Geographically supported original source folds invalid")
+    if any(len(folds[fold])<per_fold for fold in (0,1)):
+        raise ValueError("Frozen source lacks original photos for both observer folds")
+    candidates=defaultdict(list)
+    for fold in (0,1):
+        for row in folds[fold]:
+            raw=str(row.get("positional_accuracy_m","")).strip()
+            try:
+                accuracy=float(raw)
+            except (TypeError,ValueError):
+                continue
+            if not math.isfinite(accuracy) or not 0<=accuracy<=50000:
+                continue
+            candidates[geographical_cell(row)].append((fold,row))
+    paired={}
+    for cell,entries in candidates.items():
+        entries=sorted(entries,key=lambda fr:(
+            fr[1]["selection_hash"],int(fr[1]["photo_id"]),fr[0]))
+        # Deterministic first admissible pair, never photo colour dependent.
+        for i,(a,first) in enumerate(entries):
+            for b,second in entries[i+1:]:
+                if (first["observation_id"]!=second["observation_id"] and
+                    first["observer_id"]!=second["observer_id"]):
+                    vectors=[
+                        _xyz(float(r["latitude"]),float(r["longitude"]))
+                        for r in (first,second)
+                    ]
+                    xyz=[sum(v[k] for v in vectors) for k in range(3)]
+                    size=math.sqrt(sum(v*v for v in xyz))
+                    if size<1e-9:
+                        continue
+                    paired[cell]=(
+                        ((a,first),(b,second)),
+                        tuple(v/size for v in xyz)
+                    )
+                    break
+            if cell in paired:
+                break
+    if len(paired)<2:
+        return None
+    pairs=[]
+    for left in sorted(paired):
+        for right in sorted(paired):
+            if right<=left:continue
+            p1,c1=paired[left]
+            p2,c2=paired[right]
+            km=_angle_km(c1,c2)
+            if km<1000:continue
+            reserve=[*p1,*p2]
+            counts=Counter(fold for fold,_ in reserve)
+            if any(counts[f]>per_fold for f in (0,1)):
+                continue
+            pairs.append((-km,left,right,reserve))
+    for _,left,right,reserve in sorted(pairs):
+        by_fold={0:[],1:[]}
+        used=set()
+        for fold,row in reserve:
+            if row["photo_id"] in used:
+                raise ValueError("Original photo ID reserved twice for sampled locality")
+            used.add(row["photo_id"])
+            by_fold[fold].append(row)
+        for fold in (0,1):
+            remaining=per_fold-len(by_fold[fold])
+            if remaining>0:
+                pool=[r for r in folds[fold] if r["photo_id"] not in used]
+                if len(pool)<remaining:
+                    continue
+                by_fold[fold].extend(geo_balanced_first_photos(pool,remaining))
+        if any(len(by_fold[f])!=per_fold for f in (0,1)):
+            continue
+        combined=by_fold[0]+by_fold[1]
+        if len({r["photo_id"] for r in combined})!=2*per_fold:
+            raise ValueError("Photo ID collision in geographically balanced pre-colour source")
+        supported=supported_broad_photo_spread(combined)
+        if (supported["n_supported_selected_cells"]>=2 and
+            supported["max_supported_selected_cell_centroid_distance_km"]>=1000):
+            supported["distant_support_regions_reserved_before_regular_sampling"]=True
+            supported["reserved_geographic_cells"]=[list(left),list(right)]
+            supported["observer_fold_source_photo_count_each"]=per_fold
+            return by_fold,supported
+    return None
 
 
 def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
@@ -310,18 +406,17 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                                    for tid in (b,n) for fold in (0,1)))
         if not PER_FOLD_MIN<=depth<=PER_FOLD_TARGET:
             raise ValueError("Invalid immutable original ROI image compute batch bound")
-        candidate=[]
-        for tid,label in ((b,"broad"),(n,"narrow")):
-            for fold in (0,1):
-                candidate.extend((entry,label) for entry in
-                    geo_balanced_first_photos(photo_rows[tid][fold],depth))
-        supported=supported_broad_photo_spread(
-            [entry for entry,label in candidate if label=="broad"])
-        if (supported["n_supported_selected_cells"]<2 or
-            supported["max_supported_selected_cell_centroid_distance_km"]<1000.):
-            # An observed-wide SPECIES with only local FIRST PHOTO PIXELS
-            # cannot yet test geographic flower-colour differences.
+        spread=reserve_two_supported_distant_sites(photo_rows[b],depth)
+        if spread is None:
+            # Full colour-blind 64+64 photo pool has inadequate independent
+            # regional support even if the 1000-species metadata range is wide.
             continue
+        broad_folds,supported=spread
+        candidate=[]
+        for fold in (0,1):
+            candidate.extend((entry,"broad") for entry in broad_folds[fold])
+            candidate.extend((entry,"narrow") for entry in
+                geo_balanced_first_photos(photo_rows[n][fold],depth))
         first_pair=pair
         chosen=candidate
         each=depth
