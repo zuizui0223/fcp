@@ -402,3 +402,28 @@ def test_geography_reservation_never_promotes_one_outlier_or_bad_accuracy():
     # provider reports >50 km position uncertainty.
     f0.append(make(501,-33.1,151.1,0,501,accuracy="100000"))
     assert reserve_two_supported_distant_sites({0:f0,1:f1},4) is None
+
+
+
+def test_same_two_traveling_observers_are_not_four_independent_reporters():
+    # Two well-photographed sites >1000km apart are not independent at the
+    # taxon-pair threshold when the SAME two observers supplied both sites.
+    # This exactly mirrors the 1000-taxon geography source-only audit.
+    photos=[]
+    for location,(lat,lon) in enumerate(((35.0,139.0),(40.0,-73.0))):
+        for observer in ("alice","bob"):
+            photos.append({
+                "latitude":str(lat),"longitude":str(lon),
+                "observation_id":f"source_obs_{location}_{observer}",
+                "observer_id":observer,"positional_accuracy_m":"100",
+            })
+    proof=supported_broad_photo_spread(photos)
+    assert proof["n_supported_selected_cells"]==2
+    assert proof["n_distant_cell_pairs_with_four_distinct_source_observers"]==0
+    assert proof["max_supported_selected_cell_centroid_distance_km"]==0
+    photos[2]["observer_id"]="carol"
+    photos[3]["observer_id"]="david"
+    proof=supported_broad_photo_spread(photos)
+    assert proof["n_supported_selected_cells"]==2
+    assert proof["n_distant_cell_pairs_with_four_distinct_source_observers"]==1
+    assert proof["max_supported_selected_cell_centroid_distance_km"]>1000
