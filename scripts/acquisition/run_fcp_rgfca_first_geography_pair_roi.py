@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import re
@@ -512,6 +513,78 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
 
     joined["source_observation_month"]=joined["observed_on"].map(source_month)
     joined.to_csv(merged,index=False)
+
+    # Describe original-photo colour outcomes by sampled within-species
+    # geographic cells. Do not promote isolated images or same-ROI organ
+    # colours to geographic polymorphism or environmental selection.
+    cell_fields=(
+        "inat_taxon_id","species","geographic_comparison_group",
+        "latitude_5degree_cell_index","longitude_5degree_cell_index",
+        "n_measured_original_photo_ids","n_distinct_original_observations",
+        "n_distinct_original_observers","n_original_photo_ROIs_classifiable",
+        "n_original_photo_ROIs_unclassifiable",
+        "n_same_ROI_white_and_yellow_mixed_ge10pct",
+        "n_white_photo_labels","n_yellow_orange_photo_labels",
+        "n_red_pink_photo_labels","n_blue_purple_photo_labels",
+        "original_observation_months_json","original_photo_IDs_sha256",
+        "is_genetic_or_population_FCP_test"
+    )
+    by_cell=defaultdict(list)
+    for row in joined.to_dict("records"):
+        loc=geographical_cell(row)
+        by_cell[(str(row["inat_taxon_id"]),
+                 str(row["geographic_comparison_group"]),loc)].append(row)
+    site_records=[]
+    for key,records in sorted(by_cell.items()):
+        tid,group,cell=key
+        if len({r["species"] for r in records})!=1:
+            raise ValueError("One geographic original-photo cell mixed source species")
+        n_good=sum(r["measurement_status"]=="classified_four_state_morph"
+                   for r in records)
+        row={
+            "inat_taxon_id":tid,"species":records[0]["species"],
+            "geographic_comparison_group":group,
+            "latitude_5degree_cell_index":cell[0],
+            "longitude_5degree_cell_index":cell[1],
+            "n_measured_original_photo_ids":len(records),
+            "n_distinct_original_observations":
+                len({r["observation_id"] for r in records}),
+            "n_distinct_original_observers":
+                len({r["observer_id"] for r in records}),
+            "n_original_photo_ROIs_classifiable":n_good,
+            "n_original_photo_ROIs_unclassifiable":len(records)-n_good,
+            "n_same_ROI_white_and_yellow_mixed_ge10pct":
+                sum(bool(r["same_roi_white_and_yellow_both_ge10pct"])
+                    for r in records),
+            "n_white_photo_labels":sum(r["morph"]=="white" for r in records),
+            "n_yellow_orange_photo_labels":
+                sum(r["morph"]=="yellow_orange" for r in records),
+            "n_red_pink_photo_labels":
+                sum(r["morph"]=="red_pink" for r in records),
+            "n_blue_purple_photo_labels":
+                sum(r["morph"]=="blue_purple" for r in records),
+            "original_observation_months_json":
+                json.dumps(sorted({str(r["source_observation_month"])
+                                  for r in records if r["source_observation_month"]}),
+                           separators=(",",":")),
+            "original_photo_IDs_sha256":hashlib.sha256(
+                "\n".join(sorted({str(r["photo_id"]) for r in records})).encode()
+            ).hexdigest(),
+            "is_genetic_or_population_FCP_test":False,
+        }
+        if (sum(row[f"n_{x}_photo_labels"] for x in
+                ("white","yellow_orange","red_pink","blue_purple"))!=n_good):
+            raise ValueError("Source geographic cell coarse colour labels disagree with ROI statuses")
+        site_records.append(row)
+    if (sum(r["n_measured_original_photo_ids"] for r in site_records)!=len(joined)
+        or sum(r["n_original_photo_ROIs_classifiable"] for r in site_records)
+           !=int(joined.measurement_status.eq("classified_four_state_morph").sum())):
+        raise ValueError("Source cell coverage omitted/reassigned original photographed sites")
+    site_file=outdir/"first_original_geographic_5degree_cell_photo_colour_QC.csv"
+    with site_file.open("x",newline="",encoding="utf-8") as file:
+        writer=csv.DictWriter(file,fieldnames=cell_fields,lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(site_records)
     groups={}
     for name,group in joined.groupby("geographic_comparison_group"):
         known={m for m in group.source_observation_month if m}
@@ -556,6 +629,9 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
             shared,
         "geography_vs_season_sampling_confounding_reported":True,
         "original_date_not_used_for_precolour_photo_replacement":True,
+        "original_geographic_5degree_cell_photo_QC_csv_sha256":sha256(site_file),
+        "n_original_geographic_5degree_cells_with_photo_terminals":len(site_records),
+        "geographic_site_photo_label_table_is_descriptive_not_FCP_test":True,
         "n_original_image_acquisition_failed":report["n_acquisition_failed"],
         "original_pixel_terminal_sha256":report["terminal_csv_sha256"],
         "original_geographic_source_join_terminal_sha256":sha256(merged),
