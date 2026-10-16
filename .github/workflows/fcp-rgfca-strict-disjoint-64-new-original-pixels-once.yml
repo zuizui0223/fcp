@@ -1,0 +1,211 @@
+
+name: FCP RGFCA STRICT next 64 truly NEW 20260927 original ROI pixels once
+
+# One tightly bounded original pixel work unit; never the 36GB archive, 93M
+# photos, prior 64 photos, or uncoordinated multi-worker S3 traffic.
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-rgfca-strict-disjoint-64-new-original-pixels-once.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-new-strict-pair-2-real-original-roi-pixels-exact-once
+  cancel-in-progress: false
+
+jobs:
+  exactly-64-different-original-photos-strict-known-accuracy:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp_rgfca_next_new_original_64
+      SAM: /tmp/fcp_rgfca_next_pinned_sam
+      FCP_PROVIDER_GLOBAL_RATE_FILE: /tmp/fcp_rgfca_next_original_provider_global_rate
+    steps:
+      - name: Checkout audited original ROI-v4+EfficientSAM method and strict source-runner
+        uses: actions/checkout@v4
+        with:
+          ref: 07a7115007f72ce8bedc843cc5d7e54c15d9ff85
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen first genuine original pixel work unit requirements
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow \
+            ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
+
+      - name: Verify only one correct new ID-source success, original strict geography and prior pixel outcome
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/new_source" "$ROOT/previous"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38907524798" > "$ROOT/new_source_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38906609878" > "$ROOT/strict_geo_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38901816890" > "$ROOT/previous_roi_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["ROOT"])
+          expected=[
+            ("new_source_run.json",38907524798,"85191a1b753201d2a826bcf5a3e4900d4fa24dfa"),
+            ("strict_geo_run.json",38906609878,"99fb415e4566ac6092be9e94423457291be2fcec"),
+            ("previous_roi_run.json",38901816890,"843a2ffc6858295a91b4a64d7ee71a5569ae0d9f")]
+          for file,run,sha in expected:
+              d=json.loads((root/file).read_text())
+              if not (d.get('id')==run and d.get('head_sha')==sha
+                      and d.get('run_attempt')==1 and d.get('status')=='completed'
+                      and d.get('conclusion')=='success'
+                      and d.get('head_repository',{}).get('full_name')=='zuizui0223/fcp'):
+                  raise SystemExit('FAIL_CLOSED: only strict source/geo/old pixels are admitted')
+          print('NEW_MONTHLY_PIXEL_UNIT_SOURCE_GEO_PREVIOUS_TERMINAL_ALL_GENUINE',flush=True)
+          PY
+          gh run download 38907524798 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-NEXT-64-DISJOINT-STRICT-original-monthly-ROI-SOURCE-ONLY-NOT-PIXELS \
+            --dir "$ROOT/new_source"
+          gh run download 38901816890 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-first-ACTUAL-20260927-monthly-original-broad-narrow-ROI-pixels-NOT-FULL \
+            --dir "$ROOT/previous"
+
+      - name: Independently reject repeated photo IDs, unknown accuracy, incomplete distant source cells BEFORE S3
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          from fcp_pipeline.photo_polymorphism_screen import sha256
+          root=Path(os.environ['ROOT'])
+          prepared=root/'new_source/prepared'
+          previous=root/'previous'
+          new=json.loads((prepared/'first_matched_pair_precolour_source_receipt.json').read_text())
+          attest=json.loads((root/'new_source/previous_64_exclusion_attestation.json').read_text())
+          older=json.loads((previous/'measured/first_geo_pair_real_pixel_receipt.json').read_text())
+          with (prepared/'first_matched_pair_original_source_join_key.csv').open(newline='') as f:
+              fresh=list(csv.DictReader(f))
+          with (previous/'prepared/first_matched_pair_original_source_join_key.csv').open(newline='') as f:
+              old=list(csv.DictReader(f))
+          with (prepared/'first_matched_pair_original_blind_worker.csv').open(newline='') as f:
+              worker=list(csv.DictReader(f))
+          assert len(old)==len(fresh)==len(worker)==64
+          oldids={r['photo_id'] for r in old}
+          newids={r['photo_id'] for r in fresh}
+          assert len(oldids)==len(newids)==64 and not (oldids & newids)
+          assert {r['inat_taxon_id'] for r in old}=={'323321','436108'}
+          assert {r['inat_taxon_id'] for r in fresh}=={'437254','840420'}
+          assert new['broad_taxon_id']=='840420' and new['narrow_taxon_id']=='437254'
+          assert new['matched_pair_id']=='2'
+          assert new['n_original_photo_pixels_opened']==0
+          assert new['minimum_per_fold_depth_predeclared']==16
+          assert new['all_selected_original_photo_positions_known_and_le50km'] is True
+          assert new['source_image_IDs_from_verified_monthly_20260927'] is True
+          assert new['previously_measured_taxa_excluded_by_source_identity']==['323321','436108']
+          assert attest['zero_duplicate_prior_photo_ids'] is True
+          assert attest['next_source_photo_count']==64
+          assert attest['next_source_join_sha256']==sha256(prepared/'first_matched_pair_original_source_join_key.csv')
+          assert sha256(prepared/'first_matched_pair_original_source_join_key.csv')=='19895b26c58d626f51d7b7c464683abe6b1e65558ccf49d12752509ec9505c5b'
+          assert new['original_blind_worker_sha256']==sha256(prepared/'first_matched_pair_original_blind_worker.csv')
+          assert older['new_original_photo_pixels_processed']==64
+          assert older['original_pixel_terminal_sha256']=='5877179b7c4b35de94d3ed2c534b4bfeb495a12068326ec846550c8621130ad2'
+          assert older['original_geographic_source_join_terminal_sha256']==sha256(
+              previous/'measured/first_original_geographically_matched_photo_terminal.csv')
+          assert list(worker[0])==['measurement_id','image_filename','photo_license']
+          assert all(r['positional_accuracy_m'].strip() and
+                     0<=float(r['positional_accuracy_m'])<=50000 for r in fresh)
+          assert new['broad_original_first_pixel_geographic_support']['n_distant_cell_pairs_with_four_distinct_source_observers']>=1
+          assert new['broad_original_first_pixel_geographic_support']['max_supported_selected_cell_centroid_distance_km']>=1000
+          print('REAL_NEW_64_ORIGINAL_SOURCE_PIXELS_VERIFIED_ID_DISJOINT_AND_STRICT_ACCURACY',flush=True)
+          PY
+
+      - name: Restore original SHA-pinned detector plus EfficientSAM method (NOT the 36GB provider archive)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
+
+      - name: Actually measure 64 NEW true-original 2026-09-27 ROI pixels from second broad/narrow pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import measure_unit
+          from fcp_pipeline.photo_polymorphism_screen import sha256
+          root=Path(os.environ['ROOT'])
+          result=measure_unit(
+              root/'new_source/prepared',root/'measured',
+              method=Path('scripts/analysis/measure_random_photo_first_blind_partition.py'),
+              detector=Path('data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt'),
+              sam=Path(os.environ['SAM']))
+          previous_method=json.loads((root/'previous/measured/frozen_method_attestation.json').read_text())
+          new_method=json.loads((root/'measured/frozen_method_attestation.json').read_text())
+          if new_method!=previous_method:
+              raise SystemExit('ROI-v4/EfficientSAM model or source method SHA changed; no promotion')
+          if (result.get('status')!='FIRST_GENUINE_MONTHLY_ORIGINAL_GEO_MATCHED_PIXELS_MEASURED_NOT_1000_SPECIES'
+              or result.get('new_original_photo_pixels_processed')!=64
+              or result.get('full_RGFCAROI1000_complete') is not False
+              or result.get('old_measured_colours_imported') is not False):
+              raise SystemExit('Failed genuine new source image ROI terminal')
+          if result['original_pixel_terminal_sha256']!=sha256(root/'measured/terminal_p000_b0000000.csv'):
+              raise SystemExit('Sealed new original pixel terminal SHA drift')
+          combined=root/'measured/first_original_geographically_matched_photo_terminal.csv'
+          with combined.open(newline='',encoding='utf-8') as f:
+              rows=list(csv.DictReader(f))
+          assert len(rows)==64 and len({r['photo_id'] for r in rows})==64
+          assert {r['inat_taxon_id'] for r in rows}=={'437254','840420'}
+          assert all(r['positional_accuracy_m'].strip() and
+                     0<=float(r['positional_accuracy_m'])<=50000 for r in rows)
+          groups=result['by_geographic_observed_source_group']
+          assert groups['broad']['n_original_images_measured']==32
+          assert groups['narrow']['n_original_images_measured']==32
+          assert sum(v['n_newly_four_state_classifiable'] for v in groups.values())==result['n_classifiable']
+          assert result['n_original_image_acquisition_failed']==0
+          assert result['confirmed_genetic_FCP_species']==0
+          assert result['measured_geographic_effect_estimates']==0
+          assert result['original_geographic_source_join_terminal_sha256']==sha256(combined)
+          print('FCP_SECOND_GENUINE_DISJOINT_MONTHLY_64_PIXELS',json.dumps({
+              'images_processed':64,'newly_classifiable':result['n_classifiable'],
+              'source_ids_unique':64,'prior_photo_ID_overlap':0,
+              'source_taxa':[437254,840420],
+              'method_sha256':sha256(root/'measured/frozen_method_attestation.json'),
+              'pixel_terminal_sha256':result['original_pixel_terminal_sha256'],
+              'status':'NEW_MONTHLY_ORIGINAL_ROI_TECHNICAL_NOT_FCP_EFFECT'
+          },sort_keys=True),flush=True)
+          PY
+
+      - name: Save only sealed new original ROI terminal and method receipts, never raw pixels
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-SECOND-disjoint-64-STRICT-true-monthly-ROI-original-PIXELS-not-H2
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp_rgfca_next_new_original_64/new_source_run.json
+            /tmp/fcp_rgfca_next_new_original_64/strict_geo_run.json
+            /tmp/fcp_rgfca_next_new_original_64/previous_roi_run.json
+            /tmp/fcp_rgfca_next_new_original_64/new_source/previous_64_exclusion_attestation.json
+            /tmp/fcp_rgfca_next_new_original_64/new_source/prepared/
+            /tmp/fcp_rgfca_next_new_original_64/measured/
+      - name: Retain precolour source and actual method failure evidence, no scientific negatives
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-second-STRICT-new-monthly-original-ROI-failure
+          retention-days: 45
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp_rgfca_next_new_original_64/new_source_run.json
+            /tmp/fcp_rgfca_next_new_original_64/new_source/previous_64_exclusion_attestation.json
+            /tmp/fcp_rgfca_next_new_original_64/new_source/prepared/first_matched_pair_precolour_source_receipt.json
+            /tmp/fcp_rgfca_next_new_original_64/measured/frozen_method_attestation.json
+            /tmp/fcp_rgfca_next_new_original_64/measured/terminal_p000_b0000000.json
