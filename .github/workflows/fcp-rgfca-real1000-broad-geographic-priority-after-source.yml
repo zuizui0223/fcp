@@ -1,0 +1,141 @@
+name: FCP RGFCA 1000 observed broad geography priority after exact source
+
+on:
+  workflow_run:
+    workflows:
+      - FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-original-20260927-source-1000-geographic-priority
+  cancel-in-progress: false
+
+jobs:
+  frozen-original-source-geographic-priority-NO-photo-colour:
+    if: >-
+      ${{ github.event.workflow_run.id == 38847189688 &&
+          github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.head_sha == '368b05b6e52d43289f13ecd06896db4853e9d062' &&
+          github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+          github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp-rgfca-1000-precolour-geographic-priority
+      SOURCE_RUN: "38847189688"
+      ROSTER_RUN: "38828417100"
+
+    steps:
+      - name: Checkout fixed pre-colour 1000 RGFCA geographic priority audit
+        uses: actions/checkout@v4
+        with:
+          ref: 79a09993000756b9aec897365e595c31eec2fc20
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install source-manifest metadata dependencies (NO model, NO image downloads)
+        run: |
+          set -euo pipefail
+          python -m pip install "numpy<3" "pandas<3" scipy
+
+      - name: Validate originating 1,000-species dated photo-ID source and frozen roster
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/monthly_source" "$ROOT/original_rgfca_roster"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$ROOT/origin_run.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          x=json.loads((Path(os.environ["ROOT"])/"origin_run.json").read_text())
+          if not (x.get("id")==38847189688
+              and x.get("run_attempt")==1
+              and x.get("status")=="completed"
+              and x.get("conclusion")=="success"
+              and x.get("head_sha")=="368b05b6e52d43289f13ecd06896db4853e9d062"
+              and x.get("head_branch")=="analysis/fcp-fresh-uncapped-zero-20261015"
+              and x.get("head_repository",{}).get("full_name")=="zuizui0223/fcp"):
+              raise SystemExit("No verified genuine RGFCA 1000 dated photo-ID source; abort geographic priority")
+          PY
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/monthly_source"
+          gh run download "$ROSTER_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
+            --dir "$ROOT/original_rgfca_roster"
+          echo '88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c  '"$ROOT"'/original_rgfca_roster/rgfca_species_1000_original_source_only.csv' | sha256sum -c -
+
+      - name: PROFILE ACTUAL broad/narrow observed geography for 1000 original enrolled taxa
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.stratify_fcp_rgfca_geographic_span \
+            --original-dated-source-photo-ids \
+              "$ROOT/monthly_source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --original-dated-source-receipt \
+              "$ROOT/monthly_source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --original-rgfca-roster \
+              "$ROOT/original_rgfca_roster/rgfca_species_1000_original_source_only.csv" \
+            --output "$ROOT/results"
+
+      - name: Verify all 1000 original species remain represented without colour leakage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,os,json
+          from pathlib import Path
+          from fcp_pipeline.photo_polymorphism_screen import sha256
+          root=Path(os.environ["ROOT"])
+          out=root/"results"
+          receipt=json.loads((out/"rgfca_1000_precolour_geographic_span_receipt.json").read_text())
+          rows=list(csv.DictReader((out/"rgfca_1000_original_source_observed_geographic_span.csv").open()))
+          priority=list(csv.DictReader((out/"rgfca_1000_precolour_broad_geography_first_priority.csv").open()))
+          assert receipt["status"]=="SOURCE_ONLY_GEOGRAPHIC_PRIORITY_NO_FLOWER_PIXELS"
+          assert receipt["source_species"]==1000
+          assert receipt["source_photo_opportunities"]==3430502
+          assert receipt["existing_1000_taxon_enrolment_preserved"] is True
+          assert receipt["existing_200x250_repetition_schedule_unchanged"] is True
+          assert receipt["n_original_new_pixels_measured"]==0
+          assert receipt["climate_soil_W_or_H2_estimated"] is False
+          assert len(rows)==len(priority)==1000
+          assert {r["inat_taxon_id"] for r in rows}=={r["inat_taxon_id"] for r in priority}
+          assert sum(int(r["n_original_photo_metadata"]) for r in rows)==3430502
+          assert receipt["precolour_geographic_span_csv_sha256"]==sha256(
+              out/"rgfca_1000_original_source_observed_geographic_span.csv")
+          assert receipt["precolour_geographic_priority_csv_sha256"]==sha256(
+              out/"rgfca_1000_precolour_broad_geography_first_priority.csv")
+          print("FCP_1000_REAL_BROAD_PRECOLOUR_SOURCE_ONLY_VERIFIED",json.dumps(
+              {"n_taxa":1000,"original_source_photo_records":3430502,
+               "geography_groups":receipt["geographic_categories"],"no_flower_pixels":True},
+               sort_keys=True),flush=True)
+          PY
+
+      - name: Archive real RGFCA 1000 photo-geography strata, NO floral outcomes
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-real-original-observed-broad-geography-precolour-NO-PIXELS
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-rgfca-1000-precolour-geographic-priority/origin_run.json
+            /tmp/fcp-rgfca-1000-precolour-geographic-priority/results/
+
+      - name: Retain only authentic source and errors on geographic priority failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-broad-geography-priority-source-FAILURE
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-rgfca-1000-precolour-geographic-priority/origin_run.json
+            /tmp/fcp-rgfca-1000-precolour-geographic-priority/results/rgfca_1000_precolour_geographic_span_receipt.json
