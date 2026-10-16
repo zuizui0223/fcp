@@ -110,7 +110,7 @@ def test_two_waves_must_have_disjoint_original_taxon_IDs(tmp_path):
     roster,w1,w2=make_two(tmp_path)
     source=w2/"wave2_original_ROI_observer_geocell_mixed_colour_QC.csv"
     text=source.read_text()
-    source.write_text(text.replace("2100,","1100,",1).replace("Species 2100","Species 1100",1))
+    source.write_text(text.replace("1200,","1100,",1).replace("Species 1200","Species 1100",1))
     receipt=w2/"wave2_original_ROI_observer_geocell_mixed_colour_QC.json"
     data=json.loads(receipt.read_text())
     data["CSV_sha256"]=sha256(source)
