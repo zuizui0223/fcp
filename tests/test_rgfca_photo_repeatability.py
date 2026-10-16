@@ -199,14 +199,14 @@ def test_rgfca_40_80_120_128_sensitivities_do_not_redefine_taxon_universe(tmp_pa
     photos=load_new_roi(measured,receipt,species,synthetic=True)
     report=repeat(species,assignments,photos,tmp_path/"depths",synthetic=True)
     assert report["primary_120_photo_draw_and_60_photo_per_observer_fold"] is True
-    assert report["sensitivity_photo_draw_sizes"]==[40,80,120,128]
+    assert report["sensitivity_photo_draw_sizes"]==[40,80,96,120,128]
     with (tmp_path/"depths/species_rgfca_repeated_photo_polymorphism.csv").open() as source:
         measured=list(csv.DictReader(source))
     assert len(measured)==2
     for record in measured:
         assert record["P_poly_primary_photo_draw"]=="120"
         counts=json.loads(record["draw_depth_sensitivity_counts"])
-        assert set(counts)=={"40","80","120","128"}
+        assert set(counts)=={"40","80","96","120","128"}
         assert all(counts[t]["evaluable"]<=50 for t in counts)
 
 
@@ -327,8 +327,50 @@ def test_50_RGFCA_realizations_report_actual_unique_photo_sets_and_use_fraction(
     assert row["primary_MC_resamples_share_ge90percent_original_photo_IDs"] == "True"
     assert float(row["actual_primary_120photo_pairwise_ID_overlap_share"]) > 0.90
     depths=json.loads(row["draw_depth_sensitivity_counts"])
-    assert set(depths)=={"40","80","120","128"}
+    assert set(depths)=={"40","80","96","120","128"}
     assert depths["128"]["distinct_original_source_photo_ID_sets"]==1
     assert depths["128"]["observed_mean_pairwise_source_photo_overlap_share"]==1.0
     assert depths["40"]["observed_mean_pairwise_source_photo_overlap_share"] < (
         depths["120"]["observed_mean_pairwise_source_photo_overlap_share"])
+
+
+def test_200_identical_full_pool_repetitions_do_not_certify_photo_sampling_robustness(tmp_path):
+    # Technically two real flower-colour labels can pass every high-depth
+    # observer split even when all 200 draws contain EXACTLY the same
+    # original photos. Such apparent stability is not repeated sampling.
+    allphotos=original_photos(11,variable=True)
+    limited=[r for r in allphotos if (
+        int(r["photo_id"])%1000 < 48 or
+        64 <= int(r["photo_id"])%1000 < 112)]
+    assert len(limited)==96
+    registry={11:{"species":"Two photo labels, no actual re-draw",
+                  "source_photo_opportunities":"1000"}}
+    schedule=[{"realization":i,"inat_taxon_id":11} for i in range(1,51)]
+    out=tmp_path/"identical_source_photo_ids"
+    summary=repeat(registry,schedule,{11:limited},out,synthetic=True)
+    assert summary["n_repeated_phenotypic_polymorphism_species"]==0
+    with (out/"species_rgfca_repeated_photo_polymorphism.csv").open() as f:
+        row=next(csv.DictReader(f))
+    assert float(row["conditional_photo_colour_P_poly"])>=0.8
+    assert float(row["actual_96photo_pairwise_photo_ID_overlap_share"])==1.0
+    assert row["source_photo_96depth_provides_meaningful_MC_perturbation"]=="False"
+    assert row["repeatability_0_80_status"]==(
+        "repeated_photo_labels_but_96photo_perturbation_unresolved_NOT_robust")
+
+
+def test_frozen_96photo_sensitivity_supports_true_source_photo_perturbation(tmp_path):
+    registry={11:{"species":"Two coarse source photo labels",
+                  "source_photo_opportunities":"1000"}}
+    schedule=[{"realization":i,"inat_taxon_id":11} for i in range(1,51)]
+    out=tmp_path/"one_thousand_source"
+    summary=repeat(registry,schedule,{11:original_photos(11,variable=True)},
+                   out,synthetic=True)
+    assert summary["post_technical_pilot_96photo_perturbation_qualification"] is True
+    assert summary["n_repeated_phenotypic_polymorphism_species"]==1
+    with (out/"species_rgfca_repeated_photo_polymorphism.csv").open() as f:
+        row=next(csv.DictReader(f))
+    assert row["source_photo_96depth_provides_meaningful_MC_perturbation"]=="True"
+    assert 0.67<float(row["actual_96photo_pairwise_photo_ID_overlap_share"])<=0.80
+    assert int(row["n_evaluable_independent_observer_photo_redraws_96"])>=30
+    assert float(row["P_poly_96photo_conditional_on_evaluable"])>=0.80
+    assert row["repeatability_0_80_status"]=="repeatably_photo_polymorphic_phenotype"
