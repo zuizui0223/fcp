@@ -383,7 +383,7 @@ def test_frozen_original_roi_subprocess_inherits_repository_module_path(monkeypa
     out=tmp_path/'original_blind.csv'
     def capture(cmd,*,check,env):
         calls.append((cmd,check,env))
-        out.write_text('measurement_id,morph,measurement_status\\nsource_photo_1,white,classified_four_state_morph\\n')
+        out.write_text(chr(10).join(['measurement_id,morph,measurement_status','source_photo_1,white,classified_four_state_morph'])+chr(10))
     monkeypatch.setattr(m.subprocess,'run',capture)
     got=m.evaluate_with_frozen_source(
         tmp_path/'worker.csv',tmp_path/'images',
