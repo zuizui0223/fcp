@@ -1,0 +1,29 @@
+name: FCP original ROI exact-month TerraClimate join source contracts
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-original-month-terraclimate-source-join-tests-20261016.yml
+
+permissions:
+  contents: read
+
+jobs:
+  source-provenance-monthly-climate-join-no-raster-data:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test monthly original-source photo ROI geolocations and publication coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest
+          python -m py_compile scripts/analysis/fcp_prepare_observed_month_terraclimate.py
+          python -m pytest tests/test_fcp_prepare_observed_month_terraclimate.py -q
+          echo FCP_EXACT_OBSERVED_MONTH_SOURCE_TERRACLIMATE_REQUESTS_TESTED_NO_REAL_WEATHER_OR_PHOTO_PIXELS
