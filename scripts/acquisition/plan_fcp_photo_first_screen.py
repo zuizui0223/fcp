@@ -154,7 +154,7 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
                 if (tid in enrolled or tid not in taxa
                     or taxa[tid]["species"] != row["species"]
                     or taxa[tid]["n_source_photo_ids"] != int(row["source_photo_opportunities"])
-                    or int(row["source_photo_opportunities"]) < 128):
+                    or (not _synthetic and int(row["source_photo_opportunities"]) < 128)):
                     raise ValueError("RGFCA species identity or original source photograph opportunity changed")
                 enrolled.add(tid)
         if len(enrolled) != int(doc["selected_species"]):
