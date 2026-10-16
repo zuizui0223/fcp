@@ -1,0 +1,133 @@
+name: FCP 1000 REAL original observed-on month census after exact source
+
+on:
+  workflow_run:
+    workflows:
+      - FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-exact-20260927-original-observed-on-calendar-1000
+  cancel-in-progress: false
+
+jobs:
+  dated-original-photo-opportunities-not-flower-pixels:
+    if: >-
+      ${{ github.repository == 'zuizui0223/fcp' &&
+          github.event.workflow_run.id == 38884223530 &&
+          github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.head_sha == 'b0656b6a677a8440c188939074a0fe3c8cd4ac16' &&
+          github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+          github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp-original-rgfca-month-coverage-20260927
+      SOURCE_RUN: '38884223530'
+    steps:
+      - name: Checkout exact six-test validated original observation-date coverage audit
+        uses: actions/checkout@v4
+        with:
+          ref: 9a9836c7a0c1cfd3fd690be9fabf37abbb9ae61d
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify real successful original 2026-09-27 1000-species source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/monthly_source"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$ROOT/original_source_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['ROOT'])/'original_source_run.json').read_text())
+          assert r['id']==38884223530 and r['run_attempt']==1
+          assert r['status']=='completed' and r['conclusion']=='success'
+          assert r['head_sha']=='b0656b6a677a8440c188939074a0fe3c8cd4ac16'
+          assert r['head_branch']=='analysis/fcp-fresh-uncapped-zero-20261015'
+          assert r['head_repository']['full_name']=='zuizui0223/fcp'
+          PY
+
+      - name: Download signed original 3.43M source photo IDs without 36GB provider archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/monthly_source"
+
+      - name: Census ALL original observation dates and independent fine-geocell site-month opportunities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.audit_fcp_original_rgfca_monthly_photo_opportunities \
+            --original-monthly-photo-ids "$ROOT/monthly_source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --original-monthly-source-receipt "$ROOT/monthly_source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --outdir "$ROOT/results"
+
+      - name: Seal original photo-ID date counts as opportunities only, not biological results
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])/'results'
+          doc=json.loads((root/'original_dated_source_opportunity_receipt.json').read_text())
+          assert doc['status']=='COMPLETE_ORIGINAL_SOURCE_CALENDAR_CENSUS_NO_FLOWER_PIXELS'
+          assert doc['n_taxa']==1000 and doc['n_original_photo_ids']==3430502
+          assert doc['n_photo_ids_with_full_observed_on_date']+doc['n_photo_ids_without_valid_observed_on_date']==3430502
+          assert doc['all_original_image_pixels_classified'] is False
+          assert doc['new_flower_colour_or_white_frequency_estimated'] is False
+          assert doc['source_photo_opportunity_is_not_flowering_detection'] is True
+          for filename,key in (
+              ('all_original_1000_source_photo_observation_months.csv','original_source_months_file_sha256'),
+              ('all_original_1000_source_month_0p25degree_5km_accuracy.csv','original_source_site_month_file_sha256'),
+              ('all_original_1000_taxa_date_and_site_sampling_coverage.csv','original_taxa_date_coverage_sha256')):
+              h=hashlib.sha256()
+              with (root/filename).open('rb') as f:
+                  for block in iter(lambda:f.read(1024*1024),b''):
+                      h.update(block)
+              assert h.hexdigest()==doc[key]
+          with (root/'all_original_1000_taxa_date_and_site_sampling_coverage.csv').open(newline='') as f:
+              taxa=list(csv.DictReader(f))
+          assert len(taxa)==1000
+          assert sum(int(x['all_original_photo_ids']) for x in taxa)==3430502
+          assert sum(int(x['photos_with_valid_original_observed_day']) for x in taxa)==doc['n_photo_ids_with_full_observed_on_date']
+          print('FCP_ACTUAL_ORIGINAL_1000_OBSERVATION_MONTH_NO_FLOWER_PIXELS',json.dumps({
+              k:doc[k] for k in ('n_original_photo_ids','n_photo_ids_with_full_observed_on_date',
+              'n_photo_ids_without_valid_observed_on_date',
+              'n_supported_geocell_years_two_months_two_obs_two_observers_each')
+          },sort_keys=True),flush=True)
+          PY
+
+      - name: Archive full original candidate photo-date census, no flower pixels
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-1000-original-monthly-observation-calendar-all-photo-IDS-NO-COLOURS
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-original-rgfca-month-coverage-20260927/original_source_run.json
+            /tmp/fcp-original-rgfca-month-coverage-20260927/results/
+
+      - name: Preserve only failure receipt, never promote partial source
+        if: ${{ failure() || cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-1000-original-source-month-INCOMPLETE-not-biological
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-original-rgfca-month-coverage-20260927/original_source_run.json
+            /tmp/fcp-original-rgfca-month-coverage-20260927/results/original_dated_source_opportunity_receipt.json
