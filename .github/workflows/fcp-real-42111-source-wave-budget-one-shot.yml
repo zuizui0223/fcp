@@ -1,0 +1,76 @@
+name: FCP real 42111 photo opportunity staged budget ONE SHOT
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-real-42111-source-wave-budget-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  check-original-42111-source-photographic-workload-no-pixels:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PROVENANCE: /tmp/fcp_42111_source_wave_verification
+    steps:
+      - name: Check out exact fully verified source-only budget script
+        uses: actions/checkout@v4
+        with:
+          ref: 540e73e8305d76266822b14cb733b553253b9dc6
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Retrieve genuine 2026-09-27 42111 original photo count and independent identity audit artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p "$PROVENANCE/counts" "$PROVENANCE/audit"
+          gh run download 38749681793 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours \
+            --dir "$PROVENANCE/counts"
+          gh run download 38818718877 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-42111-source-photo-opportunity-INDEPENDENT-AUDIT-not-flower-colours \
+            --dir "$PROVENANCE/audit"
+
+      - name: Independently replay every counted species and every original photo budget wave
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/verify_fcp_real_42111_staged_execution_budget.py \
+            --counts "$PROVENANCE/counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --audit "$PROVENANCE/audit/all_42111_photo_opportunity_audit.json" \
+            --budget results/fcp_real_42111_source_opportunity_20261016/verified_staged_execution_budget_20261016.json \
+            --out "$PROVENANCE/staged_source_budget_verified.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['PROVENANCE'])
+          result=json.loads((root/'staged_source_budget_verified.json').read_text())
+          assert result['status']=='ORIGINAL_42111_REAL_PHOTO_OPPORTUNITY_WORKLOAD_INDEPENDENTLY_REPRODUCED_NO_PIXELS'
+          assert result['n_species']==42111
+          assert result['n_original_source_photo_opportunities']==93209351
+          assert result['first_40_depth_opportunities']==1466763
+          assert result['first_128_depth_opportunities']==3932722
+          assert result['uncapped_final_all_opportunities']==93209351
+          assert result['biological_measurements_performed']==0
+          print('FCP_REAL_42111_SOURCE_NO_PIXEL_EXECUTION_BUDGET_VALIDATED',json.dumps(result,sort_keys=True))
+          PY
+
+      - name: Preserve independently verified source processing waves
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-42111-93209351-staged-opportunity-budget-not-pixels
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp_42111_source_wave_verification/staged_source_budget_verified.json
+            results/fcp_real_42111_source_opportunity_20261016/verified_staged_execution_budget_20261016.json
