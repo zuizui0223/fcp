@@ -29,7 +29,7 @@ jobs:
       - name: Checkout code already verified by full RGFCA/FCP source-no-legacy CI
         uses: actions/checkout@v4
         with:
-          ref: 75bbe1d43c15ec1c703c8da2be282e7e83aad5dd
+          ref: 87fdd2facaaa0006cbea64ee4b5796a2bc11f8b0
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
@@ -120,6 +120,11 @@ jobs:
               or summary["source_taxon_overlaps_between_waves"]!=0
               or summary["total_original_new_image_pixels_ROI_measured"]!=1034
               or summary["total_classifiable_original_flower_ROIs"]!=405
+              or summary["n_species_with_at_least_40_classifiable_ROIs"]!=5
+              or summary["n_species_with_at_least_30_evaluable_96raw_photo_redraws"]!=3
+              or summary["n_species_with_repeatably_detected_RAW_photo_label_pair"]!=1
+              or summary["n_species_with_label_pair_and_structural_colour_QC_hold"]!=1
+              or summary["technical_resampling_reuses_max_96_photos_per_species_NOT_120_main"] is not True
               or summary["actual_20260927_original_source_photo_ID_membership_verified"] is not False
               or summary["actual_1000_taxon_200x250_formal_Ppoly_estimated"] is not False
               or summary["any_natural_population_flower_colour_polymorphism_proven"] is not False
@@ -129,6 +134,9 @@ jobs:
               "n_taxa":12,"n_actual_original_photo_ROI_measured":1034,
               "n_classifiable_ROI":405,
               "n_ge40_classifiable_species":summary["n_species_with_at_least_40_classifiable_ROIs"],
+              "n_technical_species_evaluable_in_at_least_30_resamples":summary["n_species_with_at_least_30_evaluable_96raw_photo_redraws"],
+              "n_repeated_raw_two_colour_photo_labels":summary["n_species_with_repeatably_detected_RAW_photo_label_pair"],
+              "n_repeated_photo_labels_structural_QC_hold":summary["n_species_with_label_pair_and_structural_colour_QC_hold"],
               "n_structural_colour_review_holds":summary["n_species_flagged_for_flower_organ_structure_review"],
               "photo_depth_strata":summary["available_photo_opportunity_strata"]
           },sort_keys=True))
