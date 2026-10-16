@@ -43,6 +43,15 @@
 
 [source-monthly ID → geography → first authentic pixels](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml) の実行待ち。CIは[220件合格](https://github.com/zuizui0223/fcp/actions/runs/38854597692)（合成検証であり元画像の新測定実行ではない）。
 
+### 最初に測る広域種の地域分散も検証（2026-10-16 改訂）
+
+『広域種が複数地域で観察される』ことと『最初にROI測定する写真が複数地域を代表する』ことは別問題。広域種／狭域種の写真IDは先に固定し、**最初に開く元画像**を5°地理セルのラウンドロビンで選ぶ。さらに広域種の実際の選抜画像について、**各セルに2件以上の異なるsource観察と2人以上の独立観察者があり、その2セルの球面重心間が1,000 km以上**あるか、元の2026-09-27月次写真メタデータと照合する。
+
+元の色blind 128枚候補CSVには撮影位置精度が含まれないため、最初のROI単位の開始前に真正な3,430,502件の元source photo ID表を再び読み、**候補photo ID / original observation ID / observer ID / 元座標を照合**して位置精度を回復する。位置精度欠損、50 km超、不正な座標、単発の遠距離写真は、最初の広域分散を成立させる証拠としない。地域分散を満たさない候補ペアは、結果を見てから都合よく入れ替えず、事前定義された次の対照ペアへ進める。妥当な広域ペアが見つからなければ測定単位を開かず停止する。
+
+元の写真観測精度、緯度経度、花色・地理区分等は**測定後の結合用サイドカー**だけに残し、YOLO/EfficientSAM花色評価器は引き続き最小3列のblind workerのみを受け取る。元の花ROI内部に白と黄がそれぞれ10%以上含まれる状態は、個体間多型の根拠ではなく花器官混在の独立QCとして報告する。
+
+追加テストは遠距離の1写真と位置誤差150 kmの偽広域候補を拒否し、正しい元月次photo IDのsource座標を改変したケースも測定前に拒否。[CI #38856359514](https://github.com/zuizui0223/fcp/actions/runs/38856359514) **224 passed**。mainのfirst ROI workflowはSHA固定コミット `2d6b1ac279063fe3692e966b22ffb0ce3a0145f7` で本処理に接続した。全てソース品質・測定コードの検証であり、新規本番の花色効果・生物学的広域多型率ではない。
 ## 実装・実行境界
 
 - 原本3,430,502枚のtargeted source metadata CSVを色測定前に検証し、全1,000種を対象とした地理的範囲CSV、広域先行ROI実行順CSV、SHA256付きJSONを出す。
