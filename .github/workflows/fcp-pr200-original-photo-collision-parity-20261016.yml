@@ -1,0 +1,36 @@
+name: FCP original source ID collision parity (synthetic no bulk download)
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-original-photo-collision-parity-20261016.yml
+
+permissions:
+  contents: read
+
+jobs:
+  compare-full-frame-vs-targeted-original-photo-identities:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install only local synthetic test dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest pandas numpy scipy
+      - name: Cross-check exact frame and targeted ID collision eligibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/acquisition/extract_rgfca_1000_original_monthly_photo_ids.py
+          python -m pytest \
+            tests/test_extract_rgfca_1000_original_monthly_photo_ids.py \
+            tests/test_fcp_open_data_bulk_import.py \
+            -q
+          echo FCP_TARGETED_AND_FULL_SOURCE_PARITY_SYNTHETIC_ONLY_NO_REAL_DATE_ARCHIVE_OR_PIXELS
