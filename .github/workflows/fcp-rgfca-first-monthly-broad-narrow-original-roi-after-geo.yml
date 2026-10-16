@@ -271,6 +271,43 @@ jobs:
           },sort_keys=True),flush=True)
           PY
 
+      - name: Post-blind source-month TerraClimate climate grid keys and absence QC (NO CLIMATE YET)
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The actual original ROI-v4 classifier has already finished.
+          # Climate/year and location are kept outside its three-column blind worker.
+          # Checked 8 source/observation/position/date synthetic contracts:
+          # https://github.com/zuizui0223/fcp/actions/runs/38900687329
+          git fetch --no-tags --depth=1 origin 0024be0e51c04890d3e979a75105620ea73a737d
+          git show 0024be0e51c04890d3e979a75105620ea73a737d:scripts/analysis/fcp_prepare_observed_month_terraclimate.py \
+            > "$ROOT/fcp_prepare_observed_month_terraclimate.py"
+          python "$ROOT/fcp_prepare_observed_month_terraclimate.py" \
+            --original-roi-photo-terminal "$ROOT/measured/first_original_geographically_matched_photo_terminal.csv" \
+            --original-roi-receipt "$ROOT/measured/first_geo_pair_real_pixel_receipt.json" \
+            --month-site-qc-receipt "$ROOT/month_season_qc/original_dated_month_site_receipt.json" \
+            --outdir "$ROOT/terraclimate_source_month_keys" \
+            --last-verified-climate-year 2025
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])/'terraclimate_source_month_keys'
+          report=json.loads((root/'postblind_terraclimate_request_receipt.json').read_text())
+          assert report['status']=='REAL_ORIGINAL_ROI_CLIMATE_REQUEST_KEYS_NOT_CLIMATE_MEASURED'
+          assert 16<=report['real_original_photo_pixels']<=64
+          assert 1<=report['original_independent_observations']<=report['real_original_photo_pixels']
+          assert report['no_2026_climate_values_fabricated_from_2025_or_1991_2020_normals'] is True
+          assert report['source_based_date_and_position_join_happens_after_blind_image_roi'] is True
+          assert report['no_climate_raster_download_or_temp_radiation_water_effect_estimated'] is True
+          assert report['all_93209351_original_source_photos_measured'] is False
+          print('FCP_REAL_FIRST_ORIGINAL_MONTHLY_FLOWER_TERRACLIMATE_GRID_REQUESTS_ONLY',json.dumps({
+            k:report[k] for k in ('original_independent_observations',
+            'real_original_photo_pixels','n_exact_source_month_raster_cells_to_request',
+            'observations_by_climate_request_eligibility',
+            'observations_by_photo_colour_phenotype')
+          },sort_keys=True),flush=True)
+          PY
+
       - name: Retain actual real original photo terminals and all per-source hashes, NOT inferred polymorphism
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
@@ -285,6 +322,7 @@ jobs:
             /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/measured/
             /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/month_season_qc/
             /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/season_overlap/
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/terraclimate_source_month_keys/
 
       - name: Retain original source and precolour matched-photo selection diagnostic on failure
         if: ${{ failure() }}
