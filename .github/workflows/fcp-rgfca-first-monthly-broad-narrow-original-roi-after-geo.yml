@@ -1,0 +1,178 @@
+name: FCP RGFCA first genuine monthly broad narrow original ROI pixels
+
+on:
+  workflow_run:
+    workflows:
+      - FCP RGFCA 1000 observed broad geography priority after exact source
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-20260927-first-genuine-broad-narrow-pair-once
+  cancel-in-progress: false
+
+jobs:
+  original-monthly-dated-first-broad-narrow-ROI-pixels:
+    if: >-
+      ${{ github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.name == 'FCP RGFCA 1000 observed broad geography priority after exact source' &&
+          github.event.workflow_run.event == 'workflow_run' &&
+          github.event.workflow_run.head_branch == 'main' &&
+          github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+          github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      ROOT: /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels
+      SAM: /tmp/fcp-rgfca-first-original-sam
+      GLOBAL_PROVIDER_RATE_FILE: /tmp/fcp-rgfca-first-monthly-original-provider-rate
+      FCP_PROVIDER_GLOBAL_RATE_FILE: /tmp/fcp-rgfca-first-monthly-original-provider-rate
+      GEO_RUN: ${{ github.event.workflow_run.id }}
+      SOURCE_RUN: "38847189688"
+    steps:
+      - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
+        uses: actions/checkout@v4
+        with:
+          ref: 4436a352941c7878b1db920c2236b70de466ebb3
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install original ROI-v4 + EfficientSAM dependencies for real image pixels
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow \
+            ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
+
+      - name: Verify GEO workflow actually succeeded for the exact original 2026-09-27 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/geography" "$ROOT/monthly_source"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GEO_RUN" > "$ROOT/geo_workflow_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$ROOT/source_workflow_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          geo=json.loads((root/'geo_workflow_run.json').read_text())
+          source=json.loads((root/'source_workflow_run.json').read_text())
+          if not (
+              geo.get('name')=='FCP RGFCA 1000 observed broad geography priority after exact source'
+              and geo.get('event')=='workflow_run'
+              and geo.get('status')=='completed'
+              and geo.get('conclusion')=='success'
+              and geo.get('run_attempt')==1
+              and geo.get('head_branch')=='main'
+              and geo.get('head_repository',{}).get('full_name')=='zuizui0223/fcp'
+              and source.get('id')==38847189688
+              and source.get('head_sha')=='368b05b6e52d43289f13ecd06896db4853e9d062'
+              and source.get('head_branch')=='analysis/fcp-fresh-uncapped-zero-20261015'
+              and source.get('status')=='completed'
+              and source.get('conclusion')=='success'
+              and source.get('run_attempt')==1
+              and source.get('head_repository',{}).get('full_name')=='zuizui0223/fcp'):
+              raise SystemExit('No valid chain of full 2026-09-27 targeted 1000 source and precolour geography')
+          print('FCP_VERIFIED_20260927_MONTHLY_SOURCE_TO_GEO_CHAIN',flush=True)
+          PY
+          gh run download "$GEO_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-real-original-observed-broad-geography-precolour-NO-PIXELS \
+            --dir "$ROOT/geography"
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/monthly_source"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          x=json.loads((root/'geography/origin_run.json').read_text())
+          if (x.get('id')!=38847189688 or x.get('status')!='completed'
+              or x.get('conclusion')!='success'
+              or x.get('head_sha')!='368b05b6e52d43289f13ecd06896db4853e9d062'):
+              raise SystemExit('Source hash/version not inherited from original geographic priority audit')
+          PY
+
+      - name: Prepare first colour-blind matched broad and narrow original source photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import select_unit
+          root=Path(os.environ['ROOT'])
+          record=select_unit(root/'monthly_source',root/'geography/results',root/'prepared')
+          assert record['status']=='ORIGINAL_MONTHLY_SOURCE_GEOGRAPHIC_PAIR_PREPARED_NO_PIXELS'
+          assert record['source_image_IDs_from_verified_monthly_20260927'] is True
+          assert record['number_original_photo_IDs_in_first_unit']>=16
+          assert record['number_original_photo_IDs_in_first_unit']<=64
+          assert record['n_original_photo_pixels_opened']==0
+          assert record['n_broad_original_photos']==record['n_narrow_original_photos']
+          assert record['selection_uses_no_flower_colour_or_environment'] is True
+          print('FCP_REAL_ORIGINAL_MONTHLY_BROAD_NARROW_PAIR_PRECOLOUR_READY',
+                json.dumps({k:record[k] for k in
+                ('matched_pair_id','broad_taxon_id','narrow_taxon_id',
+                 'number_original_photo_IDs_in_first_unit',
+                 'per_taxon_per_observer_fold_photo_depth')},sort_keys=True),flush=True)
+          PY
+
+      - name: Restore SHA-pinned ORIGINAL 1499-species YOLO detector + EfficientSAM
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
+
+      - name: ACTUALLY measure 16-to-64 genuine 2026-09-27 original photo pixels matched broad vs narrow
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import measure_unit
+          root=Path(os.environ['ROOT'])
+          record=measure_unit(
+              root/'prepared',root/'measured',
+              method=Path('scripts/analysis/measure_random_photo_first_blind_partition.py'),
+              detector=Path('data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt'),
+              sam=Path(os.environ['SAM']))
+          if (record['status']!='FIRST_GENUINE_MONTHLY_ORIGINAL_GEO_MATCHED_PIXELS_MEASURED_NOT_1000_SPECIES'
+              or record['new_original_photo_pixels_processed']<16
+              or record['new_original_photo_pixels_processed']>64
+              or record['full_RGFCAROI1000_complete'] is not False
+              or record['old_measured_colours_imported'] is not False):
+              raise SystemExit('Original source geographic pair real pixel receipt not admissible')
+          PY
+
+      - name: Retain actual real original photo terminals and all per-source hashes, NOT inferred polymorphism
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-first-ACTUAL-20260927-monthly-original-broad-narrow-ROI-pixels-NOT-FULL
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/source_workflow_run.json
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/geo_workflow_run.json
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/prepared/
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/measured/
+
+      - name: Retain original source and precolour matched-photo selection diagnostic on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-first-20260927-broad-narrow-ROI-FAILURE-NOT-BIOLOGICAL
+          retention-days: 45
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/source_workflow_run.json
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/geo_workflow_run.json
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/prepared/first_matched_pair_precolour_source_receipt.json
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/measured/frozen_method_attestation.json
