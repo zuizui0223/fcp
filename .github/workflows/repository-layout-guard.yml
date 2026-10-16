@@ -7,6 +7,9 @@ on:
       - README.md
       - CURRENT_PAPER_REPRODUCIBILITY.md
       - pyproject.toml
+      - study_scope.json
+      - scripts/check_study_scope.py
+      - docs/STUDY_SCOPE_FCP_MOIS_20261016.md
       - .github/workflows/**
       - archive/workflows/**
       - tests/test_repository_layout.py
@@ -17,6 +20,9 @@ on:
       - README.md
       - CURRENT_PAPER_REPRODUCIBILITY.md
       - pyproject.toml
+      - study_scope.json
+      - scripts/check_study_scope.py
+      - docs/STUDY_SCOPE_FCP_MOIS_20261016.md
       - .github/workflows/**
       - archive/workflows/**
       - tests/test_repository_layout.py
@@ -34,7 +40,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Verify active-paper and archived-workflow boundaries
-        run: |
-          python tests/test_repository_layout.py
-          python tests/test_upstream_spatial_reaudit.py
+      - name: Install test runner
+        run: python -m pip install pytest==8.4.2
+      - name: Execute active-paper and archived-workflow tests
+        run: python -m pytest -q tests/test_repository_layout.py tests/test_upstream_spatial_reaudit.py
+      - name: Check intraspecific FCP scientific scope
+        run: python scripts/check_study_scope.py

@@ -1,0 +1,46 @@
+{
+  "schema": "flower_colour_study_inference_boundary_v1",
+  "date": "2026-10-16",
+  "study": "fcp",
+  "repository": "zuizui0223/fcp",
+  "other_repository": "zuizui0223/mois",
+  "estimand_level": "within_named_species_photographic_colour_structure",
+  "unit": "conspecific photo, photographed locality, species and pre-frozen species-disjoint cohorts",
+  "shared_upstream": {
+    "origin": "iNaturalist flowering-photo ecosystem (historical FCP source lineage)",
+    "relationship": "Shared source family and measurement lineage; frozen study photo-ID intersection is not yet audited",
+    "photo_id_intersection_status": "not_measured",
+    "independent_source_replication": false,
+    "can_pool_model_estimates": false
+  },
+  "fixed_analysis_frame": {
+    "photographs": 149900,
+    "named_species": 1499,
+    "cohorts": {
+      "discovery": 500,
+      "validation": 500,
+      "prospective": 499
+    },
+    "is_global_polymorphism_prevalence_denominator": false
+  },
+  "active_manuscript": "docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md",
+  "primary_result_paths": [
+    "results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json",
+    "results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json"
+  ],
+  "outcomes": [
+    "species-wide photographed four-hue diversity D",
+    "species-conditioned local colour-pair diversity depletion at 50 km",
+    "pre-frozen achromatic-versus-chromatic displacement statistic W"
+  ],
+  "null_family": [
+    "within-species exact hue-composition spatial null",
+    "coarse-state-preserving prospective H2 structured null"
+  ],
+  "excluded_primary_claims": [
+    "global congeneric white-rainfall coefficient",
+    "worldwide percent white represents genetic morph balance",
+    "measured natural-selection or pigmentation fitness"
+  ],
+  "prospective_analyses": "More site- and date-resolved conspecific colour variation, with observation opportunity, observer, ROI/clipping and species-specific spatial/seasonal blocks; do not import mois global slope as mechanism"
+}
