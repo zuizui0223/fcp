@@ -129,6 +129,10 @@ def compare(wave1:Path,wave2:Path,roster:Path,outdir:Path,*,synthetic=False)->di
             "RGFCA_48_per_fold_evaluable_repetitions":int(row["depth_48_evaluable_repetitions"]),
             "RGFCA_48_per_fold_photo_LABEL_detection":(
                 row["depth_48_conditional_photo_label_detection"]),
+            "P_evaluable_depth96_photo_technical":round(
+                int(row["depth_48_evaluable_repetitions"])/200,12),
+            "P_photo_label_pair_joint_depth96_photo_technical":round(
+                int(row["depth_48_positive_photo_label_repetitions"])/200,12),
             "photolabel_repetition_support_not_biological_FCP":capable and photo_signal,
             "within_one_ROI_structural_review_hold":structural,
             "phenotypic_polymorphism_confirmed":False,
@@ -140,6 +144,8 @@ def compare(wave1:Path,wave2:Path,roster:Path,outdir:Path,*,synthetic=False)->di
         tierstats["n_original_photos"]+=n
         tierstats["n_classifiable_ROI"]+=v
         tierstats["n_taxa_ge40_valid"]+=int(v>=40)
+        tierstats["n_taxa_with_evaluable_technical_photo_redraws_ge30"]+=int(capable)
+        tierstats["n_taxa_with_raw_photo_label_pair_redetected"]+=int(capable and photo_signal)
         tierstats["n_taxa_structural_review_hold"]+=int(structural)
     if not synthetic and (
         len(joined)!=12
@@ -166,6 +172,14 @@ def compare(wave1:Path,wave2:Path,roster:Path,outdir:Path,*,synthetic=False)->di
         "image_classifiable_fraction_descriptive_only":nvalid/nphoto if nphoto else 0,
         "n_species_with_at_least_40_classifiable_ROIs":sum(
             x["classifiable_original_ROI"]>=40 for x in joined),
+        "n_species_with_at_least_30_evaluable_96raw_photo_redraws":sum(
+            x["RGFCA_48_per_fold_evaluable_repetitions"]>=30 for x in joined),
+        "n_species_with_repeatably_detected_RAW_photo_label_pair":sum(
+            x["photolabel_repetition_support_not_biological_FCP"] for x in joined),
+        "n_species_with_label_pair_and_structural_colour_QC_hold":sum(
+            x["photolabel_repetition_support_not_biological_FCP"]
+            and x["within_one_ROI_structural_review_hold"] for x in joined),
+        "technical_resampling_reuses_max_96_photos_per_species_NOT_120_main":True,
         "n_species_flagged_for_flower_organ_structure_review":sum(
             x["within_one_ROI_structural_review_hold"] for x in joined),
         "available_photo_opportunity_strata":{
