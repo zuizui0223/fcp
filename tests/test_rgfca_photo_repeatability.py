@@ -107,7 +107,7 @@ def setup(tmp_path):
 
 def test_true_two_colour_photo_states_repeat_across_observer_disjoint_draws():
     photos=original_photos(11)
-    draws=[one_draw(11,"Species redwhite",1000,photos,r)
+    draws=[one_draw(11,"Species redwhite",1000,photos,r,per_fold=40)
            for r in range(1,51)]
     assert all(x["n_selected"]==80 for x in draws)
     assert all(x["evaluable"] for x in draws)
@@ -117,7 +117,7 @@ def test_true_two_colour_photo_states_repeat_across_observer_disjoint_draws():
 
 
 def test_one_photographic_state_is_not_monomorphic_evidence():
-    draws=[one_draw(12,"Species alwayswhite",1000,original_photos(12,variable=False),r)
+    draws=[one_draw(12,"Species alwayswhite",1000,original_photos(12,variable=False),r,per_fold=40)
            for r in range(1,21)]
     assert all(x["evaluable"] for x in draws)
     assert all(x["photo_poly_detected"] is False for x in draws)
@@ -126,7 +126,7 @@ def test_one_photographic_state_is_not_monomorphic_evidence():
 
 def test_unclassifiable_source_photos_are_not_replaced_or_dropped():
     photos=original_photos(11,quality=.25)
-    r=one_draw(11,"Species redwhite",1000,photos,1)
+    r=one_draw(11,"Species redwhite",1000,photos,1,per_fold=40)
     assert r["n_selected"]==80
     assert r["n_classifiable"] < 40
     assert r["evaluable"] is False
@@ -180,3 +180,31 @@ def test_empty_photo_pool_never_yields_false_biological_negative(tmp_path):
     result=repeat(species,assignments,{},out,synthetic=True)
     assert result["n_repeated_phenotypic_polymorphism_species"]==0
     assert result["n_species_unresolved_or_not_evaluable"]==1
+
+
+def test_after_39_of_96_empirical_roi_success_120photo_resampling_is_primary():
+    photos=original_photos(11)
+    primary=one_draw(11,"Species redwhite",1000,photos,1)
+    original=one_draw(11,"Species redwhite",1000,photos,1,per_fold=40)
+    assert primary["n_selected"]==120
+    assert primary["fold_0_classifiable"]==60
+    assert primary["fold_1_classifiable"]==60
+    assert original["n_selected"]==80
+    assert primary["evaluable"] and original["evaluable"]
+
+
+def test_rgfca_40_80_120_128_sensitivities_do_not_redefine_taxon_universe(tmp_path):
+    cohort,sched,provenance,measured,receipt=setup(tmp_path)
+    species,assignments=validate_schedule(cohort,sched,provenance,synthetic=True)
+    photos=load_new_roi(measured,receipt,species,synthetic=True)
+    report=repeat(species,assignments,photos,tmp_path/"depths",synthetic=True)
+    assert report["primary_120_photo_draw_and_60_photo_per_observer_fold"] is True
+    assert report["sensitivity_photo_draw_sizes"]==[40,80,120,128]
+    with (tmp_path/"depths/species_rgfca_repeated_photo_polymorphism.csv").open() as source:
+        measured=list(csv.DictReader(source))
+    assert len(measured)==2
+    for record in measured:
+        assert record["P_poly_primary_photo_draw"]=="120"
+        counts=json.loads(record["draw_depth_sensitivity_counts"])
+        assert set(counts)=={"40","80","120","128"}
+        assert all(counts[t]["evaluable"]<=50 for t in counts)
