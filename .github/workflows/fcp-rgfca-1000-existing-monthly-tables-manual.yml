@@ -1,0 +1,210 @@
+name: FCP RGFCA 1000 genuine monthly source from existing tables (manual)
+
+# Manual only: no provider archive/image downloads, and no 93-million-image run.
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        type: choice
+        required: true
+        default: preflight
+        options: [preflight, source_ids, screen_workers]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-rgfca-1000-existing-monthly-source-exclusive
+  cancel-in-progress: false
+
+jobs:
+  source-only-on-operator-approved-durable-runner:
+    if: \${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: [self-hosted, linux, x64, fcp-rgfca-durable]
+    timeout-minutes: 1440
+    env:
+      ROOT: \${{ vars.FCP_RGFCA_ROOT }}
+      PHASE: \${{ inputs.phase }}
+    steps:
+      - name: Checkout pinned corrected exact 1000-source code
+        uses: actions/checkout@v4
+        with:
+          ref: 64ccc3519b5f46a7b278d9af75dd5d06515ee649
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Validate existing immutable source, independent reference hashes and persistent disk
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,shutil
+          from pathlib import Path
+          from scripts.acquisition.extract_rgfca_1000_original_monthly_photo_ids import (
+              load_cohort,audit_tables,ARCHIVE_SHA,ORIGINAL_TABLE_HASHES,
+              RGFCA_ENROLLED_PHOTOS)
+          from fcp_pipeline.fcp_allphotos import sha256_file
+          raw=os.environ.get('ROOT','')
+          if not raw or not Path(raw).is_absolute():
+              raise SystemExit('Repository variable FCP_RGFCA_ROOT must be an absolute persistent path')
+          untrusted=Path(raw)
+          if not untrusted.is_dir() or untrusted.is_symlink():
+              raise SystemExit('No existing non-symlink persistent source root')
+          root=untrusted.resolve()
+          deny=(Path('/'),Path('/tmp'),Path('/var/tmp'),Path('/dev/shm'),
+                Path('/home/runner/work'),Path('/home/runner/_work'))
+          if os.environ.get('RUNNER_TEMP'):
+              deny+=(Path(os.environ['RUNNER_TEMP']).resolve(),)
+          if any(root==p or p in root.parents for p in deny):
+              raise SystemExit('Refusing GitHub-hosted, temporary or unsafe source directory')
+          marker=root/'FCP_RGFCA_EXISTING_PROVIDER_TABLES_APPROVED'
+          statement='I confirm these are existing approved persistent 2026-09-27 source tables; no archive redownload.'
+          if not marker.is_file() or marker.is_symlink() or marker.read_text().strip()!=statement:
+              raise SystemExit('Existing provider tables require operator authorisation and persistence sentinel')
+          path=root/'frozen_4_original_metadata_tables'
+          tables={key:path/(key+'.csv.gz') for key in ('taxa','observations','observers','photos')}
+          frame=root/'inputs/42111_original_species_frame.csv'
+          counts=root/'verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv'
+          audit=root/'independent_audit/all_42111_photo_opportunity_audit.json'
+          roster=root/'rgfca_enrolment/rgfca_species_1000_original_source_only.csv'
+          roster_receipt=root/'rgfca_enrolment/rgfca_sample_receipt.json'
+          pin=path/'fcp_source_archive_pin.json'
+          for item in (frame,counts,audit,roster,roster_receipt,pin,*tables.values()):
+              if not item.is_file() or item.is_symlink() or root not in item.resolve().parents:
+                  raise SystemExit('Missing/unsafe original SHA-pinned source file: '+str(item))
+          if sha256_file(audit)!='ed62aee0f9730ad17347d25180575af1cd101e0fc35c581e470c4a17866ebf56':
+              raise SystemExit('Independent source taxon audit file changed')
+          names,selected=load_cohort(frame,counts,audit,roster,roster_receipt)
+          if len(names)!=42111 or len(selected)!=1000 or sum(selected.values())!=RGFCA_ENROLLED_PHOTOS:
+              raise SystemExit('The frozen outcome-blind RGFCA 1000-species source cohort changed')
+          free=shutil.disk_usage(root).free
+          if free<20_000_000_000:
+              raise SystemExit('Need >=20GB additional FREE persistent scratch beyond existing provider tables')
+          phase=os.environ['PHASE']
+          if phase=='preflight':
+              attest=audit_tables(pin,tables)
+              if attest['source_archive_sha256']!=ARCHIVE_SHA or attest['source_table_sha256']!=ORIGINAL_TABLE_HASHES:
+                  raise SystemExit('Wrong 2026-09-27 archive/table SHA hashes')
+          elif phase=='source_ids':
+              if (root/'rgfca_1000_exact_source_photo_IDs').exists():
+                  raise SystemExit('An earlier source ID attempt exists; inspect/quarantine rather than overwrite')
+          elif phase=='screen_workers':
+              from scripts.acquisition.extract_rgfca_1000_original_monthly_photo_ids import RGFCA_ENROLLED_PHOTOS
+              parent=root/'rgfca_1000_exact_source_photo_IDs'
+              manifest=parent/'rgfca_1000_complete_original_source_photo_IDs.csv'
+              receipt=parent/'rgfca_1000_targeted_monthly_photo_ID_receipt.json'
+              if not manifest.is_file() or not receipt.is_file():
+                  raise SystemExit('Complete 1000-taxon original photo-ID source is missing')
+              doc=json.loads(receipt.read_text())
+              if (doc.get('status')!='COMPLETE_TARGETED_1000_MONTHLY_SOURCE_IDS_COUNT_MATCHED_NO_PHOTO_PIXELS'
+                  or doc.get('n_selected_original_photo_IDs')!=RGFCA_ENROLLED_PHOTOS
+                  or doc.get('selected_all_photo_IDs_csv_sha256')!=sha256_file(manifest)
+                  or doc.get('source_archive_sha256')!=ARCHIVE_SHA
+                  or doc.get('source_table_sha256')!=ORIGINAL_TABLE_HASHES
+                  or doc.get('all_enrolled_species_match_independent_full_source_photo_ID_counts') is not True
+                  or doc.get('original_image_pixels_opened') is not False):
+                  raise SystemExit('Source ID receipt and real manifest differ; no worker freeze')
+              if (root/'rgfca_1000_photo_colour_blind_selection').exists() or (root/'rgfca_1000_original_photo_blind_worker_freeze').exists():
+                  raise SystemExit('Earlier worker attempt exists; inspect/quarantine rather than overwrite')
+          else:
+              raise SystemExit('Invalid manual phase')
+          print('FCP_1000_ORIGINAL_DATED_LOCAL_SOURCE_PREFLIGHT_OK',
+                json.dumps({'phase':phase,'source_species':1000,'target_photo_IDs':RGFCA_ENROLLED_PHOTOS,
+                            'durable_free_bytes':free,'measured_photo_pixels':0}),flush=True)
+          PY
+
+      - name: Build exact 3,430,502 original IDs from existing dated four source tables only
+        if: \${{ inputs.phase == 'source_ids' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.extract_rgfca_1000_original_monthly_photo_ids \
+            --source-frame "$ROOT/inputs/42111_original_species_frame.csv" \
+            --source-counts "$ROOT/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --independent-audit "$ROOT/independent_audit/all_42111_photo_opportunity_audit.json" \
+            --rgfca-cohort "$ROOT/rgfca_enrolment/rgfca_species_1000_original_source_only.csv" \
+            --rgfca-receipt "$ROOT/rgfca_enrolment/rgfca_sample_receipt.json" \
+            --dated-archive-pin "$ROOT/frozen_4_original_metadata_tables/fcp_source_archive_pin.json" \
+            --source-taxa-gz "$ROOT/frozen_4_original_metadata_tables/taxa.csv.gz" \
+            --source-observations-gz "$ROOT/frozen_4_original_metadata_tables/observations.csv.gz" \
+            --source-observers-gz "$ROOT/frozen_4_original_metadata_tables/observers.csv.gz" \
+            --source-photos-gz "$ROOT/frozen_4_original_metadata_tables/photos.csv.gz" \
+            --outdir "$ROOT/rgfca_1000_exact_source_photo_IDs"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['ROOT'])/'rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json').read_text())
+          assert d['status']=='COMPLETE_TARGETED_1000_MONTHLY_SOURCE_IDS_COUNT_MATCHED_NO_PHOTO_PIXELS'
+          assert d['enrolled_outcome_blind_taxa']==1000
+          assert d['n_selected_original_photo_IDs']==3430502
+          assert d['all_enrolled_species_match_independent_full_source_photo_ID_counts'] is True
+          assert d['original_image_pixels_opened'] is False
+          print('FCP_1000_MONTHLY_SOURCE_PHOTO_ID_CENSUS_COMPLETE_NO_PIXELS',3430502,flush=True)
+          PY
+
+      - name: Source-bound 64+64 screen and 128 three-field blind worker partitions
+        if: \${{ inputs.phase == 'screen_workers' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.plan_rgfca_screen_from_targeted_original_monthly_photo_ids \
+            --targeted-dated-photo-ID-CSV "$ROOT/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --targeted-dated-photo-ID-receipt "$ROOT/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --original-42111-frame "$ROOT/inputs/42111_original_species_frame.csv" \
+            --original-42111-counts "$ROOT/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --independent-source-audit "$ROOT/independent_audit/all_42111_photo_opportunity_audit.json" \
+            --rgfca-1000-roster "$ROOT/rgfca_enrolment/rgfca_species_1000_original_source_only.csv" \
+            --rgfca-roster-receipt "$ROOT/rgfca_enrolment/rgfca_sample_receipt.json" \
+            --photos-per-observer-fold 64 --max-per-observer 8 \
+            --outdir "$ROOT/rgfca_1000_photo_colour_blind_selection"
+          python -m scripts.acquisition.freeze_fcp_photo_first_blind_workers \
+            --selected-metadata "$ROOT/rgfca_1000_photo_colour_blind_selection/photo_screen_original_metadata_selected.csv" \
+            --selection-receipt "$ROOT/rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json" \
+            --source-frame "$ROOT/inputs/42111_original_species_frame.csv" \
+            --source-counts "$ROOT/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --outdir "$ROOT/rgfca_1000_original_photo_blind_worker_freeze"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          d=json.loads((root/'rgfca_1000_original_photo_blind_worker_freeze/photo_screen_freeze.json').read_text())
+          s=json.loads((root/'rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json').read_text())
+          if (d.get('status')!='SEALED_ORIGINAL_PHOTO_SCREEN_SOURCE_BLIND_NOT_FULL_CENSUS'
+              or d.get('worker_partitions')!=128
+              or d.get('screen_selected_original_photo_IDs')!=s.get('selected_photo_IDs')
+              or not 0<d.get('screen_selected_original_photo_IDs',0)<=128000
+              or d.get('image_worker_sees_only_three_fields') is not True
+              or d.get('original_image_pixels_opened') is not False):
+              raise SystemExit('Bad 128-worker source freeze: do not admit ROI')
+          print('FCP_1000_REAL_128_BLIND_WORKERS_FROZEN_NO_PIXELS',d['screen_selected_original_photo_IDs'],flush=True)
+          PY
+
+      - name: Publish compact source progress and failure receipts ONLY
+        if: \${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-existing-source-status-\${{ inputs.phase }}-\${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            \${{ vars.FCP_RGFCA_ROOT }}/frozen_4_original_metadata_tables/fcp_source_archive_pin.json
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/scanning_real_20260927_rgfca_source_progress.json
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/FAILED_selected_source_taxon_count_mismatches.json
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_original_photo_blind_worker_freeze/photo_screen_freeze.json
+
+      - name: Upload verified original 1000 source and 128 workers, never pixels
+        if: \${{ success() && inputs.phase == 'screen_workers' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 5
+          path: |
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_original_photo_ID_counts.csv
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_photo_colour_blind_selection/
+            \${{ vars.FCP_RGFCA_ROOT }}/rgfca_1000_original_photo_blind_worker_freeze/
