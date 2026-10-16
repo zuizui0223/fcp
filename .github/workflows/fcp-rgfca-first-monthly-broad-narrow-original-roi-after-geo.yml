@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: afcfe0e69f7d1dbdf045e7b74ede818826979c08
+          ref: 40263b8dd0129dd88d354131d28a38a86ba58549
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -119,6 +119,13 @@ jobs:
           assert record['original_photo_first_unit_geographic_cell_round_robin'] is True
           assert record['n_source_geographic_cells_selected_by_group']['broad']>=1
           assert record['n_source_geographic_cells_selected_by_group']['narrow']>=1
+          assert record['source_location_accuracy_reverified_in_first_ROI_photo_subset'] is True
+          assert record['original_photo_accuracy_kept_out_of_blind_image_evaluator'] is True
+          supported=record['broad_original_first_pixel_geographic_support']
+          assert supported['geographic_accuracy_of_selected_subset_independently_verified'] is True
+          assert supported['selected_positions_from_exact_original_monthly_photo_IDs'] is True
+          assert supported['n_supported_selected_cells']>=2
+          assert supported['max_supported_selected_cell_centroid_distance_km']>=1000
           print('FCP_REAL_ORIGINAL_MONTHLY_BROAD_NARROW_PAIR_PRECOLOUR_READY',
                 json.dumps({k:record[k] for k in
                 ('matched_pair_id','broad_taxon_id','narrow_taxon_id',
