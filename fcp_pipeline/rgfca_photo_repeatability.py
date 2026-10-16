@@ -160,9 +160,9 @@ def _photo_priority(rep: int, taxon: int, photo_id: str) -> str:
 
 
 def one_draw(taxon: int, species: str, n_source: int, original_rows: list[dict],
-             rep: int, *, per_fold: int = 40) -> dict:
-    if not 1 <= per_fold <= 64:
-        raise ValueError("Primary RGFCA source-photo draw is 40 per observer fold")
+             rep: int, *, per_fold: int = 60) -> dict:
+    if per_fold not in (20, 40, 60, 64):
+        raise ValueError("RGFCA photo draw must be one frozen source-only depth 40/80/120/128")
     selection = []
     for fold in (0, 1):
         pool = sorted((x for x in original_rows if x["fold"] == fold),
@@ -218,10 +218,18 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         item = registry[taxon]
         rows = pool.get(taxon, [])
         trials = []
+        depth_trials = {20: [], 40: [], 60: [], 64: []}
         for rep in grouped[taxon]:
             trial = one_draw(taxon,item["species"],int(item["source_photo_opportunities"]),
-                             rows,rep)
+                             rows,rep,per_fold=60)
             trials.append((rep, trial))
+            depth_trials[60].append(trial)
+            # Frozen source-only draw-depth sensitivity. R=200 species
+            # schedules and source-photo opportunities are unchanged.
+            for fold_n in (20,40,64):
+                depth_trials[fold_n].append(
+                    one_draw(taxon,item["species"],int(item["source_photo_opportunities"]),
+                             rows,rep,per_fold=fold_n))
             for cutoff in wave_counts:
                 if rep<=cutoff:
                     wave_counts[cutoff]["inclusions"]+=1
@@ -230,6 +238,13 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         eligible = sum(v["evaluable"] for _,v in trials)
         positives = sum(v["photo_poly_detected"] for _,v in trials)
         reliability = positives/eligible if eligible else None
+        depths = {
+            str(fold_n*2): {
+                "evaluable":sum(v["evaluable"] for v in series),
+                "positive":sum(v["photo_poly_detected"] for v in series),
+            }
+            for fold_n, series in depth_trials.items()
+        }
         if not rows or eligible < 30:
             tier = "not_evaluable_or_insufficient_repeated_roi_support"
         elif reliability is not None and reliability >= .8:
@@ -246,6 +261,8 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             "evaluable_40photo_observer_disjoint_draws":eligible,
             "positive_independent_observer_colour_draws":positives,
             "conditional_photo_colour_P_poly":"" if reliability is None else round(reliability,12),
+            "P_poly_primary_photo_draw":120,
+            "draw_depth_sensitivity_counts":json.dumps(depths,sort_keys=True),
             "repeatability_0_80_status":tier,
             "genetic_polymorphism_established":False,
             "monomorphic_if_not_detected":False,
@@ -266,7 +283,11 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         "selected_species":len(registry),
         "balanced_realizations":max(int(r["realization"]) for r in assignments),
         "number_photo_draw_assignments":len(assignments),
-        "primary_80_photo_draw_and_40_photo_per_observer_fold":True,
+        "primary_120_photo_draw_and_60_photo_per_observer_fold":True,
+        "primary_draw_changed_pre_image_due_96photo_pilot_classifiability":True,
+        "sensitivity_photo_draw_sizes":[40,80,120,128],
+        "source_photo_acquisition_max_per_species":128,
+        "probability_estimated_only_conditional_on_classified_original_photos":True,
         "n_repeated_phenotypic_polymorphism_species":tiers.get(
             "repeatably_photo_polymorphic_phenotype",0),
         "n_species_unresolved_or_not_evaluable":tiers.get(
