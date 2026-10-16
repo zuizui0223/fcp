@@ -118,7 +118,17 @@ def test_true_observer_supported_broad_and_narrow_while_removing_single_point_ou
     assert z[101]["is_native_range_confirmed"]=="False"
     assert all(x["original_image_pixels_opened"]=="False" for x in z.values())
     first=list(csv.DictReader((out/"rgfca_1000_precolour_broad_geography_first_priority.csv").open()))
-    assert int(first[0]["inat_taxon_id"])==101
+    assert [int(first[i]["inat_taxon_id"]) for i in (0,1)]==[101,104]
+    pairs=list(csv.DictReader((out/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv").open()))
+    assert len(pairs)==1
+    assert pairs[0]["broad_taxon_id"]=="101" and pairs[0]["narrow_taxon_id"]=="104"
+    assert pairs[0]["opportunity_stratum"]=="medium_256_1023"
+    assert float(pairs[0]["source_photo_count_ratio"])<=4
+    assert pairs[0]["matched_before_any_original_photo_pixels"]=="True"
+    assert got["n_broad_narrow_pairs_matched_on_original_photo_depth"]==1
+    assert got["matching_does_not_replace_original_1000_species_cohort"] is True
+    assert got["geographic_matching_pair_csv_sha256"]==sha256(
+        out/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv")
     assert got["existing_200x250_repetition_schedule_unchanged"] is True
     assert got["n_original_new_pixels_measured"]==0
 
@@ -159,3 +169,27 @@ def test_no_destructive_rerun_or_image_data_inputs(tmp_path):
         run(raw,receipt,roster,out,synthetic=True)
     assert original["climate_soil_W_or_H2_estimated"] is False
     assert not set(["morph","pigment","flower_colour","measured_colour"]) & set(results(out)[101])
+
+
+
+def test_geographic_narrow_controls_dont_overmatch_unrelated_source_count_tiers(tmp_path):
+    raw,receipt,roster=fixture(tmp_path)
+    with roster.open(newline="") as f:
+        rows=list(csv.DictReader(f))
+    # The only geographically narrow same-tier taxon is moved to the same
+    # native-free test stratum as the second narrow species; no matching
+    # across source-photo-depth strata is permitted.
+    for row in rows:
+        if row["inat_taxon_id"]=="104":
+            row["opportunity_stratum"]="shallow_128_255"
+    with roster.open("w",newline="") as f:
+        w=csv.DictWriter(f,fieldnames=ROSTER_FIELDS)
+        w.writeheader();w.writerows(rows)
+    r=json.loads(receipt.read_text())
+    r["frozen_1000_source_enrolment_sha256"]=sha256(roster)
+    receipt.write_text(json.dumps(r))
+    out=tmp_path/"unmatched"
+    result=run(raw,receipt,roster,out,synthetic=True)
+    assert result["n_broad_narrow_pairs_matched_on_original_photo_depth"]==0
+    assert result["source_species"]==4
+    assert list(csv.DictReader((out/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv").open()))==[]
