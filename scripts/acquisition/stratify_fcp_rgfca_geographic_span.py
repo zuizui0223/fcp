@@ -281,14 +281,87 @@ def run(manifest:Path,source_receipt:Path,roster:Path,outdir:Path, *,
         return (category[r["geographic_sampling_category"]],
                 -r["max_supported_cluster_separation_km"],
                 _hash("priority",r["inat_taxon_id"]))
-    ordered=sorted(results,key=rank)
+    # Within each immutable photo-opportunity tier, pair broad-sampled taxa
+    # to narrow-sampled comparison taxa with similar source count. Never
+    # select species based on photo colour or on repeatability outcomes.
+    # A factor-of-4 caliper prevents wildly imbalanced photo-depth matches.
+    # Broad taxa without eligible controls and all other 1000 taxa stay in the
+    # source roster and all scientific denominators.
+    pairs=[]
+    used_controls=set()
+    matched_broad=set()
+    for tier in sorted({r["opportunity_stratum"] for r in results}):
+        broad=sorted((r for r in results
+                      if r["opportunity_stratum"]==tier and
+                      r["geographic_sampling_category"]=="broad_observed_1000km_supported"),
+                     key=lambda r:(r["source_photo_opportunities"],
+                                   _hash("broad",r["inat_taxon_id"])))
+        narrow=[r for r in results
+                if r["opportunity_stratum"]==tier and
+                r["geographic_sampling_category"]=="narrow_observed_p95_le200km"]
+        for candidate in broad:
+            valid=[r for r in narrow
+                   if r["inat_taxon_id"] not in used_controls
+                   and max(r["source_photo_opportunities"],candidate["source_photo_opportunities"]) <=
+                       4*min(r["source_photo_opportunities"],candidate["source_photo_opportunities"])]
+            if not valid:
+                continue
+            comparator=min(valid,key=lambda r:(
+                abs(math.log(r["source_photo_opportunities"]/candidate["source_photo_opportunities"])),
+                _hash("control",candidate["inat_taxon_id"],r["inat_taxon_id"])))
+            used_controls.add(comparator["inat_taxon_id"])
+            matched_broad.add(candidate["inat_taxon_id"])
+            pairs.append({
+                "pair_id":len(pairs)+1,
+                "opportunity_stratum":tier,
+                "broad_taxon_id":candidate["inat_taxon_id"],
+                "broad_species":candidate["species"],
+                "broad_photo_opportunities":candidate["source_photo_opportunities"],
+                "broad_supported_sep_km":candidate["max_supported_cluster_separation_km"],
+                "narrow_taxon_id":comparator["inat_taxon_id"],
+                "narrow_species":comparator["species"],
+                "narrow_photo_opportunities":comparator["source_photo_opportunities"],
+                "narrow_geographic_radius_95_km":comparator["geographic_radius_95_km"],
+                "source_photo_count_ratio":round(
+                    max(candidate["source_photo_opportunities"],comparator["source_photo_opportunities"])/
+                    min(candidate["source_photo_opportunities"],comparator["source_photo_opportunities"]),6),
+                "matched_before_any_original_photo_pixels":True,
+                "native_geographic_range_verified":False,
+            })
+    pair_fields=[
+        "pair_id","opportunity_stratum","broad_taxon_id","broad_species",
+        "broad_photo_opportunities","broad_supported_sep_km",
+        "narrow_taxon_id","narrow_species","narrow_photo_opportunities",
+        "narrow_geographic_radius_95_km","source_photo_count_ratio",
+        "matched_before_any_original_photo_pixels","native_geographic_range_verified"
+    ]
+    # Paired taxa are adjacent in processing order, enabling a comparison
+    # even when only the first few bounded original ROI batches can run.
+    # Preserve all taxa without a matched control in the remaining queue.
+    records_by_id={r["inat_taxon_id"]:r for r in results}
+    paired_ids=set()
+    ordered=[]
+    for pair in pairs:
+        for k in ("broad_taxon_id","narrow_taxon_id"):
+            tid=pair[k]
+            if tid in paired_ids:
+                raise ValueError("Observer/geographic source comparison taxon matched twice")
+            paired_ids.add(tid)
+            ordered.append(records_by_id[tid])
+    ordered.extend(sorted((r for r in results if r["inat_taxon_id"] not in paired_ids),key=rank))
+    if len(ordered)!=len(taxa) or len({r["inat_taxon_id"] for r in ordered})!=len(taxa):
+        raise ValueError("Broad/narrow geographic comparison reordered or lost original taxa")
     outdir.mkdir(parents=True,exist_ok=True)
     table=outdir/"rgfca_1000_original_source_observed_geographic_span.csv"
     priority=outdir/"rgfca_1000_precolour_broad_geography_first_priority.csv"
-    for path,records in ((table,sorted(results,key=lambda r:r["inat_taxon_id"])),
-                         (priority,ordered)):
+    pair_file=outdir/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv"
+    for path,fields,records in (
+        (table,OUTPUT_FIELDS,sorted(results,key=lambda r:r["inat_taxon_id"])),
+        (priority,OUTPUT_FIELDS,ordered),
+        (pair_file,pair_fields,pairs),
+    ):
         with path.open("w",encoding="utf-8",newline="") as f:
-            writer=csv.DictWriter(f,fieldnames=OUTPUT_FIELDS,lineterminator="\n")
+            writer=csv.DictWriter(f,fieldnames=fields,lineterminator="\n")
             writer.writeheader()
             writer.writerows(records)
     summary={
@@ -298,6 +371,13 @@ def run(manifest:Path,source_receipt:Path,roster:Path,outdir:Path, *,
         "original_1000_species_roster_sha256":sha256(roster),
         "source_species":len(taxa),"source_photo_opportunities":count,
         "geographic_categories":dict(counts),
+        "n_broad_narrow_pairs_matched_on_original_photo_depth":len(pairs),
+        "n_broad_taxa_with_matched_controls":len(matched_broad),
+        "n_narrow_taxa_consumed_as_controls":len(used_controls),
+        "max_source_photo_opportunity_ratio_per_pair":4.0,
+        "matching_stratification":"original_precolour_photo_opportunity_tier_only",
+        "matching_does_not_replace_original_1000_species_cohort":True,
+        "geographic_matching_pair_csv_sha256":sha256(pair_file),
         "broad_minimum_cluster_separation_km":BROAD_KM,
         "narrow_95pct_centroid_radius_upper_km":NARROW_P95_KM,
         "minimum_independent_observations":MIN_GLOBAL_OBSERVATIONS,
