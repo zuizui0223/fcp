@@ -13,8 +13,8 @@
 - Introduction: 805 words
 - Materials and Methods: 2,451 words
 - Results: 2,663 words
-- Discussion: 2,319 words
-- Main text (Introduction through Discussion): 8,238 words
+- Discussion: 2,473 words
+- Main text (Introduction through Discussion): 8,392 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
