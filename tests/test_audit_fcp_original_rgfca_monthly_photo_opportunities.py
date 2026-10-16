@@ -94,7 +94,7 @@ def test_real_original_photo_source_date_census_has_no_flower_outcome(tmp_path):
     assert jan["distinct_original_observations"]=="2"
     assert jan["distinct_original_observers"]=="2"
     sites=csv_rows(out/"all_original_1000_source_month_0p25degree_5km_accuracy.csv")
-    assert len(sites)==3
+    assert len(sites)==2
     feb=next(x for x in sites if x["year_month"]=="2026-02")
     assert feb["all_source_photo_ids_with_5km_accuracy"]=="3"
     assert feb["distinct_source_observations"]=="2"
