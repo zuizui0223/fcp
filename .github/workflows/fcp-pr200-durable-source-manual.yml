@@ -1,0 +1,104 @@
+name: FCP PR200 durable 2026-09-27 original photo-ID source (manual)
+
+# Never runs on push, pull_request, workflow_run, or a failed hosted-runner event.
+# A dedicated persistent runner, exact dated archive, reference pins and operator
+# sentinel must all be present BEFORE manual workflow dispatch.
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: "One resumable source-only phase (never starts image pixels)"
+        type: choice
+        required: true
+        default: preflight
+        options:
+          - preflight
+          - stage
+          - emit
+          - finalize
+      shard_start:
+        description: "Emit: inclusive 0..127, max four shards per invocation"
+        type: number
+        required: true
+        default: 0
+      shard_stop:
+        description: "Emit: exclusive 1..128, max four shards per invocation"
+        type: number
+        required: true
+        default: 4
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-pr200-durable-source-20260927-exclusive
+  cancel-in-progress: false
+
+jobs:
+  durable-dated-photo-id-source:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: [self-hosted, linux, x64, fcp-durable]
+    timeout-minutes: 1440
+    env:
+      FCP_DURABLE_ROOT: ${{ vars.FCP_DURABLE_ROOT }}
+      PHASE: ${{ inputs.phase }}
+      SHARD_START: ${{ inputs.shard_start }}
+      SHARD_STOP: ${{ inputs.shard_stop }}
+    steps:
+      - name: Checkout pinned reviewed PR200 source-only runtime
+        uses: actions/checkout@v4
+        with:
+          ref: feed51872e10611a7798f3db6c8c86a3b5d53527
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Fail closed on ephemeral volume, bad bounds or missing Python dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -z "${FCP_DURABLE_ROOT:-}"; then
+            echo "::error::Configure FCP_DURABLE_ROOT as operator-approved persistent storage"
+            exit 1
+          fi
+          if ! [[ "${SHARD_START}" =~ ^[0-9]+$ && "${SHARD_STOP}" =~ ^[0-9]+$ ]]; then
+            echo "::error::Shard bounds must be unsigned integers"
+            exit 1
+          fi
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          from scripts.acquisition.run_fcp_durable_source_phases import validate_root,validate_shards
+          root=validate_root(Path(os.environ['FCP_DURABLE_ROOT']),os.environ.get('RUNNER_TEMP'))
+          if os.environ['PHASE']=='emit':
+              validate_shards(int(os.environ['SHARD_START']),int(os.environ['SHARD_STOP']))
+          print('FCP_PERSISTENT_ROOT_OPERATOR_APPROVED',root,flush=True)
+          PY
+          python - <<'PY'
+          # Preinstalled dependencies only. No bulk download or pip installation.
+          import numpy, pandas, scipy
+          from fcp_pipeline import fcp_allphotos, fcp_fresh_study
+          print('FCP_SOURCE_MODULE_IMPORT_PREFLIGHT_OK',flush=True)
+          PY
+
+      - name: Run one source-only phase from locally pre-staged 36GB dated archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.run_fcp_durable_source_phases \
+            --root "$FCP_DURABLE_ROOT" --phase "$PHASE" \
+            --shard-start "$SHARD_START" --shard-stop "$SHARD_STOP"
+
+      - name: Publish compact source receipts and diagnostic progress ONLY
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-pr200-durable-source-diagnostic-${{ inputs.phase }}-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            ${{ vars.FCP_DURABLE_ROOT }}/status/
+            ${{ vars.FCP_DURABLE_ROOT }}/source_20260927/full_source_execution_receipt.json
+            ${{ vars.FCP_DURABLE_ROOT }}/source_20260927/complete_42111_metadata_source/fcp_staged_sqlite_source_receipt.json
+            ${{ vars.FCP_DURABLE_ROOT }}/source_20260927/complete_42111_metadata_source/fcp_source_progress.ndjson
+            ${{ vars.FCP_DURABLE_ROOT }}/source_20260927/independent_original_all_ID_source_admission.json
+          # NEVER archive 36GB original, SQLite, 93M-ID manifest or pixels.
