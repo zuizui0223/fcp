@@ -1,6 +1,6 @@
 """Only synthetic source metadata. No original photo downloaded."""
 import pytest
-from scripts.acquisition.run_fcp_rgfca_season63_pilot import photo_ids,check_source,cell,month_qc
+from scripts.acquisition.run_fcp_rgfca_season63_pilot import photo_ids,verify_row,cell,month_qc
 def test_precolour_63_fixed_source_ids():
     assert len(photo_ids())==63
 def test_source_date_and_accuracy_cannot_be_forged():
@@ -9,10 +9,10 @@ def test_source_date_and_accuracy_cannot_be_forged():
         positional_accuracy_m="200",source_snapshot_date="2026-09-27",
         observation_id="o1",observer_id="u1")
     assert cell(row)==(456,1205)
-    check_source(row,"740971","2026-06")
+    verify_row(row,"740971","2026-06")
     for k,v in [("longitude","-100"),("observed_on","2026-07-04"),
                 ("positional_accuracy_m",""),("positional_accuracy_m","7000")]:
-        with pytest.raises(ValueError):check_source({**row,k:v},"740971","2026-06")
+        with pytest.raises(ValueError):verify_row({**row,k:v},"740971","2026-06")
 def test_same_roi_two_organs_never_establish_colour_polymorphism():
     b=dict(inat_taxon_id="740971",year_month="2026-06",observer_id="u1",
            observation_id="o1",morph="white",measurement_status="classified_four_state_morph",
