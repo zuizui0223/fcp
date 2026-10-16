@@ -53,7 +53,8 @@ RGFCA_ENROLLED_PHOTOS = 3430502
 CSV_FIELDS = (
     "inat_taxon_id", "species", "photo_id", "observation_id", "observer_id",
     "latitude", "longitude", "observed_on", "positional_accuracy_m",
-    "photo_license", "photo_url_large", "source_snapshot_date",
+    "photo_license", "photo_creator_id", "attribution",
+    "photo_url_large", "source_snapshot_date",
 )
 
 
@@ -188,6 +189,8 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
            photographer TEXT, taxon INTEGER NOT NULL, ambiguous INTEGER NOT NULL DEFAULT 0)""")
         db.execute("""CREATE TEMP TABLE candidate(
            photo_id TEXT, uuid TEXT, license TEXT, extension TEXT, photographer TEXT)""")
+        db.execute("""CREATE TABLE observer_labels(
+           observer_id TEXT PRIMARY KEY, login TEXT, name TEXT)""")
         eligible_obs=0
         scanned_obs=0
         batch=[]
@@ -320,14 +323,44 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
         if not synthetic and sum(counts.values())!=RGFCA_ENROLLED_PHOTOS:
             raise ValueError("Fixed 1000 source original photo ID total mismatch")
 
+        # The PHOTO creator can differ from the observation's owner. Scan
+        # the authentic fourth (observer) table and preserve the identical
+        # licence/attribution semantics as the complete source importer.
+        creators={str(r[0]) for r in db.execute(
+            "SELECT DISTINCT photographer FROM photos WHERE ambiguous=0")}
+        observer_batch=[]
+        scanned_creators=0
+        matched_creators=0
+        for raw in read_tsv(tables["observers"],{"observer_id","login","name"}):
+            scanned_creators+=1
+            author=integer(raw["observer_id"])
+            if author is None or str(author) not in creators:
+                continue
+            observer_batch.append((str(author),str(raw["login"] or ""),
+                                   str(raw["name"] or "")))
+            if len(observer_batch)>=10000:
+                db.executemany("INSERT INTO observer_labels VALUES (?,?,?)",observer_batch)
+                matched_creators+=len(observer_batch)
+                observer_batch.clear()
+            if scanned_creators%10_000_000==0:
+                record("source_observer_attribution_lookups",scanned_creators)
+        if observer_batch:
+            db.executemany("INSERT INTO observer_labels VALUES (?,?,?)",observer_batch)
+            matched_creators+=len(observer_batch)
+        db.commit()
+        del creators
+        record("all_observer_attribution_source_rows_scanned",scanned_creators)
+
         db.execute("""CREATE INDEX selected_rgfca_taxon_photo_numeric_order
             ON photos(taxon,CAST(photo_id AS INTEGER)) WHERE ambiguous=0""")
         db.commit()
         manifest=outdir/"rgfca_1000_complete_original_source_photo_IDs.csv"
         sql="""SELECT p.taxon,p.photo_id,o.uuid,o.observer,o.lat,o.lon,
-                      o.observed_on,o.accuracy,p.license,p.extension
+                      o.observed_on,o.accuracy,p.license,p.extension,
+                      p.photographer,l.login,l.name
                FROM photos p INDEXED BY selected_rgfca_taxon_photo_numeric_order
                JOIN observations o ON p.uuid=o.uuid
+               LEFT JOIN observer_labels l ON p.photographer=l.observer_id
                WHERE p.ambiguous=0
                ORDER BY p.taxon,CAST(p.photo_id AS INTEGER)"""
         plan=[r[3] for r in db.execute("EXPLAIN QUERY PLAN "+sql)]
@@ -337,10 +370,20 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
         with manifest.open("w",newline="",encoding="utf-8") as file:
             writer=csv.writer(file,lineterminator="\n")
             writer.writerow(CSV_FIELDS)
-            for t,pid,uuid,observer,lat,lon,day,accuracy,lic,ext in db.execute(sql):
+            for t,pid,uuid,observer,lat,lon,day,accuracy,lic,ext,author,login,person in db.execute(sql):
+                creator=integer(author)
+                who=str(person or "").strip() or str(login or "").strip()
+                if not who:
+                    who=(f"iNaturalist photo creator {creator}" if creator
+                         else "iNaturalist photographer not resolved")
+                profile=(f"https://www.inaturalist.org/users/{creator}"
+                         if creator else "https://www.inaturalist.org/")
+                attribution=(f"{who} ({profile}), CC0 public domain" if lic=="cc0"
+                             else f"© {who} ({profile}), {lic.upper()}")
                 writer.writerow((
                     t,names[t],pid,uuid,observer,lat,lon,day,accuracy,
-                    lic,f"https://inaturalist-open-data.s3.amazonaws.com/photos/{pid}/large.{ext}",
+                    lic,creator or "",attribution,
+                    f"https://inaturalist-open-data.s3.amazonaws.com/photos/{pid}/large.{ext}",
                     SNAPSHOT))
                 written+=1
         if written!=sum(expected.values()):
@@ -363,6 +406,8 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
             "n_original_observations_scanned":scanned_obs,
             "n_selected_research_grade_geo_observations":eligible_obs,
             "n_original_photo_rows_scanned_twice":source_photo_rows,
+            "n_original_observer_rows_scanned":scanned_creators,
+            "n_source_creator_IDs_retained_for_attribution":matched_creators,
             "n_source_selected_photo_metadata_rows_matching_target_obs":pass_candidates,
             "n_conservative_within_selected_photo_ID_conflicts_before_global_replay":ambiguous_before,
             "n_global_raw_photo_records_checked_against_selected_IDs":replay,
