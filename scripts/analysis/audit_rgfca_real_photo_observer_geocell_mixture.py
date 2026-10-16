@@ -190,6 +190,8 @@ def summarize(pilot_root:Path, roster:Path, outdir:Path, *, synthetic=False)->di
                 "evaluable_repetitions",
                 "positive_photo_label_repetitions",
                 "conditional_photo_label_detection",
+                "realized_photo_ID_overlap_fraction",
+                "distinct_source_photo_ID_draw_sets",
             )
         }
         data.append({
@@ -234,6 +236,7 @@ def summarize(pilot_root:Path, roster:Path, outdir:Path, *, synthetic=False)->di
         "source_pilot_random_photo_draws_per_taxon":200,
         "pilot_resampling_fold_depths":[20,32,40,44,48],
         "resampling_does_NOT_create_independent_natural_populations":True,
+        "actual_pairwise_source_photo_ID_overlap_by_draw_depth_included":True,
         "no_genetic_FCP_species_asserted":True,
         "CSV_sha256":sha256(table),
         "no_old_colour_measurements_reused":True,
