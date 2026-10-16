@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
+      PYTHONPATH: "."
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout exact audited technical ROI photo repeatability code
