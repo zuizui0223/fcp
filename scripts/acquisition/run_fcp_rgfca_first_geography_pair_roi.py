@@ -43,7 +43,8 @@ SELECTION_JOIN=(
     "measurement_id","inat_taxon_id","species","photo_id",
     "observation_id","observer_id","latitude","longitude","screen_fold",
 )
-OUTPUT_COLUMNS=(*SELECTION_JOIN,"geographic_comparison_group","matched_pair_id")
+OUTPUT_COLUMNS=(*SELECTION_JOIN,"positional_accuracy_m",
+                "geographic_comparison_group","matched_pair_id")
 PER_FOLD_MIN=4
 PER_FOLD_TARGET=16
 
@@ -367,6 +368,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                             "photo_url_large":entry["photo_url_large"],
                             "photo_license":entry["photo_license"]})
         sidecar.append({**{k:source_join[mid][k] for k in SELECTION_JOIN},
+                        "positional_accuracy_m":entry["positional_accuracy_m"],
                         "geographic_comparison_group":label,
                         "matched_pair_id":first_pair["pair_id"]})
     outdir.mkdir(parents=True,exist_ok=True)
@@ -403,6 +405,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "original_photo_first_unit_geographic_cell_round_robin":True,
         "broad_original_first_pixel_geographic_support":selected_geo_support,
         "source_location_accuracy_reverified_in_first_ROI_photo_subset":True,
+        "original_photo_accuracy_kept_out_of_blind_image_evaluator":True,
         "original_blind_worker_sha256":blinded_sha,
         "original_source_acquisition_sha256":acquisition_sha,
         "original_biological_join_sha256":source_sha,
