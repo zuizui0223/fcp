@@ -18,6 +18,7 @@ import hashlib
 import heapq
 import json
 import math
+import itertools
 import sqlite3
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -111,7 +112,9 @@ def _select(pool: dict, target: int, max_per_observer: int) -> list[tuple]:
 
 def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
          photos_per_fold: int = 64, max_per_observer: int = 8,
-         cell_candidate_limit: int = 128, _synthetic: bool = False) -> dict:
+         cell_candidate_limit: int = 128, _synthetic: bool = False,
+         rgfca_enrolment: Path | None = None,
+         rgfca_receipt: Path | None = None) -> dict:
     if (photos_per_fold < 1 or photos_per_fold > 512 or
         max_per_observer < 1 or max_per_observer > photos_per_fold or
         cell_candidate_limit < photos_per_fold or cell_candidate_limit > 2048):
@@ -119,6 +122,43 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
     if outdir.exists() and any(outdir.iterdir()):
         raise ValueError("Never overwrite an existing pre-colour photo screen")
     taxa = load_frame(frame, source_counts, synthetic=_synthetic)
+    if (rgfca_enrolment is None) != (rgfca_receipt is None):
+        raise ValueError("RGFCA species pool and independently frozen schedule receipt are inseparable")
+    enrolled = None
+    enrolment_sha = None
+    if rgfca_enrolment is not None:
+        doc = json.loads(rgfca_receipt.read_text(encoding="utf-8"))
+        enrolment_sha = sha256(rgfca_enrolment)
+        if (doc.get("schema") != "fcp_rgfca_photo_polymorphism_balanced_sample_v1"
+            or doc.get("status") != "ORIGINAL_SOURCE_BALANCED_REPETITION_PLAN_NO_COLOUR_MEASURED"
+            or doc.get("selected_species_csv_sha256") != enrolment_sha
+            or doc.get("old_149900_flower_colours_used") is not False
+            or doc.get("new_flower_images_opened") is not False
+            or doc.get("photographic_poly_probabilities_measured") is not False
+            or (not _synthetic and (
+                doc.get("selected_species") != 1000
+                or doc.get("source_frame_species") != 42111
+                or doc.get("original_source_count_sha256") != SOURCE_COUNT_SHA
+                or doc.get("original_frame_sha256") != FRAME_SHA
+                or doc.get("source_photo_opportunities") != SOURCE_PHOTOS))):
+            raise ValueError("RGFCA species subsample must be frozen from the real 42111 source before photo colour opening")
+        enrolled = set()
+        with rgfca_enrolment.open("r", newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            fields = ["inat_taxon_id", "species", "source_photo_opportunities",
+                      "opportunity_stratum", "enrolment_hash"]
+            if reader.fieldnames != fields:
+                raise ValueError("RGFCA source-only selected taxon file columns changed")
+            for row in reader:
+                tid = int(row["inat_taxon_id"])
+                if (tid in enrolled or tid not in taxa
+                    or taxa[tid]["species"] != row["species"]
+                    or taxa[tid]["n_source_photo_ids"] != int(row["source_photo_opportunities"])
+                    or int(row["source_photo_opportunities"]) < 128):
+                    raise ValueError("RGFCA species identity or original source photograph opportunity changed")
+                enrolled.add(tid)
+        if len(enrolled) != int(doc["selected_species"]):
+            raise ValueError("RGFCA enrolment does not include every pre-colour selected taxon")
     stage, db = validate_stage(source_dir, frame, synthetic=_synthetic)
     outdir.mkdir(parents=True, exist_ok=True)
     photo_path = outdir / "photo_screen_original_metadata_selected.csv"
@@ -133,7 +173,22 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
              JOIN observations ON photos.uuid=observations.uuid
              WHERE photos.ambiguous=0
              ORDER BY photos.taxon, CAST(photos.photo_id AS INTEGER)"""
-    qp = [x[3] for x in db.execute("EXPLAIN QUERY PLAN " + sql)]
+    if enrolled is not None:
+        # Query only 1,000 OUTCOME-BLIND enrolled taxa through the original
+        # immutable taxon/photo index. All 93M source IDs were audited earlier.
+        # Avoid rescanning all 93M rows or choosing a species based on colour.
+        sql = """SELECT photos.taxon, photos.photo_id, photos.uuid, observations.observer,
+                        observations.lat, observations.lon, photos.license, photos.extension
+                 FROM photos INDEXED BY photos_taxon_numeric_order
+                 JOIN observations ON photos.uuid=observations.uuid
+                 WHERE photos.ambiguous=0 AND photos.taxon=?
+                 ORDER BY CAST(photos.photo_id AS INTEGER)"""
+        qp = [x[3] for x in db.execute("EXPLAIN QUERY PLAN " + sql, (min(enrolled),))]
+        photo_source = itertools.chain.from_iterable(
+            db.execute(sql, (taxon,)) for taxon in sorted(enrolled))
+    else:
+        qp = [x[3] for x in db.execute("EXPLAIN QUERY PLAN " + sql)]
+        photo_source = db.execute(sql)
     if not any("photos_taxon_numeric_order" in x for x in qp):
         raise ValueError("Original globally unique photo-ID index not used")
     if any("USE TEMP B-TREE FOR ORDER BY" in x.upper() for x in qp):
@@ -184,7 +239,7 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
             pools = [defaultdict(list), defaultdict(list)]
 
         try:
-            for (taxon, pid, obs, observer, lat, lon, license_name, extension) in db.execute(sql):
+            for (taxon, pid, obs, observer, lat, lon, license_name, extension) in photo_source:
                 taxon = int(taxon)
                 if taxon not in taxa:
                     raise ValueError("Unknown source taxon in original SQLite")
@@ -217,11 +272,14 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
         finally:
             db.close()
 
-    for taxon, record in taxa.items():
-        if source_counts_by_taxon[taxon] != record["n_source_photo_ids"]:
-            raise ValueError(f"Full original species source count mismatch: {taxon}")
-    if n_scanned != stage["n_target_taxon_licensed_photos"]:
-        raise ValueError("Original source photo IDs were not all scanned")
+    checked_taxa = sorted(enrolled) if enrolled is not None else sorted(taxa)
+    for taxon in checked_taxa:
+        if source_counts_by_taxon[taxon] != taxa[taxon]["n_source_photo_ids"]:
+            raise ValueError(f"Original source photo counts differ for taxon {taxon}")
+    expected_scanned = (sum(taxa[x]["n_source_photo_ids"] for x in enrolled)
+                        if enrolled is not None else stage["n_target_taxon_licensed_photos"])
+    if n_scanned != expected_scanned:
+        raise ValueError("Selected original source photo IDs were not all checked")
     with opportunity_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=SPECIES_FIELDS, lineterminator="\n")
         writer.writeheader()
@@ -242,8 +300,13 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
         "status": "PHOTO_IDS_SELECTED_FROM_FULL_ORIGINAL_SOURCE_NOT_YET_MEASURED",
         "source_snapshot_date": SNAPSHOT,
         "source_species": len(taxa),
-        "original_source_photo_ids_globally_considered": n_scanned,
-        "original_species_with_source_photo": n_taxa_with_photos,
+        "original_source_photo_ids_globally_considered": stage["n_target_taxon_licensed_photos"],
+        "original_species_with_source_photo": sum(
+            v["n_source_photo_ids"] > 0 for v in taxa.values()),
+        "original_source_SQLite_photo_rows_examined": n_scanned,
+        "RGFCA_enrolment_species_count": len(enrolled) if enrolled is not None else None,
+        "RGFCA_enrolment_selected_taxa_sha256": enrolment_sha,
+        "RGFCA_enrolment_metadata_only_no_literature_or_colour": enrolled is not None,
         "first_screen_photos_per_observer_fold_not_biological_cap": photos_per_fold,
         "per_observer_max_in_one_bounded_screen": max_per_observer,
         "geographic_cell_degrees": 5,
@@ -266,10 +329,12 @@ def plan(source_dir: Path, frame: Path, source_counts: Path, outdir: Path, *,
                     "any nonpolymorphic claim."),
     }
     if not _synthetic and (
-        len(taxa) != 42111 or n_scanned != SOURCE_PHOTOS or
-        n_taxa_with_photos != 42095 or n_selected > len(taxa) * photos_per_fold * 2
+        len(taxa) != 42111
+        or stage["n_target_taxon_licensed_photos"] != SOURCE_PHOTOS
+        or sum(x["n_source_photo_ids"] > 0 for x in taxa.values()) != 42095
+        or n_selected > (len(enrolled) if enrolled is not None else len(taxa))*photos_per_fold*2
     ):
-        raise ValueError("Original 42111 full-universe first-stage photo plan disagrees with audited source")
+        raise ValueError("Original 42111 source-based RGFCA photo sample did not reconcile")
     (outdir / "photo_screen_source_selection_receipt.json").write_text(
         json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8")
@@ -284,10 +349,16 @@ def main(argv=None):
     parser.add_argument("--outdir", required=True, type=Path)
     parser.add_argument("--photos-per-fold", type=int, default=64)
     parser.add_argument("--max-per-observer", type=int, default=8)
+    parser.add_argument("--rgfca-enrolment", type=Path,
+                        help="Byte-frozen 1000 species selected independently of flower colours")
+    parser.add_argument("--rgfca-receipt", type=Path,
+                        help="Immutable original-source 200-realization photo-sampling design receipt")
     args = parser.parse_args(argv)
     got = plan(args.staged_source, args.original_frame, args.source_counts,
                args.outdir, photos_per_fold=args.photos_per_fold,
-               max_per_observer=args.max_per_observer)
+               max_per_observer=args.max_per_observer,
+               rgfca_enrolment=args.rgfca_enrolment,
+               rgfca_receipt=args.rgfca_receipt)
     print("FCP_ORIGINAL_PHOTO_SCREEN_METADATA_ONLY", json.dumps(got, sort_keys=True))
     return 0
 
