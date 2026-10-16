@@ -17,9 +17,9 @@ concurrency:
 jobs:
   frozen-original-source-geographic-priority-NO-photo-colour:
     if: >-
-      ${{ github.event.workflow_run.id == 38847189688 &&
+      ${{ github.event.workflow_run.id == 38884223530 &&
           github.event.workflow_run.conclusion == 'success' &&
-          github.event.workflow_run.head_sha == '368b05b6e52d43289f13ecd06896db4853e9d062' &&
+          github.event.workflow_run.head_sha == 'b0656b6a677a8440c188939074a0fe3c8cd4ac16' &&
           github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
           github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' }}
     runs-on: ubuntu-24.04
@@ -27,7 +27,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       ROOT: /tmp/fcp-rgfca-1000-precolour-geographic-priority
-      SOURCE_RUN: "38847189688"
+      SOURCE_RUN: "38884223530"
       ROSTER_RUN: "38828417100"
 
     steps:
@@ -55,11 +55,11 @@ jobs:
           import os,json
           from pathlib import Path
           x=json.loads((Path(os.environ["ROOT"])/"origin_run.json").read_text())
-          if not (x.get("id")==38847189688
+          if not (x.get("id")==38884223530
               and x.get("run_attempt")==1
               and x.get("status")=="completed"
               and x.get("conclusion")=="success"
-              and x.get("head_sha")=="368b05b6e52d43289f13ecd06896db4853e9d062"
+              and x.get("head_sha")=="b0656b6a677a8440c188939074a0fe3c8cd4ac16"
               and x.get("head_branch")=="analysis/fcp-fresh-uncapped-zero-20261015"
               and x.get("head_repository",{}).get("full_name")=="zuizui0223/fcp"):
               raise SystemExit("No verified genuine RGFCA 1000 dated photo-ID source; abort geographic priority")
