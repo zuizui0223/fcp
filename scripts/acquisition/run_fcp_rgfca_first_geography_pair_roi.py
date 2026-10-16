@@ -295,7 +295,8 @@ def reserve_two_supported_distant_sites(
 
 def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                 _synthetic_source_gate:bool=False,
-                excluded_previously_measured_taxa:set[str]|None=None)->dict:
+                excluded_previously_measured_taxa:set[str]|None=None,
+                minimum_per_fold_depth:int=PER_FOLD_MIN)->dict:
     """Create one strictly source-signed, colour-blind geographic pair.
 
     Explicitly exclude source taxa belonging to previous genuine ROI pixels.
@@ -303,6 +304,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     on image resemblance, timing, colour, observer, or geolocation.
     """
     excluded=set(excluded_previously_measured_taxa or ())
+    if not PER_FOLD_MIN<=minimum_per_fold_depth<=PER_FOLD_TARGET:
+        raise ValueError("Strict source-first ROI per-fold sample bound invalid")
     if any(not isinstance(t,str) or not t.isdecimal() for t in excluded):
         raise ValueError("Previously measured taxa require exact original numeric taxon IDs")
     if outdir.exists() and any(outdir.iterdir()):
@@ -461,12 +464,12 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                  for fold in (0,1)}
             for tid in (b,n)
         }
-        if not all(len(accurate_photo_rows[tid][fold])>=PER_FOLD_MIN
+        if not all(len(accurate_photo_rows[tid][fold])>=minimum_per_fold_depth
                    for tid in (b,n) for fold in (0,1)):
             continue
         depth=min(PER_FOLD_TARGET,*(len(accurate_photo_rows[tid][fold])
                                    for tid in (b,n) for fold in (0,1)))
-        if not PER_FOLD_MIN<=depth<=PER_FOLD_TARGET:
+        if not minimum_per_fold_depth<=depth<=PER_FOLD_TARGET:
             raise ValueError("Invalid immutable original ROI image compute batch bound")
         spread=reserve_two_supported_distant_sites(accurate_photo_rows[b],depth)
         if spread is None:
@@ -565,6 +568,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "broad_taxon_id":b,"narrow_taxon_id":n,
         "previously_measured_taxa_excluded_by_source_identity":sorted(excluded,key=int),
         "excluded_taxa_cannot_contribute_original_image_pixels":True,
+        "minimum_per_fold_depth_predeclared":minimum_per_fold_depth,
         "opportunity_stratum":first_pair["opportunity_stratum"],
         "per_taxon_per_observer_fold_photo_depth":each,
         "number_original_photo_IDs_in_first_unit":len(chosen),
