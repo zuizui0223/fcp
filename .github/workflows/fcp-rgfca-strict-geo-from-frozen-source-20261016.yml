@@ -1,0 +1,191 @@
+
+name: FCP RGFCA STRICT accurate source geography one-shot
+
+# This workflow reads a previously verified artifact, not 36GB provider archive.
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-rgfca-strict-geo-from-frozen-source-20261016.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-1000-strict-geography-once
+  cancel-in-progress: false
+
+jobs:
+  real-1000-source-accuracy-replay:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/rgfca_strict_20260927
+    steps:
+      - name: Checkout reviewed code with known-accuracy geographic gates
+        uses: actions/checkout@v4
+        with:
+          ref: 52935040b9112bad1b6bd564dd1e80f28e0331b9
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install metadata-only dependencies
+        run: python -m pip install "numpy<3" "pandas<3" scipy
+
+      - name: Verify immutable source and pre-colour roster runs, then reuse their artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/source" "$ROOT/roster"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38884223530" > "$ROOT/origin_source_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38828417100" > "$ROOT/origin_roster_run.json"
+          python - <<'PY'
+          import json,os,shutil
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          source=json.loads((root/'origin_source_run.json').read_text())
+          roster=json.loads((root/'origin_roster_run.json').read_text())
+          if not (
+              source.get('id')==38884223530 and source.get('run_attempt')==1
+              and source.get('status')=='completed' and source.get('conclusion')=='success'
+              and source.get('head_sha')=='b0656b6a677a8440c188939074a0fe3c8cd4ac16'
+              and source.get('head_branch')=='analysis/fcp-fresh-uncapped-zero-20261015'
+              and source.get('head_repository',{}).get('full_name')=='zuizui0223/fcp'
+              and roster.get('id')==38828417100
+              and roster.get('status')=='completed' and roster.get('conclusion')=='success'
+              and roster.get('head_sha')=='9ed71d6a22aef941bdb7f2f947266b7a58ac7741'):
+              raise SystemExit('FAIL_CLOSED: incorrect source/roster run identity')
+          free=shutil.disk_usage(root).free
+          if free<6_000_000_000:raise SystemExit('Need 6GB disk for existing source artifact only')
+          print('ORIGINAL_20260927_EXISTING_SOURCE_REUSE_ONLY_NO_PROVIDER_ARCHIVE',flush=True)
+          PY
+          gh run download 38884223530 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/source"
+          gh run download 38828417100 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
+            --dir "$ROOT/roster"
+
+      - name: Revalidate all true 3430502 photo-ID manifest bytes and original 128-worker freeze
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,hashlib
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          parent=root/'source/rgfca_1000_exact_source_photo_IDs'
+          manifest=parent/'rgfca_1000_complete_original_source_photo_IDs.csv'
+          receipt=json.loads((parent/'rgfca_1000_targeted_monthly_photo_ID_receipt.json').read_text())
+          roster=root/'roster/rgfca_species_1000_original_source_only.csv'
+          def digest(p):
+              h=hashlib.sha256()
+              with p.open('rb') as f:
+                  for chunk in iter(lambda:f.read(8*1024*1024),b''):h.update(chunk)
+              return h.hexdigest()
+          if not (
+              receipt.get('status')=='COMPLETE_TARGETED_1000_MONTHLY_SOURCE_IDS_COUNT_MATCHED_NO_PHOTO_PIXELS'
+              and receipt.get('n_selected_original_photo_IDs')==3430502
+              and receipt.get('enrolled_outcome_blind_taxa')==1000
+              and receipt.get('source_snapshot_date')=='2026-09-27'
+              and receipt.get('source_archive_sha256')=='bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e'
+              and receipt.get('all_enrolled_species_match_independent_full_source_photo_ID_counts') is True
+              and receipt.get('original_image_pixels_opened') is False
+              and receipt.get('selected_all_photo_IDs_csv_sha256')==digest(manifest)
+              and digest(manifest)=='58e037a210e23d3ff5d6f04d392665ada5ee9ac5149d0676672c239cf092df01'
+              and digest(roster)=='88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c'):
+              raise SystemExit('FAIL_CLOSED: original exact source/roster changed')
+          fw=json.loads((root/'source/rgfca_1000_original_photo_blind_worker_freeze/photo_screen_freeze.json').read_text())
+          if not(fw.get('worker_partitions')==128
+                 and fw.get('screen_selected_original_photo_IDs')==106376
+                 and fw.get('image_worker_sees_only_three_fields') is True
+                 and fw.get('original_image_pixels_opened') is False):
+              raise SystemExit('FAIL_CLOSED: source 128-worker freeze not admitted')
+          print('FCP_EXACT_3430502_SOURCE_IDS_AND_128_WORKERS_ORIGINAL_SHAS_OK',flush=True)
+          PY
+
+      - name: Classify geography only after rejecting unknown or over-50km position accuracy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.stratify_fcp_rgfca_geographic_span \
+            --original-dated-source-photo-ids "$ROOT/source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --original-dated-source-receipt "$ROOT/source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --original-rgfca-roster "$ROOT/roster/rgfca_species_1000_original_source_only.csv" \
+            --output "$ROOT/results"
+
+      - name: Reconcile every source taxon, pair, geographically excluded missing-accuracy observations, and SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          from fcp_pipeline.photo_polymorphism_screen import sha256
+          d=Path(os.environ['ROOT'])/'results'
+          r=json.loads((d/'rgfca_1000_precolour_geographic_span_receipt.json').read_text())
+          with (d/'rgfca_1000_original_source_observed_geographic_span.csv').open(newline='') as f:
+              species=list(csv.DictReader(f))
+          with (d/'rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv').open(newline='') as f:
+              pairs=list(csv.DictReader(f))
+          table={p['inat_taxon_id']:p for p in species}
+          assert r['status']=='SOURCE_ONLY_GEOGRAPHIC_PRIORITY_NO_FLOWER_PIXELS'
+          assert len(table)==len(species)==r['source_species']==1000
+          assert r['source_photo_opportunities']==sum(int(x['n_original_photo_metadata']) for x in species)==3430502
+          assert r['unknown_position_accuracy_excluded_from_geographic_support'] is True
+          assert r['n_independent_observations_with_unknown_source_accuracy']==449443
+          assert r['n_independent_observations_rejected_for_bad_source_accuracy']==3959
+          assert r['geographic_categories']=={
+              'broad_observed_1000km_supported':555,
+              'narrow_observed_p95_le200km':173,
+              'intermediate_or_unresolved_observed_span':271,
+              'geography_insufficient_independent_records':1}
+          assert r['n_broad_narrow_pairs_matched_on_original_photo_depth']==len(pairs)==173
+          assert r['existing_1000_taxon_enrolment_preserved'] is True
+          assert r['existing_200x250_repetition_schedule_unchanged'] is True
+          assert r['n_original_new_pixels_measured']==0
+          assert r['precolour_geographic_span_csv_sha256']==sha256(d/'rgfca_1000_original_source_observed_geographic_span.csv')
+          assert r['geographic_matching_pair_csv_sha256']==sha256(d/'rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv')
+          broad=set();narrow=set()
+          for p in pairs:
+              b,n=p['broad_taxon_id'],p['narrow_taxon_id']
+              assert b not in broad and n not in narrow and b!=n
+              broad.add(b);narrow.add(n)
+              assert table[b]['geographic_sampling_category']=='broad_observed_1000km_supported'
+              assert table[n]['geographic_sampling_category']=='narrow_observed_p95_le200km'
+              assert table[b]['opportunity_stratum']==table[n]['opportunity_stratum']==p['opportunity_stratum']
+              m=int(table[b]['source_photo_opportunities'])
+              k=int(table[n]['source_photo_opportunities'])
+              assert max(m,k)<=4*min(m,k)
+          assert not (broad & narrow)
+          print('FCP_VERIFIED_REAL_STRICT_GEOGRAPHY_NOT_FLOWER_COLOURS',json.dumps({
+              'taxa':1000,'photo_IDs':3430502,'groups':r['geographic_categories'],
+              'matched_pairs':len(pairs),'pairs_sha256':r['geographic_matching_pair_csv_sha256'],
+              'uncertain_observations_excluded':449443},sort_keys=True),flush=True)
+          PY
+
+      - name: Archive new strict original geography, NO image pixels
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-STRICT-known-accuracy-geography-from-original-NO-PIXELS
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/rgfca_strict_20260927/origin_source_run.json
+            /tmp/rgfca_strict_20260927/results/
+      - name: Retain failure receipt only
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-STRICT-known-accuracy-geo-FAILURE-no-pixels
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/rgfca_strict_20260927/origin_source_run.json
+            /tmp/rgfca_strict_20260927/results/rgfca_1000_precolour_geographic_span_receipt.json
