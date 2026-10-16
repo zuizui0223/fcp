@@ -1,0 +1,229 @@
+name: FCP first real summer autumn 2025 original flower ROI 64
+
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - .github/workflows/fcp-real-2025-summer-autumn-original64-roi-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-real-first-64-photo-seasonal-original-roi-2025
+  cancel-in-progress: false
+
+jobs:
+  first-64-source-signed-original-pixels:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI
+      SAM: /tmp/fcp-original-2025-first-season-sam
+      FCP_PROVIDER_GLOBAL_RATE_FILE: /tmp/fcp-2025-first-season-provider-global-rate
+      GLOBAL_PROVIDER_RATE_FILE: /tmp/fcp-2025-first-season-provider-global-rate
+    steps:
+      - name: Use original ROI-v4 scientific method and pinned source-only season selectors
+        uses: actions/checkout@v4
+        with:
+          ref: 55a43469450d86145d2a19e3f70c67e633f7fddf
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install fixed original YOLO + EfficientSAM ROI-v4 runtime
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
+
+      - name: Verify complete source and date before opening any original photo pixel
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/source"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38908308446" > "$ROOT/signed_season_selection_origin_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ['ROOT'])/'signed_season_selection_origin_run.json'
+          z=json.loads(p.read_text())
+          assert z['id']==38908308446 and z['status']=='completed'
+          assert z['conclusion']=='success' and z['run_attempt']==1
+          assert z['head_sha']=='55a43469450d86145d2a19e3f70c67e633f7fddf'
+          assert z['head_repository']['full_name']=='zuizui0223/fcp'
+          PY
+          gh run download 38908308446 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-2025-real-original-source-matched-season-128-observers-NO-PIXELS \
+            --dir "$ROOT/source"
+
+      - name: Pin original 128 selected photo IDs and first 64 blind original pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os,json,csv,hashlib
+          from pathlib import Path
+          from scripts.acquisition.build_fcp_uncapped_blind_batches import new_id
+          root=Path(os.environ['ROOT'])/'source/frozen'
+          doc=json.loads((root/'original_season_photo_freeze_receipt.json').read_text())
+          assert doc['status']=='REAL_ORIGINAL_SEASONAL_SOURCE_PHOTOS_FROZEN_NO_PIXELS'
+          assert doc['selected_photo_ids']==128 and doc['photos_per_wave']==64
+          assert doc['original_source_photo_ids_count']==3430502
+          assert doc['original_pixels_opened']==0
+          assert doc['no_climate_or_colour_outcome_used_to_select_photos'] is True
+          assert doc['prior_random_sample_106376_stays_unchanged'] is True
+          for filename,digest in doc['file_sha256'].items():
+              assert hashlib.sha256((root/filename).read_bytes()).hexdigest()==digest
+          with (root/'original_source_season_frozen_128_photos.csv').open(newline='') as f:
+              selected=list(csv.DictReader(f))
+          first=[r for r in selected if r['wave']=='first']
+          reserve=[r for r in selected if r['wave']=='reserve']
+          assert len(first)==len(reserve)==64
+          assert len({r['photo_id'] for r in selected})==128
+          assert len({r['observation_id'] for r in selected})==128
+          assert len({r['observer_id'] for r in selected})==128
+          assert all(r['measurement_id']==new_id(r['photo_id']) for r in selected)
+          for season in ('summer','autumn'):
+              assert sum(r['local_season']==season for r in first)==32
+              assert sum(r['local_season']==season for r in reserve)==32
+          print('FCP_FIRST_2025_ORIGINAL_SEASONAL_SOURCE_ONLY_64_IMAGES_ADMITTED',flush=True)
+          PY
+
+      - name: Restore SHA-pinned original detector and frozen EfficientSAM model
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
+
+      - name: Actually download and score first 64 original iNaturalist photo pixels blind to date/site
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          import pandas as pd
+          from scripts.acquisition.run_fcp_fresh_image_partition import run_batch
+          from scripts.acquisition.freeze_fcp_photo_first_blind_workers import WORKER,ACQUISITION
+          root=Path(os.environ['ROOT'])
+          source=root/'source/frozen'
+          class FrozenSeasonalSource:
+              def __init__(self):
+                  self.worker=pd.read_csv(source/'season_first_original_blind_worker.csv',dtype=str).fillna('')
+                  self.acquisition=pd.read_csv(source/'season_first_original_acquisition.csv',dtype=str).fillna('')
+                  assert tuple(self.worker.columns)==WORKER and tuple(self.acquisition.columns)==ACQUISITION
+                  assert len(self.worker)==len(self.acquisition)==64
+                  assert (self.worker.measurement_id==self.acquisition.measurement_id).all()
+                  assert self.worker.measurement_id.nunique()==64
+              def get_batch(self,partition,batch,batch_size):
+                  if (partition,batch,batch_size)!=(0,0,64):
+                      raise ValueError('Only exactly first frozen 64 source original photos are authorized')
+                  return self.worker,self.acquisition,1
+          report=run_batch(source,0,0,64,root/'measure',
+             source=Path('scripts/analysis/measure_random_photo_first_blind_partition.py'),
+             detector=Path('data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt'),
+             sam=Path(os.environ['SAM']),indexed_source=FrozenSeasonalSource())
+          assert report['status']=='COMPLETE_WORK_UNIT'
+          assert report['n_source_photo_ids']==report['n_terminal_photo_ids']==64
+          assert report['reused_historical_measurement_csv'] is False
+          assert report['image_bytes_persisted'] is False
+          assert report['full_study_complete'] is False
+          assert report['n_acquisition_failed']<=64
+          print('FCP_FIRST_REAL_SEASON_MATCHED_ORIGINAL_PIXELS_ACTUALLY_MEASURED',json.dumps({
+            k:report[k] for k in ('n_source_photo_ids','n_classifiable','n_acquisition_failed')
+          },sort_keys=True),flush=True)
+          PY
+
+      - name: Join only after the blind image scorer to season/site and keep all unreviewed flower stages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os,json,hashlib
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ['ROOT'])
+          src=root/'source/frozen'
+          done=root/'measure'
+          term=done/'terminal_p000_b0000000.csv'
+          rec=json.loads((done/'terminal_p000_b0000000.json').read_text())
+          assert hashlib.sha256(term.read_bytes()).hexdigest()==rec['terminal_csv_sha256']
+          source=pd.read_csv(src/'original_source_season_frozen_128_photos.csv',dtype=str).fillna('')
+          source=source.loc[source.wave.eq('first')].copy()
+          measured=pd.read_csv(term,dtype=str).fillna('')
+          assert len(source)==len(measured)==64 and not source.measurement_id.duplicated().any()
+          assert not measured.measurement_id.duplicated().any()
+          joined=source.merge(measured,on='measurement_id',validate='one_to_one',how='left')
+          assert joined.measurement_status.notna().all()
+          assert len(joined)==64 and joined.observer_id.nunique()==64
+          good=joined.measurement_status.eq('classified_four_state_morph')
+          white=pd.to_numeric(joined.flower_fraction_white,errors='coerce')
+          yellow=pd.to_numeric(joined.flower_fraction_yellow,errors='coerce')
+          mixed=good & white.ge(.10) & yellow.ge(.10)
+          joined['same_roi_white_yellow_organ_mixed']=mixed
+          joined['flower_stage_verified_by_independent_botanists']=False
+          joined['photo_colour_is_not_confirmed_flower_colour']=True
+          joined['anthesis_stage_human_review']='UNREVIEWED'
+          joined['flower_roi_organ_human_review']='UNREVIEWED'
+          joined['source_season_colour_QC']=('original_photo_roi_colour_status_not_flower_phenology')
+          out=root/'postblind'
+          out.mkdir(parents=True)
+          file=out/'first_original_source_matched_season_64_photo_roi_QC.csv'
+          joined.to_csv(file,index=False)
+          by_season={}
+          for season in ('summer','autumn'):
+              x=joined.loc[joined.local_season.eq(season)]
+              assert len(x)==32 and x.observer_id.nunique()==32
+              by_season[season]=dict(
+                attempted_original_images=len(x),
+                automated_four_state_classifiable=int(x.measurement_status.eq('classified_four_state_morph').sum()),
+                same_flower_white_yellow_organ_mix=int(x.same_roi_white_yellow_organ_mixed.sum()),
+                classifiable_white_photo_labels=int((x.morph.eq('white') & ~x.same_roi_white_yellow_organ_mixed).sum()),
+                classifiable_chromatic_photo_labels=int((x.morph.isin(['yellow_orange','red_pink','blue_purple']) & ~x.same_roi_white_yellow_organ_mixed).sum()),
+                unclassifiable_photo_outcomes=int((~x.measurement_status.eq('classified_four_state_morph')).sum()),
+                true_open_flower_photo_count_verified=0)
+          summary=dict(
+            schema='fcp_genuine_2025_original_matched_season_roi64_unreviewed_flower_v1',
+            status='FIRST_ORIGINAL_SEASONAL_PIXELS_MEASURED_BOTANICAL_ANTHESIS_NOT_VALIDATED',
+            genuine_original_source_date='2026-09-27',
+            original_photos_measured=64,
+            photo_id_join_complete=True,unique_original_observers=64,
+            first_work_unit_by_season=by_season,
+            reserved_original_second_wave_photos_not_measured=64,
+            source_photo_queue_sha256=hashlib.sha256((src/'original_source_season_frozen_128_photos.csv').read_bytes()).hexdigest(),
+            terminal_sha256=hashlib.sha256(term.read_bytes()).hexdigest(),
+            postblind_join_sha256=hashlib.sha256(file.read_bytes()).hexdigest(),
+            exact_original_roi_method=rec['method'],
+            no_original_images_persisted=True,
+            no_genetic_polymorphism_or_flowering_colour_ecological_effect_estimated=True)
+          (out/'first_original_source_matched_season_64_roi_receipt.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print('FCP_GENUINE_SEASONAL_IMAGE_COLOUR_LABELS_NOT_ANTHESIS',json.dumps(by_season,sort_keys=True),flush=True)
+          PY
+
+      - name: Archive actual original photo measurements and unreviewed stage QC, no image bytes
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-actual-2025-original-first64-summer-autumn-colour-ROI-STAGE-UNVERIFIED
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/signed_season_selection_origin_run.json
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/measure/
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/postblind/
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/source/frozen/original_season_photo_freeze_receipt.json
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/source/frozen/season_first_original_blind_worker.csv
+
+      - name: Keep only original failure provenance, no false finished phenotype
+        if: ${{ failure() || cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-first-real-2025-season64-not-complete-not-biology
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/signed_season_selection_origin_run.json
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/measure/frozen_method_attestation.json
+            /tmp/fcp-original-source-2025-summer-autumn-64-real-photo-ROI/source/frozen/original_season_photo_freeze_receipt.json
