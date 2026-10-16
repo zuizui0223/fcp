@@ -85,7 +85,8 @@ def summarize_valid_50km_species(original_species: pd.DataFrame,
         "mean_depletion_change": float(delta.mean()),
         "species_bootstrap_95_change_interval": [float(v) for v in np.quantile(sims, [.025, .975])],
         "median_absolute_species_D_change": float(np.median(np.abs(D1 - D0))),
-        "spearman_D_before_vs_after": float(D0.corr(D1, method="spearman")),
+        "spearman_D_before_vs_after": (float(D0.corr(D1, method="spearman")) if len(D0) >= 3
+            and D0.nunique() >= 2 and D1.nunique() >= 2 else None),
     }
     if not np.isfinite([out["mean_depletion_change"], *out["species_bootstrap_95_change_interval"],
                         out["median_absolute_species_D_change"]]).all():
@@ -156,7 +157,7 @@ def main() -> None:
         "scientific_ceiling": "Assess robustness of within-species photographed local colour depletion to literal MOIS photo reuse only. Not a climate-selection or genetically maintained polymorphism test.",
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    args.output.write_text(json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
     print("FCP_MOIS_DISJOINT_50KM_COMPLETE",
           json.dumps({name: {"n_species": res["remaining_50km_species_count"],
                              "mean_depletion": res["after_overlap_exclusion"]["mean_depletion"],
