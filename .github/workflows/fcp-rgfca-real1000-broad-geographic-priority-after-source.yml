@@ -34,7 +34,7 @@ jobs:
       - name: Checkout fixed pre-colour 1000 RGFCA geographic priority audit
         uses: actions/checkout@v4
         with:
-          ref: 79a09993000756b9aec897365e595c31eec2fc20
+          ref: e3876838f91509280db246a9f1ca9d58c244dcd1
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
@@ -98,6 +98,7 @@ jobs:
           receipt=json.loads((out/"rgfca_1000_precolour_geographic_span_receipt.json").read_text())
           rows=list(csv.DictReader((out/"rgfca_1000_original_source_observed_geographic_span.csv").open()))
           priority=list(csv.DictReader((out/"rgfca_1000_precolour_broad_geography_first_priority.csv").open()))
+          matched=list(csv.DictReader((out/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv").open()))
           assert receipt["status"]=="SOURCE_ONLY_GEOGRAPHIC_PRIORITY_NO_FLOWER_PIXELS"
           assert receipt["source_species"]==1000
           assert receipt["source_photo_opportunities"]==3430502
@@ -112,9 +113,29 @@ jobs:
               out/"rgfca_1000_original_source_observed_geographic_span.csv")
           assert receipt["precolour_geographic_priority_csv_sha256"]==sha256(
               out/"rgfca_1000_precolour_broad_geography_first_priority.csv")
+          assert receipt["geographic_matching_pair_csv_sha256"]==sha256(
+              out/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv")
+          assert receipt["n_broad_narrow_pairs_matched_on_original_photo_depth"]==len(matched)
+          broad=set();narrow=set()
+          categories={r["inat_taxon_id"]:r["geographic_sampling_category"] for r in rows}
+          strata={r["inat_taxon_id"]:r["opportunity_stratum"] for r in rows}
+          counts={r["inat_taxon_id"]:int(r["source_photo_opportunities"]) for r in rows}
+          for pair in matched:
+              b,n=pair["broad_taxon_id"],pair["narrow_taxon_id"]
+              assert b not in broad and n not in narrow and b!=n
+              broad.add(b);narrow.add(n)
+              assert categories[b]=="broad_observed_1000km_supported"
+              assert categories[n]=="narrow_observed_p95_le200km"
+              assert strata[b]==strata[n]==pair["opportunity_stratum"]
+              assert max(counts[b],counts[n])<=4*min(counts[b],counts[n])
+              assert pair["matched_before_any_original_photo_pixels"]=="True"
+          assert not (broad & narrow)
+          assert len({r["inat_taxon_id"] for r in priority})==1000
           print("FCP_1000_REAL_BROAD_PRECOLOUR_SOURCE_ONLY_VERIFIED",json.dumps(
               {"n_taxa":1000,"original_source_photo_records":3430502,
-               "geography_groups":receipt["geographic_categories"],"no_flower_pixels":True},
+               "geography_groups":receipt["geographic_categories"],
+               "photo_depth_matched_broad_narrow_pairs":len(matched),
+               "no_flower_pixels":True},
                sort_keys=True),flush=True)
           PY
 
