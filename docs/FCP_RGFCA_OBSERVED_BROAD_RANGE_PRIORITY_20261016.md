@@ -30,6 +30,19 @@
 2. **地理と環境の分離**：気温・水分・日射などの環境差は広域にいるほど大きくなり得る。種内の環境差を地理的距離と時間・撮影者の構造から分け、地理差そのものを温度効果と同一視しない。
 3. **広域対狭域**：同一写真機会数層における観察条件付きの色状態検出率とROI分類可能率を比較し、狭域群での未検出を生物学的単型と判定しない。
 
+## 最初の真正な原写真を広域・狭域の対応ペアから計測する
+
+地理グループ・ペアの本番source provenanceが完成した場合に限り、**対応付け1組（広域種1・狭域種1）**を選んで最初の実際の月次原本画像をROI-v4で処理するよう、`scripts/acquisition/run_fcp_rgfca_first_geography_pair_roi.py` と、mainの自動ジョブ `.github/workflows/fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml` を追加済み。
+
+- 元データは真正な2026-09-27の抽選済み1,000種の写真ID/観察者/位置情報、全128凍結blind workerファイルのSHA、地理ペアCSVのSHAまで相互検証する。
+- 地理的に対応付けした種それぞれについて観察者非重複fold 0 / fold 1から**各4〜16枚**の写真を色を見ずに選ぶ。合計で16〜64枚。対象条件を満たすペアがなければ無理に代用せず停止する。
+- 色評価器に渡すのは以前の1499種研究と同じ**measurement_id、image_filename、photo_licenseの3列だけ**。写真URL、学名、座標、地理グループ・原photoIDを含めない。
+- 独立したURL取得役が実際の原写真を逐次ダウンロードし、提供元へのリクエスト間隔を少なくとも1.1秒に制限する。元ROI-v4 YOLO・EfficientSAMのSHA検証後のみ実測。写真の生画像はテンポラリ領域から削除し、元photo IDとterminal色結果は**測定完了後**にSHA付きで結合する。
+- 最初のペアで出力される結果は`first_geo_pair_real_pixel_receipt.json`・原画像のterminal CSV・地理グループ別の分類可能数であり、観測上の広域性と花色の真の関係を2種で確定する統計検定ではない。W、H2、全1,000種のP_polyは未完了のまま保持する。
+- 起動条件は原本ID抽出run #38847189688 の`success` → 広域/狭域地理監査`success` → 最初の原本ROI計測。原本ID不一致、ペアなし、モデルSHA不一致、ネットワーク障害は測定成功とせず失敗証拠を保存する。
+
+[source-monthly ID → geography → first authentic pixels](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml) の実行待ち。CIは[220件合格](https://github.com/zuizui0223/fcp/actions/runs/38854597692)（合成検証であり元画像の新測定実行ではない）。
+
 ## 実装・実行境界
 
 - 原本3,430,502枚のtargeted source metadata CSVを色測定前に検証し、全1,000種を対象とした地理的範囲CSV、広域先行ROI実行順CSV、SHA256付きJSONを出す。
