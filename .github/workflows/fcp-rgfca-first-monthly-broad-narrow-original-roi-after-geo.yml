@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: 40263b8dd0129dd88d354131d28a38a86ba58549
+          ref: ab1086e696ae1865a0f8f43a41e29dd9f1a181ca
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -121,6 +121,8 @@ jobs:
           assert record['n_source_geographic_cells_selected_by_group']['narrow']>=1
           assert record['source_location_accuracy_reverified_in_first_ROI_photo_subset'] is True
           assert record['original_photo_accuracy_kept_out_of_blind_image_evaluator'] is True
+          assert record['original_observation_date_recovered_from_dated_monthly_source'] is True
+          assert record['original_observation_date_kept_out_of_blind_image_evaluator'] is True
           supported=record['broad_original_first_pixel_geographic_support']
           assert supported['geographic_accuracy_of_selected_subset_independently_verified'] is True
           assert supported['selected_positions_from_exact_original_monthly_photo_IDs'] is True
@@ -161,12 +163,18 @@ jobs:
               raise SystemExit('Original source geographic pair real pixel receipt not admissible')
           groups=record['by_geographic_observed_source_group']
           assert set(groups)=={'broad','narrow'}
+          assert record['geography_vs_season_sampling_confounding_reported'] is True
+          assert record['original_date_not_used_for_precolour_photo_replacement'] is True
+          assert isinstance(record['shared_source_calendar_months_between_broad_and_narrow'],list)
           assert (groups['broad']['n_original_images_measured']+
                   groups['narrow']['n_original_images_measured'])==record['new_original_photo_pixels_processed']
           for group in groups.values():
               assert 0<=group['n_same_original_roi_white_and_yellow_both_ge10pct']<=group['n_newly_four_state_classifiable']
               assert group['n_distinct_geographic_5degree_cells_in_measured_photos']>=1
               assert group['n_distinct_source_observers_in_measured_photos']>=2
+              assert 0<=group['n_source_photos_with_valid_original_observation_month']<=group['n_original_images_measured']
+              assert group['n_distinct_original_observation_calendar_months']==len(
+                  group['source_calendar_months_with_photographs_sorted'])
           PY
 
       - name: Retain actual real original photo terminals and all per-source hashes, NOT inferred polymorphism
