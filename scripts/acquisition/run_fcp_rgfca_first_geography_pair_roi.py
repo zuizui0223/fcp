@@ -498,7 +498,6 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
     classifiable=joined.measurement_status.eq("classified_four_state_morph")
     join_mixed=classifiable & white.ge(.10) & yellow.ge(.10)
     joined["same_roi_white_and_yellow_both_ge10pct"]=join_mixed
-    joined.to_csv(merged,index=False)
     # Broad vs narrow colour differences can be confounded by photographs
     # made in different seasons. The date is not used to pick pixels or
     # assign colours and never enters the ROI evaluation process. Keep its
