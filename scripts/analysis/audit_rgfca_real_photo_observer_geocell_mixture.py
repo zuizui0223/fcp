@@ -18,6 +18,10 @@ import math
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from scripts.analysis.audit_rgfca_real_six_taxa_photo_repeatability_20261016 import (
+    DEPTHS, repeat_descriptive,
+)
+
 MORPHS=("white","yellow_orange","red_pink","blue_purple")
 PALETTE=("white","yellow","orange","red","pink","magenta","purple","blue","bronze")
 ORIGINAL_ROSTER_SHA="88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c"
@@ -144,7 +148,8 @@ def summarize(pilot_root:Path, roster:Path, outdir:Path, *, synthetic=False)->di
             if abs(sum(palette.values())-1)>1e-7:
                 raise ValueError("Original nine-palette ROI fractions not conserved")
         groups[(int(tid),sp)].append({
-            "good":good,"morph":row["morph"],"observer":row["observer_id"],
+            "photo_id":row["photo_id"], "good":good,"morph":row["morph"],
+            "observer":row["observer_id"],
             "observation":row["observation_id"],"fold":str(row["screen_fold"]),
             "cell":(math.floor(lat/5),math.floor(lon/5)),"palette":palette,
         })
@@ -168,6 +173,25 @@ def summarize(pilot_root:Path, roster:Path, outdir:Path, *, synthetic=False)->di
             if x["palette"]["white"]>=0.1 and x["palette"]["yellow"]>=0.1:
                 mixed[k]+=1
         comp_total=sum(mixed.values())
+        # The same photo URLs and ROI pixel labels are NOT downloaded again.
+        # Repeated draws are technical reweighting of the fixed source photos,
+        # never 200 independent natural populations or a biological FCP test.
+        repeated=repeat_descriptive(tid,sp,[{
+            "photo_id":r["photo_id"],"fold":int(r["fold"]),
+            "observation_id":r["observation"],"observer_id":r["observer"],
+            "classifiable":r["good"],
+            "morph":r["morph"] if r["good"] else None,
+            "fractions":r["palette"] if r["good"] else {},
+        } for r in rows])
+        repeats={
+            f"depth_{n}_{field}":repeated[f"depth_{n}_{field}"]
+            for n in DEPTHS
+            for field in (
+                "evaluable_repetitions",
+                "positive_photo_label_repetitions",
+                "conditional_photo_label_detection",
+            )
+        }
         data.append({
             "inat_taxon_id":tid,"species":sp,"pilot_wave":wave,
             "source_photo_ids_selected":len(rows),"classifiable_ROI":len(usable),
@@ -185,6 +209,7 @@ def summarize(pilot_root:Path, roster:Path, outdir:Path, *, synthetic=False)->di
             "per_photo_label_white_yellow_mixture":json.dumps(mixed,sort_keys=True),
             "independent_observers_cannot_rule_out_single_multicolour_flower":True,
             "genetic_or_population_colour_polymorphism_confirmed":False,
+            **repeats,
         })
     if sum(x["source_photo_ids_selected"] for x in data)!=len(real) or sum(
        x["classifiable_ROI"] for x in data)!=roi_doc["n_classifiable_original_flower_photos"]:
@@ -206,6 +231,9 @@ def summarize(pilot_root:Path, roster:Path, outdir:Path, *, synthetic=False)->di
         "original_source_date_bulk_archive_membership_verified":False,
         "main_1000_RGFCA_P_poly_estimated":False,
         "post_pilot_structural_colour_review_required":True,
+        "source_pilot_random_photo_draws_per_taxon":200,
+        "pilot_resampling_fold_depths":[20,32,40,44,48],
+        "resampling_does_NOT_create_independent_natural_populations":True,
         "no_genetic_FCP_species_asserted":True,
         "CSV_sha256":sha256(table),
         "no_old_colour_measurements_reused":True,
