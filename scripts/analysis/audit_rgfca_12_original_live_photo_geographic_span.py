@@ -134,11 +134,11 @@ def validate_wave(root:Path,signature:tuple)->list[dict]:
         or r.get("n_classifiable_original_flower_photos")!=n_classifiable):
         raise ValueError("Real original-photo ROI/source/model receipt mismatch or monthly-source forgery")
     selected=read(meta);pixels=read(roi)
-    if len(selected)!=len(pixels)!=n_total:
+    if len(selected)!=n_total or len(pixels)!=n_total:
         raise ValueError("Wrong number of selected ORIGINAL photo ID records")
     source_by_id={x["photo_id"]:x for x in selected}
     pixel_by_id={x["photo_id"]:x for x in pixels}
-    if len(source_by_id)!=len(pixel_by_id)!=n_total or set(source_by_id)!=set(pixel_by_id):
+    if len(source_by_id)!=n_total or len(pixel_by_id)!=n_total or set(source_by_id)!=set(pixel_by_id):
         raise ValueError("Duplicate/replaced original source photo ID")
     for pid,x in pixel_by_id.items():
         y=source_by_id[pid]
