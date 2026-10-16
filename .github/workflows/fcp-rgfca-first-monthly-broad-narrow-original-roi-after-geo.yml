@@ -19,7 +19,7 @@ jobs:
     if: >-
       ${{ github.event.workflow_run.conclusion == 'success' &&
           github.event.workflow_run.name == 'FCP RGFCA 1000 observed broad geography priority after exact source' &&
-          github.event.workflow_run.event == 'workflow_run' &&
+          (github.event.workflow_run.event == 'workflow_run' || github.event.workflow_run.event == 'push') &&
           github.event.workflow_run.head_branch == 'main' &&
           github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
           github.repository == 'zuizui0223/fcp' }}
@@ -38,7 +38,7 @@ jobs:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
         with:
-          ref: 5c5c9507d76542877846af89840b1d6ed0e2ee85
+          ref: 449115f8cefc19a07d3dc2b58c50fea086097b3b
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -66,7 +66,7 @@ jobs:
           source=json.loads((root/'source_workflow_run.json').read_text())
           if not (
               geo.get('name')=='FCP RGFCA 1000 observed broad geography priority after exact source'
-              and geo.get('event')=='workflow_run'
+              and geo.get('event') in ('workflow_run','push')
               and geo.get('status')=='completed'
               and geo.get('conclusion')=='success'
               and geo.get('run_attempt')==1
