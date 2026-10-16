@@ -41,7 +41,7 @@ jobs:
       - name: Install frozen first genuine original pixel work unit requirements
         run: |
           set -euo pipefail
-          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow \
+          python -m pip install 'numpy<3' 'pandas<3' scipy Pillow pytest \
             ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
 
       - name: Verify only one correct new ID-source success, original strict geography and prior pixel outcome
