@@ -240,6 +240,15 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         eligible = sum(v["evaluable"] for _,v in trials)
         positives = sum(v["photo_poly_detected"] for _,v in trials)
         reliability = positives/eligible if eligible else None
+        # The distinct estimands MUST be shown side by side:
+        # P_eval=eligible/inclusions; P_poly|eval=positive/eligible;
+        # P_joint=positive/inclusions. An impressive conditional rate can
+        # otherwise conceal an almost entirely unevaluable source pool.
+        evaluation_rate = eligible/len(trials) if trials else None
+        unconditional_detection_rate = positives/len(trials) if trials else None
+        if (trials and reliability is not None and abs(
+                (evaluation_rate*reliability)-unconditional_detection_rate) > 1e-12):
+            raise ValueError("FCP resampling outcome denominators inconsistent")
         classifiable_pool = [r for r in rows if r["classifiable"]]
         within_ROI_dual = sum(
             pair is not None and pair[0] >= .10 and pair[1] >= .10
@@ -280,6 +289,8 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             "evaluable_40photo_observer_disjoint_draws":eligible,
             "positive_independent_observer_colour_draws":positives,
             "conditional_photo_colour_P_poly":"" if reliability is None else round(reliability,12),
+            "P_evaluable_under_random_photo_draw":"" if evaluation_rate is None else round(evaluation_rate,12),
+            "P_detect_both_evaluable_and_multicolour":"" if unconditional_detection_rate is None else round(unconditional_detection_rate,12),
             "P_poly_primary_photo_draw":120,
             "draw_depth_sensitivity_counts":json.dumps(depths,sort_keys=True),
             "repeatability_0_80_status":tier,
@@ -310,6 +321,9 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         "sensitivity_photo_draw_sizes":[40,80,120,128],
         "source_photo_acquisition_max_per_species":128,
         "probability_estimated_only_conditional_on_classified_original_photos":True,
+        "P_eval_evaluable_over_all_balanced_draws_separately_reported":True,
+        "P_joint_positive_over_all_balanced_draws_separately_reported":True,
+        "P_poly_given_eval_must_not_be_called_overall_detection_probability":True,
         "n_repeated_phenotypic_polymorphism_species":tiers.get(
             "repeatably_photo_polymorphic_phenotype",0),
         "n_coarse_photo_label_recurring_but_structural_QC_HOLD":tiers.get(
