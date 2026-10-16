@@ -108,6 +108,7 @@ def test_first_matched_pair_is_source_blind_and_does_not_rewrite_1000_taxa(tmp_p
     assert receipt["broad_original_first_pixel_geographic_support"][
         "max_supported_selected_cell_centroid_distance_km"]>=1000
     assert receipt["source_location_accuracy_reverified_in_first_ROI_photo_subset"] is True
+    assert receipt["all_selected_original_photo_positions_known_and_le50km"] is True
     assert receipt["original_observation_date_recovered_from_dated_monthly_source"] is True
     assert receipt["original_observation_date_kept_out_of_blind_image_evaluator"] is True
     assert receipt["n_source_geographic_cells_selected_by_group"]["broad"]>=2
@@ -229,6 +230,7 @@ def test_first_roi_localities_round_robin_instead_of_one_city_photo_hashes():
             photos.append({
                 "photo_id":str(10000+cell*100+j),
                 "latitude":"10.5","longitude":str(longitude),
+                "positional_accuracy_m":"150",
                 "selection_hash":f"{cell*100+j:016x}",
             })
     got=geo_balanced_first_photos(photos,8)
@@ -427,3 +429,20 @@ def test_same_two_traveling_observers_are_not_four_independent_reporters():
     assert proof["n_supported_selected_cells"]==2
     assert proof["n_distant_cell_pairs_with_four_distinct_source_observers"]==1
     assert proof["max_supported_selected_cell_centroid_distance_km"]>1000
+
+
+def test_first_roi_rejects_unknown_position_accuracy_in_every_chosen_photo():
+    """A valid distant site pair must not hide 20+ unknown-accuracy filler images."""
+    from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import (
+        original_source_photo_position_qualified,
+    )
+    good={"photo_id":"1","latitude":"35.0","longitude":"139.0",
+          "positional_accuracy_m":"250","selection_hash":"0000"}
+    assert original_source_photo_position_qualified(good)
+    for accuracy in ("", "nan", "inf", "-1", "50001", "unknown"):
+        bad={**good,"positional_accuracy_m":accuracy}
+        assert not original_source_photo_position_qualified(bad)
+        with pytest.raises(ValueError,match="unknown/invalid position accuracy"):
+            geo_balanced_first_photos([good,bad],1)
+    # Inputs and legal photo IDs stay frozen. Only their eligibility as a
+    # source-supported geographic FIRST ROI draw changes; no pixel inference.
