@@ -33,7 +33,7 @@ jobs:
       GLOBAL_PROVIDER_RATE_FILE: /tmp/fcp-rgfca-first-monthly-original-provider-rate
       FCP_PROVIDER_GLOBAL_RATE_FILE: /tmp/fcp-rgfca-first-monthly-original-provider-rate
       GEO_RUN: ${{ github.event.workflow_run.id }}
-      SOURCE_RUN: "38847189688"
+      SOURCE_RUN: "38884223530"
     steps:
       - name: Checkout exact tested RGFCA broad/narrow source-pair first 16-to-64 original pixel workflow
         uses: actions/checkout@v4
@@ -72,8 +72,8 @@ jobs:
               and geo.get('run_attempt')==1
               and geo.get('head_branch')=='main'
               and geo.get('head_repository',{}).get('full_name')=='zuizui0223/fcp'
-              and source.get('id')==38847189688
-              and source.get('head_sha')=='368b05b6e52d43289f13ecd06896db4853e9d062'
+              and source.get('id')==38884223530
+              and source.get('head_sha')=='b0656b6a677a8440c188939074a0fe3c8cd4ac16'
               and source.get('head_branch')=='analysis/fcp-fresh-uncapped-zero-20261015'
               and source.get('status')=='completed'
               and source.get('conclusion')=='success'
@@ -93,9 +93,9 @@ jobs:
           from pathlib import Path
           root=Path(os.environ['ROOT'])
           x=json.loads((root/'geography/origin_run.json').read_text())
-          if (x.get('id')!=38847189688 or x.get('status')!='completed'
+          if (x.get('id')!=38884223530 or x.get('status')!='completed'
               or x.get('conclusion')!='success'
-              or x.get('head_sha')!='368b05b6e52d43289f13ecd06896db4853e9d062'):
+              or x.get('head_sha')!='b0656b6a677a8440c188939074a0fe3c8cd4ac16'):
               raise SystemExit('Source hash/version not inherited from original geographic priority audit')
           PY
 
@@ -197,6 +197,44 @@ jobs:
           print('FCP_REAL_GEO_SITE_COLOUR_SEASON_QC_SHAS_VERIFIED',len(cells),flush=True)
           PY
 
+      - name: Audit independently dated original flowering ROI images by source month and locality
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Post-pixel-only descriptive QC is a separate frozen audited program.
+          # No observation date or site enters the historical ROI-v4 evaluator.
+          git fetch --no-tags --depth=1 origin 9cf48dbb9e2592981f9981eb4408d99663ed1467
+          git show 9cf48dbb9e2592981f9981eb4408d99663ed1467:scripts/analysis/fcp_original_dated_flowering_season_qc.py \
+            > "$ROOT/fcp_original_dated_flowering_season_qc.py"
+          python "$ROOT/fcp_original_dated_flowering_season_qc.py" \
+            --original-source "$ROOT/monthly_source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --original-source-receipt "$ROOT/monthly_source/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --new-roi-terminal "$ROOT/measured/first_original_geographically_matched_photo_terminal.csv" \
+            --new-roi-receipt "$ROOT/measured/first_geo_pair_real_pixel_receipt.json" \
+            --outdir "$ROOT/month_season_qc"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])/'month_season_qc'
+          r=json.loads((root/'original_dated_month_site_receipt.json').read_text())
+          assert r['status']=='DESCRIPTIVE_ORIGINAL_ROI_MONTHLY_PHENOTYPE_NOT_GLOBAL_COMPLETION'
+          assert r['source_taxa']==1000
+          assert r['all_original_photos_in_supplied_source']==3430502
+          assert 16<=r['new_roi_terminal_photos']<=64
+          assert r['original_source_is_not_confirmed_flowers'] is True
+          assert r['roi_failed_is_not_called_nonflowering'] is True
+          assert r['white_fraction_uses_independent_original_observations_not_photos'] is True
+          assert r['full_42111_taxon_source_photo_census_complete'] is False
+          assert r['all_93209351_photo_pixels_classified'] is False
+          print('FCP_GENUINE_SOURCE_OBSERVATION_DATE_POST_ROI_SEASON_QC',json.dumps({
+            k:r[k] for k in (
+              'source_taxa','new_roi_terminal_photos',
+              'new_roi_classifiable_flower_photos_with_valid_day',
+              'new_roi_photos_without_valid_observation_day',
+              'same_roi_white_yellow_organ_mixed_excluded_from_primary')
+          },sort_keys=True),flush=True)
+          PY
+
       - name: Retain actual real original photo terminals and all per-source hashes, NOT inferred polymorphism
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
@@ -209,6 +247,7 @@ jobs:
             /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/geo_workflow_run.json
             /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/prepared/
             /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/measured/
+            /tmp/fcp-rgfca-first-genuine-monthly-broad-narrow-pixels/month_season_qc/
 
       - name: Retain original source and precolour matched-photo selection diagnostic on failure
         if: ${{ failure() }}
