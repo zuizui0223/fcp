@@ -19,7 +19,8 @@ from scripts.acquisition.build_fcp_uncapped_blind_batches import new_id
 from scripts.acquisition.plan_fcp_photo_first_screen import SELECTED_FIELDS
 from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import (
     PHOTO_SCHEMA,WORKER,ACQUISITION,geographical_cell,
-    geo_balanced_first_photos,select_unit,measure_unit
+    geo_balanced_first_photos,reserve_two_supported_distant_sites,
+    supported_broad_photo_spread,select_unit,measure_unit
 )
 from scripts.acquisition.stratify_fcp_rgfca_geographic_span import run as geo_run
 from test_stratify_fcp_rgfca_geographic_span import fixture as geo_fixture
@@ -348,3 +349,56 @@ def test_original_observation_date_drift_is_rejected_before_geographic_image_pix
     # the fake date even if a compromised source receipt recomputes its own SHA.
     with pytest.raises(ValueError,match="signed"):
         select_unit(source,geo,tmp_path/"tampered_dates",_synthetic_source_gate=True)
+
+
+
+def test_many_disjoint_geo_cells_reserve_real_distant_supported_regions_before_first_pixels():
+    """Photo-hash + simple cell rotation overlooks support when >budget cells."""
+    def r(pid,lat,lon,fold,observer):
+        return {"photo_id":str(pid),"observation_id":f"obs_{pid}",
+                "observer_id":f"observer_{fold}_{observer}",
+                "selection_hash":f"{pid:016x}",
+                "positional_accuracy_m":"250","latitude":str(lat),
+                "longitude":str(lon)}
+    byfold={0:[],1:[]}
+    # 18 geographically scattered one-off records precede the qualifying
+    # far-apart sites in simple 5-degree-cell order.
+    for j in range(18):
+        byfold[0].append(r(10+j,-70+j*.1,-170+j*9,0,j))
+        byfold[1].append(r(110+j,-60+j*.1,-168+j*9,1,j))
+    byfold[0].extend([r(1001,35,139,0,1001),
+                      r(1002,35.1,139.1,0,1002),
+                      r(2001,40,-73,0,2001),
+                      r(2002,40.1,-73.1,0,2002)])
+    naive=(geo_balanced_first_photos(byfold[0],4)+
+           geo_balanced_first_photos(byfold[1],4))
+    naive_support=supported_broad_photo_spread(naive)
+    assert naive_support["n_supported_selected_cells"]<2
+    selected=reserve_two_supported_distant_sites(byfold,4)
+    assert selected is not None
+    folds,proof=selected
+    assert len(folds[0])==len(folds[1])==4
+    assert {r["photo_id"] for r in folds[0]}.issuperset(
+        {"1001","1002","2001","2002"})
+    assert proof["n_supported_selected_cells"]>=2
+    assert proof["max_supported_selected_cell_centroid_distance_km"]>1000
+    assert proof["distant_support_regions_reserved_before_regular_sampling"] is True
+    assert proof["observer_fold_source_photo_count_each"]==4
+    assert reserve_two_supported_distant_sites(byfold,4)==selected
+
+
+def test_geography_reservation_never_promotes_one_outlier_or_bad_accuracy():
+    def make(pid,lat,lon,fold,observer,accuracy="100"):
+        return {"photo_id":str(pid),"observation_id":f"obs_{pid}",
+                "observer_id":f"observer_{fold}_{observer}",
+                "selection_hash":f"{pid:016x}",
+                "positional_accuracy_m":accuracy,"latitude":str(lat),
+                "longitude":str(lon)}
+    f0=[make(i,35+i*.01,139+i*.01,0,i) for i in range(1,9)]
+    f1=[make(i+100,35+i*.01,139+i*.01,1,i) for i in range(1,9)]
+    f0.append(make(500,-33,151,0,500))
+    assert reserve_two_supported_distant_sites({0:f0,1:f1},4) is None
+    # Even two independent distant observations cannot count if original
+    # provider reports >50 km position uncertainty.
+    f0.append(make(501,-33.1,151.1,0,501,accuracy="100000"))
+    assert reserve_two_supported_distant_sites({0:f0,1:f1},4) is None
