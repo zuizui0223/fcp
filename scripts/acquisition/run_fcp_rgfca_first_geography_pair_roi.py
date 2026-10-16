@@ -116,13 +116,17 @@ def supported_broad_photo_spread(selected_rows:list[dict])->dict:
     cells=defaultdict(lambda:{"observations":set(),"observers":set(),"xyz":[]})
     for row in selected_rows:
         raw=str(row.get("positional_accuracy_m","")).strip()
-        # The pre-selected screen intentionally omits source accuracy; all
-        # original pixels were selected from the SHA-verified monthly source.
-        # Here the accuracy is unknown, so do not invent its precision.
-        # The preceding geographical classification already removed poorly
-        # positioned provider records from its own spread certificate.
-        # Individual selected photos can only support a *secondary* geographic
-        # spread diagnostic; not independent spatial accuracy certification.
+        # The subset accuracy is recovered from the independently SHA-frozen
+        # monthly source photo-ID manifest. Do not allow missing or >50km
+        # original positions to create a false wide-range first ROI batch.
+        if not raw:
+            continue
+        try:
+            accuracy=float(raw)
+        except (TypeError,ValueError):
+            continue
+        if not math.isfinite(accuracy) or not 0<=accuracy<=50000:
+            continue
         cell=geographical_cell(row)
         obs,observer=str(row["observation_id"]),str(row["observer_id"])
         g=cells[cell]
@@ -147,7 +151,8 @@ def supported_broad_photo_spread(selected_rows:list[dict])->dict:
             max_km=max(max_km,_angle_km(supported[a][1],supported[b][1]))
     return {"n_supported_selected_cells":len(supported),
             "max_supported_selected_cell_centroid_distance_km":round(max_km,3),
-            "geographic_accuracy_of_selected_subset_independently_verified":False,
+            "geographic_accuracy_of_selected_subset_independently_verified":True,
+            "selected_positions_from_exact_original_monthly_photo_IDs":True,
             "source_geo_classification_provenance_verified":True}
 
 
@@ -157,6 +162,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     if outdir.exists() and any(outdir.iterdir()):
         raise ValueError("Cannot overwrite a frozen geographically matched ROI unit")
     full=source_root/"rgfca_1000_exact_source_photo_IDs"
+    complete_manifest=full/"rgfca_1000_complete_original_source_photo_IDs.csv"
     source_doc=full/"rgfca_1000_targeted_monthly_photo_ID_receipt.json"
     selection=source_root/"rgfca_1000_photo_colour_blind_selection"
     sample_doc=selection/"photo_screen_source_selection_receipt.json"
@@ -166,7 +172,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     geo_doc=geo_root/"rgfca_1000_precolour_geographic_span_receipt.json"
     geo_taxa_csv=geo_root/"rgfca_1000_original_source_observed_geographic_span.csv"
     geo_pair_csv=geo_root/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv"
-    for p in (source_doc,sample_doc,sample_csv,frozen_doc,geo_doc,geo_taxa_csv,
+    for p in (source_doc,complete_manifest,sample_doc,sample_csv,frozen_doc,geo_doc,geo_taxa_csv,
               geo_pair_csv,firewall/"metadata_join_key.csv"):
         if not p.is_file():
             raise ValueError(f"Missing immutable 2026-09-27 pre-ROI source: {p.name}")
@@ -180,6 +186,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     freeze=read_doc(frozen_doc)
     geo=read_doc(geo_doc)
     if (full_doc.get("source_snapshot_date")!=SOURCE_DATE
+        or full_doc.get("selected_all_photo_IDs_csv_sha256")!=sha256(complete_manifest)
         or sample.get("source_snapshot_date")!=SOURCE_DATE
         or geo.get("status")!=GEO_STATUS
         or geo.get("source_species")!=(4 if _synthetic_source_gate else 1000)
@@ -237,6 +244,39 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         raise ValueError("Original selected source-photo-ID count drifted")
     if set(photo_rows)-set(groups):
         raise ValueError("Original photo selection contains unrostered geographic taxon")
+
+    # The blinded screen strips positional accuracy, but the exact original
+    # 2026-09-27 monthly photo ledger retains it. Recover those ORIGINAL bytes
+    # for every selected photo ID, verifying observation and coordinates, so
+    # a lone poorly georeferenced photo cannot create false first-pixel range.
+    selected_by_photo_id={
+        row["photo_id"]:row
+        for folds in photo_rows.values() for rows in folds.values() for row in rows
+    }
+    recovered=set()
+    with complete_manifest.open("r",newline="",encoding="utf-8") as original_file:
+        original=csv.DictReader(original_file)
+        needed={"photo_id","observation_id","observer_id","inat_taxon_id",
+                "latitude","longitude","positional_accuracy_m","source_snapshot_date"}
+        if not needed.issubset(original.fieldnames or ()):
+            raise ValueError("Original monthly source ID ledger lost georeference evidence")
+        for record in original:
+            pid=record["photo_id"]
+            if pid not in selected_by_photo_id:
+                continue
+            if pid in recovered:
+                raise ValueError("Original monthly source photo ID repeated")
+            selected=selected_by_photo_id[pid]
+            if (record["source_snapshot_date"]!=SOURCE_DATE or
+                any(selected[k]!=record[k] for k in
+                    ("inat_taxon_id","observation_id","observer_id")) or
+                any(abs(float(selected[k])-float(record[k]))>1e-7
+                    for k in ("latitude","longitude"))):
+                raise ValueError("Selected original photographed site differs from immutable monthly record")
+            selected["positional_accuracy_m"]=record["positional_accuracy_m"]
+            recovered.add(pid)
+    if recovered!=source_photo_ids:
+        raise ValueError("Selected original photo ID absent from exact dated monthly archive")
 
     first_pair=None
     chosen=None
@@ -362,7 +402,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "n_source_geographic_cells_selected_by_group":geographic_cells_by_group,
         "original_photo_first_unit_geographic_cell_round_robin":True,
         "broad_original_first_pixel_geographic_support":selected_geo_support,
-        "source_location_accuracy_not_reverified_in_first_ROI_photo_subset":True,
+        "source_location_accuracy_reverified_in_first_ROI_photo_subset":True,
         "original_blind_worker_sha256":blinded_sha,
         "original_source_acquisition_sha256":acquisition_sha,
         "original_biological_join_sha256":source_sha,
