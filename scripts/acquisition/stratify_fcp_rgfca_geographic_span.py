@@ -40,7 +40,7 @@ ROSTER_FIELDS=("inat_taxon_id","species","source_photo_opportunities",
 OUTPUT_FIELDS=(
     "inat_taxon_id","species","opportunity_stratum","source_photo_opportunities",
     "n_original_photo_metadata","n_distinct_observations","n_distinct_observers",
-    "n_usable_geographic_observations","n_5degree_cells",
+    "n_usable_geographic_observations","n_usable_geographic_observers","n_5degree_cells",
     "n_geographically_supported_cells","max_supported_cluster_separation_km",
     "geographic_radius_95_km","n_unknown_coordinate_accuracy",
     "n_rejected_coordinate_accuracy","geographic_sampling_category",
@@ -98,6 +98,7 @@ class SpeciesGeo:
         self.n_photo=0
         self.observations=set()
         self.observers=set()
+        self.geographic_observers=set()
         self.coordinates=[]
         self.cells=defaultdict(lambda:{"observer":set(),"obs":0,"xyz":[0.,0.,0.]})
         self.unknown_accuracy=0
@@ -133,6 +134,7 @@ class SpeciesGeo:
                 self.rejected_accuracy+=1
                 return
         xyz=_xyz(lat,lon)
+        self.geographic_observers.add(watcher)
         self.coordinates.append(xyz)
         group=self.cells[_cell(lat,lon)]
         group["obs"]+=1
@@ -165,7 +167,8 @@ class SpeciesGeo:
             p95=None
         n_obs=len(self.observations)
         n_users=len(self.observers)
-        if n_obs<MIN_GLOBAL_OBSERVATIONS or n_users<MIN_GLOBAL_OBSERVERS or not self.coordinates:
+        if (len(self.coordinates)<MIN_GLOBAL_OBSERVATIONS or
+            len(self.geographic_observers)<MIN_GLOBAL_OBSERVERS):
             cat="geography_insufficient_independent_records"
         elif max_sep>=BROAD_KM:
             cat="broad_observed_1000km_supported"
@@ -181,6 +184,7 @@ class SpeciesGeo:
             "n_distinct_observations":n_obs,
             "n_distinct_observers":n_users,
             "n_usable_geographic_observations":len(self.coordinates),
+            "n_usable_geographic_observers":len(self.geographic_observers),
             "n_5degree_cells":len(self.cells),
             "n_geographically_supported_cells":len(supported),
             "max_supported_cluster_separation_km":round(max_sep,4),
