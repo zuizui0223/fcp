@@ -30,7 +30,7 @@ jobs:
           python-version: '3.12'
       - name: Validate source-only season63 evidence rules before image access
         run: |
-          python -m pip install 'numpy<3' 'pandas<3' pytest
+          python -m pip install 'numpy<3' 'pandas<3' pytest Pillow scipy ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
           python -m pytest tests/test_fcp_rgfca_season63_pilot.py -q
       - name: Verify exact successful September 2026 source and download only 1000-taxon stage
         run: |
@@ -57,7 +57,6 @@ jobs:
       - name: Restore unmodified ROI-v4 YOLO and EfficientSAM
         run: |
           set -euo pipefail
-          python -m pip install Pillow scipy ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
           bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
       - name: Actually measure original photo pixels and postblind same-site-year months
         run: |
