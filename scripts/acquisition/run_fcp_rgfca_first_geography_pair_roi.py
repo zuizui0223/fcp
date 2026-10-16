@@ -29,6 +29,7 @@ from scripts.acquisition.plan_fcp_photo_first_screen import SELECTED_FIELDS
 from scripts.acquisition.prepare_first_rgfca_original_monthly_roi_unit import prepare
 from scripts.acquisition.run_fcp_fresh_image_partition import run_batch
 from scripts.acquisition.freeze_fcp_photo_first_blind_workers import WORKER,ACQUISITION
+from scripts.acquisition.stratify_fcp_rgfca_geographic_span import _xyz, _angle_km
 
 PHOTO_RE=re.compile(
     r"^https://inaturalist-open-data\.s3\.amazonaws\.com/photos/([0-9]+)/large\.(jpg|jpeg|png)$",
@@ -102,6 +103,52 @@ def geo_balanced_first_photos(pool:list[dict], target:int)->list[dict]:
     if len({r["photo_id"] for r in selected})!=len(selected):
         raise ValueError("Geographic first-pixel source ID reused")
     return selected
+
+
+def supported_broad_photo_spread(selected_rows:list[dict])->dict:
+    """Require selected pixels, not just the parent species, to span two real sites.
+
+    A far-away single photo cannot satisfy the site support requirement. Each
+    geographically separated 5-degree cell needs >=2 distinct source
+    observations AND >=2 distinct observers. Position accuracy >50 km never
+    supports the geographic criterion. This inspects source metadata only.
+    """
+    cells=defaultdict(lambda:{"observations":set(),"observers":set(),"xyz":[]})
+    for row in selected_rows:
+        raw=str(row.get("positional_accuracy_m","")).strip()
+        # The pre-selected screen intentionally omits source accuracy; all
+        # original pixels were selected from the SHA-verified monthly source.
+        # Here the accuracy is unknown, so do not invent its precision.
+        # The preceding geographical classification already removed poorly
+        # positioned provider records from its own spread certificate.
+        # Individual selected photos can only support a *secondary* geographic
+        # spread diagnostic; not independent spatial accuracy certification.
+        cell=geographical_cell(row)
+        obs,observer=str(row["observation_id"]),str(row["observer_id"])
+        g=cells[cell]
+        if obs in g["observations"]:
+            continue
+        g["observations"].add(obs)
+        g["observers"].add(observer)
+        g["xyz"].append(_xyz(float(row["latitude"]),float(row["longitude"])))
+    supported=[]
+    for cell,source in cells.items():
+        if len(source["observations"])<2 or len(source["observers"])<2:
+            continue
+        xyz=source["xyz"]
+        mean=[sum(x[k] for x in xyz) for k in range(3)]
+        length=math.sqrt(sum(x*x for x in mean))
+        if length<1e-10:
+            continue
+        supported.append((cell,tuple(x/length for x in mean)))
+    max_km=0.
+    for a in range(len(supported)):
+        for b in range(a+1,len(supported)):
+            max_km=max(max_km,_angle_km(supported[a][1],supported[b][1]))
+    return {"n_supported_selected_cells":len(supported),
+            "max_supported_selected_cell_centroid_distance_km":round(max_km,3),
+            "geographic_accuracy_of_selected_subset_independently_verified":False,
+            "source_geo_classification_provenance_verified":True}
 
 
 def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
@@ -192,6 +239,9 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         raise ValueError("Original photo selection contains unrostered geographic taxon")
 
     first_pair=None
+    chosen=None
+    each=None
+    selected_geo_support=None
     for pair in pairs:
         b,n=pair["broad_taxon_id"],pair["narrow_taxon_id"]
         if (b not in groups or n not in groups
@@ -205,24 +255,35 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                          int(groups[n]["source_photo_opportunities"]))
             or pair["matched_before_any_original_photo_pixels"]!="True"):
             raise ValueError("Geographic comparison pair is ungrounded or unmatched by source opportunity")
-        if all(len(photo_rows[tid][fold])>=PER_FOLD_MIN
-               for tid in (b,n) for fold in (0,1)):
-            first_pair=pair
-            break
+        if not all(len(photo_rows[tid][fold])>=PER_FOLD_MIN
+                   for tid in (b,n) for fold in (0,1)):
+            continue
+        depth=min(PER_FOLD_TARGET,*(len(photo_rows[tid][fold])
+                                   for tid in (b,n) for fold in (0,1)))
+        if not PER_FOLD_MIN<=depth<=PER_FOLD_TARGET:
+            raise ValueError("Invalid immutable original ROI image compute batch bound")
+        candidate=[]
+        for tid,label in ((b,"broad"),(n,"narrow")):
+            for fold in (0,1):
+                candidate.extend((entry,label) for entry in
+                    geo_balanced_first_photos(photo_rows[tid][fold],depth))
+        supported=supported_broad_photo_spread(
+            [entry for entry,label in candidate if label=="broad"])
+        if (supported["n_supported_selected_cells"]<2 or
+            supported["max_supported_selected_cell_centroid_distance_km"]<1000.):
+            # An observed-wide SPECIES with only local FIRST PHOTO PIXELS
+            # cannot yet test geographic flower-colour differences.
+            continue
+        first_pair=pair
+        chosen=candidate
+        each=depth
+        selected_geo_support=supported
+        break
     if first_pair is None:
-        raise ValueError("No matched broad/narrow pair has four independent-fold photos per taxon")
-
+        raise ValueError(
+            "No matched broad/narrow pair has both observer folds AND "
+            "two supported photographed regions >=1000 km apart")
     b,n=first_pair["broad_taxon_id"],first_pair["narrow_taxon_id"]
-    each=min(PER_FOLD_TARGET,*(len(photo_rows[tid][fold])
-                              for tid in (b,n) for fold in (0,1)))
-    if not PER_FOLD_MIN<=each<=PER_FOLD_TARGET:
-        raise ValueError("Invalid immutable original ROI image compute batch bound")
-    chosen=[]
-    for tid,label in ((b,"broad"),(n,"narrow")):
-        for fold in (0,1):
-            pool=photo_rows[tid][fold]
-            for entry in geo_balanced_first_photos(pool,each):
-                chosen.append((entry,label))
     if not 16<=len(chosen)<=64 or len({r["photo_id"] for r,_ in chosen})!=len(chosen):
         raise ValueError("Broad/narrow original photo unit improperly selected")
     geographic_cells_by_group={
@@ -300,6 +361,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "n_narrow_original_photos":2*each,
         "n_source_geographic_cells_selected_by_group":geographic_cells_by_group,
         "original_photo_first_unit_geographic_cell_round_robin":True,
+        "broad_original_first_pixel_geographic_support":selected_geo_support,
+        "source_location_accuracy_not_reverified_in_first_ROI_photo_subset":True,
         "original_blind_worker_sha256":blinded_sha,
         "original_source_acquisition_sha256":acquisition_sha,
         "original_biological_join_sha256":source_sha,
