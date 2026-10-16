@@ -1,0 +1,145 @@
+# Exact 2026-09-27 main original-photo-ID source is NOT available here.
+# Independently validate actual six+six original ROI-v4 tech photo audits.
+# NO live iNaturalist calls, NO image requests, NO W/H2/genetic inference.
+name: FCP RGFCA wave2 REAL ROI and two-wave 12-taxa photo QC
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-rgfca-wave2-real-ROI-two-wave-QC-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-two-disjoint-real-photo-original-ROI-tech-QC-20261016
+  cancel-in-progress: false
+
+jobs:
+  independently-audit-wave2-and-compare-both-actual-pixel-pilots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+    steps:
+      - name: Checkout code already verified by full RGFCA/FCP source-no-legacy CI
+        uses: actions/checkout@v4
+        with:
+          ref: 75bbe1d43c15ec1c703c8da2be282e7e83aad5dd
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Authenticate two original PHOTO pixel artifact executions, wave1 QC, and source-only 1000-taxonomic roster
+        shell: bash
+        run: |
+          set -euo pipefail
+          for ID in 38832829706 38840579008 38841451431 38828417100; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ID" > "$RUNNER_TEMP/run_$ID.json"
+          done
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          expected={
+              38832829706:"f8dc2160b3e8caabc021c75e5d2014f906cc0794",
+              38840579008:"54602c740eff29263c66634541697b8885a26940",
+              38841451431:"ee599df429d8265b448b50903afeddaee3801252",
+              38828417100:"9ed71d6a22aef941bdb7f2f947266b7a58ac7741",
+          }
+          for run_id,head_sha in expected.items():
+              obj=json.loads((root/f"run_{run_id}.json").read_text())
+              if (obj.get("id")!=run_id or obj.get("head_sha")!=head_sha
+                  or obj.get("head_branch")!="analysis/fcp-fresh-uncapped-zero-20261015"
+                  or obj.get("run_attempt")!=1 or obj.get("status")!="completed"
+                  or obj.get("conclusion")!="success"
+                  or obj.get("head_repository",{}).get("full_name")!="zuizui0223/fcp"):
+                  raise SystemExit(f"Wrong pinned original-photo data/artifact run: {run_id}")
+          print("FCP_TWO_DISJOINT_6_TAXON_ORIGINAL_PIXEL_ROSTER_PROVENANCE_PASSED")
+          PY
+      - name: Download ONLY exact photo terminals and previously independent observer QC; never request an image
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/wave1_qc" "$RUNNER_TEMP/wave2_raw" "$RUNNER_TEMP/roster"
+          gh run download 38841451431 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-wave1-552-ROI-observer-geocell-200-redraw-TECHNICAL-QC \
+            --dir "$RUNNER_TEMP/wave1_qc"
+          gh run download 38840579008 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-disjoint-wave2-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
+            --dir "$RUNNER_TEMP/wave2_raw"
+          gh run download 38828417100 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
+            --dir "$RUNNER_TEMP/roster"
+      - name: Verify wave2 REAL new original photo ROIs and 200 redrawn technical photo-label tests by taxon/observer/site
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.analysis.audit_rgfca_real_photo_observer_geocell_mixture \
+            --pilot-root "$RUNNER_TEMP/wave2_raw" \
+            --original-rgfca-roster "$RUNNER_TEMP/roster/rgfca_species_1000_original_source_only.csv" \
+            --outdir "$RUNNER_TEMP/wave2_qc"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"wave2_qc"/"wave2_original_ROI_observer_geocell_mixed_colour_QC.json"
+          r=json.loads(p.read_text())
+          if (r["status"]!="TECHNICAL_REAL_ORIGINAL_ROI_ONLY_NOT_POLYMORPHISM_ESTIMATE"
+              or r["pilot_wave"]!=2 or r["n_taxa"]!=6
+              or r["n_original_ROI_photos"]!=482
+              or r["n_classifiable_flower_ROIs"]!=203
+              or r["source_pilot_random_photo_draws_per_taxon"]!=200
+              or r["main_1000_RGFCA_P_poly_estimated"] is not False
+              or r["no_genetic_FCP_species_asserted"] is not True
+              or r["original_source_date_bulk_archive_membership_verified"] is not False):
+              raise SystemExit("Real wave2 dated-source/ROI/Ppoly proof is not valid")
+          print("FCP_WAVE2_482_REAL_ORIGINAL_PIXELS_203_COLOUR_ROI_QC_VERIFIED")
+          PY
+      - name: Compare 12 distinct REAL original image species across observation-depth strata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.analysis.compare_rgfca_two_disjoint_original_photo_roi_waves \
+            --wave1-qc "$RUNNER_TEMP/wave1_qc" \
+            --wave2-qc "$RUNNER_TEMP/wave2_qc" \
+            --original-1000-roster "$RUNNER_TEMP/roster/rgfca_species_1000_original_source_only.csv" \
+            --outdir "$RUNNER_TEMP/combined_qc"
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          d=Path(os.environ["RUNNER_TEMP"])/"combined_qc"
+          summary=json.loads((d/"rgfca_12_real_technical_taxa_photo_roi_observer_bias_receipt.json").read_text())
+          with (d/"rgfca_12_real_technical_taxa_photo_roi_observer_bias.csv").open(newline="") as f:
+              rows=list(csv.DictReader(f))
+          if (summary["status"]!="REAL_PHOTO_PIXELS_TWO_TECHNICAL_WAVES_NOT_ORIGINAL_DATED_BIOLOGY"
+              or summary["n_original_source_taxa_pilot"]!=12
+              or summary["source_taxon_overlaps_between_waves"]!=0
+              or summary["total_original_new_image_pixels_ROI_measured"]!=1034
+              or summary["total_classifiable_original_flower_ROIs"]!=405
+              or summary["actual_20260927_original_source_photo_ID_membership_verified"] is not False
+              or summary["actual_1000_taxon_200x250_formal_Ppoly_estimated"] is not False
+              or summary["any_natural_population_flower_colour_polymorphism_proven"] is not False
+              or len(rows)!=12):
+              raise SystemExit("Two-wave real photo source or interpretability gate changed")
+          print("FCP_TWO_WAVE_12_REAL_ORIGINAL_PHOTO_SPECIES_TECH_QC",json.dumps({
+              "n_taxa":12,"n_actual_original_photo_ROI_measured":1034,
+              "n_classifiable_ROI":405,
+              "n_ge40_classifiable_species":summary["n_species_with_at_least_40_classifiable_ROIs"],
+              "n_structural_colour_review_holds":summary["n_species_flagged_for_flower_organ_structure_review"],
+              "photo_depth_strata":summary["available_photo_opportunity_strata"]
+          },sort_keys=True))
+          PY
+      - name: Preserve source-byte-verified true original-image 12 species technical summary, not polymorphism prevalence
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1034-original-ROI-12-disjoint-species-observer-geography-QC-NOT-FCP
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/wave2_qc/
+            ${{ runner.temp }}/combined_qc/
