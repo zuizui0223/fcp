@@ -193,3 +193,37 @@ def test_geographic_narrow_controls_dont_overmatch_unrelated_source_count_tiers(
     assert result["n_broad_narrow_pairs_matched_on_original_photo_depth"]==0
     assert result["source_species"]==4
     assert list(csv.DictReader((out/"rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv").open()))==[]
+
+
+def test_unknown_position_accuracy_never_makes_a_taxon_geographically_broad(tmp_path):
+    """Six-plus independent observers cannot rescue unverified distant coordinates."""
+    raw,receipt,roster=fixture(tmp_path)
+    with raw.open("r",encoding="utf-8",newline="") as f:
+        rows=list(csv.DictReader(f))
+    affected=0
+    for row in rows:
+        if row["inat_taxon_id"]=="101" and float(row["longitude"])<100:
+            # Two distant 5-degree cells have eight independent, real,
+            # otherwise eligible observation/photo IDs. Their unknown
+            # accuracy must NOT establish >=1000 km geographic extent.
+            row["positional_accuracy_m"]=""
+            affected+=1
+    assert affected==8
+    with raw.open("w",encoding="utf-8",newline="") as f:
+        writer=csv.DictWriter(f,fieldnames=CSV_FIELDS,lineterminator="\\n")
+        writer.writeheader();writer.writerows(rows)
+    rec=json.loads(receipt.read_text(encoding="utf-8"))
+    rec["selected_all_photo_IDs_csv_sha256"]=sha256(raw)
+    receipt.write_text(json.dumps(rec),encoding="utf-8")
+    result=run(raw,receipt,roster,tmp_path/"unknown_accuracy",synthetic=True)
+    selected=results(tmp_path/"unknown_accuracy")[101]
+    assert selected["n_original_photo_metadata"]=="13"
+    assert selected["n_distinct_observations"]=="12"
+    assert selected["n_unknown_coordinate_accuracy"]=="8"
+    assert selected["n_usable_geographic_observations"]=="4"
+    assert selected["n_geographically_supported_cells"]=="1"
+    assert selected["geographic_sampling_category"]=="geography_insufficient_independent_records"
+    assert result["unknown_position_accuracy_excluded_from_geographic_support"] is True
+    assert result["n_independent_observations_with_unknown_source_accuracy"]>=8
+    # This is source-geography QC only, not a ROI flower-colour result.
+    assert result["n_original_new_pixels_measured"]==0
