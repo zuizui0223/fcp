@@ -82,6 +82,12 @@ def read_wave(root:Path, wave:int, *, synthetic:bool=False)->list[dict]:
             if (eligible==0 and ratio!=""
                 or eligible and abs(float(ratio)-pos/eligible)>1e-8):
                 raise ValueError("Repeated observer-disjoint photo-label denominator drifted")
+            overlap=row[prefix+"realized_photo_ID_overlap_fraction"]
+            unique_sets=int(row[prefix+"distinct_source_photo_ID_draw_sets"])
+            if (overlap!="" and not 0<=float(overlap)<=1
+                or not 1<=unique_sets<=200
+                or overlap!="" and float(overlap)==1.0 and unique_sets!=1):
+                raise ValueError("Original 200 photo-ID draws are not independently reproducible")
         total+=n;valid+=v
     if total!=meta["n_original_ROI_photos"] or valid!=meta["n_classifiable_flower_ROIs"]:
         raise ValueError("Original ROI per-species terminal counts do not reconcile to wave receipt")
@@ -133,6 +139,13 @@ def compare(wave1:Path,wave2:Path,roster:Path,outdir:Path,*,synthetic=False)->di
                 int(row["depth_48_evaluable_repetitions"])/200,12),
             "P_photo_label_pair_joint_depth96_photo_technical":round(
                 int(row["depth_48_positive_photo_label_repetitions"])/200,12),
+            "actual_RGFCA_96rawphoto_mean_pairwise_source_ID_overlap_fraction":
+                float(row["depth_48_realized_photo_ID_overlap_fraction"]),
+            "n_distinct_original_photo_ID_sets_in_200_depth96_draws":
+                int(row["depth_48_distinct_source_photo_ID_draw_sets"]),
+            "all_200_photo_repetitions_identical_at_full_pilot_depth":bool(
+                float(row["depth_48_realized_photo_ID_overlap_fraction"])==1.0
+                and int(row["depth_48_distinct_source_photo_ID_draw_sets"])==1),
             "photolabel_repetition_support_not_biological_FCP":capable and photo_signal,
             "within_one_ROI_structural_review_hold":structural,
             "phenotypic_polymorphism_confirmed":False,
@@ -179,6 +192,11 @@ def compare(wave1:Path,wave2:Path,roster:Path,outdir:Path,*,synthetic=False)->di
         "n_species_with_label_pair_and_structural_colour_QC_hold":sum(
             x["photolabel_repetition_support_not_biological_FCP"]
             and x["within_one_ROI_structural_review_hold"] for x in joined),
+        "n_species_with_no_actual_photo_ID_draw_variation_at_pilot_depth96":sum(
+            x["all_200_photo_repetitions_identical_at_full_pilot_depth"]
+            for x in joined),
+        "n_200_repetitions_are_biologically_independent":0,
+        "photo_ID_overlap_is_observed_from_real_source_photo_ID_selection":True,
         "technical_resampling_reuses_max_96_photos_per_species_NOT_120_main":True,
         "n_species_flagged_for_flower_organ_structure_review":sum(
             x["within_one_ROI_structural_review_hold"] for x in joined),
