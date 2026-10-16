@@ -167,8 +167,11 @@ def test_source_date_rewritten_after_roi_is_rejected_by_receipts(tmp_path):
 
 def test_fake_observation_month_in_resealed_pixel_table_fails(tmp_path):
     term,roi,monthly=make_fixture(tmp_path)
-    text=term.read_text().replace("2024-08,","2024-02,",1)
-    term.write_text(text)
+    rows=read(term)
+    rows[0]["source_observation_month"]="2024-02"
+    with term.open("w",newline="",encoding="utf-8") as f:
+        writer=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator="\n")
+        writer.writeheader();writer.writerows(rows)
     reseal(term,roi,monthly)
     with pytest.raises(ValueError,match="previously recovered"):
         prepare(term,roi,monthly,tmp_path/"bad",_synthetic_test=True)
