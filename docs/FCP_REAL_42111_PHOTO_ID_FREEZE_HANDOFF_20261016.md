@@ -1,5 +1,23 @@
 # FCP PR200 — 42,111種・実データ全写真ID凍結への引き継ぎ（2026-10-16）
 
+## 新規：再取得なしの永続ストレージ手動Actions（2026-10-16）
+
+mainに [`.github/workflows/fcp-pr200-durable-source-manual.yml`](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-pr200-durable-source-manual.yml) を追加した。**workflow_dispatchのみ**、`push` / `pull_request` / `workflow_run` による自動起動はない。旧fallback失敗runを再実行せず、source側の修正済みPython module entrypoint（GitHub commit `feed51872e10611a7798f3db6c8c86a3b5d53527`）を固定checkoutする。GitHub-hosted runnerは使わず、専用ラベル `[self-hosted, linux, x64, fcp-durable]` を要求する。
+
+**事前に運用者が準備するもの：**
+
+- リポジトリ変数 `FCP_DURABLE_ROOT` に **/tmp でも /home/runner/work でもない、実際に永続なマウント配下の絶対パス**を登録する。専用Linux self-hosted runnerに `fcp-durable` ラベルを付ける。
+- `$FCP_DURABLE_ROOT/FCP_DURABLE_STORAGE_APPROVED` に正確に `I confirm this is persistent FCP source storage, not hosted-runner scratch.` を記録する。**このファイルだけで物理永続性が証明されるわけではなく、運用者の確認を別途要する。**
+- `inputs/42111_species.csv`（SHA256 `5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc`）、`references/all_42111_species_photo_opportunity_counts.csv`（`ef26c16252dd785f2d08bde3b18938c7624d73a54386fa3d3974dceb09ed97a9`）、`references/all_42111_photo_opportunity_audit.json`（`ed62aee0f9730ad17347d25180575af1cd101e0fc35c581e470c4a17866ebf56`）を、**それぞれ成功済み原本count/独立audit成果物から**所定パスに置く。COUNT CSV/監査JSONの名前を誤って別ファイルで代用するとチェックで拒否される。
+- `snapshots/inaturalist-open-data-20260927.tar.gz` は、**既に正当な取得権限の下で存在する固定日付原本**を使う。35,966,549,880バイト・SHA256 `bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e` が不一致なら停止。手動Actionsにはproviderからのアーカイブ取得処理は存在しない。原本を調達する許諾や永続保管がなければ**処理を開始しない**。
+- `preflight` と `stage` は当該永続領域の**空き容量200,000,000,000バイト以上**、`emit` / `finalize` は60,000,000,000バイト以上が必要（総容量ではなく実空き容量）。依存Pythonパッケージはself-hostedに事前構築し、Actions中には無断の`pip install`も行わない。
+
+**手動実行順序：** Actionsの `FCP PR200 durable 2026-09-27 original photo-ID source (manual)` で、まず `preflight`（原本/3参照SHA・200GB空き・運用者sentinel検査）、次に一度だけ `stage`（4表を走査して約9,320万の実IDを唯一のSQLiteとして永続保存）、その後 `emit` を `shard_start=0, shard_stop=4`、続いて `4,8`、`8,12`、… `124,128` と最大4区画ずつ計32回、最後に `finalize` を指定する。既存の完全seal区画はSHAを再検証し上書きしない。途中失敗で残った未seal区画は**手動原因検査と隔離が必要**で、自動で欠測を補完しない。
+
+各runのartifactは**小さなsource stage/status/監査JSONとprogress traceだけ**。巨大なSQLite、36GB原本、全写真ID manifests、写真pixelsをGitHub Actions artifactとして転送しない。これらは永続領域にとどまる。
+
+成功判定は `finalize` が `REAL_ALL_42111_ORIGINAL_PHOTO_ID_COUNTS_RECONCILED_NO_PIXELS` の独立照合receiptを出し、42,111全checkpoint・128 worker・93,209,351元photoIDと全分類群count一致を確認した時に限る。**この時点でROI測定済み0件であり、花色生物学的全件結果、W/H2、環境解析は未完了。** 初回本番64枚は、別途正式なsource admission、元ROI-v4/EfficientSAM fingerprint、提供者の取得許諾と全体レート管理を確認してから扱う。
+
 ## 実際に成功した工程（花色測定ではない）
 
 - 原本：iNaturalist Open Dataset `metadata/inaturalist-open-data-20260927.tar.gz`（2026-09-27）。
