@@ -83,13 +83,24 @@ def geo(raw_lat: str, raw_lon: str) -> tuple[str,str,int,int]:
 
 
 def season(month: int, hemisphere: str) -> str:
+    """Local meteorological seasons; tropical sites retain month only.
+
+    DJF/MAM/JJA/SON refer to months rather than the local season, so label
+    summer/winter by hemisphere explicitly instead of miscalling SH July DJF.
+    """
     if hemisphere=="tropical":
         return "tropical_month_only"
-    m=((month-1+6)%12)+1 if hemisphere=="south" else month
-    if m in (12,1,2): return "DJF"
-    if m in (3,4,5): return "MAM"
-    if m in (6,7,8): return "JJA"
-    return "SON"
+    if month in (12,1,2): northern="winter"
+    elif month in (3,4,5): northern="spring"
+    elif month in (6,7,8): northern="summer"
+    elif month in (9,10,11): northern="autumn"
+    else:
+        raise ValueError("Impossible calendar month")
+    if hemisphere=="north":
+        return "local_"+northern
+    southern={"winter":"summer","spring":"autumn",
+              "summer":"winter","autumn":"spring"}
+    return "local_"+southern[northern]
 
 
 def verified_input(source: Path, source_receipt: Path, measured: Path,
