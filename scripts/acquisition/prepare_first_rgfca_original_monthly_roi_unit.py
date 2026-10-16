@@ -122,7 +122,11 @@ def prepare(source_root:Path,outdir:Path,*,synthetic=False)->dict:
     index=ScreenSourceIndex(firewall,first,synthetic=synthetic)
     worker,acq,n_batches=index.get_batch(first,0,BATCH_SIZE)
     if (not 0<len(worker)<=BATCH_SIZE or tuple(worker.columns)!=WORKER
-        or tuple(acq.columns)!=ACQUISITION
+        # Pandas joins keep WORKER column order and append photo_url_large;
+        # the frozen source CSV's ACQUISITION order differs, but the exact
+        # field SET must remain identical and contain no extra biology.
+        or len(acq.columns)!=len(ACQUISITION)
+        or set(acq.columns)!=set(ACQUISITION)
         or any(not url.startswith(
             "https://inaturalist-open-data.s3.amazonaws.com/photos/")
             for url in acq.photo_url_large)):
