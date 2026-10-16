@@ -109,6 +109,9 @@ def test_synthetic_six_taxa_source_and_roi_match_across_observers(wave,tmp_path)
     assert len(rows)==6
     assert all(int(x["n_classifiable_original_observers"])==4 for x in rows)
     assert all(int(x["within_one_ROI_white_and_yellow_both_ge10"])==4 for x in rows)
+    assert all(float(x["depth_48_realized_photo_ID_overlap_fraction"])==1.0 for x in rows)
+    assert all(int(x["depth_48_distinct_source_photo_ID_draw_sets"])==1 for x in rows)
+    assert report["actual_pairwise_source_photo_ID_overlap_by_draw_depth_included"] is True
     assert all(x["genetic_or_population_colour_polymorphism_confirmed"]=="False" for x in rows)
 
 
