@@ -184,6 +184,15 @@ def test_original_roi_terminal_preserves_observer_blindness_and_source_IDs(tmp_p
     assert {r["geographic_comparison_group"] for r in rows}=={"broad","narrow"}
     assert done["original_geographic_source_join_terminal_sha256"]==sha256(
         tmp_path/"measure"/"first_original_geographically_matched_photo_terminal.csv")
+    cell_path=tmp_path/"measure"/"first_original_geographic_5degree_cell_photo_colour_QC.csv"
+    site=list(csv.DictReader(cell_path.open()))
+    assert len(site)==done["n_original_geographic_5degree_cells_with_photo_terminals"]
+    assert sum(int(r["n_measured_original_photo_ids"]) for r in site)==24
+    assert sum(int(r["n_original_photo_ROIs_classifiable"]) for r in site)==12
+    assert all(r["is_genetic_or_population_FCP_test"]=="False" for r in site)
+    assert all(json.loads(r["original_observation_months_json"])==["2026-08"] for r in site)
+    assert done["original_geographic_5degree_cell_photo_QC_csv_sha256"]==sha256(cell_path)
+    assert done["geographic_site_photo_label_table_is_descriptive_not_FCP_test"] is True
     with pytest.raises(ValueError,match="already sealed"):
         measure_unit(prepared,tmp_path/"measure",method=tmp_path/"source.py",
                      detector=tmp_path/"det.pt",sam=tmp_path/"sam",
@@ -254,6 +263,11 @@ def test_original_photographic_yellow_white_same_roi_is_separate_structural_QC(t
                          loader=lambda _:b"fake_byte_payload",
                          evaluator=fake_evaluator)
     assert receipt["n_classifiable"]==24
+    site=list(csv.DictReader(
+        (tmp_path/"measured"/"first_original_geographic_5degree_cell_photo_colour_QC.csv").open()))
+    assert sum(int(r["n_same_ROI_white_and_yellow_mixed_ge10pct"]) for r in site)==24
+    assert sum(int(r["n_white_photo_labels"]) for r in site)==24
+    assert sum(int(r["n_original_photo_ROIs_classifiable"]) for r in site)==24
     for group in ("broad","narrow"):
         part=receipt["by_geographic_observed_source_group"][group]
         assert part["n_same_original_roi_white_and_yellow_both_ge10pct"]==12
