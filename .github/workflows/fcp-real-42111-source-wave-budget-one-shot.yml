@@ -22,7 +22,7 @@ jobs:
       - name: Check out exact fully verified source-only budget script
         uses: actions/checkout@v4
         with:
-          ref: 540e73e8305d76266822b14cb733b553253b9dc6
+          ref: 0e4ae1d68b10c37c688b1d35f42875ec03a9fe51
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
