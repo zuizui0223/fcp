@@ -26,7 +26,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PYTHONPATH: "."
-      ROOT: ${{ runner.temp }}/fcp_rgfca_targeted_20260927_exact_monthly
+      ROOT: /tmp/fcp_rgfca_targeted_20260927_exact_monthly
       ARCHIVE_SHA: bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e
       SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
       SOURCE_ARCHIVE_URL: https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260927.tar.gz
