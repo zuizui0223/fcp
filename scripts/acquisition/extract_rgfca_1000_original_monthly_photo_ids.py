@@ -263,47 +263,125 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
         del batch
         record("all_original_photos_scanned_for_selected_observations",source_photo_rows)
 
-        # The provider full-frame importer resolves photo-ID collisions across
-        # 42,111 species. We cannot pretend within-only dedup equals its
-        # globally audited result. Check each selected ID against ALL raw photo
-        # records in a SECOND full scan; conservatively mark any valid
-        # source-ID reuse with different raw metadata, even when the nonselected
-        # observation is not source-eligible. Exact independently audited
-        # per-species counts are therefore a mandatory admission gate below.
+        # Match the EXACT four-table semantics of the full 42,111 importer:
+        # a duplicate photo ID is conflicting only when BOTH photo records
+        # are licensed/valid and associated with an eligible research-grade,
+        # valid-geolocation observation in the 42,111-source ancestry frame.
+        # Non-Research-Grade and out-of-frame uses of the same original photo
+        # must NOT silently erase a valid selected photo.
+        #
+        # A second PHOTO table scan determines which raw source photo IDs
+        # even have conflicting metadata; if necessary, one small-key filtered
+        # OBSERVATION table replay establishes eligibility of those outside
+        # the selected 1,000 species. This avoids storing the whole 42,111
+        # observation table and exactly reproduces the full-source importer.
         candidate_ids={pid for (pid,) in db.execute("SELECT photo_id FROM photos")}
         ambiguous_before=db.execute(
             "SELECT COUNT(*) FROM photos WHERE ambiguous=1").fetchone()[0]
+        db.execute("""CREATE TEMP TABLE raw_selected_ID_matches (
+              photo_id TEXT, uuid TEXT, license TEXT,
+              extension TEXT, photographer TEXT)""")
         replay=0
         scan2=0
-        to_check=[]
+        replay_batch=[]
         def flush_replay():
-            if not to_check:return
-            db.executemany("""UPDATE photos SET ambiguous=1 WHERE photo_id=?
-                AND (uuid!=? OR license!=? OR extension!=? OR photographer!=?)""",
-                to_check)
+            if not replay_batch:return
+            db.executemany(
+                "INSERT INTO raw_selected_ID_matches VALUES (?,?,?,?,?)",
+                replay_batch)
             db.commit()
-            to_check.clear()
-        record("second_global_raw_photo_ID_collision_safety_pass",0)
+            replay_batch.clear()
+        record("second_global_photo_ID_crossover_metadata_pass",0)
         for raw in read_tsv(tables["photos"],required):
             scan2+=1
             pid=integer(raw["photo_id"])
-            if pid is None or str(pid) not in candidate_ids:
-                continue
-            ext=accepted_extension(raw["extension"])
-            lic=normalize_license(raw["license"])
-            uuid=str(raw["observation_uuid"]).strip()
-            if ext is None or lic is None or not uuid:
-                continue
-            to_check.append((str(pid),uuid,lic,ext,str(raw.get("observer_id") or "")))
-            replay+=1
-            if len(to_check)>=10000:flush_replay()
-            if scan2%20_000_000==0:record("global_raw_photo_collision_pass",scan2)
+            if pid is not None and str(pid) in candidate_ids:
+                ext=accepted_extension(raw["extension"])
+                lic=normalize_license(raw["license"])
+                uuid=str(raw["observation_uuid"]).strip()
+                if ext is not None and lic is not None and uuid:
+                    replay_batch.append((
+                        str(pid),uuid,lic,ext,str(raw.get("observer_id") or "")))
+                    replay+=1
+                    if len(replay_batch)>=10000:
+                        flush_replay()
+            if scan2%20_000_000==0:
+                record("second_global_photo_ID_crossover_metadata_pass",scan2)
         flush_replay()
-        del to_check,candidate_ids
-        record("global_raw_photo_collision_pass_complete",scan2)
+        del replay_batch,candidate_ids
+        record("all_original_photo_records_rechecked_for_target_ID_collision",scan2)
         if scan2!=source_photo_rows:
             raise ValueError("Second source photos pass missed raw photo rows")
-
+        # The within-selected source importer already isolated photo_id
+        # conflicts between eligible observations in the selected taxa.
+        # Now identify only raw metadata differences whose UUID does NOT
+        # belong to a selected photo record. They are potential, not yet
+        # verified source-global conflicts.
+        db.execute("""CREATE TEMP TABLE candidate_external_collision AS
+              SELECT DISTINCT m.photo_id,m.uuid
+              FROM raw_selected_ID_matches m
+              JOIN photos p ON p.photo_id=m.photo_id
+              WHERE m.uuid!=p.uuid OR m.license!=p.license
+                 OR m.extension!=p.extension
+                 OR m.photographer!=p.photographer""")
+        db.execute("""CREATE INDEX candidate_external_collision_uuid_idx
+              ON candidate_external_collision(uuid)""")
+        external_uuids={uuid for (uuid,) in db.execute(
+            """SELECT DISTINCT c.uuid
+               FROM candidate_external_collision c
+               LEFT JOIN observations o ON c.uuid=o.uuid
+               WHERE o.uuid IS NULL""")}
+        # Process the observations file again ONLY if external photo IDs
+        # really reused an ID of the selected 1,000 taxa. In the common
+        # no-external-conflicts case, no third metadata pass is needed.
+        db.execute("CREATE TEMP TABLE eligible_external_uuid (uuid TEXT PRIMARY KEY)")
+        external_obs_scanned=0
+        external_qualified=0
+        if external_uuids:
+            record("independently_check_outside_1000_photo_collision_observations",0)
+            external_batch=[]
+            for raw in read_tsv(tables["observations"],{
+                    "observation_uuid","taxon_id","observer_id","latitude",
+                    "longitude","quality_grade"}):
+                external_obs_scanned+=1
+                uuid=str(raw["observation_uuid"]).strip()
+                if uuid not in external_uuids:
+                    if external_obs_scanned%20_000_000==0:
+                        record("scanning_global_external_observations",external_obs_scanned)
+                    continue
+                tid=integer(raw["taxon_id"])
+                tax=crosswalk.get(tid,tid if tid in names else None)
+                geo=allowed_geo(raw["latitude"],raw["longitude"])
+                observer=integer(raw["observer_id"])
+                if (tax not in names or geo is None or observer is None
+                    or str(raw["quality_grade"]).strip().casefold()
+                       not in {"research grade","research"}):
+                    continue
+                external_batch.append((uuid,))
+                external_qualified+=1
+                if len(external_batch)>=10000:
+                    db.executemany(
+                        "INSERT OR IGNORE INTO eligible_external_uuid VALUES (?)",
+                        external_batch)
+                    db.commit()
+                    external_batch.clear()
+            if external_batch:
+                db.executemany(
+                    "INSERT OR IGNORE INTO eligible_external_uuid VALUES (?)",
+                    external_batch)
+            del external_batch
+        # Only external observations eligible under the SAME full 42,111
+        # filter may cause the source photo ID to be quarantined.
+        db.execute("""UPDATE photos SET ambiguous=1 WHERE photo_id IN (
+              SELECT DISTINCT c.photo_id
+              FROM candidate_external_collision c
+              JOIN eligible_external_uuid e ON c.uuid=e.uuid)""")
+        db.commit()
+        external_affected=int(db.execute("""SELECT COUNT(DISTINCT c.photo_id)
+              FROM candidate_external_collision c
+              JOIN eligible_external_uuid e ON c.uuid=e.uuid""").fetchone()[0])
+        record("qualified_external_global_photo_ID_collision_audit_completed",
+               external_obs_scanned)
         counts=Counter({int(k):int(n) for k,n in db.execute(
             "SELECT taxon,COUNT(*) FROM photos WHERE ambiguous=0 GROUP BY taxon")})
         discrepancies={str(t):{"source_expected":n,"targeted_conservative":counts[t]}
@@ -411,6 +489,11 @@ def process(frame: Path, count_path: Path, independent_audit: Path,
             "n_source_selected_photo_metadata_rows_matching_target_obs":pass_candidates,
             "n_conservative_within_selected_photo_ID_conflicts_before_global_replay":ambiguous_before,
             "n_global_raw_photo_records_checked_against_selected_IDs":replay,
+            "n_distinct_potential_external_observation_UUIDs":len(external_uuids),
+            "n_original_observation_rows_rescanned_for_global_collision":external_obs_scanned,
+            "n_valid_eligible_external_observation_records_for_collision":external_qualified,
+            "n_original_photo_IDs_quarantined_by_external_eligible_sources":external_affected,
+            "outside_source_or_not_research_grade_duplicate_does_not_erase_valid_photo":True,
             "n_selected_original_photo_IDs":written,
             "all_enrolled_species_match_independent_full_source_photo_ID_counts":True,
             "selected_all_photo_IDs_csv_sha256":sha256_file(manifest),
