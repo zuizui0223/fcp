@@ -123,16 +123,20 @@ class SpeciesGeo:
             return
         raw=str(row.get("positional_accuracy_m","")).strip()
         if not raw:
+            # An unspecified provider geolocation accuracy cannot be used as
+            # evidence of broad (>=1000 km) OR narrow (p95 <=200 km) extent.
+            # Preserve the original photo in the source denominator; exclude
+            # only its uncertain coordinate from geographic comparisons.
             self.unknown_accuracy+=1
-        else:
-            try:
-                accuracy=float(raw)
-                if not math.isfinite(accuracy) or accuracy<0 or accuracy>MAX_POSITIONAL_ACCURACY_M:
-                    self.rejected_accuracy+=1
-                    return
-            except ValueError:
+            return
+        try:
+            accuracy=float(raw)
+            if not math.isfinite(accuracy) or accuracy<0 or accuracy>MAX_POSITIONAL_ACCURACY_M:
                 self.rejected_accuracy+=1
                 return
+        except ValueError:
+            self.rejected_accuracy+=1
+            return
         xyz=_xyz(lat,lon)
         self.geographic_observers.add(watcher)
         self.coordinates.append(xyz)
@@ -385,6 +389,11 @@ def run(manifest:Path,source_receipt:Path,roster:Path,outdir:Path, *,
         "supported_5degree_cell_min_distinct_observations":MIN_CELL_OBSERVATIONS,
         "supported_5degree_cell_min_observers":MIN_CELL_OBSERVERS,
         "maximum_accepted_reported_position_accuracy_m":MAX_POSITIONAL_ACCURACY_M,
+        "unknown_position_accuracy_excluded_from_geographic_support":True,
+        "n_independent_observations_with_unknown_source_accuracy":
+            sum(x["n_unknown_coordinate_accuracy"] for x in results),
+        "n_independent_observations_rejected_for_bad_source_accuracy":
+            sum(x["n_rejected_coordinate_accuracy"] for x in results),
         "observed_photographic_distribution_not_verified_native_range":True,
         "existing_1000_taxon_enrolment_preserved":True,
         "existing_200x250_repetition_schedule_unchanged":True,
