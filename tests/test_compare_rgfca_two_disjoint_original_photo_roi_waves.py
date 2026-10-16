@@ -83,12 +83,21 @@ def test_photo_bias_two_original_technical_waves_remain_no_genetic_claim(tmp_pat
     assert report["total_classifiable_original_flower_ROIs"]==420
     assert report["n_species_with_at_least_40_classifiable_ROIs"]==6
     assert report["n_species_flagged_for_flower_organ_structure_review"]==6
+    assert report["n_species_with_at_least_30_evaluable_96raw_photo_redraws"]==6
+    assert report["n_species_with_repeatably_detected_RAW_photo_label_pair"]==6
+    assert report["n_species_with_label_pair_and_structural_colour_QC_hold"]==6
+    assert report["technical_resampling_reuses_max_96_photos_per_species_NOT_120_main"] is True
     assert report["actual_1000_taxon_200x250_formal_Ppoly_estimated"] is False
     assert report["actual_20260927_original_source_photo_ID_membership_verified"] is False
     with (tmp_path/"comparison/rgfca_12_real_technical_taxa_photo_roi_observer_bias.csv").open() as f:
         data=list(csv.DictReader(f))
     assert len(data)==12
     assert all(x["phenotypic_polymorphism_confirmed"]=="False" for x in data)
+    assert all(
+        float(x["P_photo_label_pair_joint_depth96_photo_technical"]) <=
+        float(x["P_evaluable_depth96_photo_technical"])
+        for x in data)
+    assert all(x["genetic_polymorphism_confirmed"]=="False" for x in data)
     assert all(v["n_taxa"]==4
                for v in report["available_photo_opportunity_strata"].values())
 
