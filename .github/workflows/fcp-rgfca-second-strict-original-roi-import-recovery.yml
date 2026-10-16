@@ -32,7 +32,7 @@ jobs:
       - name: Checkout audited original ROI-v4+EfficientSAM method and strict source-runner
         uses: actions/checkout@v4
         with:
-          ref: c29f590b92c0c3c59851333b222b1e68891af197
+          ref: 7b5399547c2085d603b1094d5255b5af40b8ccd3
           fetch-depth: 1
           persist-credentials: false
       - uses: actions/setup-python@v5
