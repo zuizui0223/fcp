@@ -174,7 +174,7 @@ def test_rgfca_source_only_selection_metadata_cannot_be_replaced_by_colour_or_li
     frame,counts,audit,roster,receipt,pin,tables=setup(tmp_path)
     names=roster.read_text().replace("Species alba","Species fake")
     roster.write_text(names)
-    with pytest.raises(ValueError,match="original source photo counts"):
+    with pytest.raises(ValueError,match="RGFCA pre-colour 200-realization species inclusion changed"):
         process(frame,counts,audit,roster,receipt,pin,tables,
                 tmp_path/"bad",synthetic=True)
 
