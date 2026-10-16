@@ -195,3 +195,41 @@ def test_never_recreate_or_overwrite_completed_rgfca_photo_ID_ledger(tmp_path):
     process(*args,outdir,synthetic=True)
     with pytest.raises(ValueError,match="Never overwrite"):
         process(*args,outdir,synthetic=True)
+
+
+def test_independent_original_full_source_importer_photo_identity_matches_targeted_1000(tmp_path):
+    # Stronger than equality to a hand-authored counts CSV: independently
+    # execute the EXISTING original complete-snapshot importer and compare
+    # exact photo_ID / observation / attribution / license / URL per taxon.
+    from scripts.acquisition.import_inat_open_data_snapshot import ingest
+    frame,counts,audit,roster,receipt,pin,tables=setup(tmp_path)
+    original_full=tmp_path/"complete_original_monthly_source"
+    hashes={key:sha256_file(path) for key,path in tables.items()}
+    full=ingest(
+        frame,tables["taxa"],tables["observations"],tables["photos"],
+        original_full,"2026-09-27",
+        observers=tables["observers"],source_archive_pin=pin,
+        input_sha256=hashes,expected_species=4,shards=2)
+    assert full["n_target_taxon_licensed_photos"]==7
+    short=tmp_path/"only_original_1000_species"
+    process(frame,counts,audit,roster,receipt,pin,tables,short,synthetic=True)
+    with (short/"rgfca_1000_complete_original_source_photo_IDs.csv").open(newline="") as f:
+        targeted=list(csv.DictReader(f))
+    for taxon in (11,12):
+        manifests=list(original_full.glob(
+            f"shard_*_of_002/species/{taxon}/photo_manifest.ndjson"))
+        assert len(manifests)==1
+        originals=[json.loads(s) for s in manifests[0].read_text().splitlines()]
+        expected_rows=[r for r in targeted if int(r["inat_taxon_id"])==taxon]
+        assert len(originals)==len(expected_rows)
+        original_by_photo={r["photo_id"]:r for r in originals}
+        extracted_by_photo={r["photo_id"]:r for r in expected_rows}
+        assert set(original_by_photo)==set(extracted_by_photo)
+        for photo_id, row in extracted_by_photo.items():
+            prev=original_by_photo[photo_id]
+            for col in ("inat_taxon_id","species","photo_id","observation_id",
+                        "observer_id","photo_license","photo_url_large","attribution",
+                        "source_snapshot_date"):
+                assert str(row[col])==str(prev[col])
+        assert len({r["photo_id"] for r in originals})==len(originals)
+    assert "200" not in {r["photo_id"] for r in targeted}
