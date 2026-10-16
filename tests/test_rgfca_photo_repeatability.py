@@ -208,3 +208,44 @@ def test_rgfca_40_80_120_128_sensitivities_do_not_redefine_taxon_universe(tmp_pa
         counts=json.loads(record["draw_depth_sensitivity_counts"])
         assert set(counts)=={"40","80","120","128"}
         assert all(counts[t]["evaluable"]<=50 for t in counts)
+
+
+def test_robust_photo_label_pair_can_be_single_inflorescence_and_must_be_held(tmp_path):
+    taxon = 11
+    photos = original_photos(taxon, variable=True)
+    # A daisy-like flower repeatedly shows white ray + yellow disc tissue in
+    # THE SAME ROI even though the original coarse photo class can alternate.
+    for item in photos:
+        if item["morph"] == "red_pink":
+            item["morph"] = "yellow_orange"
+        item["within_ROI_white_yellow"] = (.52, .48)
+    assigned = [{"realization":r, "inat_taxon_id":taxon} for r in range(1,51)]
+    registry = {taxon:{"species":"Synthetic composite-flower source",
+                       "source_photo_opportunities":"1024"}}
+    report = repeat(registry, assigned, {taxon:photos},
+                    tmp_path / "hold_multicolour_photo_labels", synthetic=True)
+    assert report["n_repeated_phenotypic_polymorphism_species"] == 0
+    assert report["n_coarse_photo_label_recurring_but_structural_QC_HOLD"] == 1
+    with (tmp_path / "hold_multicolour_photo_labels" /
+          "species_rgfca_repeated_photo_polymorphism.csv").open() as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 1
+    subject = rows[0]
+    assert subject["structural_organ_colour_review_hold"] == "True"
+    assert float(subject["white_yellow_within_single_ROI_fraction"]) == 1.0
+    assert float(subject["conditional_photo_colour_P_poly"]) >= .8
+    assert subject["repeatability_0_80_status"] == (
+        "repeatable_colour_LABELS_WITHIN_ROI_STRUCTURAL_QC_HOLD")
+    assert subject["genetic_polymorphism_established"] == "False"
+
+
+def test_experimental_original_roi_loader_preserves_within_photo_palette(tmp_path):
+    cohort,sched,provenance,measured,receipt=setup(tmp_path)
+    taxa,assignments=validate_schedule(cohort,sched,provenance,synthetic=True)
+    photos=load_new_roi(measured,receipt,taxa,synthetic=True)
+    assert all("within_ROI_white_yellow" in item for samples in photos.values()
+               for item in samples)
+    for taxon, samples in photos.items():
+        for item in samples:
+            if item["classifiable"]:
+                assert len(item["within_ROI_white_yellow"]) == 2
