@@ -18,6 +18,7 @@ import csv
 import json
 import math
 import re
+from datetime import date
 from collections import defaultdict
 from pathlib import Path
 
@@ -43,7 +44,7 @@ SELECTION_JOIN=(
     "measurement_id","inat_taxon_id","species","photo_id",
     "observation_id","observer_id","latitude","longitude","screen_fold",
 )
-OUTPUT_COLUMNS=(*SELECTION_JOIN,"positional_accuracy_m",
+OUTPUT_COLUMNS=(*SELECTION_JOIN,"positional_accuracy_m","observed_on",
                 "geographic_comparison_group","matched_pair_id")
 PER_FOLD_MIN=4
 PER_FOLD_TARGET=16
@@ -258,7 +259,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
     with complete_manifest.open("r",newline="",encoding="utf-8") as original_file:
         original=csv.DictReader(original_file)
         needed={"photo_id","observation_id","observer_id","inat_taxon_id",
-                "latitude","longitude","positional_accuracy_m","source_snapshot_date"}
+                "latitude","longitude","positional_accuracy_m","observed_on",
+                "source_snapshot_date"}
         if not needed.issubset(original.fieldnames or ()):
             raise ValueError("Original monthly source ID ledger lost georeference evidence")
         for record in original:
@@ -275,6 +277,10 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                     for k in ("latitude","longitude"))):
                 raise ValueError("Selected original photographed site differs from immutable monthly record")
             selected["positional_accuracy_m"]=record["positional_accuracy_m"]
+            # The pre-colour photo-selection CSV intentionally omitted the
+            # original observation date. Recover it *only* from the original
+            # SHA-sealed monthly photo ID universe, never the live API.
+            selected["observed_on"]=record["observed_on"]
             recovered.add(pid)
     if recovered!=source_photo_ids:
         raise ValueError("Selected original photo ID absent from exact dated monthly archive")
@@ -369,6 +375,7 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
                             "photo_license":entry["photo_license"]})
         sidecar.append({**{k:source_join[mid][k] for k in SELECTION_JOIN},
                         "positional_accuracy_m":entry["positional_accuracy_m"],
+                        "observed_on":entry["observed_on"],
                         "geographic_comparison_group":label,
                         "matched_pair_id":first_pair["pair_id"]})
     outdir.mkdir(parents=True,exist_ok=True)
@@ -406,6 +413,8 @@ def select_unit(source_root:Path,geo_root:Path,outdir:Path,*,
         "broad_original_first_pixel_geographic_support":selected_geo_support,
         "source_location_accuracy_reverified_in_first_ROI_photo_subset":True,
         "original_photo_accuracy_kept_out_of_blind_image_evaluator":True,
+        "original_observation_date_recovered_from_dated_monthly_source":True,
+        "original_observation_date_kept_out_of_blind_image_evaluator":True,
         "original_blind_worker_sha256":blinded_sha,
         "original_source_acquisition_sha256":acquisition_sha,
         "original_biological_join_sha256":source_sha,
@@ -490,8 +499,23 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
     join_mixed=classifiable & white.ge(.10) & yellow.ge(.10)
     joined["same_roi_white_and_yellow_both_ge10pct"]=join_mixed
     joined.to_csv(merged,index=False)
+    # Broad vs narrow colour differences can be confounded by photographs
+    # made in different seasons. The date is not used to pick pixels or
+    # assign colours and never enters the ROI evaluation process. Keep its
+    # presence and coverage visible in the post-colour comparison receipt.
+    def source_month(raw):
+        value=str(raw or "").strip()
+        try:
+            parsed=date.fromisoformat(value)
+        except ValueError:
+            return ""
+        return parsed.strftime("%Y-%m")
+
+    joined["source_observation_month"]=joined["observed_on"].map(source_month)
+    joined.to_csv(merged,index=False)
     groups={}
     for name,group in joined.groupby("geographic_comparison_group"):
+        known={m for m in group.source_observation_month if m}
         groups[str(name)]={
             "n_original_images_measured":len(group),
             "n_newly_four_state_classifiable":
@@ -504,11 +528,21 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
                 int(group.observer_id.nunique()),
             "n_distinct_source_observations_in_measured_photos":
                 int(group.observation_id.nunique()),
+            "n_source_photos_with_valid_original_observation_month":
+                int(group.source_observation_month.ne("").sum()),
+            "n_distinct_original_observation_calendar_months":
+                len(known),
+            "n_distinct_original_observation_years":
+                len({m[:4] for m in known}),
+            "source_calendar_months_with_photographs_sorted":
+                sorted(known),
             "n_distinct_geographic_5degree_cells_in_measured_photos":
                 len({geographical_cell(r) for r in group.to_dict("records")}),
         }
     if set(groups)!={"broad","narrow"}:
         raise ValueError("Broad/narrow species group lost in the source-to-pixel join")
+    shared=sorted(set(groups["broad"]["source_calendar_months_with_photographs_sorted"]) &
+                  set(groups["narrow"]["source_calendar_months_with_photographs_sorted"]))
     result={
         "schema":"fcp_rgfca_genuine_original_monthly_geographic_pair_ROI64_v1",
         "status":("SYNTHETIC_ORIGINAL_GEOGRAPHIC_PAIR_TEST_NOT_BIOLOGY" if test_only
@@ -519,6 +553,10 @@ def measure_unit(source_unit:Path,outdir:Path,*,method:Path,detector:Path,sam:Pa
         "new_original_photo_pixels_processed":report["n_source_photo_ids"],
         "n_classifiable":report["n_classifiable"],
         "by_geographic_observed_source_group":groups,
+        "shared_source_calendar_months_between_broad_and_narrow":
+            shared,
+        "geography_vs_season_sampling_confounding_reported":True,
+        "original_date_not_used_for_precolour_photo_replacement":True,
         "n_original_image_acquisition_failed":report["n_acquisition_failed"],
         "original_pixel_terminal_sha256":report["terminal_csv_sha256"],
         "original_geographic_source_join_terminal_sha256":sha256(merged),
