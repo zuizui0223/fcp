@@ -5,6 +5,12 @@ on:
     workflows:
       - FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT
     types: [completed]
+  # Single source-success-authenticated metadata trigger after real source run
+  # has already completed. Does not open any photographs or repeat 36GB source.
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-rgfca-real1000-broad-geographic-priority-after-source.yml
 
 permissions:
   contents: read
@@ -17,11 +23,14 @@ concurrency:
 jobs:
   frozen-original-source-geographic-priority-NO-photo-colour:
     if: >-
-      ${{ github.event.workflow_run.id == 38884223530 &&
-          github.event.workflow_run.conclusion == 'success' &&
-          github.event.workflow_run.head_sha == 'b0656b6a677a8440c188939074a0fe3c8cd4ac16' &&
-          github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
-          github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015' }}
+      ${{ github.repository == 'zuizui0223/fcp' &&
+          ((github.event_name == 'workflow_run' &&
+            github.event.workflow_run.id == 38884223530 &&
+            github.event.workflow_run.conclusion == 'success' &&
+            github.event.workflow_run.head_sha == 'b0656b6a677a8440c188939074a0fe3c8cd4ac16' &&
+            github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' &&
+            github.event.workflow_run.head_branch == 'analysis/fcp-fresh-uncapped-zero-20261015')
+           || (github.event_name == 'push' && github.ref == 'refs/heads/main')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 80
     env:
