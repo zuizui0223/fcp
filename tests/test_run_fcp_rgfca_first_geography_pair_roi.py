@@ -33,6 +33,7 @@ def setup(tmp_path):
     dated=src/"rgfca_1000_exact_source_photo_IDs"
     dated.mkdir(parents=True)
     shutil.copy(monthly_receipt,dated/"rgfca_1000_targeted_monthly_photo_ID_receipt.json")
+    shutil.copy(manifest,dated/"rgfca_1000_complete_original_source_photo_IDs.csv")
     selection=src/"rgfca_1000_photo_colour_blind_selection"
     selection.mkdir()
     firewall=src/"rgfca_1000_original_photo_blind_worker_freeze"
@@ -102,6 +103,10 @@ def test_first_matched_pair_is_source_blind_and_does_not_rewrite_1000_taxa(tmp_p
     assert receipt["number_original_photo_IDs_in_first_unit"]==24
     assert receipt["per_taxon_per_observer_fold_photo_depth"]==6
     assert receipt["original_photo_first_unit_geographic_cell_round_robin"] is True
+    assert receipt["broad_original_first_pixel_geographic_support"]["n_supported_selected_cells"]>=2
+    assert receipt["broad_original_first_pixel_geographic_support"][
+        "max_supported_selected_cell_centroid_distance_km"]>=1000
+    assert receipt["source_location_accuracy_reverified_in_first_ROI_photo_subset"] is True
     assert receipt["n_source_geographic_cells_selected_by_group"]["broad"]>=2
     worker=list(csv.DictReader((output/"first_matched_pair_original_blind_worker.csv").open()))
     acq=list(csv.DictReader((output/"first_matched_pair_original_photo_source_acquisition.csv").open()))
@@ -243,3 +248,53 @@ def test_original_photographic_yellow_white_same_roi_is_separate_structural_QC(t
     assert all(r["same_roi_white_and_yellow_both_ge10pct"]=="True" for r in rows)
     assert receipt["measured_geographic_effect_estimates"]==0
     assert receipt["confirmed_genetic_FCP_species"]==0
+
+
+
+def test_geographically_distant_single_original_photo_cannot_claim_broad_site_support():
+    from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import \
+        supported_broad_photo_spread
+    pictures=[]
+    for i in range(12):
+        lat,lon=(36.,139.) if i<11 else (-33.,151.)
+        pictures.append({
+            "latitude":str(lat),"longitude":str(lon),
+            "photo_id":str(i+1),"observation_id":str(1000+i),
+            "observer_id":str(2000+i//2),
+            "positional_accuracy_m":"100",
+        })
+    result=supported_broad_photo_spread(pictures)
+    assert result["n_supported_selected_cells"]==1
+    assert result["max_supported_selected_cell_centroid_distance_km"]==0
+    assert result["geographic_accuracy_of_selected_subset_independently_verified"] is True
+    for new in (1,2,3):
+        pictures.append({
+            "latitude":str(-33.+new*.01),"longitude":"151",
+            "photo_id":str(100+new),"observation_id":str(9000+new),
+            "observer_id":str(7000+new),
+            "positional_accuracy_m":"150000", # 150 km uncertainty; reject
+        })
+    result=supported_broad_photo_spread(pictures)
+    assert result["n_supported_selected_cells"]==1
+    assert result["max_supported_selected_cell_centroid_distance_km"]==0
+
+
+def test_tampered_original_dated_photo_location_never_enters_real_pixel_roi(tmp_path):
+    original,geo,_,_,_=setup(tmp_path)
+    full=original/"rgfca_1000_exact_source_photo_IDs"
+    path=full/"rgfca_1000_complete_original_source_photo_IDs.csv"
+    with path.open(newline="") as file:
+        rows=list(csv.DictReader(file))
+    rows[0]["latitude"]="87.123" # Wrong original provider monthly location
+    with path.open("w",newline="") as file:
+        writer=csv.DictWriter(file,fieldnames=list(rows[0]))
+        writer.writeheader();writer.writerows(rows)
+    # Simulate a forged/corrupted monthly receipt that follows the altered
+    # file checksum: the independent original photo-source selection still
+    # disagrees with actual coordinates and must refuse it.
+    receipt_file=full/"rgfca_1000_targeted_monthly_photo_ID_receipt.json"
+    doc=json.loads(receipt_file.read_text())
+    doc["selected_all_photo_IDs_csv_sha256"]=sha256(path)
+    receipt_file.write_text(json.dumps(doc))
+    with pytest.raises(ValueError,match="not signed|site differs|monthly"):
+        select_unit(original,geo,tmp_path/"bad_geo",_synthetic_source_gate=True)
