@@ -13,7 +13,7 @@ import pytest
 
 from fcp_pipeline.photo_polymorphism_screen import PALETTE, observer_split, sha256
 from fcp_pipeline.rgfca_photo_repeatability import (
-    load_new_roi, one_draw, repeat, validate_schedule
+    _photo_resample_overlap, load_new_roi, one_draw, repeat, validate_schedule
 )
 
 
@@ -287,3 +287,48 @@ def test_real_photo_robustness_separates_eligibility_conditional_and_uncondition
     assert 0<=conditional<=1 and 0<=coverage<=1 and 0<=joint<=1
     assert joint==pytest.approx(coverage*conditional,abs=1e-10)
     assert coverage==1
+
+
+def test_RGFCAs_200_repetitions_reuse_most_identical_photos_when_depth_is_120_of128():
+    # Prior to actual image measurements, the math already warns against
+    # interpreting 120/128 redraws as 50 biologically independent samples.
+    photos=original_photos(11)
+    def overlap(n_per_fold):
+        trials=[one_draw(11,"A taxon with source-photo pool",1000,
+                         photos,i,per_fold=n_per_fold)
+                for i in range(1,51)]
+        return _photo_resample_overlap(trials)
+    d40=overlap(20)
+    d80=overlap(40)
+    d120=overlap(60)
+    d128=overlap(64)
+    assert 0.20<float(d40["observed_mean_pairwise_source_photo_overlap_share"])<0.43
+    assert 0.53<float(d80["observed_mean_pairwise_source_photo_overlap_share"])<0.73
+    assert 0.90<float(d120["observed_mean_pairwise_source_photo_overlap_share"])<0.97
+    assert d128["observed_mean_pairwise_source_photo_overlap_share"] == 1.0
+    assert d128["distinct_original_source_photo_ID_sets"] == 1
+    assert d120["distinct_original_source_photo_ID_sets"] > 1
+    # Without replacement, two independent draws of k from N items have
+    # expected overlap fraction k/N, not 1/sqrt(R) or any sample-size gain.
+    assert float(d120["observed_mean_pairwise_source_photo_overlap_share"]) == pytest.approx(
+        60/64, abs=0.015)
+
+
+def test_50_RGFCA_realizations_report_actual_unique_photo_sets_and_use_fraction(tmp_path):
+    species={11:{"species":"Test source","source_photo_opportunities":"1000"}}
+    assignments=[{"inat_taxon_id":11,"realization":i} for i in range(1,51)]
+    report=repeat(species,assignments,{11:original_photos(11)},
+                  tmp_path/"photo_overlap",synthetic=True)
+    assert report["original_photo_ID_overlap_measured_empirically_each_draw_depth"] is True
+    assert report["high_photo_ID_reuse_cannot_support_independent_biological_replication"] is True
+    assert report["n_phenotype_screen_taxa_primary_repeats_share_ge90percent_photo_IDs"] == 1
+    with (tmp_path/"photo_overlap/species_rgfca_repeated_photo_polymorphism.csv").open() as f:
+        row=next(csv.DictReader(f))
+    assert row["primary_MC_resamples_share_ge90percent_original_photo_IDs"] == "True"
+    assert float(row["actual_primary_120photo_pairwise_ID_overlap_share"]) > 0.90
+    depths=json.loads(row["draw_depth_sensitivity_counts"])
+    assert set(depths)=={"40","80","120","128"}
+    assert depths["128"]["distinct_original_source_photo_ID_sets"]==1
+    assert depths["128"]["observed_mean_pairwise_source_photo_overlap_share"]==1.0
+    assert depths["40"]["observed_mean_pairwise_source_photo_overlap_share"] < (
+        depths["120"]["observed_mean_pairwise_source_photo_overlap_share"])
