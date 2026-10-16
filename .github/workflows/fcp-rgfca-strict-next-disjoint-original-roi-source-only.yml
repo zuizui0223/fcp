@@ -1,0 +1,194 @@
+
+name: FCP RGFCA next STRICT geography paired 64 new original source IDs NO PIXELS
+
+# One-shot, source-only: no duplicate previous 64, no 36GB archive, no image requests.
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-rgfca-strict-next-disjoint-original-roi-source-only.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-strict-next-different-taxa-geo-original-ID-one-shot
+  cancel-in-progress: false
+
+jobs:
+  prepare-next-strict-different-taxa-first-source-ROI:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp_rgfca_strict_new_geo_pair_next64
+    steps:
+      - name: Checkout reviewed strict original-geo ROI source-only selection and disjoint identity contracts
+        uses: actions/checkout@v4
+        with:
+          ref: 07a7115007f72ce8bedc843cc5d7e54c15d9ff85
+          persist-credentials: false
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install source-only dependencies (NO ROI models or S3 pixels)
+        run: python -m pip install "numpy<3" "pandas<3" scipy Pillow scikit-image
+      - name: Verify strict geography, all-original-photo source, and previous genuine measured ROI run
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/original_source" "$ROOT/strict_geo" "$ROOT/prior_roi"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38884223530" > "$ROOT/source_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38906609878" > "$ROOT/strict_geo_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38901816890" > "$ROOT/previous_roi_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["ROOT"])
+          src=json.loads((root/"source_run.json").read_text())
+          geo=json.loads((root/"strict_geo_run.json").read_text())
+          prior=json.loads((root/"previous_roi_run.json").read_text())
+          if not(src.get("id")==38884223530 and src.get("run_attempt")==1
+                 and src.get("status")=="completed" and src.get("conclusion")=="success"
+                 and src.get("head_sha")=="b0656b6a677a8440c188939074a0fe3c8cd4ac16"
+                 and geo.get("id")==38906609878 and geo.get("run_attempt")==1
+                 and geo.get("status")=="completed" and geo.get("conclusion")=="success"
+                 and geo.get("head_sha")=="99fb415e4566ac6092be9e94423457291be2fcec"
+                 and prior.get("id")==38901816890 and prior.get("run_attempt")==1
+                 and prior.get("status")=="completed" and prior.get("conclusion")=="success"
+                 and prior.get("head_sha")=="843a2ffc6858295a91b4a64d7ee71a5569ae0d9f"):
+              raise SystemExit("Missing exact admitted original-source/strict-geo/previous pixel run identity")
+          print("FCP_PREVIOUS_PIXELS_WILL_BE_BLOCKED_BY_ORIGINAL_TAXON_AND_ID",flush=True)
+          PY
+          gh run download 38884223530 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/original_source"
+          gh run download 38906609878 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-STRICT-known-accuracy-geography-from-original-NO-PIXELS \
+            --dir "$ROOT/strict_geo"
+          gh run download 38901816890 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-first-ACTUAL-20260927-monthly-original-broad-narrow-ROI-pixels-NOT-FULL \
+            --dir "$ROOT/prior_roi"
+
+      - name: Independently attest previous 64 IDs and choose NEW previously unmeasured strict geographic pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,hashlib,json,os
+          from pathlib import Path
+          from fcp_pipeline.photo_polymorphism_screen import sha256
+          from scripts.acquisition.run_fcp_rgfca_first_geography_pair_roi import select_unit
+          root=Path(os.environ['ROOT'])
+          previous=root/'prior_roi'
+          first=previous/'prepared/first_matched_pair_precolour_source_receipt.json'
+          join=previous/'prepared/first_matched_pair_original_source_join_key.csv'
+          out=previous/'measured/first_geo_pair_real_pixel_receipt.json'
+          terminal=previous/'measured/first_original_geographically_matched_photo_terminal.csv'
+          pre=json.loads(first.read_text())
+          done=json.loads(out.read_text())
+          if (pre.get('status')!='ORIGINAL_MONTHLY_SOURCE_GEOGRAPHIC_PAIR_PREPARED_NO_PIXELS'
+              or done.get('status')!='FIRST_GENUINE_MONTHLY_ORIGINAL_GEO_MATCHED_PIXELS_MEASURED_NOT_1000_SPECIES'
+              or done.get('new_original_photo_pixels_processed')!=64
+              or done.get('original_pixel_terminal_sha256')!='5877179b7c4b35de94d3ed2c534b4bfeb495a12068326ec846550c8621130ad2'
+              or done.get('precolour_source_unit_receipt_sha256')!=sha256(first)
+              or done.get('original_geographic_source_join_terminal_sha256')!=sha256(terminal)
+              or pre.get('original_biological_join_sha256')!=sha256(join)
+              or pre.get('original_source_ID_receipt_sha256')!='47ad17bf0dbdc6045abd88adb4cd5f69b58bb68c200862a42fefd95a0f6ba0c5'):
+              raise SystemExit('Cannot prove previous REAL pixel source IDs and terminal SHA')
+          with join.open(newline='',encoding='utf-8') as f:
+              earlier=list(csv.DictReader(f))
+          old_ids={row['photo_id'] for row in earlier}
+          old_taxa={row['inat_taxon_id'] for row in earlier}
+          if (len(earlier)!=len(old_ids)!=64 or
+              old_taxa!={'436108','323321'} or
+              set(row['geographic_comparison_group'] for row in earlier)!={'broad','narrow'}):
+              raise SystemExit('Previous REAL 64-photo source exclusion identities changed')
+          geo_root=root/'strict_geo/results'
+          geo=json.loads((geo_root/'rgfca_1000_precolour_geographic_span_receipt.json').read_text())
+          if (geo.get('status')!='SOURCE_ONLY_GEOGRAPHIC_PRIORITY_NO_FLOWER_PIXELS'
+              or geo.get('source_species')!=1000
+              or geo.get('source_photo_opportunities')!=3430502
+              or geo.get('n_broad_narrow_pairs_matched_on_original_photo_depth')!=173
+              or geo.get('unknown_position_accuracy_excluded_from_geographic_support') is not True
+              or geo.get('n_original_new_pixels_measured')!=0):
+              raise SystemExit('Strict authentic 173-pair geography not admitted')
+          new=select_unit(root/'original_source',geo_root,root/'prepared',
+                          excluded_previously_measured_taxa=old_taxa,
+                          minimum_per_fold_depth=16)
+          sidecar=root/'prepared/first_matched_pair_original_source_join_key.csv'
+          worker=root/'prepared/first_matched_pair_original_blind_worker.csv'
+          with sidecar.open(newline='',encoding='utf-8') as f:
+              fresh=list(csv.DictReader(f))
+          with worker.open(newline='',encoding='utf-8') as f:
+              blind=list(csv.DictReader(f))
+          new_ids={r['photo_id'] for r in fresh}
+          expected_taxa={str(new['broad_taxon_id']),str(new['narrow_taxon_id'])}
+          assert new['number_original_photo_IDs_in_first_unit']==len(fresh)==len(blind)==64
+          assert len(new_ids)==64 and not old_ids.intersection(new_ids)
+          assert not old_taxa.intersection(expected_taxa)
+          assert set(r['inat_taxon_id'] for r in fresh)==expected_taxa
+          assert new['previously_measured_taxa_excluded_by_source_identity']==sorted(old_taxa,key=int)
+          assert new['excluded_taxa_cannot_contribute_original_image_pixels'] is True
+          assert new['minimum_per_fold_depth_predeclared']==16
+          assert new['all_selected_original_photo_positions_known_and_le50km'] is True
+          assert new['source_image_IDs_from_verified_monthly_20260927'] is True
+          assert new['source_location_accuracy_reverified_in_first_ROI_photo_subset'] is True
+          assert new['n_original_photo_pixels_opened']==0
+          assert list(blind[0])==['measurement_id','image_filename','photo_license']
+          assert all(0<=float(r['positional_accuracy_m'])<=50000
+                     and r['positional_accuracy_m'].strip() for r in fresh)
+          assert new['broad_original_first_pixel_geographic_support']['n_supported_selected_cells']>=2
+          assert new['broad_original_first_pixel_geographic_support']['n_distant_cell_pairs_with_four_distinct_source_observers']>=1
+          assert new['broad_original_first_pixel_geographic_support']['max_supported_selected_cell_centroid_distance_km']>=1000
+          assert new['original_blind_worker_sha256']==sha256(worker)
+          assert new['original_biological_join_sha256']==sha256(sidecar)
+          (root/'previous_64_exclusion_attestation.json').write_text(json.dumps({
+              'status':'PREVIOUS_64_ACTUAL_PIXELS_DISJOINT_FROM_NEW_STRICT_SOURCE_ONLY',
+              'previous_20260927_roi_run':38901816890,
+              'previous_source_join_sha256':sha256(join),
+              'previous_original_photo_count':64,
+              'previous_taxa_excluded':sorted(old_taxa,key=int),
+              'next_source_photo_count':64,
+              'next_source_taxa':sorted(expected_taxa,key=int),
+              'next_photo_ids_from_full_original_monthly_source':True,
+              'zero_duplicate_prior_photo_ids':True,
+              'same_original_1000_species_cohort_preserved':True,
+              'roi_v4_efficient_sam_images_measured_in_next_batch':0,
+              'next_source_join_sha256':sha256(sidecar)},indent=2,sort_keys=True)+'\n')
+          print('FCP_NEW_DISJOINT_STRICT_64_ORIGINAL_MONTHLY_PHOTO_IDS_FROZEN_NOT_PIXELS',
+                json.dumps({'broad_taxon_id':new['broad_taxon_id'],
+                            'narrow_taxon_id':new['narrow_taxon_id'],
+                            'first_new_pair_photo_IDs':64,
+                            'prior_photo_ID_overlap':0,
+                            'prior_taxon_reuse':0,
+                            'position_accuracy_known_and_le50km':True},sort_keys=True),flush=True)
+          PY
+
+      - name: Upload proven new 64 source IDs and 3-column blind worker only
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-NEXT-64-DISJOINT-STRICT-original-monthly-ROI-SOURCE-ONLY-NOT-PIXELS
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/source_run.json
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/strict_geo_run.json
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/previous_roi_run.json
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/previous_64_exclusion_attestation.json
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/prepared/
+      - name: Preserve only metadata errors; NO images
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-next-disjoint-strict-source-FAILURE-no-image-data
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/source_run.json
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/strict_geo_run.json
+            /tmp/fcp_rgfca_strict_new_geo_pair_next64/previous_roi_run.json
