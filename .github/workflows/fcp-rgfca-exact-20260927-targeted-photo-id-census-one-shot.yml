@@ -1,6 +1,8 @@
 # ONE-SHOT genuine dated-source ID admission for the PRESELECTED 1000 RGFCA taxa.
 # This is NOT 93M image measurements, phenotype or genetic polymorphism.
-# A streaming second pass verifies cross-species photo ID collisions. Every
+# A streaming second pass plus external observation eligibility replay verifies
+# cross-species photo ID collisions, ignoring ineligible external observation
+# reuse exactly as the independent full-42111 source importer does. Every
 # enrolled taxon MUST match the independent full-42111 photo counts.
 name: FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT
 
@@ -31,10 +33,10 @@ jobs:
       SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
       SOURCE_ARCHIVE_URL: https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260927.tar.gz
     steps:
-      - name: Checkout exactly reviewed tested FULL four-table RGFCA original-source ID extractor
+      - name: Checkout corrected verified FULL-frame eligibility collision-matched original-source ID extractor
         uses: actions/checkout@v4
         with:
-          ref: e2a23434ec171e3f2b7474c4972ab5cd91e31d36
+          ref: 9cf48dbb9e2592981f9981eb4408d99663ed1467
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
