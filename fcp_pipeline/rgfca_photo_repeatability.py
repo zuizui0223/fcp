@@ -163,8 +163,8 @@ def _photo_priority(rep: int, taxon: int, photo_id: str) -> str:
 
 def one_draw(taxon: int, species: str, n_source: int, original_rows: list[dict],
              rep: int, *, per_fold: int = 60) -> dict:
-    if per_fold not in (20, 40, 60, 64):
-        raise ValueError("RGFCA photo draw must be one frozen source-only depth 40/80/120/128")
+    if per_fold not in (20, 40, 48, 60, 64):
+        raise ValueError("RGFCA photo draw must be one frozen source-only depth 40/80/96/120/128")
     selection = []
     for fold in (0, 1):
         pool = sorted((x for x in original_rows if x["fold"] == fold),
@@ -255,7 +255,7 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         item = registry[taxon]
         rows = pool.get(taxon, [])
         trials = []
-        depth_trials = {20: [], 40: [], 60: [], 64: []}
+        depth_trials = {20: [], 40: [], 48: [], 60: [], 64: []}
         for rep in grouped[taxon]:
             trial = one_draw(taxon,item["species"],int(item["source_photo_opportunities"]),
                              rows,rep,per_fold=60)
@@ -263,7 +263,7 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             depth_trials[60].append(trial)
             # Frozen source-only draw-depth sensitivity. R=200 species
             # schedules and source-photo opportunities are unchanged.
-            for fold_n in (20,40,64):
+            for fold_n in (20,40,48,64):
                 depth_trials[fold_n].append(
                     one_draw(taxon,item["species"],int(item["source_photo_opportunities"]),
                              rows,rep,per_fold=fold_n))
@@ -308,6 +308,23 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             for fold_n, series in depth_trials.items()
         }
         primary_overlap = depths["120"]["observed_mean_pairwise_source_photo_overlap_share"]
+        # After both six-taxon real-photo pilot waves and BEFORE production
+        # original-photo RGFCA outcome measurement, require robust phenotype
+        # photo-label detection also at a meaningfully smaller 48+48 draw.
+        # In a full 64+64 pool this lower-depth draw shares ~75% of IDs on
+        # average across Monte Carlo rounds vs ~94% for 60+60.
+        # If every lower-depth draw sees the same photos, the source cannot
+        # establish sampling robustness however often the label recurs.
+        depth96 = depths["96"]
+        eval96 = depth96["evaluable"]
+        positive96 = depth96["positive"]
+        conditional96 = (positive96/eval96 if eval96 else None)
+        overlap96 = depth96["observed_mean_pairwise_source_photo_overlap_share"]
+        lower_depth_replicated = bool(
+            eval96 >= 30 and conditional96 is not None
+            and conditional96 >= 0.80
+            and overlap96 != "" and overlap96 <= 0.80
+            and depth96["distinct_original_source_photo_ID_sets"] >= 30)
         # Conditional P_poly can approach 1 simply because two source-photo
         # draws reuse >90% of identical images. Report it but never claim
         # independent biological robustness when the effective perturbation
@@ -318,8 +335,10 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             tier = "not_evaluable_or_insufficient_repeated_roi_support"
         elif reliability is not None and reliability >= .8 and structural_hold:
             tier = "repeatable_colour_LABELS_WITHIN_ROI_STRUCTURAL_QC_HOLD"
-        elif reliability is not None and reliability >= .8:
+        elif reliability is not None and reliability >= .8 and lower_depth_replicated:
             tier = "repeatably_photo_polymorphic_phenotype"
+        elif reliability is not None and reliability >= .8:
+            tier = "repeated_photo_labels_but_96photo_perturbation_unresolved_NOT_robust"
         elif positives:
             tier = "photo_variation_sensitive_to_repeated_sampling"
         else:
@@ -338,6 +357,11 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
             "actual_primary_120photo_pairwise_ID_overlap_share":primary_overlap,
             "actual_primary_120photo_distinct_ID_draw_sets":
                 depths["120"]["distinct_original_source_photo_ID_sets"],
+            "P_poly_96photo_conditional_on_evaluable":"" if conditional96 is None else round(conditional96,12),
+            "n_evaluable_independent_observer_photo_redraws_96":eval96,
+            "actual_96photo_pairwise_photo_ID_overlap_share":overlap96,
+            "source_photo_96depth_provides_meaningful_MC_perturbation":
+                lower_depth_replicated,
             "primary_MC_resamples_share_ge90percent_original_photo_IDs":
                 high_primary_photo_ID_overlap,
             "draw_depth_sensitivity_counts":json.dumps(depths,sort_keys=True),
@@ -366,7 +390,10 @@ def repeat(registry: dict, assignments: list[dict], pool: dict[int,list[dict]],
         "number_photo_draw_assignments":len(assignments),
         "primary_120_photo_draw_and_60_photo_per_observer_fold":True,
         "primary_draw_changed_pre_image_due_96photo_pilot_classifiability":True,
-        "sensitivity_photo_draw_sizes":[40,80,120,128],
+        "sensitivity_photo_draw_sizes":[40,80,96,120,128],
+        "post_technical_pilot_96photo_perturbation_qualification":True,
+        "robust_photo_label_call_requires_ge30_evaluable_depth96_redraws_and_P_ge080":True,
+        "robust_photo_label_call_requires_depth96_photo_ID_overlap_le080":True,
         "source_photo_acquisition_max_per_species":128,
         "probability_estimated_only_conditional_on_classified_original_photos":True,
         "P_eval_evaluable_over_all_balanced_draws_separately_reported":True,
