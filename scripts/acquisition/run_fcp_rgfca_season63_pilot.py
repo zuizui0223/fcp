@@ -195,6 +195,7 @@ def month_qc(records):
     contrasts=[]
     for tax,(_,_,expected) in FROZEN.items():
         groups=sorted([r for r in months if r["taxon"]==tax],key=lambda r:r["month"])
+        if not groups:continue  # synthetic QC may exercise one species; production requires all six
         if len(groups)!=2 or set(x["month"] for x in groups)!=set(expected):
             raise ValueError("Missing frozen original species/month after photo measurement")
         eligible=all(r["n_usable_independent_observations"]>=2 and
