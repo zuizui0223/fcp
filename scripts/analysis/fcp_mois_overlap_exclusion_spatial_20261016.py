@@ -56,6 +56,43 @@ def run_on_df(df: pd.DataFrame, original_cohort: str) -> tuple[pd.DataFrame, dic
     return species, res
 
 
+def summarize_valid_50km_species(original_species: pd.DataFrame,
+                                 reduced_species: pd.DataFrame, cohort: str) -> dict:
+    """Paired effects use species *evaluable at 50 km in both analyses*.
+
+    Some >=40-photo species have <30 local pairs, hence NaN depletion. They
+    must not enter paired means/bootstraps, even when D itself is defined.
+    """
+    a = original_species.set_index("inat_taxon_id")
+    b = reduced_species.set_index("inat_taxon_id")
+    same = a.index.intersection(b.index)
+    before = a.loc[same]
+    after = b.loc[same]
+    good = np.isfinite(before["depletion_50km"].to_numpy(float)) & np.isfinite(
+        after["depletion_50km"].to_numpy(float))
+    before = before.iloc[np.flatnonzero(good)]
+    after = after.iloc[np.flatnonzero(good)]
+    if not len(before):
+        raise ValueError("No matched species with finite original and excluded 50-km depletion")
+    delta = (after["depletion_50km"] - before["depletion_50km"]).to_numpy(float)
+    rng = np.random.default_rng(2026101668 + list(COHORTS).index(cohort))
+    sims = delta[rng.integers(0, len(delta), size=(999, len(delta)))].mean(axis=1)
+    D0, D1 = before["D_pair"], after["D_pair"]
+    out = {
+        "n_species_evaluable_both": int(len(before)),
+        "original_depletion_mean": float(before["depletion_50km"].mean()),
+        "excluded_depletion_mean": float(after["depletion_50km"].mean()),
+        "mean_depletion_change": float(delta.mean()),
+        "species_bootstrap_95_change_interval": [float(v) for v in np.quantile(sims, [.025, .975])],
+        "median_absolute_species_D_change": float(np.median(np.abs(D1 - D0))),
+        "spearman_D_before_vs_after": float(D0.corr(D1, method="spearman")),
+    }
+    if not np.isfinite([out["mean_depletion_change"], *out["species_bootstrap_95_change_interval"],
+                        out["median_absolute_species_D_change"]]).all():
+        raise ValueError("Nonfinite paired effect or CI")
+    return out
+
+
 def compare(df: pd.DataFrame, cohort: str, mois_photo_ids: set[str]) -> dict:
     original_label = COHORTS[cohort]
     original_species, full = run_on_df(df, original_label)
@@ -65,30 +102,15 @@ def compare(df: pd.DataFrame, cohort: str, mois_photo_ids: set[str]) -> dict:
     shared = df["photo_id"].astype(str).isin(mois_photo_ids)
     truncated = df.loc[~shared].copy()
     filtered_species, reduced = run_on_df(truncated, original_label)
-    a = original_species.set_index("inat_taxon_id")
-    b = filtered_species.set_index("inat_taxon_id")
-    same = a.index.intersection(b.index)
-    before = a.loc[same]
-    after = b.loc[same]
-    delta = (after["depletion_50km"] - before["depletion_50km"]).to_numpy(float)
-    rng = np.random.default_rng(2026101668 + list(COHORTS).index(cohort))
-    sims = delta[rng.integers(0, len(delta), size=(999, len(delta)))].mean(axis=1)
-    D0 = before["D_pair"]
-    D1 = after["D_pair"]
+    matched = summarize_valid_50km_species(original_species, filtered_species, cohort)
+    if matched["n_species_evaluable_both"] != reduced["n_species"]:
+        raise ValueError("Exclusion must not create new 50-km-evaluable taxa")
     return {
         "frozen_before_exclusion": full,
         "excluded_classifiable_fcp_photo_rows": int(shared.sum()),
         "remaining_50km_species_count": int(reduced["n_species"]),
         "after_overlap_exclusion": reduced,
-        "matched_taxa": {
-            "n_species_evaluable_both": len(same),
-            "original_depletion_mean": float(before["depletion_50km"].mean()),
-            "excluded_depletion_mean": float(after["depletion_50km"].mean()),
-            "mean_depletion_change": float(delta.mean()),
-            "species_bootstrap_95_change_interval": [float(v) for v in np.quantile(sims, [.025, .975])],
-            "median_absolute_species_D_change": float(np.median(np.abs(D1 - D0))),
-            "spearman_D_before_vs_after": float(D0.corr(D1, method="spearman")),
-        },
+        "matched_taxa": matched,
         "caveat": "Original D/50km null analysis held fixed; this is a newly performed post hoc photo-overlap-exclusion sensitivity, not prospective biological confirmation.",
     }
 
