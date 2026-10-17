@@ -5,6 +5,7 @@ on:
       - analysis/fcp-4730-real-roi-packet-audit-20261017
     paths:
       - scripts/analysis/fcp_4730_real_roi_partial_packet_audit_20261017.py
+      - tests/test_fcp_4730_real_roi_firewall_audit_20261017.py
       - .github/workflows/fcp-4730-partial-genuine-roi-qa-20261017.yml
 permissions:
   contents: read
@@ -20,6 +21,13 @@ jobs:
       WAVE4_RUN: "38992543115"
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fail-closed synthetic photo-ID assignment/terminal tests before real image audit
+        run: |
+          python -m pip install pytest==8.4.2
+          python -m pytest -q tests/test_fcp_4730_real_roi_firewall_audit_20261017.py
       - name: Verify immutable original live 248100 and 49800 source ROI runs
         shell: bash
         run: |
