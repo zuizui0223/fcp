@@ -176,7 +176,19 @@ jobs:
           assert r['full_original_eligible_U100_taxa']==4730
           assert r['old_50km_and_W_estimators_unchanged'] is True
           assert r['original_149900_photo_rows_unchanged'] is True
-          assert r['total_original_100photo_measured_species']+r['remaining_U100_under_100_original_H9_photos']==4730
+          # Three real discovery-source photo IDs and one observation ID
+          # recurred under three OTHER original U100 taxa. Never alter the
+          # immutable 149900 old measured photos, never use 99-photo taxa.
+          audit=r['original_photo_reuse_whole_taxon_exclusion']
+          assert r['new_U100_source_reuse_excluded_taxa']==3
+          assert r['new_U100_source_reuse_excluded_taxon_IDs']==[62367,75633,1045161]
+          assert audit['original_reused_photo_ID_count']==3
+          assert audit['original_reused_observation_ID_count']==1
+          assert r['total_original_100photo_measured_species']==4475
+          assert r['total_original_pixel_terminal_photo_rows']==447500
+          assert (r['total_original_100photo_measured_species']
+                  +r['remaining_U100_under_100_original_H9_photos']
+                  +r['new_U100_source_reuse_excluded_taxa']==4730)
           print('FCP_REAL_ALL_4730_SOURCE_JOIN_PHOTO_ROWS',r['total_original_pixel_terminal_photo_rows'])
           PY
       - uses: actions/upload-artifact@v4
