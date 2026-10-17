@@ -10,7 +10,7 @@ from scripts.acquisition import expand_existing_fcp_highdepth_20261017 as m
 
 def write_csv(path, rows, names):
     with path.open("w", newline="", encoding="utf8") as f:
-        w = csv.DictWriter(f, fieldnames=names, lineterminator="\n")
+        w = csv.DictWriter(f, fieldnames=names, delimiter="\t" if path.suffix == ".tsv" else ",", lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
