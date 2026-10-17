@@ -1,5 +1,6 @@
 name: FCP audit actual finished original flower ROI-v4 partitions mid-run
 on:
+  workflow_dispatch:
   push:
     branches:
       - analysis/fcp-4730-real-roi-packet-audit-20261017
