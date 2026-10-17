@@ -1,0 +1,93 @@
+name: FCP recheck original 149900 spatial null before expanded same-method replay
+on:
+  push:
+    branches: [analysis/fcp-expanded-149900-same-50km-replay-20261017]
+    paths:
+      - scripts/analysis/replay_fcp_149900_plus_wave4_same_spatial_20261017.py
+      - tests/test_replay_fcp_149900_plus_wave4_same_spatial_20261017.py
+      - .github/workflows/fcp-original-149900-spatial-baseline-preflight-20261017.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/replay_fcp_149900_plus_wave4_same_spatial_20261017.py
+      - tests/test_replay_fcp_149900_plus_wave4_same_spatial_20261017.py
+      - .github/workflows/fcp-original-149900-spatial-baseline-preflight-20261017.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-149900-source-exact-baseline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PYTHONPATH: "."
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unchanged null and original photo source synthetic regression tests
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+          python -m pytest -q tests/test_replay_fcp_149900_plus_wave4_same_spatial_20261017.py
+      - name: Retrieve ORIGINAL real 149900 measured photographs by frozen source commit
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_original_spatial"
+          git fetch --no-tags --depth=1 origin 5142f7951af0dde5364bb047a566d67e8c479e51
+          git fetch --no-tags --depth=1 origin 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv > "$RUNNER_TEMP/fcp_original_spatial/discovery.csv"
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv > "$RUNNER_TEMP/fcp_original_spatial/validation.csv"
+          git show 7e538e5c51c05a7cc47b2fcf53eea92634c8a863:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv > "$RUNNER_TEMP/fcp_original_spatial/prospective.csv"
+      - name: Reproduce original three 50km cohort effects with exact old function and permutation
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          import pandas as pd
+          from scripts.analysis.replay_fcp_149900_plus_wave4_same_spatial_20261017 import (
+              ORIGINAL_EXPECTED, original_eligible, require_reproduced_original_three,
+          )
+          from scripts.analysis.run_polymorphism_distributed_polymorphism_posthoc_20261007 import (
+              RADII_KM,analyse_species,cohort_summary
+          )
+          from scripts.analysis.append_wave4_to_original_149900_20261017 import OLD_SOURCE,sha256_file
+          root=Path(os.environ['RUNNER_TEMP'])/'fcp_original_spatial'
+          statistics={"cohorts":{}}
+          for name in ("discovery","validation","prospective"):
+              path=root/(name+".csv")
+              if sha256_file(path)!=OLD_SOURCE[name]["sha256"]:
+                  raise SystemExit("IMMUTABLE_SOURCE_SHA_MISMATCH:"+name)
+              df=original_eligible(pd.read_csv(path,low_memory=False))
+              seedname="third" if name=="prospective" else name
+              rows=[]
+              by_radius={r:[] for r in RADII_KM}
+              for _,group in df.groupby('inat_taxon_id',sort=True):
+                  group=group.dropna(subset=['latitude','longitude'])
+                  if len(group)<40: continue
+                  row, null=analyse_species(group,seedname)
+                  rows.append(row)
+                  for rad in RADII_KM:by_radius[rad].append(null[rad])
+              out=cohort_summary(pd.DataFrame(rows),by_radius)
+              statistics["cohorts"][name]={"radii":{"50":out['50']}}
+              r=out['50']
+              print('FCP_ORIGINAL_50KM_REAL_REPLAY',json.dumps({
+                  "cohort":name,"n_species":r['n_species'],
+                  "mean_depletion":r['mean_depletion'],
+                  "p":r['mean_depletion_p_upper']
+              },sort_keys=True),flush=True)
+          require_reproduced_original_three(statistics)
+          result={"schema":"fcp_original149900_50km_replay_pre_new_photos_20261017_v1",
+                  "original_frozen_inference_reproduced":True,
+                  "photo_rows":149900,"new_original_photos_measured_here":0,
+                  "source_sha256":{k:v['sha256'] for k,v in OLD_SOURCE.items()},
+                  "cohorts":statistics["cohorts"]}
+          (root/'original_149900_50km_replay_verified.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+          print('FCP_ORIGINAL_149900_SAME_50KM_FROZEN_REPLAY_PASS',flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-149900-50km-same-method-preflight-20261017
+          path: ${{ runner.temp }}/fcp_original_spatial/original_149900_50km_replay_verified.json
+          if-no-files-found: error
+          retention-days: 90

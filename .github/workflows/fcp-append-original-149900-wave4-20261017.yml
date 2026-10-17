@@ -34,11 +34,11 @@ jobs:
           python -m pytest -q tests/test_append_wave4_to_original_149900_20261017.py
           python -m py_compile scripts/analysis/append_wave4_to_original_149900_20261017.py
   append-real-photos-after-original-roi-success:
-    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.id == 38990487465 && github.event.workflow_run.head_sha == '4462c5cee5a190f6d551f232712ff161f16910bf' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' }}
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.id == 38992543115 && github.event.workflow_run.head_sha == 'ef448c9514e0c702e7887e00b288ee966728b0d5' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     concurrency:
-      group: fcp-append-149900-wave4-38990487465
+      group: fcp-append-149900-wave4-38992543115
       cancel-in-progress: false
     env:
       GH_TOKEN: ${{ github.token }}
@@ -55,19 +55,19 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/fcp-wave4/old" "$RUNNER_TEMP/fcp-wave4/new" "$RUNNER_TEMP/fcp-wave4/combined"
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38990487465" > "$RUNNER_TEMP/fcp-wave4/upstream_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38992543115" > "$RUNNER_TEMP/fcp-wave4/upstream_run.json"
           python - <<'PY'
           import json,os
           from pathlib import Path
           r=json.loads((Path(os.environ['RUNNER_TEMP'])/'fcp-wave4/upstream_run.json').read_text())
-          assert r['id']==38990487465
+          assert r['id']==38992543115
           assert r['event']=='pull_request'
-          assert r['head_sha']=='4462c5cee5a190f6d551f232712ff161f16910bf'
-          assert r['head_branch']=='analysis/fcp-wave4-unchanged-pixel-replay-20261017'
+          assert r['head_sha']=='ef448c9514e0c702e7887e00b288ee966728b0d5'
+          assert r['head_branch']=='analysis/fcp-wave4-roi-import-repair-20261017'
           assert r['conclusion']=='success' and r['status']=='completed'
           print('WAVE4_REAL_ORIGINAL_ROI_WORKFLOW_CONFIRMED',r['html_url'])
           PY
-          gh run download 38990487465 --repo "$GITHUB_REPOSITORY" \
+          gh run download 38992543115 --repo "$GITHUB_REPOSITORY" \
             --name fcp-wave4-149900-method-expansion-actual-measured-and-inferred \
             --dir "$RUNNER_TEMP/fcp-wave4/new"
           git fetch --no-tags --depth=1 origin \
@@ -103,6 +103,28 @@ jobs:
           assert r['existing_50km_null_reweighted'] is False
           assert r['all_named_species']==1499+r['new_named_species']
           print('ORIGINAL_FCP_149900_PHOTOS_EXPANDED_TO',r['all_original_photo_rows'])
+          PY
+      - name: Re-run the EXACT historical 50-km flower-colour null on expanded 149900 plus new photographs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install scipy==1.15.2
+          PYTHONPATH=. python scripts/analysis/replay_fcp_149900_plus_wave4_same_spatial_20261017.py \
+            --combined "$RUNNER_TEMP/fcp-wave4/combined/fcp_original149900_plus_wave4_same_method_photos.csv.gz" \
+            --receipt "$RUNNER_TEMP/fcp-wave4/combined/expanded_data_receipt.json" \
+            --wave4-original-inference "$RUNNER_TEMP/fcp-wave4/new/wave4-statistics/wave4_original_149900_method_analysis_result.json" \
+            --outdir "$RUNNER_TEMP/fcp-wave4/combined"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])/'fcp-wave4/combined'
+          x=json.loads((root/'expanded_fcp_original_50km_result.json').read_text())
+          assert x['all_original_frozen_cohort_50km_values_reproduced'] is True
+          assert x['frozen_original_source_rows']==149900
+          assert x['total_photo_rows']>=179900
+          assert x['total_photo_rows']==149900+x['new_photo_rows']
+          assert x['results']['cohorts']['wave4']['radii']['50']['n_species']>=0
+          print('FCP_FULL_EXPANDED_SOURCE_SAME_ORIGINAL_50KM_REPLAY_VERIFIED',x['total_photo_rows'])
           PY
       - uses: actions/upload-artifact@v4
         with:
