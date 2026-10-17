@@ -13,10 +13,12 @@ import json
 from pathlib import Path
 
 import pandas as pd
-from scripts.analysis.fcp_u100_original_photo_reuse_20261017 import (
-    PINNED_OLD_DISCOVERY_PHOTO_COLLISIONS,
-    PINNED_OLD_DISCOVERY_OBSERVATION_COLLISIONS,
-)
+# The independently observed old/new source fingerprints are pinned here,
+# without importing the separate scientific join's reuse-repair implementation.
+PINNED_OLD_DISCOVERY_PHOTO_COLLISIONS = frozenset({
+    45948761, 311814882, 517553374,
+})
+PINNED_OLD_DISCOVERY_OBSERVATION_COLLISIONS = frozenset({287821814})
 
 OLD = {
     "discovery": {
