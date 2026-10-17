@@ -1,5 +1,9 @@
 name: FCP full 4730 original flower ROI and H1 D 50km W replay
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-all4730-original-roi-20261017.yml
   pull_request:
     branches: [main]
     paths:
@@ -8,7 +12,7 @@ on:
       - .github/workflows/fcp-all4730-original-roi-20261017.yml
   workflow_run:
     workflows:
-      - FCP full 4730 U100 bulk historical-H9 photo metadata
+      - FCP recover 4730 exact H9 global ID source from four authentic shards
     types: [completed]
   workflow_dispatch:
 permissions:
@@ -18,8 +22,8 @@ concurrency:
   group: fcp-all4730-original-pixels-single-pipeline-v1
   cancel-in-progress: false
 env:
-  SOURCE_RUN_ID: "38993836606"
-  SOURCE_RUN_SHA: "9c1298956941769fdfd62aeaa7d61febf1154c3e"
+  SOURCE_RUN_ID: "38996743273"
+  SOURCE_RUN_SHA: "61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
   EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
   EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
   EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
@@ -42,7 +46,7 @@ jobs:
           python -m py_compile scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py
   freeze-new-original-pixel-IDs:
     needs: original-import-preflight-no-image-pixels
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.id == 38993836606 && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_sha == '9c1298956941769fdfd62aeaa7d61febf1154c3e' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp') }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.id == 38996743273 && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_sha == '61abc4f71e74db3a6633a790e37d1f30e8e3bfcc' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 88
     steps:
@@ -55,7 +59,7 @@ jobs:
           bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
           python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
           python -m pytest -q tests/test_fcp_all4730_original_roi_bulk_20261017.py
-      - name: Verify signed successful 500 species ID acquisition before opening pixels
+      - name: Verify successful 4,730-U100 globally unique original H9 source before opening pixels
         shell: bash
         run: |
           set -euo pipefail
@@ -71,7 +75,9 @@ jobs:
           import json,os
           r=json.load(open('/tmp/wave4/source_run.json'))
           assert r['id']==int(os.environ['SOURCE_RUN_ID']) and r['head_sha']==os.environ['SOURCE_RUN_SHA']
-          assert r['status']=='completed' and r['conclusion']=='success' and r['event']=='pull_request' and r['run_attempt']==1
+          assert r['status']=='completed' and r['conclusion']=='success' and r['event']=='push' and r['run_attempt']==1
+          assert r['head_branch']=='fix/fcp-4730-consolidate-original-h9-global-seen-20261017'
+          assert r['name']=='FCP recover 4730 exact H9 global ID source from four authentic shards'
           print('ORIGINAL_SOURCE_VERIFIED',r['html_url'])
           PY
           gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" \
@@ -84,7 +90,7 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open('/tmp/wave4/firewall/measurement_firewall_manifest.json'))
-          assert x['source_run_id']==38993836606
+          assert x['source_run_id']==38996743273
           assert x['all_original_U100_taxa']==4730
           assert x['new_photo_rows']==x['new_100photo_species']*100
           assert x['partitions']==256
