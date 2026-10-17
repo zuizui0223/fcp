@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     env:
+      PYTHONPATH: .
       GH_TOKEN: ${{ github.token }}
       ORIGINAL_COMMIT: ca69930986e39e3ea9b2d2f97ab247045ba9db0b
       P100_SHA: 1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c
