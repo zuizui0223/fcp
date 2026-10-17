@@ -930,7 +930,7 @@ def test_four_cohort_robust_matched_null_reports_only_authenticated_exploratory_
         "−0.006553", "−0.018278",
         "0.030", "0.020",
         "Holm step-down",
-        "not** carried over into the null",
+        "*not* carried over into the null",
         "not correct all earlier exploratory analyses",
     ):
         assert phrase in supporting, phrase
