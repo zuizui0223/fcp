@@ -793,3 +793,35 @@ def test_new_phytologist_explains_and_stress_tests_gini_simpson_D() -> None:
         "0.116155",
     ):
         assert token in text
+
+
+def test_postfreeze_fourth_wave_empirical_extension_does_not_upgrade_frozen_claims() -> None:
+    """Distinguish measured wave4 evidence from the pending U100 source opportunity."""
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+    canonical = CANONICAL.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+    status = (ROOT / "docs" / "FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md").read_text(encoding="utf-8")
+
+    for text in (manuscript, canonical):
+        for token in (
+            "149,900", "49,800", "498", "199,700", "1,997",
+            "190", "741", "0.0172936", "0.0176372",
+            "0.8056", "0.5368", "0.4363", "447,500",
+            "post-freeze", "same-provider", "not independent-source replication",
+            "still incomplete at this evidence freeze",
+        ):
+            assert token in text, token
+        assert "0.517" in text  # the untouched third-cohort prospective H2 result is not replaced
+
+    for token in (
+        "## S5c. Verified post-freeze fourth-cohort",
+        "256/256 genuine image workers",
+        "190", "741", "0.0172936", "0.0176372",
+        "0.805596", "0.536816", "0.547280",
+        "not all rerun for the fourth wave",
+        "final five-cohort combined null/H1/W estimates were **not available**",
+    ):
+        assert token in supporting, token
+    assert "4,475 species" in status
+    assert "447,500 photo rows" in status
+    assert "New U100 real ROI pending" in status
