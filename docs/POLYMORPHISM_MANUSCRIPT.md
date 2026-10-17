@@ -13,8 +13,8 @@
 - Introduction: 805 words
 - Materials and Methods: 2,607 words
 - Results: 2,878 words
-- Discussion: 2,403 words
-- Main text (Introduction through Discussion): 8,693 words
+- Discussion: 2,494 words
+- Main text (Introduction through Discussion): 8,784 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -381,6 +381,8 @@ This comparative result extends a pattern previously emphasized from population-
 The evolutionary distinction matters. In plant balancing-selection theory, negative frequency dependence and related mechanisms can maintain alternatives within populations, whereas spatially varying selection can maintain adaptive polymorphism among populations; restricted migration can strengthen such geographic differentiation (Delph & Kelly 2014). The FCP pattern is therefore compatible with spatially varying selection, but it is equally compatible with drift, colonisation history, dispersal limitation or environmentally induced plasticity. The present result identifies the spatial structure that an evolutionary explanation must account for; it does not by itself identify the explanation.
 
 A fourth outcome-blind, taxon-disjoint but same-provider image cohort subsequently reproduced the fixed **50-km** local-depletion result (190 evaluable taxa, mean depletion 0.01729, matched p = 0.005). The four-cohort pooled comparison now covers **741** spatially evaluable species; that increases the breadth of the observed structural regularity but does not make the post hoc radius preregistered. The additional cohort was not subjected to every calendar-quarter, observer-pair, nonwhite and multiscale falsification already performed on the original three; those sensitivities must not be silently generalized to all four.
+
+A source-authenticated post hoc leverage audit qualifies the repeated cohort mean (Supporting Information S5d). Only **417 of 741** evaluable species (56.3%) had positive individual 50-km depletion, and the pooled species median (**0.00597**) was smaller than its mean (**0.01764**). Removing the highest 10% species-level effects left a descriptive mean of **0.00191**; removing the highest 20% gave **−0.00655**. These tail exclusions have no newly calculated permutation p-values. Geographic colour partitioning is therefore recurrent as a *cohort-level mean*, but heterogeneous across species rather than a universal strong within-species pattern.
 
 ### Geographic separation dominates, with a smaller candidate environmental component
 
