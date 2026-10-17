@@ -1,0 +1,112 @@
+name: FCP recover 4730 exact H9 global ID source from four authentic shards
+on:
+  push:
+    branches: [fix/fcp-4730-consolidate-original-h9-global-seen-20261017]
+    paths:
+      - scripts/acquisition/fcp_full_u100_4730_20261017.py
+      - tests/test_fcp_u100_global_h9_id_reconciliation_20261017.py
+      - .github/workflows/fcp-4730-historical-H9-global-id-source-recovery-20261017.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  GH_TOKEN: ${{ github.token }}
+  ORIGINAL_SOURCE_RUN: "38993836606"
+  ORIGINAL_SOURCE_SHA: "9c1298956941769fdfd62aeaa7d61febf1154c3e"
+  PYTHONPATH: "."
+jobs:
+  authenticate-and-recover-complete-H9-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test historical original H9 global seen IDs and conservative under-100 handling
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_u100_global_h9_id_reconciliation_20261017.py
+      - name: Verify exact four completed original H9 683-species source shards
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp4730recovery/{source,inventory,parts,diagnostics}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ORIGINAL_SOURCE_RUN" > /tmp/fcp4730recovery/old_run.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ORIGINAL_SOURCE_RUN/jobs?per_page=100" > /tmp/fcp4730recovery/old_jobs.json
+          python - <<'PY'
+          import json,os
+          root='/tmp/fcp4730recovery/'
+          r=json.load(open(root+'old_run.json'))
+          jobs=json.load(open(root+'old_jobs.json'))['jobs']
+          states={job['name']:job['conclusion'] for job in jobs}
+          if not(r['id']==38993836606
+                 and r['head_sha']==os.environ['ORIGINAL_SOURCE_SHA']
+                 and r['head_branch']=='analysis/fcp-all4730-original-photo-bulk-20261017'
+                 and r['event']=='pull_request'
+                 and r['run_attempt']==1
+                 and r['status']=='completed' and r['conclusion']=='failure'
+                 and states['inventory-all-4730']=='success'
+                 and all(states[f'bulk-remaining-2733 ({i})']=='success' for i in range(4))
+                 and states['all-4730-terminal-ledger']=='failure'):
+              raise SystemExit('SOURCE_PROVENANCE_REPAIR_REJECTED')
+          print('FCP_ORIGINAL_ALL_FOUR_H9_SHARDS_SIGNED_AND_AUTHENTICATED',flush=True)
+          PY
+          gh run download "$ORIGINAL_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-original-identity-inventory \
+            --dir /tmp/fcp4730recovery/inventory
+          for i in 0 1 2 3; do
+            mkdir -p "/tmp/fcp4730recovery/parts/shard_$i"
+            gh run download "$ORIGINAL_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+              --name "shard_$i" --dir "/tmp/fcp4730recovery/parts/shard_$i"
+          done
+      - name: Globally apply historical original H9 seen-photo and observation exclusions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/fcp_full_u100_4730_20261017.py consolidate \
+            --inventory /tmp/fcp4730recovery/inventory \
+            --parts /tmp/fcp4730recovery/parts \
+            --out /tmp/fcp4730recovery/source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('/tmp/fcp4730recovery/source')
+          receipt=json.loads((root/'all4730_metadata_result.json').read_text())
+          new=pd.read_csv(root/'remaining_U100_authorized_metadata.csv.gz',low_memory=False)
+          ledger=pd.read_csv(root/'full_U100_4730_status_after_H9.csv')
+          all_audited=pd.read_csv(root/'all_2733_attempted_species_audit.csv')
+          assert receipt['schema']=='fcp_u100_all4730_original_h9_only_v1'
+          assert receipt['stage']=='all_4730_H9_metadata_terminal'
+          assert receipt['metadata_gate_pass'] is True
+          assert receipt['verified_against_all_4_complete_shards'] is True
+          assert receipt['old_149900_method_and_results_changed'] is False
+          assert receipt['photo_pixels_opened'] is False
+          assert receipt['new_attempted_species']==2733
+          assert receipt['U100_identity_species']==4730
+          assert receipt['source_shard_full100_species_before_global_ID_reconciliation']==2482
+          assert receipt['source_shard_original_photo_rows_before_global_ID_reconciliation']==248200
+          assert receipt['new_original_photo_IDs']==len(new)
+          assert len(new)==100*receipt['new_complete_100_photo_species']
+          assert new.photo_id.nunique()==new.observation_id.nunique()==len(new)
+          assert len(ledger)==4730
+          assert len(all_audited)==2733
+          assert receipt['new_complete_100_photo_species']+receipt['new_unmet_100_photo_species']==2733
+          assert receipt['new_original_photo_IDs']<=248200
+          assert receipt['historical_source_global_ID_reconciliation']['original_H9_global_seen_id_reservation_order_restored'] is True
+          assert all_audited.global_complete_100_photo_species.sum()==receipt['new_complete_100_photo_species']
+          print('FCP_ALL4730_ORIGINAL_GLOBAL_SEEN_REPAIRED_REAL_DATA',json.dumps({
+              'original_shard_100photo_species':2482,
+              'globally_unique_100photo_species':receipt['new_complete_100_photo_species'],
+              'new_original_photo_IDs':receipt['new_original_photo_IDs'],
+              'below100_2733_source_species':receipt['new_unmet_100_photo_species'],
+              'global_ID_crossings':receipt['historical_source_global_ID_reconciliation']['globally_seen_cross_shard_rejected_source_candidate_rows'],
+          },sort_keys=True),flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-actual-H9-2733-source-metadata-terminal
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp4730recovery/source/
