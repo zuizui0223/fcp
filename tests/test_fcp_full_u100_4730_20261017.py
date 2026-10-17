@@ -32,9 +32,9 @@ def test_all_original_source_species_included_and_only_unmeasured_selected():
 
 def test_drop_or_duplicate_original_identity_fails_closed():
     p100,old,wave=setup()
-    with pytest.raises(RuntimeError,match="4730 authentic distinct taxa"):
+    with pytest.raises(RuntimeError,match="wave4 not inside original"):
         f.construct_all_species_inventory(
-            p100[:-1],old,wave,u100=10,old_n=3,wave_n=1)
+            p100[:-1],old,wave,u100=10,old_n=3,wave_n=2)
 
 
 def test_wave4_original_overlap_rejected():
