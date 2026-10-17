@@ -86,3 +86,14 @@ def test_real_original_roi_colour_module_imports_before_pixel_download():
     loaded = [importlib.import_module(mod) for mod in modules]
     assert all(Path(module.__file__).is_file() for module in loaded)
     assert callable(loaded[-1].coarse_morph_from_palette)
+
+
+def test_old_50km_summary_string_key_is_reported_not_all_nclass40_species():
+    # Historical cohort_summary() uses "50", NOT the float 50.0.
+    summary = {
+        "50": {"evaluable": True, "n_species": 17},
+        "100": {"evaluable": True, "n_species": 23},
+    }
+    assert m.original_spatial_primary_50km_n(summary) == 17
+    assert m.original_spatial_primary_50km_n({"50": {"evaluable": False, "n_species": 0}}) == 0
+    assert m.original_spatial_primary_50km_n({}) == 0
