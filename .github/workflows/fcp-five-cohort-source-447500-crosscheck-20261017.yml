@@ -1,7 +1,8 @@
 name: FCP independently verify all five actual source cohorts and corrected 447500 photo IDs
 on:
+  workflow_dispatch:
   push:
-    branches: [analysis/fcp-4730-source-five-cohort-identity-audit-20261017]
+    branches: [main, analysis/fcp-4730-source-five-cohort-identity-audit-20261017]
     paths:
       - scripts/analysis/fcp_u100_4730_five_cohort_source_id_audit_20261017.py
       - tests/test_fcp_4730_five_cohort_source_id_audit_20261017.py
