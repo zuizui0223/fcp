@@ -90,7 +90,7 @@ jobs:
             --output /tmp/fcp-4730-dual-roi/gate_receipt.json
   frozen-original-plus-two-genuine-new-wave-measurements:
     needs: [code-preflight, gate-both-authenticated-original-ROI-terminals]
-    if: ${{ needs.gate-both-authenticated-original-ROI-terminals.outputs.ready == 'true' }}
+    if: ${{ needs['gate-both-authenticated-original-ROI-terminals'].outputs.ready == 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
