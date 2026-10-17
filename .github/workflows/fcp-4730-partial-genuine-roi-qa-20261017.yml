@@ -52,7 +52,13 @@ jobs:
           gh run download "$WAVE4_RUN" --repo "$GITHUB_REPOSITORY" \
             --pattern 'fcp-wave4-original-b*' \
             --dir /tmp/fcp_live_roi_qa/wave4
-          echo FCP4730_ACTUAL_ORIGINAL_FINISHED_ROI_ARTIFACTS_RETRIEVED
+          gh run download "$U100_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-unchanged-original-blind-firewall \
+            --dir /tmp/fcp_live_roi_qa/new-firewall
+          gh run download "$WAVE4_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-wave4-unchanged-original-blind-firewall \
+            --dir /tmp/fcp_live_roi_qa/wave4-firewall
+          echo FCP4730_ACTUAL_ORIGINAL_FINISHED_ROI_ARTIFACTS_AND_FROZEN_FIREWALL_RETRIEVED
       - name: Independently verify every sealed photo row, morph label and no duplicate image ID
         shell: bash
         run: |
@@ -60,6 +66,8 @@ jobs:
           python scripts/analysis/fcp_4730_real_roi_partial_packet_audit_20261017.py \
             --new /tmp/fcp_live_roi_qa/new \
             --wave4 /tmp/fcp_live_roi_qa/wave4 \
+            --new-firewall /tmp/fcp_live_roi_qa/new-firewall \
+            --wave4-firewall /tmp/fcp_live_roi_qa/wave4-firewall \
             --source-run-records /tmp/fcp_live_roi_qa/source_run_provenance.json \
             --output /tmp/fcp_live_roi_qa/output
           python - <<'PY'
@@ -69,6 +77,10 @@ jobs:
           assert x['new_source_plus_wave4_original_IDs']==297900
           assert x['original_149900_photo_measurements_not_opened_or_changed'] is True
           assert x['original_species_conditional_50km_or_H1W_not_inferred'] is True
+          assert x['all_original_photo_source_blind_firewall_IDs_unique_and_disjoint'] is True
+          assert x['every_completed_ROI_partition_has_exact_frozen_photo_IDs'] is True
+          assert x['original_blind_firewall_audits']['new_U100']['frozen_firewall_photo_IDs']==248100
+          assert x['original_blind_firewall_audits']['wave4']['frozen_firewall_photo_IDs']==49800
           assert x['cohorts']['new_U100']['terminal_photo_rows']>0
           assert x['cohorts']['wave4']['terminal_photo_rows']>0
           assert x['both_new_cohorts_completed_unique_blind_measurement_IDs']==(
