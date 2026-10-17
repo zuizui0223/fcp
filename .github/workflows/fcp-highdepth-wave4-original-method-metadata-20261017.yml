@@ -1,0 +1,143 @@
+name: FCP expand original 149900 by SAME method (500 fresh taxa metadata)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/acquisition/expand_existing_fcp_highdepth_20261017.py
+      - tests/test_expand_existing_fcp_highdepth_20261017.py
+      - docs/FCP_HIGHDEPTH_149900_UNCHANGED_METHOD_EXPANSION_20261017.md
+      - .github/workflows/fcp-highdepth-wave4-original-method-metadata-20261017.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-highdepth-wave4-unchanged-method-metadata
+  cancel-in-progress: false
+
+jobs:
+  select-and-freeze-new-species-metadata:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      PYTHONPATH: .
+      GH_TOKEN: ${{ github.token }}
+      ORIGINAL_COMMIT: ca69930986e39e3ea9b2d2f97ab247045ba9db0b
+      P100_SHA: 1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c
+      P500_SHA: f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore original package versions for metadata work
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+      - name: Check same-design admission and strict no-outcome selection tests
+        run: python -m pytest -q tests/test_expand_existing_fcp_highdepth_20261017.py
+      - name: Verify ORIGINAL P100 and P500 photo-opportunity source artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/wave4/parent" "$RUNNER_TEMP/wave4/frozen"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/34708044962" > "$RUNNER_TEMP/wave4/parent_run.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])/'wave4/parent_run.json'
+          obj=json.loads(p.read_text())
+          if obj.get('status')!='completed' or obj.get('conclusion')!='success' or obj.get('id')!=34708044962:
+              raise SystemExit('Frozen 2026-09-13 high-depth selection is unavailable')
+          print('ORIGINAL_3730_500_SOURCE_RUN_VERIFIED',obj['id'])
+          PY
+          gh run download 34708044962 --repo "$GITHUB_REPOSITORY" \
+            --name polymorphism-h2-prospective-u100-selection-20260913 \
+            --dir "$RUNNER_TEMP/wave4/parent"
+          python - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])/'wave4'
+          expected={'p100':os.environ['P100_SHA'],'p500':os.environ['P500_SHA']}
+          files=list((root/'parent').rglob('*.csv'))
+          for label, sha in expected.items():
+              matches=[p for p in files if hashlib.sha256(p.read_bytes()).hexdigest()==sha]
+              if len(matches)!=1:
+                  raise SystemExit(f'Original {label} frozen SHA file count {len(matches)}')
+              (root/'frozen'/f'{label}.csv').write_bytes(matches[0].read_bytes())
+              print('ORIGINAL_SOURCE_SHA_OK',label,str(matches[0]))
+          PY
+      - name: Outcome-blind 500 species selected from 2730 genuinely unused original U100 taxa
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/expand_existing_fcp_highdepth_20261017.py select \
+            --p100 "$RUNNER_TEMP/wave4/frozen/p100.csv" \
+            --p500 "$RUNNER_TEMP/wave4/frozen/p500.csv" \
+            --third-selected results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv \
+            --out "$RUNNER_TEMP/wave4/selection"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/'wave4/selection/selection_result.json').read_text())
+          assert r["remaining_candidate_species"]==2730
+          assert r["wave4_selected_species"]==500
+          assert r["target_additional_photo_rows"]==50000
+          assert r["no_flower_colour_used"] and r["no_image_pixels_opened"]
+          print('NEW_500_SPECIES_SELECT_COMPLETE_NO_PIXELS')
+          PY
+      - name: Recover exact historical metadata method and all five original exclusion sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$ORIGINAL_COMMIT"
+          for f in \
+              fcp_pipeline/random_photo_h9_pool.py \
+              fcp_pipeline/random_photo_pool.py \
+              fcp_pipeline/shared_transition_surface.py \
+              fcp_pipeline/third_cohort_metadata_gate.py; do
+            git show "$ORIGINAL_COMMIT:$f" > "$f"
+          done
+          git show "$ORIGINAL_COMMIT:data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv" > "$RUNNER_TEMP/wave4/frozen/random_photo_first_h9_exclusion_ledger_v1.csv"
+          git show "$ORIGINAL_COMMIT:data/frozen/random_photo_first_h9_fresh_metadata_v1.csv" > "$RUNNER_TEMP/wave4/frozen/random_photo_first_h9_fresh_metadata_v1.csv"
+          git show "$ORIGINAL_COMMIT:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > "$RUNNER_TEMP/wave4/frozen/rgfca_42111_species_breadth_measured.csv.gz"
+          git show "$ORIGINAL_COMMIT:data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz" > "$RUNNER_TEMP/wave4/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz"
+          git show "$ORIGINAL_COMMIT:data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz" > "$RUNNER_TEMP/wave4/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz"
+      - name: Apply the IDENTICAL original H9 one-page photo metadata selection
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/expand_existing_fcp_highdepth_20261017.py metadata \
+            --selected "$RUNNER_TEMP/wave4/selection" \
+            --exclusions \
+              "$RUNNER_TEMP/wave4/frozen/random_photo_first_h9_exclusion_ledger_v1.csv" \
+              "$RUNNER_TEMP/wave4/frozen/random_photo_first_h9_fresh_metadata_v1.csv" \
+              "$RUNNER_TEMP/wave4/frozen/rgfca_42111_species_breadth_measured.csv.gz" \
+              "$RUNNER_TEMP/wave4/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz" \
+              "$RUNNER_TEMP/wave4/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz" \
+            --out "$RUNNER_TEMP/wave4/metadata"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          x=json.loads((Path(os.environ["RUNNER_TEMP"])/'wave4/metadata/metadata_result.json').read_text())
+          assert x['original_photos']==149900
+          assert x['new_selected_species']==500
+          assert x['new_exact_100_photo_rows']==100*x['new_exact_100_species']
+          assert x['previous_source_exclusion_photo_ids']==228461
+          assert x['image_pixels_opened'] is False
+          print('NEW_UNCHANGED_METHOD_METADATA_TERMINAL',json.dumps({
+            k:x[k] for k in ('new_exact_100_species','new_exact_100_photo_rows','request_errors','metadata_gate_pass')
+          },sort_keys=True))
+          PY
+      - name: Retain new original identities and complete precolour metadata receipts
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-wave4-same-original-method-selection-and-metadata-20261017
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            ${{ runner.temp }}/wave4/selection/
+            ${{ runner.temp }}/wave4/metadata/
