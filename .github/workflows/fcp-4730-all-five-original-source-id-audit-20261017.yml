@@ -47,7 +47,7 @@ jobs:
           assert wave['id']==38989666486
           assert wave['head_sha']=='a948fd95c57fd5da404a20348174fb4e96796ec4'
           assert wave['event']=='pull_request'
-          assert wave['name']=='FCP wave4 same 149900-method original source'
+          assert wave['name']=='FCP expand original 149900 by SAME method (500 fresh taxa metadata)'
           assert new['id']==38996743273
           assert new['head_sha']=='61abc4f71e74db3a6633a790e37d1f30e8e3bfcc'
           assert new['event']=='push'
