@@ -1,0 +1,146 @@
+name: FCP verify 447500 independent original 100-photo rows after discovery reuse
+on:
+  push:
+    branches: [fix/fcp-4730-reject-duplicate-original-photos-conservatively-20261017]
+    paths:
+      - scripts/analysis/fcp_u100_original_photo_reuse_20261017.py
+      - scripts/analysis/combine_fcp_all4730_originals_20261017.py
+      - tests/test_fcp_u100_original_photo_reuse_20261017.py
+      - .github/workflows/fcp-verify-original-447500-reuse-exclusion-20261017.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  test-and-verify-four-real-original-sources:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      WAVE4_SOURCE_RUN: "38989666486"
+      NEW_SOURCE_RUN: "38996743273"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test original high-depth reuse exclusion never changes original 100-per-species method
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_u100_original_photo_reuse_20261017.py tests/test_combine_fcp_all4730_originals_20261017.py
+          python -m py_compile scripts/analysis/fcp_u100_original_photo_reuse_20261017.py scripts/analysis/combine_fcp_all4730_originals_20261017.py
+      - name: Authenticate old wave4 H9 source and recovered U100 identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_source_fix/{old,wave4,new,evidence}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$WAVE4_SOURCE_RUN" > /tmp/fcp_source_fix/wave4_source_run.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$NEW_SOURCE_RUN" > /tmp/fcp_source_fix/new_source_run.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=Path('/tmp/fcp_source_fix')
+          w=json.loads((d/'wave4_source_run.json').read_text())
+          n=json.loads((d/'new_source_run.json').read_text())
+          assert w['id']==38989666486 and w['head_sha']=='a948fd95c57fd5da404a20348174fb4e96796ec4'
+          assert n['id']==38996743273 and n['head_sha']=='61abc4f71e74db3a6633a790e37d1f30e8e3bfcc'
+          for x in (w,n):
+              assert x['head_repository']['full_name']=='zuizui0223/fcp'
+              assert x['status']=='completed' and x['conclusion']=='success' and x['run_attempt']==1
+          print('FCP_100PHOTO_SOURCE_SOURCE_SHA_PINS_VERIFIED')
+          PY
+          gh run download "$WAVE4_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-wave4-same-original-method-selection-and-metadata-20261017 \
+            --dir /tmp/fcp_source_fix/wave4
+          gh run download "$NEW_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-actual-H9-2733-source-metadata-terminal \
+            --dir /tmp/fcp_source_fix/new
+      - name: Recover three original 149900 photograph cohorts byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin 5142f7951af0dde5364bb047a566d67e8c479e51
+          git fetch --no-tags --depth=1 origin 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv > /tmp/fcp_source_fix/old/discovery.csv
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv > /tmp/fcp_source_fix/old/validation.csv
+          git show 7e538e5c51c05a7cc47b2fcf53eea92634c8a863:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv > /tmp/fcp_source_fix/old/prospective.csv
+      - name: Actually verify exactly which original U100 species must lose their full 100 images
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          import pandas as pd
+          from scripts.analysis.fcp_u100_original_photo_reuse_20261017 import inspect_reused_new_u100_source
+          root=Path('/tmp/fcp_source_fix')
+          old={
+              'discovery':root/'old/discovery.csv',
+              'validation':root/'old/validation.csv',
+              'prospective':root/'old/prospective.csv',
+              'wave4':root/'wave4/metadata/wave4_authorized_metadata.csv.gz',
+          }
+          old_sha={
+              'discovery':'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4',
+              'validation':'0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6',
+              'prospective':'57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186',
+          }
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          for cohort,expected in old_sha.items():
+              assert sha(old[cohort])==expected
+          wave_meta=json.loads((root/'wave4/metadata/metadata_result.json').read_text())
+          assert wave_meta['new_exact_100_photo_rows']==49800
+          assert wave_meta['outputs']['wave4_authorized_metadata.csv.gz']==sha(old['wave4'])
+          npath=root/'new/remaining_U100_authorized_metadata.csv.gz'
+          nmeta=json.loads((root/'new/all4730_metadata_result.json').read_text())
+          assert nmeta['new_complete_100_photo_species']==2481
+          assert nmeta['new_original_photo_IDs']==248100
+          assert nmeta['new_unmet_100_photo_species']==252
+          assert nmeta['outputs_sha256'][npath.name]==sha(npath)
+          original=pd.read_csv(npath,low_memory=False)
+          previous={k:pd.read_csv(p,low_memory=False) for k,p in old.items()}
+          effective,receipt=inspect_reused_new_u100_source(original,previous)
+          assert receipt['original_reused_photo_ID_count']==3
+          assert receipt['original_reused_observation_ID_count']==1
+          assert receipt['affected_new_H9_taxon_IDs']==[62367,75633,1045161]
+          assert receipt['affected_new_H9_complete_species']==3
+          assert receipt['effective_new_U100_complete100_taxa']==2478
+          assert len(effective)==247800
+          assert effective.photo_id.nunique()==247800
+          assert effective.observation_id.nunique()==247800
+          assert effective.groupby('inat_taxon_id').size().eq(100).all()
+          assert receipt['old_149900_unmodified'] is True
+          assert receipt['original_50km_H1_D_W_estimators_unchanged'] is True
+          eligibility={
+              'schema':'fcp_4730_independent_photo_identity_original_100photo_eligibility_v1',
+              'original_U100_eligible_species':4730,
+              'nominal_H9_complete_photo_species':4478,
+              'nominal_source_photo_rows':447800,
+              'original_distinct_photo_ids_across_five_cohorts':447797,
+              'source_H9_under_100_species':252,
+              'discovery_source_reused_photo_affected_new_taxa':3,
+              'effective_species_exact100_independent_photo_ids':4475,
+              'effective_photo_rows_for_original_method':447500,
+              'effective_omitted_original_U100_species':255,
+              'old_original_149900_pixel_measurements_unchanged':True,
+              'no_photo_colour_measurement_or_statistical_test_here':True,
+              'source_photo_SHA':{k:sha(p) for k,p in old.items()},
+              'source_new_U100_SHA':sha(npath),
+              'conservative_reconciliation':receipt,
+          }
+          path=root/'evidence/fcp_original_447500_100photo_reuse_audit.json'
+          path.write_text(json.dumps(eligibility,indent=2,sort_keys=True,allow_nan=False)+'\n')
+          print('FCP_ORIGINAL_REAL_SOURCE_DUPLICATE_3_TAXA_EXCLUDED_CONSERVATIVELY',
+                json.dumps({'taxa':receipt['affected_new_H9_taxon_IDs'],
+                            'original_eligible':4730,
+                            'independent_species':4475,
+                            'independent_photos':447500,
+                            'source_photo_reuse':3,
+                            'original_old_measured_unchanged':True},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-447500-independent-100photo-original-analysis-source-audit
+          retention-days: 90
+          path: /tmp/fcp_source_fix/evidence/
+          if-no-files-found: error
