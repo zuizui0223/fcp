@@ -102,12 +102,38 @@ def inspect_all(five: dict[str,dict], original_u100: pd.DataFrame) -> dict:
         expected=ACTUAL[group]
         if item["taxa"]!=expected["taxa"] or item["photo_rows"]!=expected["n"]:
             raise RuntimeError(f"{group}: original count contract changed")
-        if (item["photographs"] & seen_photo or item["taxon_ids"] & seen_taxa
-            or item["species_names"] & seen_names):
-            raise RuntimeError(f"{group}: original photo/species reused across different cohorts")
+        overlap={
+            "photos":sorted(item["photographs"] & seen_photo),
+            "taxon_ids":sorted(item["taxon_ids"] & seen_taxa),
+            "species_names":sorted(item["species_names"] & seen_names),
+        }
         obs=item["observations"]
-        if obs is not None and obs & seen_obs:
-            raise RuntimeError(f"{group}: original iNaturalist observation reused across cohorts")
+        overlap["observation_ids"]=(
+            sorted(obs & seen_obs) if obs is not None else [])
+        if any(overlap.values()):
+            # Precise biological identity versus numeric photography collisions
+            # must never be conflated: a shared binomial can involve DISTINCT
+            # iNaturalist taxon IDs; only the observation/photo is the image.
+            details={
+                "incoming_cohort":group,
+                "collision_counts":{k:len(v) for k,v in overlap.items()},
+                "collision_examples":{k:v[:20] for k,v in overlap.items()},
+                "previous_cohort_breakdown":{
+                    before:{
+                        "photos":len(item["photographs"] & five[before]["photographs"]),
+                        "taxon_ids":len(item["taxon_ids"] & five[before]["taxon_ids"]),
+                        "species_names":len(item["species_names"] & five[before]["species_names"]),
+                        "observation_ids":(
+                            len(obs & five[before]["observations"])
+                            if obs is not None and five[before]["observations"] is not None
+                            else None),
+                    }
+                    for before in output
+                },
+            }
+            print("FCP_ORIGINAL_FIVE_COHORT_REAL_IDENTITY_COLLISION_DIAGNOSIS",
+                  json.dumps(details,sort_keys=True,allow_nan=False),flush=True)
+            raise RuntimeError(f"{group}: real source identity collision; separate diagnostic counts emitted")
         seen_photo.update(item["photographs"])
         seen_taxa.update(item["taxon_ids"])
         seen_names.update(item["species_names"])
