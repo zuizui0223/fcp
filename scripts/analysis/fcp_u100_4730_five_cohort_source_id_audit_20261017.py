@@ -13,6 +13,10 @@ import json
 from pathlib import Path
 
 import pandas as pd
+from scripts.analysis.fcp_u100_original_photo_reuse_20261017 import (
+    PINNED_OLD_DISCOVERY_PHOTO_COLLISIONS,
+    PINNED_OLD_DISCOVERY_OBSERVATION_COLLISIONS,
+)
 
 OLD = {
     "discovery": {
@@ -33,6 +37,9 @@ FULL_U100 = 4730
 AUTHORIZED = 4478
 UNMET = FULL_U100 - AUTHORIZED
 FULL_PHOTOS = AUTHORIZED * 100
+FINAL_EFFECTIVE_TAXA = 4475
+FINAL_EFFECTIVE_PHOTOS = 447500
+EXCLUDED_NEW_TAXA = frozenset({62367, 75633, 1045161})
 ACTUAL = {**OLD, "wave4": {"n": 49800, "taxa": 498},
           "new_U100": {"n": 248100, "taxa": 2481}}
 
@@ -88,134 +95,107 @@ def checked_source(table: pd.DataFrame, label: str, *, n: int, taxa: int) -> dic
 
 
 def inspect_all(five: dict[str,dict], original_u100: pd.DataFrame) -> dict:
+    """Verify all raw photo identities, then freeze only the independent 447500."""
     if set(five)!=set(COHORTS):
-        raise RuntimeError("all five original independent source photo cohorts mandatory")
-    if ("inat_taxon_id" not in original_u100
-        or "species" not in original_u100
-        or "final_status" not in original_u100
+        raise RuntimeError("all five original complete-100-photo source cohorts required")
+    needed={"inat_taxon_id","species","final_status"}
+    if (needed-set(original_u100)
         or len(original_u100)!=FULL_U100
         or original_u100.inat_taxon_id.nunique()!=FULL_U100):
-        raise RuntimeError("original 4730 taxon frame missing or modified")
-    seen_photo:set[int]=set()
-    seen_taxa:set[int]=set()
-    seen_names:set[str]=set()
-    seen_obs:set[int]=set()
-    studied:set[tuple[int,str]]=set()
-    rows=0
+        raise RuntimeError("original U100 4730 taxon frame invalid")
+    seen_photo=set()
+    seen_obs=set()
+    seen_taxa=set()
+    seen_species=set()
+    studied=set()
     output={}
+    all_reused_photo=set()
+    all_reused_obs=set()
+    raw_rows=0
     for group in COHORTS:
         item=five[group]
-        expected=ACTUAL[group]
-        if item["taxa"]!=expected["taxa"] or item["photo_rows"]!=expected["n"]:
-            raise RuntimeError(f"{group}: original count contract changed")
-        overlap={
-            "photos":sorted(item["photographs"] & seen_photo),
-            "taxon_ids":sorted(item["taxon_ids"] & seen_taxa),
-            "species_names":sorted(item["species_names"] & seen_names),
-        }
-        obs=item["observations"]
-        overlap["observation_ids"]=(
-            sorted(obs & seen_obs) if obs is not None else [])
-        if any(overlap.values()):
-            # Precise biological identity versus numeric photography collisions
-            # must never be conflated: a shared binomial can involve DISTINCT
-            # iNaturalist taxon IDs; only the observation/photo is the image.
-            details={
-                "incoming_cohort":group,
-                "collision_counts":{k:len(v) for k,v in overlap.items()},
-                "collision_examples":{k:v[:20] for k,v in overlap.items()},
-                "collision_photo_taxon_records":[
-                    {"photo_id":int(pid),
-                     "new_taxon_id":int(item["photo_to_taxon"][pid]),
-                     "new_species":item["taxon_to_species"][item["photo_to_taxon"][pid]],
-                     "old_source_cohorts":[
-                         {"cohort":earlier,
-                          "taxon_id":int(five[earlier]["photo_to_taxon"][pid]),
-                          "species":five[earlier]["taxon_to_species"][
-                              five[earlier]["photo_to_taxon"][pid]]}
-                         for earlier in output
-                         if pid in five[earlier]["photographs"]]}
-                    for pid in overlap["photos"][:20]
-                ],
-                "collision_observation_taxon_records":[
-                    {"observation_id":int(oid),
-                     "new_taxon_id":int(item["obs_to_taxon"][oid]),
-                     "old_source_cohorts":[
-                         {"cohort":earlier,"taxon_id":int(five[earlier]["obs_to_taxon"][oid])}
-                         for earlier in output
-                         if five[earlier]["observations"] is not None
-                         and oid in five[earlier]["observations"]]}
-                    for oid in overlap["observation_ids"][:20]
-                ],
-                "previous_cohort_breakdown":{
-                    before:{
-                        "photos":len(item["photographs"] & five[before]["photographs"]),
-                        "taxon_ids":len(item["taxon_ids"] & five[before]["taxon_ids"]),
-                        "species_names":len(item["species_names"] & five[before]["species_names"]),
-                        "observation_ids":(
-                            len(obs & five[before]["observations"])
-                            if obs is not None and five[before]["observations"] is not None
-                            else None),
-                    }
-                    for before in output
-                },
-            }
-            print("FCP_ORIGINAL_FIVE_COHORT_REAL_IDENTITY_COLLISION_DIAGNOSIS",
-                  json.dumps(details,sort_keys=True,allow_nan=False),flush=True)
-            raise RuntimeError(f"{group}: real source identity collision; separate diagnostic counts emitted")
+        contract=ACTUAL[group]
+        if item["taxa"]!=contract["taxa"] or item["photo_rows"]!=contract["n"]:
+            raise RuntimeError(f"{group}: original 100-photo cohort counts drift")
+        if item["observations"] is None:
+            raise RuntimeError(f"{group}: required source observation IDs missing")
+        photo_reused=seen_photo & item["photographs"]
+        obs_reused=seen_obs & item["observations"]
+        if item["taxon_ids"] & seen_taxa or item["species_names"] & seen_species:
+            raise RuntimeError(f"{group}: original taxon ID/name repeated across cohorts")
+        if group!="new_U100" and (photo_reused or obs_reused):
+            raise RuntimeError(f"{group}: earlier frozen original source identity reused")
+        all_reused_photo.update(photo_reused)
+        all_reused_obs.update(obs_reused)
         seen_photo.update(item["photographs"])
+        seen_obs.update(item["observations"])
         seen_taxa.update(item["taxon_ids"])
-        seen_names.update(item["species_names"])
-        if obs is not None:
-            seen_obs.update(obs)
+        seen_species.update(item["species_names"])
         studied.update(item["taxon_species"])
-        rows+=item["photo_rows"]
+        raw_rows+=item["photo_rows"]
         output[group]={
-            "real_authentic_original_photo_IDs":item["photo_rows"],
-            "species_with_exactly_100_original_source_IDs":item["taxa"],
-            "observation_ID_field_available":obs is not None,
-            "original_image_pixels_reopened":False,
+            "raw_original_source_photo_ID_occurrences":item["photo_rows"],
+            "original_taxa_with_100_selected_photo_IDs":item["taxa"],
+            "cross_previous_source_photo_IDs":sorted(photo_reused),
+            "cross_previous_source_observation_IDs":sorted(obs_reused),
+            "photo_pixels_read_or_reclassified":False,
         }
-    if len(seen_photo)!=FULL_PHOTOS or len(seen_taxa)!=AUTHORIZED or rows!=FULL_PHOTOS:
-        raise RuntimeError("five-cohort source U100 sample denominator not complete")
+    if (all_reused_photo!=PINNED_OLD_DISCOVERY_PHOTO_COLLISIONS
+        or all_reused_obs!=PINNED_OLD_DISCOVERY_OBSERVATION_COLLISIONS):
+        raise RuntimeError("real old/new photo/observation reuse differs from frozen evidence")
+    # The source-photo identifier collisions belong to three different newly
+    # H9-authorized taxa; never select an alternative photo or keep 99 rows.
+    new=five["new_U100"]
+    affected={int(new["photo_to_taxon"][p]) for p in all_reused_photo}
+    affected|={int(new["obs_to_taxon"][oid]) for oid in all_reused_obs}
+    if affected!=EXCLUDED_NEW_TAXA:
+        raise RuntimeError("three original source-reuse taxa were not correctly identified")
+    if (raw_rows!=FULL_PHOTOS or len(seen_photo)!=FULL_PHOTOS-len(all_reused_photo)
+        or len(seen_taxa)!=AUTHORIZED or len(studied)!=AUTHORIZED
+        or raw_rows-100*len(affected)!=FINAL_EFFECTIVE_PHOTOS
+        or len(seen_taxa)-len(affected)!=FINAL_EFFECTIVE_TAXA):
+        raise RuntimeError("447500 fixed-100 source analysis denominator differs from reality")
     full_taxa=set(original_u100.inat_taxon_id.astype(int))
     if not seen_taxa.issubset(full_taxa):
-        raise RuntimeError("source photo taxon ID absent from original U100")
+        raise RuntimeError("original real source taxon absent from U100 frame")
     manifest=set(zip(original_u100.inat_taxon_id.astype(int),
                      original_u100.species.astype(str).str.strip()))
     if studied-manifest:
-        raise RuntimeError("source taxon-name relation changed from full original U100")
-    counts=original_u100.final_status.value_counts().to_dict()
+        raise RuntimeError("original photographic source taxon names differ from U100")
     baseline={
-        "original_149900_photo_measured":sum(ACTUAL[k]["taxa"] for k in COHORTS[:3]),
-        "wave4_49800_photo_id_authorized":ACTUAL["wave4"]["taxa"],
-        "new_metadata_100_of_100_photo_IDs":ACTUAL["new_U100"]["taxa"],
-        "new_H9_metadata_under_100_or_request_error":UNMET,
+        "original_149900_photo_measured":1499,
+        "wave4_49800_photo_id_authorized":498,
+        "new_metadata_100_of_100_photo_IDs":2481,
+        "new_H9_metadata_under_100_or_request_error":252,
     }
-    if counts!=baseline:
-        raise RuntimeError("original 4730 completeness/under-100 species ledger drift")
-    if set(original_u100.loc[original_u100.final_status.eq("new_H9_metadata_under_100_or_request_error"),
-                            "inat_taxon_id"]) & seen_taxa:
-        raise RuntimeError("original less-than-100 photo taxon imputed into measured sample")
-    if len(studied)!=AUTHORIZED:
-        raise RuntimeError("the same plant taxon carried inconsistent original names")
+    if original_u100.final_status.value_counts().to_dict()!=baseline:
+        raise RuntimeError("original H9 complete/incomplete species ledger drift")
+    incomplete=set(original_u100.loc[
+        original_u100.final_status.eq("new_H9_metadata_under_100_or_request_error"),
+        "inat_taxon_id"].astype(int))
+    if incomplete & seen_taxa or incomplete & affected:
+        raise RuntimeError("historical less-than-100 taxa accidentally included")
     return {
-        "schema":"fcp_original_full_u100_4730_five_cohort_real_source_id_audit_v1",
-        "eligible_original_U100_taxa":FULL_U100,
-        "all_five_cohort_original_complete100_photo_taxa":AUTHORIZED,
-        "original_eligible_taxa_below_historical_fixed100":UNMET,
-        "cross_five_cohort_real_photo_ID_overlaps":0,
-        "cross_five_cohort_taxon_ID_overlaps":0,
-        "cross_five_cohort_species_name_overlaps":0,
-        "cross_five_cohort_observation_ID_overlaps_where_recorded":0,
-        "actual_original_source_photo_IDs":rows,
-        "all_source_photo_taxon_names_match_original_U100_ledger":True,
-        "original_149900_existing_measured_rows_unchanged":True,
-        "new_photo_IDs_measured_by_this_audit":False,
-        "photographic_colour_assays_or_original_nulls_run":False,
-        "not_biological_inference":True,
+        "schema":"fcp_original_full_u100_4730_independent_447500_source_audit_v2",
+        "original_eligible_U100_taxa":FULL_U100,
+        "raw_H9_complete_100photo_source_taxa":AUTHORIZED,
+        "raw_selected_original_source_photo_ID_occurrences":FULL_PHOTOS,
+        "globally_distinct_original_source_photo_IDs":len(seen_photo),
+        "globally_distinct_original_observation_IDs":len(seen_obs),
+        "reused_frozen_discovery_photo_IDs":sorted(all_reused_photo),
+        "reused_frozen_discovery_observation_IDs":sorted(all_reused_obs),
+        "technically_excluded_entire_new_100photo_taxa":sorted(affected),
+        "original_source_100photo_taxa_retain_for_analysis":FINAL_EFFECTIVE_TAXA,
+        "original_source_100photo_rows_retain_for_analysis":FINAL_EFFECTIVE_PHOTOS,
+        "original_U100_100photo_underfilled_taxa":252,
+        "source_reuse_excluded_additional_taxa":len(affected),
+        "original_149900_photo_measurements_unchanged":True,
+        "no_99_photo_species_reinsertion":True,
+        "not_photo_colour_or_ecological_statistical_inference":True,
+        "all_source_taxon_names_match_frozen_U100":True,
         "cohorts":output,
     }
+
 
 
 def main() -> None:
