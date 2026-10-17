@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish-only-authenticated-complete-original-method-study:
-    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main' }}
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event == 'workflow_run' && github.event.workflow_run.name == 'FCP all 4730 original photo join and unchanged H1 W 50km' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 65
     env:
@@ -48,6 +48,7 @@ jobs:
               or r.get('name')!=os.environ['FINAL_EXPECTED_NAME']
               or r.get('head_repository',{}).get('full_name')!='zuizui0223/fcp'
               or r.get('head_branch')!='main'
+              or r.get('event')!='workflow_run'
               or r.get('run_attempt')!=1
               or r.get('conclusion')!='success'
               or r.get('status')!='completed'):
