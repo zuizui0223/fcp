@@ -93,6 +93,7 @@ jobs:
           test "$GITHUB_REPOSITORY" = "zuizui0223/fcp"
           test "$GITHUB_REF" = "refs/heads/main"
           test -s "$REPORT"
+          echo "543e4a544310086b800d31e410eed176240c88eb7ce2544a25eaef324488547c  $REPORT" | sha256sum --check
           python - <<'PY'
           import json,hashlib,os
           from pathlib import Path
@@ -120,6 +121,7 @@ jobs:
             --title 'FCP authentic 199700 flower-photo robust 50km null (post hoc)' \
             --notes 'Exploratory, post-outcome, same-source original FCP measured data. Exact original 199 within-species vertex-label permutation worlds replayed and frozen historical mean/p checked; newly examined median, positive-fraction and upper-tail 10/20%-removed statistics computed with removal re-selected in every null world; Holm adjusted within four newly explored robust tests per cohort, not across all other past analyses. The 50km radius remains post hoc. No independent-source, causal or prospective claim; no original photos are redistributed.' \
             --latest=false
+          mkdir -p /tmp/fcp-robust-null/roundtrip
           gh release download "$RESULT_TAG" --repo "$GITHUB_REPOSITORY" \
             --pattern fcp_original_199700_robust_matched_null_result.json \
             --dir /tmp/fcp-robust-null/roundtrip
