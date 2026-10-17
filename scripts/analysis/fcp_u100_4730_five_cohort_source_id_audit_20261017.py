@@ -132,10 +132,10 @@ def inspect_all(five: dict[str,dict], original_u100: pd.DataFrame) -> dict:
         raise RuntimeError("source taxon-name relation changed from full original U100")
     counts=original_u100.final_status.value_counts().to_dict()
     baseline={
-        "original_149900_photo_measured":1499,
-        "wave4_49800_photo_id_authorized":498,
-        "new_metadata_100_of_100_photo_IDs":2481,
-        "new_H9_metadata_under_100_or_request_error":252,
+        "original_149900_photo_measured":sum(ACTUAL[k]["taxa"] for k in COHORTS[:3]),
+        "wave4_49800_photo_id_authorized":ACTUAL["wave4"]["taxa"],
+        "new_metadata_100_of_100_photo_IDs":ACTUAL["new_U100"]["taxa"],
+        "new_H9_metadata_under_100_or_request_error":UNMET,
     }
     if counts!=baseline:
         raise RuntimeError("original 4730 completeness/under-100 species ledger drift")
