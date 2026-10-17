@@ -20,7 +20,7 @@ jobs:
       PARENT_RUN: "38989666486"
       PARENT_SHA: "a948fd95c57fd5da404a20348174fb4e96796ec4"
       TAG: "fcp-wave4-original-source-20261017"
-      SOURCE_ROOT: ${{ runner.temp }}/fcp_wave4_original_source_release_20261017
+      SOURCE_ROOT: /tmp/fcp_wave4_original_source_release_20261017
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
