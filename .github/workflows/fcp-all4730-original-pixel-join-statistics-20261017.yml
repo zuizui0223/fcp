@@ -223,7 +223,11 @@ jobs:
           d=json.load(open(p))
           assert d['old_three_original_149900_effects_exactly_reproduced']
           assert d['original_199_vertex_null_changed'] is False
-          print('FCP_ALL4730_UNCHANGED_50KM_EVALUABLE',d['all_evaluable_species'])
+          assert d['primary_50km_evaluable_species']==d['pooled_original_50km']['n_species']
+          assert d['primary_50km_evaluable_species']==sum(
+              d['primary_50km_evaluable_species_by_cohort'].values())
+          print('FCP_ALL4730_UNCHANGED_50KM_EVALUABLE',d['primary_50km_evaluable_species'])
+          print('FCP_ALL4730_GE40_BEFORE_LOCAL_PAIR_GATE',d['all_evaluable_species'])
           PY
       - uses: actions/upload-artifact@v4
         with:

@@ -210,6 +210,16 @@ def replay_same_old_50km(photos:pd.DataFrame)->tuple[pd.DataFrame,dict]:
         results.extend(vals)
     out=pd.DataFrame(results)
     combined=cohort_summary(out,nulls)
+    # The original 50km test only includes species meeting its fixed
+    # MIN_LOCAL_PAIRS gate. Classifiable >=40 is necessary, not sufficient.
+    # Keep the legacy all_evaluable_species as the broader per-species table
+    # denominator; separately expose the actual 50km hypothesis-test n.
+    primary_n=int(combined["50"]["n_species"])
+    primary_cohort_n={cohort:int(cohorts[cohort]["50"]["n_species"])
+                      for cohort in COHORTS}
+    if (primary_n!=sum(primary_cohort_n.values())
+        or primary_n>len(out)):
+        raise RuntimeError("original primary-50km local-pair denominator inconsistent")
     record={
        "schema":"fcp_all4730_same_original_50km_vertex_null_v1",
        "old_three_original_149900_effects_exactly_reproduced":True,
@@ -219,6 +229,9 @@ def replay_same_old_50km(photos:pd.DataFrame)->tuple[pd.DataFrame,dict]:
        "all_sources":cohorts,
        "pooled_original_50km":combined["50"],
        "all_evaluable_species":int(out.inat_taxon_id.nunique()),
+       "n_classifiable_ge40_with_coordinates_before_local_pair_gate":int(len(out)),
+       "primary_50km_evaluable_species":primary_n,
+       "primary_50km_evaluable_species_by_cohort":primary_cohort_n,
        "cohort_distribution":{key:int(out.source_cohort.eq(key).sum()) for key in COHORTS},
        "still_posthoc_50km":True,
        "photographic_observation_biological_population_frequency_not_assumed":True,
