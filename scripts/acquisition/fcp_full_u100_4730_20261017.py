@@ -275,8 +275,10 @@ def reconcile_historical_global_seen(
     if source.empty or not set(source.inat_taxon_id).issubset(expected_taxa):
         raise RuntimeError("original H9 candidate species missing or not in 2733")
     kept_frames=[];details=[];seen_obs:set[int]=set();seen_photo:set[int]=set()
+    by_taxon={int(tid): group for tid,group in source.groupby("inat_taxon_id",sort=False)}
+    empty=source.iloc[:0]
     for tid in sorted(expected_taxa):
-        x=source.loc[source.inat_taxon_id.eq(tid)].copy()
+        x=by_taxon.get(tid,empty).copy()
         if len(x)>target_n:
             raise RuntimeError("original H9 selected more than 100 photos in one species")
         if x.observation_id.nunique()!=len(x) or x.photo_id.nunique()!=len(x):
