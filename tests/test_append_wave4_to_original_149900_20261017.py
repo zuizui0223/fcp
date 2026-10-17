@@ -41,7 +41,7 @@ def build(tmp):
     }
     rp = tmp / "wave4_terminal.json"
     rp.write_text(json.dumps(receipt))
-    return {k: v for k, v in paths.items() if k != "wave4"}, paths["wave4"], rp, contract
+    return {k: v for k, v in paths.items() if k != "wave4"}, paths["wave4"], rp, {k: v for k, v in contract.items() if k != "wave4"}
 
 
 def test_append_preserves_original_labels_and_adds_600_new_rows(tmp_path):
