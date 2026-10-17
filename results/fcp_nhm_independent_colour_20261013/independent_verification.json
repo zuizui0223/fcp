@@ -1,0 +1,13 @@
+{
+  "schema": "fcp_nhm_botanical_independent_direct_source_verification_v1",
+  "status": "PASS",
+  "independent_recomputed_regression_contrasts": 30,
+  "held_non_fit_sectors": 2,
+  "verified_foursector_weighting_support_cells": 32,
+  "max_abs_estimate_difference": 8.326672684688674e-16,
+  "source_nhm_exact_colour_records": 59369,
+  "source_fcp_eligible_sites": 100255,
+  "matched_original_photo_rows": 8120,
+  "never_uses_fcp_photo_hue_outcomes": true,
+  "independent_bootstrap_CI_replayed": false
+}
