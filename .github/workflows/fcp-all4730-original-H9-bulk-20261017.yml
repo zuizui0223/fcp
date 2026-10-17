@@ -1,11 +1,8 @@
 name: FCP full 4730 U100 bulk historical-H9 photo metadata
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/acquisition/fcp_full_u100_4730_20261017.py
-      - tests/test_fcp_full_u100_4730_20261017.py
-      - .github/workflows/fcp-all4730-original-H9-bulk-20261017.yml
+  # The original 2,733 H9 queries have already been frozen by source run
+  # 38993836606 and globally reconciled by run 38996743273. Ordinary
+  # code-review pushes MUST NOT silently query the same 2,733 taxa again.
   workflow_dispatch:
 permissions:
   contents: read
