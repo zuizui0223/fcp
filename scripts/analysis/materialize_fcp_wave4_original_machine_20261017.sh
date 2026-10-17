@@ -5,7 +5,16 @@ SOURCE="9fae6ccdf684a46026f72ba12e98de2c5c54bf2a"
 THIRD="7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
 git fetch --no-tags --depth=1 origin "$SOURCE" "$THIRD"
 mkdir -p scripts/analysis fcp_pipeline
-git show "$SOURCE:fcp_pipeline/photo_first_measurement.py" > fcp_pipeline/photo_first_measurement.py
+# Restore the complete original transitive colour-classifier dependency chain.
+# The prior wave4 worker failed before interpreting any flower pixels because
+# the old photo_first_atlas_v2 module had not been materialized.
+for f in \
+    fcp_pipeline/photo_first_atlas.py \
+    fcp_pipeline/photo_first_atlas_v2.py \
+    fcp_pipeline/photo_first_measurement.py
+do
+    git show "$SOURCE:$f" > "$f"
+done
 git show "$THIRD:scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh" > scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
 bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
 for f in \
@@ -17,5 +26,7 @@ for f in \
 do
     git show "$THIRD:$f" > "$f"
 done
+test "$(git hash-object fcp_pipeline/photo_first_atlas.py)" = "6dced732d315f166565a0dfaf3507c90f967255e"
+test "$(git hash-object fcp_pipeline/photo_first_atlas_v2.py)" = "d2984b5a462bf746ea5646332b74be55411b78f8"
 test "$(git hash-object fcp_pipeline/photo_first_measurement.py)" = "b2761c7fd2f8af615c1d96a615942e7af67d492a"
 echo FCP_WAVE4_ORIGINAL_IMAGE_AND_STATISTICAL_METHODS_RESTORED
