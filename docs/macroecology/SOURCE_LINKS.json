@@ -1,0 +1,23 @@
+{
+  "title": "FCP macroecology manuscript v0.1: cited controlling source URLs",
+  "date": "2026-10-14",
+  "role": "source map; not a claim of independent biological replication",
+  "active_high_depth_manuscript": "https://github.com/zuizui0223/fcp/blob/main/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md",
+  "frozen_main_claims": "https://github.com/zuizui0223/fcp/blob/main/docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md",
+  "macro_direction": "https://github.com/zuizui0223/fcp/pull/193",
+  "same_species_matched_spatial": "https://github.com/zuizui0223/fcp/pull/194",
+  "joint_36_prediction": "https://github.com/zuizui0223/fcp/pull/166",
+  "genus_longitude_transport": "https://github.com/zuizui0223/fcp/pull/169",
+  "independent_botanical_colour_measurement": "https://github.com/zuizui0223/fcp/pull/191",
+  "cross_source_reference_for_nhm": "https://doi.org/10.5519/p3dm31kc",
+  "source_replay_action": "https://github.com/zuizui0223/fcp/actions/runs/38502660130",
+  "source_photo_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+  "source_abiotic_sha256": "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca",
+  "external_prior_art": [
+    "https://doi.org/10.1111/nph.16737",
+    "https://doi.org/10.1002/ajb2.70106",
+    "https://doi.org/10.1016/j.tree.2021.01.011",
+    "https://doi.org/10.1002/ece3.7307"
+  ],
+  "formal_submission_status": "NOT_READY_AUTHOR_AND_LICENSE_AND_MANUSCRIPT_REVIEW"
+}
