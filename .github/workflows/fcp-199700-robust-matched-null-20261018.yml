@@ -101,7 +101,7 @@ jobs:
           assert d['schema']=='fcp_real_199700_four_cohort_robust_50km_matched_null_v1'
           assert d['actual_measured_photos']==199700
           assert d['all_cohorts_old_mean_nulls_replayed'] is True
-          assert d['status']=='post_hoc_exploratory_not_multiple_test_corrected'
+          assert d['status']=='post_hoc_exploratory_within_family_holm_not_global_multiplicity_corrected'
           for cohort in ('discovery','validation','prospective','wave4','pooled'):
               x=d['tests'][cohort]['exploratory_matched_null']
               assert x['mean']['multiplicity_family_size']==0
