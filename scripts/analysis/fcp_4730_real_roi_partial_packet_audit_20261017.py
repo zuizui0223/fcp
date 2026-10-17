@@ -244,7 +244,22 @@ def main()->None:
         "schema":"fcp_4730_genuine_original_roi_partial_terminal_quality_audit_v1",
         "snapshot_is_partial_until_both_256_partition_runs_succeed":True,
         "original_h9_source_frame_taxa":4730,
+        # Raw H9 photographic source occurrences are NOT all distinct across
+        # the old discovery/new-U100 boundary: 3 photo IDs are repeated.
+        # Report the corrected real five-cohort source audit explicitly;
+        # actual ROI workers still process their immutable full source input.
         "original_source_photo_IDs_total":447800,
+        "raw_five_cohort_source_photo_row_occurrences":447800,
+        "original_source_globally_distinct_photo_IDs":447797,
+        "original_cross_cohort_photo_ID_reuses":3,
+        "original_cross_cohort_observation_ID_reuses":1,
+        "independent_original_100photo_analysis_taxa":4475,
+        "independent_original_100photo_analysis_photo_rows":447500,
+        "new_U100_100photo_taxa_wholly_excluded_from_final_inference":[62367,75633,1045161],
+        "excluded_new_U100_photo_rows_for_independence":300,
+        "historical_source_photo_analytical_eligibility_ledger_release":
+            "fcp-original-4730-independent-447500-analysis-eligibility-20261017",
+        "this_quality_audit_does_not_remove_or_relabel_original_ROI_packets":True,
         "original_149900_photo_measurements_not_opened_or_changed":True,
         "new_source_plus_wave4_original_IDs":297900,
         "technical_photo_terminal_audit_only":True,
