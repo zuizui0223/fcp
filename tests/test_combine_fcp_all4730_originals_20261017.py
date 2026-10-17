@@ -79,3 +79,29 @@ def test_no_new_species_imputed_for_missing_original_100_photo_gate():
     assert len(m.COHORTS)==5
     assert m.MAX_TAXA==4730
     assert 1499+498+2733==4730
+
+
+def test_primary_original_50km_support_matches_actual_local_pair_gate(monkeypatch):
+    # Historical 50km eligibility is not interchangeable with >=40 classifiable
+    # photographs. A species can have 40 real photos but zero <50km pairings.
+    monkeypatch.setattr(m,"ORIGINAL_EXPECTED",{})
+    source=fake_photo_table()
+    source.loc[:,"latitude"]=(source.index % 40).astype(float)
+    source.loc[:,"longitude"]=0.0
+    species,rc=m.replay_same_old_50km(source)
+    assert len(species)==5
+    assert rc["all_evaluable_species"]==5
+    assert rc["n_classifiable_ge40_with_coordinates_before_local_pair_gate"]==5
+    assert rc["primary_50km_evaluable_species"]==0
+    assert rc["pooled_original_50km"]["n_species"]==0
+    assert all(n==0 for n in rc["primary_50km_evaluable_species_by_cohort"].values())
+    assert not rc["pooled_original_50km"]["evaluable"]
+
+
+def test_primary_original_50km_count_agrees_with_original_pooled_null(monkeypatch):
+    monkeypatch.setattr(m,"ORIGINAL_EXPECTED",{})
+    _species,rc=m.replay_same_old_50km(fake_photo_table())
+    assert rc["primary_50km_evaluable_species"]==5
+    assert rc["primary_50km_evaluable_species"]==rc["pooled_original_50km"]["n_species"]
+    assert rc["primary_50km_evaluable_species"]==sum(
+        rc["primary_50km_evaluable_species_by_cohort"].values())
