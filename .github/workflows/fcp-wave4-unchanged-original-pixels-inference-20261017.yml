@@ -74,7 +74,7 @@ jobs:
           path: /tmp/wave4/firewall/
           if-no-files-found: error
           retention-days: 90
-  256-unmodified-ROI-workers:
+  unmodified-original-roi-workers:
     needs: freeze-new-original-pixel-IDs
     runs-on: ubuntu-24.04
     timeout-minutes: 240
@@ -143,7 +143,7 @@ jobs:
             --semantic-shard ${{ matrix.semantic_shard }} --compute-partition ${{ matrix.compute_partition }}
           for F in /tmp/sealed-partition/partition_s*_p*; do
             BASE=$(basename "$F")
-            mv "$F" "/tmp/sealed-partition/b$B_$BASE"
+            mv "$F" "/tmp/sealed-partition/b${B}_${BASE}"
           done
           rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
           python - <<'PY'
@@ -164,7 +164,7 @@ jobs:
           if-no-files-found: error
           retention-days: 90
   same-original-H1-50km-W:
-    needs: 256-unmodified-ROI-workers
+    needs: unmodified-original-roi-workers
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
