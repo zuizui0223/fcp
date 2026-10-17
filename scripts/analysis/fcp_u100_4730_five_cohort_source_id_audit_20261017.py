@@ -78,6 +78,12 @@ def checked_source(table: pd.DataFrame, label: str, *, n: int, taxa: int) -> dic
             "taxon_ids":set(taxonids.tolist()),
             "species_names":set(frame.species.tolist()),
             "taxon_species":set(zip(taxonids.tolist(),frame.species.tolist())),
+            # Temporary forensic lookups only. Do not export all photo identities;
+            # the receipt contains at most 20 actual colliding public photo IDs.
+            "photo_to_taxon":dict(zip(photoids.tolist(),taxonids.tolist())),
+            "taxon_to_species":dict(zip(taxonids.tolist(),frame.species.tolist())),
+            "obs_to_taxon":(
+                dict(zip(obsids.tolist(),taxonids.tolist())) if obsids is not None else None),
             "observations":set(obsids.tolist()) if obsids is not None else None}
 
 
@@ -118,6 +124,29 @@ def inspect_all(five: dict[str,dict], original_u100: pd.DataFrame) -> dict:
                 "incoming_cohort":group,
                 "collision_counts":{k:len(v) for k,v in overlap.items()},
                 "collision_examples":{k:v[:20] for k,v in overlap.items()},
+                "collision_photo_taxon_records":[
+                    {"photo_id":int(pid),
+                     "new_taxon_id":int(item["photo_to_taxon"][pid]),
+                     "new_species":item["taxon_to_species"][item["photo_to_taxon"][pid]],
+                     "old_source_cohorts":[
+                         {"cohort":earlier,
+                          "taxon_id":int(five[earlier]["photo_to_taxon"][pid]),
+                          "species":five[earlier]["taxon_to_species"][
+                              five[earlier]["photo_to_taxon"][pid]]}
+                         for earlier in output
+                         if pid in five[earlier]["photographs"]]}
+                    for pid in overlap["photos"][:20]
+                ],
+                "collision_observation_taxon_records":[
+                    {"observation_id":int(oid),
+                     "new_taxon_id":int(item["obs_to_taxon"][oid]),
+                     "old_source_cohorts":[
+                         {"cohort":earlier,"taxon_id":int(five[earlier]["obs_to_taxon"][oid])}
+                         for earlier in output
+                         if five[earlier]["observations"] is not None
+                         and oid in five[earlier]["observations"]]}
+                    for oid in overlap["observation_ids"][:20]
+                ],
                 "previous_cohort_breakdown":{
                     before:{
                         "photos":len(item["photographs"] & five[before]["photographs"]),
