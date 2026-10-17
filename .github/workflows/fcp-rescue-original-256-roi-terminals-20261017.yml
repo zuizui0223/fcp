@@ -1,0 +1,174 @@
+name: FCP safeguard original 447800 ROI terminals if only final science job fails
+on:
+  push:
+    branches:
+      - ops/fcp-rescue-unchanged-roi-terminals-20261017
+    paths:
+      - scripts/analysis/fcp_rescue_original_256_roi_terminals_20261017.py
+      - tests/test_fcp_rescue_original_256_roi_terminals_20261017.py
+      - .github/workflows/fcp-rescue-original-256-roi-terminals-20261017.yml
+  workflow_run:
+    workflows:
+      - FCP full 4730 original flower ROI and H1 D 50km W replay
+      - FCP wave4 identical original photo ROI and D W spatial replay
+    types: [completed]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-original-ROI-256-authenticated-photo-terminal-salvage
+  cancel-in-progress: false
+env:
+  GH_TOKEN: ${{ github.token }}
+  PYTHONPATH: "."
+jobs:
+  validate-original-ROI-salvage-identity-gates:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Prove original photo ROI salvage never permits incomplete/fake source
+        run: |
+          python -m pip install pytest==8.4.2
+          python -m pytest -q tests/test_fcp_rescue_original_256_roi_terminals_20261017.py
+          python -m py_compile scripts/analysis/fcp_rescue_original_256_roi_terminals_20261017.py
+
+  gate-exact-original-256-ROI-terminals:
+    if: ${{ github.event_name == 'workflow_run' && (github.event.workflow_run.id == 38997169400 || github.event.workflow_run.id == 38992543115) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      ready: ${{ steps.original_only.outputs.ready }}
+      label: ${{ steps.original_only.outputs.label }}
+      source_run: ${{ steps.original_only.outputs.source_run }}
+      firewall_artifact: ${{ steps.original_only.outputs.firewall_artifact }}
+      partition_pattern: ${{ steps.original_only.outputs.partition_pattern }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch actual source run and all original ROI worker statuses
+        shell: bash
+        env:
+          PINNED_SOURCE: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_roi_salvage/source
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PINNED_SOURCE" > /tmp/fcp_roi_salvage/source/run.json
+          for page in 1 2 3; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PINNED_SOURCE/jobs?per_page=100&page=$page" > "/tmp/fcp_roi_salvage/source/jobs_$page.json"
+          done
+      - name: Authorize rescue only if all 256 real worker terminals exist and only final statistics failed
+        id: original_only
+        run: |
+          python scripts/analysis/fcp_rescue_original_256_roi_terminals_20261017.py \
+            --source /tmp/fcp_roi_salvage/source/run.json \
+            --page /tmp/fcp_roi_salvage/source/jobs_1.json \
+            --page /tmp/fcp_roi_salvage/source/jobs_2.json \
+            --page /tmp/fcp_roi_salvage/source/jobs_3.json \
+            --out /tmp/fcp_roi_salvage/source/rescue_decision.json \
+            --github-output "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-ROI-exact-256-terminal-rescue-readonly-decision
+          path: /tmp/fcp_roi_salvage/source/rescue_decision.json
+          retention-days: 90
+          if-no-files-found: error
+
+  preserve-original-real-ROI-pixels-before-H1-D-W-rerun:
+    needs: gate-exact-original-256-ROI-terminals
+    if: ${{ needs['gate-exact-original-256-ROI-terminals'].outputs.ready == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    env:
+      ORIGINAL_RUN: ${{ needs['gate-exact-original-256-ROI-terminals'].outputs.source_run }}
+      ORIGINAL_LABEL: ${{ needs['gate-exact-original-256-ROI-terminals'].outputs.label }}
+      FIREWALL_ARTIFACT: ${{ needs['gate-exact-original-256-ROI-terminals'].outputs.firewall_artifact }}
+      PARTITION_PATTERN: ${{ needs['gate-exact-original-256-ROI-terminals'].outputs.partition_pattern }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Import exactly unchanged historical original photo terminal packet and biological colour code
+        run: |
+          bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2
+      - name: Download already sealed original 256 photo CPU packets, without downloading original image pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_roi_salvage/{firewall,artifacts,flat,measured}
+          gh run download "$ORIGINAL_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$FIREWALL_ARTIFACT" --dir /tmp/fcp_roi_salvage/firewall
+          gh run download "$ORIGINAL_RUN" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$PARTITION_PATTERN" --dir /tmp/fcp_roi_salvage/artifacts
+          python - <<'PY'
+          from pathlib import Path
+          import re,shutil
+          base=Path('/tmp/fcp_roi_salvage')
+          src=base/'artifacts'
+          dest=base/'flat'
+          valid=re.compile(r'b[01]_partition_s\d{2}_p\d{2}\.(?:csv|json)')
+          seen=set()
+          for file in src.rglob('*'):
+              if not file.is_file():
+                  continue
+              if valid.fullmatch(file.name) is None or file.name in seen:
+                  raise SystemExit('Original sealed 256 terminal artifact filename duplicated or unexpected')
+              seen.add(file.name)
+              shutil.copyfile(file,dest/file.name)
+          if len(seen)!=512:
+              raise SystemExit(f'Expected 256 original sealed CSV and JSON terminals, got {len(seen)}')
+          print('FCP_REUSED_ONLY_EXISTING_ORIGINAL_SEALED_PIXEL_PARTITIONS',len(seen))
+          PY
+      - name: Reassemble ORIGINAL 256 terminal data without rerunning failed H1/D/W statistical inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$ORIGINAL_LABEL" = new_U100 ]; then
+            python scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py reassemble \
+              --firewall /tmp/fcp_roi_salvage/firewall \
+              --parts /tmp/fcp_roi_salvage/flat \
+              --out /tmp/fcp_roi_salvage/measured
+          elif [ "$ORIGINAL_LABEL" = wave4 ]; then
+            python scripts/analysis/run_fcp_wave4_original_roi_and_statistics_20261017.py reassemble \
+              --firewall /tmp/fcp_roi_salvage/firewall \
+              --parts /tmp/fcp_roi_salvage/flat \
+              --out /tmp/fcp_roi_salvage/measured
+          else
+            echo 'Unrecognised pinned original ROI cohort'
+            exit 1
+          fi
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path('/tmp/fcp_roi_salvage/measured')
+          if os.environ['ORIGINAL_LABEL']=='new_U100':
+              file=root/'all4730_new_original_measured_photos.csv.gz'
+              source=root/'all4730_new_photo_terminal_result.json'
+              data=json.loads(source.read_text())
+              assert data['schema']=='fcp_all4730_new_original_method_pixel_terminal_v1'
+              assert data['measurement_photo_rows']==248100
+              assert data['new_complete_100_photo_species']==2481
+              assert data['measurement_terminal_partitions']==256
+              assert data['measured_photo_file_sha256']==hashlib.sha256(file.read_bytes()).hexdigest()
+          else:
+              file=root/'wave4_original_method_measured_photos.csv'
+              source=root/'terminal_result.json'
+              data=json.loads(source.read_text())
+              assert data['schema']=='fcp_same_149900_method_wave4_real_photo_terminals_v1'
+              assert data['wave4_new_photo_ids']==49800
+              assert data['wave4_100photo_species']==498
+              assert data['terminal_partitions']==256
+              assert data['measured_sha256']==hashlib.sha256(file.read_bytes()).hexdigest()
+          print('FCP_ORIGINAL_REAL_PHOTO_ROI_TERMINAL_RECOVERED_WITHOUT_METHOD_CHANGE',len(file.read_bytes()))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-authentic-original-pixel-terminals-recovered-${{ needs['gate-exact-original-256-ROI-terminals'].outputs.label }}
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp_roi_salvage/measured/
