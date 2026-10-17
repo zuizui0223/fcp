@@ -1,0 +1,173 @@
+name: FCP release recovered 447800 authentic original photo IDs
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-release-reconciled-U100-original-source-20261017.yml
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-original-4730-source-447800-once
+  cancel-in-progress: false
+jobs:
+  authenticate-and-publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp_447800_reconciled_source
+      SOURCE_RUN: "38996743273"
+      ORIGINAL_SHARDS_RUN: "38993836606"
+      ARCHIVE_TAG: fcp-original-U100-4730-reconciled-source-20261017
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pandas==2.2.3 numpy==2.1.3
+      - name: Verify recovered data and four immutable original H9 shards
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT"/{original-shards,all-4730-inventory,reconciled-source,release,roundtrip}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$ROOT/recovery_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ORIGINAL_SHARDS_RUN" > "$ROOT/original_shards_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          current=json.loads((root/'recovery_run.json').read_text())
+          previous=json.loads((root/'original_shards_run.json').read_text())
+          assert current['id']==38996743273
+          assert current['head_sha']=='61abc4f71e74db3a6633a790e37d1f30e8e3bfcc'
+          assert current['head_branch']=='fix/fcp-4730-consolidate-original-h9-global-seen-20261017'
+          assert current['name']=='FCP recover 4730 exact H9 global ID source from four authentic shards'
+          assert current['event']=='push' and current['run_attempt']==1
+          assert current['status']=='completed' and current['conclusion']=='success'
+          assert previous['id']==38993836606
+          assert previous['head_sha']=='9c1298956941769fdfd62aeaa7d61febf1154c3e'
+          assert previous['event']=='pull_request' and previous['run_attempt']==1
+          assert previous['status']=='completed' and previous['conclusion']=='failure'
+          print('FCP447800_TWO_PINNED_H9_SOURCE_RUNS_VERIFIED',flush=True)
+          PY
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-actual-H9-2733-source-metadata-terminal --dir "$ROOT/reconciled-source"
+          gh run download "$ORIGINAL_SHARDS_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-original-identity-inventory --dir "$ROOT/all-4730-inventory"
+          for n in 0 1 2 3; do
+            mkdir -p "$ROOT/original-shards/shard_$n"
+            gh run download "$ORIGINAL_SHARDS_RUN" --repo "$GITHUB_REPOSITORY" \
+              --name "shard_$n" --dir "$ROOT/original-shards/shard_$n"
+          done
+      - name: Verify 248100 new unique source photo IDs, 2481 taxa, 252 under100 and original four SHA ledgers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ['ROOT'])
+          receipt=json.loads((root/'reconciled-source/all4730_metadata_result.json').read_text())
+          inventory=json.loads((root/'all-4730-inventory/inventory_result.json').read_text())
+          assert receipt['schema']=='fcp_u100_all4730_original_h9_only_v1'
+          assert receipt['stage']=='all_4730_H9_metadata_terminal'
+          assert receipt['verified_against_all_4_complete_shards'] is True
+          assert receipt['metadata_gate_pass'] is True
+          assert receipt['photo_pixels_opened'] is False
+          assert receipt['old_149900_method_and_results_changed'] is False
+          assert receipt['U100_identity_species']==4730
+          assert receipt['new_attempted_species']==2733
+          assert receipt['new_complete_100_photo_species']==2481
+          assert receipt['new_unmet_100_photo_species']==252
+          assert receipt['new_original_photo_IDs']==248100
+          assert receipt['all_species_with_existing_or_full_100_photo_IDs']==4478
+          assert receipt['all_original_photo_IDs_if_wave4_pixels_finish']==447800
+          assert inventory['original_U100_distinct_species']==4730
+          assert inventory['new_unmeasured_species']==2733
+          r=receipt['historical_source_global_ID_reconciliation']
+          assert r['original_H9_global_seen_id_reservation_order_restored'] is True
+          assert r['globally_seen_cross_shard_rejected_source_candidate_rows']==1
+          sha=lambda path:hashlib.sha256(path.read_bytes()).hexdigest()
+          for filename,digest in receipt['outputs_sha256'].items():
+              assert sha(root/'reconciled-source'/filename)==digest
+          for filename,digest in inventory['outputs_sha256'].items():
+              assert sha(root/'all-4730-inventory'/filename)==digest
+          attempted=set(pd.read_csv(root/'all-4730-inventory/unmeasured_2733_taxa.csv').inat_taxon_id)
+          seen=set()
+          for i in range(4):
+              directory=root/f'original-shards/shard_{i}'
+              audit=json.loads((directory/'shard_result.json').read_text())
+              assert audit['shard']==i and audit['shards']==4
+              assert audit['image_pixels_opened'] is False
+              assert audit['same_original_H9_function'] is True
+              for filename,digest in audit['outputs_sha256'].items():
+                  assert sha(directory/filename)==digest
+                  assert receipt['inputs_sha256'][f'shard_{i}'][filename]==digest
+              taxa=set(pd.read_csv(directory/'selected_species.csv').inat_taxon_id)
+              assert not (seen & taxa)
+              seen.update(taxa)
+          assert seen==attempted and len(seen)==2733
+          source=pd.read_csv(root/'reconciled-source/remaining_U100_authorized_metadata.csv.gz',low_memory=False)
+          assert len(source)==248100
+          assert source.photo_id.nunique()==source.observation_id.nunique()==len(source)
+          assert source.inat_taxon_id.nunique()==2481
+          assert source.groupby('inat_taxon_id').size().eq(100).all()
+          full=pd.read_csv(root/'reconciled-source/full_U100_4730_status_after_H9.csv')
+          assert len(full)==4730 and full.inat_taxon_id.nunique()==4730
+          assert full.final_status.eq('new_metadata_100_of_100_photo_IDs').sum()==2481
+          assert full.final_status.eq('new_H9_metadata_under_100_or_request_error').sum()==252
+          print('FCP_SOURCE_4730_VERIFIED_REAL_447800_PHOTO_IDS_252_UNDER100',flush=True)
+          PY
+      - name: Freeze source-only data and publish once with verified SHA256 round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$ROOT" --sort=name --mtime='UTC 1970-01-01' \
+            --owner=0 --group=0 --numeric-owner \
+            -cf - reconciled-source all-4730-inventory original-shards | gzip -n -9 \
+            > "$ROOT/release/fcp_original_4730_U100_reconciled_source_447800.tar.gz"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          package=root/'release/fcp_original_4730_U100_reconciled_source_447800.tar.gz'
+          receipt={
+            'schema':'fcp_all4730_historical_H9_reconciled_source_release_v1',
+            'original_U100_taxa':4730,
+            'originally_measured_taxa':1499,
+            'wave4_original_source_taxa':498,
+            'new_original_source_taxa':2481,
+            'under_original_fixed100_taxa':252,
+            'unique_original_source_photo_IDs':447800,
+            'real_new_source_photo_IDs':248100,
+            'no_image_pixels_measured_by_source_release':True,
+            'original_149900_scientific_results_unchanged':True,
+            'original_recovery_run_id':38996743273,
+            'original_four_shards_run_id':38993836606,
+            'file_name':package.name,
+            'archive_bytes':package.stat().st_size,
+            'archive_sha256':hashlib.sha256(package.read_bytes()).hexdigest(),
+          }
+          (root/'release/fcp_original_4730_U100_reconciled_source_SHA256_receipt.json').write_text(
+              json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          print('FCP_4730_RECONCILED_SOURCE_RELEASE_RECEIPT',json.dumps(receipt,sort_keys=True),flush=True)
+          PY
+          if gh release view "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Original reconciled 4730 source archive already exists; refusing overwrite'
+            exit 1
+          fi
+          gh release create "$ARCHIVE_TAG" \
+            "$ROOT/release/fcp_original_4730_U100_reconciled_source_447800.tar.gz" \
+            "$ROOT/release/fcp_original_4730_U100_reconciled_source_SHA256_receipt.json" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target 61abc4f71e74db3a6633a790e37d1f30e8e3bfcc \
+            --title 'FCP 4730 original eligible species: authenticated 447800 photo IDs (SOURCE ONLY)' \
+            --notes 'Original H9 one-page unchanged method. Original 149900 photographs and results kept. Wave4 49800 source photo IDs. New 248100 source IDs from 2481 taxa. 252 U100 taxa under original 100-photo denominator; one repeated original photo ID across shards rejected with original global seen-ID rule. This is source metadata, not newly pixel-classified colour data. Original photo JPEGs are not redistributed.'
+          gh release download "$ARCHIVE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_original_4730_U100_reconciled_source_447800.tar.gz' \
+            --dir "$ROOT/roundtrip"
+          cmp "$ROOT/release/fcp_original_4730_U100_reconciled_source_447800.tar.gz" \
+            "$ROOT/roundtrip/fcp_original_4730_U100_reconciled_source_447800.tar.gz"
+          echo FCP_4730_ORIGINAL_H9_SOURCE_RECONCILED_PUBLIC_RELEASE_VERIFIED
