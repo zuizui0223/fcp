@@ -6,7 +6,7 @@ THIRD="7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
 git fetch --no-tags --depth=1 origin "$SOURCE" "$THIRD"
 mkdir -p scripts/analysis fcp_pipeline
 git show "$SOURCE:fcp_pipeline/photo_first_measurement.py" > fcp_pipeline/photo_first_measurement.py
-git show "$SOURCE:scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh" > scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+git show "$THIRD:scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh" > scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
 bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
 for f in \
     fcp_pipeline/third_cohort_prospective_execution_gate.py \
