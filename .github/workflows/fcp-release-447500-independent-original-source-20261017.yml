@@ -1,0 +1,183 @@
+name: FCP release corrected 447500 independent original photo-ID eligibility
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-release-447500-independent-original-source-20261017.yml
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-original-4730-independent-447500-source-correction-once
+  cancel-in-progress: false
+jobs:
+  independently-authenticate-and-freeze-exclusion-ledger:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      GH_TOKEN: ${{ github.token }}
+      STORE: /tmp/fcp_4730_original_447500_eligibility
+      CORRECTION_RUN: "39007962571"
+      FROZEN_SOURCE_RUN: "38996743273"
+      TAG: fcp-original-4730-independent-447500-analysis-eligibility-20261017
+      ORIGINAL_TAG: fcp-original-U100-4730-reconciled-source-20261017
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pandas==2.2.3 numpy==2.1.3
+      - name: Authenticate old source Release, real correction execution, and H9 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$STORE"/{audit,source,release,check}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CORRECTION_RUN" > "$STORE/correction_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$FROZEN_SOURCE_RUN" > "$STORE/original_source_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$ORIGINAL_TAG" > "$STORE/original_release.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["STORE"])
+          r=json.loads((root/"correction_run.json").read_text())
+          source=json.loads((root/"original_source_run.json").read_text())
+          old=json.loads((root/"original_release.json").read_text())
+          assert r["id"]==39007962571
+          assert r["head_sha"]=="93ef1034ef5fe8c79672c89c6b192a295cd39001"
+          assert r["name"]=="FCP verify 447500 independent original 100-photo rows after discovery reuse"
+          assert r["run_attempt"]==1 and r["conclusion"]=="success" and r["status"]=="completed"
+          assert r["head_repository"]["full_name"]=="zuizui0223/fcp"
+          assert source["id"]==38996743273
+          assert source["head_sha"]=="61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
+          assert source["run_attempt"]==1 and source["status"]=="completed" and source["conclusion"]=="success"
+          assert old["tag_name"]==os.environ["ORIGINAL_TAG"]
+          assert old["target_commitish"]=="61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
+          assets={a["name"]:a for a in old["assets"]}
+          orig=assets["fcp_original_4730_U100_reconciled_source_447800.tar.gz"]
+          assert orig["digest"]=="sha256:da6a62a149f50d6305c34a838fd46e869f6d29833a7c9574e4c386c25f3edf39"
+          assert orig["size"]==77807294
+          print("FCP447500_ORIGINAL_SOURCE_AUDIT_OLD_RELEASE_PINNED",r["id"])
+          PY
+          gh run download "$CORRECTION_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-447500-independent-100photo-original-analysis-source-audit \
+            --dir "$STORE/audit"
+          gh run download "$FROZEN_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-actual-H9-2733-source-metadata-terminal \
+            --dir "$STORE/source"
+      - name: Generate immutable 4730-taxon source-to-analysis correction ledger from real source audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ["STORE"])
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          old=root/"source/full_U100_4730_status_after_H9.csv"
+          old_receipt=root/"source/all4730_metadata_result.json"
+          fixed=root/"audit/fcp_original_447500_100photo_reuse_audit.json"
+          for f in (old,old_receipt,fixed):
+              if not f.is_file(): raise RuntimeError("Original immutable source audit file missing: "+str(f))
+          orig=json.loads(old_receipt.read_text())
+          audit=json.loads(fixed.read_text())
+          if (orig.get("schema")!="fcp_u100_all4730_original_h9_only_v1"
+              or orig.get("new_complete_100_photo_species")!=2481
+              or orig.get("new_unmet_100_photo_species")!=252
+              or orig.get("new_original_photo_IDs")!=248100
+              or orig.get("outputs_sha256",{}).get(old.name)!=sha(old)
+              or audit.get("schema")!="fcp_4730_independent_photo_identity_original_100photo_eligibility_v1"
+              or audit.get("original_U100_eligible_species")!=4730
+              or audit.get("nominal_H9_complete_photo_species")!=4478
+              or audit.get("nominal_source_photo_rows")!=447800
+              or audit.get("original_distinct_photo_ids_across_five_cohorts")!=447797
+              or audit.get("effective_species_exact100_independent_photo_ids")!=4475
+              or audit.get("effective_photo_rows_for_original_method")!=447500
+              or audit.get("source_H9_under_100_species")!=252
+              or audit.get("discovery_source_reused_photo_affected_new_taxa")!=3):
+              raise RuntimeError("Historical real old/new photo reuse fact changed")
+          collision=audit["conservative_reconciliation"]
+          ids=collision["affected_new_H9_taxon_IDs"]
+          if (ids!=[62367,75633,1045161]
+              or collision["original_reused_photo_IDs"]!=[45948761,517553374,311814882] and
+                 set(collision["original_reused_photo_IDs"])!={45948761,517553374,311814882}
+              or collision["original_reused_observation_IDs"]!=[287821814]
+              or collision["original_source_photo_rows_removed_whole_taxon"]!=300
+              or collision["effective_new_U100_complete100_taxa"]!=2478):
+              raise RuntimeError("Unexpected source photo-ID reuse/whole-taxon exclusion")
+          source=pd.read_csv(old,low_memory=False)
+          if len(source)!=4730 or source.inat_taxon_id.nunique()!=4730:
+              raise RuntimeError("Full U100 source taxonomy is not exactly 4730")
+          before=source.final_status.copy()
+          if (not source.loc[source.inat_taxon_id.isin(ids),"final_status"].eq(
+                  "new_metadata_100_of_100_photo_IDs").all()
+              or int(source.final_status.eq("new_metadata_100_of_100_photo_IDs").sum())!=2481
+              or int(source.final_status.eq("new_H9_metadata_under_100_or_request_error").sum())!=252):
+              raise RuntimeError("Collision taxa not all within genuine new H9 source")
+          source["independent_analysis_status"]=before
+          source.loc[source.inat_taxon_id.isin(ids),"independent_analysis_status"]=(
+              "excluded_new_original_source_photo_or_observation_reuse")
+          if (source.independent_analysis_status.eq("excluded_new_original_source_photo_or_observation_reuse").sum()!=3
+              or source.independent_analysis_status.eq("new_metadata_100_of_100_photo_IDs").sum()!=2478):
+              raise RuntimeError("Effective independent 447500 photo study lost genuine taxa")
+          csv=root/"release/fcp_full_4730_independent_100photo_analysis_eligibility.csv"
+          source.to_csv(csv,index=False,lineterminator="\n")
+          evidence=root/"release/fcp_real_original_447500_source_reuse_evidence.json"
+          evidence.write_text(fixed.read_text())
+          correction={
+              "schema":"fcp_4730_original_h9_source_vs_independent_447500_method_eligibility_v1",
+              "full_original_U100_frame_taxa":4730,
+              "raw_original_source_photo_rows":447800,
+              "raw_distinct_photo_IDs_across_all_5_source_cohorts":447797,
+              "actual_original_100photo_eligible_taxa_after_cross_cohort_audit":4475,
+              "actual_original_independent_100photo_analysis_photo_rows":447500,
+              "preserved_original_old_measured_photos":149900,
+              "preserved_wave4_original_source_photo_rows":49800,
+              "new_U100_source_100photo_taxa":2481,
+              "new_U100_independent_analysis_100photo_taxa":2478,
+              "under100_original_H9_taxa":252,
+              "excluded_new_U100_source_photo_reuse_taxa":ids,
+              "reused_photo_IDs":sorted(collision["original_reused_photo_IDs"]),
+              "reused_observation_IDs":collision["original_reused_observation_IDs"],
+              "new_photo_pixels_measured_in_this_source_correction":False,
+              "previous_H9_source_archive_byte_immutable":True,
+              "original_50km_H1_D_W_statistical_method_changed":False,
+              "original_release_tag":os.environ["ORIGINAL_TAG"],
+              "original_release_archive_sha256":"da6a62a149f50d6305c34a838fd46e869f6d29833a7c9574e4c386c25f3edf39",
+              "source_snapshot_sha256":sha(old),
+              "source_receipt_sha256":sha(old_receipt),
+              "original_verified_cross_cohort_audit_sha256":sha(fixed),
+              "corrected_full_4730_eligibility_ledger_sha256":sha(csv),
+              "correction_evidence_file_sha256":sha(evidence),
+              "successful_source_correction_run_id":39007962571,
+          }
+          rc=root/"release/fcp_full_4730_original_447500_analysis_correction_SHA256_receipt.json"
+          rc.write_text(json.dumps(correction,indent=2,sort_keys=True,allow_nan=False)+"\n")
+          print("FCP_ORIGINAL_FULL_4730_VERIFIED_ANALYSIS_ELIGIBILITY_CORRECTION",
+                json.dumps({key:correction[key] for key in (
+                    "full_original_U100_frame_taxa",
+                    "raw_original_source_photo_rows",
+                    "raw_distinct_photo_IDs_across_all_5_source_cohorts",
+                    "actual_original_100photo_eligible_taxa_after_cross_cohort_audit",
+                    "actual_original_independent_100photo_analysis_photo_rows",
+                    "excluded_new_U100_source_photo_reuse_taxa")},sort_keys=True))
+          PY
+      - name: Publish corrected analysis-source ledger separately, never mutate original H9 release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "The immutable corrected source study Release exists; refusing overwrite"
+            exit 1
+          fi
+          gh release create "$TAG" "$STORE"/release/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target 5ec03f6a824564f0882d99ae21f416b3b1477e59 \
+            --title 'FCP 4730 source audit correction: 4475 independent taxa, 447500 photo rows' \
+            --notes 'Supersedes ONLY the claim that the previous 447800 H9 photo-source row count represented globally distinct IDs. Real 5-cohort audit confirms 447797 distinct IDs among 447800 raw rows, with 3 old-discovery/new-U100 photo ID reuse events affecting 3 new taxa (Melampyrum lineare, Astragalus cicer, Rosa luciae). Under the same original exact-100-photos-per-taxon method, exclude all 300 new taxon photo rows to preserve 4475 independent taxa/447500 source photo rows. The original 447800-row source Release remains intact. This Release is the corrected eligibility ledger, exact reused IDs, original SHA verification and evidence only; NOT newly measured colour or final ecological inference. Existing 149900 old measured photos and ROI-v4, H1/D, 50km/W functions unchanged.'
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --dir "$STORE/check"
+          for f in "$STORE/release"/*; do
+            cmp "$f" "$STORE/check/$(basename "$f")"
+          done
+          echo FCP_4730_EFFECTIVE_447500_ORIGINAL_PHOTO_SOURCE_REUSE_CORRECTION_PERMANENTLY_VERIFIED
