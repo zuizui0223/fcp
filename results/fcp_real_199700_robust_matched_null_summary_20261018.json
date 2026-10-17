@@ -1,0 +1,98 @@
+{
+  "schema": "fcp_real_199700_robust_50km_original_null_source_locked_summary_v1",
+  "verified_source": {
+    "original_photo_release_tag": "fcp-real-original-199700-wave4-50km-H1-W-20261017",
+    "original_archive_sha256": "844c255f28406b5158a8ac3e27d94b32aad48d785efd3c4ae512fb30ee1871ee",
+    "original_release_receipt_sha256": "26c93dc7226bd0b2a96edbd626d143f26a91fc9cf1ed4b78e28bf276dbf78eeb",
+    "actual_reanalysis_workflow_run_id": 39045286620,
+    "artifact_id": 12106080203,
+    "full_machine_result_sha256": "543e4a544310086b800d31e410eed176240c88eb7ce2544a25eaef324488547c",
+    "source_photo_rows": 199700,
+    "source_species": 1997,
+    "spatially_eligible_species": 741,
+    "source_type": "same iNaturalist photograph and fixed ROI-v4 measurement ecosystem",
+    "baseline_original_mean_50km_upper_p": 0.005
+  },
+  "method": {
+    "primary_radius_km": 50,
+    "primary_radius_post_hoc": true,
+    "within_species_complete_vertex_label_permutations": 199,
+    "plus_one_upper_p_denominator": 200,
+    "new_exploratory_robust_test_family": [
+      "species_median",
+      "fraction_positive",
+      "drop_top_10pct",
+      "drop_top_20pct"
+    ],
+    "resample_selection_for_each_null_world": true,
+    "within_four_family_holm_adjustment": true,
+    "global_project_multiplicity_adjustment": false,
+    "new_prespecified_confirmation": false,
+    "genetically_verified_population_morph_rates": false,
+    "causal_local_adaptation_or_pollinator_selection": false
+  },
+  "pooled": {
+    "n_species": 741,
+    "original_mean_depletion": 0.01763720788097046,
+    "fraction_positive": {
+      "observed": 0.562753036437247,
+      "null_mean": 0.4500708671562943,
+      "upper_p": 0.005,
+      "within_four_holm_p": 0.02,
+      "n_positive": 417
+    },
+    "median": {
+      "observed": 0.005973562372409091,
+      "null_mean": -0.000009657208921305177,
+      "upper_p": 0.005,
+      "within_four_holm_p": 0.02
+    },
+    "drop_top_10pct": {
+      "n_removed": 75,
+      "remaining_species": 666,
+      "observed": 0.0019112001133662468,
+      "null_mean": -0.01113905183661501,
+      "upper_p": 0.005,
+      "within_four_holm_p": 0.02
+    },
+    "drop_top_20pct": {
+      "n_removed": 149,
+      "remaining_species": 592,
+      "observed": -0.006552601609755137,
+      "null_mean": -0.01827818325981143,
+      "upper_p": 0.005,
+      "within_four_holm_p": 0.02
+    }
+  },
+  "cohort_robust_within_four_holm_p": {
+    "discovery": {
+      "n_species": 166,
+      "median": 0.03,
+      "fraction_positive": 0.03,
+      "drop_top_10pct": 0.02,
+      "drop_top_20pct": 0.02
+    },
+    "validation": {
+      "n_species": 181,
+      "median": 0.02,
+      "fraction_positive": 0.02,
+      "drop_top_10pct": 0.02,
+      "drop_top_20pct": 0.02
+    },
+    "prospective": {
+      "n_species": 204,
+      "median": 0.02,
+      "fraction_positive": 0.02,
+      "drop_top_10pct": 0.02,
+      "drop_top_20pct": 0.02
+    },
+    "wave4": {
+      "n_species": 190,
+      "median": 0.02,
+      "fraction_positive": 0.02,
+      "drop_top_10pct": 0.02,
+      "drop_top_20pct": 0.02
+    }
+  },
+  "interpretation": "Original mean effect cannot be attributed exclusively to a handful of the largest individual effects, but individual effects are heterogeneous and all robust comparisons are exploratory/post-hoc; these photographic results cannot establish causal evolutionary mechanisms."
+}

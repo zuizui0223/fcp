@@ -1,0 +1,129 @@
+name: FCP robust original vertex-null 199700-photo audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_fcp_199700_robust_matched_null_20261018.py
+      - tests/test_run_fcp_199700_robust_matched_null_20261018.py
+      - .github/workflows/fcp-199700-robust-matched-null-20261018.yml
+  push:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_fcp_199700_robust_matched_null_20261018.py
+      - tests/test_run_fcp_199700_robust_matched_null_20261018.py
+      - .github/workflows/fcp-199700-robust-matched-null-20261018.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-original-199700-robust-permutation-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  reapply-same-selection-to-every-real-original-vertex-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: fcp-real-original-199700-wave4-50km-H1-W-20261017
+      ARCHIVE_SHA256: 844c255f28406b5158a8ac3e27d94b32aad48d785efd3c4ae512fb30ee1871ee
+      RECEIPT_SHA256: 26c93dc7226bd0b2a96edbd626d143f26a91fc9cf1ed4b78e28bf276dbf78eeb
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Execute toy-data null selection and tamper-detection tests
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+          python -m pytest -q tests/test_run_fcp_199700_robust_matched_null_20261018.py
+          python -m py_compile scripts/analysis/run_fcp_199700_robust_matched_null_20261018.py
+      - name: Retrieve SHA-pinned original measured photographs and original 50km result
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-robust-null/{release,original,output}
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_real_original_199700_measured_and_50km_H1_W.tar.gz' \
+            --dir /tmp/fcp-robust-null/release
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_real_199700_original_photo_H1_50km_W_receipt.json' \
+            --dir /tmp/fcp-robust-null/release
+          echo "$ARCHIVE_SHA256  /tmp/fcp-robust-null/release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz" | sha256sum -c -
+          echo "$RECEIPT_SHA256  /tmp/fcp-robust-null/release/fcp_real_199700_original_photo_H1_50km_W_receipt.json" | sha256sum -c -
+          tar -xzf /tmp/fcp-robust-null/release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz \
+            -C /tmp/fcp-robust-null/original
+      - name: Replay frozen per-species vertex null and compute robust post hoc effect comparisons
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/run_fcp_199700_robust_matched_null_20261018.py \
+            --archive /tmp/fcp-robust-null/release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz \
+            --external-receipt /tmp/fcp-robust-null/release/fcp_real_199700_original_photo_H1_50km_W_receipt.json \
+            --extracted-root /tmp/fcp-robust-null/original \
+            --out /tmp/fcp-robust-null/output/fcp_original_199700_robust_matched_null_result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp-robust-null/output/fcp_original_199700_robust_matched_null_result.json')
+          d=json.loads(p.read_text())
+          assert d['actual_measured_photos']==199700
+          assert d['frozen_original_spatial_evaluable_species']==741
+          assert d['all_cohorts_old_mean_nulls_replayed'] is True
+          assert d['trim_rule_applied_again_in_each_permutation'] is True
+          assert d['tests']['pooled']['frozen_50km_mean_upper_p']==0.005
+          print('FCP_REAL_ORIGINAL_199700_ROBUST_NULL_FROZEN_MEAN_VALIDATED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-199700-robust-spatial-vertex-null-exploratory
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp-robust-null/output/
+      - name: Permanently archive full source-verified exploratory robust-null JSON
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          REPORT: /tmp/fcp-robust-null/output/fcp_original_199700_robust_matched_null_result.json
+          RESULT_TAG: fcp-real-199700-robust-spatial-null-20261018
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_REPOSITORY" = "zuizui0223/fcp"
+          test "$GITHUB_REF" = "refs/heads/main"
+          test -s "$REPORT"
+          echo "543e4a544310086b800d31e410eed176240c88eb7ce2544a25eaef324488547c  $REPORT" | sha256sum --check
+          python - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          f=Path(os.environ['REPORT'])
+          d=json.loads(f.read_text())
+          assert d['schema']=='fcp_real_199700_four_cohort_robust_50km_matched_null_v1'
+          assert d['actual_measured_photos']==199700
+          assert d['all_cohorts_old_mean_nulls_replayed'] is True
+          assert d['status']=='post_hoc_exploratory_within_family_holm_not_global_multiplicity_corrected'
+          for cohort in ('discovery','validation','prospective','wave4','pooled'):
+              x=d['tests'][cohort]['exploratory_matched_null']
+              assert x['mean']['multiplicity_family_size']==0
+              assert all(x[k]['multiplicity_family_size']==4 and
+                         x[k]['holm_p_within_four_robust_tests_exploratory'] is not None
+                         for k in ('median','fraction_positive','drop_top_10pct','drop_top_20pct'))
+          print('FCP_199700_SHA_VERIFIED_ROBUST_NULL_RELEASE',
+                hashlib.sha256(f.read_bytes()).hexdigest())
+          PY
+          if gh release view "$RESULT_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Original robust-null data already permanently released; refusing overwrite'
+            exit 1
+          fi
+          gh release create "$RESULT_TAG" "$REPORT" --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title 'FCP authentic 199700 flower-photo robust 50km null (post hoc)' \
+            --notes 'Exploratory, post-outcome, same-source original FCP measured data. Exact original 199 within-species vertex-label permutation worlds replayed and frozen historical mean/p checked; newly examined median, positive-fraction and upper-tail 10/20%-removed statistics computed with removal re-selected in every null world; Holm adjusted within four newly explored robust tests per cohort, not across all other past analyses. The 50km radius remains post hoc. No independent-source, causal or prospective claim; no original photos are redistributed.' \
+            --latest=false
+          mkdir -p /tmp/fcp-robust-null/roundtrip
+          gh release download "$RESULT_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern fcp_original_199700_robust_matched_null_result.json \
+            --dir /tmp/fcp-robust-null/roundtrip
+          cmp "$REPORT" /tmp/fcp-robust-null/roundtrip/fcp_original_199700_robust_matched_null_result.json
+          echo FCP_ROBUST_NULL_EXPLORATORY_JSON_PERMANENT_ROUNDTRIP_VERIFIED
