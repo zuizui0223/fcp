@@ -24,6 +24,47 @@ FORBIDDEN = {"photo_id","inat_taxon_id","species","observer_id","latitude",
              "longitude","photo_url_large","query_species","observation_id"}
 
 
+IMMUTABLE_CORRECTED_SOURCE_RECEIPT_SHA256 = (
+    "96d5ac8c2650843f47ad28bf3f6f3bf25979c8ebe9ff4dc61da32327ea66fe0b"
+)
+
+
+def verify_corrected_five_cohort_analysis_eligibility(receipt:dict)->dict:
+    """Authenticate actual independent-taxonomy eligibility, not partial flower colour."""
+    expected={
+        "schema":"fcp_4730_original_h9_source_vs_independent_447500_method_eligibility_v1",
+        "full_original_U100_frame_taxa":4730,
+        "raw_original_source_photo_rows":447800,
+        "raw_distinct_photo_IDs_across_all_5_source_cohorts":447797,
+        "actual_original_100photo_eligible_taxa_after_cross_cohort_audit":4475,
+        "actual_original_independent_100photo_analysis_photo_rows":447500,
+        "preserved_original_old_measured_photos":149900,
+        "preserved_wave4_original_source_photo_rows":49800,
+        "new_U100_source_100photo_taxa":2481,
+        "new_U100_independent_analysis_100photo_taxa":2478,
+        "under100_original_H9_taxa":252,
+        "excluded_new_U100_source_photo_reuse_taxa":[62367,75633,1045161],
+        "reused_photo_IDs":[45948761,311814882,517553374],
+        "reused_observation_IDs":[287821814],
+        "new_photo_pixels_measured_in_this_source_correction":False,
+        "previous_H9_source_archive_byte_immutable":True,
+        "original_50km_H1_D_W_statistical_method_changed":False,
+        "successful_source_correction_run_id":39007962571,
+    }
+    for key,value in expected.items():
+        if receipt.get(key)!=value:
+            raise RuntimeError("real 5-cohort source correction receipt drift: "+key)
+    return {
+        "signed_original_five_cohort_correction_verified":True,
+        "original_raw_source_rows":447800,
+        "actual_distinct_source_photo_IDs":447797,
+        "original_independent_100photo_analysis_taxa":4475,
+        "original_independent_100photo_analysis_rows":447500,
+        "taxa_rejected_whole_source_photo_reuse":3,
+        "raw_photo_IDs_preserved_in_unchanged_running_ROI_workflow":True,
+    }
+
+
 def digest(file: Path) -> str:
     h=hashlib.sha256()
     with file.open("rb") as f:
@@ -221,9 +262,14 @@ def main()->None:
     p.add_argument("--wave4",type=Path,required=True)
     p.add_argument("--new-firewall",type=Path,required=True)
     p.add_argument("--wave4-firewall",type=Path,required=True)
+    p.add_argument("--eligibility-receipt",type=Path,required=True)
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--source-run-records",type=Path,required=True)
     a=p.parse_args()
+    if digest(a.eligibility_receipt)!=IMMUTABLE_CORRECTED_SOURCE_RECEIPT_SHA256:
+        raise RuntimeError("actual corrected 447500 original eligibility Release SHA256 drift")
+    source_correction=verify_corrected_five_cohort_analysis_eligibility(
+        json.loads(a.eligibility_receipt.read_text()))
     pinned=json.loads(a.source_run_records.read_text())
     for group in TARGET:
         record=pinned[group]
@@ -265,6 +311,9 @@ def main()->None:
         "technical_photo_terminal_audit_only":True,
         "original_species_conditional_50km_or_H1W_not_inferred":True,
         "source_run_ids":{k:v["run_id"] for k,v in TARGET.items()},
+        "independent_five_cohort_source_correction":source_correction,
+        "independent_five_cohort_release_receipt_sha256":
+            IMMUTABLE_CORRECTED_SOURCE_RECEIPT_SHA256,
         "cohorts":{"new_U100":new,"wave4":wave},
         "original_blind_firewall_audits":{"new_U100":new_firewall,"wave4":wave_firewall},
         "all_original_photo_source_blind_firewall_IDs_unique_and_disjoint":True,
