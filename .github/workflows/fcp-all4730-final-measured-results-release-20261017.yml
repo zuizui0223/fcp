@@ -15,6 +15,21 @@ concurrency:
   group: fcp-ALL4730-one-permanent-original-colour-pixel-release
   cancel-in-progress: false
 jobs:
+  completed-publication-packet-regression:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify U100 result packet refuses incomplete and falsified biological results
+        run: |
+          python -m pip install pytest==8.4.2
+          python -m pytest -q tests/test_build_fcp_u100_final_publication_packet_20261017.py
+          python -m py_compile scripts/analysis/build_fcp_u100_final_publication_packet_20261017.py
+
   publish-only-authenticated-complete-original-method-study:
     if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event == 'workflow_run' && github.event.workflow_run.name == 'FCP all 4730 original photo join and unchanged H1 W 50km' }}
     runs-on: ubuntu-24.04
@@ -208,6 +223,20 @@ jobs:
           print('FCP_ALL4730_ACTUAL_ORIGINAL_PHOTOS_INDEPENDENTLY_VERIFIED',
                 len(photo),manifest['genuinely_measured_100photo_species'],flush=True)
           PY
+      - name: Generate verified five-cohort manuscript Results packet, no added inference
+        if: steps.genuine.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/build_fcp_u100_final_publication_packet_20261017.py \
+            --receipt "$STORE/release/fcp_all4730_actual_colour_results_receipt.json" \
+            --combine "$STORE/measured/fcp_all4730_original_photo_combine_receipt.json" \
+            --photos "$STORE/measured/fcp_all4730_original_method_measured_photos.csv.gz" \
+            --spatial "$STORE/spatial/fcp_all4730_unchanged_original_50km_results.json" \
+            --h1w "$STORE/h1w/fcp_all4730_H1_D_W_results.json" \
+            --out "$STORE/release"
+          test -s "$STORE/release/fcp_all4730_verified_manuscript_results_packet.md"
+          test -s "$STORE/release/fcp_all4730_verified_manuscript_results_packet.json"
       - name: Publish original data-derived measurements only to once-only permanent GitHub Release
         if: ${{ steps.genuine.outputs.ready == 'true' }}
         shell: bash
@@ -227,6 +256,11 @@ jobs:
           d['archive_name']=pack.name
           d['archive_bytes']=pack.stat().st_size
           d['archive_sha256']=hashlib.sha256(pack.read_bytes()).hexdigest()
+          for key,filename in (
+              ('publication_results_packet_md_sha256','fcp_all4730_verified_manuscript_results_packet.md'),
+              ('publication_results_packet_json_sha256','fcp_all4730_verified_manuscript_results_packet.json'),
+          ):
+              d[key]=hashlib.sha256((root/'release'/filename).read_bytes()).hexdigest()
           receipt.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
           print('FCP_FULL4730_PERMANENT_MEASURED_ARCHIVE_HASH',d['archive_sha256'])
           PY
@@ -237,6 +271,8 @@ jobs:
           gh release create "$TAG" \
             "$STORE/release/fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz" \
             "$STORE/release/fcp_all4730_actual_colour_results_receipt.json" \
+            "$STORE/release/fcp_all4730_verified_manuscript_results_packet.md" \
+            "$STORE/release/fcp_all4730_verified_manuscript_results_packet.json" \
             --repo "$GITHUB_REPOSITORY" \
             --target "$(python -c 'import json; print(json.load(open("/tmp/fcp_all4730_actual_colour_permanent_release/final_run.json"))["head_sha"])')" \
             --title 'FCP all 4730 U100 species: measured original flower photos and original methods' \
