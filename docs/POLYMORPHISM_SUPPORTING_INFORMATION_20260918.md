@@ -488,6 +488,32 @@ A multivariate climate-heterogeneity prediction did not replicate from discovery
 
 The earlier post-confirmatory prediction that warmer environments should specifically favour the white state passed within the third cohort but weakened under observer controls and failed the frozen discovery/validation transport rule. The newer unsigned BIO5-distance result asks a different question: whether colour changes **somehow** along temperature differences, irrespective of direction. Even that result remains technically bounded by the controls above.
 
+## S5c. Verified post-freeze fourth-cohort 199,700-photo extension (17 October 2026)
+
+This is a **later fixed-method replication** and must not be merged chronologically with the original 1,499-species prospective-confirmation protocol. Source authority: [real 199,700-photo original-method release](https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017), its SHA-pinned release receipt, and [the explicit final-U100/pending-status evidence ledger](FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md). The [actual wave4 ROI run #38992543115](https://github.com/zuizui0223/fcp/actions/runs/38992543115) finished **256/256 genuine image workers**. The [original-method spatial append replay #39023781282](https://github.com/zuizui0223/fcp/actions/runs/39023781282) matched the frozen original three-cohort effects.
+
+| Cohort | Measured original photographs | True 50-km eligible species | Species-equal global-minus-local pair diversity | Upper p (199 vertex nulls) |
+|---|---:|---:|---:|---:|
+| Discovery (unchanged) | 50,000 | 166 | 0.0205293 | 0.005 |
+| Validation (unchanged) | 50,000 | 181 | 0.0186730 | 0.005 |
+| Prospective cohort (unchanged) | 49,900 | 204 | 0.0146849 | 0.005 |
+| **Fourth wave (newly measured)** | **49,800** | **190** | **0.0172936** | **0.005** |
+| **Four-cohort pooled** | **199,700** | **741** | **0.0176372** | **0.005** |
+
+Eligibility is **at least 40 biologically classifiable photographs and 30 local photograph pairs** per species. Geographic separation is within 50 km, a radius selected *post hoc* before these cohort outcomes were opened. The null preserves each species' full colour-state counts and its original coordinate graph and uses 199 complete-vertex colour-label assignments (smallest possible plus-one p = 0.005). The pooled mean global pair diversity was **0.2342544**; local pair diversity was **0.2166172**. This is within-species *photographic* colour structure rather than population morph frequency or selection.
+
+Other unchanged frozen analyses in the genuine fourth wave:
+
+| Analysis | Fourth-wave result | Inferential boundary |
+|---|---|---|
+| Observer-disjoint D, 200 splits | Median Spearman rho **0.805596**; 5th–95th percentile **0.775457–0.832733**; median paired species **316**, median CCC **0.844141** | Same-provider measurement reliability, not unbiased wild population morph frequencies |
+| Fixed white-axis W, primary second-mode >=0.10 | n **134**; W **0.536816** vs structured-null median **0.436254**; upper p **0.001** | Squared axis alignment only, not directional whitening |
+| Fixed white-axis W, strict second-mode >=0.20 | n **67**; W **0.547280** vs structured-null median **0.458086**; upper p **0.001** | Preserves coarse-state structure; 999 nulls |
+ 
+Neither the H1 replication nor the W result is a newly preregistered prospective test. The original three-cohort nonwhite-only, different-observer, calendar-quarter, cross-year, continuous-distance and 25/100/250-km sensitivities were **not all rerun for the fourth wave**; only the exact 50-km fixed-method comparison and listed H1/W components are confirmed here.
+
+**Unmeasured fifth cohort — do not borrow results:** an independently source-verified 4,475-species / **447,500-source-photograph** analysis-eligibility ledger was frozen after whole-taxon exclusion of three genuine source-collision taxa. Source eligibility alone is not actual ROI-v4 colour measurement. At the 17 October evidence freeze, the new-U100 pixel job [#38997169400](https://github.com/zuizui0223/fcp/actions/runs/38997169400) remained in production, and final five-cohort combined null/H1/W estimates were **not available**. GitHub Actions workflows can display aggregate success with downstream scientific jobs skipped; only authenticated completed pixel terminals plus executed inferential jobs authorize a final biological claim.
+
 ## S6. H3a broad phylogenetic-signal boundary
 
 Canonical manifest:
