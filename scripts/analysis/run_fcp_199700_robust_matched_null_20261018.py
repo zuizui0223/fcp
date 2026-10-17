@@ -112,6 +112,19 @@ def statistics(values: np.ndarray, nulls: np.ndarray) -> dict:
             "n_removed_highest_effect": removed,
             "null_selection_recomputed_in_every_permutation": True,
         }
+    # Family-wise Holm step-down adjustment within the four newly explored
+    # robust statistics for each cohort. The original mean is a separately
+    # frozen test, not a fifth newly chosen robust statistic.
+    family = ("median", "fraction_positive", "drop_top_10pct", "drop_top_20pct")
+    sorted_family = sorted(family, key=lambda k: (out[k]["upper_p_exploratory"], k))
+    floor = 0.0
+    for rank, name in enumerate(sorted_family):
+        raw = out[name]["upper_p_exploratory"]
+        floor = max(floor, min(1.0, (len(family) - rank) * raw))
+        out[name]["holm_p_within_four_robust_tests_exploratory"] = floor
+        out[name]["multiplicity_family_size"] = len(family)
+    out["mean"]["holm_p_within_four_robust_tests_exploratory"] = None
+    out["mean"]["multiplicity_family_size"] = 0
     return out
 
 
