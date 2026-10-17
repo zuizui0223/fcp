@@ -162,11 +162,14 @@ def verify_existing_wave4_inference(result: dict, receipt: dict, original_wave4_
     if (
         int(historic.get("n_species", -1)) != new["n_species"]
         or abs(float(historic.get("mean_depletion", np.nan)) - new["mean_depletion"]) > 1e-10
-        or historic.get("mean_depletion_p_upper") != new["mean_depletion_p_upper"]
     ):
         raise ValueError("added original method 50km effect changed during 149900+ append/replay")
     return {
-        "new_wave4_original_50km_verified": True,
+        "new_wave4_original_50km_observed_effect_verified": True,
+        "wave4_50km_p_from_first_worker": historic.get("mean_depletion_p_upper"),
+        "wave4_50km_p_from_historical_photo_ID_sort": new["mean_depletion_p_upper"],
+        "wave4_50km_null_p_matches": historic.get("mean_depletion_p_upper") == new["mean_depletion_p_upper"],
+        "permutation_order_note": "Old production loader sorts photo IDs before vertex permutations; wave4 first-worker calculation may preserve original metadata order. Observed effects must match; report both Monte Carlo p-values without equating different random label index assignments.",
         "original_W_H1_methods_kept_from_wave4": True,
         "wave4_h1": original_wave4_result.get("h1_original_method"),
         "wave4_H2_W": original_wave4_result.get("h2_original_W_method"),
