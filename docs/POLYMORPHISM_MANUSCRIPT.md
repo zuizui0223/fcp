@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 182 words
+- Summary: 192 words
 - Introduction: 805 words
 - Materials and Methods: 2,607 words
-- Results: 2,878 words
-- Discussion: 2,494 words
-- Main text (Introduction through Discussion): 8,784 words
+- Results: 3,053 words
+- Discussion: 2,514 words
+- Main text (Introduction through Discussion): 8,979 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -25,7 +25,7 @@
 
 - Species-wide intraspecific trait variation can arise because alternative phenotypes coexist locally or because different phenotypes occupy different parts of a species' range. Using flower-colour variation, we ask where ITV resides geographically, which spatial processes accompany it, and whether within-species displacement also recurs along common phenotype-space directions.
 - Three frozen stages analysed 149,900 photographs from 1,499 species; a later unchanged-method extension added 49,800 photographs from 498 species. Species-wide colour diversity was reproducible across observers and fresh images.
-- At the post hoc 50-km scale, local conspecific colour diversity was depleted relative to each species' fixed overall composition in four species-disjoint cohorts (mean depletion = 0.0205, 0.0187, 0.0147 and 0.0173; p = 0.005 each). The original three-cohort pattern survived same-observer, white-label and continuous-colour sensitivity tests.
+- At the post hoc 50-km scale, local conspecific colour diversity was depleted relative to each species' fixed overall composition in four species-disjoint cohorts (mean depletion = 0.0205, 0.0187, 0.0147 and 0.0173; p = 0.005 each). The original three-cohort pattern survived same-observer, white-label and continuous-colour sensitivity tests. Exploratory matched nulls retained excess sorting after removing top-effect species.
 - Continuous colour turnover contained both a stronger isolation-by-distance-like component and a smaller BIO5-associated environment component across all three cohorts. The environmental component failed stricter background/observer controls and is therefore not evidence of local adaptation. Separately, a frozen achromatic–chromatic axis was prospectively confirmed (W = 0.517 versus null median 0.457, p = 0.001).
 
 ---
@@ -336,6 +336,10 @@ After the three-cohort results were frozen, **498 additional species and 49,800 
 
 In the new fourth cohort, D reproducibility across 200 observer-disjoint splits had median Spearman rho **0.8056** (median 316 paired species; median concordance correlation **0.8441**). The fixed white-axis test gave W **0.5368** versus structured-null median **0.4363** (primary 0.10 gate, n = **134**, p = **0.001**); the strict 0.20 gate gave W **0.5473** versus **0.4581** (n = **67**, p = **0.001**). This is a *post-freeze, taxon-disjoint, same-iNaturalist-source extension*, not independent-source replication or a new untouched prospective H2 confirmation. W measures squared axis alignment, not a directional rise in white morphs. The final 4,475-species / 447,500-photo five-cohort effect is not reported: its true image terminals and combined null analysis were still incomplete at this evidence freeze (Supporting Information S5c).
 
+### Post hoc robust spatial effect distribution under matched nulls
+
+A further species-level audit asked whether the positive *cohort mean* was driven solely by unusually large effects. Of the **741** eligible species across four cohorts, **417** (56.3%) had positive individual depletion, **61** zero, and **263** negative. The species median was **0.005974**, below the species-equal mean **0.017637**. After excluding the highest-effect **149 species** (20%), the raw mean was **−0.006553**. This sign change by itself does not refute spatial sorting: when the **same top-20% exclusion was performed anew in each of the 199 original species-conditional permutation worlds**, the null mean was **−0.018278**, giving exploratory upper p = **0.005** (Holm p = **0.020** within four newly examined robust statistics). The median, fraction positive (observed **0.56275** vs null mean **0.45007**), and top-10% trimmed mean also exceeded their matched nulls (all pooled within-four Holm p = **0.020**). Across individual cohorts, these Holm p-values ranged **0.020–0.030** (Supporting Information S5e). This analysis remains post hoc and does not control all prior exploratory tests.
+
 ### Geographic colour turnover contains both IBD-like and bounded IBE-like components
 
 Using continuous nine-colour dissimilarity, BIO5 difference explained a small positive component of colour turnover after geographic distance was rank-partialled out in all three cohorts: mean phenotypic IBE-like rho was **0.00925** in discovery (p = **0.005**), **0.00826** in validation (p = **0.010**) and **0.01019** in the third cohort (p = **0.005**). Geographic distance also retained a positive association after BIO5 difference was removed, and this IBD-like component was larger in every cohort: **0.02760**, **0.02414** and **0.02225**, respectively (p = **0.005** in each). The mean IBE-minus-IBD contrast was negative in all three cohorts.
@@ -382,7 +386,7 @@ The evolutionary distinction matters. In plant balancing-selection theory, negat
 
 A fourth outcome-blind, taxon-disjoint but same-provider image cohort subsequently reproduced the fixed **50-km** local-depletion result (190 evaluable taxa, mean depletion 0.01729, matched p = 0.005). The four-cohort pooled comparison now covers **741** spatially evaluable species; that increases the breadth of the observed structural regularity but does not make the post hoc radius preregistered. The additional cohort was not subjected to every calendar-quarter, observer-pair, nonwhite and multiscale falsification already performed on the original three; those sensitivities must not be silently generalized to all four.
 
-A source-authenticated post hoc leverage audit qualifies the repeated cohort mean (Supporting Information S5d). Only **417 of 741** evaluable species (56.3%) had positive individual 50-km depletion, and the pooled species median (**0.00597**) was smaller than its mean (**0.01764**). Removing the highest 10% species-level effects left a descriptive mean of **0.00191**; removing the highest 20% gave **−0.00655**. These tail exclusions have no newly calculated permutation p-values. Geographic colour partitioning is therefore recurrent as a *cohort-level mean*, but heterogeneous across species rather than a universal strong within-species pattern.
+A post hoc species-leverage audit showed that only **417 of 741** evaluable species (56.3%) had positive 50-km depletion and the species median (**0.00597**) was below the mean (**0.01764**). Although dropping the top 20% of effects made the remaining mean **−0.00655**, applying this deletion afresh within every original permutation produced a still-lower null mean (**−0.01828**; exploratory p = **0.005**, within-four Holm p = **0.020**; Supporting Information S5e). The median and positive-species fraction likewise exceeded their matched nulls. Thus a few extreme species cannot alone account for the pooled departure, but individual species remain heterogeneous and post hoc tests cannot demonstrate adaptive causes or universal local colour clustering.
 
 ### Geographic separation dominates, with a smaller candidate environmental component
 
