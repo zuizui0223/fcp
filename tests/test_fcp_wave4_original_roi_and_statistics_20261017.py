@@ -72,3 +72,17 @@ def test_detect_tampered_frozen_new_original_photo_csv(tmp_path, monkeypatch):
 
 def test_original_partition_geometry_stays_fixed():
     assert (m.N_BATCHES, m.N_SHARDS, m.N_PARTS, m.TOTAL_PARTS, m.SOURCE_RUN) == (2,32,4,256,38989666486)
+
+
+def test_real_original_roi_colour_module_imports_before_pixel_download():
+    """Catch missing original photo_first_atlas import chain before 256 ROI jobs."""
+    import importlib
+    from pathlib import Path
+    modules = (
+        "fcp_pipeline.photo_first_atlas",
+        "fcp_pipeline.photo_first_atlas_v2",
+        "fcp_pipeline.photo_first_measurement",
+    )
+    loaded = [importlib.import_module(mod) for mod in modules]
+    assert all(Path(module.__file__).is_file() for module in loaded)
+    assert callable(loaded[-1].coarse_morph_from_palette)
