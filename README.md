@@ -6,6 +6,13 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## New within-species New Phytologist editorial candidate (14 October 2026)
+
+The proposed ONE-paper editorial version is [**Recurrent achromatic–chromatic variation and geographic allocation of flower colours within species**](docs/POLYMORPHISM_MANUSCRIPT_NP_INTRASPECIFIC_20261014.md). It follows **distributional measurement → recurrent within-species visible-colour pattern → geographic ecology and untested pigment/fitness mechanisms**. The colour-space result is supported by an untouched prospective test among **158** eligible species; **439** eligible species across three cohorts are a descriptive support count, not a new pooled test. The 149,900 high-depth photographs from 1,499 named species are separate from the **global between-species** moisture analyses in `zuizui0223/mois`.
+
+Read the [within-species evidence/figure plan](docs/POLYMORPHISM_NP_INTRA_PAPER_AND_EVIDENCE_20261014.md) and [single-paper cover-letter draft](docs/POLYMORPHISM_NP_INTRA_COVER_LETTER_20261014.md). The existing original manuscript, frozen H1/H2 outcome receipts and main-branch paper remain scientifically authoritative until authors approve the editorial candidate. This is NOT a return to the superseded combined interspecific PR #196.
+
+
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture
 
 **This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** Its New Phytologist paper tests observer-disjoint reliability of species-wide colour diversity `D`, geographically structured local colour differences, and a previously frozen white–chromatic colour-space direction `W` (158 untouched prospective species; 439 measured vectors across three cohorts are descriptive only). The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.
