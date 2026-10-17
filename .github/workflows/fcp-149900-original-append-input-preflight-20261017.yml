@@ -1,0 +1,90 @@
+name: FCP verify all original 149900 photos for unchanged-method expansion
+
+on:
+  push:
+    branches: [analysis/fcp-149900-real-append-input-preflight-20261017]
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-149900-original-append-input-preflight-20261017.yml
+      - scripts/analysis/append_wave4_to_original_149900_20261017.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authentic-original-inputs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install only frozen-source CSV validation dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Reacquire all 149900 EXACT original measured rows from frozen commits
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_original_preflight"
+          git fetch --no-tags --depth=1 origin 5142f7951af0dde5364bb047a566d67e8c479e51
+          git fetch --no-tags --depth=1 origin 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv > "$RUNNER_TEMP/fcp_original_preflight/discovery.csv"
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv > "$RUNNER_TEMP/fcp_original_preflight/validation.csv"
+          git show 7e538e5c51c05a7cc47b2fcf53eea92634c8a863:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv > "$RUNNER_TEMP/fcp_original_preflight/prospective.csv"
+      - name: Validate original 149900 rows against SAME append routine without modifying source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,sys
+          from pathlib import Path
+          import pandas as pd
+          from scripts.analysis.append_wave4_to_original_149900_20261017 import (
+              OLD_SOURCE, sha256_file, enforce_and_tag, _check_separately_sampled,
+          )
+          source=Path(os.environ['RUNNER_TEMP'])/'fcp_original_preflight'
+          audit=[]; ids=set(); taxa=set(); species=set(); frames=[]
+          for label in ('discovery','validation','prospective'):
+              path=source/(label+'.csv')
+              expected=OLD_SOURCE[label]
+              if sha256_file(path) != expected['sha256']:
+                  raise SystemExit(f'ORIGINAL_SHA_CHANGED:{label}')
+              df=pd.read_csv(path, low_memory=False)
+              tagged,s=enforce_and_tag(df,label=label,species=expected['species'],rows=expected['rows'],target=100)
+              _check_separately_sampled(tagged,ids,taxa,species,label)
+              if len(tagged) != len(df):
+                  raise SystemExit(f'ORIGINAL_ROW_LOSS:{label}')
+              for old_name in df.columns:
+                  if old_name not in tagged.columns:
+                      raise SystemExit(f'ORIGINAL_COLUMN_LOSS:{label}:{old_name}')
+              frames.append(set(tagged.columns))
+              audit.append({**s,'source_sha256':expected['sha256'],'original_column_count':len(df.columns)})
+              print('FCP_AUTHENTIC_SOURCE_CHECK',json.dumps(audit[-1],sort_keys=True),flush=True)
+          common=set.intersection(*frames)
+          out={
+              'schema':'fcp_original149900_expansion_input_empirical_preflight_v1',
+              'genuine_frozen_source_bytes_verified':True,
+              'source_rows':len(ids),
+              'named_species':len(species),
+              'taxon_ids':len(taxa),
+              'no_original_photo_ID_reuse':True,
+              'no_old_measurement_overwritten':True,
+              'new_wave4_original_photo_rows_measured_here':0,
+              'cohorts':audit,
+              'common_original_columns':sorted(common),
+          }
+          assert out['source_rows']==149900
+          assert out['named_species']==out['taxon_ids']==1499
+          assert len(common)>5
+          (source/'original149900_preflight_result.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print('FCP_ALL_149900_AUTHENTIC_ORIGINAL_PHOTOS_READY_FOR_UNMODIFIED_APPEND',flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-149900-photo-expanded-analysis-preflight-20261017
+          if-no-files-found: error
+          retention-days: 90
+          path: ${{ runner.temp }}/fcp_original_preflight/original149900_preflight_result.json
