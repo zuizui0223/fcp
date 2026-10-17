@@ -1,0 +1,145 @@
+name: Freeze verified FCP wave4 49800 original photo source permanently
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-release-frozen-original-wave4-source-20261017.yml
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: freeze-fcp-wave4-49800-source-release-20261017-once
+  cancel-in-progress: false
+jobs:
+  release-only-exact-successfully-frozen-photo-identities:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PARENT_RUN: "38989666486"
+      PARENT_SHA: "a948fd95c57fd5da404a20348174fb4e96796ec4"
+      TAG: "fcp-wave4-original-source-20261017"
+      SOURCE_ROOT: ${{ runner.temp }}/fcp_wave4_original_source_release_20261017
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install exact-source metadata validator
+        run: python -m pip install pandas==2.2.3 numpy==2.1.3
+      - name: Recover unmodified completed 49800-photo iNaturalist source manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$SOURCE_ROOT/source" "$SOURCE_ROOT/release" "$SOURCE_ROOT/verify"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PARENT_RUN" > "$SOURCE_ROOT/parent_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['SOURCE_ROOT'])/'parent_run.json').read_text())
+          if (d.get('id')!=38989666486 or d.get('head_sha')!=os.environ['PARENT_SHA']
+              or d.get('head_branch')!='analysis/fcp-expand-highdepth-wave4-20261017'
+              or d.get('run_attempt')!=1
+              or d.get('status')!='completed' or d.get('conclusion')!='success'):
+              raise SystemExit('FCP_WAVE4_PARENT_SOURCE_RUN_NOT_AUTHENTICATED')
+          print('FCP_WAVE4_SOURCE_RUN_AUTHENTICATED',d['id'])
+          PY
+          gh run download "$PARENT_RUN" --repo "$GITHUB_REPOSITORY"             --name fcp-wave4-same-original-method-selection-and-metadata-20261017             --dir "$SOURCE_ROOT/source"
+      - name: Independently verify original 500 selected identities and 49800 authorized photo IDs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ['SOURCE_ROOT'])/'source'
+          s=json.loads((root/'selection/selection_result.json').read_text())
+          m=json.loads((root/'metadata/metadata_result.json').read_text())
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          if not(s['schema']=='fcp_unchanged_highdepth_wave4_outcome_blind_selection_v1'
+                 and s['wave4_selected_species']==500
+                 and s['remaining_candidate_species']==2730
+                 and s['no_flower_colour_used'] is True
+                 and s['no_image_pixels_opened'] is True):
+              raise SystemExit('Source selection unexpectedly included biological colour')
+          if not (m['schema']=='fcp_unchanged_highdepth_wave4_original_metadata_v1'
+                  and m['status']=='METADATA_ONLY_NO_PIXELS'
+                  and m['metadata_gate_pass'] is True
+                  and m['original_photos']==149900
+                  and m['new_selected_species']==500
+                  and m['new_exact_100_species']==498
+                  and m['new_exact_100_photo_rows']==49800
+                  and m['request_errors']==0
+                  and m['image_pixels_opened'] is False
+                  and m['no_colour_or_environment_screening'] is True
+                  and m['previous_source_exclusion_photo_ids']==228461):
+              raise SystemExit('Frozen original metadata source gate mismatch')
+          sel=root/'selection/selected_species_manifest.tsv'
+          if sha(sel)!=s['new_selection_manifest_sha256']:
+              raise SystemExit('Original 500 selected species SHA drift')
+          manifest=pd.read_csv(sel,sep='\t')
+          if len(manifest)!=500 or manifest.inat_taxon_id.nunique()!=500:
+              raise SystemExit('Frozen 500 original taxon identities drift')
+          for name, fingerprint in m['outputs'].items():
+              path=root/'metadata'/name
+              if not path.is_file() or sha(path)!=fingerprint:
+                  raise SystemExit('Original source output SHA drift: '+name)
+          path=root/'metadata/wave4_authorized_metadata.csv.gz'
+          photo=pd.read_csv(path,low_memory=False)
+          required={'photo_id','observation_id','inat_taxon_id','species','query_species','photo_url_large','photo_license'}
+          if required-set(photo.columns):
+              raise SystemExit('Missing original source photo identity columns')
+          n=len(photo)
+          if n!=49800 or photo.photo_id.nunique()!=n or photo.observation_id.nunique()!=n:
+              raise SystemExit('Duplicate/missing original photo/observation IDs')
+          group=photo.groupby('inat_taxon_id').size()
+          if (len(group)!=498 or not group.eq(100).all()
+              or not set(photo.inat_taxon_id).issubset(set(manifest.inat_taxon_id))
+              or photo.photo_url_large.isna().any()
+              or photo.photo_license.isna().any()):
+              raise SystemExit('New species 100-photo original support gate failed')
+          print('FCP_REAL_NEW_ORIGINAL_SOURCE_PHOTO_IDS_AUTHENTICATED',n,'taxa',len(group))
+          PY
+      - name: Package original metadata only, with deterministic tar.gz bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$SOURCE_ROOT/source" --sort=name --mtime='UTC 1970-01-01'             --owner=0 --group=0 --numeric-owner -cf - selection metadata | gzip -n -9             > "$SOURCE_ROOT/release/fcp-wave4-exact-original-49800-source-20261017.tar.gz"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['SOURCE_ROOT'])
+          package=root/'release/fcp-wave4-exact-original-49800-source-20261017.tar.gz'
+          receipt={
+            'schema':'fcp_wave4_original_source_49800_durable_release_v1',
+            'status':'SOURCE_ONLY_NO_PIXELS_MEASURED',
+            'source_run_id':38989666486,
+            'source_commit_sha':'a948fd95c57fd5da404a20348174fb4e96796ec4',
+            'original_FCP_photos_unchanged':149900,
+            'new_source_photo_IDs':49800,
+            'new_source_taxa':498,
+            'original_method_unchanged':True,
+            'no_new_floral_colour_measurements_yet':True,
+            'archive_name':package.name,
+            'archive_byte_count':package.stat().st_size,
+            'archive_sha256':hashlib.sha256(package.read_bytes()).hexdigest(),
+            'release_tag':os.environ['TAG'],
+          }
+          dest=root/'release/fcp-wave4-exact-original-49800-source-receipt.json'
+          dest.write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          print('FCP_NEW_ORIGINAL_PHOTO_METADATA_PERSISTENCE',json.dumps(receipt,sort_keys=True))
+          PY
+      - name: Publish once to tagged repository release, never replace an earlier archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Frozen original-source release already exists; refusing overwrite"
+            exit 1
+          fi
+          gh release create "$TAG"             "$SOURCE_ROOT/release/fcp-wave4-exact-original-49800-source-20261017.tar.gz"             "$SOURCE_ROOT/release/fcp-wave4-exact-original-49800-source-receipt.json"             --repo "$GITHUB_REPOSITORY"             --target "$PARENT_SHA"             --title 'FCP wave4 49800 genuine original photo IDs (source-only, no colour measurements)'             --notes 'Unchanged source-backed FCP high-depth photo metadata extension: 498 new taxa, 100 original iNaturalist photo IDs/taxon, exact source-SHA receipt. This is not a flowering verification or a biological colour result. Original 149900 measured data and all analyses remain unchanged.'
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY"             --pattern 'fcp-wave4-exact-original-49800-source-20261017.tar.gz'             --dir "$SOURCE_ROOT/verify"
+          cmp "$SOURCE_ROOT/release/fcp-wave4-exact-original-49800-source-20261017.tar.gz"             "$SOURCE_ROOT/verify/fcp-wave4-exact-original-49800-source-20261017.tar.gz"
+          echo FCP_NEW_49800_SOURCE_PERMANENT_RELEASE_BYTE_REPLAY_VERIFIED
