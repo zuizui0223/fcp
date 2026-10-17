@@ -109,7 +109,7 @@ jobs:
           assert effective.photo_id.nunique()==247800
           assert effective.observation_id.nunique()==247800
           assert effective.groupby('inat_taxon_id').size().eq(100).all()
-          assert receipt['original_149900_unmodified'] is True
+          assert receipt['old_149900_unmodified'] is True
           assert receipt['original_50km_H1_D_W_estimators_unchanged'] is True
           eligibility={
               'schema':'fcp_4730_independent_photo_identity_original_100photo_eligibility_v1',
