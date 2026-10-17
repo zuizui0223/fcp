@@ -256,6 +256,80 @@ def do_shard(args: argparse.Namespace) -> dict:
     return record
 
 
+
+def reconcile_historical_global_seen(
+    frames: list[pd.DataFrame], expected_taxa: set[int], *, target_n: int = PER_SPECIES,
+) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+    """Conservatively restore the OLD freeze_h9_metadata global seen IDs.
+
+    Old source 200-result pages were NOT preserved, so never invent substitute
+    photos: replay its increasing taxon-ID order using ONLY already selected H9
+    candidate metadata from all four source shards. Even partial taxa reserve
+    their retained photo and observation IDs, exactly as the original code.
+    Taxa with fewer than 100 surviving original IDs remain unresolved.
+    """
+    required={"inat_taxon_id","observation_id","photo_id"}
+    if len(frames)!=SHARDS or any(required-set(g.columns) for g in frames):
+        raise RuntimeError("four original H9 candidate tables are mandatory")
+    source=pd.concat(frames,ignore_index=True,sort=False)
+    if source.empty or not set(source.inat_taxon_id).issubset(expected_taxa):
+        raise RuntimeError("original H9 candidate species missing or not in 2733")
+    kept_frames=[];details=[];seen_obs:set[int]=set();seen_photo:set[int]=set()
+    for tid in sorted(expected_taxa):
+        x=source.loc[source.inat_taxon_id.eq(tid)].copy()
+        if len(x)>target_n:
+            raise RuntimeError("original H9 selected more than 100 photos in one species")
+        if x.observation_id.nunique()!=len(x) or x.photo_id.nunique()!=len(x):
+            raise RuntimeError("original H9 within-species candidate source duplicates")
+        order=(["h9_selection_order"] if "h9_selection_order" in x.columns else [])
+        if len(x):x=x.sort_values(order+["observation_id","photo_id"],kind="stable")
+        allowed=[];repeated=0
+        for row in x.itertuples(index=False):
+            oid,pid=int(row.observation_id),int(row.photo_id)
+            if oid in seen_obs or pid in seen_photo:
+                repeated+=1
+                continue
+            allowed.append(pid)
+            # Original H9 reserves all retained photos, even for taxa
+            # whose final count is below the exact 100-photo gate.
+            seen_obs.add(oid);seen_photo.add(pid)
+        if len(allowed)==target_n:
+            accepted=x.loc[x.photo_id.astype("int64").isin(allowed)].copy()
+            if len(accepted)!=target_n:
+                raise RuntimeError("cannot match unchanged retained original H9 rows")
+            kept_frames.append(accepted)
+        details.append({"inat_taxon_id":int(tid),
+                        "global_selected_original_H9_rows":int(len(x)),
+                        "global_cross_shard_rejected_rows":int(repeated),
+                        "global_retained_original_H9_rows":len(allowed),
+                        "global_complete_100_photo_species":len(allowed)==target_n})
+    species=pd.DataFrame(details)
+    authorized=(pd.concat(kept_frames,ignore_index=True,sort=False)
+                if kept_frames else source.iloc[:0].copy())
+    if (authorized.photo_id.nunique()!=len(authorized)
+        or authorized.observation_id.nunique()!=len(authorized)
+        or int(species.global_complete_100_photo_species.sum())*target_n!=len(authorized)):
+        raise RuntimeError("globally duplicated original H9 candidate photographs remain")
+    report={
+       "original_H9_global_seen_id_reservation_order_restored":True,
+       "original_H9_source_query_selection_code_unchanged":True,
+       "original_four_shard_inputs_untouched":True,
+       "original_200_result_API_pages_not_requeried":True,
+       "rejected_photos_not_replaced":True,
+       "original_149900_results_unchanged":True,
+       "globally_seen_cross_shard_rejected_source_candidate_rows":int(
+            species.global_cross_shard_rejected_rows.sum()),
+       "original_source_species_affected_by_cross_shard_rejection":int(
+            species.global_cross_shard_rejected_rows.gt(0).sum()),
+       "post_source_global_100photo_species":int(
+            species.global_complete_100_photo_species.sum()),
+       "post_source_global_100photo_rows":len(authorized),
+       "audit_rule":"all original candidates reserved in ascending taxon id, including incomplete species; if cross-shard identity reuse reduces original selected photos below 100, exclude whole species rather than fabricate another photograph",
+    }
+    return authorized,species,report
+
+
+
 def do_consolidate(args: argparse.Namespace) -> dict:
     inventory=json.loads((args.inventory/"inventory_result.json").read_text())
     if inventory.get("schema")!=SCHEMA or inventory["new_unmeasured_species"]!=REMAINING:
@@ -263,7 +337,7 @@ def do_consolidate(args: argparse.Namespace) -> dict:
     full=pd.read_csv(args.inventory/"full_u100_4730_species_status.csv")
     if len(full)!=U100 or sha256(args.inventory/"full_u100_4730_species_status.csv")!=inventory["outputs_sha256"]["full_u100_4730_species_status.csv"]:
         raise RuntimeError("4730 original identities cannot be audited")
-    seen_ids=set();photos=set();obs_ids=set(); audits=[];new_photos=[];new_audit=[]
+    seen_ids=set(); audits=[];original_complete=[];candidate_frames=[];new_audit=[]
     for shard in range(SHARDS):
         folder=args.parts/f"shard_{shard}"
         d=json.loads((folder/"shard_result.json").read_text())
@@ -279,11 +353,19 @@ def do_consolidate(args: argparse.Namespace) -> dict:
             raise RuntimeError("selected taxa repeat across shards")
         seen_ids.update(selected.inat_taxon_id)
         au=pd.read_csv(folder/"authorized_metadata.csv.gz",low_memory=False)
-        au_ids=set(au.photo_id)
-        au_obs=set(au.observation_id)
-        if photos & au_ids or obs_ids & au_obs or len(au_ids)!=len(au) or len(au_obs)!=len(au):
-            raise RuntimeError("new photo or observation ID duplicated across shards")
-        photos.update(au_ids);obs_ids.update(au_obs)
+        if au.photo_id.nunique()!=len(au) or au.observation_id.nunique()!=len(au):
+            raise RuntimeError("original H9 duplicated IDs inside one source shard")
+        candidate=pd.read_csv(folder/"candidate_metadata.csv.gz",low_memory=False)
+        if (not set(candidate.inat_taxon_id).issubset(set(selected.inat_taxon_id))
+            or candidate.photo_id.nunique()!=len(candidate)
+            or candidate.observation_id.nunique()!=len(candidate)):
+            raise RuntimeError("invalid original H9 candidate species or source IDs")
+        authorized_pairs=set(zip(au.inat_taxon_id,au.observation_id,au.photo_id))
+        source_pairs=set(zip(candidate.inat_taxon_id,candidate.observation_id,candidate.photo_id))
+        if not authorized_pairs.issubset(source_pairs):
+            raise RuntimeError("a frozen originally authorized photo is absent from H9 candidates")
+        candidate["bulk_shard"]=shard
+        candidate_frames.append(candidate)
         if len(au)!=d["authorized_original_photo_IDs"] or au.inat_taxon_id.nunique()!=d["complete_100_photo_species"]:
             raise RuntimeError("all photo rows incomplete for source shard")
         if len(au)>0 and not au.groupby("inat_taxon_id").size().eq(PER_SPECIES).all():
@@ -293,21 +375,33 @@ def do_consolidate(args: argparse.Namespace) -> dict:
             raise RuntimeError("lost attempted taxon audit")
         audit["bulk_shard"]=shard
         new_audit.append(audit)
-        au["bulk_shard"]=shard
-        new_photos.append(au)
+        original_complete.append(au)
         audits.append(d)
     expected=set(pd.read_csv(args.inventory/"unmeasured_2733_taxa.csv").inat_taxon_id)
     if seen_ids != expected or len(seen_ids)!=REMAINING:
         raise RuntimeError("not all remaining 2733 original U100 species attempted")
-    good=sum(d["complete_100_photo_species"] for d in audits)
+    originally_full=sum(d["complete_100_photo_species"] for d in audits)
     errs=sum(d["request_errors"] for d in audits)
-    rows=sum(d["authorized_original_photo_IDs"] for d in audits)
-    if rows!=good*PER_SPECIES:
-        raise RuntimeError("not one complete original 100-photo record per successful species")
-    new=pd.concat(new_photos,ignore_index=True)
+    original_rows=sum(d["authorized_original_photo_IDs"] for d in audits)
+    if original_rows!=originally_full*PER_SPECIES:
+        raise RuntimeError("source sharded original 100-photo denominator changed")
+    new,global_audit,reconciliation=reconcile_historical_global_seen(candidate_frames,expected)
+    old_authorized=pd.concat(original_complete,ignore_index=True,sort=False)
+    chosen=set(zip(new.inat_taxon_id,new.observation_id,new.photo_id))
+    prior=set(zip(old_authorized.inat_taxon_id,old_authorized.observation_id,old_authorized.photo_id))
+    if not chosen.issubset(prior):
+        raise RuntimeError("global uniqueness invented a non-authorized original photo")
+    good=int(new.inat_taxon_id.nunique())
+    rows=len(new)
     audit=pd.concat(new_audit,ignore_index=True)
     if len(audit)!=REMAINING or audit.inat_taxon_id.nunique()!=REMAINING:
         raise RuntimeError("all 2733 original species results not accounted")
+    audit=audit.merge(global_audit,on="inat_taxon_id",how="left",validate="one_to_one")
+    if len(audit)!=REMAINING or audit.global_complete_100_photo_species.isna().any():
+        raise RuntimeError("all 2733 source-global H9 reconciled species not audited")
+    if (int(audit.global_complete_100_photo_species.sum())!=good or rows!=good*PER_SPECIES
+        or new.photo_id.nunique()!=len(new) or new.observation_id.nunique()!=len(new)):
+        raise RuntimeError("global original H9 source duplicate photos remain")
     found=set(new.inat_taxon_id)
     full["final_status"]=full.u100_status
     full.loc[full.inat_taxon_id.isin(found),"final_status"]="new_metadata_100_of_100_photo_IDs"
@@ -334,6 +428,9 @@ def do_consolidate(args: argparse.Namespace) -> dict:
        "species_under_100":len(failure),
        "request_errors":errs,
        "request_error_fraction":errs/REMAINING,
+       "historical_source_global_ID_reconciliation":reconciliation,
+       "source_shard_full100_species_before_global_ID_reconciliation":originally_full,
+       "source_shard_original_photo_rows_before_global_ID_reconciliation":original_rows,
        "metadata_gate_pass":errs/REMAINING <=.05 and good>=int(.6*REMAINING),
        "photo_pixels_opened":False,
        "verified_against_all_4_complete_shards":True,
