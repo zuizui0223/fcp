@@ -24,7 +24,6 @@ from scripts.analysis.replay_fcp_149900_plus_wave4_same_spatial_20261017 import 
 from scripts.analysis.run_polymorphism_distributed_polymorphism_posthoc_20261007 import (
     RADII_KM, analyse_species, cohort_summary,
 )
-from scripts.analysis.run_fcp_wave4_original_roi_and_statistics_20261017 import analyze_original_methods
 
 COHORTS=("discovery","validation","prospective","wave4","new_U100")
 MAX_TAXA=4730
@@ -225,6 +224,11 @@ def main()->None:
                json.dumps(metric,indent=2,sort_keys=True,allow_nan=False)+"\n")
             r=metric
         else:
+            # Only the H1/D/W job restores the historical 149900-photo modules.
+            # Combine and original 50km jobs do not need legacy colour/ROI imports.
+            from scripts.analysis.run_fcp_wave4_original_roi_and_statistics_20261017 import (
+                analyze_original_methods,
+            )
             # This is exactly the existing high-depth historical H1/D/H2-W code.
             original=analyze_original_methods(args.combined,args.out)
             r={"schema":"fcp_all4730_unchanged_historical_H1_D_H2_W_v1",
