@@ -105,6 +105,7 @@ jobs:
           sfile=root/'spatial/fcp_all4730_unchanged_original_50km_results.json'
           statfile=root/'h1w/fcp_all4730_H1_D_W_results.json'
           by_species=root/'spatial/fcp_all4730_unchanged_original_50km_species.csv'
+          amended_status=root/'measured/fcp_all4730_five_cohort_independent_analysis_status.csv'
           rc=json.loads(rcfile.read_text())
           s=json.loads(sfile.read_text())
           h=json.loads(statfile.read_text())
@@ -114,8 +115,16 @@ jobs:
               or rc.get('old_50km_and_W_estimators_unchanged') is not True
               or rc.get('merged_photo_table_sha256')!=sha(combined)
               or rc.get('wave4_authentic_photo_rows')!=49800
+              or rc.get('total_original_100photo_measured_species')!=4475
+              or rc.get('total_original_pixel_terminal_photo_rows')!=447500
+              or rc.get('new_U100_source_reuse_excluded_taxa')!=3
+              or rc.get('new_U100_source_reuse_excluded_taxon_IDs')!=[62367,75633,1045161]
+              or rc.get('new_U100_source_reuse_excluded_original_photo_rows')!=300
+              or rc.get('effective_original_100photo_missing_taxa')!=255
               or rc.get('total_original_100photo_measured_species')+
-                     rc.get('remaining_U100_under_100_original_H9_photos')!=4730
+                 rc.get('remaining_U100_under_100_original_H9_photos')+
+                 rc.get('new_U100_source_reuse_excluded_taxa')!=4730
+              or rc.get('original_source_photo_ID_rows_before_reuse_exclusions')!=447800
               or rc.get('new_original_photo_rows')!=rc.get('total_original_pixel_terminal_photo_rows')-149900):
               raise SystemExit('Original 4730 measurement photo denominators or SHA mismatch')
           original_sources={
@@ -148,6 +157,16 @@ jobs:
               or h.get('old_frozen_149900_inference_not_overwritten') is not True
               or h.get('all_real_photo_rows')!=rc['total_original_pixel_terminal_photo_rows']):
               raise SystemExit('Frozen observer H1/D and fixed H2/W method not authenticated')
+          if (not amended_status.is_file()
+              or sha(amended_status)!=rc.get('independent_analysis_species_status_sha256')):
+              raise SystemExit('Signed final independent five-cohort eligibility status missing')
+          status=pd.read_csv(amended_status)
+          if (len(status)!=4730 or status.inat_taxon_id.nunique()!=4730
+              or status.final_analysis_status.eq('excluded_new_original_source_photo_or_observation_reuse').sum()!=3
+              or sorted(status.loc[status.final_analysis_status.eq(
+                   'excluded_new_original_source_photo_or_observation_reuse'),
+                   'inat_taxon_id'].astype(int).tolist())!=[62367,75633,1045161]):
+              raise SystemExit('Exactly three unmeasured U100 source-reuse species must be documented')
           photo=pd.read_csv(combined,low_memory=False)
           if (len(photo)!=rc['total_original_pixel_terminal_photo_rows']
               or photo.photo_id.nunique()!=len(photo)
@@ -166,6 +185,11 @@ jobs:
              'genuinely_measured_100photo_species':rc['total_original_100photo_measured_species'],
              'genuinely_measured_photo_rows':len(photo),
              'still_under_100_original_H9_species':rc['remaining_U100_under_100_original_H9_photos'],
+             'additional_new_original_source_photo_reuse_excluded_taxa':3,
+             'additional_new_original_source_photo_reuse_excluded_taxon_IDs':[62367,75633,1045161],
+             'actual_100photo_species_analysis_omissions_total':255,
+             'original_447800_source_rows_before_conservative_3_whole_taxa_excluded':447800,
+             'source_duplicate_exclusion_audit_sha256':sha(amended_status),
              'genuinely_four_state_classified_photos':int(photo.global_classifiable.astype(str).str.lower().isin(['true','1']).sum()),
              'old_149900_original_photos_unchanged':True,
              'original_149900_50km_three_effects_exactly_reproduced':True,
