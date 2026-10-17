@@ -24,6 +24,9 @@ from scripts.analysis.replay_fcp_149900_plus_wave4_same_spatial_20261017 import 
 from scripts.analysis.run_polymorphism_distributed_polymorphism_posthoc_20261007 import (
     RADII_KM, analyse_species, cohort_summary,
 )
+from scripts.analysis.fcp_u100_original_photo_reuse_20261017 import (
+    inspect_reused_new_u100_source,
+)
 
 COHORTS=("discovery","validation","prospective","wave4","new_U100")
 MAX_TAXA=4730
@@ -66,6 +69,8 @@ def combine(
         raise RuntimeError("all 3 authentic original measured photo cohorts mandatory")
     frames=[];fingerprints={};audits=[]
     photos:set[str]=set();taxa:set[int]=set();species:set[str]=set()
+    old_by_cohort:dict[str,pd.DataFrame]={}
+    source_reuse_audit:dict|None=None
     for name in COHORTS[:3]:
         p=old_paths[name]
         if sha(p)!=original_contract[name]["sha256"]:
@@ -74,6 +79,7 @@ def combine(
             rows=original_contract[name]["rows"],species=original_contract[name]["species"],target=100)
         _check_separately_sampled(d,photos,taxa,species,name)
         frames.append(d);audits.append(a);fingerprints[name]=sha(p)
+        old_by_cohort[name]=d
     if sum(len(f) for f in frames)!=149900 or sum(a["named_species"] for a in audits)!=1499:
         raise RuntimeError("old original 149900 photographic denominator drift")
     for name,path,terminal in (("wave4",wave4,wave4_terminal),("new_U100",new,new_terminal)):
@@ -84,10 +90,28 @@ def combine(
             raise RuntimeError("frozen wave4 498 original photo taxa missing")
         if name=="new_U100" and not 1<=num_taxa<=2733:
             raise RuntimeError("all4730 new U100 source support outside authentic range")
-        d,a=enforce_and_tag(pd.read_csv(path,low_memory=False),label=name,
-                             rows=num_photos,species=num_taxa,target=100)
+        raw=pd.read_csv(path,low_memory=False)
+        if name=="new_U100":
+            # Authenticate the ENTIRE original completed real 256-worker result
+            # before excluding any biologically invalid reused source ID.
+            verified,a0=enforce_and_tag(raw,label=name,rows=num_photos,
+                                         species=num_taxa,target=100)
+            if a0["photo_rows"]!=248100:
+                raise RuntimeError("original new-U100 256-worker source rows missing")
+            # Remove whole 100-photo new taxa, never individual pictures to 99
+            # and never one of the immutable 149900 discovery measurements.
+            raw,source_reuse_audit=inspect_reused_new_u100_source(
+                raw,old_by_cohort,strict_original=True)
+            active_taxa=num_taxa-source_reuse_audit["affected_new_H9_complete_species"]
+            active_rows=len(raw)
+        else:
+            active_taxa=num_taxa
+            active_rows=num_photos
+        d,a=enforce_and_tag(raw,label=name,
+                             rows=active_rows,species=active_taxa,target=100)
         _check_separately_sampled(d,photos,taxa,species,name)
         frames.append(d);audits.append(a);fingerprints[name]=sha(path)
+        old_by_cohort[name]=d
     full=pd.read_csv(all_U100)
     source_receipt=json.loads(metadata_receipt.read_text())
     if (source_receipt.get("schema")!="fcp_u100_all4730_original_h9_only_v1"
@@ -99,12 +123,21 @@ def combine(
         raise RuntimeError("ALL4730 original H9 source ledger not authenticated")
     if len(full)!=MAX_TAXA or full.inat_taxon_id.nunique()!=MAX_TAXA:
         raise RuntimeError("4730 U100 original identities not complete")
+    if not source_reuse_audit:
+        raise RuntimeError("actual full five-cohort source reuse audit missing")
+    excluded=set(source_reuse_audit["affected_new_H9_taxon_IDs"])
+    if (not excluded
+        or not excluded.issubset(set(full.inat_taxon_id))
+        or not full.loc[full.inat_taxon_id.isin(excluded),"final_status"].eq(
+            "new_metadata_100_of_100_photo_IDs").all()):
+        raise RuntimeError("actual discovered reused image IDs not restricted to newly H9 complete taxa")
     union=set(full.inat_taxon_id.astype(int))
     if taxa-union:
         raise RuntimeError("measured original taxon not in authentic U100")
-    if len(taxa)!=1499+498+source_receipt["new_complete_100_photo_species"]:
-        raise RuntimeError("all H9-complete species not pixel-measured exactly once")
-    if len(taxa)+int(source_receipt["new_unmet_100_photo_species"])!=MAX_TAXA:
+    if len(taxa)!=1499+498+source_receipt["new_complete_100_photo_species"]-len(excluded):
+        raise RuntimeError("all independent H9-complete species not photo-measured exactly once")
+    if (len(taxa)+int(source_receipt["new_unmet_100_photo_species"])
+        +len(excluded)!=MAX_TAXA):
         raise RuntimeError("full 4730 taxon denominator was inflated or lost")
     for f in frames:
         pair=f[["inat_taxon_id","species"]].drop_duplicates()
@@ -112,8 +145,9 @@ def combine(
         for tid,name in pair.itertuples(index=False):
             if expected.loc[tid]!=name:raise RuntimeError("historical taxon names changed on extension")
     merged=pd.concat(frames,ignore_index=True,sort=False)
-    if len(merged)!=149900+49800+source_receipt["new_original_photo_IDs"]:
-        raise RuntimeError("all source photographic terminal row count incomplete")
+    if len(merged)!=(149900+49800+source_receipt["new_original_photo_IDs"]
+                    -source_reuse_audit["original_source_photo_rows_removed_whole_taxon"]):
+        raise RuntimeError("independent original fixed-100 photo terminal row count incomplete")
     if merged.photo_id.nunique()!=len(merged) or merged.inat_taxon_id.nunique()!=len(taxa):
         raise RuntimeError("duplicate or missing original image/photo identity")
     result={
@@ -122,6 +156,15 @@ def combine(
       "total_original_100photo_measured_species":len(taxa),
       "total_original_pixel_terminal_photo_rows":len(merged),
       "remaining_U100_under_100_original_H9_photos":int(source_receipt["new_unmet_100_photo_species"]),
+      "new_U100_source_reuse_excluded_taxa":len(excluded),
+      "new_U100_source_reuse_excluded_original_photo_rows":source_reuse_audit[
+          "original_source_photo_rows_removed_whole_taxon"],
+      "new_U100_source_reuse_excluded_taxon_IDs":sorted(excluded),
+      "effective_original_100photo_missing_taxa":int(
+          source_receipt["new_unmet_100_photo_species"])+len(excluded),
+      "original_source_photo_ID_rows_before_reuse_exclusions":(
+          149900+49800+source_receipt["new_original_photo_IDs"]),
+      "original_photo_reuse_whole_taxon_exclusion":source_reuse_audit,
       "original_149900_photo_rows_unchanged":True,
       "old_50km_and_W_estimators_unchanged":True,
       "new_original_photo_rows":len(merged)-149900,
@@ -210,6 +253,16 @@ def main()->None:
         data.to_csv(p,index=False,lineterminator="\n",
                  compression={"method":"gzip","compresslevel":9,"mtime":0})
         r["merged_photo_table_sha256"]=sha(p)
+        # Publish an amended analysis-status ledger without ever editing the
+        # original signed H9 source status file or old 149900 source.
+        eligible=pd.read_csv(getattr(args,"all_U100"),low_memory=False)
+        excluded=set(r["new_U100_source_reuse_excluded_taxon_IDs"])
+        eligible["final_analysis_status"]=eligible["final_status"]
+        eligible.loc[eligible.inat_taxon_id.isin(excluded),"final_analysis_status"]=(
+            "excluded_new_original_source_photo_or_observation_reuse")
+        status=args.out/"fcp_all4730_five_cohort_independent_analysis_status.csv"
+        eligible.to_csv(status,index=False,lineterminator="\n")
+        r["independent_analysis_species_status_sha256"]=sha(status)
         (args.out/"fcp_all4730_original_photo_combine_receipt.json").write_text(
             json.dumps(r,indent=2,sort_keys=True,allow_nan=False)+"\n")
     else:
