@@ -163,10 +163,10 @@ def inspect_all(five: dict[str,dict], original_u100: pd.DataFrame) -> dict:
     if studied-manifest:
         raise RuntimeError("original photographic source taxon names differ from U100")
     baseline={
-        "original_149900_photo_measured":1499,
-        "wave4_49800_photo_id_authorized":498,
-        "new_metadata_100_of_100_photo_IDs":2481,
-        "new_H9_metadata_under_100_or_request_error":252,
+        "original_149900_photo_measured":sum(ACTUAL[k]["taxa"] for k in COHORTS[:3]),
+        "wave4_49800_photo_id_authorized":ACTUAL["wave4"]["taxa"],
+        "new_metadata_100_of_100_photo_IDs":ACTUAL["new_U100"]["taxa"],
+        "new_H9_metadata_under_100_or_request_error":UNMET,
     }
     if original_u100.final_status.value_counts().to_dict()!=baseline:
         raise RuntimeError("original H9 complete/incomplete species ledger drift")
@@ -187,7 +187,7 @@ def inspect_all(five: dict[str,dict], original_u100: pd.DataFrame) -> dict:
         "technically_excluded_entire_new_100photo_taxa":sorted(affected),
         "original_source_100photo_taxa_retain_for_analysis":FINAL_EFFECTIVE_TAXA,
         "original_source_100photo_rows_retain_for_analysis":FINAL_EFFECTIVE_PHOTOS,
-        "original_U100_100photo_underfilled_taxa":252,
+        "original_U100_100photo_underfilled_taxa":UNMET,
         "source_reuse_excluded_additional_taxa":len(affected),
         "original_149900_photo_measurements_unchanged":True,
         "no_99_photo_species_reinsertion":True,
