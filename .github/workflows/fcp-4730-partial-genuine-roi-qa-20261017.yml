@@ -1,6 +1,12 @@
 name: FCP audit actual finished original flower ROI-v4 partitions mid-run
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/fcp_4730_real_roi_partial_packet_audit_20261017.py
+      - tests/test_fcp_4730_real_roi_firewall_audit_20261017.py
+      - .github/workflows/fcp-4730-partial-genuine-roi-qa-20261017.yml
   push:
     branches:
       - main
