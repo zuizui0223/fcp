@@ -1,0 +1,84 @@
+name: FCP audit actual finished original flower ROI-v4 partitions mid-run
+on:
+  push:
+    branches:
+      - analysis/fcp-4730-real-roi-packet-audit-20261017
+    paths:
+      - scripts/analysis/fcp_4730_real_roi_partial_packet_audit_20261017.py
+      - .github/workflows/fcp-4730-partial-genuine-roi-qa-20261017.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  check-genuine-source-blind-photo-terminals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      U100_RUN: "38997169400"
+      WAVE4_RUN: "38992543115"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify immutable original live 248100 and 49800 source ROI runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_live_roi_qa/{new,wave4,output}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$U100_RUN" > /tmp/fcp_live_roi_qa/new_run.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$WAVE4_RUN" > /tmp/fcp_live_roi_qa/wave4_run.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('/tmp/fcp_live_roi_qa')
+          new=json.loads((path/'new_run.json').read_text())
+          old=json.loads((path/'wave4_run.json').read_text())
+          assert new['id']==38997169400 and new['head_sha']=='b79d57686394c1bcbb32fcc2142f0dd19db4ced9'
+          assert new['head_branch']=='main' and new['event']=='push' and new['run_attempt']==1
+          assert old['id']==38992543115 and old['head_sha']=='ef448c9514e0c702e7887e00b288ee966728b0d5'
+          assert old['event']=='pull_request' and old['run_attempt']==1
+          assert new['conclusion']!='failure' and old['conclusion']!='failure'
+          assert new['head_repository']['full_name']==old['head_repository']['full_name']=='zuizui0223/fcp'
+          (path/'source_run_provenance.json').write_text(json.dumps({'new_U100':new,'wave4':old},indent=2)+'\n')
+          print('FCP4730_REAL_ORIGINAL_IMAGE_SOURCE_IDENTITY_PRECHECK_PASS')
+          PY
+      - name: Download only already COMPLETED historical ROI-v4 CPU pixel terminals from both live runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run download "$U100_RUN" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp-all4730-original-b*' \
+            --dir /tmp/fcp_live_roi_qa/new
+          gh run download "$WAVE4_RUN" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp-wave4-original-b*' \
+            --dir /tmp/fcp_live_roi_qa/wave4
+          echo FCP4730_ACTUAL_ORIGINAL_FINISHED_ROI_ARTIFACTS_RETRIEVED
+      - name: Independently verify every sealed photo row, morph label and no duplicate image ID
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_4730_real_roi_partial_packet_audit_20261017.py \
+            --new /tmp/fcp_live_roi_qa/new \
+            --wave4 /tmp/fcp_live_roi_qa/wave4 \
+            --source-run-records /tmp/fcp_live_roi_qa/source_run_provenance.json \
+            --output /tmp/fcp_live_roi_qa/output
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/fcp_live_roi_qa/output/real_original_partial_roi_quality.json'))
+          assert x['original_h9_source_frame_taxa']==4730
+          assert x['new_source_plus_wave4_original_IDs']==297900
+          assert x['original_149900_photo_measurements_not_opened_or_changed'] is True
+          assert x['original_species_conditional_50km_or_H1W_not_inferred'] is True
+          assert x['cohorts']['new_U100']['terminal_photo_rows']>0
+          assert x['cohorts']['wave4']['terminal_photo_rows']>0
+          assert x['both_new_cohorts_completed_unique_blind_measurement_IDs']==(
+              x['cohorts']['new_U100']['terminal_photo_rows']+
+              x['cohorts']['wave4']['terminal_photo_rows'])
+          print('FCP4730_GENUINE_COMPLETED_PARTIAL_MEASUREMENT_ACCOUNTED_NO_INFERENCE')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-4730-two-real-original-ROI-partial-photo-qa-20261017
+          path: /tmp/fcp_live_roi_qa/output/
+          retention-days: 90
+          if-no-files-found: error
