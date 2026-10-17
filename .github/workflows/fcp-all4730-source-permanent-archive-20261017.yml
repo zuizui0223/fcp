@@ -1,0 +1,169 @@
+name: FCP archive all 4730 original H9 source identities permanently
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-all4730-source-permanent-archive-20261017.yml
+  workflow_run:
+    workflows:
+      - FCP full 4730 U100 bulk historical-H9 photo metadata
+    types: [completed]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-all4730-original-H9-source-release-20261017
+  cancel-in-progress: false
+jobs:
+  archive-all-2733-real-original-H9-photo-sources:
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id == 38993836606 && github.event.workflow_run.head_sha == '9c1298956941769fdfd62aeaa7d61febf1154c3e' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_ID: "38993836606"
+      SOURCE_SHA: "9c1298956941769fdfd62aeaa7d61febf1154c3e"
+      RELEASE_TAG: fcp-all4730-original-H9-source-20261017
+      STORE: /tmp/fcp4730_long_term_source
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Authenticate the exact successful 4730 original H9 photo source run
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$STORE"/{source,inventory,shards,release,verify}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_ID" > "$STORE/run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['STORE'])/'run.json').read_text())
+          assert r['id']==int(os.environ['SOURCE_ID'])
+          assert r['head_sha']==os.environ['SOURCE_SHA']
+          assert r['event']=='pull_request'
+          assert r['run_attempt']==1
+          assert r['status']=='completed' and r['conclusion']=='success'
+          print('FCP_FULL_4730_REAL_ORIGINAL_H9_SOURCE_VERIFIED',r['html_url'])
+          PY
+          gh run download "$SOURCE_ID" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-actual-H9-2733-source-metadata-terminal \
+            --dir "$STORE/source"
+          gh run download "$SOURCE_ID" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-original-identity-inventory \
+            --dir "$STORE/inventory"
+          for i in 0 1 2 3; do
+            mkdir -p "$STORE/shards/shard_$i"
+            gh run download "$SOURCE_ID" --repo "$GITHUB_REPOSITORY" \
+              --name "shard_$i" --dir "$STORE/shards/shard_$i"
+          done
+      - name: Strict all 4730 species, source SHA, original 100-photo H9 and four shard audits
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ['STORE'])
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          m=json.loads((root/'source/all4730_metadata_result.json').read_text())
+          inv=json.loads((root/'inventory/inventory_result.json').read_text())
+          if (m.get('schema')!='fcp_u100_all4730_original_h9_only_v1'
+              or m.get('stage')!='all_4730_H9_metadata_terminal'
+              or m.get('new_attempted_species')!=2733
+              or m.get('U100_identity_species')!=4730
+              or m.get('old_measured_species')!=1499
+              or m.get('wave4_original_photo_metadata_species')!=498
+              or m.get('verified_against_all_4_complete_shards') is not True
+              or m.get('metadata_gate_pass') is not True
+              or m.get('photo_pixels_opened') is not False
+              or m.get('old_149900_method_and_results_changed') is not False
+              or inv.get('new_unmeasured_species')!=2733):
+              raise SystemExit('Source 4730 cohort gates not complete')
+          for name,digest in m['outputs_sha256'].items():
+              if sha(root/'source'/name)!=digest:
+                  raise SystemExit('Combined H9 source SHA drift: '+name)
+          for name,digest in inv['outputs_sha256'].items():
+              if sha(root/'inventory'/name)!=digest:
+                  raise SystemExit('Original U100 identity SHA drift: '+name)
+          selected=set(pd.read_csv(root/'inventory/unmeasured_2733_taxa.csv').inat_taxon_id)
+          seen=set();old=0;actual=0;candidate=0
+          for i in range(4):
+              folder=root/f'shards/shard_{i}'
+              s=json.loads((folder/'shard_result.json').read_text())
+              if s['schema']!=m['schema'] or s['shard']!=i or s['shards']!=4:
+                  raise SystemExit('Four genuine source shards incomplete')
+              for name,digest in s['outputs_sha256'].items():
+                  if sha(folder/name)!=digest or digest!=m['inputs_sha256'][f'shard_{i}'][name]:
+                      raise SystemExit('Original H9 shard SHA drift: '+name)
+              taxa=set(pd.read_csv(folder/'selected_species.csv').inat_taxon_id)
+              if seen & taxa: raise SystemExit('U100 taxa duplicated between shards')
+              seen |= taxa
+              old+=int(s['selected_species'])
+              actual+=int(s['authorized_original_photo_IDs'])
+              candidate+=int(s['complete_100_photo_species'])
+              if s['image_pixels_opened'] is not False or s['same_original_H9_function'] is not True:
+                  raise SystemExit('Original H9 sampling method changed')
+          if seen!=selected or old!=2733 or actual!=m['new_original_photo_IDs'] or candidate!=m['new_complete_100_photo_species'] or actual!=candidate*100:
+              raise SystemExit('Entire U100 source audit incomplete')
+          photo=pd.read_csv(root/'source/remaining_U100_authorized_metadata.csv.gz')
+          if len(photo)!=actual or photo.photo_id.nunique()!=len(photo) or photo.observation_id.nunique()!=len(photo):
+              raise SystemExit('Source U100 observation/photo IDs duplicated')
+          if not photo.groupby('inat_taxon_id').size().eq(100).all():
+              raise SystemExit('Original 100 photos per complete U100 taxon changed')
+          print('FCP_4730_REAL_ORIGINAL_METADATA_VERIFIED',actual,candidate,flush=True)
+          PY
+      - name: Create deterministic source-only archive with SHA256 receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$STORE" --sort=name --mtime='UTC 1970-01-01' \
+            --owner=0 --group=0 --numeric-owner \
+            -cf - source inventory shards | gzip -n -9 \
+            > "$STORE/release/fcp_all4730_original_H9_source_metadata_20261017.tar.gz"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['STORE'])
+          pack=root/'release/fcp_all4730_original_H9_source_metadata_20261017.tar.gz'
+          metadata=json.loads((root/'source/all4730_metadata_result.json').read_text())
+          audit={
+             'schema':'fcp_all4730_original_H9_durable_source_release_v1',
+             'original_frame_species':4730,
+             'old_original_149900_photos_preserved':True,
+             'new_unmeasured_species_all_attempted':2733,
+             'new_authorized_exact_100photo_species':metadata['new_complete_100_photo_species'],
+             'new_authorized_original_photo_IDs':metadata['new_original_photo_IDs'],
+             'new_under_100_original_photo_taxa':metadata['new_unmet_100_photo_species'],
+             'no_image_pixels_measured_in_this_release':True,
+             'archive_sha256':hashlib.sha256(pack.read_bytes()).hexdigest(),
+             'archive_bytes':pack.stat().st_size,
+             'original_source_run_id':38993836606,
+          }
+          (root/'release/fcp_all4730_original_H9_source_receipt.json').write_text(
+            json.dumps(audit,indent=2,sort_keys=True)+'\n')
+          print('FCP_4730_FROZEN_ORIGINAL_SOURCE_ARCHIVE',json.dumps(audit,sort_keys=True))
+          PY
+      - name: Publish permanent once-only original source release with verified archive round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Original H9 4730 source release already exists; refusing overwrite"
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" \
+            "$STORE/release/fcp_all4730_original_H9_source_metadata_20261017.tar.gz" \
+            "$STORE/release/fcp_all4730_original_H9_source_receipt.json" \
+            --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" \
+            --title "FCP complete 4730 original H9 photo-source identity ledger (NOT pixel measurements)" \
+            --notes "Historical 149900 photographic colour results unchanged. All 4730 originally eligible U100 taxa accounted. Additional 2733 unmeasured taxa attempted by the exact original 1-page H9 method; authorized complete 100-photo taxa and any missing taxa audited. This is metadata, not flower-colour pixel classification."
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_all4730_original_H9_source_metadata_20261017.tar.gz' \
+            --dir "$STORE/verify"
+          cmp "$STORE/release/fcp_all4730_original_H9_source_metadata_20261017.tar.gz" \
+            "$STORE/verify/fcp_all4730_original_H9_source_metadata_20261017.tar.gz"
+          echo FCP_ALL_4730_REAL_ORIGINAL_SOURCE_PERMANENT_RELEASE_VERIFIED
