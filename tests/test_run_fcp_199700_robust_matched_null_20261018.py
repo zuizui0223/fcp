@@ -92,7 +92,7 @@ def test_frozen_original_mean_null_reproduces_before_extra_stats():
     data, frozen_species, stat, expected = _synthetic()
     result = m.matched_from_photos(data, frozen_species, stat, expected=expected)
     assert result["all_cohorts_old_mean_nulls_replayed"] is True
-    assert result["status"] == "post_hoc_exploratory_not_multiple_test_corrected"
+    assert result["status"] == "post_hoc_exploratory_within_family_holm_not_global_multiplicity_corrected"
     assert result["tests"]["pooled"]["eligible_species"] == 8
     for k in (*m.COHORTS, "pooled"):
         test = result["tests"][k]["exploratory_matched_null"]
