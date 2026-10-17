@@ -1,0 +1,169 @@
+{
+  "schema": "fcp_199700_archived_50km_species_leverage_result_record_v1",
+  "status": "descriptive_exploratory_post_hoc_only",
+  "empirical_source": "genuine original method 199700 photographed flower pixels; authentic published frozen four-cohort species table",
+  "source_release": "https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017",
+  "source_release_sha256": "844c255f28406b5158a8ac3e27d94b32aad48d785efd3c4ae512fb30ee1871ee",
+  "workflow_run_id": 39042459866,
+  "workflow_job_id": 117424518828,
+  "workflow_test_count_passed": 6,
+  "date": "2026-10-17",
+  "measured_photo_rows": 199700,
+  "total_four_cohort_species": 1997,
+  "frozen_spatial_50km_eligible_species": 741,
+  "radius_selection": "post hoc",
+  "null": "original unchanged within-species 199 complete-vertex label permutations; old p-values reproduced, no new null test",
+  "no_ecological_causal_claim": true,
+  "cohorts": {
+    "discovery": {
+      "fraction_positive": 0.5481927710843374,
+      "fraction_zero": 0.10240963855421686,
+      "frozen_original_50km_upper_p": 0.005,
+      "leave_largest_positive_effects_out": {
+        "10pct": {
+          "n_removed": 17,
+          "remaining_mean_depletion": 0.003263382698533008,
+          "remaining_species": 149
+        },
+        "20pct": {
+          "n_removed": 34,
+          "remaining_mean_depletion": -0.00405985212751013,
+          "remaining_species": 132
+        },
+        "5pct": {
+          "n_removed": 9,
+          "remaining_mean_depletion": 0.009245081141393972,
+          "remaining_species": 157
+        }
+      },
+      "mean_depletion": 0.020529254583812915,
+      "median_depletion": 0.0057990928739945005,
+      "n_negative": 58,
+      "n_positive": 91,
+      "n_species": 166,
+      "n_zero": 17,
+      "q25_depletion": -0.012762741645525474,
+      "q75_depletion": 0.0391829972237156
+    },
+    "prospective": {
+      "fraction_positive": 0.553921568627451,
+      "fraction_zero": 0.058823529411764705,
+      "frozen_original_50km_upper_p": 0.005,
+      "leave_largest_positive_effects_out": {
+        "10pct": {
+          "n_removed": 21,
+          "remaining_mean_depletion": 0.0007783582240808334,
+          "remaining_species": 183
+        },
+        "20pct": {
+          "n_removed": 41,
+          "remaining_mean_depletion": -0.00778839402636329,
+          "remaining_species": 163
+        },
+        "5pct": {
+          "n_removed": 11,
+          "remaining_mean_depletion": 0.0056915019567979185,
+          "remaining_species": 193
+        }
+      },
+      "mean_depletion": 0.014684919684371842,
+      "median_depletion": 0.00564414140991,
+      "n_negative": 79,
+      "n_positive": 113,
+      "n_species": 204,
+      "n_zero": 12,
+      "q25_depletion": -0.016075346988474775,
+      "q75_depletion": 0.03885503213084937
+    },
+    "validation": {
+      "fraction_positive": 0.574585635359116,
+      "fraction_zero": 0.09392265193370165,
+      "frozen_original_50km_upper_p": 0.005,
+      "leave_largest_positive_effects_out": {
+        "10pct": {
+          "n_removed": 19,
+          "remaining_mean_depletion": 0.0009838203272892877,
+          "remaining_species": 162
+        },
+        "20pct": {
+          "n_removed": 37,
+          "remaining_mean_depletion": -0.007391058089678641,
+          "remaining_species": 144
+        },
+        "5pct": {
+          "n_removed": 10,
+          "remaining_mean_depletion": 0.006645402535238486,
+          "remaining_species": 171
+        }
+      },
+      "mean_depletion": 0.018672971642749288,
+      "median_depletion": 0.0074041353778843,
+      "n_negative": 60,
+      "n_positive": 104,
+      "n_species": 181,
+      "n_zero": 17,
+      "q25_depletion": -0.018487428310611,
+      "q75_depletion": 0.0410612405497315
+    },
+    "wave4": {
+      "fraction_positive": 0.5736842105263158,
+      "fraction_zero": 0.07894736842105263,
+      "frozen_original_50km_upper_p": 0.005,
+      "leave_largest_positive_effects_out": {
+        "10pct": {
+          "n_removed": 19,
+          "remaining_mean_depletion": 0.0025046197047748323,
+          "remaining_species": 171
+        },
+        "20pct": {
+          "n_removed": 38,
+          "remaining_mean_depletion": -0.006558930076613979,
+          "remaining_species": 152
+        },
+        "5pct": {
+          "n_removed": 10,
+          "remaining_mean_depletion": 0.008068194110761559,
+          "remaining_species": 180
+        }
+      },
+      "mean_depletion": 0.017293596294403583,
+      "median_depletion": 0.00555576601746985,
+      "n_negative": 66,
+      "n_positive": 109,
+      "n_species": 190,
+      "n_zero": 15,
+      "q25_depletion": -0.01882301336150285,
+      "q75_depletion": 0.047288830183567
+    }
+  },
+  "pooled": {
+    "fraction_positive": 0.562753036437247,
+    "fraction_zero": 0.08232118758434548,
+    "frozen_original_50km_upper_p": 0.005,
+    "leave_largest_positive_effects_out": {
+      "10pct": {
+        "n_removed": 75,
+        "remaining_mean_depletion": 0.0019112001133662468,
+        "remaining_species": 666
+      },
+      "20pct": {
+        "n_removed": 149,
+        "remaining_mean_depletion": -0.006552601609755137,
+        "remaining_species": 592
+      },
+      "5pct": {
+        "n_removed": 38,
+        "remaining_mean_depletion": 0.007657727057618142,
+        "remaining_species": 703
+      }
+    },
+    "mean_depletion": 0.017637207880970444,
+    "median_depletion": 0.005973562372409,
+    "n_negative": 263,
+    "n_positive": 417,
+    "n_species": 741,
+    "n_zero": 61,
+    "q25_depletion": -0.0163461538461538,
+    "q75_depletion": 0.0404885607510709
+  }
+}
