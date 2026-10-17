@@ -27,8 +27,8 @@ env:
   PYTHONPATH: "."
   WAVE4_ROI_RUN: "38992543115"
   WAVE4_ROI_SHA: "ef448c9514e0c702e7887e00b288ee966728b0d5"
-  ORIGINAL_U100_SOURCE_RUN: "38993836606"
-  ORIGINAL_U100_SOURCE_SHA: "9c1298956941769fdfd62aeaa7d61febf1154c3e"
+  ORIGINAL_U100_SOURCE_RUN: "38996743273"
+  ORIGINAL_U100_SOURCE_SHA: "61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
   ALL4730_ROI_RUN: ${{ github.event.workflow_run.id || inputs.roi_run_id }}
 jobs:
   code-preflight:
@@ -93,6 +93,9 @@ jobs:
           assert source['id']==int(os.environ['ORIGINAL_U100_SOURCE_RUN'])
           assert source['head_sha']==os.environ['ORIGINAL_U100_SOURCE_SHA']
           assert source['status']=='completed' and source['conclusion']=='success'
+          assert source['name']=='FCP recover 4730 exact H9 global ID source from four authentic shards'
+          assert source['event']=='push'
+          assert source['head_branch']=='fix/fcp-4730-consolidate-original-h9-global-seen-20261017'
           assert source['run_attempt']==1
           print('ALL_4730_EXACT_ORIGINAL_PHOTO_SOURCE_AND_ROI_RUNS_VERIFIED',new['id'])
           PY
