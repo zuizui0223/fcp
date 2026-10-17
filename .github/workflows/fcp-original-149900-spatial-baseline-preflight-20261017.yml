@@ -69,8 +69,8 @@ jobs:
                   rows.append(row)
                   for rad in RADII_KM:by_radius[rad].append(null[rad])
               out=cohort_summary(pd.DataFrame(rows),by_radius)
-              statistics["cohorts"][name]={"radii":{"50":out[50.]}}
-              r=out[50.]
+              statistics["cohorts"][name]={"radii":{"50":out['50']}}
+              r=out['50']
               print('FCP_ORIGINAL_50KM_REAL_REPLAY',json.dumps({
                   "cohort":name,"n_species":r['n_species'],
                   "mean_depletion":r['mean_depletion'],
