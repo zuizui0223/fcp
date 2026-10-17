@@ -55,7 +55,7 @@ jobs:
           python -m py_compile scripts/analysis/combine_fcp_all4730_originals_20261017.py
   frozen-original-plus-two-genuine-new-wave-measurements:
     needs: code-preflight
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main') }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event == 'push' && github.event.workflow_run.id == 38997169400 && github.event.workflow_run.head_sha == 'b79d57686394c1bcbb32fcc2142f0dd19db4ced9') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -81,6 +81,9 @@ jobs:
           wave=json.loads((base/'wave4_run.json').read_text())
           source=json.loads((base/'meta_run.json').read_text())
           assert new['id']==int(os.environ['ALL4730_ROI_RUN'])
+          assert new['id']==38997169400
+          assert new['head_sha']=='b79d57686394c1bcbb32fcc2142f0dd19db4ced9'
+          assert new['event']=='push'
           assert new['name']=='FCP full 4730 original flower ROI and H1 D 50km W replay'
           assert new['head_branch']=='main'
           assert new['status']=='completed' and new['conclusion']=='success'
