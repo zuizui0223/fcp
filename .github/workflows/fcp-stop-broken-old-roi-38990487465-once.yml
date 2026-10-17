@@ -1,0 +1,57 @@
+name: FCP one-shot stop broken ROI worker import run
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-stop-broken-old-roi-38990487465-once.yml
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: fcp-once-stop-import-broken-38990487465
+  cancel-in-progress: false
+jobs:
+  stop-only-confirmed-invalid-original-roi-run:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      STOP_RUN_ID: "38990487465"
+      STOP_EXPECTED_SHA: "4462c5cee5a190f6d551f232712ff161f16910bf"
+    steps:
+      - name: Verify source, image-import failure, and scope before stopping workers
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$STOP_RUN_ID" > "$RUNNER_TEMP/fcp_target.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$STOP_RUN_ID/jobs?per_page=100" > "$RUNNER_TEMP/fcp_jobs.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          d=json.loads((root/"fcp_target.json").read_text())
+          jobs=json.loads((root/"fcp_jobs.json").read_text()).get("jobs",[])
+          if d.get("id")!=38990487465 or d.get("head_sha")!=os.environ["STOP_EXPECTED_SHA"]:
+              raise SystemExit("FCP cancellation rejected: original ROI run/head identity mismatch")
+          if d.get("name")!="FCP wave4 identical original photo ROI and D W spatial replay":
+              raise SystemExit("FCP cancellation rejected: workflow name changed")
+          if d.get("head_branch")!="analysis/fcp-wave4-unchanged-pixel-replay-20261017":
+              raise SystemExit("FCP cancellation rejected: branch mismatch")
+          errors=[j for j in jobs if j.get("name","").startswith("unmodified-original-roi-workers")
+                  and j.get("conclusion")=="failure"]
+          if not errors:
+              raise SystemExit("FCP cancellation rejected: no verified failed ROI jobs")
+          if d.get("status")=="completed":
+              print("BROKEN_FCP_ROI_RUN_ALREADY_TERMINAL_NO_ACTION",d.get("conclusion"),flush=True)
+              (root/"fcp_no_cancel_needed").touch()
+          elif d.get("status") in ("queued","in_progress","waiting"):
+              print("FCP_BROKEN_ROI_IMPORT_ATTEMPT_CANCEL_AUTHORIZED",d["id"],len(errors),flush=True)
+          else:
+              raise SystemExit("FCP cancellation rejected: unsupported state")
+          PY
+      - name: Cancel only the verified repeatedly failing original ROI run
+        if: ${{ hashFiles(format('{0}/fcp_no_cancel_needed', runner.temp)) == '' }}
+        run: |
+          gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$STOP_RUN_ID/cancel"
+          echo "FCP_BROKEN_OLD_PIXEL_RUN_CANCEL_REQUESTED"
