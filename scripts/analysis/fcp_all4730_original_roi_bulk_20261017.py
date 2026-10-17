@@ -28,8 +28,8 @@ from scripts.analysis.run_fcp_wave4_original_roi_and_statistics_20261017 import 
     FRACTIONS, MORPHS,
 )
 
-SOURCE_RUN_ID = 38993836606
-SOURCE_HEAD = "9c1298956941769fdfd62aeaa7d61febf1154c3e"
+SOURCE_RUN_ID = 38996743273
+SOURCE_HEAD = "61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
 N_BATCHES = 2
 N_SHARDS = 32
 N_PARTS = 4
