@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - analysis/fcp-4730-real-roi-packet-audit-20261017
+      - main
     paths:
       - scripts/analysis/fcp_4730_real_roi_partial_packet_audit_20261017.py
       - tests/test_fcp_4730_real_roi_firewall_audit_20261017.py
