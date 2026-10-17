@@ -32,7 +32,98 @@ def digest(file: Path) -> str:
     return h.hexdigest()
 
 
-def inspect_group(root:Path, *, label:str, global_ids:set[str])->tuple[dict,list[dict]]:
+def authenticate_original_blind_firewall(root:Path, label:str)->tuple[dict,dict]:
+    """Verify the original 256-partition *source assignments*, not only ROI receipts.
+
+    The firewall is the pixel-stage original SHA-pinned manifest, created
+    without opening photographs. No biological or geographical fields are
+    copied into the audit outputs.
+    """
+    if label not in TARGET:
+        raise RuntimeError("unknown immutable original photo cohort")
+    manifest=root/"measurement_firewall_manifest.json"
+    frozen=root/"partition_assignments.csv"
+    sealed=root/"sealed_keys/metadata_join_key.csv"
+    if not all(path.is_file() for path in (manifest,frozen,sealed)):
+        raise RuntimeError("original pre-pixel photograph-ID firewall incomplete")
+    receipt=json.loads(manifest.read_text())
+    schema=("fcp_all4730_original_v4_blind_firewall_v1" if label=="new_U100"
+            else "fcp_same_149900_method_wave4_firewall_v1")
+    if (receipt.get("schema")!=schema
+        or receipt.get("new_photo_rows")!=TARGET[label]["original_photo_ids"]
+        or receipt.get("partitions")!=256
+        or receipt.get("blind_worker_columns")!=["measurement_id","image_filename","photo_license"]
+        or receipt.get("photo_pixels_opened") is not False):
+        raise RuntimeError("original source ROI firewall source identity or method drift")
+    if label=="new_U100":
+        if (receipt.get("source_run_id")!=38996743273
+            or receipt.get("new_100photo_species")!=2481
+            or receipt.get("coordinates_or_taxa_in_pixel_worker") is not False):
+            raise RuntimeError("original FCP full-U100 source identity was changed")
+        sha_field="metadata_join_SHA256"
+    else:
+        if (receipt.get("source_metadata_run_id")!=38989666486
+            or receipt.get("new_species")!=498
+            or receipt.get("source_photo_urls_in_worker") is not False):
+            raise RuntimeError("original wave4 source colour-blind firewall drift")
+        sha_field="metadata_join_sha256"
+    if digest(sealed)!=receipt.get(sha_field):
+        raise RuntimeError("immutable original sealed metadata join SHA drift")
+    assignments={}
+    seen=set()
+    expected_by_batch={0:set(),1:set()}
+    with frozen.open(newline="",encoding="utf8") as f:
+        reader=csv.DictReader(f)
+        if not reader.fieldnames or not {"measurement_id","batch","semantic_shard","compute_partition"} <= set(reader.fieldnames):
+            raise RuntimeError("original 256-worker pre-pixel assignment schema drift")
+        for item in reader:
+            mid=item["measurement_id"].strip()
+            b,s,p=(int(item[k]) for k in ("batch","semantic_shard","compute_partition"))
+            if not mid or mid in seen or not(0<=b<2 and 0<=s<32 and 0<=p<4):
+                raise RuntimeError("duplicated original photo assignment/invalid 256-worker index")
+            seen.add(mid)
+            assignments.setdefault((b,s,p),set()).add(mid)
+            expected_by_batch[b].add(mid)
+    if len(seen)!=TARGET[label]["original_photo_ids"]:
+        raise RuntimeError("original photo firewall assignment denominator changed")
+    for b in (0,1):
+        packet=root/f"batch_{b}/worker_packet/measurement_manifest.csv"
+        if not packet.is_file():
+            raise RuntimeError("missing original blind photo worker manifest")
+        ids=set()
+        with packet.open(newline="",encoding="utf8") as f:
+            reader=csv.DictReader(f)
+            if reader.fieldnames!=["measurement_id","image_filename","photo_license"]:
+                raise RuntimeError("original pixel worker interface no longer blind")
+            for item in reader:
+                mid=item["measurement_id"].strip()
+                if not mid or mid in ids or item["image_filename"]!=mid+".jpg":
+                    raise RuntimeError("frozen original measurement manifest ID/filename drift")
+                ids.add(mid)
+        if ids!=expected_by_batch[b]:
+            raise RuntimeError("original blinded worker photo-ID coverage differs from frozen assignment")
+    sealed_ids=set()
+    with sealed.open(newline="",encoding="utf8") as f:
+        reader=csv.DictReader(f)
+        if not reader.fieldnames or "measurement_id" not in reader.fieldnames:
+            raise RuntimeError("original sealed join key invalid")
+        for item in reader:
+            mid=item["measurement_id"].strip()
+            if not mid or mid in sealed_ids:
+                raise RuntimeError("original sealed metadata join has duplicate photo IDs")
+            sealed_ids.add(mid)
+    if sealed_ids!=seen:
+        raise RuntimeError("sealed original photo IDs do not match blind worker firewall")
+    return assignments,{"frozen_firewall_photo_IDs":len(seen),
+                        "frozen_firewall_sha256":digest(manifest),
+                        "frozen_partition_assignments_sha256":digest(frozen),
+                        "original_256_partition_assignments_validated":True,
+                        "each_batch_worker_IDs_match_frozen_firewall":True,
+                        "sealed_metadata_join_matches_original_blind_IDs":True}
+
+
+def inspect_group(root:Path, *, label:str, global_ids:set[str],
+                  assignment:dict)->tuple[dict,list[dict]]:
     if label not in TARGET:
         raise RuntimeError("Unrecognised frozen original ROI cohort")
     receipts=list(root.rglob("b*_partition_s*_p*.json"))
@@ -66,6 +157,8 @@ def inspect_group(root:Path, *, label:str, global_ids:set[str])->tuple[dict,list
             or receipt.get("coordinates_present") is not False):
             raise RuntimeError("Historical blind original colour terminal contract violated")
         total=classified=uncertain=failed=0
+        this_part_ids=set()
+        frozen_part=assignment.get((b,s,p),set())
         with csv_file.open(newline="",encoding="utf8") as f:
             reader=csv.DictReader(f)
             if not reader.fieldnames or not {"measurement_id","morph","measurement_status"} <= set(reader.fieldnames):
@@ -76,6 +169,9 @@ def inspect_group(root:Path, *, label:str, global_ids:set[str])->tuple[dict,list
                 measurement=row["measurement_id"].strip()
                 if not measurement or measurement in global_ids:
                     raise RuntimeError("Missing/duplicated original blind measurement ID")
+                if measurement not in frozen_part or measurement in this_part_ids:
+                    raise RuntimeError("original pixel terminal ID not assigned to this frozen partition")
+                this_part_ids.add(measurement)
                 global_ids.add(measurement)
                 total+=1
                 if row["morph"] in ALLOWED:
@@ -87,6 +183,8 @@ def inspect_group(root:Path, *, label:str, global_ids:set[str])->tuple[dict,list
                 else:
                     raise RuntimeError("Unrecognised original four-state/mixed morph")
                 failed+=(row["measurement_status"]=="image_acquisition_failed")
+        if this_part_ids!=frozen_part:
+            raise RuntimeError("original ROI completed packet omits a frozen pre-pixel photo ID")
         if (total!=receipt.get("terminal_rows")
             or total!=receipt.get("selected_rows")
             or classified!=receipt.get("classified_rows")
@@ -121,6 +219,8 @@ def main()->None:
     p=argparse.ArgumentParser()
     p.add_argument("--new",type=Path,required=True)
     p.add_argument("--wave4",type=Path,required=True)
+    p.add_argument("--new-firewall",type=Path,required=True)
+    p.add_argument("--wave4-firewall",type=Path,required=True)
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--source-run-records",type=Path,required=True)
     a=p.parse_args()
@@ -131,9 +231,15 @@ def main()->None:
             or record.get("run_attempt")!=1
             or record.get("conclusion")=="failure"):
             raise RuntimeError("Untrusted original photographic run preflight")
+    new_assign,new_firewall=authenticate_original_blind_firewall(a.new_firewall,"new_U100")
+    wave_assign,wave_firewall=authenticate_original_blind_firewall(a.wave4_firewall,"wave4")
+    new_all_ids=set().union(*new_assign.values())
+    wave_all_ids=set().union(*wave_assign.values())
+    if new_all_ids & wave_all_ids:
+        raise RuntimeError("new-U100 and wave4 original frozen photo IDs overlap")
     seen=set()
-    new,detail_new=inspect_group(a.new,label="new_U100",global_ids=seen)
-    wave,detail_wave=inspect_group(a.wave4,label="wave4",global_ids=seen)
+    new,detail_new=inspect_group(a.new,label="new_U100",global_ids=seen,assignment=new_assign)
+    wave,detail_wave=inspect_group(a.wave4,label="wave4",global_ids=seen,assignment=wave_assign)
     result={
         "schema":"fcp_4730_genuine_original_roi_partial_terminal_quality_audit_v1",
         "snapshot_is_partial_until_both_256_partition_runs_succeed":True,
@@ -145,6 +251,9 @@ def main()->None:
         "original_species_conditional_50km_or_H1W_not_inferred":True,
         "source_run_ids":{k:v["run_id"] for k,v in TARGET.items()},
         "cohorts":{"new_U100":new,"wave4":wave},
+        "original_blind_firewall_audits":{"new_U100":new_firewall,"wave4":wave_firewall},
+        "all_original_photo_source_blind_firewall_IDs_unique_and_disjoint":True,
+        "every_completed_ROI_partition_has_exact_frozen_photo_IDs":True,
         "both_new_cohorts_completed_unique_blind_measurement_IDs":len(seen),
         "new_plus_wave4_classified_four_state_rows":new["classified_four_state_rows"]+wave["classified_four_state_rows"],
         "new_plus_wave4_mixed_uncertain_rows":new["mixed_uncertain_rows"]+wave["mixed_uncertain_rows"],
