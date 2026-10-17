@@ -159,3 +159,17 @@ def test_top_tail_p_uses_new_selection_for_each_permutation():
     assert row["upper_p_exploratory"] == pytest.approx(
         (1 + (expected >= observed).sum()) / 200
     )
+
+
+def test_holm_adjustment_within_four_exploratory_robust_tests():
+    values = np.array([.1, -.1, .1, -.1, .2], dtype=float)
+    null = np.zeros((5, 199))
+    result = m.statistics(values, null)
+    tested = ("median", "fraction_positive", "drop_top_10pct", "drop_top_20pct")
+    for metric in tested:
+        q = result[metric]
+        assert q["multiplicity_family_size"] == 4
+        assert q["holm_p_within_four_robust_tests_exploratory"] >= q["upper_p_exploratory"]
+        assert 0 <= q["holm_p_within_four_robust_tests_exploratory"] <= 1
+    assert result["mean"]["holm_p_within_four_robust_tests_exploratory"] is None
+    assert result["mean"]["multiplicity_family_size"] == 0
