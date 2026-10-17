@@ -1,0 +1,240 @@
+name: FCP full 4730 original flower ROI and H1 D 50km W replay
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py
+      - tests/test_fcp_all4730_original_roi_bulk_20261017.py
+      - .github/workflows/fcp-all4730-original-roi-20261017.yml
+  workflow_run:
+    workflows:
+      - FCP full 4730 U100 bulk historical-H9 photo metadata
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-all4730-original-pixels-single-pipeline-v1
+  cancel-in-progress: false
+env:
+  SOURCE_RUN_ID: "38993836606"
+  SOURCE_RUN_SHA: "9c1298956941769fdfd62aeaa7d61febf1154c3e"
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  PYTHONPATH: "."
+  GH_TOKEN: ${{ github.token }}
+jobs:
+  original-import-preflight-no-image-pixels:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify unchanged original H9/ROI scientific import path without photographs
+        run: |
+          bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_all4730_original_roi_bulk_20261017.py
+          python -m py_compile scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py
+  freeze-new-original-pixel-IDs:
+    needs: original-import-preflight-no-image-pixels
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.id == 38993836606 && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_sha == '9c1298956941769fdfd62aeaa7d61febf1154c3e' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 88
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore exact original model implementations and test transport
+        run: |
+          bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_all4730_original_roi_bulk_20261017.py
+      - name: Verify signed successful 500 species ID acquisition before opening pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          mkdir -p /tmp/wave4/source
+          for attempt in $(seq 1 80); do
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" > /tmp/wave4/source_run.json
+            SOURCE_STATUS=$(python -c "import json; print(json.load(open('/tmp/wave4/source_run.json'))['status'])")
+            if [ "$SOURCE_STATUS" = completed ]; then break; fi
+            sleep 60
+          done
+          python - <<'PY'
+          import json,os
+          r=json.load(open('/tmp/wave4/source_run.json'))
+          assert r['id']==int(os.environ['SOURCE_RUN_ID']) and r['head_sha']==os.environ['SOURCE_RUN_SHA']
+          assert r['status']=='completed' and r['conclusion']=='success' and r['event']=='pull_request' and r['run_attempt']==1
+          print('ORIGINAL_SOURCE_VERIFIED',r['html_url'])
+          PY
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-actual-H9-2733-source-metadata-terminal \
+            --dir /tmp/wave4/source
+      - name: Generate original three-field location-blind firewall without reading photo pixels
+        run: |
+          python scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py firewall \
+            --source /tmp/wave4/source --out /tmp/wave4/firewall
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/wave4/firewall/measurement_firewall_manifest.json'))
+          assert x['source_run_id']==38993836606
+          assert x['all_original_U100_taxa']==4730
+          assert x['new_photo_rows']==x['new_100photo_species']*100
+          assert x['partitions']==256
+          assert x['blind_worker_columns']==['measurement_id','image_filename','photo_license']
+          assert x['coordinates_or_taxa_in_pixel_worker'] is False
+          assert x['photo_pixels_opened'] is False
+          print('FCP_ALL4730_ORIGINAL_PHOTO_BLIND_FIREWALL_PASS',x['new_photo_rows'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-unchanged-original-blind-firewall
+          path: /tmp/wave4/firewall/
+          if-no-files-found: error
+          retention-days: 90
+  unmodified-original-roi-workers:
+    needs: freeze-new-original-pixel-IDs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    strategy:
+      fail-fast: false
+      max-parallel: 24
+      matrix:
+        measurement_batch: [0, 1]
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Restore exact CPU ROI-v4 and EfficientSAM detector
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Fetch SHA-pinned identical EfficientSAM weights
+        run: |
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "$EFFICIENTSAM_ENCODER_SHA256  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "$EFFICIENTSAM_DECODER_SHA256  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp-all4730-unchanged-original-blind-firewall
+          path: /tmp/firewall
+      - name: Use the exact original photograph-acquisition and blind ROI worker
+        run: |
+          set -euo pipefail
+          B=${{ matrix.measurement_batch }}
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/batch_$B/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/batch_$B/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} --compute-partition ${{ matrix.compute_partition }}
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          ! grep -R -E "photo_url|latitude|longitude|species|observer|taxon" \
+            /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} --compute-partition ${{ matrix.compute_partition }}
+          for F in /tmp/sealed-partition/partition_s*_p*; do
+            BASE=$(basename "$F")
+            mv "$F" "/tmp/sealed-partition/b${B}_${BASE}"
+          done
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('/tmp/sealed-partition')
+          cc=sorted(root.glob('*.csv')); jj=sorted(root.glob('*.json'))
+          assert len(cc)==len(jj)==1
+          with cc[0].open() as f: head=next(csv.reader(f),[])
+          assert not {'latitude','longitude','species','observer_id','photo_url_large','photo_id'} & set(head)
+          r=json.loads(jj[0].read_text())
+          assert r['source_urls_present'] is False and r['species_present'] is False and r['coordinates_present'] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-original-b${{ matrix.measurement_batch }}-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          path: /tmp/sealed-partition/
+          if-no-files-found: error
+          retention-days: 90
+  same-original-H1-50km-W:
+    needs: unmodified-original-roi-workers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore the frozen scientific implementations
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp-all4730-unchanged-original-blind-firewall
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: fcp-all4730-original-b*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Reassemble ALL original ROI photo terminals before phenotype metadata join
+        run: |
+          python scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py reassemble \
+            --firewall /tmp/firewall --parts /tmp/partition-results --out /tmp/wave4-real
+      - name: Run the old D and 50km null and frozen achromatic colour direction W
+        run: |
+          python scripts/analysis/fcp_all4730_original_roi_bulk_20261017.py infer \
+            --measured /tmp/wave4-real/all4730_new_original_measured_photos.csv.gz \
+            --terminal /tmp/wave4-real/all4730_new_photo_terminal_result.json \
+            --out /tmp/wave4-statistics
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/wave4-real/all4730_new_photo_terminal_result.json'))
+          b=json.load(open('/tmp/wave4-statistics/all4730_new_original_method_inference.json'))
+          assert a['measurement_photo_rows']==100*a['new_complete_100_photo_species']
+          assert b['source_measured_sha256']==a['measured_photo_file_sha256']
+          assert b['original_frozen_149900_result_modified'] is False
+          print('FCP_ALL4730_ORIGINAL_METHOD_NEW_MEASUREMENT_COMPLETE',a['measurement_photo_rows'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-genuine-original-pixel-measurement-and-inference
+          path: |
+            /tmp/wave4-real/
+            /tmp/wave4-statistics/
+          if-no-files-found: error
+          retention-days: 90
