@@ -1,0 +1,125 @@
+name: FCP freeze actual original 199700 photo pixels and wave4 50km H1 W
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-release-real-199700-wave4-original-results-20261017.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-release-real-199700-wave4-original-results-20261017.yml
+      - scripts/analysis/fcp_freeze_real_199700_wave4_original_results_20261017.py
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-one-authentic-199700-wave4-measured-results-release
+  cancel-in-progress: false
+jobs:
+  publish-only-original-real-photo-results:
+    if: ${{ github.event_name == 'push' && github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      GH_TOKEN: ${{ github.token }}
+      WAVE4_RUN: "38992543115"
+      COMBINED_RUN: "39023781282"
+      TAG: "fcp-real-original-199700-wave4-50km-H1-W-20261017"
+      STORE: /tmp/fcp_real_199700_original_results
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download only exact successful original image and statistics runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$STORE"/{wave4,combined,receipt,release,roundtrip}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$WAVE4_RUN" > "$STORE/original_pixel_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$COMBINED_RUN" > "$STORE/original_append_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$WAVE4_RUN/jobs?per_page=100&page=3" > "$STORE/final_pixel_job.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$COMBINED_RUN/jobs?per_page=100" > "$STORE/final_append_jobs.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=Path(os.environ["STORE"])
+          roi=json.loads((d/"original_pixel_run.json").read_text())
+          app=json.loads((d/"original_append_run.json").read_text())
+          if not(roi["id"]==38992543115
+              and roi["head_sha"]=="ef448c9514e0c702e7887e00b288ee966728b0d5"
+              and roi["name"]=="FCP wave4 identical original photo ROI and D W spatial replay"
+              and roi["event"]=="pull_request"
+              and roi["run_attempt"]==1
+              and roi["conclusion"]=="success" and roi["status"]=="completed"
+              and roi["head_repository"]["full_name"]=="zuizui0223/fcp"):
+              raise SystemExit("Original wave4 ROI provenance not authenticated")
+          if not(app["id"]==39023781282
+              and app["head_sha"]=="d38e72b1e7ce96445a5d0c2f7e08b554e92a506e"
+              and app["name"]=="FCP original 149900 plus unchanged-wave4 append checks"
+              and app["event"]=="workflow_run"
+              and app["run_attempt"]==1
+              and app["conclusion"]=="success" and app["status"]=="completed"
+              and app["head_repository"]["full_name"]=="zuizui0223/fcp"):
+              raise SystemExit("Genuine 199700 original measured append provenance not authenticated")
+          final=json.loads((d/"final_pixel_job.json").read_text())["jobs"]
+          if not any(j["name"]=="same-original-H1-50km-W" and j["conclusion"]=="success" for j in final):
+              raise SystemExit("256 original ROI and H1 50km W job not completed")
+          appended=json.loads((d/"final_append_jobs.json").read_text())["jobs"]
+          if not any(j["name"]=="append-real-photos-after-original-roi-success"
+                     and j["conclusion"]=="success" for j in appended):
+              raise SystemExit("Original 199700-photo 50km replay did not complete")
+          print("FCP_ORIGINAL_49800_AND_199700_MEASURED_RUNS_AUTHENTICATED",flush=True)
+          PY
+          gh run download "$WAVE4_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-wave4-149900-method-expansion-actual-measured-and-inferred \
+            --dir "$STORE/wave4"
+          gh run download "$COMBINED_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-original149900-plus-wave4-actual-original-photos-20261017 \
+            --dir "$STORE/combined"
+      - name: Verify immutable measured photo files and original 50km H1 D W
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install pandas==2.2.3 numpy==2.1.3
+          python scripts/analysis/fcp_freeze_real_199700_wave4_original_results_20261017.py \
+            --wave4 "$STORE/wave4" --combined "$STORE/combined" \
+            --out "$STORE/receipt/fcp_real_199700_original_photo_H1_50km_W_receipt.json"
+      - name: Publish real metrics and old null outputs to permanent SHA release
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$STORE" --sort=name --mtime='UTC 1970-01-01' \
+            --owner=0 --group=0 --numeric-owner \
+            -cf - wave4 combined receipt | gzip -n -6 \
+            > "$STORE/release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          d=Path(os.environ["STORE"])
+          package=d/"release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz"
+          rc=d/"receipt/fcp_real_199700_original_photo_H1_50km_W_receipt.json"
+          result=json.loads(rc.read_text())
+          result["archive_sha256"]=hashlib.sha256(package.read_bytes()).hexdigest()
+          result["archive_bytes"]=package.stat().st_size
+          result["release_tag"]=os.environ["TAG"]
+          rc.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
+          print("FCP_REAL_199700_ORIGINAL_RESULT_RELEASE_SHA",result["archive_sha256"],flush=True)
+          PY
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'FCP original actual measured 199700 release exists; refusing overwrite'
+            exit 1
+          fi
+          gh release create "$TAG" \
+            "$STORE/release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz" \
+            "$STORE/receipt/fcp_real_199700_original_photo_H1_50km_W_receipt.json" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target d38e72b1e7ce96445a5d0c2f7e08b554e92a506e \
+            --title 'FCP original 199700 REAL flower-photo assays: unchanged wave4 H1, 50km and W' \
+            --notes 'Genuine ROI-v4/EfficientSAM-derived photographic colour metrics, not just photo IDs. Original 149900 preserved, 498 new species x100, append-only CSV, original 50km spatial clustering pooled n=741 and wave4 n=190, observer H1, white-axis W. Pre-reporting-fix top-level wave4 50km n=0 is an invalid old display value; nested historical 50km n=190 is correct. No JPEGs redistributed. 50km remains post-hoc; same iNaturalist provider.'
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern fcp_real_original_199700_measured_and_50km_H1_W.tar.gz \
+            --dir "$STORE/roundtrip"
+          cmp "$STORE/release/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz" \
+              "$STORE/roundtrip/fcp_real_original_199700_measured_and_50km_H1_W.tar.gz"
+          echo FCP_ORIGINAL_199700_REAL_PHOTO_MEASUREMENTS_AND_STATISTICS_PERMANENTLY_SAVED
