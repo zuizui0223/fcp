@@ -1,0 +1,205 @@
+name: FCP full 4730 U100 bulk historical-H9 photo metadata
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/acquisition/fcp_full_u100_4730_20261017.py
+      - tests/test_fcp_full_u100_4730_20261017.py
+      - .github/workflows/fcp-all4730-original-H9-bulk-20261017.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-all4730-historical-H9-20261017
+  cancel-in-progress: false
+env:
+  GH_TOKEN: ${{ github.token }}
+  PYTHONPATH: "."
+  WAVE4_TAG: fcp-wave4-original-source-20261017
+  WAVE4_PACKAGE_SHA: acc89e893367c91110bc6bc5d3a983af2cee72ed98b2dbb528f3e9172d7728ab
+  SOURCE_COMMIT: ca69930986e39e3ea9b2d2f97ab247045ba9db0b
+  P100_SHA: 1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c
+  P500_SHA: f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4
+jobs:
+  inventory-all-4730:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test that all 4730 U100 taxa are accounted by identity
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_full_u100_4730_20261017.py
+      - name: Recover frozen parent, original 149900 and durable wave4 498-species source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp4730/{parent,p100,old,wave4,inventory}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/34708044962" > /tmp/fcp4730/parent_run.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/fcp4730/parent_run.json'))
+          assert r['id']==34708044962 and r['status']=='completed' and r['conclusion']=='success'
+          PY
+          gh run download 34708044962 --repo "$GITHUB_REPOSITORY" \
+            --name polymorphism-h2-prospective-u100-selection-20260913 \
+            --dir /tmp/fcp4730/parent
+          python - <<'PY'
+          from pathlib import Path
+          from hashlib import sha256
+          import os
+          for name,digest in {'p100':os.environ['P100_SHA'],'p500':os.environ['P500_SHA']}.items():
+              match=[p for p in Path('/tmp/fcp4730/parent').rglob('*.csv') if sha256(p.read_bytes()).hexdigest()==digest]
+              assert len(match)==1, "original P100/P500 SHA frame missing "+name
+              (Path('/tmp/fcp4730/p100')/(name+'.csv')).write_bytes(match[0].read_bytes())
+              print('FCP4730_ORIGINAL_PARENT_SHA_VERIFIED',name)
+          PY
+          git fetch --no-tags --depth=1 origin 5142f7951af0dde5364bb047a566d67e8c479e51
+          git fetch --no-tags --depth=1 origin 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/global_monte_carlo_measured_photos_v1.csv > /tmp/fcp4730/old/discovery.csv
+          git show 5142f7951af0dde5364bb047a566d67e8c479e51:data/derived/rgfca_reserve_replication_measured_photos_v1.csv > /tmp/fcp4730/old/validation.csv
+          git show 7e538e5c51c05a7cc47b2fcf53eea92634c8a863:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv > /tmp/fcp4730/old/prospective.csv
+          gh release download "$WAVE4_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp-wave4-exact-original-49800-source-20261017.tar.gz' \
+            --dir /tmp/fcp4730/wave4
+          echo "$WAVE4_PACKAGE_SHA  /tmp/fcp4730/wave4/fcp-wave4-exact-original-49800-source-20261017.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/fcp4730/wave4/fcp-wave4-exact-original-49800-source-20261017.tar.gz -C /tmp/fcp4730/wave4
+      - name: Freeze entire U100 4730 and every 2733 missing species without conditioning on floral colour
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/fcp_full_u100_4730_20261017.py inventory \
+            --p100 /tmp/fcp4730/p100/p100.csv \
+            --p500 /tmp/fcp4730/p100/p500.csv \
+            --discovery /tmp/fcp4730/old/discovery.csv \
+            --validation /tmp/fcp4730/old/validation.csv \
+            --prospective /tmp/fcp4730/old/prospective.csv \
+            --wave4-metadata /tmp/fcp4730/wave4/metadata \
+            --wave4-selection /tmp/fcp4730/wave4/selection \
+            --out /tmp/fcp4730/inventory
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/fcp4730/inventory/inventory_result.json'))
+          assert (r['original_U100_distinct_species'],r['original_measured_species'],
+                  r['wave4_authorized_source_species'],r['new_unmeasured_species'])==(4730,1499,498,2733)
+          print('FCP_ALL_4730_SPECIES_IDENTITY_INVENTORY_PASS',r['new_unmeasured_species'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-original-identity-inventory
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp4730/inventory/
+  bulk-remaining-2733:
+    needs: inventory-all-4730
+    runs-on: ubuntu-24.04
+    timeout-minutes: 160
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp-all4730-original-identity-inventory
+          path: /tmp/fcp4730/inventory
+      - name: Restore original fixed H9 and all previous photo-ID exclusion ledgers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp4730/{frozen,wave4,shard}
+          git fetch --no-tags --depth=1 origin "$SOURCE_COMMIT"
+          for f in \
+            fcp_pipeline/random_photo_h9_pool.py \
+            fcp_pipeline/random_photo_pool.py \
+            fcp_pipeline/shared_transition_surface.py \
+            fcp_pipeline/third_cohort_metadata_gate.py; do
+            git show "$SOURCE_COMMIT:$f" > "$f"
+          done
+          git show "$SOURCE_COMMIT:data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv" > /tmp/fcp4730/frozen/random_photo_first_h9_exclusion_ledger_v1.csv
+          git show "$SOURCE_COMMIT:data/frozen/random_photo_first_h9_fresh_metadata_v1.csv" > /tmp/fcp4730/frozen/random_photo_first_h9_fresh_metadata_v1.csv
+          git show "$SOURCE_COMMIT:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp4730/frozen/rgfca_42111_species_breadth_measured.csv.gz
+          git show "$SOURCE_COMMIT:data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz" > /tmp/fcp4730/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz
+          git show "$SOURCE_COMMIT:data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz" > /tmp/fcp4730/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz
+          gh release download "$WAVE4_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp-wave4-exact-original-49800-source-20261017.tar.gz' \
+            --dir /tmp/fcp4730/wave4
+          echo "$WAVE4_PACKAGE_SHA  /tmp/fcp4730/wave4/fcp-wave4-exact-original-49800-source-20261017.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/fcp4730/wave4/fcp-wave4-exact-original-49800-source-20261017.tar.gz -C /tmp/fcp4730/wave4
+      - name: Original one-page H9 acquisition for ALL assigned unmeasured taxa
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/fcp_full_u100_4730_20261017.py acquire-shard \
+            --inventory /tmp/fcp4730/inventory \
+            --wave4-authorized /tmp/fcp4730/wave4/metadata/wave4_authorized_metadata.csv.gz \
+            --exclusions \
+              /tmp/fcp4730/frozen/random_photo_first_h9_exclusion_ledger_v1.csv \
+              /tmp/fcp4730/frozen/random_photo_first_h9_fresh_metadata_v1.csv \
+              /tmp/fcp4730/frozen/rgfca_42111_species_breadth_measured.csv.gz \
+              /tmp/fcp4730/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz \
+              /tmp/fcp4730/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz \
+            --shard ${{ matrix.shard }} --out /tmp/fcp4730/shard
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/fcp4730/shard/shard_result.json'))
+          assert r['authorized_original_photo_IDs']==100*r['complete_100_photo_species']
+          assert r['same_original_H9_function'] and r['image_pixels_opened'] is False
+          print('FCP_FULL_U100_UNMODIFIED_H9_SHARD_DONE',r['shard'],r['complete_100_photo_species'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: shard_${{ matrix.shard }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: /tmp/fcp4730/shard/
+  all-4730-terminal-ledger:
+    needs: [inventory-all-4730, bulk-remaining-2733]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp-all4730-original-identity-inventory
+          path: /tmp/fcp4730/inventory
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: shard_*
+          path: /tmp/fcp4730/parts
+      - name: Freeze real eligible photo counts, failed taxa, and SHA of all 4730 records
+        run: |
+          set -euo pipefail
+          python scripts/acquisition/fcp_full_u100_4730_20261017.py consolidate \
+            --inventory /tmp/fcp4730/inventory \
+            --parts /tmp/fcp4730/parts \
+            --out /tmp/fcp4730/complete
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/fcp4730/complete/all4730_metadata_result.json'))
+          assert r['U100_identity_species']==4730
+          assert r['new_attempted_species']==2733
+          assert r['new_complete_100_photo_species']+r['new_unmet_100_photo_species']==2733
+          print('FCP_ALL_4730_ORIGINAL_H9_METADATA_TERMINAL',r['all_species_with_existing_or_full_100_photo_IDs'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-actual-H9-2733-source-metadata-terminal
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp4730/complete/
