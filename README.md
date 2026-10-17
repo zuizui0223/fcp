@@ -47,6 +47,8 @@ The manuscript uses high-depth, species-level repeated photographs with location
 
 The 42,111-species metadata frame is an **opportunity frame**, not a denominator for global polymorphism prevalence. Claims are controlled by the frozen machine-readable results, protocols, claim ledger, and data-lineage map linked above.
 
+**Measured fourth-cohort update (17 October 2026):** A genuinely measured fourth cohort adds 498 species and 49,800 original images, bringing the verified same-source original-method dataset to **1,997 species / 199,700 photos**. The unchanged 50-km local-diversity depletion reappeared in the fourth cohort (190 eligible species, mean 0.0172936, vertex-null p=0.005), with 741 eligible species in the pooled four-cohort result. The separately audited **4,475-species / 447,500-photo** final U100 dataset is an eligible source-photo target **not yet a completed phenotypic analysis**. The distinction is maintained in the [empirical evidence and pending-final ledger](docs/FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md) and [Supporting Information S5c](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md).
+
 ## Reproduce the paper
 
 The supported local entry point is:
