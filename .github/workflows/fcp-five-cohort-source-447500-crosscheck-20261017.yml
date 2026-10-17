@@ -1,0 +1,106 @@
+name: FCP independently verify all five actual source cohorts and corrected 447500 photo IDs
+on:
+  push:
+    branches: [analysis/fcp-4730-source-five-cohort-identity-audit-20261017]
+    paths:
+      - scripts/analysis/fcp_u100_4730_five_cohort_source_id_audit_20261017.py
+      - tests/test_fcp_4730_five_cohort_source_id_audit_20261017.py
+      - .github/workflows/fcp-five-cohort-source-447500-crosscheck-20261017.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-real-original-source-and-100-photo-taxonomy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      OLD_DISCOVERY_COMMIT: 5142f7951af0dde5364bb047a566d67e8c479e51
+      OLD_THIRD_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      WAVE4_SOURCE_RUN: "38989666486"
+      NEW_U100_SOURCE_RUN: "38996743273"
+      AUDIT_ROOT: /tmp/fcp-real-447500-five-cohort-audit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test original five-cohort identity protocol and negative controls
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_4730_five_cohort_source_id_audit_20261017.py
+      - name: Verify two frozen real source workflow receipts by immutable IDs and SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$AUDIT_ROOT"/{old,wave4,new,result}
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$WAVE4_SOURCE_RUN" > "$AUDIT_ROOT/wave4-source-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$NEW_U100_SOURCE_RUN" > "$AUDIT_ROOT/new-u100-source-run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['AUDIT_ROOT'])
+          w=json.loads((root/'wave4-source-run.json').read_text())
+          n=json.loads((root/'new-u100-source-run.json').read_text())
+          assert w['id']==38989666486
+          assert w['head_sha']=='a948fd95c57fd5da404a20348174fb4e96796ec4'
+          assert w['status']=='completed' and w['conclusion']=='success' and w['run_attempt']==1
+          assert n['id']==38996743273
+          assert n['head_sha']=='61abc4f71e74db3a6633a790e37d1f30e8e3bfcc'
+          assert n['status']=='completed' and n['conclusion']=='success' and n['run_attempt']==1
+          assert w['head_repository']['full_name']==n['head_repository']['full_name']=='zuizui0223/fcp'
+          print('FCP_REAL_FIVE_COHORT_SOURCE_RUNS_PINNED')
+          PY
+          gh run download "$WAVE4_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-wave4-same-original-method-selection-and-metadata-20261017 \
+            --dir "$AUDIT_ROOT/wave4"
+          gh run download "$NEW_U100_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-actual-H9-2733-source-metadata-terminal \
+            --dir "$AUDIT_ROOT/new"
+      - name: Recover immutable 149900 old measured photo sources by exact old SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$OLD_DISCOVERY_COMMIT"
+          git fetch --no-tags --depth=1 origin "$OLD_THIRD_COMMIT"
+          git show "$OLD_DISCOVERY_COMMIT:data/derived/global_monte_carlo_measured_photos_v1.csv" > "$AUDIT_ROOT/old/discovery.csv"
+          git show "$OLD_DISCOVERY_COMMIT:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > "$AUDIT_ROOT/old/validation.csv"
+          git show "$OLD_THIRD_COMMIT:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$AUDIT_ROOT/old/prospective.csv"
+          echo FCP_ORIGINAL_IMMUTABLE_149900_AUTHENTIC_PHOTO_ROWS_RESTORED
+      - name: Independently account every one of 447800 raw occurrences and true 447500 usable photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_u100_4730_five_cohort_source_id_audit_20261017.py \
+            --discovery "$AUDIT_ROOT/old/discovery.csv" \
+            --validation "$AUDIT_ROOT/old/validation.csv" \
+            --prospective "$AUDIT_ROOT/old/prospective.csv" \
+            --wave4 "$AUDIT_ROOT/wave4/metadata/wave4_authorized_metadata.csv.gz" \
+            --wave4-metadata-receipt "$AUDIT_ROOT/wave4/metadata/metadata_result.json" \
+            --new "$AUDIT_ROOT/new/remaining_U100_authorized_metadata.csv.gz" \
+            --new-metadata-receipt "$AUDIT_ROOT/new/all4730_metadata_result.json" \
+            --original-U100 "$AUDIT_ROOT/new/full_U100_4730_status_after_H9.csv" \
+            --out "$AUDIT_ROOT/result"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['AUDIT_ROOT'])
+          v=json.loads((root/'result/five_cohort_original_447800_photo_source_identity_audit.json').read_text())
+          assert v['original_eligible_U100_taxa']==4730
+          assert v['raw_H9_complete_100photo_source_taxa']==4478
+          assert v['raw_selected_original_source_photo_ID_occurrences']==447800
+          assert v['globally_distinct_original_source_photo_IDs']==447797
+          assert v['technically_excluded_entire_new_100photo_taxa']==[62367,75633,1045161]
+          assert v['original_source_100photo_taxa_retain_for_analysis']==4475
+          assert v['original_source_100photo_rows_retain_for_analysis']==447500
+          assert v['original_149900_photo_measurements_unchanged'] is True
+          assert v['not_photo_colour_or_ecological_statistical_inference'] is True
+          print('FCP_FULL_REAL_SOURCE_COMPLETE_4730_447797_UNIQUE_RAW_447500_INDEPENDENT')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-five-cohort-447500-independent-original-source-ID-audit
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp-real-447500-five-cohort-audit/result/
