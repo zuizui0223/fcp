@@ -825,3 +825,46 @@ def test_postfreeze_fourth_wave_empirical_extension_does_not_upgrade_frozen_clai
     assert "4,475 species" in status
     assert "447,500 photo rows" in status
     assert "New U100 real ROI pending" in status
+
+
+def test_four_cohort_spatial_leverage_claim_is_source_locked_and_not_universal() -> None:
+    import json
+
+    result = json.loads(
+        (ROOT / "results" / "fcp_real_199700_spatial_species_leverage_20261017.json").read_text()
+    )
+    assert result["schema"] == "fcp_199700_archived_50km_species_leverage_result_record_v1"
+    assert result["source_release_sha256"] == (
+        "844c255f28406b5158a8ac3e27d94b32aad48d785efd3c4ae512fb30ee1871ee"
+    )
+    assert result["workflow_run_id"] == 39042459866
+    assert result["status"] == "descriptive_exploratory_post_hoc_only"
+    assert result["radius_selection"] == "post hoc"
+    assert result["no_ecological_causal_claim"] is True
+    assert result["frozen_spatial_50km_eligible_species"] == 741
+    pooled = result["pooled"]
+    assert (pooled["n_positive"], pooled["n_zero"], pooled["n_negative"]) == (417, 61, 263)
+    assert abs(pooled["mean_depletion"] - 0.01763720788097046) < 1e-12
+    assert abs(pooled["median_depletion"] - 0.005973562372409) < 1e-12
+    assert pooled["leave_largest_positive_effects_out"]["10pct"]["n_removed"] == 75
+    assert abs(
+        pooled["leave_largest_positive_effects_out"]["10pct"]["remaining_mean_depletion"]
+        - 0.0019112001133662468
+    ) < 1e-12
+    assert pooled["leave_largest_positive_effects_out"]["20pct"]["n_removed"] == 149
+    assert pooled["leave_largest_positive_effects_out"]["20pct"]["remaining_mean_depletion"] < 0
+    assert [result["cohorts"][k]["n_positive"] for k in (
+        "discovery", "validation", "prospective", "wave4"
+    )] == [91, 104, 113, 109]
+    for doc in (MANUSCRIPT, CANONICAL):
+        text = doc.read_text(encoding="utf-8")
+        for token in ("417 of 741", "56.3%", "0.00597", "0.01764", "0.00191",
+                      "−0.00655", "no newly calculated permutation p-values",
+                      "heterogeneous across species"):
+            assert token in text, token
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+    for token in ("## S5d. Post hoc species-level leverage",
+                  "417", "263", "61", "0.001911", "−0.006553",
+                  "not** been evaluated against the original complete-vertex permutation null",
+                  "not* new p-values"):
+        assert token in supporting, token
