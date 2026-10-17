@@ -121,3 +121,12 @@ def test_orig_methods_and_partition_constants_not_changed():
     assert (m.N_BATCHES,m.N_SHARDS,m.N_PARTS,m.TOTAL_PARTS,m.TARGET)==(2,32,4,256,100)
     assert m.SOURCE_RUN_ID==38996743273
     assert m.SOURCE_HEAD=="61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
+
+
+def test_original_50km_count_distinguishes_classifiable_and_local_pair_support():
+    # The exact existing original test determines spatially eligible species
+    # after its fixed 30-local-pair condition, not merely class>=40 taxa.
+    assert m.original_spatial_primary_50km_n({
+        "50": {"evaluable": True, "n_species": 8},
+        "100": {"evaluable": True, "n_species": 12},
+    }) == 8

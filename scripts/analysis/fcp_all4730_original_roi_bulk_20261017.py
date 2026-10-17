@@ -24,7 +24,7 @@ from fcp_pipeline.photo_first_measurement_execution import (
 from fcp_pipeline.third_cohort_prospective_execution_gate import measurement_id, measurement_batch
 
 from scripts.analysis.run_fcp_wave4_original_roi_and_statistics_20261017 import (
-    analyze_original_methods,
+    analyze_original_methods, original_spatial_primary_50km_n,
     FRACTIONS, MORPHS,
 )
 
@@ -239,8 +239,9 @@ def original_inference(measured:Path, terminal:Path, dest:Path)->dict:
         raise RuntimeError("new original actual ROI colour terminal not source-authenticated")
     # Science uses the ORIGINAL existing worker and 50km/H1/W functions verbatim.
     old=analyze_original_methods(measured,dest)
-    metrics=dest/"wave4_species_50km_original_method.csv"
-    n_50km=int(pd.read_csv(metrics).inat_taxon_id.nunique()) if metrics.stat().st_size>0 else 0
+    # Original 50km gate requires enough local photo pairs, not merely
+    # n_classifiable>=40. Read the exact original spatial test result.
+    n_50km=original_spatial_primary_50km_n(old["spatial_original_method"])
     if old["wave4_measured_table_sha256"]!=sha(measured):
         raise RuntimeError("original unchanged scientific estimator input SHA drift")
     out={
