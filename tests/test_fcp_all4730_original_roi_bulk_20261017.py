@@ -119,5 +119,5 @@ def test_original_inference_cannot_run_without_real_roi_terminal(tmp_path):
 
 def test_orig_methods_and_partition_constants_not_changed():
     assert (m.N_BATCHES,m.N_SHARDS,m.N_PARTS,m.TOTAL_PARTS,m.TARGET)==(2,32,4,256,100)
-    assert m.SOURCE_RUN_ID==38993836606
-    assert m.SOURCE_HEAD=="9c1298956941769fdfd62aeaa7d61febf1154c3e"
+    assert m.SOURCE_RUN_ID==38996743273
+    assert m.SOURCE_HEAD=="61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
