@@ -859,12 +859,78 @@ def test_four_cohort_spatial_leverage_claim_is_source_locked_and_not_universal()
     for doc in (MANUSCRIPT, CANONICAL):
         text = doc.read_text(encoding="utf-8")
         for token in ("417 of 741", "56.3%", "0.00597", "0.01764", "0.00191",
-                      "−0.00655", "no newly calculated permutation p-values",
-                      "heterogeneous across species"):
+                      "−0.00655", "applying this deletion afresh within every original permutation",
+                      "still-lower null mean", "matched nulls"):
             assert token in text, token
     supporting = SUPPORTING.read_text(encoding="utf-8")
     for token in ("## S5d. Post hoc species-level leverage",
                   "417", "263", "61", "0.001911", "−0.006553",
-                  "not** been evaluated against the original complete-vertex permutation null",
-                  "not* new p-values"):
+                  "raw remaining means in this first audit did not themselves have matched-null p-values",
+                  "Section S5e"):
         assert token in supporting, token
+
+
+def test_four_cohort_robust_matched_null_reports_only_authenticated_exploratory_support() -> None:
+    import json
+    import pytest
+
+    receipt_path = ROOT / "results" / "fcp_real_199700_robust_matched_null_summary_20261018.json"
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    source = receipt["verified_source"]
+    protocol = receipt["method"]
+    pooled = receipt["pooled"]
+
+    assert receipt["schema"] == "fcp_real_199700_robust_50km_original_null_source_locked_summary_v1"
+    assert source["source_photo_rows"] == 199700
+    assert source["source_species"] == 1997
+    assert source["spatially_eligible_species"] == 741
+    assert source["actual_reanalysis_workflow_run_id"] == 39045286620
+    assert source["full_machine_result_sha256"] == (
+        "543e4a544310086b800d31e410eed176240c88eb7ce2544a25eaef324488547c"
+    )
+    assert source["original_archive_sha256"] == (
+        "844c255f28406b5158a8ac3e27d94b32aad48d785efd3c4ae512fb30ee1871ee"
+    )
+    assert protocol["primary_radius_post_hoc"] is True
+    assert protocol["within_species_complete_vertex_label_permutations"] == 199
+    assert protocol["resample_selection_for_each_null_world"] is True
+    assert protocol["within_four_family_holm_adjustment"] is True
+    assert protocol["global_project_multiplicity_adjustment"] is False
+    assert protocol["new_prespecified_confirmation"] is False
+    assert protocol["causal_local_adaptation_or_pollinator_selection"] is False
+    assert pooled["fraction_positive"]["n_positive"] == 417
+    assert pooled["fraction_positive"]["observed"] == pytest.approx(0.562753036437247)
+    assert pooled["fraction_positive"]["null_mean"] == pytest.approx(0.4500708671562943)
+    assert pooled["median"]["observed"] == pytest.approx(0.005973562372409091)
+    assert pooled["drop_top_20pct"]["observed"] == pytest.approx(-0.006552601609755137)
+    assert pooled["drop_top_20pct"]["null_mean"] == pytest.approx(-0.01827818325981143)
+    for k in ("median", "fraction_positive", "drop_top_10pct", "drop_top_20pct"):
+        assert pooled[k]["upper_p"] == 0.005
+        assert pooled[k]["within_four_holm_p"] == 0.02
+
+    for doc in (MANUSCRIPT, CANONICAL):
+        text = doc.read_text(encoding="utf-8")
+        for phrase in (
+            "top-20% exclusion was performed anew in each of the 199",
+            "−0.018278",
+            "Holm p = **0.020**",
+            "applied equivalent trimming",
+            "positive-species fraction",
+            "all prior exploratory tests",
+        ):
+            # Some statements are in Results; others are in Discussion/SI.
+            if phrase == "applied equivalent trimming":
+                continue
+            assert phrase in text, phrase
+
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+    for phrase in (
+        "## S5e. Robust original-null replay",
+        "417/741", "0.45007",
+        "−0.006553", "−0.018278",
+        "0.030", "0.020",
+        "Holm step-down",
+        "not** carried over into the null",
+        "not correct all earlier exploratory analyses",
+    ):
+        assert phrase in supporting, phrase
