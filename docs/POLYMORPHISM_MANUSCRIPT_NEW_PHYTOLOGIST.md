@@ -12,9 +12,9 @@
 - Summary: 192 words
 - Introduction: 805 words
 - Materials and Methods: 2,607 words
-- Results: 3,053 words
+- Results: 3,059 words
 - Discussion: 2,668 words
-- Main text (Introduction through Discussion): 9,133 words
+- Main text (Introduction through Discussion): 9,139 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -334,7 +334,7 @@ In the new fourth cohort, D reproducibility across 200 observer-disjoint splits 
 
 ### Post hoc robust spatial effect distribution under matched nulls
 
-A further species-level audit asked whether the positive *cohort mean* was driven solely by unusually large effects. Of the **741** eligible species across four cohorts, **417** (56.3%) had positive individual depletion, **61** zero, and **263** negative. The species median was **0.005974**, below the species-equal mean **0.017637**. After excluding the highest-effect **149 species** (20%), the raw mean was **−0.006553**. This sign change by itself does not refute spatial sorting: when the **same top-20% exclusion was performed anew in each of the 199 original species-conditional permutation worlds**, the null mean was **−0.018278**, giving exploratory upper p = **0.005** (Holm p = **0.020** within four newly examined robust statistics). The median, fraction positive (observed **0.56275** vs null mean **0.45007**), and top-10% trimmed mean also exceeded their matched nulls (all pooled within-four Holm p = **0.020**). Across individual cohorts, these Holm p-values ranged **0.020–0.030** (Supporting Information S5e). This analysis remains post hoc and does not control all prior exploratory tests.
+A further species-level audit asked whether the positive *cohort mean* was driven solely by unusually large effects. Of the **741** eligible species across four cohorts, **417** (56.3%) had positive individual depletion, **61** zero, and **263** negative. The species median was **0.005974**, below the species-equal mean **0.017637**. After excluding the highest-effect **149 species** (20%), the raw mean was **−0.006553**. This sign change by itself does not refute spatial sorting: when the **same top-20% exclusion was performed anew in each of the 199 original species-conditional permutation worlds**, the null mean was **−0.018278**, giving exploratory upper p = **0.005** (Holm p = **0.020** within four newly examined robust statistics). The median, fraction positive (observed **0.56275** vs null mean **0.45007**), and top-10% trimmed mean (**0.001911** vs null **−0.011139**) also exceeded their matched nulls (all pooled within-four Holm p = **0.020**). Across individual cohorts, these Holm p-values ranged **0.020–0.030** (Supporting Information S5e). This analysis remains post hoc and does not control all prior exploratory tests.
 
 ### Geographic colour turnover contains both IBD-like and bounded IBE-like components
 
