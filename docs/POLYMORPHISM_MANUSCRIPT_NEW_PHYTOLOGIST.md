@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 194 words
+- Summary: 182 words
 - Introduction: 805 words
-- Materials and Methods: 2,451 words
-- Results: 2,663 words
-- Discussion: 2,473 words
-- Main text (Introduction through Discussion): 8,392 words
+- Materials and Methods: 2,607 words
+- Results: 2,878 words
+- Discussion: 2,557 words
+- Main text (Introduction through Discussion): 8,847 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -24,8 +24,8 @@
 ## Summary
 
 - Species-wide intraspecific trait variation can arise because alternative phenotypes coexist locally or because different phenotypes occupy different parts of a species' range. Using flower-colour variation, we ask where ITV resides geographically, which spatial processes accompany it, and whether within-species displacement also recurs along common phenotype-space directions.
-- We analysed 149,900 community-science photographs from 1,499 sampled plant species in sequential discovery, species-disjoint validation and prospective-confirmation resources. Species-wide four-state colour diversity was reproducible across observer partitions and fresh images.
-- At the pre-specified post hoc 50-km scale, nearby conspecific observations were less colour-diverse than expected from each species' fixed overall colour composition in discovery, validation and the third cohort (mean depletion = 0.0205, 0.0187 and 0.0147; matched p = 0.005 in each). This geographic partitioning persisted after excluding same-observer pairs, removing all white records and using continuous nine-colour dissimilarity.
+- Three frozen stages analysed 149,900 photographs from 1,499 species; a later unchanged-method extension added 49,800 photographs from 498 species. Species-wide colour diversity was reproducible across observers and fresh images.
+- At the post hoc 50-km scale, local conspecific colour diversity was depleted relative to each species' fixed overall composition in four species-disjoint cohorts (mean depletion = 0.0205, 0.0187, 0.0147 and 0.0173; p = 0.005 each). The original three-cohort pattern survived same-observer, white-label and continuous-colour sensitivity tests.
 - Continuous colour turnover contained both a stronger isolation-by-distance-like component and a smaller BIO5-associated environment component across all three cohorts. The environmental component failed stricter background/observer controls and is therefore not evidence of local adaptation. Separately, a frozen achromatic–chromatic axis was prospectively confirmed (W = 0.517 versus null median 0.457, p = 0.001).
 
 ---
@@ -77,6 +77,10 @@ The white-versus-nonwhite axis was localized only after the original geometry wa
 #### Stage 3 — targeted technical and ecological annotations
 
 After H2 terminalization, prospective photographs were reacquired for response-blind highlight metrics and annotated with **WorldClim 2.1 BIO5, BIO14 and solar radiation**; validation was linked to **V.PhyloMaker2**, and sampled span came from frozen coordinates. Highlight, climate and phylogeny test image exposure, a simple abiotic explanation and broad ancestry. **These are alternative-explanation and mechanism filters**; they cannot retroactively strengthen prospective H2.
+
+#### Stage 4 — post-freeze unchanged-method fourth-cohort extension
+
+After the three original cohorts' H2 confirmation and post hoc spatial conclusions were terminal, an outcome-blind H9 draw selected 500 additional unused taxa. Of these, **498 taxa** supplied 100 genuine, source-authenticated photographs each. Their **49,800 original image measurements** completed all 256 blind ROI-v4/EfficientSAM workers. We applied the *unchanged* original H1 observer-disjoint splits, 50-km local-pair statistic (at least 40 classifiable photographs and 30 local pairs; 199 exact-composition vertex permutations), and fixed white-axis W (999 coarse-state-preserving nulls; 0.10/0.20 gates). No new radius, colour rule, axis or null was optimized against the fourth-cohort outcomes. The resulting **199,700 measured photographs from 1,997 species** are a later, same-provider extension; they do not replace the original three-cohort frozen prospective test. As of the 17 October 2026 evidence freeze, the separately identified **447,500-photo final five-cohort source** remains an *analysis-eligibility target*, not a completed measured phenotype dataset (Supporting Information S5c).
 
 ### Photographic measurement and outcome firewall
 
@@ -322,6 +326,12 @@ The result survived five direct falsification tests at 50 km. After excluding al
 
 A stronger claim that higher-D species allocate a larger fraction of their diversity among localities was not scale invariant. At 50 km the D–depletion correlation was unsupported in discovery (rho = 0.0390, p = 0.135) but positive in validation (rho = 0.1171, p = 0.025) and the third cohort (rho = 0.1118, p = 0.005). We therefore treat **local depletion itself**, rather than a universal D–partitioning slope, as the replicated result.
 
+### Post-freeze fourth-cohort replication under the unchanged estimators
+
+After the three-cohort results were frozen, **498 additional species and 49,800 genuinely measured photographs** were processed with the original image and statistical methods. At **50 km (post hoc)**, **190** new species met both unchanged classifiability and local-pair gates, with species-equal mean depletion **0.0172936** (199-permutation upper-tail **p = 0.005**). Across all four measured cohorts, **741** eligible species gave pooled depletion **0.0176372** (p = **0.005**) from **199,700** photographic measurements. The original discovery, validation and prospective-cohort effects reproduced without changes to their numerical values.
+
+In the new fourth cohort, D reproducibility across 200 observer-disjoint splits had median Spearman rho **0.8056** (median 316 paired species; median concordance correlation **0.8441**). The fixed white-axis test gave W **0.5368** versus structured-null median **0.4363** (primary 0.10 gate, n = **134**, p = **0.001**); the strict 0.20 gate gave W **0.5473** versus **0.4581** (n = **67**, p = **0.001**). This is a *post-freeze, taxon-disjoint, same-iNaturalist-source extension*, not independent-source replication or a new untouched prospective H2 confirmation. W measures squared axis alignment, not a directional rise in white morphs. The final 4,475-species / 447,500-photo five-cohort effect is not reported: its true image terminals and combined null analysis were still incomplete at this evidence freeze (Supporting Information S5c).
+
 ### Geographic colour turnover contains both IBD-like and bounded IBE-like components
 
 Using continuous nine-colour dissimilarity, BIO5 difference explained a small positive component of colour turnover after geographic distance was rank-partialled out in all three cohorts: mean phenotypic IBE-like rho was **0.00925** in discovery (p = **0.005**), **0.00826** in validation (p = **0.010**) and **0.01019** in the third cohort (p = **0.005**). Geographic distance also retained a positive association after BIO5 difference was removed, and this IBD-like component was larger in every cohort: **0.02760**, **0.02414** and **0.02225**, respectively (p = **0.005** in each). The mean IBE-minus-IBD contrast was negative in all three cohorts.
@@ -365,6 +375,8 @@ The clearest ecological result is not simply that flower colour is spatially aut
 This comparative result extends a pattern previously emphasized from population-level flower-colour studies. Narbona et al. (2018) noted that Mediterranean FCP species often contain many monomorphic populations and fewer polymorphic populations, producing geographic clines or mosaics. The present analysis does not identify populations a priori, but it reaches a closely related conclusion from a broad, common sampling design: **species-wide ITV and local ITV are not interchangeable**. A species mean erases the variation; a species-wide diversity scalar retains the variation but still erases where it resides.
 
 The evolutionary distinction matters. In plant balancing-selection theory, negative frequency dependence and related mechanisms can maintain alternatives within populations, whereas spatially varying selection can maintain adaptive polymorphism among populations; restricted migration can strengthen such geographic differentiation (Delph & Kelly 2014). The FCP pattern is therefore compatible with spatially varying selection, but it is equally compatible with drift, colonisation history, dispersal limitation or environmentally induced plasticity. The present result identifies the spatial structure that an evolutionary explanation must account for; it does not by itself identify the explanation.
+
+A fourth outcome-blind, taxon-disjoint but same-provider image cohort subsequently reproduced the fixed **50-km** local-depletion result (190 evaluable taxa, mean depletion 0.01729, matched p = 0.005). The four-cohort pooled comparison now covers **741** spatially evaluable species; that increases the breadth of the observed structural regularity but does not make the post hoc radius preregistered. The additional cohort was not subjected to every calendar-quarter, observer-pair, nonwhite and multiscale falsification already performed on the original three; those sensitivities must not be silently generalized to all four.
 
 ### Geographic separation dominates, with a smaller candidate environmental component
 
@@ -449,6 +461,8 @@ A complementary result concerns phenotype space rather than geographic space. A 
 Code, frozen protocols, machine-readable results, canonical figures and the reader-facing claim-to-input map are versioned in the `zuizui0223/fcp` repository. Exact source commits, SHA256 identities, workflow artifacts and recovery routes are consolidated in `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`.
 
 For end-to-end verification, a self-contained snapshot is maintained under release tag `fcp-np-provenance-20260926`. The current asset identity is defined by the Git-tracked receipt `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`. The snapshot contains the 42,111-species opportunity frame, discovery/validation measured tables, the prospective-confirmation measured table, frozen spatial and technical-validation artifacts, image-measurement code/model bytes, manuscript figures and checksum-pinned WorldClim inputs. Exact WorldClim 2.1 BIO/SRAD bytes are also mirrored under release tag `fcp-worldclim-2.1-10m-20260925`.
+
+A separately archived [original-method 199,700-photograph/four-cohort release](https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017) provides the post-freeze wave4 image-measurement and H1/50-km/W extension with its own source receipt and hashes. It is not part of the older New Phytologist provenance snapshot described above, and the 447,500-photo final five-cohort analysis remains excluded until its authenticated pixel terminals and full statistical replay complete.
 
 The original third-party iNaturalist image pixels and flower masks were intentionally not retained. Frozen photo identities/source URLs and per-row image hashes permit future reacquired bytes to be checked while the provider continues to serve them. The related general-purpose `disttrait` implementation is **not a bitwise numerical reproducer** of the frozen study-specific H2 pipeline; all reported biological values come from the frozen study-specific implementation. Internal workflow identifiers and archived execution records are retained only for provenance and do not define the manuscript's reader-facing cohorts.
 
