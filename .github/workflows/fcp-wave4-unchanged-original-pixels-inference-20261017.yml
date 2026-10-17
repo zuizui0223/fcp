@@ -25,7 +25,7 @@ env:
 jobs:
   freeze-new-original-pixel-IDs:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 88
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -42,7 +42,12 @@ jobs:
           set -euo pipefail
           test "$GITHUB_RUN_ATTEMPT" = 1
           mkdir -p /tmp/wave4/source
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" > /tmp/wave4/source_run.json
+          for attempt in $(seq 1 80); do
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" > /tmp/wave4/source_run.json
+            SOURCE_STATUS=$(python -c "import json; print(json.load(open('/tmp/wave4/source_run.json'))['status'])")
+            if [ "$SOURCE_STATUS" = completed ]; then break; fi
+            sleep 60
+          done
           python - <<'PY'
           import json,os
           r=json.load(open('/tmp/wave4/source_run.json'))
