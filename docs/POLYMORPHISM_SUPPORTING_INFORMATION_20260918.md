@@ -528,7 +528,31 @@ Neither the H1 replication nor the W result is a newly preregistered prospective
 
 Of **741** species meeting the unchanged >=40 classifiable-photo and >=30 within-50-km local-pair gates, **417** (56.3%) had positive global-minus-local pair dissimilarity, **61** (8.2%) exactly zero and **263** (35.5%) negative. The pooled original mean was **0.0176372**, whereas the median per-species depletion was only **0.005974**. Removing the top 10% largest positive species-level effects (75 species) leaves a descriptive mean **0.001911** among 666 species. Removing the top 20% (149 species) makes that descriptive mean **−0.006553** among 592 species.
 
-**Inference boundary:** These effect-tail exclusions were devised *after seeing the pooled positive result*, and their remaining means have **not** been evaluated against the original complete-vertex permutation null after selection. They are diagnostic sensitivity summaries, *not* new p-values or independent confirmatory tests. The original p=0.005 in every cohort and the pooled result continues to describe a departure in the **species-equal-weighted cohort mean under the original null**; it does not establish that the majority of species individually show statistically supported clustering. All four cohorts are from the same iNaturalist photographic source. The observed mixture of positive, zero and negative species effects limits universal claims and motivates species-specific mechanisms and quality-adjusted field validation. The fifth U100 cohort is not included here.
+**Inference boundary:** These effect-tail exclusions were devised *after seeing the pooled positive result*. The raw remaining means in this first audit did not themselves have matched-null p-values; Section S5e now supplies an explicitly post hoc test that reapplies each exclusion separately inside every original permutation world. Neither stage is independent confirmation. The original p=0.005 in every cohort and the pooled result continues to describe a departure in the **species-equal-weighted cohort mean under the original null**; it does not establish that the majority of species individually show statistically supported clustering. All four cohorts are from the same iNaturalist photographic source. The observed mixture of positive, zero and negative species effects limits universal claims and motivates species-specific mechanisms and quality-adjusted field validation. The fifth U100 cohort is not included here.
+
+## S5e. Robust original-null replay: removing large-effect species does not erase excess spatial colour sorting (18 October 2026)
+
+**Inferential correction to S5d.** A negative observed mean after dropping the species with the largest positive effects does *not* imply that the remaining species are null-equivalent: deleting top-tail observations also shifts the matched null statistic downward. We therefore re-ran the **exact unchanged 199 original within-species vertex-label permutations** from the [SHA256-frozen genuine 199,700-photo release](https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017), using the historical photo-ID ordering, cohort-specific seed rules, 40 classifiable-photo and 30 within-50-km pair gates. The original four 50-km species-equal mean depletion statistics and the pooled effect, with their original p = 0.005, were reproduced numerically **before** computing new statistics. [Authenticated execution and result artifact](https://github.com/zuizui0223/fcp/actions/runs/39045286620) (full output SHA256 `543e4a544310086b800d31e410eed176240c88eb7ce2544a25eaef324488547c`).
+
+Four *exploratory* distributional estimands were computed for each cohort and for all four pooled: (i) species-level depletion median, (ii) fraction of species with positive depletion, (iii) mean after removing the highest 10% of species-specific effects, and (iv) mean after removing the highest 20%. **Every one of the 199 null worlds independently re-selects its own highest-effect species for removal**; the observed top-effect species were *not* carried over into the null. One-sided upper p is `(1 + number of null statistics >= observed statistic)/200`, with minimum 0.005. Holm step-down adjustment was applied **within these four newly examined robust tests per cohort**. This does not correct all earlier exploratory analyses, and the source remains one citizen-science image ecosystem.
+
+| Pooled 50-km statistic (741 eligible species) | Observed | Matched null mean | Upper p | Within-four Holm p |
+|---|---:|---:|---:|---:|
+| Species median depletion | **+0.005974** | −0.000010 | 0.005 | **0.020** |
+| Fraction of positive-depletion species | **0.56275** (417/741) | 0.45007 | 0.005 | **0.020** |
+| Drop highest-effect 10% (75 species) | **+0.001911** | −0.011139 | 0.005 | **0.020** |
+| Drop highest-effect 20% (149 species) | **−0.006553** | −0.018278 | 0.005 | **0.020** |
+
+The four species-disjoint, same-iNaturalist-source cohorts gave the following exploratory within-four Holm p-values:
+
+| Original photo cohort (50-km eligible species) | Median | Positive fraction | Drop top 10% | Drop top 20% |
+|---|---:|---:|---:|---:|
+| Discovery (166) | 0.030 | 0.030 | 0.020 | 0.020 |
+| Validation (181) | 0.020 | 0.020 | 0.020 | 0.020 |
+| Prospective (204) | 0.020 | 0.020 | 0.020 | 0.020 |
+| Fourth wave (190) | 0.020 | 0.020 | 0.020 | 0.020 |
+
+**Ecological inference ceiling:** The broad rightward shift of the *species-level depletion distribution*, compared with species-conditioned permutations, is not explained exclusively by the largest observed positive effects. Yet a substantial number of species (263 of 741) had negative individual depletion, and this analysis cannot say how many species would individually pass a valid, multiplicity-corrected test. Nor can it establish wild-population morph frequencies, adaptive divergence, pollinator selection, genotype frequencies, or any evolutionary transition direction. All four distributional tests, their chosen trimming levels, and the 50-km radius are post-outcome, and Holm correction was not applied across all hypotheses ever considered in the project.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
