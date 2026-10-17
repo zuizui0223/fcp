@@ -51,6 +51,27 @@ jobs:
           (path/'source_run_provenance.json').write_text(json.dumps({'new_U100':new,'wave4':old},indent=2)+'\n')
           print('FCP4730_REAL_ORIGINAL_IMAGE_SOURCE_IDENTITY_PRECHECK_PASS')
           PY
+      - name: Authenticate already published 447500 independent original-photo eligibility correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_live_roi_qa/corrected-eligibility
+          gh release download fcp-original-4730-independent-447500-analysis-eligibility-20261017 \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_full_4730_original_447500_analysis_correction_SHA256_receipt.json' \
+            --dir /tmp/fcp_live_roi_qa/corrected-eligibility
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('/tmp/fcp_live_roi_qa/corrected-eligibility/fcp_full_4730_original_447500_analysis_correction_SHA256_receipt.json')
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=='96d5ac8c2650843f47ad28bf3f6f3bf25979c8ebe9ff4dc61da32327ea66fe0b'
+          r=json.loads(p.read_text())
+          assert r['full_original_U100_frame_taxa']==4730
+          assert r['raw_original_source_photo_rows']==447800
+          assert r['raw_distinct_photo_IDs_across_all_5_source_cohorts']==447797
+          assert r['actual_original_independent_100photo_analysis_photo_rows']==447500
+          print('FCP_CORRECTED_FIVE_COHORT_ANALYSIS_ELIGIBILITY_RELEASE_AUTHENTICATED')
+          PY
       - name: Download only already COMPLETED historical ROI-v4 CPU pixel terminals from both live runs
         shell: bash
         run: |
@@ -78,6 +99,7 @@ jobs:
             --new-firewall /tmp/fcp_live_roi_qa/new-firewall \
             --wave4-firewall /tmp/fcp_live_roi_qa/wave4-firewall \
             --source-run-records /tmp/fcp_live_roi_qa/source_run_provenance.json \
+            --eligibility-receipt /tmp/fcp_live_roi_qa/corrected-eligibility/fcp_full_4730_original_447500_analysis_correction_SHA256_receipt.json \
             --output /tmp/fcp_live_roi_qa/output
           python - <<'PY'
           import json
@@ -88,6 +110,10 @@ jobs:
           assert x['original_species_conditional_50km_or_H1W_not_inferred'] is True
           assert x['all_original_photo_source_blind_firewall_IDs_unique_and_disjoint'] is True
           assert x['every_completed_ROI_partition_has_exact_frozen_photo_IDs'] is True
+          assert x['independent_original_100photo_analysis_taxa']==4475
+          assert x['independent_original_100photo_analysis_photo_rows']==447500
+          assert x['original_source_globally_distinct_photo_IDs']==447797
+          assert x['independent_five_cohort_source_correction']['signed_original_five_cohort_correction_verified'] is True
           assert x['original_blind_firewall_audits']['new_U100']['frozen_firewall_photo_IDs']==248100
           assert x['original_blind_firewall_audits']['wave4']['frozen_firewall_photo_IDs']==49800
           assert x['cohorts']['new_U100']['terminal_photo_rows']>0
