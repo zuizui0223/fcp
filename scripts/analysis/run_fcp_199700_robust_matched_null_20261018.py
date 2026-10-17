@@ -232,7 +232,7 @@ def matched_from_photos(measured: pd.DataFrame,
     }
     return {
         "schema": "fcp_real_199700_four_cohort_robust_50km_matched_null_v1",
-        "status": "post_hoc_exploratory_not_multiple_test_corrected",
+        "status": "post_hoc_exploratory_within_family_holm_not_global_multiplicity_corrected",
         "actual_measured_photos": 199700,
         "all_measured_species": 1997,
         "frozen_original_spatial_evaluable_species": 741,
