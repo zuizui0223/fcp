@@ -4,11 +4,14 @@ on:
     branches: [main]
     paths:
       - scripts/analysis/combine_fcp_all4730_originals_20261017.py
+      - scripts/analysis/fcp_dual_original_roi_ready_20261017.py
+      - tests/test_fcp_dual_original_roi_ready_20261017.py
       - tests/test_combine_fcp_all4730_originals_20261017.py
       - .github/workflows/fcp-all4730-original-pixel-join-statistics-20261017.yml
   workflow_run:
     workflows:
       - FCP full 4730 original flower ROI and H1 D 50km W replay
+      - FCP wave4 identical original photo ROI and D W spatial replay
     types: [completed]
   workflow_dispatch:
     inputs:
@@ -29,7 +32,9 @@ env:
   WAVE4_ROI_SHA: "ef448c9514e0c702e7887e00b288ee966728b0d5"
   ORIGINAL_U100_SOURCE_RUN: "38996743273"
   ORIGINAL_U100_SOURCE_SHA: "61abc4f71e74db3a6633a790e37d1f30e8e3bfcc"
-  ALL4730_ROI_RUN: ${{ github.event.workflow_run.id || inputs.roi_run_id }}
+  # The event may be the wave4 finish; never substitute the trigger ID for
+  # the immutable original-U100 pixel run when retrieving final input.
+  ALL4730_ROI_RUN: "38997169400"
 jobs:
   code-preflight:
     runs-on: ubuntu-24.04
@@ -51,11 +56,41 @@ jobs:
           print('FCP4730_STANDALONE_50KM_AND_JOIN_IMPORT_VERIFIED')
           PY
           bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
-          python -m pytest -q tests/test_combine_fcp_all4730_originals_20261017.py
+          python -m pytest -q tests/test_combine_fcp_all4730_originals_20261017.py tests/test_fcp_dual_original_roi_ready_20261017.py
           python -m py_compile scripts/analysis/combine_fcp_all4730_originals_20261017.py
-  frozen-original-plus-two-genuine-new-wave-measurements:
+  gate-both-authenticated-original-ROI-terminals:
     needs: code-preflight
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event == 'push' && github.event.workflow_run.id == 38997169400 && github.event.workflow_run.head_sha == 'b79d57686394c1bcbb32fcc2142f0dd19db4ced9') }}
+    # Run the gate only for the exact two real original ROI production runs.
+    # Their PR-only smoke tests are not an authorisation for new statistics.
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && ((github.event.workflow_run.id == 38997169400 && github.event.workflow_run.head_sha == 'b79d57686394c1bcbb32fcc2142f0dd19db4ced9' && github.event.workflow_run.event == 'push') || (github.event.workflow_run.id == 38992543115 && github.event.workflow_run.head_sha == 'ef448c9514e0c702e7887e00b288ee966728b0d5' && github.event.workflow_run.event == 'pull_request'))) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      ready: ${{ steps.both.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for BOTH immutable original real-photo ROIs without new image processing
+        id: both
+        shell: bash
+        env:
+          TRIGGER_ID: ${{ github.event.workflow_run.id || inputs.roi_run_id }}
+          IS_MANUAL: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-4730-dual-roi
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ALL4730_ROI_RUN" > /tmp/fcp-4730-dual-roi/new.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$WAVE4_ROI_RUN" > /tmp/fcp-4730-dual-roi/wave4.json
+          extra=()
+          if [ "$IS_MANUAL" = true ]; then extra+=(--manual); fi
+          python scripts/analysis/fcp_dual_original_roi_ready_20261017.py \
+            --new-run /tmp/fcp-4730-dual-roi/new.json \
+            --wave4-run /tmp/fcp-4730-dual-roi/wave4.json \
+            --trigger-id "$TRIGGER_ID" "${extra[@]}" \
+            --github-output "$GITHUB_OUTPUT" \
+            --output /tmp/fcp-4730-dual-roi/gate_receipt.json
+  frozen-original-plus-two-genuine-new-wave-measurements:
+    needs: [code-preflight, gate-both-authenticated-original-ROI-terminals]
+    if: ${{ needs.gate-both-authenticated-original-ROI-terminals.outputs.ready == 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
