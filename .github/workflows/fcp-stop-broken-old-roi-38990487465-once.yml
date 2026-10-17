@@ -51,7 +51,11 @@ jobs:
               raise SystemExit("FCP cancellation rejected: unsupported state")
           PY
       - name: Cancel only the verified repeatedly failing original ROI run
-        if: ${{ hashFiles(format('{0}/fcp_no_cancel_needed', runner.temp)) == '' }}
+        shell: bash
         run: |
+          if test -e "$RUNNER_TEMP/fcp_no_cancel_needed"; then
+            echo "FCP_OLD_ROI_ALREADY_TERMINAL_NO_CANCEL"
+            exit 0
+          fi
           gh api -X POST "repos/$GITHUB_REPOSITORY/actions/runs/$STOP_RUN_ID/cancel"
           echo "FCP_BROKEN_OLD_PIXEL_RUN_CANCEL_REQUESTED"
