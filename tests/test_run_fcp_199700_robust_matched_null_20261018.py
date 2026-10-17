@@ -109,7 +109,7 @@ def test_unknown_species_or_changed_classification_refused():
         m.matched_from_photos(data, bad, stat, expected=expected)
     with pytest.raises(ValueError, match="colour labels changed"):
         bad = data.copy()
-        bad.loc[0, "morph"] = "white"
+        bad.loc[0, "morph"] = "red_pink"
         m.matched_from_photos(bad, frozen, stat, expected=expected)
 
 
