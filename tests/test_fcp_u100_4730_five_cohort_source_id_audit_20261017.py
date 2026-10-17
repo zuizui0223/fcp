@@ -64,6 +64,7 @@ def test_cross_cohort_photo_reuse_cannot_pass(monkeypatch):
     d,full=fixture(monkeypatch)
     d["wave4"]["photographs"].remove(601)
     d["wave4"]["photographs"].add(1)
+    d["wave4"]["photo_to_taxon"][1]=d["wave4"]["photo_to_taxon"].pop(601)
     with pytest.raises(RuntimeError,match="real source identity collision"):
         m.inspect_all(d,full)
 
@@ -80,6 +81,7 @@ def test_cross_cohort_observation_reuse_cannot_pass(monkeypatch):
     d,full=fixture(monkeypatch)
     d["new_U100"]["observations"].remove(10801)
     d["new_U100"]["observations"].add(10001)
+    d["new_U100"]["obs_to_taxon"][10001]=d["new_U100"]["obs_to_taxon"].pop(10801)
     with pytest.raises(RuntimeError,match="real source identity collision"):
         m.inspect_all(d,full)
 
