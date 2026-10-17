@@ -20,6 +20,7 @@ jobs:
       PYTHONPATH: "."
       U100_RUN: "38997169400"
       WAVE4_RUN: "38992543115"
+      # Recheck the same immutable ROI runs using only newly completed artifacts.
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
