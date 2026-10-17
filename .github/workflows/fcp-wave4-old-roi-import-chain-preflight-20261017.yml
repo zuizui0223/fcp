@@ -1,0 +1,38 @@
+name: FCP wave4 verify historical colour ROI import chain before real pixels
+on:
+  push:
+    branches: [analysis/fcp-wave4-roi-import-repair-20261017]
+    paths:
+      - scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+      - tests/test_fcp_wave4_original_roi_and_statistics_20261017.py
+      - .github/workflows/fcp-wave4-old-roi-import-chain-preflight-20261017.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-original-colour-module-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: "."
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore all historically SHA-pinned original colour dependencies
+        run: bash scripts/analysis/materialize_fcp_wave4_original_machine_20261017.sh
+      - name: Actually import old original colour classifier BEFORE real photo requests
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+          python -m pytest -q tests/test_fcp_wave4_original_roi_and_statistics_20261017.py
+          python - <<'PY'
+          import importlib
+          for name in ('fcp_pipeline.photo_first_atlas','fcp_pipeline.photo_first_atlas_v2','fcp_pipeline.photo_first_measurement'):
+              m=importlib.import_module(name)
+              print('ORIGINAL_DEPENDENCY_IMPORT_VERIFIED',name,m.__file__)
+          PY
+          test "$(git hash-object fcp_pipeline/photo_first_atlas.py)" = "6dced732d315f166565a0dfaf3507c90f967255e"
+          test "$(git hash-object fcp_pipeline/photo_first_atlas_v2.py)" = "d2984b5a462bf746ea5646332b74be55411b78f8"
+          test "$(git hash-object fcp_pipeline/photo_first_measurement.py)" = "b2761c7fd2f8af615c1d96a615942e7af67d492a"
+          echo FCP_PRE_PIXEL_ORIGINAL_ROI_IMPORT_CHAIN_SUCCESS
