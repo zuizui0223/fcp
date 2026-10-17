@@ -131,3 +131,41 @@ def test_original_sealed_geo_metadata_must_match_same_pre_pixel_ids(tmp_path,mon
     record.write_text(json.dumps(data))
     with pytest.raises(RuntimeError,match="SHA drift"):
         m.authenticate_original_blind_firewall(root,"new_U100")
+
+
+def test_corrected_original_five_cohort_source_denominator_receipt():
+    doc={
+        "schema":"fcp_4730_original_h9_source_vs_independent_447500_method_eligibility_v1",
+        "full_original_U100_frame_taxa":4730,
+        "raw_original_source_photo_rows":447800,
+        "raw_distinct_photo_IDs_across_all_5_source_cohorts":447797,
+        "actual_original_100photo_eligible_taxa_after_cross_cohort_audit":4475,
+        "actual_original_independent_100photo_analysis_photo_rows":447500,
+        "preserved_original_old_measured_photos":149900,
+        "preserved_wave4_original_source_photo_rows":49800,
+        "new_U100_source_100photo_taxa":2481,
+        "new_U100_independent_analysis_100photo_taxa":2478,
+        "under100_original_H9_taxa":252,
+        "excluded_new_U100_source_photo_reuse_taxa":[62367,75633,1045161],
+        "reused_photo_IDs":[45948761,311814882,517553374],
+        "reused_observation_IDs":[287821814],
+        "new_photo_pixels_measured_in_this_source_correction":False,
+        "previous_H9_source_archive_byte_immutable":True,
+        "original_50km_H1_D_W_statistical_method_changed":False,
+        "successful_source_correction_run_id":39007962571,
+    }
+    audit=m.verify_corrected_five_cohort_analysis_eligibility(doc)
+    assert audit["signed_original_five_cohort_correction_verified"] is True
+    assert audit["actual_distinct_source_photo_IDs"]==447797
+    assert audit["original_independent_100photo_analysis_rows"]==447500
+    assert audit["taxa_rejected_whole_source_photo_reuse"]==3
+    for name,wrong in [
+        ("raw_distinct_photo_IDs_across_all_5_source_cohorts",447800),
+        ("actual_original_independent_100photo_analysis_photo_rows",447800),
+        ("new_U100_independent_analysis_100photo_taxa",2481),
+        ("reused_photo_IDs",[]),
+        ("under100_original_H9_taxa",255),
+    ]:
+        drift={**doc,name:wrong}
+        with pytest.raises(RuntimeError,match="source correction receipt drift"):
+            m.verify_corrected_five_cohort_analysis_eligibility(drift)
