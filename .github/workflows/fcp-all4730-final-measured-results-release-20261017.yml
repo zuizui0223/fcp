@@ -1,0 +1,194 @@
+name: FCP preserve complete U100 4730 actual pixels and unchanged-method results
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-all4730-final-measured-results-release-20261017.yml
+  workflow_run:
+    workflows:
+      - FCP all 4730 original photo join and unchanged H1 W 50km
+    types: [completed]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-ALL4730-one-permanent-original-colour-pixel-release
+  cancel-in-progress: false
+jobs:
+  publish-only-authenticated-complete-original-method-study:
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == 'zuizui0223/fcp' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    env:
+      GH_TOKEN: ${{ github.token }}
+      FINAL_RUN: ${{ github.event.workflow_run.id }}
+      FINAL_EXPECTED_NAME: FCP all 4730 original photo join and unchanged H1 W 50km
+      TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      STORE: /tmp/fcp_all4730_actual_colour_permanent_release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install only CSV and JSON validation dependencies
+        run: python -m pip install pandas==2.2.3 numpy==2.1.3
+      - name: Verify historical original-photo results were genuinely completed
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$STORE"/{measured,spatial,h1w,release,verify}
+          test -n "$FINAL_RUN"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$FINAL_RUN" > "$STORE/final_run.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ['STORE'])
+          r=json.loads((root/'final_run.json').read_text())
+          if (str(r.get('id'))!=os.environ['FINAL_RUN']
+              or r.get('name')!=os.environ['FINAL_EXPECTED_NAME']
+              or r.get('head_repository',{}).get('full_name')!='zuizui0223/fcp'
+              or r.get('head_branch')!='main'
+              or r.get('run_attempt')!=1
+              or r.get('conclusion')!='success'
+              or r.get('status')!='completed'):
+              raise SystemExit('No authenticated successful complete FCP 4730 photo analysis')
+          print('FCP_FULL_U100_ALL_ORIGINAL_REAL_PHOTO_RUN_AUTHENTICATED',r['html_url'])
+          PY
+          gh run download "$FINAL_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-verified-full-original-measured-photo-table --dir "$STORE/measured"
+          gh run download "$FINAL_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-original-same-50km-permutation-inference --dir "$STORE/spatial"
+          gh run download "$FINAL_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-all4730-original-same-H1-D-W-inference --dir "$STORE/h1w"
+      - name: Independently audit the actual photo rows, 4730 identities, and old 50km/H1/W inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ['STORE'])
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          combined=root/'measured/fcp_all4730_original_method_measured_photos.csv.gz'
+          rcfile=root/'measured/fcp_all4730_original_photo_combine_receipt.json'
+          sfile=root/'spatial/fcp_all4730_unchanged_original_50km_results.json'
+          statfile=root/'h1w/fcp_all4730_H1_D_W_results.json'
+          by_species=root/'spatial/fcp_all4730_unchanged_original_50km_species.csv'
+          rc=json.loads(rcfile.read_text())
+          s=json.loads(sfile.read_text())
+          h=json.loads(statfile.read_text())
+          if (rc.get('schema')!='fcp_all4730_original_149900_plus_all_new_pixel_measurements_v1'
+              or rc.get('full_original_eligible_U100_taxa')!=4730
+              or rc.get('original_149900_photo_rows_unchanged') is not True
+              or rc.get('old_50km_and_W_estimators_unchanged') is not True
+              or rc.get('merged_photo_table_sha256')!=sha(combined)
+              or rc.get('wave4_authentic_photo_rows')!=49800
+              or rc.get('total_original_100photo_measured_species')+
+                     rc.get('remaining_U100_under_100_original_H9_photos')!=4730
+              or rc.get('new_original_photo_rows')!=rc.get('total_original_pixel_terminal_photo_rows')-149900):
+              raise SystemExit('Original 4730 measurement photo denominators or SHA mismatch')
+          original_sources={
+              'discovery':'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4',
+              'validation':'0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6',
+              'prospective':'57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186',
+          }
+          if any(rc.get('source_sha256',{}).get(k)!=v for k,v in original_sources.items()):
+              raise SystemExit('Frozen 149900 historical photo source hash changed')
+          if (s.get('schema')!='fcp_all4730_same_original_50km_vertex_null_v1'
+              or s.get('old_three_original_149900_effects_exactly_reproduced') is not True
+              or s.get('original_50km_radius_changed') is not False
+              or s.get('original_species_equal_weighting_changed') is not False
+              or s.get('original_199_vertex_null_changed') is not False
+              or not s.get('pooled_original_50km')):
+              raise SystemExit('Old 50km null changed, source effect not authenticated')
+          historical={
+              'discovery':(166,0.020529254583812922,0.005),
+              'validation':(181,0.018672971642749295,0.005),
+              'prospective':(204,0.01468491968437185,0.005),
+          }
+          for group,(n,value,p) in historical.items():
+              orig=s['all_sources'][group]['50']
+              if (orig.get('n_species')!=n
+                  or abs(orig.get('mean_depletion',0)-value)>1e-10
+                  or orig.get('mean_depletion_p_upper')!=p):
+                  raise SystemExit('Frozen 149900 50km effect not reproduced: '+group)
+          if (h.get('schema')!='fcp_all4730_unchanged_historical_H1_D_H2_W_v1'
+              or h.get('existing_method_called_directly') is not True
+              or h.get('old_frozen_149900_inference_not_overwritten') is not True
+              or h.get('all_real_photo_rows')!=rc['total_original_pixel_terminal_photo_rows']):
+              raise SystemExit('Frozen observer H1/D and fixed H2/W method not authenticated')
+          photo=pd.read_csv(combined,low_memory=False)
+          if (len(photo)!=rc['total_original_pixel_terminal_photo_rows']
+              or photo.photo_id.nunique()!=len(photo)
+              or photo.inat_taxon_id.nunique()!=rc['total_original_100photo_measured_species']):
+              raise SystemExit('New measured photo rows incomplete/duplicated')
+          if not photo.groupby('inat_taxon_id').size().eq(100).all():
+              raise SystemExit('Synthetic/under-100 old-format photo rows found')
+          if set(photo.fcp_source_cohort)!=set(original_sources)|{'wave4','new_U100'}:
+              raise SystemExit('Measured source provenance lost')
+          sv=pd.read_csv(by_species)
+          if len(sv)!=s['all_evaluable_species'] or sv.inat_taxon_id.nunique()!=len(sv):
+              raise SystemExit('Original 50km per-species output identity mismatch')
+          manifest={
+             'schema':'fcp_all4730_permanent_measured_original_photo_results_v1',
+             'full_original_eligible_species':4730,
+             'genuinely_measured_100photo_species':rc['total_original_100photo_measured_species'],
+             'genuinely_measured_photo_rows':len(photo),
+             'still_under_100_original_H9_species':rc['remaining_U100_under_100_original_H9_photos'],
+             'genuinely_four_state_classified_photos':int(photo.global_classifiable.astype(str).str.lower().isin(['true','1']).sum()),
+             'old_149900_original_photos_unchanged':True,
+             'original_149900_50km_three_effects_exactly_reproduced':True,
+             'no_new_ecological_statistic_or_classifier':True,
+             'metadata_only_not_original_images':True,
+             'original_iNaturalist_photo_license_must_be_respected':True,
+             'final_run_id':int(os.environ['FINAL_RUN']),
+             'source_archive_sha256':sha(combined),
+             'source_join_receipt_sha256':sha(rcfile),
+             'original_spatial_result_sha256':sha(sfile),
+             'original_H1_D_W_result_sha256':sha(statfile),
+             'original_50km_species_table_sha256':sha(by_species),
+          }
+          (root/'release/fcp_all4730_actual_colour_results_receipt.json').write_text(
+              json.dumps(manifest,indent=2,sort_keys=True,allow_nan=False)+'\n')
+          print('FCP_ALL4730_ACTUAL_ORIGINAL_PHOTOS_INDEPENDENTLY_VERIFIED',
+                len(photo),manifest['genuinely_measured_100photo_species'],flush=True)
+          PY
+      - name: Publish original data-derived measurements only to once-only permanent GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$STORE" --sort=name --mtime='UTC 1970-01-01' \
+            --owner=0 --group=0 --numeric-owner -cf - measured spatial h1w | gzip -n -6 \
+            > "$STORE/release/fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['STORE'])
+          pack=root/'release/fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz'
+          receipt=root/'release/fcp_all4730_actual_colour_results_receipt.json'
+          d=json.loads(receipt.read_text())
+          d['release_tag']=os.environ['TAG']
+          d['archive_name']=pack.name
+          d['archive_bytes']=pack.stat().st_size
+          d['archive_sha256']=hashlib.sha256(pack.read_bytes()).hexdigest()
+          receipt.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
+          print('FCP_FULL4730_PERMANENT_MEASURED_ARCHIVE_HASH',d['archive_sha256'])
+          PY
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Original all-4730 photo-colour results release exists, refusing overwrite'
+            exit 1
+          fi
+          gh release create "$TAG" \
+            "$STORE/release/fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz" \
+            "$STORE/release/fcp_all4730_actual_colour_results_receipt.json" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$(python -c 'import json; print(json.load(open("/tmp/fcp_all4730_actual_colour_permanent_release/final_run.json"))["head_sha"])')" \
+            --title 'FCP all 4730 U100 species: measured original flower photos and original methods' \
+            --notes 'Scientific source frame: 4730 species with historical observer-capped photo opportunity. This release contains actual original-photo colour measurements for only species retaining exactly 100 authentic H9 photo IDs, with all under-100 taxa reported in the receipt. Includes original 149900 byte-authenticated source, wave4 and newly measured rows, fixed historical 50km null and H1/D/W estimates. No original photos redistributed. Previous model and inferential methods unchanged.'
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz' \
+            --dir "$STORE/verify"
+          cmp "$STORE/release/fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz" \
+              "$STORE/verify/fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz"
+          echo FCP_ALL4730_GENUINE_ORIGINAL_PHOTO_INFERENCE_PERMANENTLY_VERIFIED
