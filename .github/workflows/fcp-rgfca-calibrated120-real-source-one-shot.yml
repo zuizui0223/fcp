@@ -1,0 +1,103 @@
+name: FCP RGFCA calibrated 120-photo repeatability from verified 42111 source
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-rgfca-calibrated120-real-source-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independently-freeze-balanced-rgfca-photo-repetition:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout exact immutable balanced species design and CI tests
+        uses: actions/checkout@v4
+        with:
+          ref: f431a8034ab8c26f9aa1ab8552876a635e1920a6
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify both original 2026-09-27 source and independent identity audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/$GITHUB_REPOSITORY/actions/runs/38749681793 > "$RUNNER_TEMP/real_source.json"
+          gh api repos/$GITHUB_REPOSITORY/actions/runs/38818718877 > "$RUNNER_TEMP/independent_audit.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])
+          source=json.loads((p/'real_source.json').read_text())
+          audit=json.loads((p/'independent_audit.json').read_text())
+          if (source.get('id')!=38749681793
+              or source.get('conclusion')!='success'
+              or source.get('head_sha')!='b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3'
+              or source.get('run_attempt')!=1
+              or audit.get('id')!=38818718877
+              or audit.get('conclusion')!='success'
+              or audit.get('head_sha')!='52d5acf74c0eafb3f551b960b3e5464d9e536fee'):
+              raise SystemExit('Original source count evidence is not the pinned biological opportunity frame')
+          PY
+      - name: Download ONLY real source counts and independent audit, no photographs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_counts" "$RUNNER_TEMP/fcp_audit"
+          gh run download 38749681793 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours \
+            --dir "$RUNNER_TEMP/fcp_counts"
+          gh run download 38818718877 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-42111-source-photo-opportunity-INDEPENDENT-AUDIT-not-flower-colours \
+            --dir "$RUNNER_TEMP/fcp_audit"
+      - name: Reproduce real 1000 taxa and 200 by 250 RGFCA equal-inclusion schedule
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/freeze_fcp_rgfca_photo_repetition.py \
+            --source-counts "$RUNNER_TEMP/fcp_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --independent-audit "$RUNNER_TEMP/fcp_audit/all_42111_photo_opportunity_audit.json" \
+            --outdir "$RUNNER_TEMP/fcp_rgfca_photo_balanced_20261016"
+          python - <<'PY'
+          from pathlib import Path
+          import json,os
+          doc=json.loads((Path(os.environ['RUNNER_TEMP'])/
+             'fcp_rgfca_photo_balanced_20261016/rgfca_sample_receipt.json').read_text())
+          expected={
+            'selected_species':1000,'realizations':200,
+            'species_per_realization':250,'species_inclusions_each':50,
+            'n_balanced_species_assignments':50000,
+            'eligible_source_taxa_ge128':24740,
+            'source_photo_opportunities':93209351,
+            'maximum_unique_original_image_pixels_if_pool_filled':128000,
+            'selected_species_csv_sha256':'88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c',
+            'realization_schedule_csv_sha256':'1f0d52f00d14d503c146c355934993eb7d4836fe4f5e523491ea18f08b49bb30',
+          }
+          for k,v in expected.items():
+              if doc.get(k)!=v:
+                  raise SystemExit(f'RGFCA photo robustness sampling mismatch {k}: {doc.get(k)} != {v}')
+          if (doc.get('primary_repeated_photo_draw_per_species') != 120
+              or doc.get('photo_draw_per_independent_observer_fold') != 60
+              or doc.get('photo_depth_sensitivities') != [40,80,120,128]):
+              raise SystemExit('Pre-image RGFCA 120-photo source-only recalibration mismatch')
+          if (doc['photographic_poly_probabilities_measured'] is not False
+              or doc['old_149900_flower_colours_used'] is not False
+              or doc['new_flower_images_opened'] is not False):
+              raise SystemExit('Cannot claim real flower colour polymorphism from source counts')
+          print('FCP_RGFCA_REAL_1000_BALANCED_200_BY_250_REPRODUCED_NO_PIXELS')
+          PY
+      - name: Preserve REAL data-backed balanced species realization schedule
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-rgfca-photo-1000species-200x250-calibrated120-no-pixels
+          retention-days: 90
+          if-no-files-found: error
+          path: ${{ runner.temp }}/fcp_rgfca_photo_balanced_20261016/

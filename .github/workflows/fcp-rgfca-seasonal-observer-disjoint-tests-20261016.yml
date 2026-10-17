@@ -1,0 +1,28 @@
+name: FCP original observer-disjoint seasonal photo freeze tests
+
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - .github/workflows/fcp-rgfca-seasonal-observer-disjoint-tests-20261016.yml
+
+permissions:
+  contents: read
+
+jobs:
+  validate-source-only-observer-photo-wave:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test exact original-source seasonal work queue before original photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest
+          python -m py_compile scripts/acquisition/freeze_fcp_original_matched_season_observer_photos_20261016.py
+          python -m pytest tests/test_freeze_fcp_original_matched_season_observer_photos_20261016.py -q
+          echo FCP_SOURCE_ONLY_TWO_SEASON_INDEPENDENT_OBSERVER_PHOTO_FREEZE_CONTRACTS_TESTED_NO_COLOURS

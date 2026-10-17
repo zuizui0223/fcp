@@ -1,0 +1,30 @@
+name: FCP original monthly flowering and white-rate audit tests
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-original-seasonal-qc-regression-20261016.yml
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-contract-not-real-phenotype:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Use precise branch tests, never historical colour outcomes
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test original dated observed-on flowering ROI screening contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest
+          python -m py_compile scripts/analysis/fcp_original_dated_flowering_season_qc.py
+          python -m pytest tests/test_fcp_original_dated_flowering_season_qc.py -q
+          echo FCP_SEASONAL_QC_SYNTHETIC_CONTRACTS_ONLY_NO_REAL_ORIGINAL_PIXELS

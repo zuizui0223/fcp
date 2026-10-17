@@ -1,0 +1,116 @@
+{
+  "schema": "fcp_42111_verified_original_photo_execution_waves_v1",
+  "status": "VERIFIED_SOURCE_OPPORTUNITY_WAVES_NOT_PHOTO_IDS_OR_PIXELS",
+  "source_snapshot_date": "2026-09-27",
+  "source_frame_sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+  "original_archive_sha256": "bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e",
+  "exact_original_source_counts_sha256": "ef26c16252dd785f2d08bde3b18938c7624d73a54386fa3d3974dceb09ed97a9",
+  "independently_verified_audit_sha256": "ed62aee0f9730ad17347d25180575af1cd101e0fc35c581e470c4a17866ebf56",
+  "primary_count_run": 38749681793,
+  "independent_audit_run": 38818718877,
+  "source_species": 42111,
+  "species_with_source_photos": 42095,
+  "species_with_zero_source_photos": 16,
+  "source_photo_opportunities": 93209351,
+  "source_photo_opportunity_gini": 0.85852981,
+  "photo_fraction_in_top_one_percent_species": 0.325715581906,
+  "n_source_ids_actual_photo_manifest_frozen": 0,
+  "n_original_new_image_pixels_measured_for_full_20260927_census": 0,
+  "all_remaining_photos_still_eligible": true,
+  "stages_are_work_budgets_not_per_species_biological_inclusion_caps": true,
+  "future_photo_id_selection_requires_frozen_complete_source_id_manifest": true,
+  "observer_geo_balance_unverified_by_counts": true,
+  "no_color_D_W_H2_or_environment_results_from_counts": true,
+  "all_photos_still_require_provider_approved_pacing_and_durable_compute": true,
+  "note": "Cumulative opportunities min(source n_i, stage depth). These are NOT preselected source photo IDs, flower-ROI-ready images, or completed pixels. Durations assume one 1.1-second-apart provider request stream only and exclude ROI time, network errors and provider access permissions.",
+  "stages": [
+    {
+      "photo_source_depth_work_frontier": 1,
+      "cumulative_opportunities": 42095,
+      "incremental_opportunities": 42095,
+      "fraction_of_all_original_opportunities": 0.0004516178,
+      "theoretical_single_stream_request_days_at_1_1_sec": 0.536,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 10,
+      "cumulative_opportunities": 405219,
+      "incremental_opportunities": 363124,
+      "fraction_of_all_original_opportunities": 0.0043474072,
+      "theoretical_single_stream_request_days_at_1_1_sec": 5.159,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 20,
+      "cumulative_opportunities": 780175,
+      "incremental_opportunities": 374956,
+      "fraction_of_all_original_opportunities": 0.0083701366,
+      "theoretical_single_stream_request_days_at_1_1_sec": 9.933,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 40,
+      "cumulative_opportunities": 1466763,
+      "incremental_opportunities": 686588,
+      "fraction_of_all_original_opportunities": 0.0157362216,
+      "theoretical_single_stream_request_days_at_1_1_sec": 18.674,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 64,
+      "cumulative_opportunities": 2212751,
+      "incremental_opportunities": 745988,
+      "fraction_of_all_original_opportunities": 0.0237395817,
+      "theoretical_single_stream_request_days_at_1_1_sec": 28.172,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 100,
+      "cumulative_opportunities": 3217889,
+      "incremental_opportunities": 1005138,
+      "fraction_of_all_original_opportunities": 0.0345232422,
+      "theoretical_single_stream_request_days_at_1_1_sec": 40.968,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 128,
+      "cumulative_opportunities": 3932722,
+      "incremental_opportunities": 714833,
+      "fraction_of_all_original_opportunities": 0.0421923547,
+      "theoretical_single_stream_request_days_at_1_1_sec": 50.069,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 256,
+      "cumulative_opportunities": 6738488,
+      "incremental_opportunities": 2805766,
+      "fraction_of_all_original_opportunities": 0.0722941199,
+      "theoretical_single_stream_request_days_at_1_1_sec": 85.791,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 512,
+      "cumulative_opportunities": 11099342,
+      "incremental_opportunities": 4360854,
+      "fraction_of_all_original_opportunities": 0.1190797048,
+      "theoretical_single_stream_request_days_at_1_1_sec": 141.311,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": 1024,
+      "cumulative_opportunities": 17450376,
+      "incremental_opportunities": 6351034,
+      "fraction_of_all_original_opportunities": 0.18721701,
+      "theoretical_single_stream_request_days_at_1_1_sec": 222.169,
+      "real_pixels_measured": 0
+    },
+    {
+      "photo_source_depth_work_frontier": "ALL",
+      "cumulative_opportunities": 93209351,
+      "incremental_opportunities": 75758975,
+      "fraction_of_all_original_opportunities": 1,
+      "theoretical_single_stream_request_days_at_1_1_sec": 1186.693,
+      "real_pixels_measured": 0
+    }
+  ]
+}

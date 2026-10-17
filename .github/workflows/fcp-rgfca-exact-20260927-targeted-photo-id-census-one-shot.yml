@@ -1,0 +1,250 @@
+# ONE-SHOT genuine dated-source ID admission for the PRESELECTED 1000 RGFCA taxa.
+# This is NOT 93M image measurements, phenotype or genetic polymorphism.
+# A streaming second pass plus external observation eligibility replay verifies
+# cross-species photo ID collisions, ignoring ineligible external observation
+# reuse exactly as the independent full-42111 source importer does. Every
+# enrolled taxon MUST match the independent full-42111 photo counts.
+name: FCP RGFCA EXACT 20260927 targeted 1000 real photo-ID source ONE SHOT
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-rgfca-exact-20260927-targeted-photo-id-census-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-original-20260927-1000-RGFCA-monthly-source-only-one-shot
+  cancel-in-progress: false
+
+jobs:
+  exactly-match-targeted-1000-to-global-42111-original-monthly-photo-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      ROOT: /tmp/fcp_rgfca_targeted_20260927_exact_monthly
+      ARCHIVE_SHA: bfc1a97c436bf5989fccd43f12392953128489b76b92cea24da335ad73da4d8e
+      SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      SOURCE_ARCHIVE_URL: https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260927.tar.gz
+    steps:
+      - name: Checkout corrected verified FULL-frame eligibility collision-matched original-source ID extractor
+        uses: actions/checkout@v4
+        with:
+          ref: 9cf48dbb9e2592981f9981eb4408d99663ed1467
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Free only standard disposable host SDK scratch and preflight for >=80 GB
+        shell: bash
+        run: |
+          set -euo pipefail
+          for p in /usr/local/lib/android /usr/share/dotnet /usr/local/share/powershell /usr/share/swift; do
+            if test -d "$p"; then sudo rm -rf -- "$p"; fi
+          done
+          python - <<'PY'
+          import os,shutil
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])
+          free=shutil.disk_usage(root).free
+          if free<80_000_000_000:
+              raise SystemExit(f"INSUFFICIENT_SCRATCH_FOR_36GB_REAL_ARCHIVE_AND_4_GZ_TABLES: {free} B")
+          print("FCP_RGFCA_TARGETED_SOURCE_INITIAL_DISK_BYTES",free)
+          PY
+          mkdir -p "$ROOT/inputs" "$ROOT/verified_counts" "$ROOT/independent_audit" "$ROOT/rgfca_enrolment" "$ROOT/archive"
+
+      - name: Install source metadata parser/test dependencies and verify downstream complete ROI firewall BEFORE 36GB transfer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pytest numpy pandas scipy Pillow scikit-image rasterio
+          python -m py_compile \
+            scripts/acquisition/extract_rgfca_1000_original_monthly_photo_ids.py \
+            scripts/acquisition/plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py \
+            scripts/acquisition/freeze_fcp_photo_first_blind_workers.py
+          python -m pytest \
+            tests/test_extract_rgfca_1000_original_monthly_photo_ids.py \
+            tests/test_plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py \
+            tests/test_freeze_fcp_photo_first_blind_workers.py -q
+
+      - name: Verify success/source SHA of full 42111 original counts, independent audit and PRECOLOUR RGFCA 1000 roster
+        shell: bash
+        run: |
+          set -euo pipefail
+          for ID in 38749681793 38818718877 38828417100; do
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$ID" > "$ROOT/inputs/workflow_$ID.json"
+          done
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["ROOT"])/"inputs"
+          expected={
+              38749681793:"b6bc01ee3cf55c9fb5c539eb703d91ec1c4181f3",
+              38818718877:"52d5acf74c0eafb3f551b960b3e5464d9e536fee",
+              38828417100:"9ed71d6a22aef941bdb7f2f947266b7a58ac7741",
+          }
+          for run_id,sha in expected.items():
+              doc=json.loads((root/f"workflow_{run_id}.json").read_text())
+              if (doc.get("id")!=run_id or doc.get("head_sha")!=sha
+                  or doc.get("head_branch")!=(
+                      "main" if run_id==38818718877
+                      else "analysis/fcp-fresh-uncapped-zero-20261015")
+                  or doc.get("run_attempt")!=1 or doc.get("status")!="completed"
+                  or doc.get("conclusion")!="success"
+                  or doc.get("head_repository",{}).get("full_name")!="zuizui0223/fcp"):
+                  raise SystemExit("Wrong/orphan original provider taxon/census or RGFCA pre-colour cohort artifact")
+          PY
+          gh run download 38749681793 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-real-source-photo-opportunity-counts-20260927-complete-not-colours \
+            --dir "$ROOT/verified_counts"
+          gh run download 38818718877 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-42111-source-photo-opportunity-INDEPENDENT-AUDIT-not-flower-colours \
+            --dir "$ROOT/independent_audit"
+          gh run download 38828417100 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
+            --dir "$ROOT/rgfca_enrolment"
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$ROOT/inputs/42111_original_species_frame.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$ROOT"'/inputs/42111_original_species_frame.csv' | sha256sum -c -
+          echo 'ef26c16252dd785f2d08bde3b18938c7624d73a54386fa3d3974dceb09ed97a9  '"$ROOT"'/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv' | sha256sum -c -
+          echo '88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c  '"$ROOT"'/rgfca_enrolment/rgfca_species_1000_original_source_only.csv' | sha256sum -c -
+
+      - name: Download once EXACT byte-pinned dated September 2026 original tar; NEVER latest/photo API
+        timeout-minutes: 135
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 10 \
+            --retry-all-errors --connect-timeout 60 --continue-at - \
+            --output "$ROOT/archive/inaturalist-open-data-20260927.tar.gz" "$SOURCE_ARCHIVE_URL"
+          python - <<'PY'
+          import os,hashlib
+          from pathlib import Path
+          p=Path(os.environ["ROOT"])/"archive/inaturalist-open-data-20260927.tar.gz"
+          if p.stat().st_size!=35_966_549_880:
+              raise SystemExit("Original dated provider archive wrong physical size")
+          h=hashlib.sha256()
+          with p.open("rb") as f:
+              for chunk in iter(lambda:f.read(8*1024*1024),b""):
+                  h.update(chunk)
+          if h.hexdigest()!=os.environ["ARCHIVE_SHA"]:
+              raise SystemExit("Original 2026-09-27 archive SHA256 DRIFT: no biology admitted")
+          print("FCP_EXACT_ORIGINAL_MONTHLY_ARCHIVE_36GB_SHA_VERIFIED")
+          PY
+
+      - name: Extract and independently hash all four genuine provider TSV.gz metadata members (NOT pixels)
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.pin_inat_open_data_snapshot \
+            --archive "$ROOT/archive/inaturalist-open-data-20260927.tar.gz" \
+            --s3-key metadata/inaturalist-open-data-20260927.tar.gz \
+            --archive-sha256 "$ARCHIVE_SHA" \
+            --outdir "$ROOT/frozen_4_original_metadata_tables"
+          # Only AFTER the archive has been attested and four extracted table
+          # digests saved; reclaim space before scanning enormous photo records.
+          rm -- "$ROOT/archive/inaturalist-open-data-20260927.tar.gz"
+          echo FCP_ORIGINAL_ARCHIVE_PINNED_AND_DISPOSABLE_36GB_SCRATCH_RELEASED
+          df -h "$ROOT"
+
+      - name: Scan true original snapshot once for 1000 taxa and twice for source-global photo-ID collision quarantine; count-validate EVERY selected taxon
+        timeout-minutes: 300
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.extract_rgfca_1000_original_monthly_photo_ids \
+            --source-frame "$ROOT/inputs/42111_original_species_frame.csv" \
+            --source-counts "$ROOT/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --independent-audit "$ROOT/independent_audit/all_42111_photo_opportunity_audit.json" \
+            --rgfca-cohort "$ROOT/rgfca_enrolment/rgfca_species_1000_original_source_only.csv" \
+            --rgfca-receipt "$ROOT/rgfca_enrolment/rgfca_sample_receipt.json" \
+            --dated-archive-pin "$ROOT/frozen_4_original_metadata_tables/fcp_source_archive_pin.json" \
+            --source-taxa-gz "$ROOT/frozen_4_original_metadata_tables/taxa.csv.gz" \
+            --source-observations-gz "$ROOT/frozen_4_original_metadata_tables/observations.csv.gz" \
+            --source-observers-gz "$ROOT/frozen_4_original_metadata_tables/observers.csv.gz" \
+            --source-photos-gz "$ROOT/frozen_4_original_metadata_tables/photos.csv.gz" \
+            --outdir "$ROOT/rgfca_1000_exact_source_photo_IDs"
+
+      - name: Select 64 plus 64 original photos per taxon BEFORE opening pixels; freeze all 128 location-blind ROI workers
+        timeout-minutes: 35
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.plan_rgfca_screen_from_targeted_original_monthly_photo_ids \
+            --targeted-dated-photo-ID-CSV "$ROOT/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv" \
+            --targeted-dated-photo-ID-receipt "$ROOT/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json" \
+            --original-42111-frame "$ROOT/inputs/42111_original_species_frame.csv" \
+            --original-42111-counts "$ROOT/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --independent-source-audit "$ROOT/independent_audit/all_42111_photo_opportunity_audit.json" \
+            --rgfca-1000-roster "$ROOT/rgfca_enrolment/rgfca_species_1000_original_source_only.csv" \
+            --rgfca-roster-receipt "$ROOT/rgfca_enrolment/rgfca_sample_receipt.json" \
+            --photos-per-observer-fold 64 --max-per-observer 8 \
+            --outdir "$ROOT/rgfca_1000_photo_colour_blind_selection"
+          python -m scripts.acquisition.freeze_fcp_photo_first_blind_workers \
+            --selected-metadata "$ROOT/rgfca_1000_photo_colour_blind_selection/photo_screen_original_metadata_selected.csv" \
+            --selection-receipt "$ROOT/rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json" \
+            --source-frame "$ROOT/inputs/42111_original_species_frame.csv" \
+            --source-counts "$ROOT/verified_counts/complete_42111_metadata_source/all_42111_species_photo_opportunity_counts.csv" \
+            --outdir "$ROOT/rgfca_1000_original_photo_blind_worker_freeze"
+          python - <<'PY'
+          import json,os,csv
+          from pathlib import Path
+          root=Path(os.environ["ROOT"])
+          pin=json.loads((root/"rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json").read_text())
+          sched=json.loads((root/"rgfca_1000_photo_colour_blind_selection/photo_screen_source_selection_receipt.json").read_text())
+          freeze=json.loads((root/"rgfca_1000_original_photo_blind_worker_freeze/photo_screen_freeze.json").read_text())
+          if (pin["status"]!="COMPLETE_TARGETED_1000_MONTHLY_SOURCE_IDS_COUNT_MATCHED_NO_PHOTO_PIXELS"
+              or pin["n_selected_original_photo_IDs"]!=3430502
+              or pin["all_enrolled_species_match_independent_full_source_photo_ID_counts"] is not True
+              or sched["RGFCA_enrolment_species_count"]!=1000
+              or not 0<sched["selected_photo_IDs"]<=128000
+              or freeze["screen_selected_original_photo_IDs"]!=sched["selected_photo_IDs"]
+              or freeze["worker_partitions"]!=128
+              or freeze["no_literature_positive_labels_used"] is not True
+              or freeze["no_old_photo_colour_rows_loaded"] is not True
+              or freeze["original_image_pixels_opened"] is not False
+              or freeze["image_worker_sees_only_three_fields"] is not True):
+              raise SystemExit("Not truly the 1000-taxon original monthly source photo-ID worker freeze")
+          print("FCP_REAL_1000_EXACT_DATED_SOURCE_IDS_FREEZE_PRECOLOUR_PASSED",
+                json.dumps({"photos_metadata_verified":3430502,
+                            "photos_selected_for_new_ROI":sched["selected_photo_IDs"],
+                            "worker_partitions":128,
+                            "real_photo_pixels_measured":0},sort_keys=True))
+          PY
+
+      - name: Preserve actual 3.43m monthly-source photo-ID manifest and ROI photo screen, NO colours
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 5
+          path: |
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_complete_original_source_photo_IDs.csv
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_original_photo_ID_counts.csv
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/rgfca_1000_targeted_monthly_photo_ID_receipt.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_photo_colour_blind_selection/
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_original_photo_blind_worker_freeze/
+
+      - name: Preserve incomplete source stage and count mismatch evidence, NEVER classify photos if failed
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-1000-dated-source-INCOMPLETE-or-COLLISION-mismatch-NOT-ROI
+          retention-days: 90
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/inputs/workflow_*.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/frozen_4_original_metadata_tables/fcp_source_archive_pin.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/scanning_real_20260927_rgfca_source_progress.json
+            /tmp/fcp_rgfca_targeted_20260927_exact_monthly/rgfca_1000_exact_source_photo_IDs/FAILED_selected_source_taxon_count_mismatches.json

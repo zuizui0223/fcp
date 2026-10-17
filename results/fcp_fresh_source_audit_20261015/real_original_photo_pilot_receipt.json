@@ -1,0 +1,91 @@
+{
+  "schema": "fcp_original_photos_first_real_pixel_technical_audit_v1",
+  "status": "COMPLETE_QUARANTINED_REAL_PIXEL_PILOT_NOT_FRESH_GLOBAL_FCP",
+  "github_actions_run": 38671341143,
+  "github_artifact_id": 11944359701,
+  "source_metadata_artifact_id": 11928883989,
+  "original_method_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "initial_source_frame_sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+  "terminal_csv_sha256": "772dda9c51cf24fa4fdabf6408d16b2ba96fc965b532af82533c150cf0144c09",
+  "source_selected_photo_pairs_sha256": "c304794187632c726e11c9af919ab5f3699f8e8f83682a656750e6e6301e6c98",
+  "n_original_photo_ids": 96,
+  "n_fetched_original_images": 94,
+  "n_frozen_roi_v4_images_processed": 94,
+  "n_classified": 20,
+  "roi_inadmissible": 66,
+  "palette_ambiguous": 8,
+  "claimed_download_failures": 2,
+  "download_failure_root_cause": "URL uppercase .JPG suffix rejected by case-sensitive validator; no network retrieval attempted for those two",
+  "source_duplicate_photo_id_conflicts_quarantined": 1,
+  "note": "Original frozen model results. Human auditing of flower-only image content not performed. No W or ecological claims.",
+  "species": [
+    {
+      "species": "Allium falcifolium",
+      "taxon_id": 47356,
+      "n_selected": 24,
+      "n_retrieved": 22,
+      "n_classifiable": 5,
+      "classified_photo_morph_counts": {
+        "blue_purple": 4,
+        "white": 1
+      },
+      "status_counts": {
+        "not_evaluable_roi_or_flip_gate": 15,
+        "classified_four_state_morph": 5,
+        "image_acquisition_failed": 2,
+        "not_evaluable_ambiguous_palette_composition": 2
+      }
+    },
+    {
+      "species": "Collinsia concolor",
+      "taxon_id": 47323,
+      "n_selected": 24,
+      "n_retrieved": 24,
+      "n_classifiable": 9,
+      "classified_photo_morph_counts": {
+        "blue_purple": 8,
+        "white": 1
+      },
+      "status_counts": {
+        "classified_four_state_morph": 9,
+        "not_evaluable_roi_or_flip_gate": 9,
+        "not_evaluable_ambiguous_palette_composition": 6
+      }
+    },
+    {
+      "species": "Ribes californicum",
+      "taxon_id": 47129,
+      "n_selected": 24,
+      "n_retrieved": 24,
+      "n_classifiable": 3,
+      "classified_photo_morph_counts": {
+        "white": 1,
+        "red_pink": 1,
+        "yellow_orange": 1
+      },
+      "status_counts": {
+        "not_evaluable_roi_or_flip_gate": 21,
+        "classified_four_state_morph": 3
+      }
+    },
+    {
+      "species": "Schoenoplectus californicus",
+      "taxon_id": 47159,
+      "n_selected": 24,
+      "n_retrieved": 24,
+      "n_classifiable": 3,
+      "classified_photo_morph_counts": {
+        "yellow_orange": 3
+      },
+      "status_counts": {
+        "not_evaluable_roi_or_flip_gate": 21,
+        "classified_four_state_morph": 3
+      }
+    }
+  ],
+  "full_42111_source_frame_completed": false,
+  "full_fcp_image_census_completed": false,
+  "main_fcp_w_null_authorized": false,
+  "photo_selection": "24 per completed taxon, deterministic metadata ID hash; technical pilot only",
+  "never_source_for_claimed_main_biological_results": true
+}

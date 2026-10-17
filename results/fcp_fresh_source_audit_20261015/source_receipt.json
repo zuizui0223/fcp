@@ -1,0 +1,105 @@
+{
+  "schema": "fcp_fresh_source_actual_provider_receipt_v1",
+  "review_date_jst": "2026-10-15",
+  "status": "REAL_PROVIDER_METADATA_SCHEMA_AND_TAXONOMY_VERIFIED_NOT_BIOLOGICAL_MEASUREMENT",
+  "branch": "analysis/fcp-fresh-uncapped-zero-20261015",
+  "original_fcp_42111_frame_sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+  "source_audit": {
+    "provenance_workflow_run": 38662636329,
+    "artifact_id": 11939771321,
+    "source_root_kind": "mutable_latest_metadata_not_original_snapshot_pin",
+    "source_taxa_gzip_bytes": 39999332,
+    "source_taxa_sha256": "a9440e4c1ad1e7b9a8e13d0e8c5b7d35e7a7c5a9f3ec53894f717656edf9348b",
+    "actual_provider_taxa_rows": 1668467,
+    "original_FCP_taxon_ids": 42111,
+    "exact_ID_present": 42111,
+    "missing_IDs": 0,
+    "name_mismatches": 0,
+    "rank_mismatches": 0,
+    "provider_taxon_nodes_mapped_to_FCP": 67505
+  },
+  "real_S3_schema_probe": {
+    "provenance_workflow_run": 38662916042,
+    "source": "inaturalist-open-data public S3 metadata, HTTP HEAD + byte-range",
+    "required_columns_found_in": [
+      "taxa",
+      "observations",
+      "observers",
+      "photos"
+    ],
+    "dated_S3_key": "metadata/inaturalist-open-data-20260927.tar.gz",
+    "dated_archive_bytes": 35966549880,
+    "first_tar_member": "inaturalist-open-data-20260927",
+    "last_modified_root_metadata": "2026-09-27",
+    "archive_sha256_verified": false,
+    "complete_original_archive_downloaded": false
+  },
+  "methods": {
+    "full_bundle_extraction_requires": "externally recorded complete archive SHA256 before source admission",
+    "source_identity_gate": "all 128 source shards and 4 separate metadata table hashes must agree",
+    "original_pixel_method": "ROI-v4/EfficientSAM frozen at 9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "original_image_measurement_values_used": false,
+    "fresh_measurement_completed_photo_rows": 0,
+    "coloured_phenotype_data_reexamined": false,
+    "environment_mechanism_estimated": false,
+    "results_scientifically_final": false
+  },
+  "original_frozen_ROI_v4_model_verification": {
+    "github_actions_run": 38663398717,
+    "artifact_id": 11940305372,
+    "frozen_method_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "roi_detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "code_model_hash_matches": true,
+    "historical_measured_photo_colours_opened": false,
+    "new_image_pixel_outcomes_opened": false
+  },
+  "current_fresh_code_unit_test_run": {
+    "github_actions_run": 38673995478,
+    "synthetic_tests_passed": 45,
+    "biological_fresh_results": false,
+    "real_original_photo_technical_pilot_separate": true
+  },
+  "original_roi_v4_actual_synthetic_runtime": {
+    "github_actions_run": 38666471849,
+    "artifact_id": 11941525917,
+    "generated_images": 1,
+    "provider_photo_images_opened": 0,
+    "status": "ORIGINAL_FULL_RUNTIME_ONE_SYNTHETIC_IMAGE_EXECUTED",
+    "outcome": "mixed_uncertain",
+    "terminal_status": "not_evaluable_roi_or_flip_gate",
+    "original_method_executed": true,
+    "full_original_frozen_roi_detector_and_efficient_sam": true,
+    "biological_effect_estimated": false
+  },
+  "real_original_photo_technical_pilot": {
+    "execution_kind": "QUARANTINED_TECHNICAL_TEST_NOT_42111_SPECIES_BIOLOGICAL_ESTIMATE",
+    "original_96_actions_run": 38671341143,
+    "original_96_artifact_id": 11944359701,
+    "repaired_two_actions_run": 38673995478,
+    "final_repaired_artifact_id": 11945168406,
+    "original_94_terminal_csv_sha256": "772dda9c51cf24fa4fdabf6408d16b2ba96fc965b532af82533c150cf0144c09",
+    "final_96_terminal_csv_sha256": "911ec9edd10a7126bee28cfa67738cef0ff4d275b1f0ca1c06e3f26e7e290039",
+    "frozen_source_photo_selection_sha256": "c304794187632c726e11c9af919ab5f3699f8e8f83682a656750e6e6301e6c98",
+    "n_real_photo_ids": 96,
+    "n_real_original_image_payloads_downloaded": 96,
+    "n_original_images_evaluated_with_actual_ROI_v4_EfficientSAM": 96,
+    "prior_94_terminal_rows_verified_unchanged": 94,
+    "repaired_source_photo_ids": [
+      "840402",
+      "3201197"
+    ],
+    "repaired_url_problem": "Original .JPG uppercase extension, URL rejected by faulty strict parser; fixed without changing URL",
+    "n_morph_classified": 20,
+    "n_not_evaluable_roi_flip": 67,
+    "n_not_evaluable_ambiguous_palette": 9,
+    "n_image_acquisition_failed": 0,
+    "full_42111_source_census_complete": false,
+    "number_of_species_in_pilot": 4,
+    "eligibility_for_h2_W_or_ecological_claim": false,
+    "original_old_measured_colours_reused": false,
+    "original_images_saved_to_repository": false,
+    "note": "All source photos are actual new image bytes and were processed by unchanged historical code/model; only 20/96 met strict frozen terminal phenotype gates. Remaining source photos were NOT scored as negative phenotype."
+  }
+}

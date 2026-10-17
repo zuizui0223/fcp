@@ -1,0 +1,55 @@
+name: FCP PR200 inspect 357 original-photo source discrepancies (no download)
+
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - .github/workflows/fcp-pr200-inspect-targeted-source-mismatch-20261016.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inspect-existing-failure-artifact-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Read previously published exact 2026-09-27 source failure
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/failed_source_receipt"
+          gh run download 38847189688 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-dated-source-INCOMPLETE-or-COLLISION-mismatch-NOT-ROI \
+            --dir "$RUNNER_TEMP/failed_source_receipt"
+          python - <<'PY'
+          import json, os, statistics
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])/'failed_source_receipt'
+          matches=list(root.rglob('FAILED_selected_source_taxon_count_mismatches.json'))
+          if len(matches)!=1:
+              raise SystemExit('Missing/ambiguous original monthly failure receipt')
+          doc=json.loads(matches[0].read_text(encoding='utf-8'))
+          if doc.get('schema')!='fcp_targeted_1000_dated_source_discrepancy_v1' or doc.get('status')!='REJECTED_NOT_ORIGINAL_PHOTO_ID_FCP':
+              raise SystemExit('Not the source-pinned original mismatch artifact')
+          sample=doc.get('sample_mismatches',{})
+          diffs=[]
+          for taxon,pair in sample.items():
+              a,b=int(pair['source_expected']),int(pair['targeted_conservative'])
+              diffs.append((taxon,a,b,b-a))
+          print('FCP_ORIGINAL_DATED_SOURCE_MISMATCH_AUDIT',json.dumps({
+              'mismatching_taxa_in_complete_run':doc['n_mismatched_selected_taxa'],
+              'taxa_in_saved_sample':len(diffs),
+              'positive_deltas_in_sample':sum(d>0 for _,_,_,d in diffs),
+              'negative_deltas_in_sample':sum(d<0 for _,_,_,d in diffs),
+              'zero_deltas_in_sample':sum(d==0 for _,_,_,d in diffs),
+              'sample_sum_delta':sum(d for _,_,_,d in diffs),
+              'sample_median_absolute_delta':statistics.median(abs(d) for _,_,_,d in diffs) if diffs else None,
+              'first_20':diffs[:20],
+              'no_original_photo_pixels_opened':doc['original_image_pixels_opened'] is False,
+              'no_monthly_source_admitted_for_ROI':True,
+          },sort_keys=True),flush=True)
+          PY
