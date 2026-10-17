@@ -233,6 +233,21 @@ def reassemble(firewall: Path, source_parts: Path, dest: Path) -> dict:
     return out
 
 
+def original_spatial_primary_50km_n(summary: dict) -> int:
+    """Read the unchanged original cohort_summary's string-keyed 50km result.
+
+    cohort_summary() has always emitted radii as str(int(radius)). It never
+    emits a numeric 50.0 key. This is reporting only, not an estimator change.
+    """
+    row = summary.get("50", {})
+    if not row or row.get("evaluable") is False:
+        return 0
+    n = int(row["n_species"])
+    if n < 0:
+        raise RuntimeError("original spatial eligible species count invalid")
+    return n
+
+
 def analyze_original_methods(measured: Path, dest: Path) -> dict:
     """Call historical H1, 50km, and W functions without changing their mathematics."""
     from run_polymorphism_h1_observer_disjoint_reliability_20260913 import prepare_cohort, analyze_cohort
@@ -283,7 +298,7 @@ def analyze_original_methods(measured: Path, dest: Path) -> dict:
         "original_frozen_results_unchanged": True,
         "wave4_measured_table_sha256": sha(measured),
         "wave4_D_evaluable_species": len(full_d),
-        "wave4_50km_evaluable_species": spatial.get(50., {}).get("n_species", 0),
+        "wave4_50km_evaluable_species": original_spatial_primary_50km_n(spatial),
         "h1_original_method": {"primary": primary_h1, "sensitivity": sensitivity_h1},
         "spatial_original_method": {str(int(k)): v for k,v in spatial.items()},
         "h2_original_W_method": W,
