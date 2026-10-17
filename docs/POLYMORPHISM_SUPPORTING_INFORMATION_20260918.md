@@ -514,6 +514,22 @@ Neither the H1 replication nor the W result is a newly preregistered prospective
 
 **Unmeasured fifth cohort — do not borrow results:** an independently source-verified 4,475-species / **447,500-source-photograph** analysis-eligibility ledger was frozen after whole-taxon exclusion of three genuine source-collision taxa. Source eligibility alone is not actual ROI-v4 colour measurement. At the 17 October evidence freeze, the new-U100 pixel job [#38997169400](https://github.com/zuizui0223/fcp/actions/runs/38997169400) remained in production, and final five-cohort combined null/H1/W estimates were **not available**. GitHub Actions workflows can display aggregate success with downstream scientific jobs skipped; only authenticated completed pixel terminals plus executed inferential jobs authorize a final biological claim.
 
+## S5d. Post hoc species-level leverage of the replicated 50-km effect (17 October 2026)
+
+**Question:** does a repeated positive *cohort mean* imply that most species have comparably strong local photographic colour clustering? The independently run [real-photo species-leverage audit](https://github.com/zuizui0223/fcp/actions/runs/39042459866) recovered the unchanged, [SHA256-frozen 199,700-photo original-method release](https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017), verified its species-level table and the previously frozen 50-km mean and permutation p separately for all four cohorts and the pooled result, then described the distribution of the original species-specific depletion values. Machine-readable audit: `results/fcp_real_199700_spatial_species_leverage_20261017.json`. **No new label permutations, radius selection, inferential p-values, or image classification were performed.**
+
+| Cohort | Species with positive depletion / evaluable species | Original mean depletion | Median species depletion | Mean after dropping largest 10% effects | Mean after dropping largest 20% effects |
+|---|---:|---:|---:|---:|---:|
+| Discovery | 91 / 166 (54.8%) | 0.02053 | 0.00580 | 0.00326 | -0.00406 |
+| Validation | 104 / 181 (57.5%) | 0.01867 | 0.00740 | 0.00098 | -0.00739 |
+| Prospective | 113 / 204 (55.4%) | 0.01468 | 0.00564 | 0.00078 | -0.00779 |
+| Fourth cohort | 109 / 190 (57.4%) | 0.01729 | 0.00556 | 0.00250 | -0.00656 |
+| All four pooled | 417 / 741 (56.3%) | 0.01764 | 0.00597 | 0.00191 | -0.00655 |
+
+Of **741** species meeting the unchanged >=40 classifiable-photo and >=30 within-50-km local-pair gates, **417** (56.3%) had positive global-minus-local pair dissimilarity, **61** (8.2%) exactly zero and **263** (35.5%) negative. The pooled original mean was **0.0176372**, whereas the median per-species depletion was only **0.005974**. Removing the top 10% largest positive species-level effects (75 species) leaves a descriptive mean **0.001911** among 666 species. Removing the top 20% (149 species) makes that descriptive mean **−0.006553** among 592 species.
+
+**Inference boundary:** These effect-tail exclusions were devised *after seeing the pooled positive result*, and their remaining means have **not** been evaluated against the original complete-vertex permutation null after selection. They are diagnostic sensitivity summaries, *not* new p-values or independent confirmatory tests. The original p=0.005 in every cohort and the pooled result continues to describe a departure in the **species-equal-weighted cohort mean under the original null**; it does not establish that the majority of species individually show statistically supported clustering. All four cohorts are from the same iNaturalist photographic source. The observed mixture of positive, zero and negative species effects limits universal claims and motivates species-specific mechanisms and quality-adjusted field validation. The fifth U100 cohort is not included here.
+
 ## S6. H3a broad phylogenetic-signal boundary
 
 Canonical manifest:
