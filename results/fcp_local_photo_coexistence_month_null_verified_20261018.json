@@ -1,0 +1,75 @@
+{
+  "schema": "fcp_local_photo_coexistence_opportunity_month_matched_null_source_receipt_v1",
+  "date": "2026-10-18",
+  "source": {
+    "actual_measured_photo_rows": 447500,
+    "classifiable_photo_rows": 227107,
+    "measured_species": 4475,
+    "original_full_measured_photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "original_five_cohort_measured_release": "https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017",
+    "authentic_ci_run_id": 39094350456,
+    "all_unit_tests_passed": 5,
+    "original_archive_sha_verified": true,
+    "provenance_artifact_id": 12124475872,
+    "provenance_artifact_zip_sha256": "9a1cb8d24cc6d7684b548ae4aa24ccd900a6e776058a126378f83c8586cf3a02"
+  },
+  "rule": {
+    "site_pair_geodesic_max_km": 5,
+    "each_photo_max_reported_position_accuracy_m": 1000,
+    "distinct_observer_ids": true,
+    "distinct_original_observation_ids": true,
+    "year_month_equal": true,
+    "photo_state_classifiable_only": true,
+    "at_most_199_month_label_shuffle_worlds": 199,
+    "permutation_within_species_and_calendar_yearmonth": true,
+    "multiple_paired_photos_are_not_independent_individuals": true
+  },
+  "opportunity": {
+    "same_month": {
+      "n_taxa_with_ge1_pair": 801,
+      "n_taxa_with_ge1_different_colour_pair": 300,
+      "total_independent_observer_month_pairs": 3485,
+      "different_colour_pairs": 726,
+      "n_taxa_with_ge5_pairs": 194,
+      "n_taxa_with_ge30_pairs": 14
+    },
+    "same_day": {
+      "n_taxa_with_ge1_pair": 258,
+      "n_taxa_with_ge1_different_colour_pair": 57
+    }
+  },
+  "matched_month_null": {
+    "min_5_pairs": {
+      "n_species": 194,
+      "n_taxa_with_different_photographed_colours": 115,
+      "observed_mean_local_dissimilarity": 0.18927292376715643,
+      "month_conditioned_null_mean_local_dissimilarity": 0.1931429589951248,
+      "mean_extra_local_similarity": 0.0038700352279683616,
+      "upper_p": 0.3,
+      "null_q025": -0.012291463209409508,
+      "null_q975": 0.014729861212047102
+    },
+    "min_30_pairs": {
+      "n_species": 14,
+      "n_taxa_with_different_photographed_colours": 11,
+      "observed_mean_local_dissimilarity": 0.27341947791474724,
+      "month_conditioned_null_mean_local_dissimilarity": 0.28286963646960156,
+      "mean_extra_local_similarity": 0.009450158554854307,
+      "upper_p": 0.275,
+      "null_q025": -0.026215792694105792,
+      "null_q975": 0.02938137709704162
+    }
+  },
+  "inference": {
+    "status": "not_supported_at_current_site_month_observational_support",
+    "independent_of_original_frozen_50km_test": false,
+    "original_spatial_50km_result_unchanged": true,
+    "entirely_exploratory": true,
+    "true_local_breeding_population_identity_verified": false,
+    "distinct_genetically_inherited_morphs_verified": false,
+    "morph_specific_fitness_measured": false,
+    "neutral_genomic_structure_measured": false,
+    "morph_based_reproductive_isolation_measured": false,
+    "does_not_establish_absence_of_within_population_FCP": true
+  }
+}
