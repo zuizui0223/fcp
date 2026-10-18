@@ -48,4 +48,26 @@ jobs:
         run: python -m pip install --upgrade pytest pandas numpy matplotlib
       - name: Run publication figure tests
         run: python -m pytest tests/test_make_polymorphism_manuscript_figures.py -q
+      - name: Generate direct audit image of FCP commonality Figure 6
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from scripts.analysis.make_polymorphism_manuscript_figures import figure6, configure_matplotlib
+          configure_matplotlib()
+          output=Path('/tmp/fcp-figure6')
+          files,meta=figure6(Path.cwd(),output)
+          assert meta['actual_measured_photos']==447500
+          assert meta['spatially_eligible_species']==1761
+          assert (output/'polymorphism_figure6_fcp_commonality.png').stat().st_size>10_000
+          assert (output/'polymorphism_figure6_fcp_commonality.pdf').stat().st_size>5_000
+          print('FCP_FIGURE6_COMMONALITY_IMAGE_QA_PASS',files)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-447500-polymorphism-commonality-figure6-qa
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-figure6/polymorphism_figure6_fcp_commonality.png
+            /tmp/fcp-figure6/polymorphism_figure6_fcp_commonality.pdf
 
