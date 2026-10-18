@@ -670,6 +670,139 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     return files, meta
 
 
+
+def figure6(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
+    """Show FCP commonality, not global proportions of particular flower hues.
+
+    Source is a SHA-linked summary of 447500 genuinely measured original photo
+    terminals, conditionally sampled rather than a botanical population census.
+    The figure is entirely post hoc and does not modify the original null/W.
+    """
+    source = load_json(
+        root / "results" / "fcp_original_447500_polymorphism_commonality_20261018.json"
+    )
+    if source.get("schema") != "fcp_verified_original_447500_intraspecific_polymorphism_commonality_summary_v1":
+        raise ValueError("missing source-verified five-cohort FCP commonality receipt")
+    sampling = source["sampling"]
+    comp = source["composition"]
+    structure = source["space"]
+    checks = source["falsification"]
+    if (sampling["genuinely_measured_taxa"] != 4475 or
+        sampling["species_with_ge40_photographs"] != 3297 or
+        structure["original_four_state"]["n"] != 1761 or
+        abs(structure["original_four_state"]["effect"] - 0.017614902168541096) > 1e-10 or
+        abs(structure["species_majority_versus_other"]["effect"] - 0.016485145475518544) > 1e-10):
+        raise ValueError("FCP commonality figure input does not match authentic original study")
+
+    fig, axes = plt.subplots(2, 2, figsize=(13.2, 8.6))
+    fig.suptitle(
+        "Within-species floral-colour polymorphism: skew, allocation and limits",
+        y=1.005, fontweight="bold",
+    )
+
+    # A: State number measured per species, NOT incidence of biological morphs.
+    ax = axes[0, 0]
+    states = comp["observed_coarse_state_counts"]
+    xs = np.arange(1, 5)
+    ys = np.array([int(states[str(x)]) for x in xs])
+    ax.bar(xs, ys, color=[NEUTRAL, SECONDARY, SUPPORT, PRIMARY], width=.67)
+    for x, v in zip(xs, ys, strict=True):
+        ax.text(x, v+35, f"{v:,}", ha="center", fontsize=9)
+    ax.set_xticks(xs)
+    ax.set_xlabel("Number of photographed coarse states / species")
+    ax.set_ylabel("Species with >=40 classifiable photos")
+    ax.set_ylim(0, max(ys)*1.20)
+    ax.text(.03, .94,
+            f"Median species D = {comp['median_Gini_Simpson_D']:.3f}\n"
+            f"Median dominant-state photo share = "
+            f"{100*comp['median_majority_photo_state_fraction']:.1f}%",
+            transform=ax.transAxes, va="top", ha="left", fontsize=9,
+            bbox={"facecolor":"white","alpha":.94,"edgecolor":"none","pad":5})
+    ax.set_title("Uneven within-species photographed morph composition")
+    panel_label(ax, "A")
+
+    # B: Group by whichever photographed morph is modal within that species.
+    ax = axes[0, 1]
+    groups = structure["dominant_state_categories"]
+    order = ("white", "yellow_orange", "red_pink", "blue_purple")
+    label = {"white":"White","yellow_orange":"Yellow/orange",
+             "red_pink":"Red/pink","blue_purple":"Blue/purple"}
+    colors = ["#999999", "#E2AC43", "#C95D7B", "#7466A5"]
+    ordered = [next(t for t in groups if t["state"]==k) for k in order]
+    p = np.array([t["effect"] for t in ordered])
+    ax.bar(np.arange(4), p, color=colors, width=.68)
+    for x, row in enumerate(ordered):
+        ax.text(x, row["effect"]+.00125, f"n={row['n']}\np={row['p_upper']:.3f}",
+                ha="center", fontsize=8.0)
+    ax.axhline(0, color=NEUTRAL, lw=.9)
+    ax.set_xticks(np.arange(4), [label[k] for k in order])
+    ax.set_ylabel("Species-wide minus within-50-km dissimilarity")
+    ax.set_ylim(0, .037)
+    ax.set_title("Geographic allocation spans all photographed majorities")
+    panel_label(ax, "B")
+
+    # C: Effect changes with the amount of within-species D, and is not
+    # a uniform biological species-level coefficient.
+    ax = axes[1, 0]
+    quartiles = structure["diversity_quartiles"]
+    effects = [q["effect"] for q in quartiles]
+    ax.bar(np.arange(4), effects,
+           color=[LIGHT, "#AFC7DA", SECONDARY, PRIMARY], width=.7)
+    for x, q in enumerate(quartiles):
+        ax.text(x, q["effect"]+.0014, f"n={q['n']}\np={q['p_upper']:.3f}",
+                ha="center", fontsize=8)
+    ax.set_xticks(np.arange(4), ["Lowest\nD quartile", "Q2", "Q3", "Highest\nD quartile"])
+    ax.set_ylabel("Mean original four-state 50-km depletion")
+    ax.set_ylim(0, max(effects)*1.32)
+    ax.set_title("Stronger raw depletion where species D is larger")
+    panel_label(ax, "C")
+
+    # D: Every point has its own eligibility and sampling denominator.
+    ax = axes[1, 1]
+    records = [
+        ("Original 4-state", structure["original_four_state"], SECONDARY),
+        ("Majority vs alternatives", structure["species_majority_versus_other"], SUPPORT),
+        ("Equal-weight genera", {"effect":structure["genus_balanced_four_state"]["effect"],
+                                "n":structure["genus_balanced_four_state"]["n_genera"],
+                                "p_upper":structure["genus_balanced_four_state"]["p_upper"]}, PRIMARY),
+        ("Different observers", checks["different_observer"], SECONDARY),
+        ("Different years", checks["different_year"], SECONDARY),
+        ("No white records", checks["nonwhite_only_pooled"], NEUTRAL),
+    ]
+    for i, (_, result, color) in enumerate(records):
+        ax.barh(i, result["effect"], color=color, height=.67)
+        ax.text(result["effect"] + .0007, i,
+                f"{result['effect']:.4f}  n={result['n']}",
+                va="center", fontsize=8)
+    ax.set_yticks(range(len(records)), [z[0] for z in records])
+    ax.invert_yaxis()
+    ax.axvline(0, lw=.9, color=NEUTRAL)
+    ax.set_xlim(0, .027)
+    ax.set_xlabel("Mean photographed local depletion (50 km)")
+    ax.set_title("Same-source robustness, with nonwhite exceptions")
+    ax.text(.98, .96, "Nonwhite p=0.14 in prospective;\np=0.72 in fourth cohort",
+            transform=ax.transAxes, fontsize=7.4, ha="right", va="top")
+    panel_label(ax, "D")
+
+    fig.tight_layout(h_pad=2.9, w_pad=2.5)
+    files = save_pair(fig, output_dir, "polymorphism_figure6_fcp_commonality")
+    meta = {
+        "source":"results/fcp_original_447500_polymorphism_commonality_20261018.json",
+        "actual_measured_photos":sampling["photographs"],
+        "descriptively_eligible_species":sampling["species_with_ge40_photographs"],
+        "spatially_eligible_species":structure["original_four_state"]["n"],
+        "majority_fraction_median":comp["median_majority_photo_state_fraction"],
+        "four_state_50km_depletion":structure["original_four_state"]["effect"],
+        "majority_binary_50km_depletion":structure["species_majority_versus_other"]["effect"],
+        "original_null_worlds":structure["original_complete_vertex_null_replicates"],
+        "post_hoc":True,
+        "nonwhite_support_not_all_cohorts":True,
+        "not_true_population_morph_frequency":True,
+        "files":files,
+    }
+    return files, meta
+
+
 def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     env = load_json(root / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json")
     transport = load_json(root / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json")
@@ -858,6 +991,7 @@ def generate_all(root: Path, output_dir: Path) -> Path:
     f3_files, f3_meta = figure3(root, output_dir)
     f4_files, f4_meta = figure4(root, output_dir)
     f5_files, f5_meta = figure5(root, output_dir)
+    f6_files, f6_meta = figure6(root, output_dir)
     s9_files, s9_meta = supplementary_figure9(root, output_dir)
 
     manifest = {
@@ -875,6 +1009,7 @@ def generate_all(root: Path, output_dir: Path) -> Path:
             "figure3": {**f3_meta, "files": f3_files},
             "figure4": {**f4_meta, "files": f4_files},
             "figure5": {**f5_meta, "files": f5_files},
+            "figure6": {**f6_meta, "files": f6_files},
             "supplementary_figure9": {**s9_meta, "files": s9_files},
         },
         "hard_nonclaims": [
