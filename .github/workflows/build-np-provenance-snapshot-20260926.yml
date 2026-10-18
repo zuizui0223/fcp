@@ -160,6 +160,7 @@ jobs:
           done
 
           copy_path docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md
+          copy_path docs/FCP_BIO5_MOLECULAR_COMMONALITY_EVIDENCE_20261018.md
           copy_path results/fcp_original_447500_polymorphism_commonality_20261018.json
           copy_path tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py
 
@@ -679,6 +680,7 @@ jobs:
           grep -Fxq './repository/docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md' "$out/package_contents.txt"
           grep -Fxq './repository/results/fcp_original_447500_five_cohort_verified_reporting_20261018.json' "$out/package_contents.txt"
           grep -Fxq './repository/docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md' "$out/package_contents.txt"
+          grep -Fxq './repository/docs/FCP_BIO5_MOLECULAR_COMMONALITY_EVIDENCE_20261018.md' "$out/package_contents.txt"
           grep -Fxq './repository/results/fcp_original_447500_polymorphism_commonality_20261018.json' "$out/package_contents.txt"
           grep -Fxq './repository/tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' "$out/package_contents.txt"
