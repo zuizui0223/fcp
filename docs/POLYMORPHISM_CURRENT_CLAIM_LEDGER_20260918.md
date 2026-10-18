@@ -14,6 +14,15 @@ The authoritative prospective-confirmation measurement/support receipt is:
 
 If this prose conflicts with those machine-readable files, the machine-readable files control.
 
+## Current, source-verified 18 October 2026 five-cohort extension (supersedes only earlier expansion-status snapshots)
+
+**The original 1,499-species discovery/validation/prospective frozen chronology remains exactly intact.** An additional 498-species fourth original-photo cohort and a genuinely measured 2,478-species fifth-U100 cohort have now completed the original ROI-v4/EfficientSAM pipeline. The actual **4,475 taxa / 447,500 original photo-terminal** table and original-method analyses were independently verified and archived in [the completed five-cohort Release](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017). This is **not** a source-metadata-only opportunity ledger; source hashes and real jobs are recorded in `results/fcp_original_447500_five_cohort_verified_reporting_20261018.json` and `docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md`.
+
+Current supported quantitative claims (later fixed-method replication, not new untouched prospective confirmation): **227,107** four-state classifiable photo terminals; **3,297** original >=40-classifiable D-eligible taxa; **1,761** species additionally meeting the fixed >=30 50-km local-pair requirement. Mean four-state global-minus-local colour-pair dissimilarity **0.017614902** (199 vertex-null upper p=0.005) across five cohorts. The fifth genuine 2,478-taxon measured wave contributed **1,020** 50-km eligible species with mean depletion **0.017598698** (upper p=0.005). Original three-cohort null effects remain numerically unchanged. In five-cohort same-source data, 200 observer-disjoint H1 splits gave median rho **0.803536** and fixed nine-colour white-axis primary W **0.518795**, compared with 999-structured-null median **0.455365** (n=1,223, upper p=0.001). W is sign-invariant and does not imply a directional gain of white flowers.
+
+Interpretation ceilings: (i) **50 km is post hoc**; (ii) all data retain the *same iNaturalist photo/ROI source ecosystem*; (iii) 4,475 total measured taxa, 3,297 photo-classifiable taxa and 1,761 50-km spatial-test taxa are distinct denominators; (iv) the original prospectively frozen H2 result is **separate** and cannot be relabelled through five-cohort pooling; (v) the technical nonwhite/observer/background and robust-tail falsifications on the original three/four cohorts have **not** all been repeated for the fifth-U100 set; (vi) genetics, natural population morph frequencies, fitness, pollinator selection, and local adaptation are not established by this observational null. Preserve all previous sections of this ledger for its original historical claim chronology.
+
+
 ## 0. Reader-facing data architecture and inferential necessity
 
 The current paper uses one explicit inferential sequence.
