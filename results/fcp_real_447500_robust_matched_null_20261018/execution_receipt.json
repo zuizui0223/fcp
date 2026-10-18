@@ -1,0 +1,49 @@
+{
+  "actual_inference_replay": {
+    "absolute_tolerance": 1e-10,
+    "all_3297_taxon_original_values_verified": true,
+    "all_five_original_means_and_null_quantiles_verified": true,
+    "historical_four_cohort_robust_result_complete_tree_verified": true
+  },
+  "base_commit": "c05a4458df794f00c9676a29cc64c27ff577857b",
+  "execution_kind": "completed local computation from immutable measured data, not a GitHub Actions run",
+  "nonclaims": [
+    "No new original image measurement performed",
+    "No new prospective confirmation",
+    "No model identifying adaptation or inherited morph coexistence fit"
+  ],
+  "packages": {
+    "matplotlib": "3.10.8",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  },
+  "python": "3.12.14",
+  "raw_input_identity_checks": {
+    "classifiable_photos": 227107,
+    "classified_latitude_missing": 0,
+    "classified_longitude_missing": 0,
+    "duplicate_observation_ids": 0,
+    "duplicate_photo_ids": 0,
+    "photo_rows": 447500,
+    "photos_per_species": 100,
+    "species": 4475
+  },
+  "result_json_sha256": "dad77a486f9477f8cad0e2aaf53859d3ec9fb2880b6f968b9854ef61cc1b765e",
+  "review": {
+    "analysis_code": "independent read-only review completed without material findings",
+    "figure": "rendered PNG inspected by primary and reviewing agent; no clipping",
+    "numbers_and_interpretation": "independent result/document check passed"
+  },
+  "schema": "fcp_447500_local_execution_receipt_v1",
+  "source_code_sha256": {
+    "scripts/analysis/plot_fcp_447500_robust_matched_null_20261018.py": "82f4b44f6162b67cacc3f7bbfbe0d5cad70076d4152728892befecef4afc15c9",
+    "scripts/analysis/run_fcp_199700_robust_matched_null_20261018.py": "c77edb51450a735fe2838994e63f6c5fb026db7dac3307943c7cf1c4206fca85",
+    "scripts/analysis/run_fcp_447500_robust_matched_null_20261018.py": "9b7aca86d27125f569dc1ce64c0333662656ea86658ad8e5b21da8a973f82746",
+    "scripts/analysis/run_polymorphism_distributed_polymorphism_posthoc_20261007.py": "689815e821fe7e6fef3f6bfc1b68f3f7098182074c98f51911d6bb57fa05910c"
+  },
+  "unit_tests": {
+    "new_source_null_tests": 5,
+    "outcome": "passed"
+  }
+}

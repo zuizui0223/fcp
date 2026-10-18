@@ -6,6 +6,12 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## Completed 447,500-photo distributional analysis — 18 October 2026
+
+The complete **4,475-species / 447,500-photo original measured-data Release** has now been independently read and replayed for the five-cohort 50-km result. Of the 1,761 spatially eligible species, **984 (55.88%)** have positive observed colour-sorting effects, versus **44.58%** in the matched null. The median and the means after removing the highest-effect 10% or 20% also exceed their equivalently selected null distributions (each pooled raw p=0.005; Holm p=0.020 within the four new tests). The added fifth cohort supports these same distributional comparisons. All original five-cohort means/null quantiles and the complete older four-cohort robustness result were reproduced before new outputs were written.
+
+These are **post hoc, photograph-level spatial results**. They preserve the stricter local site-month non-support and do not demonstrate inherited within-population morph maintenance or a causal selection mechanism. [Full results, effect sizes, limitations and replay instructions](docs/FCP_447500_SPECIES_DISTRIBUTION_20261018.md) · [Machine-readable results and retained null matrix](results/fcp_real_447500_robust_matched_null_20261018/) · [Result figure](docs/figures/fcp_447500_robust_matched_null_20261018/fcp_447500_robust_matched_null.png).
+
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture
 
 **This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** Its New Phytologist paper tests observer-disjoint reliability of species-wide colour diversity `D`, geographically structured local colour differences, and a previously frozen white–chromatic colour-space direction `W` (158 untouched prospective species; 439 measured vectors across three cohorts are descriptive only). The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.
@@ -47,7 +53,7 @@ The manuscript uses high-depth, species-level repeated photographs with location
 
 The 42,111-species metadata frame is an **opportunity frame**, not a denominator for global polymorphism prevalence. Claims are controlled by the frozen machine-readable results, protocols, claim ledger, and data-lineage map linked above.
 
-**Measured fourth-cohort update (17 October 2026):** A genuinely measured fourth cohort adds 498 species and 49,800 original images, bringing the verified same-source original-method dataset to **1,997 species / 199,700 photos**. The unchanged 50-km local-diversity depletion reappeared in the fourth cohort (190 eligible species, mean 0.0172936, vertex-null p=0.005), with 741 eligible species in the pooled four-cohort result. The separately audited **4,475-species / 447,500-photo** final U100 dataset is an eligible source-photo target **not yet a completed phenotypic analysis**. The distinction is maintained in the [empirical evidence and pending-final ledger](docs/FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md) and [Supporting Information S5c](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md).
+**Historical fourth-cohort snapshot (17 October 2026; superseded by the completed 447,500-photo analysis above):** A genuinely measured fourth cohort adds 498 species and 49,800 original images, bringing that verified same-source original-method dataset to **1,997 species / 199,700 photos**. The unchanged 50-km local-diversity depletion reappeared in the fourth cohort (190 eligible species, mean 0.0172936, vertex-null p=0.005), with 741 eligible species in the pooled four-cohort result. At that snapshot the separately audited **4,475-species / 447,500-photo** final U100 dataset was an eligible source-photo target **not yet a completed phenotypic analysis**; its genuine measurements and inference have since completed. The historical distinction remains in the [empirical evidence and pending-final ledger](docs/FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md) and [Supporting Information S5c](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md).
 
 ## Reproduce the paper
 
