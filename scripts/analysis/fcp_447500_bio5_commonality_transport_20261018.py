@@ -182,6 +182,23 @@ def analyze(photo,climate):
         **summarise_deltas(monthpaired),
         "n_species_yearmonth_strata_with_both_colour_states":nmonth
     }
+    # Crucial attrition diagnostic: the strict observer-paired result uses
+    # fewer taxa, so show the *original unpaired* white-BIO5 contrasts among
+    # exactly those same taxa before claiming any selection failure.
+    report["same_observer_eligible_species_original_unpaired_baseline"]=summarise_deltas(
+        values.reindex(obspaired.index))
+    report["same_yearmonth_eligible_species_original_unpaired_baseline"]=summarise_deltas(
+        values.reindex(monthpaired.index))
+    report["observer_paired_minus_same_species_unpaired"]=summarise_deltas(
+        obspaired-values.reindex(obspaired.index))
+    report["observer_paired_by_cohort"]={
+        cohort:summarise_deltas(obspaired.loc[one.reindex(obspaired.index).eq(cohort)])
+        for cohort in COHORTS
+    }
+    report["yearmonth_paired_by_cohort"]={
+        cohort:summarise_deltas(monthpaired.loc[one.reindex(monthpaired.index).eq(cohort)])
+        for cohort in COHORTS
+    }
     # A negative-control correlation from classified PHOTO BACKGROUNDS; this is
     # not a substitute for the original response-blind high-clip/ROI validation.
     bgcolor=e.groupby(["inat_taxon_id","white"]).background_white_fraction.mean().unstack()
