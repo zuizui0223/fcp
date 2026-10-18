@@ -2,6 +2,8 @@
 
 Status: **scientific, narrative and reproducibility/provenance package ready; administrative author metadata and the final formatted submission file remain. A DOI-bearing mirror may be added for citation but is no longer required to make the numerical evidence chain recoverable.**
 
+**18 October 2026 updated study scope:** The manuscript now incorporates **447,500 genuinely measured original photos / 4,475 species**, with **3,297** photo-state-classifiable taxa and **1,761** valid 50-km local-pair taxa. Source-authenticated FCP commonality (median photographic modal share 90.6%, species Gini–Simpson D median 0.172; original spatial mean 0.017615, majority-vs-other 0.016485, both 199-null upper p=0.005) is a new **post hoc** synthesis of the measured species. A sixth main figure shows skew, dominant-colour/low-vs-high-D strata and observer/year/nonwhite bounds. Frozen original prospective H2 chronology, error controls, original input hashes and noncausal interpretation remain unchanged. Source [results/report](FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md) and [CI](https://github.com/zuizui0223/fcp/actions/runs/39091197295).
+
 Active submission files:
 
 - `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
@@ -76,7 +78,7 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Discussion | **1,739 words** | RECORDED |
 | Main text, Introduction–Discussion | **7,382 words** | PASS (within usual 6,500–7,500 range) |
 | Discussion share | **23.6%** | PASS (<30%) |
-| Main figures | 5 | PASS |
+| Main figures | 6 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (usual 6–8) |
 | Required sections | present | PASS |
@@ -224,7 +226,7 @@ Main display sequence:
 4. prospective H2 confirmation;
 5. spatial organization plus bounded alternative-explanation tests.
 
-Main figures = 5; main tables = 1; total display items = 6.
+Main figures = 6; main tables = 1; total display items = 7.
 
 No mechanism panel is promoted to the main-figure spine. BIO5, the *S. littorea* molecular anchor and PAL/WAL persistence remain together in Fig. S9 so the main visual sequence remains measurement -> discovery -> prospective confirmation -> spatial ecology.
 
@@ -289,7 +291,7 @@ Export the frozen manuscript to a review-ready DOCX/PDF with:
 
 ## 10. Submission decision
 
-**Do not run new biological analyses to improve this submission.**
+**Do not iteratively select new ecological hypotheses or change original prospective tests merely to improve p-values.** The additional requested source-authenticated five-cohort polymorphism-composition and geographic commonality analyses are explicitly labelled *post hoc*, with their own null/source evidence and negative nonwhite-cohort findings retained.
 
 The scientific and provenance packages are sufficient for submission. The remaining path is:
 
