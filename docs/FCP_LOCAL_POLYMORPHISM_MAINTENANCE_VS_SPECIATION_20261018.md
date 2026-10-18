@@ -1,5 +1,7 @@
 # FCP research pivot: distinguish local polymorphism maintenance from spatial photo-colour structure
 
+**Source-verified negative numerical receipt:** `results/fcp_local_photo_coexistence_month_null_verified_20261018.json`, independently reproduced by [GitHub Actions #39094350456](https://github.com/zuizui0223/fcp/actions/runs/39094350456) on the complete genuine original photo archive; 5 unit tests and source/morph/denominator gates passed. [Its 90-day CSV/JSON artifact](https://github.com/zuizui0223/fcp/actions/runs/39094350456) contains the 194 species with >=5 independent site-month pairs. Preserve the predeclared first-exploration permutation seed even though repeating 199 random worlds can change third-decimal p-values; the fixed first exploratory calculation gives p=0.300 and p=0.275.
+
 **Evidence date:** 18 October 2026. **Status:** source-verifiable new **post hoc falsification**, not a new confirmatory adaptation claim. **No original 199-null/50-km estimate or prospective H2 axis is overwritten.**
 
 ## Core biological distinction
