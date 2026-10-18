@@ -98,7 +98,7 @@ def conditional_month_null(g: pd.DataFrame, u: np.ndarray,
     finite=np.unique(month[pd.notna(month)])
     strata=[np.flatnonzero(month==t) for t in finite]
     seed=int.from_bytes(
-        hashlib.sha256(f"fcp-local-month-20261018|{int(g.inat_taxon_id.iloc[0])}".encode()).digest()[:8],
+        hashlib.sha256(f"within_month_5km_{int(g.inat_taxon_id.iloc[0])}".encode()).digest()[:8],
         "little"
     )
     rng=np.random.default_rng(seed)
