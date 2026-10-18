@@ -1,0 +1,180 @@
+{
+  "schema": "fcp_source_authentic_fivecohort_BIO5_pathway_maintenance_evidence_receipt_v1",
+  "timestamp_jst": "2026-10-18",
+  "provenance": {
+    "real_photo_source_release_tag": "fcp-all4730-original-method-actual-colour-results-20261017",
+    "original_actual_measured_photographs": 447500,
+    "distinct_measured_species": 4475,
+    "original_4_state_classifiable_photographs": 227107,
+    "original_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "worldclim_bio5_10m_source_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+    "worldclim_bio5_tif_sha256": "32e02d85868734c32547da70cf9c620f4739a3cf5dbc4f2b751e16ebb2338ae1",
+    "original_empirical_bio5_climate_period": "1970–2000",
+    "actual_full_method_and_source_verification_run_id": 39100344149,
+    "regression_tests_passed": 11,
+    "actual_workflow_conclusion": "success",
+    "real_exploratory_full_BIO5_result_sha256": "93267d3c492e8bf0392f2faf89d3338f54210d80ebb856d4c7ab710e562e0ae6",
+    "external_molecular_photo_alias_registry_sha256": "e7d747079645610d3002366ec66430621bd1c8962bb0fe77547479a1c7b9d64b",
+    "theoretical_tissue_cost_phase_json_sha256": "be6146c317c8a80fabfa1fdbbef828ab2173df5f3186ef09e9445a6bd2519267",
+    "species_level_BIO5_deltas_no_precise_geography_csv_sha256": "26e7fa7ac453a43a917992da482a6dc843eb749aac59575f18846f3db8ba21fd",
+    "workflow_artifact_id": 12126327428,
+    "workflow_artifact_zip_sha256": "b204b3a9e3eaebb2b606ee3eb19b26396c4cbd37acde9e34da6ddea5fbc2b8e1"
+  },
+  "original_frozen_postconfirmatory_BIO5": {
+    "third_cohort_high_clip_filtered_species": 281,
+    "median_white_minus_nonwhite_within_species_SD": 0.0690112924805198,
+    "species_level_holm_p_three_environmental_tests": 0.03544867047368517,
+    "photo_conditional_logistic_OR": 1.073474538999635,
+    "conditional_logistic_p": 0.0009188036770296888,
+    "original_observer_paired_n_species": 106,
+    "original_observer_paired_p": 0.2023098045472006,
+    "original_discovery_validation_joint_transport_supported": false,
+    "not_changed_by_20261018_exploration": true
+  },
+  "newly_examined_real_five_cohort_BIO5_photo_association": {
+    "not_original_high_clip_equivalent": true,
+    "no_independent_provider": true,
+    "source_photo_count_measured": 447500,
+    "species_with_at_least_5_photo_white_and_nonwhite_each_and_variable_BIO5": 2409,
+    "classifiable_photos_in_evaluable_species": 110682,
+    "photo_species_equal_pooled": {
+      "n_species": 2409,
+      "median_white_minus_nonwhite_z": 0.06601021107195401,
+      "fraction_positive": 0.5583229555832295,
+      "wilcoxon_two_sided_p": 1.201519980877505e-11
+    },
+    "individual_cohorts": [
+      {
+        "name": "discovery",
+        "n": 271,
+        "median": -0.006777258577964774,
+        "p": 0.7432522901921289
+      },
+      {
+        "name": "validation",
+        "n": 260,
+        "median": 0.06616507736441996,
+        "p": 0.054066696426422846
+      },
+      {
+        "name": "prospective",
+        "n": 286,
+        "median": 0.05360064630723789,
+        "p": 0.024734477315794486
+      },
+      {
+        "name": "wave4",
+        "n": 297,
+        "median": 0.05103210669065448,
+        "p": 0.07184109533613275
+      },
+      {
+        "name": "new_U100",
+        "n": 1295,
+        "median": 0.08026971620668945,
+        "p": 3.05884504866058e-10
+      }
+    ],
+    "genus_equal": {
+      "n_genera": 1075,
+      "median_white_minus_nonwhite_z": 0.054358885997729624,
+      "wilcoxon_p": 0.0000021317763085892983
+    },
+    "same_731_species_BEFORE_observer_control": {
+      "n_species": 731,
+      "median_z": 0.05459294539201523,
+      "wilcoxon_p": 0.00042661109213983913
+    },
+    "same_731_species_AFTER_observer_control": {
+      "n_species": 731,
+      "n_species_observer_strata": 1067,
+      "median_z": 0,
+      "mean_z": 0.002362376226817341,
+      "wilcoxon_p": 0.933479177482422
+    },
+    "fifth_wave_only_observer_control": {
+      "n_species": 420,
+      "median_z": 0,
+      "wilcoxon_p": 0.9297137040028239
+    },
+    "yearmonth_paired": {
+      "n_species": 2360,
+      "median_z": 0.07354954809857578,
+      "wilcoxon_p": 3.150654379188284e-8
+    },
+    "same_2360_species_before_yearmonth_control": {
+      "n_species": 2360,
+      "median_z": 0.06135484111349049,
+      "wilcoxon_p": 5.7184659679308027e-11
+    },
+    "interpretation": {
+      "broad_photo_association_supported": true,
+      "observer_paired_species_equal_BIO5_effect_supported": false,
+      "positive_individual_cohort_rule_supported_in_all_five": false,
+      "independent_causal_thermal_selection_or_pathway_genotype_conclusion": false,
+      "supported_same_photo_source_not_same_breeding_population": true
+    }
+  },
+  "independent_pathway_evidence": {
+    "independent_molecular_systems_or_assemblies": 5,
+    "taxon_name_overlaps_in_real_five_cohort_photos": 3,
+    "actual_photo_genotype_fitness_linked_individuals": 0,
+    "primary_evidence_examples": [
+      {
+        "system": "Silene littorea",
+        "doi": "10.3389/fpls.2016.00204",
+        "note": "F3h1 42.2-49x pigmented/white bud expression difference; Myb1a candidate, causal variant not proven",
+        "in_source_photo_species": false
+      },
+      {
+        "system": "Ipomoea purpurea",
+        "doi": "10.1093/jhered/esg098",
+        "note": "F3-prime-H coding loss pink/purple; separate A locus white selfing advantage opposed by survival effect",
+        "in_source_photo_species": true,
+        "n_original_classifiable_photos": 47
+      },
+      {
+        "system": "Mimulus guttatus (Erythranthe guttata)",
+        "doi": "10.1086/694853",
+        "note": "MYB5 associated whole-plant anthocyanin loss can exceed 0.2 frequency; flower/leaf patterns not visible as whole-flower coarse colour",
+        "in_source_photo_species": true,
+        "n_original_classifiable_photos": 60,
+        "n_coarse_colour_states_detected": 1
+      },
+      {
+        "system": "Mimulus aurantiacus (Diplacus aurantiacus)",
+        "doi": "10.1371/journal.pgen.1003385",
+        "note": "MaMyb2 cis-regulatory change and divergent pollinator selection with premating isolation",
+        "in_source_photo_species": true,
+        "n_original_classifiable_photos": 70,
+        "n_red_pink_photo_labels": 0
+      },
+      {
+        "system": "literature PAL versus WAL; compiled source",
+        "doi": "10.1186/s12870-019-2082-6",
+        "note": "13 PAL / 13 WAL reported literature systems; descriptive petal-only vs whole-plant anthocyanin maintenance frequency; not causal unbiased meta-analysis",
+        "in_source_photo_species": false
+      }
+    ],
+    "conserved_pigment_network_multiple_distinct_mutational_routes": true,
+    "identical_cross_species_causal_gene_or_fitness_maintained_FCP_proven": false,
+    "systematic_molecular_meta_analysis": false
+  },
+  "theoretical_model": {
+    "separate_fitness_effects_selection_environment_s_route_cost_c_frequency_dependence_k_migration_m": true,
+    "isolated_population_protected_polymorphism_iff": "k>0 and abs(s-c)<k",
+    "mathematical_phase_examples_not_empirically_fitted": true,
+    "single_static_morph_frequency_nonidentifiable": true,
+    "reproductive_isolation_requires_independent_pollinator_genetic_and_fitness_evidence": true
+  },
+  "required_nonclaims": [
+    "The historic long-term BIO5 raster is not the temperature when the flower was photographed",
+    "Observer-paired null cannot prove there is no biological thermal selection; it limits current photographic inference",
+    "Pooled all-photo significant BIO5 cannot be promoted to new untouched prospective H2 verification",
+    "Molecular paper genotypes were not measured in the FCP photo individuals or locations",
+    "F3h1/Myb1a is candidate not universally causally proven; other lineages have structurally different loci",
+    "Petal-only PAL and whole-plant WAL reported frequency comparison is source-ascertained",
+    "Frequency-dependent protected polymorphism is a genotype/population-level criterion not estimated from photos",
+    "No general speciation barrier or universal selection cost estimated from these 447500 photos"
+  ]
+}
