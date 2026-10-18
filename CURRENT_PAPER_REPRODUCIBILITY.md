@@ -32,6 +32,16 @@ Repository cleanup must not alter a frozen numerical result, biological decision
 - phenotypic IBD/IBE-like receipt: `results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json`
 - BIO5 sorting robustness receipt: `results/polymorphism_BIO5_colour_sorting_robustness_20261007/result.json`
 
+## Completed five-cohort original real-photo extension (separate from the frozen original H2 package)
+
+The current five-cohort expanded study is **genuinely measured**, not a 447,500-photo source-metadata opportunity only. The original-method ROI-v4/EfficientSAM [run #38997169400](https://github.com/zuizui0223/fcp/actions/runs/38997169400) completed all 256 partitions; the source-authenticated [real scientific join and H1/50-km/W replay #39049598596](https://github.com/zuizui0223/fcp/actions/runs/39049598596) completed all five actual jobs; the [permanent release #39050465077](https://github.com/zuizui0223/fcp/actions/runs/39050465077) independently authenticated actual pixel-result row identities and unchanged old source hashes/statistics.
+
+**Canonical completed five-cohort real data:** [fcp-all4730-original-method-actual-colour-results-20261017](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017). Archive `fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz`, SHA256 `99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25`, **108,115,413 bytes**. Full original source-joined measured photo CSV SHA256 `8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6`; release receipt SHA256 `b0b152fcfaa1e0015a6e5524192265bb95c1663c10b5da3a4e885cb7be49747c`. The machine-readable final original 50-km/H1/W output and source-authenticated paper Results packets are included in this release, including JSON SHA256 `e4d5244fb7e9de0046d44cf01154573d12f2ea3418fa538022a8dd97b1d60dc6`.
+
+**Reporting entry point:** `docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md` and `results/fcp_original_447500_five_cohort_verified_reporting_20261018.json`. Exactly 4,475 fully measured independent 100-photo species, 447,500 terminals, 227,107 classifiable photos, 3,297 >=40-photo D-eligible species and **1,761 with >=30 local pairs at the post hoc 50-km radius**. These denominators are not interchangeable. Original discovery/validation/prospective source measurements and original unchanged spatial statistics were checked against immutable hashes/expected effects. Same iNaturalist provider is not independent-source replication. Five-cohort W is not a new untouched prospective experiment.
+
+**Two distinct archive scopes:** the following longstanding `fcp-np-provenance-20260926` snapshot reconstructs the first **149,900-photo prospectively frozen study** and its original secondary evidence. It is **not** a standalone byte-complete archive of the new 447,500-photo extension. For the expanded paper, retain both the original prospective provenance snapshot **and the separate genuine completed five-cohort measured-results Release**. No underlying third-party JPEG source images are republished.
+
 ## Self-contained snapshot
 
 Current snapshot tag: `fcp-np-provenance-20260926`
