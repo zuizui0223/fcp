@@ -6,6 +6,16 @@ This document gives one reader-facing route from every main inferential claim in
 
 It does not recompute any biological result.
 
+## Completed original-photo five-cohort extension — current reader route (18 October 2026)
+
+The original chronology below is retained for the *first 149,900-photo pre-frozen prospective* study. A later, genuine original-method expansion has since completed: 4,475 independent fully measured taxa / **447,500** original photo terminals, including 2,478 additional new fifth-wave measured taxa (1,020 local-50-km eligible). It was not an independent source replication or another untouched prospective H2 confirmation.
+
+**Authoritative separate permanent original-data archive:** [fcp-all4730-original-method-actual-colour-results-20261017](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017); combined measured-and-inference TAR.GZ SHA256 `99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25`, final release receipt SHA256 `b0b152fcfaa1e0015a6e5524192265bb95c1663c10b5da3a4e885cb7be49747c`. True source and jobs: [all 256 ROI partitions #38997169400](https://github.com/zuizui0223/fcp/actions/runs/38997169400), [successful five-cohort 50-km/H1/W #39049598596](https://github.com/zuizui0223/fcp/actions/runs/39049598596), [post-pixel release verification #39050465077](https://github.com/zuizui0223/fcp/actions/runs/39050465077).
+
+**Machine reader:** `results/fcp_original_447500_five_cohort_verified_reporting_20261018.json` and [current full-result ledger](FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md), both of which preserve separate counts for 4,730 U100 opportunity taxa, 4,475 actually measured full-100-photo taxa, 3,297 >=40-classifiable species and 1,761 with genuine >=30 local pairs at the post hoc 50-km radius. The new fifth-wave 50-km depletion was **0.0175986977** (n=1,020; p=0.005); pooled five-cohort **0.0176149022** (n=1,761; p=0.005). The original pre-frozen three-cohort results and SHA256s are unchanged. Final pooled white-axis W primary (n=1,223; W=0.5187949 versus null median 0.4553650; p=0.001) is not a new prospective H2 confirmation.
+
+**Two archive scopes:** the earlier `fcp-np-provenance-20260926` package reconstructs the original frozen source and protocol; the **new 108 MB authentic five-cohort results Release must accompany it** to reproduce the enlarged full photo dataset and numerical statistics. A refreshed New Phytologist provenance package now includes this routing/reporting receipt and the paper, **not** another redundant copy of the full authentic source-photo table. Original third-party image pixels are not redistributed.
+
 ## Reader-facing data architecture
 
 The paper is easiest to read as one inferential chain rather than as a history of individual executions:

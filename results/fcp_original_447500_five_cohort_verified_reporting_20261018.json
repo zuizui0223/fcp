@@ -1,0 +1,396 @@
+{
+  "schema": "fcp_five_cohort_real_447500_original_method_reporting_receipt_v1",
+  "evidence_date": "2026-10-18",
+  "evidence_level": "actual_original_ROI_v4_EfficientSAM_measured_and_source_authenticated_five_cohort_replay",
+  "source": {
+    "original_pixel_roi_run_id": 38997169400,
+    "source_aggregation_run_id": 39049598596,
+    "original_combination_job_id": 117445444182,
+    "original_spatial_job_id": 117445775203,
+    "original_h1w_job_id": 117445775238,
+    "independently_verified_release_run_id": 39050465077,
+    "permanent_release_url": "https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017",
+    "permanent_release_tag": "fcp-all4730-original-method-actual-colour-results-20261017",
+    "measured_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+    "measured_archive_bytes": 108115413,
+    "release_receipt_sha256": "b0b152fcfaa1e0015a6e5524192265bb95c1663c10b5da3a4e885cb7be49747c",
+    "source_combined_photo_table_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "original_historical_149900_source_sha256": {
+      "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+      "prospective": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+    },
+    "publication_json_packet_sha256": "e4d5244fb7e9de0046d44cf01154573d12f2ea3418fa538022a8dd97b1d60dc6",
+    "publication_md_packet_sha256": "d129d44770977b7506a3151f47c745936b80737251a00f163434301b64b86515"
+  },
+  "study": {
+    "opportunity_frame_taxa": 4730,
+    "genuine_independent_100photo_species": 4475,
+    "actual_original_photo_terminals": 447500,
+    "full_100_photo_species_excluded_for_cross_cohort_id_reuse": 3,
+    "id_reuse_excluded_taxon_ids": [
+      62367,
+      75633,
+      1045161
+    ],
+    "under_100_photo_species": 252,
+    "new_U100_raw_completed_roi_species": 2481,
+    "new_U100_valid_analysis_species": 2478,
+    "source_cohorts": [
+      {
+        "cohort": "discovery",
+        "four_state_classifiable_rows": 25377,
+        "named_species": 500,
+        "nonclassifiable_rows": 24623,
+        "photo_rows": 50000
+      },
+      {
+        "cohort": "validation",
+        "four_state_classifiable_rows": 24885,
+        "named_species": 500,
+        "nonclassifiable_rows": 25115,
+        "photo_rows": 50000
+      },
+      {
+        "cohort": "prospective",
+        "four_state_classifiable_rows": 25788,
+        "named_species": 499,
+        "nonclassifiable_rows": 24112,
+        "photo_rows": 49900
+      },
+      {
+        "cohort": "wave4",
+        "four_state_classifiable_rows": 24585,
+        "named_species": 498,
+        "nonclassifiable_rows": 25215,
+        "photo_rows": 49800
+      },
+      {
+        "cohort": "new_U100",
+        "four_state_classifiable_rows": 126472,
+        "named_species": 2478,
+        "nonclassifiable_rows": 121328,
+        "photo_rows": 247800
+      }
+    ],
+    "four_state_classifiable_photo_rows": 227107,
+    "four_state_nonclassifiable_photo_rows": 220393,
+    "min_40_classifiable_species": 3297,
+    "fixed_original_estimators_unchanged": true,
+    "old_three_original_spatial_effects_identical": true,
+    "source_provider": "single_iNaturalist_photograph_and_ROI_pipeline",
+    "independent_source_replication": false,
+    "globally_representative_wild_morph_frequencies": false
+  },
+  "spatial": {
+    "stat": "species_equal_mean_four_state_species_global_pair_diversity_minus_within_radius_local_pair_diversity",
+    "primary_radius_km": 50,
+    "primary_radius_post_hoc": true,
+    "minimum_four_state_classifiable_photos": 40,
+    "minimum_spatial_local_pairs": 30,
+    "original_within_species_vertex_null_replicates": 199,
+    "plus_one_p_resolution": 0.005,
+    "all_sources": {
+      "discovery": {
+        "25": {
+          "n_species": 119,
+          "mean_depletion": 0.029865263557561673,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5882352941176471,
+          "mean_D_pair": 0.20542742307125575,
+          "mean_D_local": 0.17556215951369405
+        },
+        "50": {
+          "n_species": 166,
+          "mean_depletion": 0.020529254583812922,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5481927710843374,
+          "mean_D_pair": 0.22139471031306737,
+          "mean_D_local": 0.20086545572925446
+        },
+        "100": {
+          "n_species": 220,
+          "mean_depletion": 0.01663661128370362,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5318181818181819,
+          "mean_D_pair": 0.23178666563696362,
+          "mean_D_local": 0.21515005435326
+        },
+        "250": {
+          "n_species": 319,
+          "mean_depletion": 0.01604874997849952,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5266457680250783,
+          "mean_D_pair": 0.2346599926161206,
+          "mean_D_local": 0.21861124263762108
+        }
+      },
+      "validation": {
+        "25": {
+          "n_species": 125,
+          "mean_depletion": 0.015988404114038308,
+          "p_upper": 0.005,
+          "positive_fraction": 0.488,
+          "mean_D_pair": 0.2202655024040821,
+          "mean_D_local": 0.20427709829004376
+        },
+        "50": {
+          "n_species": 181,
+          "mean_depletion": 0.018672971642749295,
+          "p_upper": 0.005,
+          "positive_fraction": 0.574585635359116,
+          "mean_D_pair": 0.22866216076753232,
+          "mean_D_local": 0.2099891891247831
+        },
+        "100": {
+          "n_species": 242,
+          "mean_depletion": 0.015554015135389936,
+          "p_upper": 0.005,
+          "positive_fraction": 0.48760330578512395,
+          "mean_D_pair": 0.22997040711699882,
+          "mean_D_local": 0.2144163919816089
+        },
+        "250": {
+          "n_species": 311,
+          "mean_depletion": 0.011363926606780228,
+          "p_upper": 0.005,
+          "positive_fraction": 0.4694533762057878,
+          "mean_D_pair": 0.22793680915419787,
+          "mean_D_local": 0.2165728825474176
+        }
+      },
+      "prospective": {
+        "25": {
+          "n_species": 147,
+          "mean_depletion": 0.0158015166257768,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5306122448979592,
+          "mean_D_pair": 0.23509585011495499,
+          "mean_D_local": 0.21929433348917815
+        },
+        "50": {
+          "n_species": 204,
+          "mean_depletion": 0.01468491968437185,
+          "p_upper": 0.005,
+          "positive_fraction": 0.553921568627451,
+          "mean_D_pair": 0.2482035979589538,
+          "mean_D_local": 0.233518678274582
+        },
+        "100": {
+          "n_species": 282,
+          "mean_depletion": 0.007546973068383916,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5177304964539007,
+          "mean_D_pair": 0.24108910661023206,
+          "mean_D_local": 0.23354213354184816
+        },
+        "250": {
+          "n_species": 358,
+          "mean_depletion": 0.008932028073978169,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5,
+          "mean_D_pair": 0.2527375468774348,
+          "mean_D_local": 0.24380551880345663
+        }
+      },
+      "wave4": {
+        "25": {
+          "n_species": 131,
+          "mean_depletion": 0.014029746186484492,
+          "p_upper": 0.015,
+          "positive_fraction": 0.549618320610687,
+          "mean_D_pair": 0.23203203567344333,
+          "mean_D_local": 0.21800228948695888
+        },
+        "50": {
+          "n_species": 190,
+          "mean_depletion": 0.017293596294403593,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5736842105263158,
+          "mean_D_pair": 0.2358399102424004,
+          "mean_D_local": 0.21854631394799676
+        },
+        "100": {
+          "n_species": 257,
+          "mean_depletion": 0.016775583582204125,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5408560311284046,
+          "mean_D_pair": 0.23420638329297516,
+          "mean_D_local": 0.21743079971077103
+        },
+        "250": {
+          "n_species": 326,
+          "mean_depletion": 0.010274404440095933,
+          "p_upper": 0.005,
+          "positive_fraction": 0.4938650306748466,
+          "mean_D_pair": 0.24184727707295786,
+          "mean_D_local": 0.23157287263286197
+        }
+      },
+      "new_U100": {
+        "25": {
+          "n_species": 710,
+          "mean_depletion": 0.017523078391483943,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5225352112676056,
+          "mean_D_pair": 0.2136375414967177,
+          "mean_D_local": 0.19611446310523378
+        },
+        "50": {
+          "n_species": 1020,
+          "mean_depletion": 0.017598697724511534,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5558823529411765,
+          "mean_D_pair": 0.21707624570532313,
+          "mean_D_local": 0.19947754798081163
+        },
+        "100": {
+          "n_species": 1361,
+          "mean_depletion": 0.014077202990885515,
+          "p_upper": 0.005,
+          "positive_fraction": 0.5231447465099192,
+          "mean_D_pair": 0.22064675318872015,
+          "mean_D_local": 0.20656955019783457
+        },
+        "250": {
+          "n_species": 1772,
+          "mean_depletion": 0.009778143544146153,
+          "p_upper": 0.005,
+          "positive_fraction": 0.49887133182844245,
+          "mean_D_pair": 0.22674781622582382,
+          "mean_D_local": 0.21696967268167763
+        }
+      }
+    },
+    "pooled_50km": {
+      "evaluable": true,
+      "mean_D_local": 0.20668961830846333,
+      "mean_D_pair": 0.22430452047700442,
+      "mean_depletion": 0.017614902168541096,
+      "mean_depletion_null_mean": 0.00004459427937499867,
+      "mean_depletion_null_q025": -0.002003243214654655,
+      "mean_depletion_null_q975": 0.002473599763156202,
+      "mean_depletion_p_upper": 0.005,
+      "mean_depletion_supported": true,
+      "n_species": 1761,
+      "positive_depletion_species_fraction": 0.5587734241908007,
+      "radius_km": 50,
+      "rho_D_vs_depletion": 0.14790558523301664,
+      "rho_D_vs_depletion_null_mean": -0.03529694308066435,
+      "rho_D_vs_depletion_null_q025": -0.07869976234280553,
+      "rho_D_vs_depletion_null_q975": 0.0030416106770641414,
+      "rho_D_vs_depletion_p_upper": 0.005,
+      "rho_D_vs_depletion_supported": true
+    },
+    "original_cohorts_numeric_unmodified": true,
+    "radius_secondary_sensitivity_exploratory": true
+  },
+  "observer_reliability": {
+    "split_count": 200,
+    "primary": {
+      "bias_abs_q95": 0.0038498262021586954,
+      "bias_median": -0.00010032798168029412,
+      "ccc_median": 0.8553147635984735,
+      "ccc_q05": 0.8476348070933679,
+      "ccc_q95": 0.8612838222572653,
+      "mae_median": 0.07795344740046917,
+      "mae_q95": 0.07994843153594733,
+      "paired_n_max": 3070,
+      "paired_n_median": 3044,
+      "paired_n_min": 3012,
+      "partitions": 200,
+      "partitions_with_defined_rho": 200,
+      "rho_median": 0.8035357423958924,
+      "rho_q05": 0.7931469330247656,
+      "rho_q95": 0.8094055920510855,
+      "spearman_brown_median": 0.8910671670640826,
+      "spearman_brown_q05": 0.8846424332695858
+    },
+    "sensitivity": {
+      "bias_abs_q95": 0.003898040146402622,
+      "bias_median": -0.00010522647684876272,
+      "ccc_median": 0.8541607727328414,
+      "ccc_q05": 0.8469429876407959,
+      "ccc_q95": 0.8600539716581213,
+      "mae_median": 0.07959046651626789,
+      "mae_q95": 0.08160500254961696,
+      "paired_n_max": 3297,
+      "paired_n_median": 3294,
+      "paired_n_min": 3288,
+      "partitions": 200,
+      "partitions_with_defined_rho": 200,
+      "rho_median": 0.8112112994595084,
+      "rho_q05": 0.8032387486609435,
+      "rho_q95": 0.8171737871600875,
+      "spearman_brown_median": 0.895766605643955,
+      "spearman_brown_q05": 0.890884525161269
+    }
+  },
+  "fixed_white_axis": {
+    "original_9_colour_zero_sum_white_versus_other_axis_unchanged": true,
+    "same_source_pooled_not_new_untouched_confirmation": true,
+    "W_sign_invariant": true,
+    "primary_0_10": {
+      "evaluable": true,
+      "frozen_threshold": 0.1,
+      "isotropic_8d_expectation": 0.125,
+      "minimum_vector_species": 20,
+      "observed_W": 0.518794865731938,
+      "observed_minus_null_median": 0.06342986078167484,
+      "observed_to_null_median_ratio": 1.1392945441396027,
+      "old_gate_counts": {
+        "H1_coarse_second_pass": 1412,
+        "continuous_minor_fraction_pass": 1223,
+        "nclass_ge40": 3297,
+        "nonzero_delta_pass": 1223
+      },
+      "pass": true,
+      "species": 1223,
+      "structured_null_replicates": 999,
+      "structured_null_summary": {
+        "mean": 0.45536564179862266,
+        "q025": 0.4484238197181606,
+        "q50": 0.45536500495026316,
+        "q975": 0.46261058233206837,
+        "sd": 0.003644474539701506
+      },
+      "structured_null_upper_p": 0.001
+    },
+    "strict_0_20": {
+      "evaluable": true,
+      "frozen_threshold": 0.2,
+      "isotropic_8d_expectation": 0.125,
+      "minimum_vector_species": 20,
+      "observed_W": 0.5254168291632738,
+      "observed_minus_null_median": 0.06421588555591096,
+      "observed_to_null_median_ratio": 1.1392362406148506,
+      "old_gate_counts": {
+        "H1_coarse_second_pass": 834,
+        "continuous_minor_fraction_pass": 658,
+        "nclass_ge40": 3297,
+        "nonzero_delta_pass": 658
+      },
+      "pass": true,
+      "species": 658,
+      "structured_null_replicates": 999,
+      "structured_null_summary": {
+        "mean": 0.4612301865220669,
+        "q025": 0.45213250890426426,
+        "q50": 0.46120094360736286,
+        "q975": 0.4703944042271659,
+        "sd": 0.00470353600893329
+      },
+      "structured_null_upper_p": 0.001
+    }
+  },
+  "hard_nonclaims": [
+    "Not 4730 measured species: only 4475 distinct independent 100-photo species",
+    "Not 447500 classifiable photographs: technical/nonclassifiable terminals preserved",
+    "Not 3297 genuine within-50km eligible species: primary 50-km local-pair eligibility is 1761",
+    "Not independent-provider replication",
+    "Not a newly predeclared distance: 50-km radius was selected post hoc",
+    "Squared fixed W does not identify a direction toward white flowers",
+    "Photographic spatial structure is not direct evidence of selection, genetic variation, population frequencies, or local adaptation",
+    "Earlier prospective H2 verdict must retain its original distinct stage"
+  ]
+}

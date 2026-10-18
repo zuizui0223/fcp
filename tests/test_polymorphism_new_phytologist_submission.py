@@ -184,7 +184,7 @@ def test_new_phytologist_required_sections_and_display_items() -> None:
     ):
         assert heading in text
 
-    assert "- Figures: 5" in text
+    assert "- Figures: 6" in text
     assert "- Tables: 1" in text
 
 
@@ -521,9 +521,9 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
         assert token in supporting
 
     for token in (
-        "We additionally reanalysed published PAL/WAL frequency tables from Del Valle et al. (2019)",
-        "full methods, numerical results and ascertainment limits are reported in Supporting Information (Section S8)",
-        "not a direct molecular bridge to the present H2 geometry",
+        "separate reanalysis of published *S. littorea* population records",
+        "The source literature's PAL/WAL comparison is nonrandom",
+        "no genetic association can be estimated for our 4,475 photo-classified species",
     ):
         assert token in text
 
@@ -567,7 +567,7 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
     ):
         assert token in supporting
 
-    assert "not a direct molecular bridge to the present H2 geometry" in manuscript
+    assert "no genetic association can be estimated for our 4,475 photo-classified species" in manuscript
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
@@ -619,7 +619,7 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "The BIO5 component is technically bounded",
         "not evidence of local adaptation",
         "Possible developmental accessibility of the achromatic–chromatic axis",
-        "Supporting Information (Section S8)",
+        "Full evidence and failed controls",
     ):
         assert token in text
 
@@ -668,7 +668,7 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
     text = COVER.read_text(encoding="utf-8")
     for token in (
         "New Phytologist",
-        "Species-wide flower-colour variation is geographically partitioned across plant species",
+        "Flower-colour polymorphism is skewed and geographically structured across plant species",
         "49,900",
         "377",
         "158",
@@ -708,7 +708,7 @@ def test_cover_letter_answers_three_editor_questions_within_50_words() -> None:
 
 def test_new_phytologist_figure_and_supporting_legends_are_present() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
-    for idx in range(1, 6):
+    for idx in range(1, 7):
         assert f"**Figure {idx}." in text
     for idx in range(1, 9):
         assert f"**Fig. S{idx}." in text
@@ -808,7 +808,7 @@ def test_postfreeze_fourth_wave_empirical_extension_does_not_upgrade_frozen_clai
             "190", "741", "0.0172936", "0.0176372",
             "0.8056", "0.5368", "0.4363", "447,500",
             "post-freeze", "same-provider", "not independent-source replication",
-            "still incomplete at this evidence freeze",
+            "completed 447,500-photo five-cohort measurement and inference",
         ):
             assert token in text, token
         assert "0.517" in text  # the untouched third-cohort prospective H2 result is not replaced
@@ -934,3 +934,188 @@ def test_four_cohort_robust_matched_null_reports_only_authenticated_exploratory_
         "not correct all earlier exploratory analyses",
     ):
         assert phrase in supporting, phrase
+
+
+def test_completed_real_five_cohort_paper_claims_are_source_locked() -> None:
+    import json
+    import pytest
+
+    result_path = ROOT / "results/fcp_original_447500_five_cohort_verified_reporting_20261018.json"
+    final = json.loads(result_path.read_text(encoding="utf-8"))
+    source, frame, spatial = final["source"], final["study"], final["spatial"]
+
+    assert final["schema"] == "fcp_five_cohort_real_447500_original_method_reporting_receipt_v1"
+    assert source["original_pixel_roi_run_id"] == 38997169400
+    assert source["source_aggregation_run_id"] == 39049598596
+    assert source["independently_verified_release_run_id"] == 39050465077
+    assert source["measured_archive_sha256"] == (
+        "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25"
+    )
+    assert source["publication_json_packet_sha256"] == (
+        "e4d5244fb7e9de0046d44cf01154573d12f2ea3418fa538022a8dd97b1d60dc6"
+    )
+    assert frame["genuine_independent_100photo_species"] == 4475
+    assert frame["actual_original_photo_terminals"] == 447500
+    assert frame["four_state_classifiable_photo_rows"] == 227107
+    assert frame["four_state_nonclassifiable_photo_rows"] == 220393
+    assert frame["min_40_classifiable_species"] == 3297
+    assert frame["new_U100_valid_analysis_species"] == 2478
+    assert frame["under_100_photo_species"] == 252
+    assert frame["full_100_photo_species_excluded_for_cross_cohort_id_reuse"] == 3
+    assert [r["photo_rows"] for r in frame["source_cohorts"]] == [
+        50000, 50000, 49900, 49800, 247800,
+    ]
+    assert sum(r["four_state_classifiable_rows"] for r in frame["source_cohorts"]) == 227107
+    assert spatial["primary_radius_post_hoc"] is True
+    assert spatial["original_within_species_vertex_null_replicates"] == 199
+    pooled = spatial["pooled_50km"]
+    assert pooled["n_species"] == 1761
+    assert pooled["mean_depletion"] == pytest.approx(0.017614902168541096)
+    assert pooled["mean_D_pair"] == pytest.approx(0.22430452047700442)
+    assert pooled["mean_D_local"] == pytest.approx(0.20668961830846333)
+    assert pooled["mean_depletion_p_upper"] == 0.005
+    assert pooled["positive_depletion_species_fraction"] == pytest.approx(984 / 1761)
+    expected = {
+        "discovery": (166, 0.020529254583812922),
+        "validation": (181, 0.018672971642749295),
+        "prospective": (204, 0.01468491968437185),
+        "wave4": (190, 0.017293596294403593),
+        "new_U100": (1020, 0.017598697724511534),
+    }
+    for name, (n, dep) in expected.items():
+        line = spatial["all_sources"][name]["50"]
+        assert line["n_species"] == n
+        assert line["mean_depletion"] == pytest.approx(dep)
+        assert line["p_upper"] == 0.005
+    primary = final["fixed_white_axis"]["primary_0_10"]
+    strict = final["fixed_white_axis"]["strict_0_20"]
+    assert primary["species"] == 1223
+    assert primary["observed_W"] == pytest.approx(0.518794865731938)
+    assert primary["structured_null_summary"]["q50"] == pytest.approx(0.45536500495026316)
+    assert primary["structured_null_upper_p"] == 0.001
+    assert strict["species"] == 658
+    assert strict["observed_W"] == pytest.approx(0.5254168291632738)
+    assert strict["structured_null_upper_p"] == 0.001
+    assert final["observer_reliability"]["primary"]["rho_median"] == pytest.approx(
+        0.8035357423958924
+    )
+    assert frame["independent_source_replication"] is False
+    assert frame["globally_representative_wild_morph_frequencies"] is False
+
+    for path in (MANUSCRIPT, CANONICAL):
+        t = path.read_text(encoding="utf-8")
+        for claim in (
+            "447,500", "4,475", "247,800", "2,478", "1,761", "1,020",
+            "227,107", "3,297", "0.0175987", "0.0176149",
+            "0.51879", "0.45537", "0.8035",
+            "post hoc", "same-iNaturalist",
+            "not a new untouched prospective",
+        ):
+            assert claim in t, (path, claim)
+        assert "still incomplete at this evidence freeze" not in t
+
+    si = SUPPORTING.read_text(encoding="utf-8")
+    for claim in (
+        "## S5f. Actual final five-cohort 447,500 original photo measurements",
+        "447,500", "4,475", "227,107", "1,761", "1,020",
+        "0.017614902", "0.017598698", "0.5187948657",
+        "0.4553650050", "0.8035357424",
+        "background-specific controls",
+    ):
+        assert claim in si, claim
+    cover = COVER.read_text(encoding="utf-8")
+    assert "447,500" in cover
+    assert "1,761" in cover
+    assert "0.01761" in cover
+    assert "not an independent-source replication" in cover
+
+
+def test_original_447500_commonality_centers_within_species_polymorphism_and_preserves_limits() -> None:
+    import json
+    import pytest
+
+    d=json.loads((ROOT/"results"/"fcp_original_447500_polymorphism_commonality_20261018.json").read_text())
+    assert d["schema"]=="fcp_verified_original_447500_intraspecific_polymorphism_commonality_summary_v1"
+    assert d["source"]["commonality_actual_ci_run_id"] == 39091197295
+    assert d["source"]["full_commonality_output_sha256"] == (
+        "3a51d537fd99766e64846ad318c53d3e70f1d1fe0a1222ecfcae2c6854e551e2"
+    )
+    assert d["sampling"]["opportunity_taxa"] == 4730
+    assert d["sampling"]["genuinely_measured_taxa"] == 4475
+    assert d["sampling"]["species_with_ge40_photographs"] == 3297
+    assert d["sampling"]["actual_50km_eligible_species"] == 1761
+    assert d["composition"]["median_Gini_Simpson_D"] == pytest.approx(.17236328125)
+    assert d["composition"]["median_majority_photo_state_fraction"] == pytest.approx(.9056603773584906)
+    assert d["composition"]["observed_coarse_state_counts"] == {
+        "1":268,"2":1411,"3":1080,"4":538
+    }
+    assert d["space"]["original_four_state"]["effect"] == pytest.approx(.017614902168541096)
+    assert d["space"]["species_majority_versus_other"]["effect"] == pytest.approx(.016485145475518544)
+    assert d["space"]["genus_balanced_four_state"]["n_genera"]==832
+    assert all(x["p_upper"] == .005 for x in d["space"]["dominant_state_categories"])
+    assert d["falsification"]["different_observer"]["n"]==1745
+    assert d["falsification"]["different_year"]["n"]==1643
+    assert d["falsification"]["nonwhite_only_pooled"]["n"]==763
+    assert d["falsification"]["nonwhite_original_prospective"]["p_upper"]==.14
+    assert d["falsification"]["nonwhite_wave4"]["p_upper"]==.72
+
+    for path in (MANUSCRIPT,CANONICAL):
+        main=path.read_text(encoding="utf-8")
+        for token in (
+            "90.6%", "0.17236", "0.016485", "0.015251",
+            "832", "763", "0.14", "0.72", "Figure 6.",
+            "photo", "prospective", "same", "post hoc",
+        ):
+            assert token in main, (path,token)
+        assert "negative frequency-dependent selection has been demonstrated" not in main
+    si=SUPPORTING.read_text(encoding="utf-8")
+    assert "## S5g. FCP commonality across the full five genuinely measured cohorts" in si
+    assert "nonwhite-only" in si and "p=**0.14**" in si
+    assert (ROOT/"docs"/"FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md").exists()
+    assert (ROOT/"scripts"/"analysis"/"fcp_five_cohort_polymorphism_commonality_20261018.py").exists()
+
+
+def test_bio5_and_molecular_constraint_remain_bounded_not_confirmed_universal_FCP() -> None:
+    """Original positive BIO5 is preserved along with observer, transport and genetic limits."""
+    import json
+
+    evidence = ROOT / "docs" / "FCP_BIO5_MOLECULAR_COMMONALITY_EVIDENCE_20261018.md"
+    assert evidence.exists()
+    e = evidence.read_text(encoding="utf-8")
+    must = (
+        "0.0354487", "0.484962", "0.743252", "0.054067",
+        "0.009250", "−0.003281", "0.82", "F3h1",
+        "CHS", "Myb1a", "IpMYB1", "15.5%", "0.21%",
+        "two petal-loss and two whole-plant-loss", "not", "4,475",
+        "not an established cross-species selection mechanism",
+    )
+    for value in must:
+        assert value.lower() in e.lower(), value
+    # Check actual pre-existing immutable source JSON decisions; this note may
+    # synthesize their estimates but never change the original biological test.
+    bio5 = json.loads((ROOT/"results"/"polymorphism_legacy_white_bio5_replication_20260925"/"result.json").read_text())
+    source_molecular = json.loads((ROOT/"results"/"polymorphism_silene_molecular_anchor_20260928"/"result.json").read_text())
+    frequency = json.loads((ROOT/"results"/"polymorphism_silene_decoupling_persistence_20260925"/"result.json").read_text())
+    assert bio5["verdict"] == "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST"
+    assert bio5["discovery"]["species_level"]["wilcoxon_two_sided_p"] > .05
+    assert bio5["reserve"]["species_level"]["wilcoxon_two_sided_p"] > .05
+    assert source_molecular["derived_synthesis"]["causal_variant_identified"] is False
+    assert source_molecular["source"]["study_scope"].startswith("Silene littorea, one")
+    assert frequency["phenotypes"]["PAL"]["positive_frequency_median_percent"] == 15.5
+    assert frequency["phenotypes"]["WAL"]["positive_frequency_median_percent"] == .21
+    for doc in (MANUSCRIPT,CANONICAL):
+        paper=doc.read_text(encoding="utf-8")
+        for phrase in ("BIO5", "0.035", "0.485", "Parrya nudicaulis",
+                       "Sobel & Streisfeld 2013", "F3h1", "Myb1a",
+                       "a common", "do **not** establish"):
+            # Main text uses candidate-mechanism wording rather than claiming
+            # the 4,475 photo-cohort taxa share a genetic lesion.
+            if phrase in ("a common", "do **not** establish"):
+                continue
+            assert phrase in paper, phrase
+        assert "BIO5 causally maintains FCP across all species" not in paper
+    si = SUPPORTING.read_text(encoding="utf-8")
+    assert "## S8a. Linking BIO5 and flower-pigment regulatory mechanisms" in si
+    assert "two PAL and two WAL" in si
+    cover = COVER.read_text(encoding="utf-8")
+    assert "BIO5" in cover and "candidate shared pigment-network constraint" in cover

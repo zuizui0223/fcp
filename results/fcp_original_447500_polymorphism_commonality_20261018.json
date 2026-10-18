@@ -1,0 +1,150 @@
+{
+  "schema": "fcp_verified_original_447500_intraspecific_polymorphism_commonality_summary_v1",
+  "date": "2026-10-18",
+  "source": {
+    "original_measured_release_tag": "fcp-all4730-original-method-actual-colour-results-20261017",
+    "original_measured_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+    "original_measured_CSV_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "original_spatial_species_sha256": "960e8c4bae8a9ecb01fefbef06b6b88cd8fdc63d86af3e4c354cab4eb1aedd35",
+    "commonality_actual_ci_run_id": 39091197295,
+    "commonality_artifact_id": 12122892384,
+    "full_commonality_output_sha256": "3a51d537fd99766e64846ad318c53d3e70f1d1fe0a1222ecfcae2c6854e551e2",
+    "same_iNaturalist_source": true
+  },
+  "sampling": {
+    "opportunity_taxa": 4730,
+    "genuinely_measured_taxa": 4475,
+    "photographs": 447500,
+    "four_state_classifiable_photographs": 227107,
+    "species_with_ge40_photographs": 3297,
+    "actual_50km_eligible_species": 1761
+  },
+  "composition": {
+    "median_Gini_Simpson_D": 0.17236328125,
+    "first_quartile_D": 0.06342381080354742,
+    "third_quartile_D": 0.39293798098687194,
+    "median_majority_photo_state_fraction": 0.9056603773584906,
+    "species_majority_photo_state_ge90pct_fraction": 0.5144070367000303,
+    "observed_coarse_state_counts": {
+      "1": 268,
+      "2": 1411,
+      "3": 1080,
+      "4": 538
+    }
+  },
+  "space": {
+    "post_hoc_radius_km": 50,
+    "original_complete_vertex_null_replicates": 199,
+    "original_four_state": {
+      "n": 1761,
+      "effect": 0.0176149021685411,
+      "p_upper": 0.005
+    },
+    "species_majority_versus_other": {
+      "n": 1761,
+      "effect": 0.016485145475518544,
+      "p_upper": 0.005
+    },
+    "genus_balanced_four_state": {
+      "n_genera": 832,
+      "effect": 0.01525121031557303,
+      "p_upper": 0.005
+    },
+    "genus_balanced_majority_versus_other": {
+      "n_genera": 832,
+      "effect": 0.014632191765014551,
+      "p_upper": 0.005
+    },
+    "dominant_state_categories": [
+      {
+        "state": "white",
+        "n": 807,
+        "effect": 0.01855195426081435,
+        "p_upper": 0.005
+      },
+      {
+        "state": "yellow_orange",
+        "n": 521,
+        "effect": 0.010326009609733188,
+        "p_upper": 0.005
+      },
+      {
+        "state": "red_pink",
+        "n": 203,
+        "effect": 0.025927012827432858,
+        "p_upper": 0.005
+      },
+      {
+        "state": "blue_purple",
+        "n": 230,
+        "effect": 0.023501656607321012,
+        "p_upper": 0.005
+      }
+    ],
+    "diversity_quartiles": [
+      {
+        "q": "Q1",
+        "n": 441,
+        "effect": 0.0029041631768355358,
+        "p_upper": 0.005
+      },
+      {
+        "q": "Q2",
+        "n": 440,
+        "effect": 0.011920114590918475,
+        "p_upper": 0.005
+      },
+      {
+        "q": "Q3",
+        "n": 440,
+        "effect": 0.01891694628221674,
+        "p_upper": 0.005
+      },
+      {
+        "q": "Q4",
+        "n": 440,
+        "effect": 0.03675181812190206,
+        "p_upper": 0.005
+      }
+    ]
+  },
+  "falsification": {
+    "different_observer": {
+      "n": 1745,
+      "effect": 0.017070095080425854,
+      "p_upper": 0.005
+    },
+    "different_year": {
+      "n": 1643,
+      "effect": 0.015844575242690496,
+      "p_upper": 0.005
+    },
+    "nonwhite_only_pooled": {
+      "n": 763,
+      "effect": 0.006594522562016231,
+      "p_upper": 0.005
+    },
+    "nonwhite_original_prospective": {
+      "n": 78,
+      "effect": 0.005161484637736262,
+      "p_upper": 0.14
+    },
+    "nonwhite_wave4": {
+      "n": 79,
+      "effect": -0.002276767536113726,
+      "p_upper": 0.72
+    },
+    "ge60_classifiable": {
+      "n": 845,
+      "effect": 0.01706574494283594,
+      "p_upper": 0.005
+    }
+  },
+  "limits": [
+    "The observed major state is based on photographic detections, not plant morph-frequency census",
+    "No causal selection or pigment cost tests",
+    "Same source, observer/photo bias remains",
+    "Post hoc 50-km threshold and subgroup analyses do not achieve independent prospective confirmation",
+    "Nonwhite-only positive pooled test does not replicate across every source cohort"
+  ]
+}

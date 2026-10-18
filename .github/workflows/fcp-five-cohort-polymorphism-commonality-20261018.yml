@@ -1,0 +1,141 @@
+name: FCP real 447500 within-species polymorphism commonality
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/fcp_five_cohort_polymorphism_commonality_20261018.py
+      - tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py
+      - .github/workflows/fcp-five-cohort-polymorphism-commonality-20261018.yml
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+  push:
+    branches: [main]
+    paths:
+      - scripts/analysis/fcp_five_cohort_polymorphism_commonality_20261018.py
+      - tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py
+      - .github/workflows/fcp-five-cohort-polymorphism-commonality-20261018.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: fcp-447500-commonality-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  verify-source-and-commonality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: .
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_TAR: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      RESULT_TAG: fcp-real-447500-polymorphism-commonality-20261018
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install original statistical dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 pytest==8.4.2
+      - name: Check original morph/seed/graph and publication threshold unit tests
+        run: |
+          python -m pytest -q tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py
+          python -m py_compile scripts/analysis/fcp_five_cohort_polymorphism_commonality_20261018.py
+      - name: Retrieve and authenticate immutable genuine original five-cohort measured release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-commonality/{download,measured,report}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_TAR" --dir /tmp/fcp-commonality/download
+          echo "$SOURCE_SHA  /tmp/fcp-commonality/download/$SOURCE_TAR" | sha256sum -c -
+          tar -xzf "/tmp/fcp-commonality/download/$SOURCE_TAR" \
+            -C /tmp/fcp-commonality/measured
+          test -s /tmp/fcp-commonality/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz
+          test -s /tmp/fcp-commonality/measured/spatial/fcp_all4730_unchanged_original_50km_species.csv
+          test -s /tmp/fcp-commonality/measured/spatial/fcp_all4730_unchanged_original_50km_results.json
+          echo REAL_FCP_FIVE_COHORT_IMMUTABLE_PHOTO_MEASUREMENTS_AUTHENTICATED
+      - name: Test photograph-level polymorphism geometry and matched within-species nulls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_five_cohort_polymorphism_commonality_20261018.py \
+            --photos /tmp/fcp-commonality/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --spatial /tmp/fcp-commonality/measured/spatial/fcp_all4730_unchanged_original_50km_species.csv \
+            --spatial_result /tmp/fcp-commonality/measured/spatial/fcp_all4730_unchanged_original_50km_results.json \
+            --receipt /tmp/fcp-commonality/measured/measured/fcp_all4730_original_photo_combine_receipt.json \
+            --out /tmp/fcp-commonality/report
+      - name: Verify actual five-cohort commonality against original frozen sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          p=Path('/tmp/fcp-commonality/report/fcp_five_cohort_polymorphism_commonality.json')
+          d=json.loads(p.read_text())
+          q=d['photo_state_profile']['all_ge40']
+          assert d['schema']=='fcp_real_five_cohort_intraspecific_polymorphism_commonality_v1'
+          assert q['n_species']==3297 and sum(q['n_observed_states'].values())==3297
+          assert q['n_observed_states']=={'1':268,'2':1411,'3':1080,'4':538}
+          assert abs(q['median_D']-.17236328125)<1e-10
+          assert abs(q['median_photo_majority_fraction']-.9056603773584906)<1e-10
+          four=d['spatial_frozen_four_state']
+          binary=d['spatial_majority_vs_other']
+          assert four['n_species']==binary['n_species']==1761
+          assert abs(four['mean_depletion']-.017614902168541096)<1e-10
+          assert abs(binary['mean_depletion']-.016485145475518544)<1e-10
+          assert four['p_upper']==binary['p_upper']==.005
+          assert d['genus_equal_weight']['n_genera']==832
+          assert d['genus_equal_weight']['four_state']['p_upper']==.005
+          assert d['genus_equal_weight']['majority_vs_other']['p_upper']==.005
+          for key,n in [('white',807),('yellow_orange',521),('red_pink',203),('blue_purple',230)]:
+              z=d['by_photo_majority_colour'][key]
+              assert z['four_state']['n_species']==n
+              assert z['four_state']['p_upper']==z['majority_vs_other']['p_upper']==.005
+          for key in ('Q1','Q2','Q3','Q4'):
+              assert d['by_frozen_species_global_D_quartile'][key]['four_state']['p_upper']==.005
+          r=d['technical_falsifications']
+          assert r['different_observer']['pooled']['n_species']==1745
+          assert r['different_observer']['pooled']['p_upper']==.005
+          assert r['different_year']['pooled']['n_species']==1643
+          assert r['different_year']['pooled']['p_upper']==.005
+          assert r['nonwhite_only']['pooled']['n_species']==763
+          assert r['nonwhite_only']['pooled']['p_upper']==.005
+          assert r['nonwhite_only']['by_cohort']['prospective']['p_upper']==.14
+          assert r['nonwhite_only']['by_cohort']['wave4']['p_upper']==.72
+          print('FCP_447500_REAL_POLYMORPHISM_COMMONALITY_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-447500-real-polymorphism-commonality-source-backed
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp-commonality/report/
+      - name: Publish small real-source analysis summaries only after verified push to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_REPOSITORY" = "zuizui0223/fcp"
+          if gh release view "$RESULT_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Already published; refuse overwrite of authentic study summary'
+            exit 1
+          fi
+          gh release create "$RESULT_TAG" \
+            /tmp/fcp-commonality/report/fcp_five_cohort_polymorphism_commonality.json \
+            /tmp/fcp-commonality/report/fcp_five_cohort_commonality_spatial_species.csv \
+            /tmp/fcp-commonality/report/fcp_five_cohort_commonality_photo_state_species.csv \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "FCP 447500 authentic floral-photo within-species polymorphism commonality" \
+            --notes "Same original iNaturalist measured source, 447500 genuine original flower-photo terminals across 4475 species. Species D and photographed majority skew; 1761 genuinely eligible 50km species; exact original 199 within-species photo-colour label nulls; majority-vs-other, genus balancing, dominant-state/D-strata, observer/year and nonwhite sensitivities. All follow-up subgroup tests are exploratory and same-source, not species-population morph frequencies or a fitness/genetics/selection result." \
+            --latest=false
+          mkdir -p /tmp/fcp-commonality/roundtrip
+          gh release download "$RESULT_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'fcp_five_cohort_polymorphism_commonality.json' \
+            --dir /tmp/fcp-commonality/roundtrip
+          cmp /tmp/fcp-commonality/report/fcp_five_cohort_polymorphism_commonality.json \
+            /tmp/fcp-commonality/roundtrip/fcp_five_cohort_polymorphism_commonality.json
+          echo FCP_FIVE_COHORT_REAL_POLYMORPHISM_COMMONALITY_PERMANENTLY_SAVED

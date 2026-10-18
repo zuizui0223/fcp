@@ -185,25 +185,24 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ## Figure 5 — Species-wide flower-colour variation is geographically partitioned
 
-This is now the main ecological figure.
+This remains the main ecological figure. **Panel A now displays all five truly measured original-photo cohorts and their pooled mean**, while Panels B–C explicitly retain the original three-cohort technical/environmental comparison (no inferred falsification for the new U100 photos). Chronology is checked against the genuine completed five-cohort original [Release](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017) and Git-tracked source receipt `results/fcp_original_447500_five_cohort_verified_reporting_20261018.json`.
 
-### Panel A — local diversity is depleted relative to species-wide composition
+### Panel A — five independent taxon-disjoint photo cohorts and pooled local depletion
 
-Show the equal-species mean four-state pairwise diversity at the 50-km primary scale as species-wide versus local, or equivalently show local-depletion effect sizes with matched-null intervals.
+Show six horizontal rows: five *actual cohorts* and a visually distinct species-equal **pooled mean** row, explicitly labelled not a sixth independent cohort. Display the original 50-km global-minus-local mean mismatch effect, true >=30 local-pair eligible taxon count and 199-original-vertex-permutation upper p:
 
-Primary results:
+- discovery: n=**166**, depletion **0.0205293**, p=**0.005**;
+- validation: n=**181**, **0.0186730**, p=**0.005**;
+- prospective third cohort: n=**204**, **0.0146849**, p=**0.005**;
+- post-freeze wave4: n=**190**, **0.0172936**, p=**0.005**;
+- newly measured fifth U100: n=**1,020**, **0.0175987**, p=**0.005**;
+- **pooled five-cohort**: n=**1,761**, depletion **0.0176149**, p=**0.005**; **not a sixth cohort**.
 
-- discovery: n = **166**, mean depletion = **0.02053**, p = **0.005**;
-- validation: n = **181**, mean depletion = **0.01867**, p = **0.005**;
-- third cohort: n = **204**, mean depletion = **0.01468**, p = **0.005**.
-
-A small inset or annotation may state that the same direction is supported at 25, 100 and 250 km in all three cohorts.
-
-The null preserves each species' coordinates and exact colour-state composition, so the panel directly asks whether species-wide variation is geographically allocated rather than locally mixed at random.
+The pooled line represents the same original fixed 50-km test, selected *post hoc*, applied to 447,500 actual original-photo terminals from 4,475 taxon identities (with 3,297 >=40 classifiable but only 1,761 having enough 50-km pairs). The null fixes every species' original colour-state composition and coordinates. The 25-, 100- and 250-km comparisons are post hoc sensitivities, not replacements for the unchanged fixed 50-km primary comparison.
 
 ### Panel B — falsification tests preserve distributed polymorphism
 
-At 50 km plot mean local-depletion effects for three representations/controls in each cohort:
+At 50 km plot mean local-depletion effects for three representations/controls **in the three original study cohorts only (discovery, validation, prospective)**. These tests were not transported to all newly measured U100 taxa:
 
 1. **different-observer pairs only**
    - discovery 0.01998, p = 0.005;
@@ -239,6 +238,32 @@ Mandatory interpretation boundary:
 **The BIO5 component is phenotypic and technically bounded: validation flower-minus-background and strict same-observer sensitivities do not support a flower-specific, observer-independent environmental effect. Neither component establishes local adaptation.**
 
 H3 phylogenetic and sampled-span panels move to Supporting Information.
+
+---
+
+## Figure 6 — Shared features of photographed FCP across species (new five-cohort synthesis)
+
+**Reporting-only from genuinely measured, SHA256-pinned 447,500 original photos**. Analysis CI [#39091197295](https://github.com/zuizui0223/fcp/actions/runs/39091197295) separately recomputes frozen four-state 50-km nulls; Figure 6 reads only `results/fcp_original_447500_polymorphism_commonality_20261018.json`, not unverified photo IDs or a new image model.
+
+The figure is an **exploratory FCP commonality synthesis**. It does not replace the original prospective H2 axis confirmation in Figure 4 and does not substitute a predeclared 50-km analysis for the original post hoc scale.
+
+### Panel A — species-wide skew in photographed morph-state composition
+
+Across **3,297** taxa with >=40 classifiable images, plot number of observed coarse photo states (1/2/3/4: **268/1411/1080/538** species), annotate D median **0.172** and photographed modal-state share median **90.6%**. The quantity is not a population-wide biological morph-frequency distribution.
+
+### Panel B — local sorting across different modal hue families
+
+Plot mean global-minus-local four-state 50-km pair diversity for species with majority white (807; 0.018552), yellow/orange (521; 0.010326), red/pink (203; 0.025927), or blue/purple (230; 0.023502); each original 199-null upper p=0.005. These are four exploratory strata from the SAME photograph archive, not four independent prospective tests.
+
+### Panel C — amount of D versus spatial allocation
+
+Four D rank quartiles of the 1,761 true 50-km eligible taxa show mean effects **0.002904/0.011920/0.018917/0.036752**. Emphasize that raw depletion grows with potential amount of within-species variation; it does not demonstrate selection.
+
+### Panel D — source-conditional hue-free and technical sensitivities
+
+Compare the original four-state 0.017615 (n=1761), within-species majority-versus-other 0.016485 (n=1761), equal-genus 0.015251 (n=832 genera), different-observer 0.017070 (n=1745), cross-year 0.015845 (n=1643), and nonwhite-only 0.006595 (n=763). All corresponding pooled upper p=0.005, with an **explicit nonwhite exception**: prospective upper p=0.14 and fourth upper p=0.72. The caption must say 50 km is post hoc, the source remains iNaturalist, and neither the photo-state categories nor local neighbourhoods establish genotype/population/fitness mechanisms.
+
+Canonical output stem: `polymorphism_figure6_fcp_commonality`.
 
 ---
 

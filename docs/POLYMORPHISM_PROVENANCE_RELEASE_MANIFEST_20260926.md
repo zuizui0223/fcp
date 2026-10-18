@@ -18,6 +18,10 @@ Refreshing the package **does not recompute, alter or upgrade any frozen biologi
 
 The canonical receipt is intentionally **not embedded inside the tar.gz it identifies**. The workflow writes that receipt only after the package bytes and SHA256 are known, preventing a stale/self-referential receipt from being carried inside a newly refreshed package. The release tag is the current-snapshot asset container; the Git-tracked receipt defines the exact current bytes.
 
+## Distinct genuine five-cohort expansion released after the original prospective freeze
+
+The historical provenance snapshot below remains an **original frozen prospective H2 source archive**, not a claim that 447,500 final flower-photo measurement terminals are embedded. The true [five-cohort original-photo measured-results Release](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017) now preserves the **108,115,413-byte genuine measurement and original inference tarball** (SHA256 `99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25`). A refreshed manuscript provenance snapshot includes `docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md` and `results/fcp_original_447500_five_cohort_verified_reporting_20261018.json` to route the real five-cohort evidence, while the full source data are referenced by their separate permanent bytes and SHA. No original photograph pixels are redistributed. The original prospective H2 confirmation verdict is not modified by the later source-matched fixed-method U100 expansion.
+
 ## Self-contained inputs added at package time
 
 The release workflow recovers and checksum-verifies the large measured tables that are intentionally not carried on current main:

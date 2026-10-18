@@ -490,6 +490,8 @@ The earlier post-confirmatory prediction that warmer environments should specifi
 
 ## S5c. Verified post-freeze fourth-cohort 199,700-photo extension (17 October 2026)
 
+**Historical snapshot only:** the 447,500-photo data were unfinished at the 17 October intermediate freeze described below; the **actual completed five-cohort result is now authenticated in S5f**. Preserve the old description to document chronology, not as current status.
+
 This is a **later fixed-method replication** and must not be merged chronologically with the original 1,499-species prospective-confirmation protocol. Source authority: [real 199,700-photo original-method release](https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017), its SHA-pinned release receipt, and [the explicit final-U100/pending-status evidence ledger](FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md). The [actual wave4 ROI run #38992543115](https://github.com/zuizui0223/fcp/actions/runs/38992543115) finished **256/256 genuine image workers**. The [original-method spatial append replay #39023781282](https://github.com/zuizui0223/fcp/actions/runs/39023781282) matched the frozen original three-cohort effects.
 
 | Cohort | Measured original photographs | True 50-km eligible species | Species-equal global-minus-local pair diversity | Upper p (199 vertex nulls) |
@@ -553,6 +555,67 @@ The four species-disjoint, same-iNaturalist-source cohorts gave the following ex
 | Fourth wave (190) | 0.020 | 0.020 | 0.020 | 0.020 |
 
 **Ecological inference ceiling:** The broad rightward shift of the *species-level depletion distribution*, compared with species-conditioned permutations, is not explained exclusively by the largest observed positive effects. Yet a substantial number of species (263 of 741) had negative individual depletion, and this analysis cannot say how many species would individually pass a valid, multiplicity-corrected test. Nor can it establish wild-population morph frequencies, adaptive divergence, pollinator selection, genotype frequencies, or any evolutionary transition direction. All four distributional tests, their chosen trimming levels, and the 50-km radius are post-outcome, and Holm correction was not applied across all hypotheses ever considered in the project.
+
+## S5f. Actual final five-cohort 447,500 original photo measurements: fixed-method H1, geographic colour partitioning and W (18 October 2026)
+
+**This section supersedes only the pending-data status described in the historical 17 October snapshot in S5c; it does not overwrite any earlier frozen test result.** [Actual source-pixel original-method Release](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017); [completed genuine image ROI #38997169400](https://github.com/zuizui0223/fcp/actions/runs/38997169400); [successful unchanged original five-cohort science #39049598596](https://github.com/zuizui0223/fcp/actions/runs/39049598596); [independently audited permanent release #39050465077](https://github.com/zuizui0223/fcp/actions/runs/39050465077). Source-verified machine-readable summaries and immutable release asset SHA256 are indexed by \`results/fcp_original_447500_five_cohort_verified_reporting_20261018.json\` and \`docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md\`.
+
+The original outcome-blind U100 opportunity frame comprised 4,730 taxa. **2,481** new H9 taxa actually completed 100 authentic photo-ID source assignments each and all **256 real blind ROI-v4/EfficientSAM partitions** succeeded. Three newly sampled taxa genuinely reused historical source photo/observation IDs; following frozen conservative rules they were excluded *whole*, not patched with substitute photos. A further 252 taxa lacked 100 genuine original photos. Together with the 1,499 old discovery/validation/prospective taxa and 498 real wave4 taxa, the valid analysis therefore comprised **4,475 distinct taxa × 100 actual original photographic terminals = 447,500**. Of these, **227,107** photos were classifiable into the four fixed coarse colour states, and **220,393** were nonclassifiable. The original D classifiability gate included 3,297 species; the primary spatial 50-km null required an additional >=30 local pairs, leaving **1,761** taxa. **Do not substitute 4,475 or 3,297 for the 50-km test denominator.**
+
+| Source cohort | Genuine 100-photo taxa | Actual original photo terminals | Four-state classifiable rows | 50-km eligible taxa | Mean global-minus-local dissimilarity | Original upper p (199 permutations) |
+|---|---:|---:|---:|---:|---:|---:|
+| Discovery (old untouched) | 500 | 50,000 | 25,377 | 166 | 0.020529255 | 0.005 |
+| Validation (old untouched) | 500 | 50,000 | 24,885 | 181 | 0.018672972 | 0.005 |
+| Prospective (old untouched) | 499 | 49,900 | 25,788 | 204 | 0.014684920 | 0.005 |
+| Fourth-wave unchanged-method | 498 | 49,800 | 24,585 | 190 | 0.017293596 | 0.005 |
+| **New fifth-wave U100** | **2,478** | **247,800** | **126,472** | **1,020** | **0.017598698** | **0.005** |
+| **All five source cohorts** | **4,475** | **447,500** | **227,107** | **1,761** | **0.017614902** | **0.005** |
+
+The original 50-km global mean pairwise dissimilarity was **0.2243045205**, versus the within-50-km local mean **0.2066896183**. The frozen species-equal-weighted pooled null mean was **0.0000445943**, central 95% interval **−0.0020032432 to 0.0024735998**, and upper Monte Carlo p **0.005**. The genuine fifth-wave subset alone (n=1,020) had depletion **0.0175986977**, upper p **0.005**, close to the four-cohort pooled depletion **0.0176372079**. The new-wave 25-/100-/250-km sensitivity means were also positive with upper p=0.005 (n=710, 1,361 and 1,772, respectively). **The 50-km radius remains post hoc**, and additional radii are post hoc tests, not alternative optimized primary scales.
+
+The entire study was also replayed through the **unchanged original 200-partition observer-disjoint H1/D test**: median Spearman rho **0.8035357424** (5th–95th percentiles **0.7931469330–0.8094055921**), median paired D species **3,044**, median CCC **0.8553147636**, median Spearman–Brown **0.8910671671**. H1 describes repeatability of photograph-sample species-level D, not unbiased natural morph frequencies.
+
+The frozen **white-versus-eight-other-colour nine-component axis** and original **999 coarse-state-preserving structured null worlds** gave, for the combined actual five-cohort data:
+
+| Frozen second-mode threshold | Vector-eligible species | Observed squared W | Structured-null median | Upper p |
+|---|---:|---:|---:|---:|
+| Primary 0.10 | **1,223** | **0.5187948657** | **0.4553650050** | **0.001** |
+| Strict 0.20 | **658** | **0.5254168292** | **0.4612009436** | **0.001** |
+
+The original **499-species** third-cohort **untouched prospective confirmation** of the fixed white axis remains separate: primary n=158, W=0.5172457461 versus null median 0.4571428150, p=0.001. The later 4,475-species pooling cannot retrospectively upgrade this original confirmatory test, and squared W is **sign-invariant**: it does *not* indicate flower-colour evolutionary direction, anthocyanin reactivation or a synthesis-cost fitness trade-off.
+
+**Limits:** these are photographed, location-blind ROI outputs from the *same iNaturalist source and fixed classifier*, not independent photographic-provider evidence or genotype/population morph frequency estimates. Exactly which selection/history/plasticity/pollinator mechanisms generated local sorting remains unresolved. The original three-cohort battery included continuous nine-colour and background-specific controls that were **not** identically rerun for every new fifth-wave taxon. However, the simpler **different-observer, cross-year and nonwhite-only restrictions were explicitly extended across the completed five measured cohorts in S5g**; the nonwhite-only contrast is not supported in every separate cohort. The original-four-cohort robust-tail tests in S5d/e were not independently repeated on all 2,478 new taxa.
+
+## S5g. FCP commonality across the full five genuinely measured cohorts: morph dominance and geographic allocation (18 October 2026)
+
+This explicitly **post hoc** analysis asks about general *within-species FCP architecture* rather than global proportions of named flower hues. Authentic source is the [447,500 real original photographs](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017). Independent execution [#39091197295](https://github.com/zuizui0223/fcp/actions/runs/39091197295) reproduced the original 50-km species-equal mean/null numerically, verified original source hashes, passed regression tests, and generated the complete species-level table and source-backed commonality result (artifact \`fcp-447500-real-polymorphism-commonality-source-backed\`). Full output JSON SHA256: **\`3a51d537fd99766e64846ad318c53d3e70f1d1fe0a1222ecfcae2c6854e551e2\`**. A compact machine-readable source-identity summary is \`results/fcp_original_447500_polymorphism_commonality_20261018.json\`; the numerical/biological interpretation ledger is \`docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md\`.
+
+**Species-level composition measurement:** Among 3,297 species with >=40 four-state classifiable original photographic rows (227,107 classifiable rows out of 447,500 photo terminals), Gini–Simpson \`D=1-sum(p_k²)\` had median **0.172363** (IQR **0.063424–0.392938**). The median photographic share of the most common coarse colour state was **0.905660**, with 51.4% of species having >=90% of their classified photos in one coarse state. The counts of species with 1, 2, 3, 4 observed coarse states were **268 / 1,411 / 1,080 / 538**. This is **photograph-sampled skew**, NOT genetically validated FCP prevalence, true wild population morph frequency or evidence for pigment-cost selection.
+
+**Original geographic null and identity-free extension:** The original 1,761 taxon 50-km local-pair test reproduced pooled mean global-minus-local four-state diversity **0.017614902**, with upper p=**0.005** under the exact original **199 complete-vertex within-species label permutations**. Replacing named states *within each species* by the **most frequent photographed state versus all other states** preserved its sample composition/coordinates/null worlds and gave **0.016485145**, p=**0.005**. Genus-equal weighting of 832 inferred genera gave four-state **0.015251210** (p=0.005) and majority-versus-alternatives **0.014632192** (p=0.005). Genus equality is not a phylogenetic covariance model.
+
+| Photographically most frequent state in a species | Eligible species | Original four-state mean 50-km depletion | Upper p |
+|---|---:|---:|---:|
+| White | 807 | 0.018551954 | 0.005 |
+| Yellow/orange | 521 | 0.010326010 | 0.005 |
+| Red/pink | 203 | 0.025927013 | 0.005 |
+| Blue/purple | 230 | 0.023501657 | 0.005 |
+
+The species-global D rank quartiles (n=441/440/440/440) also showed positive mean original 50-km depletions **0.002904, 0.011920, 0.018917, 0.036752** respectively (all upper p=0.005). The much smaller effect in low-D species follows limited variation available to be segregated and does *not* identify a selective cause. All stratification choices and grouped comparisons are **post hoc**; the 50-km radius itself was originally selected after relevant outcomes. Subgroup tests from the same photographed data and colour label assignments are not independent replication or a project-wide multiplicity-corrected family.
+
+**Same-source falsifications now extended to the fifth cohort (distinct from the more extensive original three-cohort technical battery):**
+
+| Restriction | Eligible species | Species-equal mean depletion | Upper p |
+|---|---:|---:|---:|
+| Original full four-state 50-km test | 1,761 | 0.017614902 | 0.005 |
+| Exclude local pairs with the same observer | 1,745 | 0.017070095 | 0.005 |
+| Retain cross-year local photo pairs only | 1,643 | 0.015844575 | 0.005 |
+| Retain species with >=60 classifiable photos | 845 | 0.017065745 | 0.005 |
+| Remove all white photographed states; three nonwhite states only | 763 | 0.006594523 | 0.005 |
+
+**Critical nonwhite exception:** Although the *pooled* five-cohort nonwhite-only analysis is positive, the original prospective cohort (n=78) did not support that analysis (upper p=**0.14**), and the fourth-cohort n=79 result was negative (**−0.002277**, upper p=**0.72**). The other cohort estimates also vary. Thus the effect cannot honestly be described as a universal chromatic-only geographic pattern. This photo-state/observer/year filter set does not test the full flower-minus-background ROI context, local plasticity, field morph frequencies or historic gene flow. White classification still has a measured clipping/exposure association.
+
+**Conclusion and hard ceiling:** FCP is best summarized as species-conditional **(i) skewed photographed alternative-state composition** combined with **(ii) above-null average local spatial sorting, even when specific hue labels are discarded**. This is a comparative regularity in a nonrandom citizen-science photograph sample, not a known balancing-selection equilibrium, a recurrent genetic loss/re-expression process, directional anthocyanin evolution, a demonstrated pigment fitness trade-off or a population demographic mechanism. The separate originally frozen, untouched prospective H2 W confirmation and earlier climate/phylogenetic boundaries are unchanged by the new synthesis.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
@@ -654,6 +717,25 @@ Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_2
 In *S. littorea*, every positive PAL frequency exceeded the maximum positive WAL frequency. Across the 13+13 literature systems, 7/13 PAL lower bounds exceeded the 1.4% maximum quantified WAL upper bound, and every PAL upper endpoint exceeded it. These analyses are descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
 
 A direct PAL/WAL-to-FCP bridge was also audited rather than assumed. Taxonomy-aware resolution preserved the source strings while matching accepted names. The natural-frequency subset overlaps only four D-eligible reserve species: PAL *Gymnadenia rhellicani* (D = 0.6515) and *Silene gallica* (D = 0.2344), plus WAL source *Delphinium nelsonii* resolved to *D. nuttallianum* (D = 0.1659) and source *Silene dioca* resolved as an orthographic candidate to accepted *S. dioica* (D = 0.2055). Discovery overlap and prospective selected overlap are both zero. *Mimulus guttatus* resolves to *Erythranthe guttata* (D = 0) but its source frequency is greenhouse-only and is excluded from the natural-frequency bridge. With only two PAL and two natural-context WAL overlaps, all in one reserve cohort, no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable. Machine-readable receipt: `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`. Taxonomic crosswalk: `docs/POLYMORPHISM_PAL_WAL_TAXONOMIC_ALIAS_AUDIT_20260928.md`.
+
+## S8a. Linking BIO5 and flower-pigment regulatory mechanisms without upgrading causation (18 October 2026)
+
+This is a focused *evidence synthesis*, not an additional biological fit to the five original-photo cohorts. Full provenance, independent literature examples and exact inferential ceilings: `docs/FCP_BIO5_MOLECULAR_COMMONALITY_EVIDENCE_20261018.md`.
+
+**Environment side.** BIO5 is **maximum temperature of the warmest month**. The original prospectively frozen third-cohort environmental *association* passed (n=281, within-species median white-minus-nonwhite +0.0690 SD, Holm across three climate predictors p=0.0354; conditional OR=1.073, p=0.000919). Yet the observer-paired comparison was not supported (n=106; Wilcoxon p=0.485), and the signed white-BIO5 rule failed original discovery/validation joint transport. Geographic-distance-adjusted *unsigned* nine-colour BIO5 turnover was positive in the raw three-cohort analysis (mean partial rho 0.00925, 0.00826, 0.01019), but the validation flower-minus-background effect was **−0.00328** (p=0.82) and strict same-observer tests were unsupported. Thus neither a **universal temperature-white sign** nor a **flower-specific, observer-independent temperature effect** is supported.
+
+**Molecular side.** These published molecular data are from separate botanical systems, **not 4,475 genotyped FCP taxa**:
+
+| Molecular evidence | Finding | Limitation |
+|---|---|---|
+| *Silene littorea* (Casimiro-Soriguer et al. 2016) | F3h1 expression 42.2–49.0× higher in pigmented vs white buds; Myb1a regulator implicated; petal metabolites partly concordant | Single population; no causal colour-defining SNP demonstrated |
+| *Parrya nudicaulis* (Butler et al. 2014) | CHS expressed approximately 6–8× higher in purple vs white buds; some stress-associated expression also varied | Small source transcriptome; no direct selective fitness test |
+| *Ipomoea purpurea* (Sobel & Streisfeld 2013 and prior molecular studies) | Separately characterised CHS structural and IpMYB1 regulatory white alleles differ in reported natural frequencies | Distinct mutations and ecological history, not a controlled causal comparative sample |
+| Published tissue specificity (Del Valle et al. 2019) | In *S. littorea*, positive population-year PAL 15.5% median versus WAL 0.21%; literature 13 petal-loss versus 13 whole-plant-loss examples show comparable qualitative contrast | Literature-ascertained, not a population-stratified phylogenetic causal experiment |
+
+Here **PAL = petal anthocyanin loss** and **WAL = whole-plant anthocyanin loss**, not phenylalanine ammonia-lyase (the biosynthetic enzyme sometimes also abbreviated PAL). The full molecular and frequency receipts already appear in S8 and in `results/polymorphism_silene_molecular_anchor_20260928/result.json`, `results/polymorphism_silene_decoupling_persistence_20260925/result.json` and `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`. Only **two PAL and two WAL** natural-frequency taxa overlap the earlier high-depth FCP photographic sample after taxonomic synonym reconciliation; this is too little for an inferential genotype/pathway × D or 50-km photo-spatial comparison.
+
+**Falsifiable, not yet tested, common-principle interpretation.** A conserved anthocyanin pathway can be modified at *different genes and tissue-specific regulators*, potentially allowing different plant species to generate variant floral phenotypes with less disruption to extra-floral pigment functions. Local environmental sorting—including temperature—might influence the geography of available variants, but its sign and magnitude need not recur across species. **No current data establish that BIO5 selects a shared genetic colour variant, that petal specificity causally explains FCP persistence, or that these two processes interact.** White/yellow/blue photo labels alone do not identify the biochemical anthocyanin pathway, and the original prospective W remains sign-invariant photographic geometry.
 
 ## S9. Canonical main-text figures
 

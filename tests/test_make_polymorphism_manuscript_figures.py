@@ -79,6 +79,7 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
         "polymorphism_figure3_h2_target_localization",
         "polymorphism_figure4_prospective_h2",
         "polymorphism_figure5_explanatory_boundaries",
+        "polymorphism_figure6_fcp_commonality",
         "polymorphism_figureS9_secondary_mechanism_evidence",
     ]
     for stem in expected_stems:
@@ -96,6 +97,28 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert manifest["figures"]["figure4"]["strict"]["p"] == 0.001
     f5 = manifest["figures"]["figure5"]
     assert f5["distributed_polymorphism"]["primary_radius_km"] == 50
+    source_five = json.loads((ROOT / "results/fcp_original_447500_five_cohort_verified_reporting_20261018.json").read_text())
+    report = module.verify_five_cohort_original_reporting(ROOT)
+    assert report["source"]["measured_archive_sha256"] == "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25"
+    assert report["study"]["four_state_classifiable_photo_rows"] == 227107
+    assert report["study"]["min_40_classifiable_species"] == 3297
+    assert source_five["spatial"]["pooled_50km"]["n_species"] == 1761
+    five = f5["five_cohort_original_method"]
+    assert five["measured_species"] == 4475
+    assert five["measured_photo_rows"] == 447500
+    assert five["frozen_posthoc_radius_km"] == 50
+    assert five["spatial_eligible_species"] == 1761
+    assert five["pooled_mean_depletion"] == 0.017614902168541096
+    assert five["pooled_p_upper"] == 0.005
+    assert five["cohorts"]["new_U100"] == {
+        "n_species": 1020,
+        "mean_depletion": 0.017598697724511534,
+        "p_upper": 0.005,
+    }
+    assert five["pooled_not_sixth_cohort"] is True
+    assert five["falsification_only_original_three"] is True
+    assert five["ibd_ibe_only_original_three"] is True
+    assert f5["layout_contract"]["panel_A"] == "five_real_source_cohorts_plus_species_equal_pooled_50km_depletion"
     assert f5["distributed_polymorphism"]["discovery_depletion"] == 0.020529254583812922
     assert f5["distributed_polymorphism"]["validation_depletion"] == 0.018672971642749295
     assert f5["distributed_polymorphism"]["third_depletion"] == 0.01468491968437185
@@ -112,6 +135,15 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert f5["ibd_ibe"]["cohorts"]["discovery"]["IBD_like"] == 0.027604435157351816
     assert f5["ibd_ibe"]["cohorts"]["validation"]["IBE_like"] == 0.00825562350468484
     assert f5["ibd_ibe"]["cohorts"]["third"]["IBE_like"] == 0.0101876235922715
+
+    f6 = manifest["figures"]["figure6"]
+    assert f6["actual_measured_photos"] == 447500
+    assert f6["descriptively_eligible_species"] == 3297
+    assert f6["spatially_eligible_species"] == 1761
+    assert abs(f6["four_state_50km_depletion"] - 0.017614902168541096) < 1e-11
+    assert abs(f6["majority_binary_50km_depletion"] - 0.016485145475518544) < 1e-11
+    assert f6["not_true_population_morph_frequency"] is True
+    assert f6["nonwhite_support_not_all_cohorts"] is True
 
     s9 = manifest["figures"]["supplementary_figure9"]
     assert s9["bio5"]["prospective_holm_p"] == 0.03544867047368517
@@ -152,6 +184,6 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert f4_layout["same_universe_nonreplication_note"] == "caption_not_plot_field"
 
     f5_layout = manifest["figures"]["figure5"]["layout_contract"]
-    assert f5_layout["panel_A"] == "three_cohort_local_depletion"
+    assert f5_layout["panel_A"] == "five_real_source_cohorts_plus_species_equal_pooled_50km_depletion"
     assert f5_layout["panel_B"] == "three_falsification_tests_across_three_cohorts"
     assert f5_layout["panel_C"] == "paired_IBD_IBE_effects"
