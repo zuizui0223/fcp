@@ -1,0 +1,240 @@
+{
+  "schema": "fcp_fivecohort_recurrent_observational_colour_contrast_audit_receipt_v1",
+  "freeze_date_jst": "2026-10-18",
+  "original_measured_release_tag": "fcp-all4730-original-method-actual-colour-results-20261017",
+  "original_measured_CSV_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "total_genuine_original_photo_terminals": 447500,
+  "four_state_classifiable_photo_terminals": 227107,
+  "original_measured_species": 4475,
+  "exact_reproduction_gitHub_run_id": 39097882762,
+  "verified_unit_tests_passed": 5,
+  "true_source_workflow_success": true,
+  "source_run_output_JSON_sha256": "f5ac0c5e1b02bdec88275fc9eaecaef6f703610855470b46ab26f4610a273bce",
+  "source_run_anonymized_species_CSV_sha256": "2899742b2bb737d9f36dd1f7907bb0257de1ba3b722530a949ebb598d1e47fae",
+  "source_run_artifact_id": 12124867709,
+  "source_run_artifact_zip_sha256": "f8cdc18bc7df369abbbba19c145d6f8678f5066865dbf663a98953bb7d2dc9d6",
+  "no_exact_coordinates_photo_ids_observation_ids_or_observer_ids_in_source_summary": true,
+  "design": {
+    "radii_km": [
+      0.25,
+      0.5,
+      1,
+      2,
+      5
+    ],
+    "each_photo_max_position_accuracy_as_fraction_of_radius": 0.2,
+    "distinct_observation_and_photo_ids": true,
+    "distinct_observer_ids_within_photo_pair": true,
+    "full_recurrence_four_different_observers_and_observations": true,
+    "same_two_coarse_photographed_colour_categories_in_same_calendar_month_in_two_different_years": true,
+    "four_endpoints_all_pairwise_within_radius": true,
+    "photo_roi_color_component_group_fraction_is_not_morph_certainty": true,
+    "quality_thresholds_exploratory": [
+      0.5,
+      0.55,
+      0.6,
+      0.65,
+      0.7,
+      0.75
+    ]
+  },
+  "opportunity": [
+    {
+      "radius_km": 0.25,
+      "n_species_with_ge1_valid_pair": 107,
+      "n_species_with_ge1_contrasting_photo_pair": 28,
+      "n_species_with_ge5_pairs": 9,
+      "n_species_with_ge30_pairs": 0,
+      "n_individual_pair_comparisons": 264,
+      "n_contrasting_pair_comparisons": 55,
+      "n_species_with_four_observer_recurrence": 2,
+      "n_species_with_all_four_photos_primary_fraction_ge65pct": 1
+    },
+    {
+      "radius_km": 0.5,
+      "n_species_with_ge1_valid_pair": 176,
+      "n_species_with_ge1_contrasting_photo_pair": 49,
+      "n_species_with_ge5_pairs": 23,
+      "n_species_with_ge30_pairs": 1,
+      "n_individual_pair_comparisons": 498,
+      "n_contrasting_pair_comparisons": 100,
+      "n_species_with_four_observer_recurrence": 3,
+      "n_species_with_all_four_photos_primary_fraction_ge65pct": 1
+    },
+    {
+      "radius_km": 1,
+      "n_species_with_ge1_valid_pair": 287,
+      "n_species_with_ge1_contrasting_photo_pair": 91,
+      "n_species_with_ge5_pairs": 47,
+      "n_species_with_ge30_pairs": 5,
+      "n_individual_pair_comparisons": 1014,
+      "n_contrasting_pair_comparisons": 209,
+      "n_species_with_four_observer_recurrence": 8,
+      "n_species_with_all_four_photos_primary_fraction_ge65pct": 1
+    },
+    {
+      "radius_km": 2,
+      "n_species_with_ge1_valid_pair": 453,
+      "n_species_with_ge1_contrasting_photo_pair": 145,
+      "n_species_with_ge5_pairs": 82,
+      "n_species_with_ge30_pairs": 7,
+      "n_individual_pair_comparisons": 1706,
+      "n_contrasting_pair_comparisons": 352,
+      "n_species_with_four_observer_recurrence": 8,
+      "n_species_with_all_four_photos_primary_fraction_ge65pct": 1
+    },
+    {
+      "radius_km": 5,
+      "n_species_with_ge1_valid_pair": 801,
+      "n_species_with_ge1_contrasting_photo_pair": 300,
+      "n_species_with_ge5_pairs": 194,
+      "n_species_with_ge30_pairs": 14,
+      "n_individual_pair_comparisons": 3485,
+      "n_contrasting_pair_comparisons": 726,
+      "n_species_with_four_observer_recurrence": 17,
+      "n_species_with_all_four_photos_primary_fraction_ge65pct": 3
+    }
+  ],
+  "quality_purity_threshold_species_sensitivity_at_1km": {
+    "50": 7,
+    "55": 6,
+    "60": 2,
+    "65": 1,
+    "70": 1,
+    "75": 0
+  },
+  "quality_purity_threshold_species_sensitivity_at_5km": {
+    "50": 14,
+    "55": 10,
+    "60": 7,
+    "65": 3,
+    "70": 3,
+    "75": 1
+  },
+  "one_km_interannual_species": [
+    {
+      "name": "Navarretia heterodoxa",
+      "year_examples": [
+        2019,
+        2026
+      ],
+      "calendar_month": 6,
+      "photo_colour_pair": [
+        "blue_purple",
+        "white"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.731737
+    },
+    {
+      "name": "Allium cratericola",
+      "year_examples": [
+        2021,
+        2023
+      ],
+      "calendar_month": 3,
+      "photo_colour_pair": [
+        "red_pink",
+        "white"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.55333
+    },
+    {
+      "name": "Boechera breweri",
+      "year_examples": [
+        2019,
+        2024
+      ],
+      "calendar_month": 3,
+      "photo_colour_pair": [
+        "blue_purple",
+        "red_pink"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.551799
+    },
+    {
+      "name": "Byrsonima lucida",
+      "year_examples": [
+        2022,
+        2023
+      ],
+      "calendar_month": 4,
+      "photo_colour_pair": [
+        "white",
+        "yellow_orange"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.304735
+    },
+    {
+      "name": "Castilleja densiflora",
+      "year_examples": [
+        2023,
+        2026
+      ],
+      "calendar_month": 4,
+      "photo_colour_pair": [
+        "red_pink",
+        "white"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.539657
+    },
+    {
+      "name": "Castilleja rubicundula",
+      "year_examples": [
+        2024,
+        2025
+      ],
+      "calendar_month": 5,
+      "photo_colour_pair": [
+        "white",
+        "yellow_orange"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.607502
+    },
+    {
+      "name": "Collinsia multicolor",
+      "year_examples": [
+        2022,
+        2023
+      ],
+      "calendar_month": 4,
+      "photo_colour_pair": [
+        "blue_purple",
+        "white"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.598414
+    },
+    {
+      "name": "Lomatium dasycarpum",
+      "year_examples": [
+        2019,
+        2025
+      ],
+      "calendar_month": 3,
+      "photo_colour_pair": [
+        "white",
+        "yellow_orange"
+      ],
+      "best_4_photo_primary_colour_fraction_min": 0.588337
+    }
+  ],
+  "five_km_additional_species": [
+    "Aciphylla glacialis",
+    "Enkianthus quinqueflorus",
+    "Gilia stellata",
+    "Lomatium columbianum",
+    "Lupinus chamissonis",
+    "Oxalis dentata",
+    "Persicaria filiformis",
+    "Pseudotrillium rivale",
+    "Spiranthes sinensis"
+  ],
+  "warnings": [
+    "A single corolla can itself contain white and purple tissue, as in Collinsia multicolor; photo-class switches need not be morphs",
+    "Flower age can cause changing chromatic appearance, including reports for Castilleja rubicundula",
+    "Time-repeated local photo contrasts can be repeated photos of one individual and cannot establish inherited morphs",
+    "Individual documented photo class may include green or ambient background, technical segmentation noise, or bud colour",
+    "All 8/17 species are exploratory photo-audit candidates, not confirmed local FCP species",
+    "Source photo opportunities are strongly sparse under independent observer/site/month/year control; absence cannot be interpreted as biological monomorphism",
+    "True maintenance needs marked plants, phenology, genetic/pedigree data and genotype-specific fitness; speciation requires reproductive-isolation evidence"
+  ]
+}
