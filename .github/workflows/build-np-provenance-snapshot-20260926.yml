@@ -159,6 +159,10 @@ jobs:
             copy_path "$p"
           done
 
+          copy_path docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md
+          copy_path results/fcp_original_447500_polymorphism_commonality_20261018.json
+          copy_path tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py
+
           # The receipt is generated only after the package is uploaded.
           # Excluding the previous receipt avoids a stale self-reference inside
           # the package that the new receipt is meant to identify.
@@ -674,6 +678,9 @@ jobs:
           grep -Fxq './repository/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md' "$out/package_contents.txt"
           grep -Fxq './repository/docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md' "$out/package_contents.txt"
           grep -Fxq './repository/results/fcp_original_447500_five_cohort_verified_reporting_20261018.json' "$out/package_contents.txt"
+          grep -Fxq './repository/docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md' "$out/package_contents.txt"
+          grep -Fxq './repository/results/fcp_original_447500_polymorphism_commonality_20261018.json' "$out/package_contents.txt"
+          grep -Fxq './repository/tests/test_fcp_five_cohort_polymorphism_commonality_20261018.py' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv' "$out/package_contents.txt"
