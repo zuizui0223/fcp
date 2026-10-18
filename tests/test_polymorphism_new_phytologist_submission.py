@@ -521,9 +521,9 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
         assert token in supporting
 
     for token in (
-        "We additionally reanalysed published PAL/WAL frequency tables from Del Valle et al. (2019)",
-        "full methods, numerical results and ascertainment limits are reported in Supporting Information (Section S8)",
-        "not a direct molecular bridge to the present H2 geometry",
+        "separate reanalysis of published *S. littorea* population records",
+        "The source literature's PAL/WAL comparison is nonrandom",
+        "no genetic association can be estimated for our 4,475 photo-classified species",
     ):
         assert token in text
 
@@ -567,7 +567,7 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
     ):
         assert token in supporting
 
-    assert "not a direct molecular bridge to the present H2 geometry" in manuscript
+    assert "no genetic association can be estimated for our 4,475 photo-classified species" in manuscript
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
@@ -619,7 +619,7 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "The BIO5 component is technically bounded",
         "not evidence of local adaptation",
         "Possible developmental accessibility of the achromatic–chromatic axis",
-        "Supporting Information (Section S8)",
+        "Full evidence and failed controls",
     ):
         assert token in text
 
