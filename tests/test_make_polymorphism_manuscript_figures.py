@@ -174,6 +174,6 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert f4_layout["same_universe_nonreplication_note"] == "caption_not_plot_field"
 
     f5_layout = manifest["figures"]["figure5"]["layout_contract"]
-    assert f5_layout["panel_A"] == "three_cohort_local_depletion"
+    assert f5_layout["panel_A"] == "five_real_source_cohorts_plus_species_equal_pooled_50km_depletion"
     assert f5_layout["panel_B"] == "three_falsification_tests_across_three_cohorts"
     assert f5_layout["panel_C"] == "paired_IBD_IBE_effects"
