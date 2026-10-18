@@ -114,15 +114,17 @@ def make_registry(photo):
     cv=photo.loc[photo.global_classifiable.fillna(False).astype(str).str.lower().isin(
         ("true","yes","1"))&photo.morph.isin(COLOURS)]
     verify(len(cv)==227107,"original coarse-colour classifier denominator drift")
+    counts=cv.groupby(["species","morph"],sort=False).size().unstack(fill_value=0)
     species_summary={}
     for name,g in photo.groupby("species",sort=False):
-        q=cv.loc[cv.species==name]
+        current=counts.loc[name] if name in counts.index else pd.Series(dtype=int)
+        nclass=int(current.sum())
         species_summary[name]={
             "n_real_original_photos":len(g),
-            "n_fourstate_classified":len(q),
+            "n_fourstate_classified":nclass,
             "source_cohort":str(g.fcp_source_cohort.iloc[0]),
             "photographed_coarse_state_counts":{
-                morph:int((q.morph==morph).sum()) for morph in COLOURS
+                morph:int(current.get(morph,0)) for morph in COLOURS
             },
         }
     rows=[]
