@@ -109,7 +109,6 @@ def fixed_label_perm(g, cohort):
     # The old code sorts within species on photo ID before RNG permutation.
     g = g.sort_values("photo_id", kind="stable").reset_index(drop=True)
     labels = np.array([MORPH_CODE[str(x)] for x in g.morph], dtype=np.int8)
-    null = np.stack([np.random.default_rng(stable_seed(cohort, int(g.inat_taxon_id.iloc[0]))).permutation(labels)])
     # Only advance ONE frozen RNG stream, identical to analyse_species().
     rng = np.random.default_rng(stable_seed(cohort, int(g.inat_taxon_id.iloc[0])))
     null = np.stack([rng.permutation(labels) for _ in range(PERMUTATIONS)])
