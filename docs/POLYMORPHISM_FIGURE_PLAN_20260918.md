@@ -185,25 +185,24 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ## Figure 5 — Species-wide flower-colour variation is geographically partitioned
 
-This is now the main ecological figure.
+This remains the main ecological figure. **Panel A now displays all five truly measured original-photo cohorts and their pooled mean**, while Panels B–C explicitly retain the original three-cohort technical/environmental comparison (no inferred falsification for the new U100 photos). Chronology is checked against the genuine completed five-cohort original [Release](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017) and Git-tracked source receipt `results/fcp_original_447500_five_cohort_verified_reporting_20261018.json`.
 
-### Panel A — local diversity is depleted relative to species-wide composition
+### Panel A — five independent taxon-disjoint photo cohorts and pooled local depletion
 
-Show the equal-species mean four-state pairwise diversity at the 50-km primary scale as species-wide versus local, or equivalently show local-depletion effect sizes with matched-null intervals.
+Show six horizontal rows: five *actual cohorts* and a visually distinct species-equal **pooled mean** row, explicitly labelled not a sixth independent cohort. Display the original 50-km global-minus-local mean mismatch effect, true >=30 local-pair eligible taxon count and 199-original-vertex-permutation upper p:
 
-Primary results:
+- discovery: n=**166**, depletion **0.0205293**, p=**0.005**;
+- validation: n=**181**, **0.0186730**, p=**0.005**;
+- prospective third cohort: n=**204**, **0.0146849**, p=**0.005**;
+- post-freeze wave4: n=**190**, **0.0172936**, p=**0.005**;
+- newly measured fifth U100: n=**1,020**, **0.0175987**, p=**0.005**;
+- **pooled five-cohort**: n=**1,761**, depletion **0.0176149**, p=**0.005**; **not a sixth cohort**.
 
-- discovery: n = **166**, mean depletion = **0.02053**, p = **0.005**;
-- validation: n = **181**, mean depletion = **0.01867**, p = **0.005**;
-- third cohort: n = **204**, mean depletion = **0.01468**, p = **0.005**.
-
-A small inset or annotation may state that the same direction is supported at 25, 100 and 250 km in all three cohorts.
-
-The null preserves each species' coordinates and exact colour-state composition, so the panel directly asks whether species-wide variation is geographically allocated rather than locally mixed at random.
+The pooled line represents the same original fixed 50-km test, selected *post hoc*, applied to 447,500 actual original-photo terminals from 4,475 taxon identities (with 3,297 >=40 classifiable but only 1,761 having enough 50-km pairs). The null fixes every species' original colour-state composition and coordinates. The 25-, 100- and 250-km comparisons are post hoc sensitivities, not replacements for the unchanged fixed 50-km primary comparison.
 
 ### Panel B — falsification tests preserve distributed polymorphism
 
-At 50 km plot mean local-depletion effects for three representations/controls in each cohort:
+At 50 km plot mean local-depletion effects for three representations/controls **in the three original study cohorts only (discovery, validation, prospective)**. These tests were not transported to all newly measured U100 taxa:
 
 1. **different-observer pairs only**
    - discovery 0.01998, p = 0.005;
