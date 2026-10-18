@@ -241,6 +241,32 @@ H3 phylogenetic and sampled-span panels move to Supporting Information.
 
 ---
 
+## Figure 6 — Shared features of photographed FCP across species (new five-cohort synthesis)
+
+**Reporting-only from genuinely measured, SHA256-pinned 447,500 original photos**. Analysis CI [#39091197295](https://github.com/zuizui0223/fcp/actions/runs/39091197295) separately recomputes frozen four-state 50-km nulls; Figure 6 reads only `results/fcp_original_447500_polymorphism_commonality_20261018.json`, not unverified photo IDs or a new image model.
+
+The figure is an **exploratory FCP commonality synthesis**. It does not replace the original prospective H2 axis confirmation in Figure 4 and does not substitute a predeclared 50-km analysis for the original post hoc scale.
+
+### Panel A — species-wide skew in photographed morph-state composition
+
+Across **3,297** taxa with >=40 classifiable images, plot number of observed coarse photo states (1/2/3/4: **268/1411/1080/538** species), annotate D median **0.172** and photographed modal-state share median **90.6%**. The quantity is not a population-wide biological morph-frequency distribution.
+
+### Panel B — local sorting across different modal hue families
+
+Plot mean global-minus-local four-state 50-km pair diversity for species with majority white (807; 0.018552), yellow/orange (521; 0.010326), red/pink (203; 0.025927), or blue/purple (230; 0.023502); each original 199-null upper p=0.005. These are four exploratory strata from the SAME photograph archive, not four independent prospective tests.
+
+### Panel C — amount of D versus spatial allocation
+
+Four D rank quartiles of the 1,761 true 50-km eligible taxa show mean effects **0.002904/0.011920/0.018917/0.036752**. Emphasize that raw depletion grows with potential amount of within-species variation; it does not demonstrate selection.
+
+### Panel D — source-conditional hue-free and technical sensitivities
+
+Compare the original four-state 0.017615 (n=1761), within-species majority-versus-other 0.016485 (n=1761), equal-genus 0.015251 (n=832 genera), different-observer 0.017070 (n=1745), cross-year 0.015845 (n=1643), and nonwhite-only 0.006595 (n=763). All corresponding pooled upper p=0.005, with an **explicit nonwhite exception**: prospective upper p=0.14 and fourth upper p=0.72. The caption must say 50 km is post hoc, the source remains iNaturalist, and neither the photo-state categories nor local neighbourhoods establish genotype/population/fitness mechanisms.
+
+Canonical output stem: `polymorphism_figure6_fcp_commonality`.
+
+---
+
 ## Supporting figures
 
 ### Fig. S1
