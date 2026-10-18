@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 178 words
-- Introduction: 878 words
+- Summary: 191 words
+- Introduction: 888 words
 - Materials and Methods: 3,115 words
 - Results: 3,865 words
-- Discussion: 3,056 words
-- Main text (Introduction through Discussion): 10,914 words
+- Discussion: 3,181 words
+- Main text (Introduction through Discussion): 11,049 words
 - Figures: 6
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -26,7 +26,7 @@
 - Species-wide flower-colour variation can reflect locally coexisting phenotypes or geographically segregated forms. We ask whether within-species flower-colour polymorphism (FCP) has recurrent features of morph composition and geographic allocation across plants.
 - From 4,730 photo-eligible taxa, we obtained 447,500 genuine measured photographs for 4,475 species (3,297 with at least 40 classifiable images). Median species-wide Gini–Simpson diversity was 0.172, and the most frequent photographed colour state contributed a median 90.6% of classified photographs per species.
 - At the post hoc 50-km scale, 1,761 species had positive mean local-diversity depletion relative to their species-wide colour composition (0.0176; 199-permutation p = 0.005). Geographic sorting persisted after species-specific colour classes were reduced to majority versus alternatives (0.0165; p = 0.005), genus balancing and observer/year controls; the nonwhite-only result was not supported in every cohort.
-- A separately frozen white–chromatic displacement axis exceeded its structured null (pooled W = 0.519 versus 0.455, p = 0.001; earlier untouched prospective confirmation retained). These photographic patterns do not establish population morph frequencies, evolutionary transitions or adaptive mechanisms.
+- A frozen white–chromatic axis exceeded its structured null (pooled W = 0.519 vs 0.455; p = 0.001). BIO5 predicted white states in one prospective cohort (Holm p = 0.035), but failed observer/other-cohort checks. Published anthocyanin studies suggest petal-specific regulation could limit morph costs; our images do not test that mechanism.
 
 ---
 
@@ -44,7 +44,7 @@ Scaling these questions first requires a measurement problem to be solved. Commu
 
 The study is deliberately sequential. An outcome-blind global opportunity frame first defines which species could enter before colour is measured. A 1,000-species high-depth resource is divided into 500 discovery and 500 species-disjoint validation species. After a recurrent white-versus-nonwhite displacement axis is localized in those data, the axis and its inferential machinery are frozen and tested in 499 newly sampled species. The spatial analyses then ask, explicitly as post-outcome ecological tests, whether range-wide colour diversity is locally depleted relative to each species' own composition and whether continuous colour turnover contains IBD-like and environment-associated components. Our central ecological hypothesis is that **species-wide flower-colour ITV is often distributed among geographic localities rather than expressed as unrestricted local coexistence**. We then ask whether this distributed variation is consistent with distance alone, whether environmental differences add explanatory structure, and how these spatial results relate to the prospectively confirmed recurrent phenotype-space direction.
 
-We also ask a second, explicitly post-outcome comparative question: does FCP have a recurring *composition and spatial-allocation grammar* across taxa, rather than merely particular named flower colours? Using all genuinely measured later cohorts, we distinguish the balance of photographed states within a species, the modal state's share, and how that species' observed alternatives are geographically partitioned. This extension does not redefine the chronologically earlier prospective white-axis test or make the 50-km scale prespecified.
+We also ask a second, explicitly post-outcome comparative question: does FCP have a recurring *composition and spatial-allocation pattern* across taxa rather than a universal named hue? Across all genuinely measured cohorts, we describe the balance of photographed states within species and the allocation of alternatives among localities. Existing BIO5 analyses and published anthocyanin genetics are used to **evaluate candidate ecological and pigment-regulatory constraints**, not to fit a joint mechanistic model or revise the previously frozen H2 axis test and post hoc 50-km radius.
 
 ---
 
@@ -428,7 +428,7 @@ The IBD/IBE-like decomposition narrows that explanation without closing it. Geog
 
 The latter pattern should not be upgraded to local adaptation. In landscape genetics, IBE concerns genetic divergence associated with environmental differences independent of geographic distance (Wang & Bradburd 2014; Sexton et al. 2014). Here the response is phenotype, not genotype, and the BIO5 component fails stronger flower-minus-background and same-observer sensitivities. It could reflect real temperature-associated sorting, correlated environmental variables, plasticity or residual observation context. A useful benchmark is *Linanthus parryae*, where a flower-colour cline became convincing evidence for local adaptation only because neutral markers did not share the cline and reciprocal transplants showed resident-morph fitness advantage (Schemske & Bierzychudek 2007). FCP currently supplies the comparative spatial pattern, not that fitness test.
 
-This distinction also explains why the earlier signed BIO5 result should remain secondary. A universal rule such as warmer environments favouring white flowers did not transport across cohorts, whereas unsigned BIO5-associated **turnover** is more reproducible in the raw continuous colour data. If biological, this would imply that temperature can be associated with where flower colour changes without forcing every species to change in the same phenotypic direction. Current technical sensitivities, however, keep that idea at hypothesis level.
+This distinction also clarifies the strength of the **genuinely supported within-third-cohort signed BIO5 association** (Holm p = 0.0354; conditional OR 1.073 per within-species SD). Its observer-paired comparison was not supported (p = 0.485) and the frozen discovery/validation transport gate failed, so no universal warm-to-white rule follows. An unsigned BIO5-associated colour-turnover component recurred in the three original raw continuous-colour cohorts after conditioning on geographic distance, but matched-background and strict same-observer checks were also unsupported. Consequently, **environment-related spatial sorting is a candidate contextual process**, not demonstrated temperature-driven selection or a five-cohort mechanistic inference.
 
 ### A complementary cross-species regularity in phenotype space
 
@@ -450,7 +450,7 @@ The present spatial analyses do not identify a universal ecological driver of th
 
 A separate question is why many different perturbations might repeatedly project flower-colour variation onto an achromatic–chromatic direction. Published work provides one mechanistic example rather than a result of the present molecular study. In *Silene littorea*, Casimiro-Soriguer et al. (2016) reported >42-fold lower F3h1 expression in white than pigmented buds, differences involving Myb1a, and petal HPLC patterns consistent with altered anthocyanin-pathway regulation, without identifying a simple causal coding mutation. More generally, anthocyanin pigmentation can be altered through multiple structural and regulatory routes, with pleiotropic costs constraining which routes persist (Wessinger & Rausher 2012; Larter et al. 2018).
 
-We additionally reanalysed published PAL/WAL frequency tables from Del Valle et al. (2019); the full methods, numerical results and ascertainment limits are reported in Supporting Information (Section S8). That descriptive reanalysis is consistent with flower-restricted pigment loss reaching higher reported natural frequencies than whole-plant anthocyanin loss, but it is not a direct molecular bridge to the present H2 geometry. The bounded hypothesis is therefore developmental rather than adaptive: shared pigment-network architecture may make some directions of flower-colour change repeatedly accessible even when the ecological or demographic processes producing spatial differentiation differ among species.
+Independent molecular cases suggest **pathway-level recurrence without one universal causal gene**. *Silene littorea* had 42–49-fold higher F3h1 expression in pigmented versus white petal buds and implicated Myb1a regulation (Casimiro-Soriguer et al. 2016); *Parrya nudicaulis* showed approximately 6–8-fold higher CHS expression in purple buds (Butler et al. 2014), and *Ipomoea purpurea* white variants can involve either CHS structural disruption or an IpMYB1 regulatory change (Sobel & Streisfeld 2013). The separate reanalysis of published *S. littorea* population records found petal anthocyanin-loss (PAL) morphs at median 15.5% in positive population-years, versus 0.21% for whole-plant anthocyanin-loss (WAL) variants (Del Valle et al. 2019). This is consistent with, but does **not establish**, lower pleiotropic costs of petal-restricted downregulation. The source literature's PAL/WAL comparison is nonrandom, while just two PAL and two WAL natural-frequency taxa matched the original FCP photo cohorts; no genetic association can be estimated for our 4,475 photo-classified species. PAL means **petal anthocyanin loss**, not the enzyme phenylalanine ammonia-lyase. The bounded synthesis is a possible common **pigment-network constraint on phenotype availability**, coupled with potentially species-specific ecological contexts of spatial variation—not an identified shared cause of FCP persistence. Full evidence and failed controls: `docs/FCP_BIO5_MOLECULAR_COMMONALITY_EVIDENCE_20261018.md`.
 
 ### Phenotype-space generality without a universal geographic map
 
@@ -519,6 +519,10 @@ Albert, C. H., Thuiller, W., Yoccoz, N. G., Soudant, A., Boucher, F., Saccone, P
 Carlson, J. E., & Holsinger, K. E. (2015). Extrapolating from local ecological processes to genus-wide patterns in colour polymorphism in South African *Protea*. *Proceedings of the Royal Society B: Biological Sciences*, 282, 20150583. https://doi.org/10.1098/rspb.2015.0583
 
 Carmona, C. P., de Bello, F., Mason, N. W. H., & Lepš, J. (2019). Trait probability density (TPD): measuring functional diversity across scales based on TPD with R. *Ecology*, 100(12), e02876. https://doi.org/10.1002/ecy.2876
+
+Butler, T., Dick, C., Carlson, M. L., & Whittall, J. B. (2014). Transcriptome analysis of a petal anthocyanin polymorphism in the arctic mustard, *Parrya nudicaulis*. *PLOS ONE*, 9(7), e101338. https://doi.org/10.1371/journal.pone.0101338
+
+Sobel, J. M., & Streisfeld, M. A. (2013). Flower color as a model system for studies of plant evo-devo. *Frontiers in Plant Science*, 4, 321. https://doi.org/10.3389/fpls.2013.00321
 
 Casimiro-Soriguer, I., Narbona, E., Buide, M. L., del Valle, J. C., & Whittall, J. B. (2016). Transcriptome and biochemical analysis of a flower color polymorphism in *Silene littorea* (Caryophyllaceae). *Frontiers in Plant Science*, 7, 204. https://doi.org/10.3389/fpls.2016.00204
 
