@@ -9,7 +9,7 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 191 words
+- Summary: 194 words
 - Introduction: 888 words
 - Materials and Methods: 3,115 words
 - Results: 3,865 words
@@ -26,7 +26,7 @@
 - Species-wide flower-colour variation can reflect locally coexisting phenotypes or geographically segregated forms. We ask whether within-species flower-colour polymorphism (FCP) has recurrent features of morph composition and geographic allocation across plants.
 - From 4,730 photo-eligible taxa, we obtained 447,500 genuine measured photographs for 4,475 species (3,297 with at least 40 classifiable images). Median species-wide Gini–Simpson diversity was 0.172, and the most frequent photographed colour state contributed a median 90.6% of classified photographs per species.
 - At the post hoc 50-km scale, 1,761 species had positive mean local-diversity depletion relative to their species-wide colour composition (0.0176; 199-permutation p = 0.005). Geographic sorting persisted after species-specific colour classes were reduced to majority versus alternatives (0.0165; p = 0.005), genus balancing and observer/year controls; the nonwhite-only result was not supported in every cohort.
-- A frozen white–chromatic axis exceeded its structured null (pooled W = 0.519 vs 0.455; p = 0.001). BIO5 predicted white states in one prospective cohort (Holm p = 0.035), but failed observer/other-cohort checks. Published anthocyanin studies suggest petal-specific regulation could limit morph costs; our images do not test that mechanism.
+- A frozen white–chromatic axis exceeded its structured null (pooled W = 0.519 vs 0.455; p = 0.001). BIO5 was associated with photographed white states in one prospective cohort (Holm p = 0.035), but failed observer/other-cohort checks. Published anthocyanin studies suggest petal-specific regulation could limit morph costs; our images do not test that mechanism.
 
 ---
 
