@@ -584,7 +584,38 @@ The frozen **white-versus-eight-other-colour nine-component axis** and original 
 
 The original **499-species** third-cohort **untouched prospective confirmation** of the fixed white axis remains separate: primary n=158, W=0.5172457461 versus null median 0.4571428150, p=0.001. The later 4,475-species pooling cannot retrospectively upgrade this original confirmatory test, and squared W is **sign-invariant**: it does *not* indicate flower-colour evolutionary direction, anthocyanin reactivation or a synthesis-cost fitness trade-off.
 
-**Limits:** these are photographed, location-blind ROI outputs from the *same iNaturalist source and fixed classifier*, not independent photographic-provider evidence or genotype/population morph frequency estimates. Exactly which selection/history/plasticity/pollinator mechanisms generated local sorting remains unresolved. The nonwhite-only, observer/time/background falsification batteries on the original three cohorts and the descriptive/robust-tail tests on the original four (S5d/e) were *not* run identically for the entire fifth-wave 2,478 new taxa, and should not be presented as though they were.
+**Limits:** these are photographed, location-blind ROI outputs from the *same iNaturalist source and fixed classifier*, not independent photographic-provider evidence or genotype/population morph frequency estimates. Exactly which selection/history/plasticity/pollinator mechanisms generated local sorting remains unresolved. The original three-cohort battery included continuous nine-colour and background-specific controls that were **not** identically rerun for every new fifth-wave taxon. However, the simpler **different-observer, cross-year and nonwhite-only restrictions were explicitly extended across the completed five measured cohorts in S5g**; the nonwhite-only contrast is not supported in every separate cohort. The original-four-cohort robust-tail tests in S5d/e were not independently repeated on all 2,478 new taxa.
+
+## S5g. FCP commonality across the full five genuinely measured cohorts: morph dominance and geographic allocation (18 October 2026)
+
+This explicitly **post hoc** analysis asks about general *within-species FCP architecture* rather than global proportions of named flower hues. Authentic source is the [447,500 real original photographs](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017). Independent execution [#39091197295](https://github.com/zuizui0223/fcp/actions/runs/39091197295) reproduced the original 50-km species-equal mean/null numerically, verified original source hashes, passed regression tests, and generated the complete species-level table and source-backed commonality result (artifact \`fcp-447500-real-polymorphism-commonality-source-backed\`). Full output JSON SHA256: **\`3a51d537fd99766e64846ad318c53d3e70f1d1fe0a1222ecfcae2c6854e551e2\`**. A compact machine-readable source-identity summary is \`results/fcp_original_447500_polymorphism_commonality_20261018.json\`; the numerical/biological interpretation ledger is \`docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md\`.
+
+**Species-level composition measurement:** Among 3,297 species with >=40 four-state classifiable original photographic rows (227,107 classifiable rows out of 447,500 photo terminals), Gini–Simpson \`D=1-sum(p_k²)\` had median **0.172363** (IQR **0.063424–0.392938**). The median photographic share of the most common coarse colour state was **0.905660**, with 51.4% of species having >=90% of their classified photos in one coarse state. The counts of species with 1, 2, 3, 4 observed coarse states were **268 / 1,411 / 1,080 / 538**. This is **photograph-sampled skew**, NOT genetically validated FCP prevalence, true wild population morph frequency or evidence for pigment-cost selection.
+
+**Original geographic null and identity-free extension:** The original 1,761 taxon 50-km local-pair test reproduced pooled mean global-minus-local four-state diversity **0.017614902**, with upper p=**0.005** under the exact original **199 complete-vertex within-species label permutations**. Replacing named states *within each species* by the **most frequent photographed state versus all other states** preserved its sample composition/coordinates/null worlds and gave **0.016485145**, p=**0.005**. Genus-equal weighting of 832 inferred genera gave four-state **0.015251210** (p=0.005) and majority-versus-alternatives **0.014632192** (p=0.005). Genus equality is not a phylogenetic covariance model.
+
+| Photographically most frequent state in a species | Eligible species | Original four-state mean 50-km depletion | Upper p |
+|---|---:|---:|---:|
+| White | 807 | 0.018551954 | 0.005 |
+| Yellow/orange | 521 | 0.010326010 | 0.005 |
+| Red/pink | 203 | 0.025927013 | 0.005 |
+| Blue/purple | 230 | 0.023501657 | 0.005 |
+
+The species-global D rank quartiles (n=441/440/440/440) also showed positive mean original 50-km depletions **0.002904, 0.011920, 0.018917, 0.036752** respectively (all upper p=0.005). The much smaller effect in low-D species follows limited variation available to be segregated and does *not* identify a selective cause. All stratification choices and grouped comparisons are **post hoc**; the 50-km radius itself was originally selected after relevant outcomes. Subgroup tests from the same photographed data and colour label assignments are not independent replication or a project-wide multiplicity-corrected family.
+
+**Same-source falsifications now extended to the fifth cohort (distinct from the more extensive original three-cohort technical battery):**
+
+| Restriction | Eligible species | Species-equal mean depletion | Upper p |
+|---|---:|---:|---:|
+| Original full four-state 50-km test | 1,761 | 0.017614902 | 0.005 |
+| Exclude local pairs with the same observer | 1,745 | 0.017070095 | 0.005 |
+| Retain cross-year local photo pairs only | 1,643 | 0.015844575 | 0.005 |
+| Retain species with >=60 classifiable photos | 845 | 0.017065745 | 0.005 |
+| Remove all white photographed states; three nonwhite states only | 763 | 0.006594523 | 0.005 |
+
+**Critical nonwhite exception:** Although the *pooled* five-cohort nonwhite-only analysis is positive, the original prospective cohort (n=78) did not support that analysis (upper p=**0.14**), and the fourth-cohort n=79 result was negative (**−0.002277**, upper p=**0.72**). The other cohort estimates also vary. Thus the effect cannot honestly be described as a universal chromatic-only geographic pattern. This photo-state/observer/year filter set does not test the full flower-minus-background ROI context, local plasticity, field morph frequencies or historic gene flow. White classification still has a measured clipping/exposure association.
+
+**Conclusion and hard ceiling:** FCP is best summarized as species-conditional **(i) skewed photographed alternative-state composition** combined with **(ii) above-null average local spatial sorting, even when specific hue labels are discarded**. This is a comparative regularity in a nonrandom citizen-science photograph sample, not a known balancing-selection equilibrium, a recurrent genetic loss/re-expression process, directional anthocyanin evolution, a demonstrated pigment fitness trade-off or a population demographic mechanism. The separate originally frozen, untouched prospective H2 W confirmation and earlier climate/phylogenetic boundaries are unchanged by the new synthesis.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
