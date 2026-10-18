@@ -184,7 +184,7 @@ def test_new_phytologist_required_sections_and_display_items() -> None:
     ):
         assert heading in text
 
-    assert "- Figures: 5" in text
+    assert "- Figures: 6" in text
     assert "- Tables: 1" in text
 
 
@@ -668,7 +668,7 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
     text = COVER.read_text(encoding="utf-8")
     for token in (
         "New Phytologist",
-        "Species-wide flower-colour variation is geographically partitioned across plant species",
+        "Flower-colour polymorphism is skewed and geographically structured across plant species",
         "49,900",
         "377",
         "158",
@@ -708,7 +708,7 @@ def test_cover_letter_answers_three_editor_questions_within_50_words() -> None:
 
 def test_new_phytologist_figure_and_supporting_legends_are_present() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
-    for idx in range(1, 6):
+    for idx in range(1, 7):
         assert f"**Figure {idx}." in text
     for idx in range(1, 9):
         assert f"**Fig. S{idx}." in text
@@ -1020,7 +1020,7 @@ def test_completed_real_five_cohort_paper_claims_are_source_locked() -> None:
         "447,500", "4,475", "227,107", "1,761", "1,020",
         "0.017614902", "0.017598698", "0.5187948657",
         "0.4553650050", "0.8035357424",
-        "*not* run identically for the entire fifth-wave",
+        "background-specific controls",
     ):
         assert claim in si, claim
     cover = COVER.read_text(encoding="utf-8")
@@ -1028,3 +1028,48 @@ def test_completed_real_five_cohort_paper_claims_are_source_locked() -> None:
     assert "1,761" in cover
     assert "0.01761" in cover
     assert "not an independent-source replication" in cover
+
+
+def test_original_447500_commonality_centers_within_species_polymorphism_and_preserves_limits() -> None:
+    import json
+    import pytest
+
+    d=json.loads((ROOT/"results"/"fcp_original_447500_polymorphism_commonality_20261018.json").read_text())
+    assert d["schema"]=="fcp_verified_original_447500_intraspecific_polymorphism_commonality_summary_v1"
+    assert d["source"]["commonality_actual_ci_run_id"] == 39091197295
+    assert d["source"]["full_commonality_output_sha256"] == (
+        "3a51d537fd99766e64846ad318c53d3e70f1d1fe0a1222ecfcae2c6854e551e2"
+    )
+    assert d["sampling"]["opportunity_taxa"] == 4730
+    assert d["sampling"]["genuinely_measured_taxa"] == 4475
+    assert d["sampling"]["species_with_ge40_photographs"] == 3297
+    assert d["sampling"]["actual_50km_eligible_species"] == 1761
+    assert d["composition"]["median_Gini_Simpson_D"] == pytest.approx(.17236328125)
+    assert d["composition"]["median_majority_photo_state_fraction"] == pytest.approx(.9056603773584906)
+    assert d["composition"]["observed_coarse_state_counts"] == {
+        "1":268,"2":1411,"3":1080,"4":538
+    }
+    assert d["space"]["original_four_state"]["effect"] == pytest.approx(.017614902168541096)
+    assert d["space"]["species_majority_versus_other"]["effect"] == pytest.approx(.016485145475518544)
+    assert d["space"]["genus_balanced_four_state"]["n_genera"]==832
+    assert all(x["p_upper"] == .005 for x in d["space"]["dominant_state_categories"])
+    assert d["falsification"]["different_observer"]["n"]==1745
+    assert d["falsification"]["different_year"]["n"]==1643
+    assert d["falsification"]["nonwhite_only_pooled"]["n"]==763
+    assert d["falsification"]["nonwhite_original_prospective"]["p_upper"]==.14
+    assert d["falsification"]["nonwhite_wave4"]["p_upper"]==.72
+
+    for path in (MANUSCRIPT,CANONICAL):
+        main=path.read_text(encoding="utf-8")
+        for token in (
+            "90.6%", "0.17236", "0.016485", "0.015251",
+            "832", "763", "0.14", "0.72", "Figure 6.",
+            "photo", "prospective", "same", "post hoc",
+        ):
+            assert token in main, (path,token)
+        assert "negative frequency-dependent selection has been demonstrated" not in main
+    si=SUPPORTING.read_text(encoding="utf-8")
+    assert "## S5g. FCP commonality across the full five genuinely measured cohorts" in si
+    assert "nonwhite-only" in si and "p=**0.14**" in si
+    assert (ROOT/"docs"/"FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md").exists()
+    assert (ROOT/"scripts"/"analysis"/"fcp_five_cohort_polymorphism_commonality_20261018.py").exists()
