@@ -490,6 +490,8 @@ The earlier post-confirmatory prediction that warmer environments should specifi
 
 ## S5c. Verified post-freeze fourth-cohort 199,700-photo extension (17 October 2026)
 
+**Historical snapshot only:** the 447,500-photo data were unfinished at the 17 October intermediate freeze described below; the **actual completed five-cohort result is now authenticated in S5f**. Preserve the old description to document chronology, not as current status.
+
 This is a **later fixed-method replication** and must not be merged chronologically with the original 1,499-species prospective-confirmation protocol. Source authority: [real 199,700-photo original-method release](https://github.com/zuizui0223/fcp/releases/tag/fcp-real-original-199700-wave4-50km-H1-W-20261017), its SHA-pinned release receipt, and [the explicit final-U100/pending-status evidence ledger](FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDING_20261017.md). The [actual wave4 ROI run #38992543115](https://github.com/zuizui0223/fcp/actions/runs/38992543115) finished **256/256 genuine image workers**. The [original-method spatial append replay #39023781282](https://github.com/zuizui0223/fcp/actions/runs/39023781282) matched the frozen original three-cohort effects.
 
 | Cohort | Measured original photographs | True 50-km eligible species | Species-equal global-minus-local pair diversity | Upper p (199 vertex nulls) |
@@ -553,6 +555,36 @@ The four species-disjoint, same-iNaturalist-source cohorts gave the following ex
 | Fourth wave (190) | 0.020 | 0.020 | 0.020 | 0.020 |
 
 **Ecological inference ceiling:** The broad rightward shift of the *species-level depletion distribution*, compared with species-conditioned permutations, is not explained exclusively by the largest observed positive effects. Yet a substantial number of species (263 of 741) had negative individual depletion, and this analysis cannot say how many species would individually pass a valid, multiplicity-corrected test. Nor can it establish wild-population morph frequencies, adaptive divergence, pollinator selection, genotype frequencies, or any evolutionary transition direction. All four distributional tests, their chosen trimming levels, and the 50-km radius are post-outcome, and Holm correction was not applied across all hypotheses ever considered in the project.
+
+## S5f. Actual final five-cohort 447,500 original photo measurements: fixed-method H1, geographic colour partitioning and W (18 October 2026)
+
+**This section supersedes only the pending-data status described in the historical 17 October snapshot in S5c; it does not overwrite any earlier frozen test result.** [Actual source-pixel original-method Release](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017); [completed genuine image ROI #38997169400](https://github.com/zuizui0223/fcp/actions/runs/38997169400); [successful unchanged original five-cohort science #39049598596](https://github.com/zuizui0223/fcp/actions/runs/39049598596); [independently audited permanent release #39050465077](https://github.com/zuizui0223/fcp/actions/runs/39050465077). Source-verified machine-readable summaries and immutable release asset SHA256 are indexed by \`results/fcp_original_447500_five_cohort_verified_reporting_20261018.json\` and \`docs/FCP_FINAL_447500_REAL_FIVE_COHORT_RESULTS_20261018.md\`.
+
+The original outcome-blind U100 opportunity frame comprised 4,730 taxa. **2,481** new H9 taxa actually completed 100 authentic photo-ID source assignments each and all **256 real blind ROI-v4/EfficientSAM partitions** succeeded. Three newly sampled taxa genuinely reused historical source photo/observation IDs; following frozen conservative rules they were excluded *whole*, not patched with substitute photos. A further 252 taxa lacked 100 genuine original photos. Together with the 1,499 old discovery/validation/prospective taxa and 498 real wave4 taxa, the valid analysis therefore comprised **4,475 distinct taxa × 100 actual original photographic terminals = 447,500**. Of these, **227,107** photos were classifiable into the four fixed coarse colour states, and **220,393** were nonclassifiable. The original D classifiability gate included 3,297 species; the primary spatial 50-km null required an additional >=30 local pairs, leaving **1,761** taxa. **Do not substitute 4,475 or 3,297 for the 50-km test denominator.**
+
+| Source cohort | Genuine 100-photo taxa | Actual original photo terminals | Four-state classifiable rows | 50-km eligible taxa | Mean global-minus-local dissimilarity | Original upper p (199 permutations) |
+|---|---:|---:|---:|---:|---:|---:|
+| Discovery (old untouched) | 500 | 50,000 | 25,377 | 166 | 0.020529255 | 0.005 |
+| Validation (old untouched) | 500 | 50,000 | 24,885 | 181 | 0.018672972 | 0.005 |
+| Prospective (old untouched) | 499 | 49,900 | 25,788 | 204 | 0.014684920 | 0.005 |
+| Fourth-wave unchanged-method | 498 | 49,800 | 24,585 | 190 | 0.017293596 | 0.005 |
+| **New fifth-wave U100** | **2,478** | **247,800** | **126,472** | **1,020** | **0.017598698** | **0.005** |
+| **All five source cohorts** | **4,475** | **447,500** | **227,107** | **1,761** | **0.017614902** | **0.005** |
+
+The original 50-km global mean pairwise dissimilarity was **0.2243045205**, versus the within-50-km local mean **0.2066896183**. The frozen species-equal-weighted pooled null mean was **0.0000445943**, central 95% interval **−0.0020032432 to 0.0024735998**, and upper Monte Carlo p **0.005**. The genuine fifth-wave subset alone (n=1,020) had depletion **0.0175986977**, upper p **0.005**, close to the four-cohort pooled depletion **0.0176372079**. The new-wave 25-/100-/250-km sensitivity means were also positive with upper p=0.005 (n=710, 1,361 and 1,772, respectively). **The 50-km radius remains post hoc**, and additional radii are post hoc tests, not alternative optimized primary scales.
+
+The entire study was also replayed through the **unchanged original 200-partition observer-disjoint H1/D test**: median Spearman rho **0.8035357424** (5th–95th percentiles **0.7931469330–0.8094055921**), median paired D species **3,044**, median CCC **0.8553147636**, median Spearman–Brown **0.8910671671**. H1 describes repeatability of photograph-sample species-level D, not unbiased natural morph frequencies.
+
+The frozen **white-versus-eight-other-colour nine-component axis** and original **999 coarse-state-preserving structured null worlds** gave, for the combined actual five-cohort data:
+
+| Frozen second-mode threshold | Vector-eligible species | Observed squared W | Structured-null median | Upper p |
+|---|---:|---:|---:|---:|
+| Primary 0.10 | **1,223** | **0.5187948657** | **0.4553650050** | **0.001** |
+| Strict 0.20 | **658** | **0.5254168292** | **0.4612009436** | **0.001** |
+
+The original **499-species** third-cohort **untouched prospective confirmation** of the fixed white axis remains separate: primary n=158, W=0.5172457461 versus null median 0.4571428150, p=0.001. The later 4,475-species pooling cannot retrospectively upgrade this original confirmatory test, and squared W is **sign-invariant**: it does *not* indicate flower-colour evolutionary direction, anthocyanin reactivation or a synthesis-cost fitness trade-off.
+
+**Limits:** these are photographed, location-blind ROI outputs from the *same iNaturalist source and fixed classifier*, not independent photographic-provider evidence or genotype/population morph frequency estimates. Exactly which selection/history/plasticity/pollinator mechanisms generated local sorting remains unresolved. The nonwhite-only, observer/time/background falsification batteries on the original three cohorts and the descriptive/robust-tail tests on the original four (S5d/e) were *not* run identically for the entire fifth-wave 2,478 new taxa, and should not be presented as though they were.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
