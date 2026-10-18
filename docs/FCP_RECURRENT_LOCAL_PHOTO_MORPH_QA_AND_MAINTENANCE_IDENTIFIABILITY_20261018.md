@@ -1,6 +1,6 @@
 # FCP: interannual local photo-colour contrast audit and verified candidate funnel
 
-**18 October 2026 — exploratory observational evidence and next field decision.** This does **not** supersede the [original 447,500-photo FCP source](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017), the original post hoc 50-km spatial result, or the separately completed **negative** 5-km same-month spatial null (p=0.300). Their inferential roles remain distinct.
+**18 October 2026 — exploratory observational evidence and next field decision.** This does **not** supersede the [original 447,500-photo FCP source](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017), the original post hoc 50-km spatial result, or the separately completed **negative** 5-km same-month spatial null (n=194 taxa with >=5 eligible photo pairs, p=0.300; n=14 with >=30 pairs, p=0.275). Their inferential roles remain distinct.
 
 ## Why this is more biologically informative than another global spatial effect
 
