@@ -12,9 +12,9 @@
 - Summary: 179 words
 - Introduction: 805 words
 - Materials and Methods: 2,841 words
-- Results: 3,445 words
+- Results: 3,451 words
 - Discussion: 2,828 words
-- Main text (Introduction through Discussion): 9,919 words
+- Main text (Introduction through Discussion): 9,925 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -340,7 +340,7 @@ A stronger claim that higher-D species allocate a larger fraction of their diver
 
 After the three-cohort results were frozen, **498 additional species and 49,800 genuinely measured photographs** were processed with the original image and statistical methods. At **50 km (post hoc)**, **190** new species met both unchanged classifiability and local-pair gates, with species-equal mean depletion **0.0172936** (199-permutation upper-tail **p = 0.005**). Across all four measured cohorts, **741** eligible species gave pooled depletion **0.0176372** (p = **0.005**) from **199,700** photographic measurements. The original discovery, validation and prospective-cohort effects reproduced without changes to their numerical values.
 
-In the new fourth cohort, D reproducibility across 200 observer-disjoint splits had median Spearman rho **0.8056** (median 316 paired species; median concordance correlation **0.8441**). The fixed white-axis test gave W **0.5368** versus structured-null median **0.4363** (primary 0.10 gate, n = **134**, p = **0.001**); the strict 0.20 gate gave W **0.5473** versus **0.4581** (n = **67**, p = **0.001**). This is a *post-freeze, taxon-disjoint, same-iNaturalist-source extension*, not independent-source replication or a new untouched prospective H2 confirmation. W measures squared axis alignment, not a directional rise in white morphs. The final 4,475-species / 447,500-photo five-cohort effect is not reported: its true image terminals and combined null analysis were still incomplete at this evidence freeze (Supporting Information S5c).
+In the new fourth cohort, D reproducibility across 200 observer-disjoint splits had median Spearman rho **0.8056** (median 316 paired species; median concordance correlation **0.8441**). The fixed white-axis test gave W **0.5368** versus structured-null median **0.4363** (primary 0.10 gate, n = **134**, p = **0.001**); the strict 0.20 gate gave W **0.5473** versus **0.4581** (n = **67**, p = **0.001**). This is a *post-freeze, taxon-disjoint, same-iNaturalist-source extension*, not independent-source replication or a new untouched prospective H2 confirmation. W measures squared axis alignment, not a directional rise in white morphs. That 199,700-photo interim evidence freeze preceded the final five-cohort ROI completion and cannot supply the later 447,500-photo effect; the genuine completed five-cohort results are now reported separately below and in Supporting Information S5f.
 
 ### Post hoc robust spatial effect distribution under matched nulls
 
