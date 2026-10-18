@@ -486,6 +486,44 @@ def figure4(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     return files, meta
 
 
+def verify_five_cohort_original_reporting(root: Path) -> dict:
+    """Figure reporting only: authenticate the final original-photo extension."""
+    result = load_json(root / "results" / "fcp_original_447500_five_cohort_verified_reporting_20261018.json")
+    source = result.get("source", {})
+    frame = result.get("study", {})
+    spatial = result.get("spatial", {})
+    if (result.get("schema") != "fcp_five_cohort_real_447500_original_method_reporting_receipt_v1"
+        or source.get("original_pixel_roi_run_id") != 38997169400
+        or source.get("source_aggregation_run_id") != 39049598596
+        or source.get("measured_archive_sha256") !=
+            "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25"
+        or frame.get("genuine_independent_100photo_species") != 4475
+        or frame.get("actual_original_photo_terminals") != 447500
+        or frame.get("four_state_classifiable_photo_rows") != 227107
+        or frame.get("min_40_classifiable_species") != 3297
+        or spatial.get("primary_radius_post_hoc") is not True
+        or spatial.get("original_within_species_vertex_null_replicates") != 199
+        or spatial.get("pooled_50km", {}).get("n_species") != 1761
+        or abs(spatial.get("pooled_50km", {}).get("mean_depletion", -1) -
+               0.017614902168541096) > 1e-12
+        or spatial.get("pooled_50km", {}).get("mean_depletion_p_upper") != 0.005):
+        raise ValueError("final five-cohort FCP actual original-photo evidence identity drift")
+    expected = {
+        "discovery": (166, 0.020529254583812922, 0.005),
+        "validation": (181, 0.018672971642749295, 0.005),
+        "prospective": (204, 0.01468491968437185, 0.005),
+        "wave4": (190, 0.017293596294403593, 0.005),
+        "new_U100": (1020, 0.017598697724511534, 0.005),
+    }
+    for cohort, (n, depletion, p) in expected.items():
+        row = spatial["all_sources"][cohort]["50"]
+        if (row.get("n_species") != n
+            or abs(row.get("mean_depletion", -1) - depletion) > 1e-12
+            or row.get("p_upper") != p):
+            raise ValueError("frozen fifth-cohort source effect changed: " + cohort)
+    return result
+
+
 def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     distributed = load_json(root / "results" / "polymorphism_distributed_polymorphism_posthoc_20261007" / "result.json")
     robustness = load_json(root / "results" / "polymorphism_distributed_polymorphism_robustness_20261007" / "result.json")
@@ -493,29 +531,36 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 
     cohorts = ["discovery", "validation", "third"]
     labels = ["Discovery", "Validation", "Third cohort"]
+    five = verify_five_cohort_original_reporting(root)
 
-    fig, axes = plt.subplots(1, 3, figsize=(14.8, 4.6), gridspec_kw={"width_ratios": [1.0, 1.35, 1.0]})
-    fig.suptitle("Species-wide flower-colour variation is geographically partitioned", y=1.02, fontweight="bold")
+    fig, axes = plt.subplots(1, 3, figsize=(17.1, 5.1),
+                             gridspec_kw={"width_ratios": [1.50, 1.25, 1.0]})
+    fig.suptitle("Species-wide flower-colour variation is geographically partitioned",
+                 y=1.01, fontweight="bold")
 
-    # Panel A: primary 50-km local depletion.
+    # Panel A: five independent actual-pixel species cohorts and one pooled mean.
+    # The pooled bar must NEVER be labelled or interpreted as a sixth cohort.
     ax = axes[0]
-    x = np.arange(3)
-    dep = np.array([float(distributed["primary"][co]["mean_local_depletion"]) for co in cohorts])
-    ax.axhline(0, color="#777777", linewidth=1.0)
-    ax.bar(x, dep, color=[SECONDARY, PRIMARY, SUPPORT], width=0.60)
-    for xi, co, val in zip(x, cohorts, dep, strict=True):
-        n = int(distributed["primary"][co]["n_species"])
-        pval = float(distributed["primary"][co]["p_upper"])
-        ax.text(xi, val + 0.0012, f"n={n}\np={pval:.3f}", ha="center", va="bottom", fontsize=8.0)
-    ax.set_xticks(x, labels)
-    ax.set_ylabel("Species-wide minus local pair diversity")
-    ax.set_ylim(0, max(dep) * 1.38)
-    ax.set_title("Local diversity is depleted at 50 km")
-    ax.text(
-        0.03, 0.95,
-        "25, 100 and 250 km:\nsame direction in all cohorts",
-        transform=ax.transAxes, ha="left", va="top", fontsize=7.8, color=NEUTRAL,
-    )
+    final_groups = ("discovery", "validation", "prospective", "wave4", "new_U100")
+    final_labels = ["Discovery", "Validation", "Prospective", "Wave 4", "New U100", "Pooled (not cohort)"]
+    final_rows = [five["spatial"]["all_sources"][co]["50"] for co in final_groups]
+    final_rows.append(five["spatial"]["pooled_50km"])
+    effect = np.array([float(r["mean_depletion"]) for r in final_rows])
+    axis_y = np.arange(len(final_labels))
+    colours = [SECONDARY, PRIMARY, SUPPORT, "#9673B9", "#9A6324", "#444444"]
+    ax.barh(axis_y, effect, color=colours, height=0.62)
+    ax.axvline(0, color="#777777", linewidth=1.0)
+    for yy, rr, val in zip(axis_y, final_rows, effect, strict=True):
+        ax.text(val+0.00045, yy, f"n={int(rr['n_species']):,}; p={float(rr['mean_depletion_p_upper'] if 'mean_depletion_p_upper' in rr else rr['p_upper']):.3f}",
+                ha="left", va="center", fontsize=7.9)
+    ax.set_yticks(axis_y, final_labels)
+    ax.invert_yaxis()
+    ax.set_xlim(0, max(effect)*1.98)
+    ax.set_xlabel("Global minus local pair dissimilarity")
+    ax.set_title("Five same-provider cohorts at 50 km (post hoc)")
+    ax.text(0.015, 0.015, "Pooled = species-equal mean; not a new cohort",
+            transform=ax.transAxes, ha="left", va="bottom",
+            fontsize=7.4, color=NEUTRAL)
     panel_label(ax, "A")
 
     # Panel B: falsification tests.
@@ -578,6 +623,25 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             "third_p": float(distributed["primary"]["third"]["p_upper"]),
             "multiscale_all_three": bool(all(distributed["multiscale_local_depletion_supported_all_three"].values())),
         },
+        "five_cohort_original_method": {
+            "receipt": "results/fcp_original_447500_five_cohort_verified_reporting_20261018.json",
+            "measured_species": 4475,
+            "measured_photo_rows": 447500,
+            "frozen_posthoc_radius_km": 50,
+            "spatial_eligible_species": 1761,
+            "pooled_mean_depletion": float(five["spatial"]["pooled_50km"]["mean_depletion"]),
+            "pooled_p_upper": float(five["spatial"]["pooled_50km"]["mean_depletion_p_upper"]),
+            "cohorts": {
+                name: {
+                    "n_species": int(five["spatial"]["all_sources"][name]["50"]["n_species"]),
+                    "mean_depletion": float(five["spatial"]["all_sources"][name]["50"]["mean_depletion"]),
+                    "p_upper": float(five["spatial"]["all_sources"][name]["50"]["p_upper"]),
+                } for name in ("discovery", "validation", "prospective", "wave4", "new_U100")
+            },
+            "pooled_not_sixth_cohort": True,
+            "falsification_only_original_three": True,
+            "ibd_ibe_only_original_three": True,
+        },
         "robustness": {
             "receipt": "results/polymorphism_distributed_polymorphism_robustness_20261007/result.json",
             "different_observer_all_three": bool(robustness["cross_cohort"]["different_observer_supported_all_three"]),
@@ -598,7 +662,7 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             },
         },
         "layout_contract": {
-            "panel_A": "three_cohort_local_depletion",
+            "panel_A": "five_real_source_cohorts_plus_species_equal_pooled_50km_depletion",
             "panel_B": "three_falsification_tests_across_three_cohorts",
             "panel_C": "paired_IBD_IBE_effects",
         },
