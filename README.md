@@ -6,6 +6,12 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
+## White–chromatic mechanisms and within-species environment — 18 October 2026
+
+A new exact partition of the original 1,761-species 50-km effect gives **0.01476324 white–chromatic + 0.00285166 chromatic–chromatic = 0.01761490 total**. The first component makes up 83.81% of the pooled effect; its share of the original global mismatch mass was already 79.57%, so the ratio is a descriptive composition, not a causal mechanism fraction. Both pooled components exceed their matched null (post hoc Holm2 p=0.010).
+
+The complete measurements were also linked to the frozen WorldClim rasters. An **unadjusted within-species environmental description** covers seven climate/radiation variables in **1,574 species / 86,114 photographs** with at least five white and five chromatic records. BIO5 white-minus-chromatic separation has median **+0.0692 within-species SD** (IQR −0.2299 to +0.3322); no new environmental p-values or adjusted causal rankings are claimed. The linked [integrated report and research design](docs/FCP_WITHIN_SPECIES_ENVIRONMENT_PIGMENT_MECHANISMS_20261018.md) develops species-specific environmental slopes, phylogenetic dependence, organ-specific pigment mechanisms and discriminating fitness experiments. Those models and molecular raw-read analyses are proposed, not completed by these descriptive results.
+
 ## Completed 447,500-photo distributional analysis — 18 October 2026
 
 The complete **4,475-species / 447,500-photo original measured-data Release** has now been independently read and replayed for the five-cohort 50-km result. Of the 1,761 spatially eligible species, **984 (55.88%)** have positive observed colour-sorting effects, versus **44.58%** in the matched null. The median and the means after removing the highest-effect 10% or 20% also exceed their equivalently selected null distributions (each pooled raw p=0.005; Holm p=0.020 within the four new tests). The added fifth cohort supports these same distributional comparisons. All original five-cohort means/null quantiles and the complete older four-cohort robustness result were reproduced before new outputs were written.

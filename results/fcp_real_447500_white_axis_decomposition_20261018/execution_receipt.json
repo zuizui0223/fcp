@@ -1,0 +1,26 @@
+{
+  "actual_inference_replay": true,
+  "base_commit": "6502a8fc6bcc32ce16650635ea85abbce2d01d84",
+  "command": [
+    "/workspace/scratch/2b742620c4bf/fcp/scripts/analysis/run_fcp_447500_white_axis_decomposition_20261018.py",
+    "--extracted-root",
+    "/workspace/scratch/2b742620c4bf/fcp_inputs/full447500",
+    "--outdir",
+    "results/fcp_real_447500_white_axis_decomposition_20261018"
+  ],
+  "original_npz_sha256": "e0623b881379fec3533558b302deeccc0bc4c69b132f068ca7ab9f2e9951e80b",
+  "original_result_sha256": "dad77a486f9477f8cad0e2aaf53859d3ec9fb2880b6f968b9854ef61cc1b765e",
+  "packages": {
+    "numpy": "2.3.5",
+    "pandas": "2.2.3"
+  },
+  "python": "3.12.14",
+  "result_json_sha256": "38e4bc7ff777c0eb47d616051769f2615d7e9e78bcbf0f919849f04c1f71deba",
+  "schema": "fcp_white_axis_decomposition_execution_receipt_v1",
+  "source_code_sha256": {
+    "scripts/analysis/run_fcp_447500_robust_matched_null_20261018.py": "9b7aca86d27125f569dc1ce64c0333662656ea86658ad8e5b21da8a973f82746",
+    "scripts/analysis/run_fcp_447500_white_axis_decomposition_20261018.py": "eab43f2527d309ac00f8beae01430a6d277b3aca63184995b887e158a0826d96",
+    "scripts/analysis/run_polymorphism_distributed_polymorphism_posthoc_20261007.py": "689815e821fe7e6fef3f6bfc1b68f3f7098182074c98f51911d6bb57fa05910c"
+  },
+  "unit_test_source_sha256": "05987c7c83cb82cf8cfc8d530cb362333ace9663f232c0e91775a6a4bf6ce388"
+}
