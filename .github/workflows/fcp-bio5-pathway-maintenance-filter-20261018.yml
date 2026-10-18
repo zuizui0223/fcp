@@ -1,0 +1,125 @@
+name: FCP authentic 447500 photo BIO5 transport and multi-system pathway evidence
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/fcp_447500_bio5_commonality_transport_20261018.py
+      - scripts/analysis/fcp_molecular_pathway_photo_bridge_20261018.py
+      - tests/test_fcp_447500_bio5_commonality_transport_20261018.py
+      - tests/test_fcp_pathway_photo_resolution_and_bio5_20261018.py
+      - .github/workflows/fcp-bio5-pathway-maintenance-filter-20261018.yml
+  push:
+    branches: [main]
+    paths:
+      - scripts/analysis/fcp_447500_bio5_commonality_transport_20261018.py
+      - scripts/analysis/fcp_molecular_pathway_photo_bridge_20261018.py
+      - tests/test_fcp_447500_bio5_commonality_transport_20261018.py
+      - tests/test_fcp_pathway_photo_resolution_and_bio5_20261018.py
+      - .github/workflows/fcp-bio5-pathway-maintenance-filter-20261018.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-real-447500-bio5-pathway-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  actual-photo-environment-and-pathway-bridge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: .
+      PHOTO_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      PHOTO_ARCHIVE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      PHOTO_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      CLIMATE_FILE: wc2.1_10m_bio.zip
+      CLIMATE_ZIP_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+      CLIMATE_BIO5_SHA: 32e02d85868734c32547da70cf9c620f4739a3cf5dbc4f2b751e16ebb2338ae1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned comparative climate/photo statistics environment
+        shell: bash
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 rasterio==1.4.3 pytest==8.4.2
+          python -m pytest -q \
+            tests/test_fcp_447500_bio5_commonality_transport_20261018.py \
+            tests/test_fcp_pathway_photo_resolution_and_bio5_20261018.py
+          python -m py_compile scripts/analysis/fcp_447500_bio5_commonality_transport_20261018.py
+          python -m py_compile scripts/analysis/fcp_molecular_pathway_photo_bridge_20261018.py
+      - name: Authenticate actual FCP original photographic measurements and unchanged WorldClim climate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-bio5/{source,climate,output}
+          gh release download "$PHOTO_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$PHOTO_ARCHIVE" --dir /tmp/fcp-bio5/source
+          echo "$PHOTO_ARCHIVE_SHA  /tmp/fcp-bio5/source/$PHOTO_ARCHIVE" | sha256sum -c -
+          tar -xzf "/tmp/fcp-bio5/source/$PHOTO_ARCHIVE" -C /tmp/fcp-bio5/source
+          test -s /tmp/fcp-bio5/source/measured/fcp_all4730_original_method_measured_photos.csv.gz
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$CLIMATE_FILE" --dir /tmp/fcp-bio5/climate
+          echo "$CLIMATE_ZIP_SHA  /tmp/fcp-bio5/climate/$CLIMATE_FILE" | sha256sum -c -
+          unzip -p "/tmp/fcp-bio5/climate/$CLIMATE_FILE" wc2.1_10m_bio_5.tif \
+            > /tmp/fcp-bio5/climate/wc2.1_10m_bio_5.tif
+          echo "$CLIMATE_BIO5_SHA  /tmp/fcp-bio5/climate/wc2.1_10m_bio_5.tif" | sha256sum -c -
+          echo FCP_REAL_447500_AND_WORLDCLIM2_1_BIO5_SOURCE_SHA_VERIFIED
+      - name: Re-test original five-cohort white versus nonwhite BIO5 association with observer and phenology filters
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_447500_bio5_commonality_transport_20261018.py \
+            --photos /tmp/fcp-bio5/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --bio5 /tmp/fcp-bio5/climate/wc2.1_10m_bio_5.tif \
+            --out /tmp/fcp-bio5/output
+          python scripts/analysis/fcp_molecular_pathway_photo_bridge_20261018.py \
+            --photos /tmp/fcp-bio5/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out /tmp/fcp-bio5/output
+      - name: Fail closed if real denominators or molecular-to-photo causal ceiling were changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          p=Path('/tmp/fcp-bio5/output')
+          a=json.loads((p/'fcp_real_447500_BIO5_unfrozen_transport.json').read_text())
+          b=json.loads((p/'fcp_molecular_pathway_external_study_photo_bridge.json').read_text())
+          assert a['schema']=='fcp_447500_unfrozen_BIO5_cross_cohort_transport_v1'
+          assert a['original_genuine_photo_rows']==447500
+          assert a['true_classified_photo_rows']==227107
+          assert a['exploratory_post_outcome'] is True
+          assert a['primary_and_historical_frozen_inference_not_overwritten'] is True
+          assert a['not_high_clip_corrected_on_new_original_photo_waves'] is True
+          assert a['WorldClim_2_1_10m_BIO5_1970_2000_not_photo_date_temperature'] is True
+          assert a['outcomes']['eligibility']['n_white_chromatic_species_ge5_each_and_BIO5_varies']>50
+          assert a['outcomes']['pooled']['estimable'] is True
+          assert all(a['outcomes']['by_cohort'][co]['n_species']>0
+                     for co in ('discovery','validation','prospective','wave4','new_U100'))
+          for co in ('discovery','validation','prospective','wave4','new_U100'):
+              z=a['outcomes']['by_cohort'][co]
+              assert math.isfinite(z['median_white_minus_chromatic_BIO5_within_species_SD'])
+              assert 0<=z['p_wilcoxon']<=1
+          assert b['schema']=='fcp_fivecohort_external_molecular_pathway_photo_overlap_audit_v1'
+          assert b['unique_direct_species_photo_overlaps']==3
+          assert b['original_real_photo_rows']==447500
+          assert b['not_a_systematic_molecular_meta_analysis'] is True
+          for record in b['molecular_records']:
+              assert record['external_molecular_genotype_join_established'] is False
+              assert record['coarse_photo_state_proves_original_molecular_trait'] is False
+          print('FCP_REAL_447500_BIO5_AND_MOLECULAR_PATHWAY_MECHANISM_BOUNDARIES_AUTHENTICATED')
+          print('FCP_REAL_447500_BIO5_POOLED',json.dumps(a['outcomes']['pooled']))
+          print('FCP_REAL_447500_BIO5_OBSERVER_PAIRED',json.dumps(a['outcomes']['observer_paired']))
+          print('FCP_REAL_447500_BIO5_YEAR_MONTH_PAIRED',json.dumps(a['outcomes']['yearmonth_paired']))
+          print('FCP_REAL_447500_BIO5_EACH_COHORT',json.dumps(a['outcomes']['by_cohort']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-447500-bio5-transport-and-molecular-trait-resolution
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp-bio5/output/
