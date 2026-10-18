@@ -780,8 +780,8 @@ def figure6(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.set_xlim(0, .027)
     ax.set_xlabel("Mean photographed local depletion (50 km)")
     ax.set_title("Same-source robustness, with nonwhite exceptions")
-    ax.text(.98, .96, "Nonwhite p=0.14 in prospective;\np=0.72 in fourth cohort",
-            transform=ax.transAxes, fontsize=7.4, ha="right", va="top")
+    # Nonwhite cohort exceptions are reported in the mandatory figure legend,
+    # not placed over the main bar-value labels.
     panel_label(ax, "D")
 
     fig.tight_layout(h_pad=2.9, w_pad=2.5)
