@@ -104,3 +104,37 @@ def test_explicit_limits_and_source_requirements():
     assert "genotypes" in m.__doc__
     with pytest.raises(ValueError,match="source-photo SHA256"):
         m.read_and_validate(__file__)
+
+
+def test_real_recurrence_receipt_keeps_sample_gates_and_population_nonclaims():
+    import json
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    d=json.loads((root/"results"/"fcp_fivecohort_recurrent_local_morph_candidates_20261018.json").read_text())
+    assert d["schema"]=="fcp_fivecohort_recurrent_observational_colour_contrast_audit_receipt_v1"
+    assert d["original_measured_CSV_sha256"]==m.SOURCE_CSV_SHA256
+    assert d["total_genuine_original_photo_terminals"]==447500
+    assert d["four_state_classifiable_photo_terminals"]==227107
+    assert d["exact_reproduction_gitHub_run_id"]==39097882762
+    assert d["true_source_workflow_success"] is True
+    assert d["source_run_output_JSON_sha256"]=="f5ac0c5e1b02bdec88275fc9eaecaef6f703610855470b46ab26f4610a273bce"
+    assert d["source_run_anonymized_species_CSV_sha256"]=="2899742b2bb737d9f36dd1f7907bb0257de1ba3b722530a949ebb598d1e47fae"
+    s={x["radius_km"]:x for x in d["opportunity"]}
+    assert [s[r]["n_species_with_ge1_contrasting_photo_pair"] for r in (.25,.5,1,2,5)]==[28,49,91,145,300]
+    assert [s[r]["n_species_with_four_observer_recurrence"] for r in (.25,.5,1,2,5)]==[2,3,8,8,17]
+    assert s[1]["n_species_with_all_four_photos_primary_fraction_ge65pct"]==1
+    assert s[5]["n_species_with_all_four_photos_primary_fraction_ge65pct"]==3
+    assert d["quality_purity_threshold_species_sensitivity_at_1km"] == {
+       "50":7,"55":6,"60":2,"65":1,"70":1,"75":0
+    }
+    assert len(d["one_km_interannual_species"])==8
+    assert len(d["five_km_additional_species"])==9
+    assert all(x["year_examples"][0] < x["year_examples"][1] for x in d["one_km_interannual_species"])
+    assert d["no_exact_coordinates_photo_ids_observation_ids_or_observer_ids_in_source_summary"] is True
+    for t in d["warnings"]:
+        assert isinstance(t,str) and len(t)>12
+    text=(root/"docs"/"FCP_RECURRENT_LOCAL_PHOTO_MORPH_QA_AND_MAINTENANCE_IDENTIFIABILITY_20261018.md").read_text()
+    for phrase in ("8 unverified taxa","Collinsia multicolor",
+                   "Castilleja rubicundula","0.300","0.275",
+                   "parameter nonidentifiability","not a demarcated reproductive population"):
+        assert phrase.lower() in text.lower(),phrase
