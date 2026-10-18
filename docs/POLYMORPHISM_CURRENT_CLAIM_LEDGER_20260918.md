@@ -23,6 +23,16 @@ Current supported quantitative claims (later fixed-method replication, not new u
 Interpretation ceilings: (i) **50 km is post hoc**; (ii) all data retain the *same iNaturalist photo/ROI source ecosystem*; (iii) 4,475 total measured taxa, 3,297 photo-classifiable taxa and 1,761 50-km spatial-test taxa are distinct denominators; (iv) the original prospectively frozen H2 result is **separate** and cannot be relabelled through five-cohort pooling; (v) the technical nonwhite/observer/background and robust-tail falsifications on the original three/four cohorts have **not** all been repeated for the fifth-U100 set; (vi) genetics, natural population morph frequencies, fitness, pollinator selection, and local adaptation are not established by this observational null. Preserve all previous sections of this ledger for its original historical claim chronology.
 
 
+## Current supplementary FCP commonality claims (18 October 2026; genuine measured photos)
+
+**Phenotype composition, not prevalence or fitness:** 3,297 taxa have >=40 genuinely classifiable four-state original-photo measurements. Their **species-median Gini–Simpson D = 0.172363** and median most common *photographed* state share **0.905660**; **51.4%** have >=90% in one classified coarse colour state. State numbers 1/2/3/4 occur in **268/1,411/1,080/538** taxa. These are not documented genetic morph frequencies or percentages of naturally polymorphic wild species.
+
+**Spatial geographic allocation persists without specifying particular hues:** among 1,761 taxa satisfying the unchanged local-pair 50-km gate (post hoc), the original mean depletion is **0.0176149** (199-vertex upper p=0.005). Recode each species' own photographed most common state versus other colours: **0.0164851**, upper p=0.005, using the exact original species coordinates and within-species vertex-label permutations. Genus-equal 832-genera means are 0.0152512 for four states and 0.0146322 for modal vs alternatives (both p=0.005). The main four-state effect is positive in taxa dominated by each coarse photographed hue and across four sampled global-D quartiles; these are **nonindependent, post hoc subgroup explorations**, not new prespecified confirmatory hypotheses.
+
+**Extended photograph-level falsifications and nonwhite exception:** different observer local pairs (1,745 species, mean 0.0170701, upper p=0.005), different-year local pairs (1,643, mean 0.0158446, upper p=0.005) and three-nonwhite-state pooled comparison (763, mean 0.0065945, upper p=0.005). But the **original prospective cohort nonwhite-only upper p=0.14**, and **fourth-wave mean −0.002277, p=0.72**. It is scientifically incorrect to infer a universally shared nonwhite-only colour-sorting mechanism from the positive combined test.
+
+**Claim ceiling:** Source-authenticated, species-conditional FCP *photograph pattern*: skewed composition plus mean geographic sorting. The biological origin of colour polymorphism, spatially varying selection, balancing selection, white-flower reacquisition, pigmentation-cost advantages and actual population morph equilibrium were **not measured**. Exact source route: [all-447500 original photo commonality CI](https://github.com/zuizui0223/fcp/actions/runs/39091197295), `results/fcp_original_447500_polymorphism_commonality_20261018.json`, `docs/FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md`; unchanged original W/H1 claims and provenance remain authoritative.
+
 ## 0. Reader-facing data architecture and inferential necessity
 
 The current paper uses one explicit inferential sequence.
@@ -438,7 +448,7 @@ This synthesis does **not** claim:
 
 ## 10. Current title
 
-**Species-wide flower-colour variation is geographically partitioned across plant species**
+**Flower-colour polymorphism is skewed and geographically structured across plant species**
 
 This wording centers the most replicated ecological pattern without upgrading it to local adaptation. The prospective achromatic–chromatic confirmation remains explicit in the Summary, Results and Discussion as a complementary phenotype-space result.
 
