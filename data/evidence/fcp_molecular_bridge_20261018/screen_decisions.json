@@ -1,0 +1,17 @@
+{
+ "PRJNA1094639":{"status":"primary_paper_curated","reason":"OvW-1/OvP-37; promoter candidate plus organ expression; not functional proof"},
+ "PRJNA415931":{"status":"primary_paper_curated_metadata_discrepancy","reason":"six source-reported biological libraries but two submitted BioSamples; cultivar comparison"},
+ "PRJNA517727":{"status":"primary_paper_curated","reason":"PSY carotenoid deletion; commercial varieties share allele; does not enter >=5 env panel"},
+ "PRJNA393638":{"status":"exclude_white_morph_not_established","reason":"white clover is the species common name; title reports red-flowered mutant; no demonstrated white vs chromatic contrast in metadata"},
+ "PRJDB35092":{"status":"pending_contrast_verification","reason":"Single-Petal White cultivar alone; developmental rather than independent white/chromatic morph contrast may be sequenced"},
+ "PRJNA1167914":{"status":"unresolved_submitted_taxonomy","reason":"submitted taxon is genus Verbena; title names V. stricta; no automatic genus-to-species resolution","possible_title_taxon":"Verbena stricta"},
+ "PRJNA504531":{"status":"unresolved_submitted_taxonomy","reason":"submitted taxon Magnoliaceae; title names Michelia maudiae; no synonym or family-to-species inference","possible_title_taxon":"Michelia maudiae"},
+ "PRJNA1015409":{"status":"unmatched_infraspecific_label","reason":"Raphanus sativus var. sativus not collapsed to species or R. raphanistrum; no inferred synonym"},
+ "PRJNA1039725":{"status":"pending_primary_review","reason":"white/orange petal study; pigment mechanism and biological design unverified"},
+ "PRJNA749083":{"status":"pending_primary_review","reason":"six runs/two BioSamples; morph and biological replication unverified"},
+ "PRJNA643568":{"status":"pending_primary_review_induced_mutant","reason":"EMS-derived sainfoin; cannot be natural independent polymorphism evidence"},
+ "PRJNA921711":{"status":"pending_primary_review","reason":"yellow/white petals; pigment chemistry and gene causality unverified"},
+ "PRJNA1209238":{"status":"pending_primary_review_unmatched_species","reason":"four morph transcriptome metadata; no exact roster taxon"},
+ "PRJNA1209251":{"status":"pending_primary_review_unmatched_species","reason":"small RNA, not mRNA; same submitted species as PRJNA1209238; not an extra independent species"},
+ "PRJNA895586":{"status":"unmatched_hybrid_label","reason":"Chrysanthemum x morifolium not collapsed or synonymized; cultivar data"}
+}

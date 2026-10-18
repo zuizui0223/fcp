@@ -1,0 +1,40 @@
+{
+  "completed_utc": "2026-10-18T13:39:58.177017+00:00",
+  "method": "equal-species unshrunk fitted-slope differences with genus-cluster percentile bootstrap",
+  "scope": "exploratory trait-associated standardized-slope contrasts; no causal or molecular mechanism claim",
+  "contrasts": {
+    "self_fertilization": [
+      "present",
+      "absent"
+    ],
+    "lifecycle": [
+      "annual",
+      "perennial"
+    ],
+    "woodiness": [
+      "woody",
+      "non-woody"
+    ]
+  },
+  "climate_variables": [
+    "BIO5",
+    "BIO14",
+    "SRADmean"
+  ],
+  "family_size": 9,
+  "minimum_species_each": 20,
+  "minimum_genera_each": 5,
+  "bootstrap_repetitions": 5000,
+  "family_interval": "Bonferroni nominal 1-0.05/9 percentile interval per contrast, with bootstrap approximation",
+  "uncertainty_scope": "empirical resampling of fitted slopes by genus; no photo refits, no explicit phylogenetic covariance or within-fit variance resampling",
+  "scaling_limit": "slopes are per each species primary climate SD; trait contrasts may reflect sampled climate-range differences as well as biological sensitivity; native SD medians provided",
+  "source_sha256": {
+    "results/fcp_gift_modifiers_20261018/species_trait_join.csv": "087755d43dbf87de57049c9a065d7019df2bf3f3ddd36fcbb3e795d90eebed9f",
+    "/workspace/scratch/2b742620c4bf/fcp/results/fcp_real_447500_environment_model_20261018/species_slopes.csv": "ead2223465d8cdde6869cbd82196e56ffadb33db7fa0006f58bac14db1f790f2"
+  },
+  "code_sha256": "d9e349e87297536387df2db97ee0b6726808764c116bdcdf65e7268704ffd67d",
+  "output_sha256": {
+    "slope_modifier_contrasts.csv": "22b36e512f432fdd8a2438a0d6c7a55ba684fb758a29ea010b275b7bbd01d4f8",
+    "species_slopes_with_traits.csv": "be5125dee7ed6335e1e30838f813135bffbfa3f83a9c5d560da90a7c74c150cb"
+  }
+}

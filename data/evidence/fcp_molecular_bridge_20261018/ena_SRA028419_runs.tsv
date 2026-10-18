@@ -1,0 +1,5 @@
+run_accession	experiment_accession	study_accession	secondary_study_accession	scientific_name	tax_id	study_title	sample_accession	sample_title	library_name	library_layout	library_strategy	library_source	instrument_platform
+SRR090115	SRX037189	PRJNA62271	SRP005147	Parrya nudicaulis	345538	Parrya nudicaulis transcriptome project	SAMN00189481	12 Mile Summit 8-purple colored petals	12 mile 8	SINGLE	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR090116	SRX037190	PRJNA62271	SRP005147	Parrya nudicaulis	345538	Parrya nudicaulis transcriptome project	SAMN00189482	12 Mile Summit 15-white colored petals	12 mile 15	SINGLE	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR090477	SRX037188	PRJNA62271	SRP005147	Parrya nudicaulis	345538	Parrya nudicaulis transcriptome project	SAMN00189480	Savage 30-white colored petals	Savage 30	SINGLE	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR090476	SRX037187	PRJNA62271	SRP005147	Parrya nudicaulis	345538	Parrya nudicaulis transcriptome project	SAMN00189479	Savage 23-purple colored petals	Savage 23	SINGLE	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA

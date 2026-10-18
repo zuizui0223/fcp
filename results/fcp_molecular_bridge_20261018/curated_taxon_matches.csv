@@ -1,0 +1,12 @@
+species,inat_taxon_id,roster_match_status,environment_panel_match
+Parrya nudicaulis,,unmatched_no_synonym_inference,False
+Silene littorea,,unmatched_no_synonym_inference,False
+Boechera stricta,,unmatched_no_synonym_inference,False
+Moricandia arvensis,165527,exact_normalized_name,True
+Vinca minor,55844,exact_normalized_name,True
+Gymnadenia rhellicani,199181,exact_normalized_name,True
+Muscari armeniacum,57847,exact_normalized_name,False
+Ipomoea purpurea,52344,exact_normalized_name,True
+Eschscholzia californica,48225,exact_normalized_name,False
+Orychophragmus violaceus,359576,exact_normalized_name,True
+Primula vulgaris,56136,exact_normalized_name,True

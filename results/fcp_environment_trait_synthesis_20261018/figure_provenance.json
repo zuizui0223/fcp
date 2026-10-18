@@ -1,0 +1,251 @@
+{
+  "schema": "fcp_environment_trait_synthesis_figure_v1",
+  "created_utc": "2026-10-18T13:51:52.477601+00:00",
+  "script_sha256": "9f8e7a8252178279d627eaa0937d5d1804b2d0dc117eba9484026b744a3564eb",
+  "matplotlib_version": "3.10.8",
+  "source_sha256": {
+    "results/fcp_real_447500_environment_model_20261018/meta_summary.csv": "53e8755df05ad1f59012ffa5425737efa1c95370d0f51e473dd272c050e15601",
+    "results/fcp_gift_modifiers_20261018/slope_modifier_contrasts.csv": "22b36e512f432fdd8a2438a0d6c7a55ba684fb758a29ea010b275b7bbd01d4f8"
+  },
+  "output_sha256": {
+    "fcp_environment_traits.png": "54da30cf1eb34b299c1a4d94834ee274a54fea204d2dc38b16ef065d2163080d",
+    "fcp_environment_traits.svg": "6e50dca87fdffd6ff3b66d145c6049d982fb08202343d0797d57f127350a98e2"
+  },
+  "plotted_rows": [
+    {
+      "panel": "A",
+      "source": "environment",
+      "variable": "BIO5",
+      "values": [
+        0.0546730256391666,
+        0.0314927688999176,
+        0.0778532823784156
+      ]
+    },
+    {
+      "panel": "A",
+      "source": "environment",
+      "variable": "BIO14",
+      "values": [
+        0.0086218880349899,
+        -0.0128834008616328,
+        0.0301271769316126
+      ]
+    },
+    {
+      "panel": "A",
+      "source": "environment",
+      "variable": "SRADmean",
+      "values": [
+        -0.0107343903621438,
+        -0.0360974028976085,
+        0.0146286221733207
+      ]
+    },
+    {
+      "panel": "B",
+      "source": "environment",
+      "model": "primary",
+      "variable": "BIO5",
+      "values": [
+        0.0546730256391666,
+        0.0314927688999176,
+        0.0778532823784156
+      ]
+    },
+    {
+      "panel": "B",
+      "source": "environment",
+      "model": "observer_thinned",
+      "variable": "BIO5",
+      "values": [
+        0.0540831848787214,
+        0.0302382147020466,
+        0.0779281550553963
+      ]
+    },
+    {
+      "panel": "B",
+      "source": "environment",
+      "model": "spatial_thinned",
+      "variable": "BIO5",
+      "values": [
+        0.0688023165846435,
+        0.0318150916191296,
+        0.1057895415501573
+      ]
+    },
+    {
+      "panel": "B",
+      "source": "environment",
+      "model": "geographic_trend",
+      "variable": "BIO5",
+      "values": [
+        0.0613369840546909,
+        0.0277793435464594,
+        0.0948946245629225
+      ]
+    },
+    {
+      "panel": "B",
+      "source": "environment",
+      "model": "primary_ge10",
+      "variable": "BIO5",
+      "values": [
+        0.0488821576038509,
+        0.019344906196515,
+        0.0784194090111869
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "self_fertilization",
+      "variable": "BIO5",
+      "values": [
+        -0.0315236967028545,
+        -0.1623931245118799,
+        0.0879423619065833
+      ],
+      "family9_bounds": [
+        -0.2219399646479726,
+        0.1328219091076736
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "self_fertilization",
+      "variable": "BIO14",
+      "values": [
+        0.0034813013592973,
+        -0.1040337361572548,
+        0.1051830887397115
+      ],
+      "family9_bounds": [
+        -0.1555913367519259,
+        0.1440221499802882
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "self_fertilization",
+      "variable": "SRADmean",
+      "values": [
+        0.060987152087417,
+        -0.0613841025787439,
+        0.1929191054162086
+      ],
+      "family9_bounds": [
+        -0.1108438219006687,
+        0.2470208980829636
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "lifecycle",
+      "variable": "BIO5",
+      "values": [
+        -0.019824626341326,
+        -0.1002546246443633,
+        0.0629598199672351
+      ],
+      "family9_bounds": [
+        -0.1363806547253633,
+        0.0970060236728325
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "lifecycle",
+      "variable": "BIO14",
+      "values": [
+        0.0641664683099339,
+        -0.011533642873519,
+        0.1420876090356092
+      ],
+      "family9_bounds": [
+        -0.046795538035417,
+        0.1734842534128743
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "lifecycle",
+      "variable": "SRADmean",
+      "values": [
+        0.0458128555746294,
+        -0.0547019205195825,
+        0.1508196691148817
+      ],
+      "family9_bounds": [
+        -0.0897276463115241,
+        0.1956519591351417
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "woodiness",
+      "variable": "BIO5",
+      "values": [
+        -0.0790143259044824,
+        -0.1676692528221254,
+        0.0073960441286143
+      ],
+      "family9_bounds": [
+        -0.2021331671625095,
+        0.0441486784498773
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "woodiness",
+      "variable": "BIO14",
+      "values": [
+        0.0268636724299027,
+        -0.0485637145699162,
+        0.101348772663393
+      ],
+      "family9_bounds": [
+        -0.0810867588172138,
+        0.1290501165181675
+      ]
+    },
+    {
+      "panel": "C",
+      "source": "GIFT",
+      "trait": "woodiness",
+      "variable": "SRADmean",
+      "values": [
+        -0.0051914486605663,
+        -0.0992858642657271,
+        0.0869025375779096
+      ],
+      "family9_bounds": [
+        -0.138865746973663,
+        0.1251792371512574
+      ]
+    }
+  ],
+  "verification": {
+    "primary_rows": 3,
+    "sensitivity_rows": 5,
+    "modifier_rows": 9,
+    "exactly_one_source_row_per_mark": true,
+    "all_bounds_finite_and_contain_estimate": true,
+    "family9_encloses_nominal": true
+  },
+  "notes": [
+    "A and B read REML hypermeans, not equal-species arithmetic means.",
+    "B shows different retained species panels, not paired changes.",
+    "C reads difference_first_minus_reference and existing genus-bootstrap interval columns.",
+    "Family9 intervals are approximate Bonferroni-familywise intervals, not nine simultaneous exact intervals.",
+    "No model refitting or fabricated estimates; all plotted statistics read from the two source CSVs."
+  ]
+}
