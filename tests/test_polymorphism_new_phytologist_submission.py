@@ -808,7 +808,7 @@ def test_postfreeze_fourth_wave_empirical_extension_does_not_upgrade_frozen_clai
             "190", "741", "0.0172936", "0.0176372",
             "0.8056", "0.5368", "0.4363", "447,500",
             "post-freeze", "same-provider", "not independent-source replication",
-            "still incomplete at this evidence freeze",
+            "completed 447,500-photo five-cohort measurement and inference",
         ):
             assert token in text, token
         assert "0.517" in text  # the untouched third-cohort prospective H2 result is not replaced
@@ -934,3 +934,97 @@ def test_four_cohort_robust_matched_null_reports_only_authenticated_exploratory_
         "not correct all earlier exploratory analyses",
     ):
         assert phrase in supporting, phrase
+
+
+def test_completed_real_five_cohort_paper_claims_are_source_locked() -> None:
+    import json
+    import pytest
+
+    result_path = ROOT / "results/fcp_original_447500_five_cohort_verified_reporting_20261018.json"
+    final = json.loads(result_path.read_text(encoding="utf-8"))
+    source, frame, spatial = final["source"], final["study"], final["spatial"]
+
+    assert final["schema"] == "fcp_five_cohort_real_447500_original_method_reporting_receipt_v1"
+    assert source["original_pixel_roi_run_id"] == 38997169400
+    assert source["source_aggregation_run_id"] == 39049598596
+    assert source["independently_verified_release_run_id"] == 39050465077
+    assert source["measured_archive_sha256"] == (
+        "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25"
+    )
+    assert source["publication_json_packet_sha256"] == (
+        "e4d5244fb7e9de0046d44cf01154573d12f2ea3418fa538022a8dd97b1d60dc6"
+    )
+    assert frame["genuine_independent_100photo_species"] == 4475
+    assert frame["actual_original_photo_terminals"] == 447500
+    assert frame["four_state_classifiable_photo_rows"] == 227107
+    assert frame["four_state_nonclassifiable_photo_rows"] == 220393
+    assert frame["min_40_classifiable_species"] == 3297
+    assert frame["new_U100_valid_analysis_species"] == 2478
+    assert frame["under_100_photo_species"] == 252
+    assert frame["full_100_photo_species_excluded_for_cross_cohort_id_reuse"] == 3
+    assert [r["photo_rows"] for r in frame["source_cohorts"]] == [
+        50000, 50000, 49900, 49800, 247800,
+    ]
+    assert sum(r["four_state_classifiable_rows"] for r in frame["source_cohorts"]) == 227107
+    assert spatial["primary_radius_post_hoc"] is True
+    assert spatial["original_within_species_vertex_null_replicates"] == 199
+    pooled = spatial["pooled_50km"]
+    assert pooled["n_species"] == 1761
+    assert pooled["mean_depletion"] == pytest.approx(0.017614902168541096)
+    assert pooled["mean_D_pair"] == pytest.approx(0.22430452047700442)
+    assert pooled["mean_D_local"] == pytest.approx(0.20668961830846333)
+    assert pooled["mean_depletion_p_upper"] == 0.005
+    assert pooled["positive_depletion_species_fraction"] == pytest.approx(984 / 1761)
+    expected = {
+        "discovery": (166, 0.020529254583812922),
+        "validation": (181, 0.018672971642749295),
+        "prospective": (204, 0.01468491968437185),
+        "wave4": (190, 0.017293596294403593),
+        "new_U100": (1020, 0.017598697724511534),
+    }
+    for name, (n, dep) in expected.items():
+        line = spatial["all_sources"][name]["50"]
+        assert line["n_species"] == n
+        assert line["mean_depletion"] == pytest.approx(dep)
+        assert line["p_upper"] == 0.005
+    primary = final["fixed_white_axis"]["primary_0_10"]
+    strict = final["fixed_white_axis"]["strict_0_20"]
+    assert primary["species"] == 1223
+    assert primary["observed_W"] == pytest.approx(0.518794865731938)
+    assert primary["structured_null_summary"]["q50"] == pytest.approx(0.45536500495026316)
+    assert primary["structured_null_upper_p"] == 0.001
+    assert strict["species"] == 658
+    assert strict["observed_W"] == pytest.approx(0.5254168291632738)
+    assert strict["structured_null_upper_p"] == 0.001
+    assert final["observer_reliability"]["primary"]["rho_median"] == pytest.approx(
+        0.8035357423958924
+    )
+    assert frame["independent_source_replication"] is False
+    assert frame["globally_representative_wild_morph_frequencies"] is False
+
+    for path in (MANUSCRIPT, CANONICAL):
+        t = path.read_text(encoding="utf-8")
+        for claim in (
+            "447,500", "4,475", "247,800", "2,478", "1,761", "1,020",
+            "227,107", "3,297", "0.0175987", "0.0176149",
+            "0.51879", "0.45537", "0.8035",
+            "post hoc", "same-iNaturalist",
+            "not a new untouched prospective",
+        ):
+            assert claim in t, (path, claim)
+        assert "still incomplete at this evidence freeze" not in t
+
+    si = SUPPORTING.read_text(encoding="utf-8")
+    for claim in (
+        "## S5f. Actual final five-cohort 447,500 original photo measurements",
+        "447,500", "4,475", "227,107", "1,761", "1,020",
+        "0.017614902", "0.017598698", "0.5187948657",
+        "0.4553650050", "0.8035357424",
+        "not** run identically for the entire fifth-wave",
+    ):
+        assert claim in si, claim
+    cover = COVER.read_text(encoding="utf-8")
+    assert "447,500" in cover
+    assert "1,761" in cover
+    assert "0.01761" in cover
+    assert "not an independent-source replication" in cover
