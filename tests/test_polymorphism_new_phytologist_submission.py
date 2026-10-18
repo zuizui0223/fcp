@@ -1073,3 +1073,49 @@ def test_original_447500_commonality_centers_within_species_polymorphism_and_pre
     assert "nonwhite-only" in si and "p=**0.14**" in si
     assert (ROOT/"docs"/"FCP_WITHIN_SPECIES_POLYMORPHISM_COMMONALITY_447500_20261018.md").exists()
     assert (ROOT/"scripts"/"analysis"/"fcp_five_cohort_polymorphism_commonality_20261018.py").exists()
+
+
+def test_bio5_and_molecular_constraint_remain_bounded_not_confirmed_universal_FCP() -> None:
+    """Original positive BIO5 is preserved along with observer, transport and genetic limits."""
+    import json
+
+    evidence = ROOT / "docs" / "FCP_BIO5_MOLECULAR_COMMONALITY_EVIDENCE_20261018.md"
+    assert evidence.exists()
+    e = evidence.read_text(encoding="utf-8")
+    must = (
+        "0.0354487", "0.484962", "0.743252", "0.054067",
+        "0.009250", "−0.003281", "0.82", "F3h1",
+        "CHS", "Myb1a", "IpMYB1", "15.5%", "0.21%",
+        "two petal-loss and two whole-plant-loss", "not", "4,475",
+        "not an established cross-species selection mechanism",
+    )
+    for value in must:
+        assert value.lower() in e.lower(), value
+    # Check actual pre-existing immutable source JSON decisions; this note may
+    # synthesize their estimates but never change the original biological test.
+    bio5 = json.loads((ROOT/"results"/"polymorphism_legacy_white_bio5_replication_20260925"/"result.json").read_text())
+    source_molecular = json.loads((ROOT/"results"/"polymorphism_silene_molecular_anchor_20260928"/"result.json").read_text())
+    frequency = json.loads((ROOT/"results"/"polymorphism_silene_decoupling_persistence_20260925"/"result.json").read_text())
+    assert bio5["verdict"] == "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST"
+    assert bio5["discovery"]["species_level"]["wilcoxon_two_sided_p"] > .05
+    assert bio5["reserve"]["species_level"]["wilcoxon_two_sided_p"] > .05
+    assert source_molecular["derived_synthesis"]["causal_variant_identified"] is False
+    assert source_molecular["source"]["study_scope"].startswith("Silene littorea, one")
+    assert frequency["phenotypes"]["PAL"]["positive_frequency_median_percent"] == 15.5
+    assert frequency["phenotypes"]["WAL"]["positive_frequency_median_percent"] == .21
+    for doc in (MANUSCRIPT,CANONICAL):
+        paper=doc.read_text(encoding="utf-8")
+        for phrase in ("BIO5", "0.035", "0.485", "Parrya nudicaulis",
+                       "Sobel & Streisfeld 2013", "F3h1", "Myb1a",
+                       "a common", "do **not** establish"):
+            # Main text uses candidate-mechanism wording rather than claiming
+            # the 4,475 photo-cohort taxa share a genetic lesion.
+            if phrase in ("a common", "do **not** establish"):
+                continue
+            assert phrase in paper, phrase
+        assert "BIO5 causally maintains FCP across all species" not in paper
+    si = SUPPORTING.read_text(encoding="utf-8")
+    assert "## S8a. Linking BIO5 and flower-pigment regulatory mechanisms" in si
+    assert "two PAL and two WAL" in si
+    cover = COVER.read_text(encoding="utf-8")
+    assert "BIO5" in cover and "candidate shared pigment-network constraint" in cover
