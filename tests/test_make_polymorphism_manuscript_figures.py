@@ -79,6 +79,7 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
         "polymorphism_figure3_h2_target_localization",
         "polymorphism_figure4_prospective_h2",
         "polymorphism_figure5_explanatory_boundaries",
+        "polymorphism_figure6_fcp_commonality",
         "polymorphism_figureS9_secondary_mechanism_evidence",
     ]
     for stem in expected_stems:
@@ -134,6 +135,15 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert f5["ibd_ibe"]["cohorts"]["discovery"]["IBD_like"] == 0.027604435157351816
     assert f5["ibd_ibe"]["cohorts"]["validation"]["IBE_like"] == 0.00825562350468484
     assert f5["ibd_ibe"]["cohorts"]["third"]["IBE_like"] == 0.0101876235922715
+
+    f6 = manifest["figures"]["figure6"]
+    assert f6["actual_measured_photos"] == 447500
+    assert f6["descriptively_eligible_species"] == 3297
+    assert f6["spatially_eligible_species"] == 1761
+    assert abs(f6["four_state_50km_depletion"] - 0.017614902168541096) < 1e-11
+    assert abs(f6["majority_binary_50km_depletion"] - 0.016485145475518544) < 1e-11
+    assert f6["not_true_population_morph_frequency"] is True
+    assert f6["nonwhite_support_not_all_cohorts"] is True
 
     s9 = manifest["figures"]["supplementary_figure9"]
     assert s9["bio5"]["prospective_holm_p"] == 0.03544867047368517
