@@ -1020,7 +1020,7 @@ def test_completed_real_five_cohort_paper_claims_are_source_locked() -> None:
         "447,500", "4,475", "227,107", "1,761", "1,020",
         "0.017614902", "0.017598698", "0.5187948657",
         "0.4553650050", "0.8035357424",
-        "not** run identically for the entire fifth-wave",
+        "*not* run identically for the entire fifth-wave",
     ):
         assert claim in si, claim
     cover = COVER.read_text(encoding="utf-8")
