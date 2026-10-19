@@ -53,7 +53,7 @@ const results={
   joint:{...metricSummary(joint),genus_bootstrap_95:clusterCI(joint,'pair_logloss_gain',seedFor('joint_three'))},
   paired_joint_minus_bio5_mean:mean(paired,'delta'),
   paired_joint_minus_bio5_genus_bootstrap_95:clusterCI(paired,'delta',seedFor('joint_minus_bio5')),
-  by_cohort:[...group(bio,r=>r.source_cohort)].map(([cohort,a])=>({cohort,...metricSummary(a)})),
+  by_cohort:[...group(bio,r=>r.source_cohort)].map(([cohort,a])=>({cohort,...metricSummary(a),genus_bootstrap_95:clusterCI(a,'pair_logloss_gain',seedFor('cohort_'+cohort))})),
   by_white_frequency:[
     {label:'0-20%',rows:bio.filter(r=>Number(r.n_white)/Number(r.n_photos)<=.2)},
     {label:'20-50%',rows:bio.filter(r=>Number(r.n_white)/Number(r.n_photos)>.2&&Number(r.n_white)/Number(r.n_photos)<=.5)},
