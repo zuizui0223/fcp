@@ -1,0 +1,666 @@
+{
+  "schema": "fcp_molecular_expansion_retrieval_v2",
+  "query": "tax_tree(33090) AND library_source=\"TRANSCRIPTOMIC\" AND ((study_title=\"*flower*\" OR study_title=\"*petal*\") AND (study_title=\"*pigment*\" OR study_title=\"*anthocyanin*\" OR study_title=\"*carotenoid*\" OR study_title=\"*color*\" OR study_title=\"*colour*\"))",
+  "fields": "experiment_accession,run_accession,study_accession,secondary_study_accession,scientific_name,tax_id,study_title,sample_accession,sample_title,library_name,library_layout,library_strategy,library_source,instrument_platform",
+  "bound": "One fixed complete title metadata query; no raw reads",
+  "results": [
+    {
+      "file": "ena_expanded_title_screen_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/search?result=read_run&query=tax_tree%2833090%29+AND+library_source%3D%22TRANSCRIPTOMIC%22+AND+%28%28study_title%3D%22%2Aflower%2A%22+OR+study_title%3D%22%2Apetal%2A%22%29+AND+%28study_title%3D%22%2Apigment%2A%22+OR+study_title%3D%22%2Aanthocyanin%2A%22+OR+study_title%3D%22%2Acarotenoid%2A%22+OR+study_title%3D%22%2Acolor%2A%22+OR+study_title%3D%22%2Acolour%2A%22%29%29&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv&limit=0",
+      "bytes": 181430,
+      "sha256": "d727c5f03045ee2a1405746aa0e4b478e84d6b584faeb5d7f80f5dae86cf7600",
+      "retrieved_utc": "2026-10-19T00:27:21.249929+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913839.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913839",
+      "bytes": 3202,
+      "sha256": "e9142467f7233ce401c344588d9a63e9e90e13150b0c7bd9b59e90ff8fa7afa0",
+      "retrieved_utc": "2026-10-19T00:29:06.936120+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913835.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913835",
+      "bytes": 3220,
+      "sha256": "c8c7da09e70099207c06555fc1faab913eec6997a6ce79176d78ad8cf17a7010",
+      "retrieved_utc": "2026-10-19T00:29:06.853068+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681002.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681002",
+      "bytes": 3455,
+      "sha256": "c891045ab35897e69a76cd56fccf7f0244aede5bc023501571391ae7ee13ae34",
+      "retrieved_utc": "2026-10-19T00:29:06.824342+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681013.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681013",
+      "bytes": 3449,
+      "sha256": "4f1e488762c6b270bd55c9255a414bd331631da32fa5d90cc06af67bd0144562",
+      "retrieved_utc": "2026-10-19T00:29:06.234276+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681012.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681012",
+      "bytes": 3449,
+      "sha256": "6dc8b4e0821248d719d488d49c85d8f49537bce6c554ab1ba9c30c405cdbe6d8",
+      "retrieved_utc": "2026-10-19T00:29:06.233866+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681010.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681010",
+      "bytes": 3457,
+      "sha256": "373df8718e4df3b48e467a9a086c7e4930d1b039498d257d337c20fd387db32a",
+      "retrieved_utc": "2026-10-19T00:29:06.396789+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681009.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681009",
+      "bytes": 3457,
+      "sha256": "70cd9bba4a0450a52c4eaeaa33caaea27e799340e545e59a772f52f88a29a218",
+      "retrieved_utc": "2026-10-19T00:29:06.825773+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN18869152.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN18869152",
+      "bytes": 6017,
+      "sha256": "225f810797e1369bf544c4daf89cf22445eca70e2cb47761765b1cac708d733a",
+      "retrieved_utc": "2026-10-19T00:29:06.842878+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022473.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022473",
+      "bytes": 2939,
+      "sha256": "c9d14eae16569dd906e74534a54f48ee6fa061f9281006f88f0808156aaba9d7",
+      "retrieved_utc": "2026-10-19T00:29:07.004503+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022469.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022469",
+      "bytes": 2945,
+      "sha256": "1743a6535e2a9ad6d9ac657ddc2632c9ff1f1d438e217c9340fb827ebebe4c86",
+      "retrieved_utc": "2026-10-19T00:29:07.130959+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022468.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022468",
+      "bytes": 2945,
+      "sha256": "6e0d13455c3de9e8f053d233a6ac4e8b172c95926ff0b299ea08e7eafe5074ce",
+      "retrieved_utc": "2026-10-19T00:29:07.154420+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913843.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913843",
+      "bytes": 3208,
+      "sha256": "5cb5bff412b697b647905223125376c01bd0b430a2c6805fcfc21d9801bfded0",
+      "retrieved_utc": "2026-10-19T00:29:07.128771+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913836.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913836",
+      "bytes": 3220,
+      "sha256": "c491498b4fa46ef8f5b386c54e270794a743fe05467c582998e434bfda4881d7",
+      "retrieved_utc": "2026-10-19T00:29:07.148378+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681005.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681005",
+      "bytes": 3448,
+      "sha256": "2466f4bbf6c7955c23950293f43a47e5f4c453dce1a4d22c2c0fd0ab31dee985",
+      "retrieved_utc": "2026-10-19T00:29:07.272726+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681008.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681008",
+      "bytes": 3457,
+      "sha256": "9e922fac8515eab8fab77c70de29eae90048513e7bdcd717c5e590f99e691a39",
+      "retrieved_utc": "2026-10-19T00:29:07.301835+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681007.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681007",
+      "bytes": 3448,
+      "sha256": "3434b09b52634ec1871c8e76abe0e0f00d02906b3d76bc9cc90615bc3a9d4808",
+      "retrieved_utc": "2026-10-19T00:29:07.422577+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60680999.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60680999",
+      "bytes": 3463,
+      "sha256": "0025920fde1727d6c6319d34ba2d283ea80273e07ed9fa6e993c05baf32f6ab6",
+      "retrieved_utc": "2026-10-19T00:29:07.446978+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60680997.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60680997",
+      "bytes": 3454,
+      "sha256": "61c4c77039c93717bc6eb7dd6a2105f72dd6fbeaa59bac3d3b85ee2a22642955",
+      "retrieved_utc": "2026-10-19T00:29:07.425929+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022472.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022472",
+      "bytes": 2939,
+      "sha256": "5b39a6d0f35d7dba509b935938c3e999b43d71c76a0dd458d7f00929a167aaae",
+      "retrieved_utc": "2026-10-19T00:29:07.452533+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022470.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022470",
+      "bytes": 2945,
+      "sha256": "6da4407f8d63df53c7bf06c40eb9222ef5c37b8878727169a4e3a3a4fad7b29f",
+      "retrieved_utc": "2026-10-19T00:29:07.592077+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022465.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022465",
+      "bytes": 2942,
+      "sha256": "7e12106ca7b316648118ffe7ef541c6ce7efcd69b124ca1eafbd0bf6bb448750",
+      "retrieved_utc": "2026-10-19T00:29:07.733165+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN18869151.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN18869151",
+      "bytes": 6015,
+      "sha256": "afc03242d57adc1c673edaecb9f7957a85d56a1f97ac168281bf11827ca7e0a4",
+      "retrieved_utc": "2026-10-19T00:29:07.741438+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913840.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913840",
+      "bytes": 3202,
+      "sha256": "2d56a16464ef3e015aa75873e1515239de219193a0664438600e82f31cb9919c",
+      "retrieved_utc": "2026-10-19T00:29:07.616308+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913837.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913837",
+      "bytes": 3220,
+      "sha256": "5186c2b58b41f70b64c1d31603ebc726c2986df819d31e446feee85ab4828064",
+      "retrieved_utc": "2026-10-19T00:29:07.734623+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022467.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022467",
+      "bytes": 2942,
+      "sha256": "2d78cd6e78bba5e0d910b8e17264f58341adf10e9eaef64bc9fc2a8ce043ef95",
+      "retrieved_utc": "2026-10-19T00:29:07.759801+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022466.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022466",
+      "bytes": 2942,
+      "sha256": "f684a250757d5aaba3f11341882e9188816a509dd2f812558a9b1e120e73e5ce",
+      "retrieved_utc": "2026-10-19T00:29:07.877090+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN18869153.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN18869153",
+      "bytes": 6015,
+      "sha256": "4f4952675d3d6176741796b43670d10656acb9f64098a95d817e8655e1977d2f",
+      "retrieved_utc": "2026-10-19T00:29:07.911450+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913842.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913842",
+      "bytes": 3208,
+      "sha256": "fd80cd4b1f51ff5748f4ade47c2d258d1bce31930376288fd39c3eeb76354175",
+      "retrieved_utc": "2026-10-19T00:29:08.024023+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913841.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913841",
+      "bytes": 3208,
+      "sha256": "717bdd97464411bb26436badaca55b8cfa563feb9adc3fe9da3d830626ca7612",
+      "retrieved_utc": "2026-10-19T00:29:07.919911+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN38913838.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN38913838",
+      "bytes": 3202,
+      "sha256": "1dd841ced1c50ce8658ded3c3ed1eb00a5727d47b7f0e28ce39b1991d5f669f3",
+      "retrieved_utc": "2026-10-19T00:29:08.020650+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681003.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681003",
+      "bytes": 3455,
+      "sha256": "0685390e1b807f3fe26173b91b91593ceac41390283380c74e052c7a4bbcb99a",
+      "retrieved_utc": "2026-10-19T00:29:08.051763+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681001.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681001",
+      "bytes": 3463,
+      "sha256": "60ef3404fb12486b97f09c4c83c1a4397886c67dec876dd9e5a5cdff990aed0c",
+      "retrieved_utc": "2026-10-19T00:29:08.225362+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681011.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681011",
+      "bytes": 3449,
+      "sha256": "d6f5276af1b7e9a232066f6123c4ce9da9defbf0d01a0641da8224ade6a93ae2",
+      "retrieved_utc": "2026-10-19T00:29:08.222917+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60680996.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60680996",
+      "bytes": 3454,
+      "sha256": "912f9a9cb48de74805991b99c8789e043b47b3c42c37c6a7e513353e903064a3",
+      "retrieved_utc": "2026-10-19T00:29:08.202577+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN13022471.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN13022471",
+      "bytes": 2939,
+      "sha256": "663d7f50bb0f690c3cda30022054f7898a4ad78b59fde95520a7ebbc8e001edb",
+      "retrieved_utc": "2026-10-19T00:29:08.202013+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681004.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681004",
+      "bytes": 3455,
+      "sha256": "2232b4d63bae7fe6cc3270516fe6e68f614320f5f09aba0e1862d6c2bd3f53d7",
+      "retrieved_utc": "2026-10-19T00:29:08.213857+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681000.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681000",
+      "bytes": 3463,
+      "sha256": "01e88700c4602353d5b08e2bf160ec41f5b5bf702ae013397bb4dfa0a0dc71d0",
+      "retrieved_utc": "2026-10-19T00:29:08.380222+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60680998.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60680998",
+      "bytes": 3454,
+      "sha256": "d6f81329f91702759551be4b64b5565de94b4c535d1d03f036f980fb94c9fc1b",
+      "retrieved_utc": "2026-10-19T00:29:08.380008+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_sample_SAMN60681006.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN60681006",
+      "bytes": 3448,
+      "sha256": "ad095bf18a2d8553e0df3054cedc6e2a17f8f72abe08fe8a88fcb4a3f3ad2c15",
+      "retrieved_utc": "2026-10-19T00:29:08.522769+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "geo_GSE93879_family.soft.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93879/soft/GSE93879_family.soft.gz",
+      "bytes": 5973,
+      "sha256": "ed163d283634b2b824a73346ef3ddd6b5a1d18c8c676922e585049f02d9d321e",
+      "retrieved_utc": "2026-10-19T00:29:08.625531+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "primary_Eluta_2024.html",
+      "url": "https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.19866",
+      "error": "HTTP Error 403: Forbidden",
+      "retrieved_utc": "2026-10-19T00:29:08.312599+00:00",
+      "packaged_role": "failed_retrieval_record"
+    },
+    {
+      "file": "ena_project_PRJNA1475932.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/PRJNA1475932",
+      "bytes": 5081,
+      "sha256": "fc5c9ef69934e8bf7cc798c8e6f2cf35445cef3a127ad0f6acbc25da549ddbae",
+      "retrieved_utc": "2026-10-19T00:29:08.548994+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "primary_Matthiola_2025.xml",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12392961/fullTextXML",
+      "bytes": 234779,
+      "sha256": "3a580115be0cc4b38d292ec6e21f2fdd4ab7e41efb22561cab7190da4068d964",
+      "retrieved_utc": "2026-10-19T00:30:49.583329+00:00",
+      "packaged_role": "licensed_full_text_snapshot",
+      "license": {
+        "identifier": "CC-BY-4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "verified_from": "XML article front/article-meta/permissions: license_ref and general license-p",
+        "attribution": "Daozong Chen et al. (2025). Largest genome assembly in Brassicaceae: retrotransposon-driven genome expansion and karyotype evolution in Matthiola incana. Plant Biotechnology Journal 23(9):4109-4125. DOI: 10.1111/pbi.70193. PMCID: PMC12392961.",
+        "copyright": "Copyright 2025 The Author(s).",
+        "publisher": "Society for Experimental Biology; The Association of Applied Biologists; John Wiley & Sons Ltd.",
+        "modifications": "None; original retrieved XML bytes retained."
+      }
+    },
+    {
+      "file": "primary_Matthiola_2021.reference.json",
+      "url": "https://www.jstage.jst.go.jp/article/hortj/90/1/90_UTD-212/_html/-char/en",
+      "bytes": 2276,
+      "sha256": "b3d22e03fddee3a211c417444c1bb85a0a06cc1f8e02ef693c579ecfeb2677d7",
+      "retrieved_utc": "2026-10-19T00:30:50.542458+00:00",
+      "packaged_role": "source_reference_with_original_factual_summary",
+      "original_snapshot": {
+        "file": "primary_Matthiola_2021.html",
+        "url": "https://www.jstage.jst.go.jp/article/hortj/90/1/90_UTD-212/_html/-char/en",
+        "bytes": 275749,
+        "sha256": "fb561618b2f62ef5c53ab404515a403a8af9d3399eeef4055c9f61283361157d",
+        "retrieved_utc": "2026-10-19T00:30:50.542458+00:00",
+        "storage": "outside_repository; not required by offline builder",
+        "archive_path_relative_to_workspace": "fcp_inputs/molecular_sources_20261019/primary_Matthiola_2021.html"
+      },
+      "packaged_utc": "2026-10-19T01:07:45.274910+00:00",
+      "packaging_transform": "Full publisher HTML removed from repository; citation, retrieval provenance, and original factual summary retained.",
+      "rights": {
+        "original_source_statement": "All rights reserved",
+        "original_full_text_in_repository": false
+      }
+    },
+    {
+      "file": "epmc_Centaurea_2019.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1016%2Fj.plaphy.2019.06.018&format=json&resultType=core",
+      "bytes": 14217,
+      "sha256": "ec443986cbab61372f4ac1fd51279135776ce377d1a36a3fbc8fd76b8ed2ea9a",
+      "retrieved_utc": "2026-10-19T00:30:49.161231+00:00",
+      "packaged_role": "bibliographic_metadata_without_abstract_text",
+      "original_snapshot": {
+        "file": "epmc_Centaurea_2019.json",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1016%2Fj.plaphy.2019.06.018&format=json&resultType=core",
+        "bytes": 9965,
+        "sha256": "7d19ac5ad455b32fda238f19a95d1e45e028ed05242d5dd68abd4f02824050f1",
+        "retrieved_utc": "2026-10-19T00:30:49.161231+00:00",
+        "storage": "outside_repository; not required by offline builder",
+        "archive_path_relative_to_workspace": "fcp_inputs/molecular_sources_20261019/epmc_Centaurea_2019.json"
+      },
+      "packaged_utc": "2026-10-19T01:07:45.274910+00:00",
+      "packaging_transform": {
+        "removed_key": "abstractText",
+        "removed_occurrences": 1,
+        "removed_characters": 1820,
+        "preserved": "Every other JSON key and value, including titles, authors, identifiers, DOIs, license indicators, queries, and hit counts.",
+        "policy": "Remove all abstracts consistently; no assumption that a search-metadata record licenses redistribution."
+      }
+    },
+    {
+      "file": "epmc_Eluta_2024.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1111%2Fnph.19866&format=json&resultType=core",
+      "bytes": 16696,
+      "sha256": "82459589bd0854c4de9546e135c2c71982370078fffd4ca480b3664bfad1b081",
+      "retrieved_utc": "2026-10-19T00:30:49.162229+00:00",
+      "packaged_role": "bibliographic_metadata_without_abstract_text",
+      "original_snapshot": {
+        "file": "epmc_Eluta_2024.json",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1111%2Fnph.19866&format=json&resultType=core",
+        "bytes": 9977,
+        "sha256": "a20b229a6b1ec8e382f367c7ed87f919174a14a6cdbe8acc164eb2a24bab299c",
+        "retrieved_utc": "2026-10-19T00:30:49.162229+00:00",
+        "storage": "outside_repository; not required by offline builder",
+        "archive_path_relative_to_workspace": "fcp_inputs/molecular_sources_20261019/epmc_Eluta_2024.json"
+      },
+      "packaged_utc": "2026-10-19T01:07:45.274910+00:00",
+      "packaging_transform": {
+        "removed_key": "abstractText",
+        "removed_occurrences": 1,
+        "removed_characters": 1453,
+        "preserved": "Every other JSON key and value, including titles, authors, identifiers, DOIs, license indicators, queries, and hit counts.",
+        "policy": "Remove all abstracts consistently; no assumption that a search-metadata record licenses redistribution."
+      }
+    },
+    {
+      "file": "ena_PRJNA883049_followup_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJNA883049&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 4307,
+      "sha256": "303517247fca8fbb41b81a2c9e5a63cd1677faaadc20ce43e511518efabdbc12",
+      "retrieved_utc": "2026-10-19T00:33:04.884756+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "epmc_drought_search.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Orychophragmus+AND+drought&format=json&resultType=core&pageSize=100",
+      "bytes": 439345,
+      "sha256": "5e650dc6b95ed7d0680355394c26864d714d5b5937410faa26e3abe30416256c",
+      "retrieved_utc": "2026-10-19T00:33:05.467209+00:00",
+      "packaged_role": "bibliographic_metadata_without_abstract_text",
+      "original_snapshot": {
+        "file": "epmc_drought_search.json",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=Orychophragmus+AND+drought&format=json&resultType=core&pageSize=100",
+        "bytes": 326424,
+        "sha256": "9fad2ecd444a974198ac20582bfcd11226f74cea12524ea6ca0316dc9baf97b4",
+        "retrieved_utc": "2026-10-19T00:33:05.467209+00:00",
+        "storage": "outside_repository; not required by offline builder",
+        "archive_path_relative_to_workspace": "fcp_inputs/molecular_sources_20261019/epmc_drought_search.json"
+      },
+      "packaged_utc": "2026-10-19T01:07:45.274910+00:00",
+      "packaging_transform": {
+        "removed_key": "abstractText",
+        "removed_occurrences": 47,
+        "removed_characters": 74677,
+        "preserved": "Every other JSON key and value, including titles, authors, identifiers, DOIs, license indicators, queries, and hit counts.",
+        "policy": "Remove all abstracts consistently; no assumption that a search-metadata record licenses redistribution."
+      }
+    },
+    {
+      "file": "ncbi_drought_pubmed_links.xml",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=bioproject&db=pubmed&id=1475932",
+      "bytes": 309,
+      "sha256": "f140b08f01b0fc2643b69c3ad96cf9a5bba8e2ec1778c24e53ac6e46bd26fa44",
+      "retrieved_utc": "2026-10-19T00:33:04.228578+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "GSE93879_Matthiola_incana.genes.fpkm_tracking.xls.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93879/suppl/GSE93879_Matthiola_incana.genes.fpkm_tracking.xls.gz",
+      "error": "HTTP Error 404: Not Found",
+      "retrieved_utc": "2026-10-19T00:33:04.320390+00:00",
+      "packaged_role": "failed_retrieval_record"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958972.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958972",
+      "bytes": 3373,
+      "sha256": "438d5d9b1fea9b9180970795cbf6ce6bdea18805acdf8d6518f63deeeeba25a6",
+      "retrieved_utc": "2026-10-19T00:39:51.777201+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958971.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958971",
+      "bytes": 3373,
+      "sha256": "76f44330bced3a4d2a34920012c863e6eb7ccc3e19ece3899e500a4ebbc0f787",
+      "retrieved_utc": "2026-10-19T00:39:51.942495+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958976.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958976",
+      "bytes": 3391,
+      "sha256": "528a3339d702f135b51460bcab9c10be39747cc38299c1604228048d93ed839b",
+      "retrieved_utc": "2026-10-19T00:39:51.929011+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958973.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958973",
+      "bytes": 3391,
+      "sha256": "754c7ff2aad6acf46a0ccd1445605db90e1796ab9aedeb38f5e72c02cc441c9f",
+      "retrieved_utc": "2026-10-19T00:39:51.917928+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958970.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958970",
+      "bytes": 3373,
+      "sha256": "c47d1f9dee26af4d9e069c78f5642d4a150a82e01b6448009dccc0c800865ed3",
+      "retrieved_utc": "2026-10-19T00:39:51.775547+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958967.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958967",
+      "bytes": 3382,
+      "sha256": "cd0ac9a24a690205773a023fef1198b3e1ae788dd6464f00914a8254a80d5726",
+      "retrieved_utc": "2026-10-19T00:39:52.111056+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958983.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958983",
+      "bytes": 3394,
+      "sha256": "baa2817d416b8245fd833e8deb283264d11e5a5ac77f16a3b306364fab5fca52",
+      "retrieved_utc": "2026-10-19T00:39:52.058756+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958982.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958982",
+      "bytes": 3394,
+      "sha256": "9d289c10e424a71b923d918757add245392145f72b45b18fa69a7518649639d5",
+      "retrieved_utc": "2026-10-19T00:39:52.099435+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958978.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958978",
+      "bytes": 3376,
+      "sha256": "2f3d22908cc866cdf756493cf8a11c0d3540cb978812e74cac7a0aa04c078187",
+      "retrieved_utc": "2026-10-19T00:39:52.201181+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958980.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958980",
+      "bytes": 3376,
+      "sha256": "a0a5acd38e8342992ef8836ea0955d50a0396a775a733f0b7c0cd502535a62c5",
+      "retrieved_utc": "2026-10-19T00:39:52.350489+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958975.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958975",
+      "bytes": 3391,
+      "sha256": "24bf1670030fee71808d8d00802dc073daf6e110f9c091cab7658ed94987f1fd",
+      "retrieved_utc": "2026-10-19T00:39:52.353773+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958974.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958974",
+      "bytes": 3391,
+      "sha256": "c0059f738be1bcc605b510a5ec447c6f6390d20cd258771c7ff341d18abcf4dc",
+      "retrieved_utc": "2026-10-19T00:39:52.380668+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958968.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958968",
+      "bytes": 3382,
+      "sha256": "fab4c8c1b5f08cd2ed3e8f917ca26bc80a18ef60370664a2500de0497d8eb943",
+      "retrieved_utc": "2026-10-19T00:39:52.359834+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958965.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958965",
+      "bytes": 3382,
+      "sha256": "9800efbd7645b03616d4fc11de49bd3db11e2e3c1bc02fe1542a84277e3f975d",
+      "retrieved_utc": "2026-10-19T00:39:52.538708+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958981.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958981",
+      "bytes": 3394,
+      "sha256": "fbb70ca76a70c30159023191d4e149fe0b3a1d48696ee864ae1a6c165760ba13",
+      "retrieved_utc": "2026-10-19T00:39:52.680180+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958977.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958977",
+      "bytes": 3391,
+      "sha256": "984913303b875d756e0dcc51b6bfac24e9be5ae51e03f51703e637ffa210de99",
+      "retrieved_utc": "2026-10-19T00:39:52.537957+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958969.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958969",
+      "bytes": 3382,
+      "sha256": "bfd114a04216961f39c296744b962c6a8f67460925b97ac5338a565072f2d33b",
+      "retrieved_utc": "2026-10-19T00:39:52.552874+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "ena_followup_sample_SAMN30958979.xml",
+      "url": "https://www.ebi.ac.uk/ena/browser/api/xml/SAMN30958979",
+      "bytes": 3376,
+      "sha256": "e08d213f54f89dd551ab9ba80d74e320774fae1ce0f46e78a12e1879f5bc6875",
+      "retrieved_utc": "2026-10-19T00:39:52.692382+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93879/suppl/GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz",
+      "bytes": 383111,
+      "sha256": "76d48a810ebce9d928f7f49c55a1c5e3239c955665a73e6988e11a9f24520ef7",
+      "retrieved_utc": "2026-10-19T00:39:53.138002+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "GSE93879_Lobularia_maritima.genes.fpkm_table.xls.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93879/suppl/GSE93879_Lobularia_maritima.genes.fpkm_table.xls.gz",
+      "bytes": 197275,
+      "sha256": "89c9939686593474f7c3c746659304294cbf76a272f3e167377e58d02c8f772a",
+      "retrieved_utc": "2026-10-19T00:39:53.070090+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    },
+    {
+      "file": "GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93879/suppl/GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz",
+      "bytes": 260701,
+      "sha256": "1bd6ba6960690b90b34fd52aa809d4dfa54aa8f190e28fe352119bdcdada683e",
+      "retrieved_utc": "2026-10-19T00:39:53.281774+00:00",
+      "packaged_role": "unmodified_retrieved_snapshot"
+    }
+  ],
+  "packaging": {
+    "packaged_utc": "2026-10-19T01:07:45.274910+00:00",
+    "integrity_semantics": "Top-level file, bytes, and sha256 identify repository-packaged bytes. For derivatives, original_snapshot separately identifies the retrieved original and its preservation outside the repository. The offline builder verifies the top-level packaged hashes and does not require external originals.",
+    "original_archive_relative_to_workspace": "fcp_inputs/molecular_sources_20261019",
+    "original_snapshots_preserved_outside_repository": 4,
+    "europepmc_abstract_bearing_json_files": 3,
+    "abstractText_fields_removed": 49,
+    "scientific_scope": "Packaging only. Queries, hit counts, bibliographic fields, curated biological claims, and numerical inputs are unchanged."
+  }
+}

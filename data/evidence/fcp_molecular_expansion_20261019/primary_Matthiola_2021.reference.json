@@ -1,0 +1,42 @@
+{
+  "schema": "fcp_primary_source_reference_v1",
+  "packaged_role": "source_reference_with_original_factual_summary",
+  "citation": {
+    "authors": [
+      "Latifa Nuraini",
+      "Fumi Tatsuzawa",
+      "Masaki Ochiai",
+      "Katsumi Suzuki",
+      "Takashi Nakatsuka"
+    ],
+    "title": "Two Independent Spontaneous Mutations Related to Anthocyanin-less Flower Coloration in Matthiola incana Cultivars",
+    "journal": "The Horticulture Journal",
+    "year": 2021,
+    "volume": "90",
+    "issue": "1",
+    "pages": "85-96",
+    "doi": "10.2503/hortj.UTD-212",
+    "url": "https://www.jstage.jst.go.jp/article/hortj/90/1/90_UTD-212/_html/-char/en"
+  },
+  "original_retrieval": {
+    "file": "primary_Matthiola_2021.html",
+    "url": "https://www.jstage.jst.go.jp/article/hortj/90/1/90_UTD-212/_html/-char/en",
+    "bytes": 275749,
+    "sha256": "fb561618b2f62ef5c53ab404515a403a8af9d3399eeef4055c9f61283361157d",
+    "retrieved_utc": "2026-10-19T00:30:50.542458+00:00",
+    "storage": "outside_repository; not required by offline builder",
+    "archive_path_relative_to_workspace": "fcp_inputs/molecular_sources_20261019/primary_Matthiola_2021.html"
+  },
+  "rights": {
+    "publisher_statement": "All rights reserved",
+    "article_full_text_packaged": false,
+    "reason": "The retrieved publisher page did not establish permission to redistribute the full article."
+  },
+  "original_factual_summary": [
+    "All six studied white stock cultivars shared a one-base deletion in ANS predicted to truncate the protein. Two of these white cultivars also carried a 481-base insertion in bHLH2.",
+    "The petal chemistry and qPCR experiments reported five biological replicates. White petals lacked detectable anthocyanin peaks while retaining flavonols.",
+    "These commercial cultivar comparisons provide sequence and expression associations. They do not establish six independent pigment-loss origins or an allele-specific rescue. The two double-mutant white cultivars are related, and the comparison with a bHLH2-only mutant concerns a yellow cultivar."
+  ],
+  "curation_scope_unchanged": "Material-specific species annotation; not an allele assignment to FCP photographs or evidence of environmental adaptation.",
+  "packaged_utc": "2026-10-19T01:07:45.274910+00:00"
+}

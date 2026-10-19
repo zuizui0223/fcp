@@ -1,0 +1,4 @@
+reference_locus,gene_label,reference_species,source_url,verification
+AT5G13930,CHS_TT4,Arabidopsis thaliana,https://www.ncbi.nlm.nih.gov/gene?LinkName=nuccore_gene&from_uid=166669,NCBI primary gene search record associates AT5G13930 with TT4/CHS; verified2026-10-19
+AT5G42800,DFR_TT3,Arabidopsis thaliana,https://www.ncbi.nlm.nih.gov/gene/834291,NCBI primary gene record associates AT5G42800 with DFR; verified2026-10-19
+AT4G22880,ANS_LDOX_TT18,Arabidopsis thaliana,https://www.ncbi.nlm.nih.gov/gene/828387,NCBI primary gene record associates AT4G22880 with LDOX/ANS; verified2026-10-19
