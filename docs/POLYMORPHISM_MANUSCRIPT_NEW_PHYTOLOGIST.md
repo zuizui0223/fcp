@@ -8,25 +8,16 @@
 
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
-**Word counts (current working draft):**
-- Summary: 192 words
-- Introduction: 805 words
-- Materials and Methods: 2,607 words
-- Results: 3,059 words
-- Discussion: 2,668 words
-- Main text (Introduction through Discussion): 9,139 words
-- Figures: 5
-- Tables: 1
-- Supporting Information: evidence map + planned supplementary figures/tables
+**Working draft status (updated 19 October 2026):** Completed 447,500-photograph analyses are now included. Word counts must be recalculated before submission. Main figures remain the original five frozen-stage panels; expanded analyses are designated for supplementary panels.
 
 **Keywords (alphabetical):** citizen science; distributed polymorphism; flower colour; geographic variation; intraspecific variation; polymorphism
 
 ## Summary
 
-- Species-wide intraspecific trait variation can arise because alternative phenotypes coexist locally or because different phenotypes occupy different parts of a species' range. Using flower-colour variation, we ask where ITV resides geographically, which spatial processes accompany it, and whether within-species displacement also recurs along common phenotype-space directions.
-- Three frozen stages analysed 149,900 photographs from 1,499 species; a later unchanged-method extension added 49,800 photographs from 498 species. Species-wide colour diversity was reproducible across observers and fresh images.
-- At the post hoc 50-km scale, local conspecific colour diversity was depleted relative to each species' fixed overall composition in four species-disjoint cohorts (mean depletion = 0.0205, 0.0187, 0.0147 and 0.0173; p = 0.005 each). The original three-cohort pattern survived same-observer, white-label and continuous-colour sensitivity tests. Exploratory matched nulls retained excess sorting after removing top-effect species.
-- Continuous colour turnover contained both a stronger isolation-by-distance-like component and a smaller BIO5-associated environment component across all three cohorts. The environmental component failed stricter background/observer controls and is therefore not evidence of local adaptation. Separately, a frozen achromatic–chromatic axis was prospectively confirmed (W = 0.517 versus null median 0.457, p = 0.001).
+- Within-species flower-colour variation may reflect alternative phenotypes coexisting locally or occupying different parts of a species' range. We compared geographic structure, recurrent colour directions and environmental associations across conspecific photographs.
+- Five species-disjoint cohorts yielded 447,500 authentically measured photographs of 4,475 plant species (227,107 classifiable). A previously frozen, species- and photo-disjoint prospective test confirmed excess continuous-colour alignment with a white–chromatic axis (W = 0.517, structured-null median = 0.457, p = 0.001).
+- Across 1,761 spatially eligible species, records within 50 km were more colour-similar than expected from species-specific label frequencies (mean mismatch depletion 0.01761; 55.9% positive species versus null mean 44.6%). White–chromatic contrasts contributed 83.8% of this effect but were already 79.6% of global unequal-colour pairs; baseline-normalized sorting was not demonstrably stronger than chromatic–chromatic sorting.
+- Across 1,574 species (86,114 photographs), warmer maximum temperature of the warmest month was weakly associated with white classification (equal-species mean log-odds slope +0.0323 per °C, genus-bootstrap 95% interval +0.0179 to +0.0473). These results reveal recurrent spatial organization and a small climate correlate, without identifying selection, gene flow, drift or plasticity as the cause.
 
 ---
 
@@ -80,7 +71,13 @@ After H2 terminalization, prospective photographs were reacquired for response-b
 
 #### Stage 4 — post-freeze unchanged-method fourth-cohort extension
 
-After the three original cohorts' H2 confirmation and post hoc spatial conclusions were terminal, an outcome-blind H9 draw selected 500 additional unused taxa. Of these, **498 taxa** supplied 100 genuine, source-authenticated photographs each. Their **49,800 original image measurements** completed all 256 blind ROI-v4/EfficientSAM workers. We applied the *unchanged* original H1 observer-disjoint splits, 50-km local-pair statistic (at least 40 classifiable photographs and 30 local pairs; 199 exact-composition vertex permutations), and fixed white-axis W (999 coarse-state-preserving nulls; 0.10/0.20 gates). No new radius, colour rule, axis or null was optimized against the fourth-cohort outcomes. The resulting **199,700 measured photographs from 1,997 species** are a later, same-provider extension; they do not replace the original three-cohort frozen prospective test. As of the 17 October 2026 evidence freeze, the separately identified **447,500-photo final five-cohort source** remains an *analysis-eligibility target*, not a completed measured phenotype dataset (Supporting Information S5c).
+After terminalization of the original three cohorts, the fourth outcome-blind draw added 498 previously unused taxa with 100 original photographs each, processed by the unchanged, blind ROI-v4/EfficientSAM pipeline (49,800 measured photographs). The unchanged H1 observer-disjoint splits, 50-km local-pair statistic (>=40 classifiable photos and >=30 local pairs; 199 fixed-composition vertex permutations), and the fixed white-axis W were applied. The intermediate original-method total was **1,997 species and 199,700 measured photographs**. This same-provider extension did not alter the original three-cohort frozen prospective H2 decision.
+
+#### Stage 5 — completed authentic 447,500-photo extension
+
+The fifth species-disjoint cohort contributed **2,478 additional species × 100 original photographs = 247,800 measured rows**. The complete five-cohort atlas therefore contains **4,475 species and 447,500 genuinely measured photographs**. Of these, **227,107** received a classifiable original four-state colour label. The original >=40-classifiable gate retained **3,297 species**; the additional >=30 conspecific photo pairs within 50 km retained **1,761 species**, consisting of 166 discovery, 181 validation, 204 prospective, 190 fourth-cohort and 1,020 fifth-cohort species. The original complete-composition 199-permutation 50-km null was replayed and additional pooled distributional tests and a white–chromatic versus chromatic–chromatic decomposition were performed *post hoc*. The 17 October statement that the fifth-cohort source was an uncompleted target was an interim evidence freeze, not the current status.
+
+
 
 ### Photographic measurement and outcome firewall
 
@@ -207,6 +204,12 @@ and
 Complete colour vectors were permuted among fixed coordinates 199 times, preserving geography, BIO5 values, geography–BIO5 covariance and the exact colour-vector multiset. Species contributed equally to cohort means. We also report a descriptive rank-based commonality partition into unique geographic, unique BIO5 and shared components; pairwise rows are not treated as independent inferential replicates.
 
 Because a positive phenotype–environment association can reflect image/background structure or observer geography rather than biological sorting, BIO5 interpretation was additionally challenged with continuous-colour, same-observer-pair and matched flower-minus-background sensitivities. We use **phenotypic IBE-like** only as a descriptive analogy to landscape-genetic IBE; these tests do not measure gene flow, fitness or local adaptation.
+
+### Exploratory five-cohort environmental and colour-component analyses
+
+Following the original prospective 281-species BIO5 test, we fitted a distinct **post hoc** within-species model to **1,574 species, 86,114 classifiable photographs and 727 genera** with at least five white and five chromatic records per species. Firth-penalized logistic models simultaneously included BIO5 (WorldClim 2.1 maximum temperature of the warmest month), BIO14 (driest-month precipitation) and mean solar radiation, standardized by each species' sampled climate SD. Two-stage normal-REML synthesis accounted for first-stage slope covariance; this is not a one-stage binomial mixed model. We independently report the equal-species arithmetic mean after transforming the slope and full covariance to units per 1°C, with 5,000 genus-cluster bootstrap draws, and a separate REML mean. Observer thinning, 1°-cell thinning and limited linear geographic adjustment were sensitivity analyses. The 1970–2000 WorldClim climatologies describe locations, not weather on the photograph date.
+
+An additional **post hoc** composition check separated white–chromatic from chromatic–chromatic contributions to global-minus-50-km unequal-colour photo-pair frequency and divided each null-adjusted component by its own global mismatch within species where *both* denominators exceeded exploratory thresholds. All findings concern photographs and their selected climate normals rather than genetic morph frequencies or reproductive fitness; the earlier frozen BIO5 observer and cohort-transport decisions remain unchanged.
 
 ### H3a: broad phylogenetic signal
 
