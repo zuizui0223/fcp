@@ -28,7 +28,7 @@ Values independently read and compared from authentic Git-tracked source CSVs:
 | Two-stage REML BIO5 per °C | +0.01707632377 | +0.01708 |
 | Original SD-unit two-stage REML | +0.0546730256 | +0.05467 |
 
-All 11 quantitative checks passed; 17 expected numeric/text tokens appear in the updated manuscript; historical fixed W and frozen BIO5-transport results remain in place. No interim “447,500-photo analysis pending” statements remain.
+All 11 quantitative checks passed; all checked numeric/text claim anchors appear in the updated manuscript; historical fixed W and frozen BIO5-transport results remain in place. No interim “447,500-photo analysis pending” statements remain.
 
 ## Source artifacts
 
