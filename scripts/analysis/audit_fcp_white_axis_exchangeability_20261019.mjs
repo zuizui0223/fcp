@@ -76,20 +76,17 @@ const filters={
   classifiable_ge80:eligible.filter(r=>r.n_classifiable>=80),
   two_or_three_states:eligible.filter(r=>r.n_states<=3),
 };
-const presence=Object.entries(filters).map(([name,rows])=>({
-  group:name,n_species:rows.length,n_genera:new Set(rows.map(r=>r.genus)).size,
-  observed_white_species:rows.filter(semanticWhite).length,
-  observed_fraction:mean(rows,semanticWhite),
-  exchangeable_label_expected_fraction:mean(rows,r=>r.n_states/4),
-  excess_over_label_exchangeability:mean(rows,presenceExcess),
-  genus_bootstrap_low:bootCI(rows,presenceExcess)[0],
-  // compute one paired interval below rather than independently resampling endpoints
-}));
-for(const row of presence){
-  const loRows=filters[row.group];
-  const interval=bootCI(loRows,presenceExcess);
-  row.genus_bootstrap_low=interval[0];row.genus_bootstrap_high=interval[1];
-}
+const presence=Object.entries(filters).map(([name,rows])=>{
+  const ci=bootCI(rows,presenceExcess);
+  return {
+    group:name,n_species:rows.length,n_genera:new Set(rows.map(r=>r.genus)).size,
+    observed_white_species:rows.filter(semanticWhite).length,
+    observed_fraction:mean(rows,semanticWhite),
+    exchangeable_label_expected_fraction:mean(rows,r=>r.n_states/4),
+    excess_over_label_exchangeability:mean(rows,presenceExcess),
+    genus_bootstrap_low:ci[0],genus_bootstrap_high:ci[1]
+  };
+});
 const byStates=[2,3,4].map(k=>{
   const arr=eligible.filter(r=>r.n_states===k);
   return {n_states:k,n_species:arr.length,n_white:arr.filter(semanticWhite).length,
