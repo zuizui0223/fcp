@@ -1,0 +1,181 @@
+{
+  "schema": "fcp_white_axis_label_exchangeability_v1",
+  "source_git_blob_shas": {
+    "photo": "d72bc06760e3b96a3c8ab1237ebf758b214f0fc6",
+    "spatial": "77c24ca9738cf824a6a31779174bcd79d1c98a30"
+  },
+  "photo_rows": 4475,
+  "spatial_rows": 1761,
+  "bootstrap_repetitions": 5000,
+  "rng_seed": 20261019,
+  "presence": [
+    {
+      "group": "all",
+      "n_species": 3029,
+      "n_genera": 1162,
+      "observed_white_species": 2963,
+      "observed_fraction": 0.9782106305711455,
+      "exchangeable_label_expected_fraction": 0.677946517002311,
+      "excess_over_label_exchangeability": 0.3002641135688346,
+      "genus_bootstrap_low": 0.2888323026555111,
+      "genus_bootstrap_high": 0.31252229753835176
+    },
+    {
+      "group": "classifiable_ge60",
+      "n_species": 1227,
+      "n_genera": 589,
+      "observed_white_species": 1199,
+      "observed_fraction": 0.9771801140994295,
+      "exchangeable_label_expected_fraction": 0.6177669111654441,
+      "excess_over_label_exchangeability": 0.3594132029339853,
+      "genus_bootstrap_low": 0.34577015163607344,
+      "genus_bootstrap_high": 0.3724279835390947
+    },
+    {
+      "group": "classifiable_ge80",
+      "n_species": 94,
+      "n_genera": 80,
+      "observed_white_species": 93,
+      "observed_fraction": 0.9893617021276596,
+      "exchangeable_label_expected_fraction": 0.5372340425531915,
+      "excess_over_label_exchangeability": 0.4521276595744681,
+      "genus_bootstrap_low": 0.42329545454545453,
+      "genus_bootstrap_high": 0.47554347826086957
+    },
+    {
+      "group": "two_or_three_states",
+      "n_species": 2491,
+      "n_genera": 1042,
+      "observed_white_species": 2425,
+      "observed_fraction": 0.9735046166198313,
+      "exchangeable_label_expected_fraction": 0.6083902047370534,
+      "excess_over_label_exchangeability": 0.365114411882778,
+      "genus_bootstrap_low": 0.3557300163132137,
+      "genus_bootstrap_high": 0.3743022328548644
+    }
+  ],
+  "by_states": [
+    {
+      "states": 2,
+      "n": 1411,
+      "white": 1361,
+      "observed_fraction": 0.9645641389085755,
+      "exchangeability": 0.5
+    },
+    {
+      "states": 3,
+      "n": 1080,
+      "white": 1064,
+      "observed_fraction": 0.9851851851851852,
+      "exchangeability": 0.75
+    },
+    {
+      "states": 4,
+      "n": 538,
+      "white": 538,
+      "observed_fraction": 1,
+      "exchangeability": 1
+    }
+  ],
+  "by_cohort": [
+    {
+      "cohort": "new_U100",
+      "n": 1685,
+      "white": 1644,
+      "observed": 0.9756676557863502,
+      "exchangeable": 0.673887240356083
+    },
+    {
+      "cohort": "discovery",
+      "n": 343,
+      "white": 339,
+      "observed": 0.9883381924198251,
+      "exchangeable": 0.6822157434402333
+    },
+    {
+      "cohort": "prospective",
+      "n": 350,
+      "white": 341,
+      "observed": 0.9742857142857143,
+      "exchangeable": 0.6685714285714286
+    },
+    {
+      "cohort": "validation",
+      "n": 333,
+      "white": 326,
+      "observed": 0.978978978978979,
+      "exchangeable": 0.6959459459459459
+    },
+    {
+      "cohort": "wave4",
+      "n": 318,
+      "white": 313,
+      "observed": 0.9842767295597484,
+      "exchangeable": 0.6863207547169812
+    }
+  ],
+  "spatial_normalized": [
+    {
+      "min_global_mismatch": 0,
+      "n_species": 826,
+      "n_genera": 454,
+      "normalized_white_mean": 0.06869600346993109,
+      "normalized_nonwhite_mean": 0.12150718439000772,
+      "difference_white_minus_nonwhite": -0.052811180920076625,
+      "fraction_white_relatively_stronger": 0.4322033898305085,
+      "genus_bootstrap_95_low": -0.11400971552532652,
+      "genus_bootstrap_95_high": 0.013125906969670002
+    },
+    {
+      "min_global_mismatch": 0.005,
+      "n_species": 698,
+      "n_genera": 384,
+      "normalized_white_mean": 0.06198261440171007,
+      "normalized_nonwhite_mean": 0.08338544619877886,
+      "difference_white_minus_nonwhite": -0.02140283179706881,
+      "fraction_white_relatively_stronger": 0.4684813753581662,
+      "genus_bootstrap_95_low": -0.07543734336961572,
+      "genus_bootstrap_95_high": 0.03407820431443377
+    },
+    {
+      "min_global_mismatch": 0.01,
+      "n_species": 636,
+      "n_genera": 355,
+      "normalized_white_mean": 0.05695979445798695,
+      "normalized_nonwhite_mean": 0.06945286923408366,
+      "difference_white_minus_nonwhite": -0.012493074776096715,
+      "fraction_white_relatively_stronger": 0.4779874213836478,
+      "genus_bootstrap_95_low": -0.06813154500411357,
+      "genus_bootstrap_95_high": 0.04590944654407061
+    },
+    {
+      "min_global_mismatch": 0.02,
+      "n_species": 574,
+      "n_genera": 327,
+      "normalized_white_mean": 0.054552259301795,
+      "normalized_nonwhite_mean": 0.07858388938756326,
+      "difference_white_minus_nonwhite": -0.02403163008576835,
+      "fraction_white_relatively_stronger": 0.47560975609756095,
+      "genus_bootstrap_95_low": -0.08100996334651829,
+      "genus_bootstrap_95_high": 0.032820201803008764
+    },
+    {
+      "min_global_mismatch": 0.05,
+      "n_species": 338,
+      "n_genera": 216,
+      "normalized_white_mean": 0.079348048046961,
+      "normalized_nonwhite_mean": 0.04251993131453149,
+      "difference_white_minus_nonwhite": 0.036828116732429535,
+      "fraction_white_relatively_stronger": 0.4911242603550296,
+      "genus_bootstrap_95_low": -0.02610405184790274,
+      "genus_bootstrap_95_high": 0.10213500321080199
+    }
+  ],
+  "caveats": [
+    "The four color labels are not biological exchangeable units; p=k/4 is a class-ontology diagnostic, not an evolutionary null.",
+    "Normalized spatial comparisons restrict to species where BOTH color-pair mismatch baselines exceed the specified cutoff; not representative of all 1,761 eligible spatial species.",
+    "Cluster bootstrap conditions on 199-permutation null means, and clustering by genus does not fully control phylogenetic relatedness.",
+    "Photo label presence is not population-level genetically inherited flower-color polymorphism.",
+    "All analyses are post hoc and rely on frozen previous photo classification, not raw image reclassification."
+  ]
+}
