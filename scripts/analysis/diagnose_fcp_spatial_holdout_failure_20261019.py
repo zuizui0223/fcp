@@ -5,7 +5,7 @@ Pure Python standard library; never refits, changes, or selects model coefficien
 Run from the repository root:
 python scripts/analysis/diagnose_fcp_spatial_holdout_failure_20261019.py \
  --input results/fcp_environment_transport_20261019/spatial_species_metrics.csv \
- --outdir results/fcp_spatial_failure_diagnosis_20261019
+ --outdir results/fcp_spatial_failure_diagnosis_20261019/python_replay
 """
 import argparse
 import csv
