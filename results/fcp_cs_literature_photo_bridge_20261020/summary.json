@@ -1,0 +1,63 @@
+{
+  "schema": "fcp_literature_CS_photo_bridge_v1",
+  "date": "2026-10-20",
+  "matching": "exact NFKC normalized accepted name only; no guessed synonyms",
+  "study_units": {
+    "literature_n": 34,
+    "photo_roster_n": 4475,
+    "photo_spatial_50km_n": 1761,
+    "fcp_environment_BIO5_n": 1574
+  },
+  "summary": [
+    {
+      "literature_state": "local_coexistence_only",
+      "n_literature_species": 11,
+      "n_photo_roster": 6,
+      "n_spatial_50km": 2,
+      "n_BIO5": 4,
+      "n_BIO5_and_spatial": 1
+    },
+    {
+      "literature_state": "spatial_segregation_only",
+      "n_literature_species": 8,
+      "n_photo_roster": 2,
+      "n_spatial_50km": 0,
+      "n_BIO5": 0,
+      "n_BIO5_and_spatial": 0
+    },
+    {
+      "literature_state": "coexistence_and_segregation",
+      "n_literature_species": 15,
+      "n_photo_roster": 8,
+      "n_spatial_50km": 3,
+      "n_BIO5": 7,
+      "n_BIO5_and_spatial": 3
+    }
+  ],
+  "totals": {
+    "literature_species": 34,
+    "photo_roster": 16,
+    "spatial_50km": 5,
+    "BIO5_models": 11,
+    "BIO5_and_spatial": 4,
+    "spatial_segregation_only_spatial_matches": 0
+  },
+  "source_sha256": null,
+  "inference": "no literature-C/S versus photographic-spatial response model is estimable: no S-only species in the strict five-species spatial intersection",
+  "warnings": [
+    "C/S literature evidence is positive-only; zero means not documented, never absence.",
+    "50-km photographed mismatch is not a within-population C/S indicator.",
+    "Photo labels have no linked individual-genotype or independently audited morph identity.",
+    "The 74-species exploratory JBI core is a different selection from this 34-species strict evidence freeze.",
+    "The FCP sample has 100 originally measured photo rows per species and 227107 classifiable overall; cannot represent global genetically validated FCP prevalence.",
+    "Exact-name join can miss legitimate synonyms; do not silently substitute or inflate overlap."
+  ],
+  "source_git_blob_sha": {
+    "data/frozen/jbi_cs_evidence_freeze_v22.csv": "dc9ab58bd1164a6d378a05a32f6613ebc75e1679",
+    "results/fcp_real_447500_white_axis_decomposition_20261018/species_photo_composition.csv": "d72bc06760e3b96a3c8ab1237ebf758b214f0fc6",
+    "results/fcp_real_447500_white_axis_decomposition_20261018/species_spatial_decomposition.csv": "77c24ca9738cf824a6a31779174bcd79d1c98a30",
+    "results/fcp_real_447500_environment_model_20261018/species_slopes.csv": "0f61a1d3661d1725c51909299f5bea9f93efbb65"
+  },
+  "execution_note": "Actual GitHub file values used; V8 replay with read/write/crypto mocks. SHA-256 not computed by this connector execution; native Node script computes SHA-256 on replay.",
+  "native_node_execution_checked": false
+}
