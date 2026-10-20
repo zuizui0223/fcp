@@ -32,7 +32,7 @@ def fit_axis(p):
     return float((a @ Q)**2)
 
 def prepare(d):
-    d=d.sort_values(["inat_taxon_id","photo_id"],kind="mergesort").reset_index(drop=True)
+    d=d.sort_values(["inat_taxon_id"],kind="mergesort").reset_index(drop=True)  # preserve original within-species photo input order
     palette=np.stack(d.palette_norm9.to_numpy())
     species=d.inat_taxon_id.to_numpy(dtype=int)
     source=d.fcp_source_cohort.to_numpy(dtype=str)
