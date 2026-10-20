@@ -207,11 +207,18 @@ def stats(values, nulls, coh):
            "null_upper_p_199_one_sided_white_warmer":p,
            "n_null_worlds":REPS}
 
-def analyse(d,size,purity,tag):
+def analyse(d,size,purity,tag,restrict_keys=None):
     geo=make_cell(d,size)
     if purity:geo=geo.loc[high_purity_mask(geo)].copy()
     retained_rows=int(len(geo))
     groups,diagnostics=eligible_strata(geo)
+    unrestricted_n=len(groups)
+    if restrict_keys is not None:
+        groups=[r for r in groups if r[:3] in restrict_keys]
+        require(len(groups)==len(restrict_keys),
+                "selected strict-quality taxon/cell/month support changed in broad photos")
+        diagnostics["n_qualified_strata_before_matched_quality"]=unrestricted_n
+        diagnostics["n_qualified_strata"]=len(groups)
     by_taxon={}
     for tid,cell,month,cohort,vals,labels in groups:
         observed,sim=stratum_obs_and_null(vals,labels,
@@ -230,6 +237,7 @@ def analyse(d,size,purity,tag):
         by_cohort[c]=stats([observed[k] for k in idx],[nulls[k] for k in idx],c+":"+tag)
     return{
         "cell_size_degrees":size,"condition_on_calendar_month_of_year":True,
+        "matched_exact_taxon_cell_month_between_photo_quality_conditions":restrict_keys is not None,
         "photo_quality":"strict_ROI_65pct_other_le20pct" if purity else "all_four_state_classified",
         "max_source_coordinate_accuracy_m":1000 if size==1 else 5000,
         "minimum_each_white_nonwhite":MIN_LABEL_PER_STRATUM,
@@ -290,9 +298,22 @@ def main():
     d=climate_sample(d,z.worldclim_zip)
     outputs={}
     for cell_size in (1,5):
+        strict_geo=make_cell(d,cell_size)
+        strict_geo=strict_geo.loc[high_purity_mask(strict_geo)].copy()
+        strict_groups,_=eligible_strata(strict_geo)
+        exact_strict_opportunity={(r[0],r[1],r[2]) for r in strict_groups}
         for strict in (False,True):
             tag=f"cell{cell_size}_{'strict' if strict else 'all'}"
             outputs[tag]=analyse(d,cell_size,strict,tag)
+        tag=f"cell{cell_size}_all_matched_to_strict_opportunity"
+        if exact_strict_opportunity:
+            outputs[tag]=analyse(d,cell_size,False,tag,restrict_keys=exact_strict_opportunity)
+            require(outputs[tag]["species_equal_pooled"]["n_species"]==
+                    outputs[f"cell{cell_size}_strict"]["species_equal_pooled"]["n_species"],
+                    "same species/cell/month photo-quality comparison failed")
+        for tag in (f"cell{cell_size}_all",f"cell{cell_size}_strict",
+                    f"cell{cell_size}_all_matched_to_strict_opportunity"):
+            if tag not in outputs:continue
             summary=outputs[tag]["species_equal_pooled"]
             print("FCP_NESTED_LOCAL_CLIMATE_PANEL",tag,json.dumps({
               "strata":outputs[tag]["opportunity_gates"]["n_qualified_strata"],
