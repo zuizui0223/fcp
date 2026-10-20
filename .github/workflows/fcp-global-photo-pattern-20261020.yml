@@ -4,6 +4,7 @@ on:
     branches: [analysis/fcp-global-pattern-20261020]
     paths:
       - scripts/analysis/fcp_global_photo_atlas_20261020.py
+      - scripts/analysis/fcp_global_photo_quality_probe_20261020.py
       - .github/workflows/fcp-global-photo-pattern-20261020.yml
   workflow_dispatch:
 permissions:
@@ -58,6 +59,21 @@ jobs:
               "n_species_grid":d["n_species_eligible_any_cell"],
               "n_spanning_grid":d["n_species_spanning_2plus_eligible_cells"],
               "quality_photos":d["quality_sensitivity"]["photos"]}))
+          PY
+      - name: Compare same species with and without strict photo colour purity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_global_photo_quality_probe_20261020.py --self-test
+          python scripts/analysis/fcp_global_photo_quality_probe_20261020.py \
+            --photos /tmp/fcp-world/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out /tmp/fcp-world/atlas
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path("/tmp/fcp-world/atlas/global_photo_pattern_result.json")
+          data=json.loads(path.read_text())
+          print("FCP_GLOBAL_PATTERN_ALL_EQUAL_AREA_CELLS", json.dumps(data["equal_area_grid_cells"],sort_keys=True,separators=(",",":")))
           PY
       - name: Upload actual globally aggregated figures source without sensitive coordinates
         uses: actions/upload-artifact@v4
