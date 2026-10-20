@@ -1,0 +1,71 @@
+name: FCP matched cell-month climate falsification, 447500 real photos
+on:
+  push:
+    branches: [analysis/fcp-local-climate-conditional-20261020]
+    paths:
+      - scripts/analysis/fcp_withincell_month_climate_20261020.py
+      - .github/workflows/fcp-withincell-month-climate-20261020.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-authenticated-local-climate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PHOTO_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      PHOTO_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      PHOTO_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      CLIMATE_FILE: wc2.1_10m_bio.zip
+      CLIMATE_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install fixed minimal numeric dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 Pillow==11.0.0
+      - name: Verify signed synthetic causal-direction and permutation arithmetic
+        run: |
+          python -m py_compile scripts/analysis/fcp_withincell_month_climate_20261020.py
+          python scripts/analysis/fcp_withincell_month_climate_20261020.py --self-test
+      - name: Download and SHA authenticate actual original 447500-photo terminal and WorldClim
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-localclimate/{photo,measured,climate,results}
+          gh release download "$PHOTO_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PHOTO_FILE" --dir /tmp/fcp-localclimate/photo
+          echo "$PHOTO_ARCHIVE_SHA  /tmp/fcp-localclimate/photo/$PHOTO_FILE" | sha256sum -c -
+          tar -xzf "/tmp/fcp-localclimate/photo/$PHOTO_FILE" -C /tmp/fcp-localclimate/measured
+          test -s /tmp/fcp-localclimate/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$CLIMATE_FILE" --dir /tmp/fcp-localclimate/climate
+          echo "$CLIMATE_SHA  /tmp/fcp-localclimate/climate/$CLIMATE_FILE" | sha256sum -c -
+      - name: Test white versus chromatic climate contrast within taxon, spatial cell and month
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_withincell_month_climate_20261020.py \
+            --photos /tmp/fcp-localclimate/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-zip /tmp/fcp-localclimate/climate/wc2.1_10m_bio.zip \
+            --out /tmp/fcp-localclimate/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/fcp-localclimate/results/local_climate_stratified_original_photo_result.json').read_text())
+          assert x['input_source_measured_photos']==447500
+          assert x['input_source_measured_species']==4475
+          assert x['source_photo_sha256']=='8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6'
+          assert x['worldclim_zip_sha256']=='00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf'
+          assert len(x['panels'])==4
+          print("FCP_LOCAL_CLIMATE_SOURCE_AND_EVIDENCE_BOUNDARY_PASS")
+          PY
+      - name: Archive source-authenticated aggregate results with no coordinates or observation IDs
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-447500-photo-within-cell-month-bio5-bio1-20261020
+          path: /tmp/fcp-localclimate/results/*.json
+          if-no-files-found: error
+          retention-days: 90
