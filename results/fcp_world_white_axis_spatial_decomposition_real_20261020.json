@@ -1,0 +1,955 @@
+{
+  "schema": "fcp_source_authenticated_white_vs_nonwhite_geographic_component_20261020_v1",
+  "verified_workflow_run": "https://github.com/zuizui0223/fcp/actions/runs/39422113301",
+  "workflow_success": true,
+  "source_photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "same_original_photo_source": true,
+  "posthoc_exploratory": true,
+  "photo_morphs_not_genetically_validated": true,
+  "original_H2_not_modified": true,
+  "original_50km_not_modified": true,
+  "note": "White-axis component equals absolute geographic difference in coarse white photo-label frequency; total variation TV = white-axis component + residual nonwhite composition. Source-conditioned vertex-null statistics use 199 permutations and species-equal means. Five-source cohort contrasts are post hoc; not independent providers.",
+  "result": {
+    "all_classifiable_species_grid": {
+      "fixed_original_taxon_cell_photo_opportunities": true,
+      "mean_excess_nonwhite_residual": 0.0018433901315738112,
+      "mean_excess_tv": 0.01367612161461948,
+      "mean_excess_white_delta": 0.01183273148304545,
+      "mean_null_nonwhite_residual": 0.021444292161335914,
+      "mean_null_tv": 0.09644122541489847,
+      "mean_null_white_delta": 0.07499693325356277,
+      "mean_observed_between_cell_tv": 0.11011734702951795,
+      "mean_observed_nonwhite_residual": 0.023287682292909725,
+      "mean_observed_white_delta": 0.08682966473660822,
+      "n_eligible_cell_pairs_not_independent": 3127,
+      "n_species": 2118,
+      "posthoc_not_prospective": true,
+      "repetitions": 199,
+      "robust_white_effect_distribution": {
+        "all_spatially_evaluable_taxa": {
+          "n_null_worlds": 199,
+          "n_species": 2118,
+          "n_taxa_with_at_least_one_white_label": 1962,
+          "n_taxa_with_white_and_nonwhite_labels": 1868,
+          "nonwhite_residual_mean_excess": 0.001843390131573853,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.29,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.011832731483045691,
+            "median": 0,
+            "positive_fraction": 0.4187913125590179,
+            "trimmed10": 0.0027558285873811417,
+            "white_minus_nonwhite_mean": 0.009989341351471837
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.006225812894417909,
+            0.013797885229654654
+          ]
+        },
+        "leave_out_discovery": {
+          "n_null_worlds": 199,
+          "n_species": 1882,
+          "n_taxa_with_at_least_one_white_label": 1740,
+          "n_taxa_with_white_and_nonwhite_labels": 1654,
+          "nonwhite_residual_mean_excess": 0.0020780239797312363,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.33,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.0128381791315484,
+            "median": 0,
+            "positive_fraction": 0.4218916046758767,
+            "trimmed10": 0.00335661767530715,
+            "white_minus_nonwhite_mean": 0.010760155151817167
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.006347879756140239,
+            0.015039690691433618
+          ]
+        },
+        "leave_out_new_U100": {
+          "n_null_worlds": 199,
+          "n_species": 927,
+          "n_taxa_with_at_least_one_white_label": 865,
+          "n_taxa_with_white_and_nonwhite_labels": 830,
+          "nonwhite_residual_mean_excess": 0.0010185169609430306,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.37,
+            "positive_fraction": 0.045,
+            "trimmed10": 0.01,
+            "white_minus_nonwhite_mean": 0.01
+          },
+          "observed": {
+            "mean": 0.007740287736351992,
+            "median": 0,
+            "positive_fraction": 0.4110032362459547,
+            "trimmed10": 0.0010973592631863397,
+            "white_minus_nonwhite_mean": 0.006721770775408961
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.001566740129450449,
+            0.0121338134014875
+          ]
+        },
+        "leave_out_prospective": {
+          "n_null_worlds": 199,
+          "n_species": 1871,
+          "n_taxa_with_at_least_one_white_label": 1729,
+          "n_taxa_with_white_and_nonwhite_labels": 1644,
+          "nonwhite_residual_mean_excess": 0.002090558255858248,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.345,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.012247448332376676,
+            "median": 0,
+            "positive_fraction": 0.4195617316942811,
+            "trimmed10": 0.0029651512063473234,
+            "white_minus_nonwhite_mean": 0.010156890076518427
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0060945209650272655,
+            0.01457136698179975
+          ]
+        },
+        "leave_out_validation": {
+          "n_null_worlds": 199,
+          "n_species": 1905,
+          "n_taxa_with_at_least_one_white_label": 1769,
+          "n_taxa_with_white_and_nonwhite_labels": 1682,
+          "nonwhite_residual_mean_excess": 0.0018527381324885514,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.29,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.011868352826125448,
+            "median": 0,
+            "positive_fraction": 0.4188976377952756,
+            "trimmed10": 0.0027537965688189396,
+            "white_minus_nonwhite_mean": 0.010015614693636897
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.005797653227509361,
+            0.014146327314787134
+          ]
+        },
+        "leave_out_wave4": {
+          "n_null_worlds": 199,
+          "n_species": 1887,
+          "n_taxa_with_at_least_one_white_label": 1745,
+          "n_taxa_with_white_and_nonwhite_labels": 1662,
+          "nonwhite_residual_mean_excess": 0.0017600923174053195,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.3,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.012393223796261238,
+            "median": 0,
+            "positive_fraction": 0.41865394806571277,
+            "trimmed10": 0.0028194960441466498,
+            "white_minus_nonwhite_mean": 0.010633131478855922
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0063792297461319255,
+            0.01514801967749706
+          ]
+        },
+        "photo_two_nonwhite_hues_present": {
+          "n_null_worlds": 199,
+          "n_species": 974,
+          "n_taxa_with_at_least_one_white_label": 940,
+          "n_taxa_with_white_and_nonwhite_labels": 940,
+          "nonwhite_residual_mean_excess": 0.004008521867221171,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.005,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.01736416292644289,
+            "median": 0,
+            "positive_fraction": 0.4681724845995893,
+            "trimmed10": 0.005616814462381902,
+            "white_minus_nonwhite_mean": 0.013355641059221723
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.005403316292061482,
+            0.020996992446896044
+          ]
+        },
+        "photo_white_and_nonwhite_at_least_5_each": {
+          "n_null_worlds": 199,
+          "n_species": 861,
+          "n_taxa_with_at_least_one_white_label": 861,
+          "n_taxa_with_white_and_nonwhite_labels": 861,
+          "nonwhite_residual_mean_excess": 0.003968903010662616,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.005,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.02405831197576423,
+            "median": 0.0002459851706082816,
+            "positive_fraction": 0.5005807200929152,
+            "trimmed10": 0.009464576483657358,
+            "white_minus_nonwhite_mean": 0.020089408965101613
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.010802742502855246,
+            0.029439854113377774
+          ]
+        }
+      },
+      "source_cohort_replication": {
+        "discovery": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.3983050847457627,
+          "mean_excess_nonwhite_residual": -0.000027715386359157546,
+          "mean_excess_total_tv": 0.0037869971370164957,
+          "mean_excess_white_delta": 0.0038147125233757434,
+          "n_species": 236,
+          "p_upper_nonwhite_residual_199": 0.52,
+          "p_upper_white_axis_199": 0.19,
+          "species_bootstrap_95CI_white_share": [
+            -3.1577737265198635,
+            5.287041587600356
+          ],
+          "white_share_of_mean_excess_turnover": 1.007318565437597
+        },
+        "new_U100": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.4282115869017632,
+          "mean_excess_nonwhite_residual": 0.002485419878991788,
+          "mean_excess_total_tv": 0.017503453925584736,
+          "mean_excess_white_delta": 0.015018034046593035,
+          "n_species": 1191,
+          "p_upper_nonwhite_residual_199": 0.015,
+          "p_upper_white_axis_199": 0.005,
+          "species_bootstrap_95CI_white_share": [
+            0.7285628818403265,
+            0.9738853826674104
+          ],
+          "white_share_of_mean_excess_turnover": 0.858004032257955
+        },
+        "prospective": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.41295546558704455,
+          "mean_excess_nonwhite_residual": -0.000028883392863776614,
+          "mean_excess_total_tv": 0.008662409931889187,
+          "mean_excess_white_delta": 0.008691293324753102,
+          "n_species": 247,
+          "p_upper_nonwhite_residual_199": 0.49,
+          "p_upper_white_axis_199": 0.005,
+          "species_bootstrap_95CI_white_share": [
+            0.015086724755486766,
+            2.7038241032669137
+          ],
+          "white_share_of_mean_excess_turnover": 1.0033343368751906
+        },
+        "validation": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.4272300469483568,
+          "mean_excess_nonwhite_residual": 0.0017597847712804496,
+          "mean_excess_total_tv": 0.013273931002838107,
+          "mean_excess_white_delta": 0.01151414623155772,
+          "n_species": 213,
+          "p_upper_nonwhite_residual_199": 0.22,
+          "p_upper_white_axis_199": 0.005,
+          "species_bootstrap_95CI_white_share": [
+            0.4019456301017262,
+            1.2352013552930077
+          ],
+          "white_share_of_mean_excess_turnover": 0.8674254995822921
+        },
+        "wave4": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.42424242424242425,
+          "mean_excess_nonwhite_residual": 0.0025238359122492955,
+          "mean_excess_total_tv": 0.00977800031720956,
+          "mean_excess_white_delta": 0.0072541644049602255,
+          "n_species": 231,
+          "p_upper_nonwhite_residual_199": 0.13,
+          "p_upper_white_axis_199": 0.03,
+          "species_bootstrap_95CI_white_share": [
+            -0.06567564130984888,
+            1.1806719708862343
+          ],
+          "white_share_of_mean_excess_turnover": 0.741886292659726
+        }
+      },
+      "species_bootstrap_95CI_white_share": [
+        0.7552671271911363,
+        0.9750386472818627
+      ],
+      "species_equal_not_photo_pair_equal": true,
+      "vertex_permutation_upper_p_nonwhite_residual_exploratory": 0.005,
+      "vertex_permutation_upper_p_tv_exploratory": 0.005,
+      "vertex_permutation_upper_p_white_exploratory": 0.005,
+      "white_share_of_mean_excess_turnover": 0.8652110456810003
+    },
+    "inference_ceiling": "geographic sorting of photographed colour labels only; not genetic population structure or dispersal history",
+    "matched_same_species_same_cells_all_classifiable": {
+      "fixed_original_taxon_cell_photo_opportunities": true,
+      "mean_excess_nonwhite_residual": 0.002079387945926785,
+      "mean_excess_tv": 0.008387091393462803,
+      "mean_excess_white_delta": 0.006307703447536055,
+      "mean_null_nonwhite_residual": 0.011677428859455974,
+      "mean_null_tv": 0.06639749696225473,
+      "mean_null_white_delta": 0.054720068102798725,
+      "mean_observed_between_cell_tv": 0.07478458835571754,
+      "mean_observed_nonwhite_residual": 0.013756816805382759,
+      "mean_observed_white_delta": 0.06102777155033478,
+      "n_eligible_cell_pairs_not_independent": 1711,
+      "n_species": 1282,
+      "posthoc_not_prospective": true,
+      "repetitions": 199,
+      "robust_white_effect_distribution": {
+        "all_spatially_evaluable_taxa": {
+          "n_null_worlds": 199,
+          "n_species": 1282,
+          "n_taxa_with_at_least_one_white_label": 1160,
+          "n_taxa_with_white_and_nonwhite_labels": 1071,
+          "nonwhite_residual_mean_excess": 0.0020793879459267747,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.975,
+            "positive_fraction": 0.015,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.006307703447536219,
+            "median": 0,
+            "positive_fraction": 0.38065522620904835,
+            "trimmed10": 0.0002527786803287539,
+            "white_minus_nonwhite_mean": 0.004228315501609445
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0006977723191589751,
+            0.008379024857858294
+          ]
+        },
+        "leave_out_discovery": {
+          "n_null_worlds": 199,
+          "n_species": 1155,
+          "n_taxa_with_at_least_one_white_label": 1044,
+          "n_taxa_with_white_and_nonwhite_labels": 964,
+          "nonwhite_residual_mean_excess": 0.0019587036012840347,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.955,
+            "positive_fraction": 0.03,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.0071943181336637145,
+            "median": 0,
+            "positive_fraction": 0.38095238095238093,
+            "trimmed10": 0.0004992338086552185,
+            "white_minus_nonwhite_mean": 0.005235614532379681
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0012587647910525005,
+            0.009162040703765202
+          ]
+        },
+        "leave_out_new_U100": {
+          "n_null_worlds": 199,
+          "n_species": 564,
+          "n_taxa_with_at_least_one_white_label": 512,
+          "n_taxa_with_white_and_nonwhite_labels": 479,
+          "nonwhite_residual_mean_excess": 0.0014662083415750173,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.01,
+            "median": 0.895,
+            "positive_fraction": 0.345,
+            "trimmed10": 0.045,
+            "white_minus_nonwhite_mean": 0.07
+          },
+          "observed": {
+            "mean": 0.004659787937834949,
+            "median": 0,
+            "positive_fraction": 0.3723404255319149,
+            "trimmed10": -0.000344267781363575,
+            "white_minus_nonwhite_mean": 0.0031935795962599327
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            -0.0016929952954631649,
+            0.008417098149751103
+          ]
+        },
+        "leave_out_prospective": {
+          "n_null_worlds": 199,
+          "n_species": 1127,
+          "n_taxa_with_at_least_one_white_label": 1020,
+          "n_taxa_with_white_and_nonwhite_labels": 940,
+          "nonwhite_residual_mean_excess": 0.002078102943202584,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.965,
+            "positive_fraction": 0.01,
+            "trimmed10": 0.01,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.006277287625833901,
+            "median": 0,
+            "positive_fraction": 0.38509316770186336,
+            "trimmed10": 0.0005584163667528455,
+            "white_minus_nonwhite_mean": 0.004199184682631318
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.00043352960306700225,
+            0.007963086496051305
+          ]
+        },
+        "leave_out_validation": {
+          "n_null_worlds": 199,
+          "n_species": 1147,
+          "n_taxa_with_at_least_one_white_label": 1040,
+          "n_taxa_with_white_and_nonwhite_labels": 957,
+          "nonwhite_residual_mean_excess": 0.0023989304967616466,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.95,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.006322649766477263,
+            "median": 0,
+            "positive_fraction": 0.3818657367044464,
+            "trimmed10": 0.0003561433310122871,
+            "white_minus_nonwhite_mean": 0.003923719269715616
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            -0.00006907345432545861,
+            0.008154233512109347
+          ]
+        },
+        "leave_out_wave4": {
+          "n_null_worlds": 199,
+          "n_species": 1135,
+          "n_taxa_with_at_least_one_white_label": 1024,
+          "n_taxa_with_white_and_nonwhite_labels": 944,
+          "nonwhite_residual_mean_excess": 0.002185252798067147,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.97,
+            "positive_fraction": 0.01,
+            "trimmed10": 0.02,
+            "white_minus_nonwhite_mean": 0.01
+          },
+          "observed": {
+            "mean": 0.006239438767560353,
+            "median": 0,
+            "positive_fraction": 0.3788546255506608,
+            "trimmed10": -0.00008434326018327633,
+            "white_minus_nonwhite_mean": 0.004054185969493206
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            -0.00005701733244669797,
+            0.008107541138692918
+          ]
+        },
+        "photo_two_nonwhite_hues_present": {
+          "n_null_worlds": 199,
+          "n_species": 436,
+          "n_taxa_with_at_least_one_white_label": 417,
+          "n_taxa_with_white_and_nonwhite_labels": 417,
+          "nonwhite_residual_mean_excess": 0.006114163639170011,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.115,
+            "positive_fraction": 0.135,
+            "trimmed10": 0.02,
+            "white_minus_nonwhite_mean": 0.045
+          },
+          "observed": {
+            "mean": 0.011544604645692375,
+            "median": -0.0013417738040853618,
+            "positive_fraction": 0.4426605504587156,
+            "trimmed10": 0.0012985100641528646,
+            "white_minus_nonwhite_mean": 0.0054304410065223645
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            -0.003757441448687197,
+            0.014703838105773432
+          ]
+        },
+        "photo_white_and_nonwhite_at_least_5_each": {
+          "n_null_worlds": 199,
+          "n_species": 321,
+          "n_taxa_with_at_least_one_white_label": 321,
+          "n_taxa_with_white_and_nonwhite_labels": 321,
+          "nonwhite_residual_mean_excess": 0.005618499859820094,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.025,
+            "positive_fraction": 0.02,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.020761800443844233,
+            "median": -0.0012524159257827489,
+            "positive_fraction": 0.4984423676012461,
+            "trimmed10": 0.004772807435882892,
+            "white_minus_nonwhite_mean": 0.015143300584024137
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0034430246946364194,
+            0.028207622019158277
+          ]
+        }
+      },
+      "source_cohort_replication": {
+        "discovery": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.3858267716535433,
+          "mean_excess_nonwhite_residual": 0.0031769502928745315,
+          "mean_excess_total_tv": 0.001421346949251251,
+          "mean_excess_white_delta": -0.001755603343623284,
+          "n_species": 127,
+          "p_upper_nonwhite_residual_199": 0.04,
+          "p_upper_white_axis_199": 0.65,
+          "species_bootstrap_95CI_white_share": [
+            -12.066004358379784,
+            9.867517899586982
+          ],
+          "white_share_of_mean_excess_turnover": -1.235168756332235
+        },
+        "new_U100": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.38997214484679665,
+          "mean_excess_nonwhite_residual": 0.002561049919261583,
+          "mean_excess_total_tv": 0.01016321624628444,
+          "mean_excess_white_delta": 0.007602166327022902,
+          "n_species": 718,
+          "p_upper_nonwhite_residual_199": 0.005,
+          "p_upper_white_axis_199": 0.005,
+          "species_bootstrap_95CI_white_share": [
+            0.49562805489946427,
+            0.9194521643718884
+          ],
+          "white_share_of_mean_excess_turnover": 0.7480079280810512
+        },
+        "prospective": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.34838709677419355,
+          "mean_excess_nonwhite_residual": 0.0020887311592826703,
+          "mean_excess_total_tv": 0.00861758706526096,
+          "mean_excess_white_delta": 0.006528855905978272,
+          "n_species": 155,
+          "p_upper_nonwhite_residual_199": 0.14,
+          "p_upper_white_axis_199": 0.03,
+          "species_bootstrap_95CI_white_share": [
+            -1.5284664271388981,
+            1.8405646583850535
+          ],
+          "white_share_of_mean_excess_turnover": 0.7576199528400777
+        },
+        "validation": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.37777777777777777,
+          "mean_excess_nonwhite_residual": -0.000635540245240606,
+          "mean_excess_total_tv": 0.00554517484803356,
+          "mean_excess_white_delta": 0.00618071509327419,
+          "n_species": 135,
+          "p_upper_nonwhite_residual_199": 0.665,
+          "p_upper_white_axis_199": 0.055,
+          "species_bootstrap_95CI_white_share": [
+            -0.4935645009394044,
+            3.1417928048332953
+          ],
+          "white_share_of_mean_excess_turnover": 1.1146113986768167
+        },
+        "wave4": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.3945578231292517,
+          "mean_excess_nonwhite_residual": 0.001261996060353163,
+          "mean_excess_total_tv": 0.008096777138995606,
+          "mean_excess_white_delta": 0.0068347810786423754,
+          "n_species": 147,
+          "p_upper_nonwhite_residual_199": 0.26,
+          "p_upper_white_axis_199": 0.04,
+          "species_bootstrap_95CI_white_share": [
+            -0.19671073717805623,
+            1.8459507906159385
+          ],
+          "white_share_of_mean_excess_turnover": 0.8441360014375078
+        }
+      },
+      "species_bootstrap_95CI_white_share": [
+        0.5322298582686462,
+        0.9108011684062464
+      ],
+      "species_equal_not_photo_pair_equal": true,
+      "vertex_permutation_upper_p_nonwhite_residual_exploratory": 0.005,
+      "vertex_permutation_upper_p_tv_exploratory": 0.005,
+      "vertex_permutation_upper_p_white_exploratory": 0.005,
+      "white_share_of_mean_excess_turnover": 0.7520728166206109
+    },
+    "matched_same_species_same_cells_high_purity": {
+      "fixed_original_taxon_cell_photo_opportunities": true,
+      "mean_excess_nonwhite_residual": 0.0007665922301950193,
+      "mean_excess_tv": 0.007273339432097736,
+      "mean_excess_white_delta": 0.006506747201902759,
+      "mean_null_nonwhite_residual": 0.007759770597216501,
+      "mean_null_tv": 0.048408826975035145,
+      "mean_null_white_delta": 0.0406490563778186,
+      "mean_observed_between_cell_tv": 0.05568216640713288,
+      "mean_observed_nonwhite_residual": 0.00852636282741152,
+      "mean_observed_white_delta": 0.04715580357972136,
+      "n_eligible_cell_pairs_not_independent": 1711,
+      "n_species": 1282,
+      "posthoc_not_prospective": true,
+      "repetitions": 199,
+      "robust_white_effect_distribution": {
+        "all_spatially_evaluable_taxa": {
+          "n_null_worlds": 199,
+          "n_species": 1282,
+          "n_taxa_with_at_least_one_white_label": 1048,
+          "n_taxa_with_white_and_nonwhite_labels": 708,
+          "nonwhite_residual_mean_excess": 0.0007665922301950128,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 1,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.01,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.006506747201902888,
+            "median": 0,
+            "positive_fraction": 0.24804992199687986,
+            "trimmed10": 0.0005267865418035602,
+            "white_minus_nonwhite_mean": 0.0057401549717078755
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.002441076317174727,
+            0.009256143439489295
+          ]
+        },
+        "leave_out_discovery": {
+          "n_null_worlds": 199,
+          "n_species": 1155,
+          "n_taxa_with_at_least_one_white_label": 943,
+          "n_taxa_with_white_and_nonwhite_labels": 637,
+          "nonwhite_residual_mean_excess": 0.0006074402096871275,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 1,
+            "positive_fraction": 0.02,
+            "trimmed10": 0.01,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.00663388292048545,
+            "median": 0,
+            "positive_fraction": 0.24848484848484848,
+            "trimmed10": 0.0004652276853739021,
+            "white_minus_nonwhite_mean": 0.006026442710798323
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0027315350754990916,
+            0.00970086587844695
+          ]
+        },
+        "leave_out_new_U100": {
+          "n_null_worlds": 199,
+          "n_species": 564,
+          "n_taxa_with_at_least_one_white_label": 465,
+          "n_taxa_with_white_and_nonwhite_labels": 326,
+          "nonwhite_residual_mean_excess": 0.0012500383559921004,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.14,
+            "median": 1,
+            "positive_fraction": 0.41,
+            "trimmed10": 0.37,
+            "white_minus_nonwhite_mean": 0.355
+          },
+          "observed": {
+            "mean": 0.002048451992053905,
+            "median": 0,
+            "positive_fraction": 0.2375886524822695,
+            "trimmed10": -0.0010955557471790849,
+            "white_minus_nonwhite_mean": 0.0007984136360618041
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            -0.0036004806591968994,
+            0.005425666107839378
+          ]
+        },
+        "leave_out_prospective": {
+          "n_null_worlds": 199,
+          "n_species": 1127,
+          "n_taxa_with_at_least_one_white_label": 918,
+          "n_taxa_with_white_and_nonwhite_labels": 613,
+          "nonwhite_residual_mean_excess": 0.0006158579183723072,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 1,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.00711678728746714,
+            "median": 0,
+            "positive_fraction": 0.25199645075421473,
+            "trimmed10": 0.0009812655438132217,
+            "white_minus_nonwhite_mean": 0.006500929369094834
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0029255141359933977,
+            0.010219961140478294
+          ]
+        },
+        "leave_out_validation": {
+          "n_null_worlds": 199,
+          "n_species": 1147,
+          "n_taxa_with_at_least_one_white_label": 939,
+          "n_taxa_with_white_and_nonwhite_labels": 631,
+          "nonwhite_residual_mean_excess": 0.0009011525948271364,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 1,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.007382569191558867,
+            "median": 0,
+            "positive_fraction": 0.25196163905841323,
+            "trimmed10": 0.0008922411187385536,
+            "white_minus_nonwhite_mean": 0.00648141659673173
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0026683297944963052,
+            0.01018572217900685
+          ]
+        },
+        "leave_out_wave4": {
+          "n_null_worlds": 199,
+          "n_species": 1135,
+          "n_taxa_with_at_least_one_white_label": 927,
+          "n_taxa_with_white_and_nonwhite_labels": 625,
+          "nonwhite_residual_mean_excess": 0.0007020052697793245,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 1,
+            "positive_fraction": 0.01,
+            "trimmed10": 0.01,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.0071019487391942035,
+            "median": 0,
+            "positive_fraction": 0.24493392070484582,
+            "trimmed10": 0.0005342585144664073,
+            "white_minus_nonwhite_mean": 0.006399943469414879
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.0028589226169534673,
+            0.01022260111213082
+          ]
+        },
+        "photo_two_nonwhite_hues_present": {
+          "n_null_worlds": 199,
+          "n_species": 209,
+          "n_taxa_with_at_least_one_white_label": 178,
+          "n_taxa_with_white_and_nonwhite_labels": 178,
+          "nonwhite_residual_mean_excess": 0.004702254732583766,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.875,
+            "positive_fraction": 0.135,
+            "trimmed10": 0.085,
+            "white_minus_nonwhite_mean": 0.035
+          },
+          "observed": {
+            "mean": 0.018468031482251956,
+            "median": 0,
+            "positive_fraction": 0.41148325358851673,
+            "trimmed10": 0.002076093933298123,
+            "white_minus_nonwhite_mean": 0.013765776749668193
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            -0.0015802731032892561,
+            0.02982384372186638
+          ]
+        },
+        "photo_white_and_nonwhite_at_least_5_each": {
+          "n_null_worlds": 199,
+          "n_species": 127,
+          "n_taxa_with_at_least_one_white_label": 127,
+          "n_taxa_with_white_and_nonwhite_labels": 127,
+          "nonwhite_residual_mean_excess": 0.0027980703340870876,
+          "null_matched_upper_p_exploratory": {
+            "mean": 0.005,
+            "median": 0.005,
+            "positive_fraction": 0.005,
+            "trimmed10": 0.005,
+            "white_minus_nonwhite_mean": 0.005
+          },
+          "observed": {
+            "mean": 0.055657655480434345,
+            "median": 0.019283919597989946,
+            "positive_fraction": 0.5748031496062992,
+            "trimmed10": 0.0341452546484495,
+            "white_minus_nonwhite_mean": 0.052859585146347254
+          },
+          "posthoc_multiple_tests_not_confirmatory": true,
+          "white_minus_nonwhite_species_bootstrap_CI95": [
+            0.026579888382059002,
+            0.0834213339426661
+          ]
+        }
+      },
+      "source_cohort_replication": {
+        "discovery": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.2440944881889764,
+          "mean_excess_nonwhite_residual": 0.002213998400955708,
+          "mean_excess_total_tv": 0.007564511311812405,
+          "mean_excess_white_delta": 0.005350512910856753,
+          "n_species": 127,
+          "p_upper_nonwhite_residual_199": 0.11,
+          "p_upper_white_axis_199": 0.035,
+          "species_bootstrap_95CI_white_share": [
+            -0.22754116529921836,
+            2.522082944302094
+          ],
+          "white_share_of_mean_excess_turnover": 0.7073177222303348
+        },
+        "new_U100": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.2618384401114206,
+          "mean_excess_nonwhite_residual": 0.0003868378918251581,
+          "mean_excess_total_tv": 0.010395644283637186,
+          "mean_excess_white_delta": 0.010008806391812064,
+          "n_species": 718,
+          "p_upper_nonwhite_residual_199": 0.28,
+          "p_upper_white_axis_199": 0.005,
+          "species_bootstrap_95CI_white_share": [
+            0.8297978012077935,
+            1.1047346893664263
+          ],
+          "white_share_of_mean_excess_turnover": 0.9627884639690868
+        },
+        "prospective": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.22580645161290322,
+          "mean_excess_nonwhite_residual": 0.0018625765490607512,
+          "mean_excess_total_tv": 0.003933741967538443,
+          "mean_excess_white_delta": 0.0020711654184776135,
+          "n_species": 155,
+          "p_upper_nonwhite_residual_199": 0.15,
+          "p_upper_white_axis_199": 0.305,
+          "species_bootstrap_95CI_white_share": [
+            -2.4026995741440715,
+            5.613772455731195
+          ],
+          "white_share_of_mean_excess_turnover": 0.5265127798338168
+        },
+        "validation": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.2222222222222222,
+          "mean_excess_nonwhite_residual": -0.00037667249745717505,
+          "mean_excess_total_tv": -0.0013111684224832235,
+          "mean_excess_white_delta": -0.0009344959250260215,
+          "n_species": 135,
+          "p_upper_nonwhite_residual_199": 0.61,
+          "p_upper_white_axis_199": 0.645,
+          "species_bootstrap_95CI_white_share": [
+            -1.4534714489517013,
+            3.144665383460156
+          ],
+          "white_share_of_mean_excess_turnover": 0.7127199747963565
+        },
+        "wave4": {
+          "exploratory_posthoc": true,
+          "fraction_of_species_positive_white_excess": 0.2789115646258503,
+          "mean_excess_nonwhite_residual": 0.0012652738633365506,
+          "mean_excess_total_tv": 0.0031764173589425085,
+          "mean_excess_white_delta": 0.001911143495605984,
+          "n_species": 147,
+          "p_upper_nonwhite_residual_199": 0.28,
+          "p_upper_white_axis_199": 0.31,
+          "species_bootstrap_95CI_white_share": [
+            -3.659730193617097,
+            4.508580619436256
+          ],
+          "white_share_of_mean_excess_turnover": 0.6016663679996513
+        }
+      },
+      "species_bootstrap_95CI_white_share": [
+        0.721048042733548,
+        1.0445773315449
+      ],
+      "species_equal_not_photo_pair_equal": true,
+      "vertex_permutation_upper_p_nonwhite_residual_exploratory": 0.085,
+      "vertex_permutation_upper_p_tv_exploratory": 0.005,
+      "vertex_permutation_upper_p_white_exploratory": 0.005,
+      "white_share_of_mean_excess_turnover": 0.8946024398624991
+    },
+    "n_total_original_classifiable": 227107,
+    "n_total_pure_colour_roi": 162003,
+    "quality_rule": "assigned ROI >=65%, all competing coarse groups <=20%; not morph validation",
+    "schema": "fcp_actual_447500_species_grid_vertex_null_v1"
+  }
+}
