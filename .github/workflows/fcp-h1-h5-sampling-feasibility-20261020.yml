@@ -55,6 +55,12 @@ jobs:
           assert x["fcp_literature_population_organization_overlap"]["n_S_only_spatial_photo_overlap"]==0
           assert len(x["rare_pigment_morph_sampling"])==6
           print("FCP_FIELD_PILOT_ORIGINAL_SOURCE_AND_RARITY_PASS")
+          import csv
+          q=list(csv.DictReader((root/"h1_independent_organ_qa_candidate_panel_20families.csv").open()))
+          c=list(csv.DictReader((root/"h4_crosswalk_literature_photos_NO_GENOTYPES.csv").open()))
+          print("FCP_H1_CANDIDATE_PANEL_FREEZE_JSON",json.dumps(q,ensure_ascii=False,separators=(",",":"),sort_keys=True))
+          print("FCP_H4_STRICT_CS_CROSSWALK_FREEZE_JSON",json.dumps(c,ensure_ascii=False,separators=(",",":"),sort_keys=True))
+          print("FCP_H5_RARE_WAL_BINOMIAL_POWER_FREEZE_JSON",json.dumps(x["rare_pigment_morph_sampling"],separators=(",",":"),sort_keys=True))
           PY
       - name: Upload actual source-backed candidate table and frequency power probabilities
         uses: actions/upload-artifact@v4
