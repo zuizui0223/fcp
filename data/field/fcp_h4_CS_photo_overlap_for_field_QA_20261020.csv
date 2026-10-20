@@ -1,0 +1,17 @@
+species,family,literature_state,photo_classifiable,photo_white_labels,photo_nonwhite_labels,photo_min5_each,photo_min10_each,field_colour_genotypes_verified,native_population_interbreeding_status_unverified
+Anemone coronaria,Ranunculaceae,coexistence_and_segregation,45,5,40,True,False,False,True
+Anemone palmata,Ranunculaceae,coexistence_and_segregation,62,7,55,True,False,False,True
+Anemone pavonina,Ranunculaceae,coexistence_and_segregation,45,8,37,True,False,False,True
+Cirsium palustre,Asteraceae,coexistence_and_segregation,48,10,38,True,True,False,True
+Digitalis purpurea,Plantaginaceae,coexistence_and_segregation,41,7,34,True,False,False,True
+Erythranthe lewisii,Phrymaceae,local_coexistence_only,67,4,63,False,False,False,True
+Hepatica nobilis,Ranunculaceae,local_coexistence_only,62,16,46,True,True,False,True
+Hesperis matronalis,Brassicaceae,coexistence_and_segregation,65,34,31,True,True,False,True
+Ipomoea purpurea,Convolvulaceae,local_coexistence_only,47,7,40,True,False,False,True
+Leptosiphon parviflorus,Polemoniaceae,local_coexistence_only,80,62,18,True,True,False,True
+Lysimachia arvensis,Primulaceae,coexistence_and_segregation,55,2,53,False,False,False,True
+Orchis mascula,Orchidaceae,spatial_segregation_only,36,0,36,False,False,False,True
+Platystemon californicus,Papaveraceae,coexistence_and_segregation,67,50,17,True,True,False,True
+Protea repens,Proteaceae,spatial_segregation_only,18,9,9,True,False,False,True
+Solanum carolinense,Solanaceae,local_coexistence_only,57,47,10,True,True,False,True
+Trillium sessile,Melanthiaceae,local_coexistence_only,26,16,10,True,True,False,True
