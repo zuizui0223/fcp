@@ -1,0 +1,87 @@
+name: FCP New Phytologist complete 4475 species H1-H5 source analysis
+on:
+  push:
+    branches: [analysis/fcp-np-all4475-unified-20261021]
+    paths:
+      - scripts/analysis/fcp_full4475_hypothesis_census_20261021.py
+      - .github/workflows/fcp-full4475-hypothesis-census-20261021.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  all-real-4475-species-hypothesis-census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PHOTO_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      PHOTO_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      PHOTO_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      CLIMATE_FILE: wc2.1_10m_bio.zip
+      CLIMATE_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+      MOL_COMMIT: 69c0fb481f361fd8764d376a10fbd7035fd73d73
+      MOL_BLOB: e027179b818c5ae81779c798509c4cbb09579cd6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install numeric and image dependencies fixed for original analysis
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 Pillow==11.0.0
+      - name: Verify H1 continuous Hellinger clustering and H2 distance on synthetic photos
+        run: |
+          python -m py_compile scripts/analysis/fcp_full4475_hypothesis_census_20261021.py
+          python scripts/analysis/fcp_full4475_hypothesis_census_20261021.py --self-test
+      - name: Verify real original 447500 photographs and source-matched WorldClim normals
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-all4475/{archives,measured,climate,coverage,results}
+          gh release download "$PHOTO_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PHOTO_FILE" --dir /tmp/fcp-all4475/archives
+          echo "$PHOTO_ARCHIVE_SHA  /tmp/fcp-all4475/archives/$PHOTO_FILE" | sha256sum -c -
+          tar -xzf "/tmp/fcp-all4475/archives/$PHOTO_FILE" -C /tmp/fcp-all4475/measured
+          test -s /tmp/fcp-all4475/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$CLIMATE_FILE" --dir /tmp/fcp-all4475/climate
+          echo "$CLIMATE_SHA  /tmp/fcp-all4475/climate/$CLIMATE_FILE" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin "$MOL_COMMIT"
+          git show "$MOL_COMMIT:results/fcp_molecular_expansion_20261019/all_4475_species_coverage.csv" > /tmp/fcp-all4475/coverage/molecular_4475_coverage.csv
+          test "$(git hash-object /tmp/fcp-all4475/coverage/molecular_4475_coverage.csv)" = "$MOL_BLOB"
+      - name: Fit one H1 through H5 status row per all 4475 actual photo species
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1
+          python scripts/analysis/fcp_full4475_hypothesis_census_20261021.py \
+            --photos /tmp/fcp-all4475/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-zip /tmp/fcp-all4475/climate/wc2.1_10m_bio.zip \
+            --molecular-coverage /tmp/fcp-all4475/coverage/molecular_4475_coverage.csv \
+            --out /tmp/fcp-all4475/results
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          root=Path('/tmp/fcp-all4475/results')
+          result=json.loads((root/'all_4475_species_hypotheses_summary.json').read_text())
+          x=pd.read_csv(root/'all_4475_species_H1_H5_photo_climate_molecular_scope.csv')
+          assert len(x)==4475 and x.inat_taxon_id.nunique()==4475
+          assert x.n_source_photo.eq(100).all()
+          assert x.n_classified_photo.sum()==227107
+          assert x.n_classified_photo.ge(2).all()
+          assert result['all_taxa']==4475
+          assert result['no_source_row_excluded_from_roster'] is True
+          assert result['n_h4_genetic_coexistence_verified']==0
+          assert result['n_H5_individual_matched_molecular_phenotypes']==0
+          assert result['n_H5_any_external_curated_literature']>=0
+          print('FCP_ALL4475_COMPLETE_ROSTER_OBSERVATIONAL_ONLY_QA_PASS')
+          print('FCP_ALL4475_COMPLETE_SUMMARY',json.dumps(result,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - name: Upload true original photo entire-taxon inference and missingness with no original locations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-actual-all4475-H1-H5-observation-census-20261021
+          path: /tmp/fcp-all4475/results/
+          if-no-files-found: warn
+          retention-days: 90
