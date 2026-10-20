@@ -1,0 +1,81 @@
+{
+  "schema": "fcp_4475_taxon_authentic_photo_observer_split_and_BIO5_Firth_receipt_20261021",
+  "successful_workflow_run": "https://github.com/zuizui0223/fcp/actions/runs/39455363831",
+  "actual_original_photo_measurement_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "worldclim_climate_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "is_new_posthoc_univariate_association_not_old_multivariate_model": true,
+  "is_same_plant_dataset_one_technical_measurement_provider": true,
+  "proves_heritable_color_genotype_or_local_adaptation": false,
+  "results": {
+    "BIO5_univariate_photo_classification_Firth": {
+      "conditioned_BIO5_photo_time": "1970-2000 long-term WorldClim; no flowering weather or fitness",
+      "genus_bootstrap_mean_95CI": {
+        "confidence_interval_95": [
+          0.008457489097358717,
+          0.03488805426235729
+        ],
+        "n_genera": 1551,
+        "n_resampling_worlds": 999
+      },
+      "mean_beta_logodds_per_C": 0.02188789051575462,
+      "median_beta_logodds_per_C": 0.01850696681363963,
+      "n_species_estimable": 4112,
+      "n_species_missing_but_kept_in_roster": 363,
+      "positive_fraction": 0.5445038910505836,
+      "status": "exploratory univariate Firth; not earlier conditional multivariate Firth",
+      "strict_bio5_SD_minimum_C": 0.05,
+      "strict_bio5_span_minimum_C": 0.1,
+      "trimmed_10pct_mean_beta_logodds_per_C": 0.01982280605132885
+    },
+    "all_taxon_source_row_statuses_in_saved_csv": true,
+    "by_source_cohort": {
+      "discovery": {
+        "fraction_positive_given_estimation": 0.4956896551724138,
+        "mean_Firth_logodds_per_C": -0.004945504919626745,
+        "n_observer_D_split_estimable": 500,
+        "n_species_BIO5_Firth_estimable": 464,
+        "n_taxa_total": 500
+      },
+      "new_U100": {
+        "fraction_positive_given_estimation": 0.5611479028697571,
+        "mean_Firth_logodds_per_C": 0.03199273336243435,
+        "n_observer_D_split_estimable": 2478,
+        "n_species_BIO5_Firth_estimable": 2265,
+        "n_taxa_total": 2478
+      },
+      "prospective": {
+        "fraction_positive_given_estimation": 0.5292841648590022,
+        "mean_Firth_logodds_per_C": 0.018376002367739095,
+        "n_observer_D_split_estimable": 499,
+        "n_species_BIO5_Firth_estimable": 461,
+        "n_taxa_total": 499
+      },
+      "validation": {
+        "fraction_positive_given_estimation": 0.5357917570498916,
+        "mean_Firth_logodds_per_C": -0.009248883158665696,
+        "n_observer_D_split_estimable": 500,
+        "n_species_BIO5_Firth_estimable": 461,
+        "n_taxa_total": 500
+      },
+      "wave4": {
+        "fraction_positive_given_estimation": 0.5357917570498916,
+        "mean_Firth_logodds_per_C": 0.03389713028675312,
+        "n_observer_D_split_estimable": 498,
+        "n_species_BIO5_Firth_estimable": 461,
+        "n_taxa_total": 498
+      }
+    },
+    "complete_source_447500_photos": true,
+    "complete_source_4475_taxa": true,
+    "no_colour_morph_genetic_alleles_measured": true,
+    "observer_D_split": {
+      "n_species_estimable": 4475,
+      "n_species_missing_but_kept_in_roster": 0,
+      "one_split_only_not_200_frozen_splits": true,
+      "spearman_observer_disjoint_split_D": 0.8225907174724177,
+      "split_rule": "hash-sort the original observer IDs, alternating observers into independent two groups without using colour labels"
+    },
+    "schema": "fcp_all4475_observer_split_D_and_univariate_Firth_BIO5_posthoc_v1",
+    "source_classifiable_photo_rows": 227107
+  }
+}
