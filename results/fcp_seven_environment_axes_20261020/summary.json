@@ -1,0 +1,332 @@
+{
+  "schema": "fcp_seven_climate_axis_mean_difference_v1",
+  "date": "2026-10-20",
+  "source": "results/fcp_real_447500_environment_description_20261018/primary_ge5_species_environment.csv",
+  "source_sha256": null,
+  "n_source_rows": 11018,
+  "n_species": 1574,
+  "n_genera": 727,
+  "n_original_photos_on_species": 86114,
+  "bootstrap_draws": 5000,
+  "bootstrap_seed": 2026102019,
+  "simultaneous_method": "genus-cluster fixed-effect seven-axis centered max-|t| bootstrap intervals, 95%",
+  "family95_maxT_quantile": 2.6223951439263713,
+  "axis_results": [
+    {
+      "variable": "BIO1",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": 0.030634109063045586,
+      "positive_species_fraction": 0.525412960609911,
+      "genus_boot_ci_low": 0.009348282164925378,
+      "genus_boot_ci_high": 0.052186527482021114,
+      "simultaneous_family7_low": 0.002268484579919964,
+      "simultaneous_family7_high": 0.058999733546171204,
+      "family7_ci_excludes_zero": true
+    },
+    {
+      "variable": "BIO4",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": 0.033503082086779296,
+      "positive_species_fraction": 0.536848792884371,
+      "genus_boot_ci_low": 0.011349128600427322,
+      "genus_boot_ci_high": 0.05565978652593352,
+      "simultaneous_family7_low": 0.0036402180852617184,
+      "simultaneous_family7_high": 0.06336594608829688,
+      "family7_ci_excludes_zero": true
+    },
+    {
+      "variable": "BIO5",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": 0.060652525787596126,
+      "positive_species_fraction": 0.5609911054637865,
+      "genus_boot_ci_low": 0.039597362180008,
+      "genus_boot_ci_high": 0.0822160902982354,
+      "simultaneous_family7_low": 0.032064631943799146,
+      "simultaneous_family7_high": 0.0892404196313931,
+      "family7_ci_excludes_zero": true
+    },
+    {
+      "variable": "BIO12",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": -0.02950585653745443,
+      "positive_species_fraction": 0.4675984752223634,
+      "genus_boot_ci_low": -0.05222254512401755,
+      "genus_boot_ci_high": -0.006686909662000521,
+      "simultaneous_family7_low": -0.060008459015542345,
+      "simultaneous_family7_high": 0.0009967459406334846,
+      "family7_ci_excludes_zero": false
+    },
+    {
+      "variable": "BIO14",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": -0.020778965353705967,
+      "positive_species_fraction": 0.4733163913595934,
+      "genus_boot_ci_low": -0.0419625022198856,
+      "genus_boot_ci_high": -0.00001810514620959172,
+      "simultaneous_family7_low": -0.04855366022364792,
+      "simultaneous_family7_high": 0.00699572951623598,
+      "family7_ci_excludes_zero": false
+    },
+    {
+      "variable": "BIO15",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": -0.005357780337825898,
+      "positive_species_fraction": 0.5031766200762389,
+      "genus_boot_ci_low": -0.027149431117927555,
+      "genus_boot_ci_high": 0.017475863211010786,
+      "simultaneous_family7_low": -0.03497083336728267,
+      "simultaneous_family7_high": 0.024255272691630875,
+      "family7_ci_excludes_zero": false
+    },
+    {
+      "variable": "SRADmean",
+      "n_species": 1574,
+      "n_genera": 727,
+      "white_minus_chromatic_mean_SD": 0.00227581986242281,
+      "positive_species_fraction": 0.4949174078780178,
+      "genus_boot_ci_low": -0.019390576796911797,
+      "genus_boot_ci_high": 0.02448344889448595,
+      "simultaneous_family7_low": -0.027165632481929117,
+      "simultaneous_family7_high": 0.031717272206774734,
+      "family7_ci_excludes_zero": false
+    }
+  ],
+  "cohort_results": [
+    {
+      "cohort": "new_U100",
+      "variable": "BIO1",
+      "n_species": 847,
+      "mean_difference_SD": 0.04215572307722677
+    },
+    {
+      "cohort": "new_U100",
+      "variable": "BIO4",
+      "n_species": 847,
+      "mean_difference_SD": 0.0260812008112549
+    },
+    {
+      "cohort": "new_U100",
+      "variable": "BIO5",
+      "n_species": 847,
+      "mean_difference_SD": 0.06771607632655068
+    },
+    {
+      "cohort": "new_U100",
+      "variable": "BIO12",
+      "n_species": 847,
+      "mean_difference_SD": -0.02811951148119274
+    },
+    {
+      "cohort": "new_U100",
+      "variable": "BIO14",
+      "n_species": 847,
+      "mean_difference_SD": -0.042833137503608315
+    },
+    {
+      "cohort": "new_U100",
+      "variable": "BIO15",
+      "n_species": 847,
+      "mean_difference_SD": 0.013513163003886731
+    },
+    {
+      "cohort": "new_U100",
+      "variable": "SRADmean",
+      "n_species": 847,
+      "mean_difference_SD": 0.003652915779968457
+    },
+    {
+      "cohort": "discovery",
+      "variable": "BIO1",
+      "n_species": 184,
+      "mean_difference_SD": 0.006393803441929374
+    },
+    {
+      "cohort": "discovery",
+      "variable": "BIO4",
+      "n_species": 184,
+      "mean_difference_SD": 0.022029457817936665
+    },
+    {
+      "cohort": "discovery",
+      "variable": "BIO5",
+      "n_species": 184,
+      "mean_difference_SD": 0.03618650780259284
+    },
+    {
+      "cohort": "discovery",
+      "variable": "BIO12",
+      "n_species": 184,
+      "mean_difference_SD": -0.02454630548712558
+    },
+    {
+      "cohort": "discovery",
+      "variable": "BIO14",
+      "n_species": 184,
+      "mean_difference_SD": -0.005962479816199655
+    },
+    {
+      "cohort": "discovery",
+      "variable": "BIO15",
+      "n_species": 184,
+      "mean_difference_SD": -0.013973851210097971
+    },
+    {
+      "cohort": "discovery",
+      "variable": "SRADmean",
+      "n_species": 184,
+      "mean_difference_SD": -0.003253325850688238
+    },
+    {
+      "cohort": "prospective",
+      "variable": "BIO1",
+      "n_species": 196,
+      "mean_difference_SD": 0.02496706068593905
+    },
+    {
+      "cohort": "prospective",
+      "variable": "BIO4",
+      "n_species": 196,
+      "mean_difference_SD": 0.061096861971529366
+    },
+    {
+      "cohort": "prospective",
+      "variable": "BIO5",
+      "n_species": 196,
+      "mean_difference_SD": 0.051201873818606365
+    },
+    {
+      "cohort": "prospective",
+      "variable": "BIO12",
+      "n_species": 196,
+      "mean_difference_SD": -0.04864759599961621
+    },
+    {
+      "cohort": "prospective",
+      "variable": "BIO14",
+      "n_species": 196,
+      "mean_difference_SD": -0.004903825107241595
+    },
+    {
+      "cohort": "prospective",
+      "variable": "BIO15",
+      "n_species": 196,
+      "mean_difference_SD": -0.040787851305728325
+    },
+    {
+      "cohort": "prospective",
+      "variable": "SRADmean",
+      "n_species": 196,
+      "mean_difference_SD": -0.007351715937610027
+    },
+    {
+      "cohort": "validation",
+      "variable": "BIO1",
+      "n_species": 167,
+      "mean_difference_SD": 0.03149723834193585
+    },
+    {
+      "cohort": "validation",
+      "variable": "BIO4",
+      "n_species": 167,
+      "mean_difference_SD": 0.02413493380621284
+    },
+    {
+      "cohort": "validation",
+      "variable": "BIO5",
+      "n_species": 167,
+      "mean_difference_SD": 0.061772611004311334
+    },
+    {
+      "cohort": "validation",
+      "variable": "BIO12",
+      "n_species": 167,
+      "mean_difference_SD": 0.004852827968576077
+    },
+    {
+      "cohort": "validation",
+      "variable": "BIO14",
+      "n_species": 167,
+      "mean_difference_SD": 0.02612203093154181
+    },
+    {
+      "cohort": "validation",
+      "variable": "BIO15",
+      "n_species": 167,
+      "mean_difference_SD": -0.004987614805992303
+    },
+    {
+      "cohort": "validation",
+      "variable": "SRADmean",
+      "n_species": 167,
+      "mean_difference_SD": -0.008536904373340527
+    },
+    {
+      "cohort": "wave4",
+      "variable": "BIO1",
+      "n_species": 180,
+      "mean_difference_SD": 0.006567487155335357
+    },
+    {
+      "cohort": "wave4",
+      "variable": "BIO4",
+      "n_species": 180,
+      "mean_difference_SD": 0.058800749927222236
+    },
+    {
+      "cohort": "wave4",
+      "variable": "BIO5",
+      "n_species": 180,
+      "mean_difference_SD": 0.06167582332913225
+    },
+    {
+      "cohort": "wave4",
+      "variable": "BIO12",
+      "n_species": 180,
+      "mean_difference_SD": -0.05213314005877409
+    },
+    {
+      "cohort": "wave4",
+      "variable": "BIO14",
+      "n_species": 180,
+      "mean_difference_SD": 0.007052460224753635
+    },
+    {
+      "cohort": "wave4",
+      "variable": "BIO15",
+      "n_species": 180,
+      "mean_difference_SD": -0.04711253424915845
+    },
+    {
+      "cohort": "wave4",
+      "variable": "SRADmean",
+      "n_species": 180,
+      "mean_difference_SD": 0.02196295615814574
+    }
+  ],
+  "descriptive_contrast": {
+    "BIO5_minus_BIO1_mean_SD": 0.03001841672455054,
+    "genus_boot_CI95": [
+      0.011559926819286984,
+      0.04976588733554068
+    ],
+    "note": "difference between species-specific within-species SD units; not the physical 1-degree slopes or a multivariate conditional comparison"
+  },
+  "limitations": [
+    "Exploratory and conditional on already selected classifiable white and chromatic photographs.",
+    "Mean standardized climate differences are univariate descriptive offsets, not Firth joint-model slopes.",
+    "Confidence bands resample genus groupings, not photos, and condition on fitted species-level offsets.",
+    "Current WorldClim climate normals are not flowering-date weather or historical range reconstructions.",
+    "BIO4 climatological temperature seasonality is not year-specific temporal fluctuations.",
+    "Species selection, image exposure, observation conditions, geography and habitat may confound recorded white.",
+    "Positive association does not demonstrate pigment production costs, fitness tradeoffs, adaptation or phylogeographic history."
+  ],
+  "source_git_blob_sha": "8969fb94332faa9adee5e78bd4d024b72d4422ea",
+  "execution_note": "Actual source Git blob CSV evaluated with script body in V8, with fs+crypto mocked; numerical results and 5000 genus draws are the script's output; native Node filesystem/full SHA run not confirmed.",
+  "native_node_execution_checked": false
+}

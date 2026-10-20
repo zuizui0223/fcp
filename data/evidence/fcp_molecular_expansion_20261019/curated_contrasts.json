@@ -1,0 +1,253 @@
+{
+  "schema": "fcp_molecular_expansion_contrast_v1",
+  "curated_date": "2026-10-19",
+  "scope": "six new contrast records in three exact environment species; cultivar and partial-region distinctions retained",
+  "contrasts": [
+    {
+      "discovery_route": "expanded_ENA_title_hit_then_species_primary_followup",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "independent_allele_origin_status": "not_established",
+      "literature_applicability": "species_annotation; material-specific mechanism, no assignment of all FCP white photos",
+      "contrast_id": "MI_2021_ANS_ONLY",
+      "species": "Matthiola incana",
+      "source_dois": [
+        "10.2503/hortj.UTD-212"
+      ],
+      "source_urls": [
+        "https://www.jstage.jst.go.jp/article/hortj/90/1/90_UTD-212/_html/-char/en"
+      ],
+      "source_verification": "full_text_materials_results_figures",
+      "wild_or_horticultural": "commercial_cultivars",
+      "phenotype_origin": "spontaneous_mutations_in_commercial_lineages",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC: no anthocyanin peaks in white petals; flavonols retained",
+      "loss_scope": "petals_chemically_assayed; vegetative pigment loss not established",
+      "molecular_tier": "T3_variant_association",
+      "tissues": [
+        "petal"
+      ],
+      "library_design": "genomic PCR/sequencing, qPCR and HPLC; not RNAseq",
+      "biological_replication": "5 biological replicates for petal chemistry and qPCR; cultivar identities not independent evolutionary origins",
+      "stage": "S3 expression, S4 anthesis chemistry",
+      "independence_group": "MI_2021_SHARED_CULTIVAR_EXPERIMENT",
+      "strict_white_chromatic": true,
+      "morph_contrast": "Vintage White/Iron White/White Wonder No.2/Quartet White versus Vintage Lavender",
+      "candidate_genes": "ANS",
+      "mechanism_class": "structural_gene_frameshift_candidate",
+      "accessions": [
+        "LC557496",
+        "LC557497"
+      ],
+      "identified_variants": "shared one-base deletion at ANS coding position 486 (ans-1)",
+      "claim_ceiling": "Sequence-defined predicted truncation with cultivar association; no allele rescue. Four cultivars are not four independently evolved mutations."
+    },
+    {
+      "discovery_route": "expanded_ENA_title_hit_then_species_primary_followup",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "independent_allele_origin_status": "not_established",
+      "literature_applicability": "species_annotation; material-specific mechanism, no assignment of all FCP white photos",
+      "contrast_id": "MI_2021_DOUBLE_MUTANT",
+      "species": "Matthiola incana",
+      "source_dois": [
+        "10.2503/hortj.UTD-212"
+      ],
+      "source_urls": [
+        "https://www.jstage.jst.go.jp/article/hortj/90/1/90_UTD-212/_html/-char/en"
+      ],
+      "source_verification": "full_text_materials_results_figures",
+      "wild_or_horticultural": "commercial_cultivars",
+      "phenotype_origin": "spontaneous_mutations_in_commercial_lineages",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC: no anthocyanin peaks in white petals; flavonols retained",
+      "loss_scope": "petals_chemically_assayed; vegetative pigment loss not established",
+      "molecular_tier": "T3_variant_association",
+      "tissues": [
+        "petal"
+      ],
+      "library_design": "genomic PCR/sequencing, qPCR and HPLC; not RNAseq",
+      "biological_replication": "5 biological replicates for petal chemistry and qPCR; cultivar identities not independent evolutionary origins",
+      "stage": "S3 expression, S4 anthesis chemistry",
+      "independence_group": "MI_2021_SHARED_CULTIVAR_EXPERIMENT",
+      "strict_white_chromatic": true,
+      "morph_contrast": "Kiss me White/Pygmy White versus Vintage Lavender",
+      "candidate_genes": "ANS;bHLH2",
+      "mechanism_class": "structural_gene_plus_regulatory_gene_double_mutant",
+      "accessions": [
+        "LC557496",
+        "LC557497"
+      ],
+      "identified_variants": "ans-1 plus shared 481-bp hAT-type insertion dTmi1 in bHLH2",
+      "claim_ceiling": "Double-mutant white cultivars; isolated bHLH2 mutant evidence comes from yellow Kiss me Yellow, so do not call two independent white origins. Kiss me White derives from Pygmy White."
+    },
+    {
+      "discovery_route": "expanded_ENA_title_hit_then_species_primary_followup",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "independent_allele_origin_status": "not_established",
+      "literature_applicability": "species_annotation; material-specific mechanism, no assignment of all FCP white photos",
+      "contrast_id": "MI_2025_WHITE_PINK",
+      "species": "Matthiola incana",
+      "morph_contrast": "white versus pink variety",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1111/pbi.70193"
+      ],
+      "source_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/pbi.70193"
+      ],
+      "source_verification": "full_text_materials_colour_results_data_availability",
+      "wild_or_horticultural": "cultivated_varieties",
+      "phenotype_origin": "cultivar_contrast_no_causal_mapping",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "metabolomics pelargonidin/cyanidin comparison",
+      "loss_scope": "petals_only",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_metabolite_association",
+      "candidate_genes": "F3H;DFR;ANS;UGT;MYB12;MYB111;MYB90",
+      "accessions": [
+        "PRJNA883049"
+      ],
+      "library_design": "three flower-colour varieties; same white comparator shared by two contrasts",
+      "biological_replication": "Main text does not state n. PRJNA883049 has 17 flower BioSamples across five label groups (3 DeepRose,3 Peach,5 Purge-white,3 Purple,3 White-yellow), plus1 whole-plant Iso-seq. Exact three-variety paper subset unresolved.",
+      "stage": "paper:freshly_opened_flowers; submitted_followup_samples:bud_stage; unresolved",
+      "independence_group": "MI_2025_THREE_VARIETIES",
+      "strict_white_chromatic": true,
+      "claim_ceiling": "Higher pelargonidin and pathway expression in colored varieties; no demonstrated causal mutation; no imputation of 2021 cultivar alleles to these varieties."
+    },
+    {
+      "discovery_route": "expanded_ENA_title_hit_then_species_primary_followup",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "independent_allele_origin_status": "not_established",
+      "literature_applicability": "species_annotation; material-specific mechanism, no assignment of all FCP white photos",
+      "contrast_id": "MI_2025_WHITE_ROSE_RED",
+      "species": "Matthiola incana",
+      "morph_contrast": "white versus rose-red variety",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1111/pbi.70193"
+      ],
+      "source_urls": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/pbi.70193"
+      ],
+      "source_verification": "full_text_materials_colour_results_data_availability",
+      "wild_or_horticultural": "cultivated_varieties",
+      "phenotype_origin": "cultivar_contrast_no_causal_mapping",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "metabolomics pelargonidin/cyanidin comparison",
+      "loss_scope": "petals_only",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_metabolite_association",
+      "candidate_genes": "F3H;DFR;ANS;UGT;MYB12;MYB111;MYB90",
+      "accessions": [
+        "PRJNA883049"
+      ],
+      "library_design": "three flower-colour varieties; same white comparator shared by two contrasts",
+      "biological_replication": "Main text does not state n. PRJNA883049 has 17 flower BioSamples across five label groups (3 DeepRose,3 Peach,5 Purge-white,3 Purple,3 White-yellow), plus1 whole-plant Iso-seq. Exact three-variety paper subset unresolved.",
+      "stage": "paper:freshly_opened_flowers; submitted_followup_samples:bud_stage; unresolved",
+      "independence_group": "MI_2025_THREE_VARIETIES",
+      "strict_white_chromatic": true,
+      "claim_ceiling": "Higher pelargonidin and pathway expression in colored varieties; no demonstrated causal mutation; no imputation of 2021 cultivar alleles to these varieties."
+    },
+    {
+      "discovery_route": "expanded_ENA_title_hit_then_species_primary_followup",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "independent_allele_origin_status": "not_established",
+      "literature_applicability": "species_annotation; material-specific mechanism, no assignment of all FCP white photos",
+      "contrast_id": "CC_2019_WHITE_CULTIVAR",
+      "species": "Centaurea cyanus",
+      "morph_contrast": "white cultivar versus pink/red/blue/mauve/black cultivars",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1016/j.plaphy.2019.06.018"
+      ],
+      "source_urls": [
+        "https://pubmed.ncbi.nlm.nih.gov/31255906/",
+        "https://doi.org/10.1016/j.plaphy.2019.06.018"
+      ],
+      "source_verification": "primary_abstract_in_official_EuropePMC; full methods not verified",
+      "wild_or_horticultural": "commercial_cultivars",
+      "phenotype_origin": "cultivar_contrast_no_white_causal_mapping",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "UPLC-MS/MS: white petals lack anthocyanins",
+      "loss_scope": "petals_only",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_metabolite_association",
+      "candidate_genes": "F3H_and_downstream_pathway",
+      "accessions": [],
+      "library_design": "qRT-PCR/chemistry; not assigned PRJNA577252 (different within-petal experiment)",
+      "biological_replication": "not extracted; primary abstract only",
+      "stage": "unverified",
+      "independence_group": "CC_2019_SIX_CULTIVARS",
+      "strict_white_chromatic": true,
+      "claim_ceiling": "White pathway repression from F3H is expression association. F3primeH truncation reported for pink/red, and must not be recast as causal white mutation."
+    },
+    {
+      "discovery_route": "expanded_ENA_title_hit_then_species_primary_followup",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "causal_variant_identified": false,
+      "functional_intervention": true,
+      "independent_allele_origin_status": "not_established",
+      "literature_applicability": "species_annotation; material-specific mechanism, no assignment of all FCP white photos",
+      "contrast_id": "AM_2024_ELUTA",
+      "species": "Antirrhinum majus",
+      "morph_contrast": "near-white lobes with retained red bullseye El/El versus solid-magenta el/el; El/el intermediate",
+      "tissues": [
+        "whole_petal",
+        "petal_lobe",
+        "petal_bullseye"
+      ],
+      "source_dois": [
+        "10.1111/nph.19866"
+      ],
+      "source_urls": [
+        "https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.19866"
+      ],
+      "source_verification": "full_text_methods_results_figures_3_4_5_6",
+      "wild_or_horticultural": "historical_cultivated_stocks_and_segregating_crosses",
+      "phenotype_origin": "regulatory_alleles_in_cultivated_stock; transposon_insertion_and_excision_validation",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "floral pigmentation plus heterologous tobacco UHPLC",
+      "loss_scope": "spatial_partial_petal_loss_not_uniform_white_or_WAL",
+      "molecular_tier": "T4_gene_intervention",
+      "mechanism_class": "MYB_repressor_competes_for_promoter_elements_and_bHLH_cofactors",
+      "candidate_genes": "Eluta;DFR",
+      "accessions": [
+        "PRJNA1054305"
+      ],
+      "identified_variants": "Eluta CACTA insertion/excision; cultivated El/el regulatory allele differences",
+      "library_design": "whole stage-3 petals: 3 genotypes x3 submitted replicates; dissected qPCR n=3 independent biological replicates",
+      "biological_replication": "RNA metadata R1-R3 per genotype; El/El samples all 2018 vs both other genotypes 2017; genotype-year confounded",
+      "stage": "stage_3_buds",
+      "independence_group": "AM_2024_ELUTA_STOCK_CROSSES",
+      "strict_white_chromatic": false,
+      "claim_ceiling": "Gene identity/intervention supported. Partial pigmentation mechanism; raw RNA genotype contrast cannot distinguish collection year. Independent transposon excisions are not independent natural white-morph origins."
+    }
+  ]
+}

@@ -1,0 +1,489 @@
+{
+  "command": [
+    "/workspace/scratch/2b742620c4bf/fcp/scripts/analysis/run_fcp_447500_environment_model_20261018.py",
+    "--photos",
+    "/workspace/scratch/2b742620c4bf/fcp_inputs/full447500/measured/fcp_all4730_original_method_measured_photos.csv.gz",
+    "--worldclim-root",
+    "/workspace/scratch/2b742620c4bf/fcp_inputs/worldclim_frozen",
+    "--outdir",
+    "results/fcp_real_447500_environment_model_20261018"
+  ],
+  "completed_utc": "2026-10-18T13:33:45.559402+00:00",
+  "imported_sampling_script_sha256": "213fd84d2f744a54f1b39b00010211bee4945e2e952597e95cdeebed91064b79",
+  "output_sha256": {
+    "fit_diagnostics.csv": "21fca2080b72f7f928ac4e6b472a82b5717ae64408e0ab5d43146332cfcf8d91",
+    "genus_cluster_bootstrap.csv": "6391912e50e70b3373b9745d210841d5e1defecd1d4efc61c07e4879d59d1785",
+    "matched_sensitivity.csv": "547f9238e71eed80a5df4dacd0c57dc30db689cb23a72af627e56a7bb1255772",
+    "meta_summary.csv": "53e8755df05ad1f59012ffa5425737efa1c95370d0f51e473dd272c050e15601",
+    "profile.json": "a3ef94e705e0e07a66d953ba22b39fda6410ec9542aa0e96440e92e624f4bea0",
+    "selection_audit.csv": "362ac956e62b56e682cb8095c8ea39298f790ddc7efece0657d10e0cccfb229f",
+    "species_empirical_bayes.csv": "3d889337e9ae07824e2a952aa3efea9050ebdd3021ddb5696a3452434bd327d1",
+    "species_slopes.csv": "ead2223465d8cdde6869cbd82196e56ffadb33db7fa0006f58bac14db1f790f2"
+  },
+  "packages": {
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  },
+  "photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "rasters": [
+    {
+      "archive": "wc2.1_10m_bio.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "float32",
+      "epsg": 4326,
+      "file": "wc2.1_10m_bio_1.tif",
+      "height": 1080,
+      "nodata": -3.4e+38,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "f61633ffac9d44ed220442b3f7171a06f931726668bfbe9d07d53700b257d8cf",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_bio.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "float32",
+      "epsg": 4326,
+      "file": "wc2.1_10m_bio_4.tif",
+      "height": 1080,
+      "nodata": -3.4e+38,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "a1bacac2f3d645284ee506fdde14226d7c2cafd5997a2af2f802f45e3550ae19",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_bio.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "float32",
+      "epsg": 4326,
+      "file": "wc2.1_10m_bio_5.tif",
+      "height": 1080,
+      "nodata": -3.4e+38,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "32e02d85868734c32547da70cf9c620f4739a3cf5dbc4f2b751e16ebb2338ae1",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_bio.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "float32",
+      "epsg": 4326,
+      "file": "wc2.1_10m_bio_12.tif",
+      "height": 1080,
+      "nodata": -3.4e+38,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "1e823e951ace0186c6eadd7368b4d0385c8f51cc952282c0f2d640bf7790fea5",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_bio.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "float32",
+      "epsg": 4326,
+      "file": "wc2.1_10m_bio_14.tif",
+      "height": 1080,
+      "nodata": -3.4e+38,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "a759ceb007d02574128148af7f47ab578b18a07e2f5624725d7f222c3c457812",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_bio.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "float32",
+      "epsg": 4326,
+      "file": "wc2.1_10m_bio_15.tif",
+      "height": 1080,
+      "nodata": -3.4e+38,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "6e16bf2e37752932cdeb2b209d1e06ba1a154ac012c372e56bc98e774cdfa6c6",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_01.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "ab33df4e45c1dba45f5571974147deca2ca46d4b03c727647bfdfb1cc4011a23",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_02.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "96347549785e234fc51c0f274fadef03ed2b8fba55f6a7a713bba7f468d615b9",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_03.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "b6f4e2a3d7ee0e4fecdb72197339b01a2c9bede4d7219a6d5cac4bdc80afe177",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_04.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "13b8ecf5534f4cc5e7a236ec0f818b6d285cb367863c263ccc0e8c8106704a8d",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_05.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "c5cbd31e0baa98d333ef44927bb13ea466c1ce011f5e646c828bc9898061b895",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_06.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "d9208d92ef30d17a10883d2dbf3839ab931013a5369a664f805d7e3530f43b2a",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_07.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "ad15bc20a8935e3b2075ea334a5f92a15736c71f0efb8b37efed915b2ee4c2f4",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_08.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "72112c677237e193c719a0d8485947263f3813bed26e8dac6fefc825f5fd4606",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_09.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "c23063da7ba6e361bba119a06ab7342a83f7488d27bc8cfedbf9fb6fec5b2d10",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_10.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "fdef8e183cb8737885e8155e0fba11ffabf2ce2def6d34c29ca8217fc10f0898",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_11.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "f58c944ef564cb32248ee9a75a0e61df3c85043bf913f988a59dbed37d16cec9",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    },
+    {
+      "archive": "wc2.1_10m_srad.zip",
+      "authenticated_archive_member_match": true,
+      "dtype": "uint16",
+      "epsg": 4326,
+      "file": "wc2.1_10m_srad_12.tif",
+      "height": 1080,
+      "nodata": 65535.0,
+      "pixel_is_area": true,
+      "pixel_scale": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.0
+      ],
+      "sha256": "cf61b7d37f32d14ec218c0ad71bdc1942837b2bfb658229729fed3875a6039cd",
+      "tiepoint": [
+        0.0,
+        0.0,
+        0.0,
+        -180.0,
+        90.0,
+        0.0
+      ],
+      "width": 2160
+    }
+  ],
+  "script_sha256": "f583c4aadb044d68322c7725a2f736b5dd9a38265387a33a0bbef13cfd0a6c00",
+  "started_utc": "2026-10-18T13:32:50.975819+00:00",
+  "worldclim_zip_sha256": {
+    "wc2.1_10m_bio.zip": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+    "wc2.1_10m_srad.zip": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026"
+  }
+}

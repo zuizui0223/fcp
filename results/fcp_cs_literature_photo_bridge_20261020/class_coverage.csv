@@ -1,0 +1,4 @@
+literature_state,n_literature_species,n_photo_roster,n_spatial_50km,n_BIO5,n_BIO5_and_spatial
+local_coexistence_only,11,6,2,4,1
+spatial_segregation_only,8,2,0,0,0
+coexistence_and_segregation,15,8,3,7,3

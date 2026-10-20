@@ -1,0 +1,543 @@
+{
+  "version": "6.9",
+  "hitCount": 1,
+  "request": {
+    "queryString": "DOI:10.1111/nph.19866",
+    "resultType": "core",
+    "cursorMark": "*",
+    "pageSize": 25,
+    "sort": "",
+    "synonym": false
+  },
+  "resultList": {
+    "result": [
+      {
+        "id": "38822654",
+        "source": "MED",
+        "pmid": "38822654",
+        "doi": "10.1111/nph.19866",
+        "title": "Painted flowers: Eluta generates pigment patterning in Antirrhinum.",
+        "authorString": "Moss SMA, Zhou Y, Butelli E, Waite CN, Yeh SM, Cordiner SB, Harris NN, Copsey L, Schwinn KE, Davies KM, Hudson A, Martin C, Albert NW.",
+        "authorList": {
+          "author": [
+            {
+              "fullName": "Moss SMA",
+              "lastName": "Moss",
+              "firstName": "Sarah M A",
+              "initials": "SMA",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0002-0060-5486"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Zhou Y",
+              "lastName": "Zhou",
+              "firstName": "Yanfei",
+              "initials": "Y",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0002-9607-8376"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Butelli E",
+              "lastName": "Butelli",
+              "firstName": "Eugenio",
+              "initials": "E",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0001-6397-277X"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "John Innes Centre, Norwich, NR4 7UH, UK."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Waite CN",
+              "lastName": "Waite",
+              "firstName": "Chethi N",
+              "initials": "CN",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0009-0007-3522-6658"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Yeh SM",
+              "lastName": "Yeh",
+              "firstName": "Shin-Mei",
+              "initials": "SM",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0009-0008-3068-1173"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Auckland, 1025, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Cordiner SB",
+              "lastName": "Cordiner",
+              "firstName": "Sarah B",
+              "initials": "SB",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0001-7628-8539"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Harris NN",
+              "lastName": "Harris",
+              "firstName": "Nilangani N",
+              "initials": "NN",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Crop and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Copsey L",
+              "lastName": "Copsey",
+              "firstName": "Lucy",
+              "initials": "L",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0001-8802-264X"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "John Innes Centre, Norwich, NR4 7UH, UK."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Schwinn KE",
+              "lastName": "Schwinn",
+              "firstName": "Kathy E",
+              "initials": "KE",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0002-6337-3627"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Davies KM",
+              "lastName": "Davies",
+              "firstName": "Kevin M",
+              "initials": "KM",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0001-5652-5015"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Hudson A",
+              "lastName": "Hudson",
+              "firstName": "Andrew",
+              "initials": "A",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0001-9049-0100"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "University of Edinburgh, Edinburgh, EH9 3BF, UK."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Martin C",
+              "lastName": "Martin",
+              "firstName": "Cathie",
+              "initials": "C",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0002-3640-5080"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "John Innes Centre, Norwich, NR4 7UH, UK."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Albert NW",
+              "lastName": "Albert",
+              "firstName": "Nick W",
+              "initials": "NW",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0000-0002-8579-529X"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand."
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "authorIdList": {
+          "authorId": [
+            {
+              "type": "ORCID",
+              "value": "0000-0001-5652-5015"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0001-6397-277X"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0001-7628-8539"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0001-8802-264X"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0001-9049-0100"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0002-0060-5486"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0002-3640-5080"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0002-6337-3627"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0002-8579-529X"
+            },
+            {
+              "type": "ORCID",
+              "value": "0000-0002-9607-8376"
+            },
+            {
+              "type": "ORCID",
+              "value": "0009-0007-3522-6658"
+            },
+            {
+              "type": "ORCID",
+              "value": "0009-0008-3068-1173"
+            }
+          ]
+        },
+        "journalInfo": {
+          "issue": "2",
+          "volume": "243",
+          "journalIssueId": 3788080,
+          "dateOfPublication": "2024 Jul",
+          "monthOfPublication": 7,
+          "yearOfPublication": 2024,
+          "journal": {
+            "medlineAbbreviation": "New Phytol",
+            "title": "The New phytologist",
+            "essn": "1469-8137",
+            "issn": "1469-8137",
+            "isoabbreviation": "New Phytol",
+            "nlmid": "9882884"
+          },
+          "printPublicationDate": "2024-07-01"
+        },
+        "pubYear": "2024",
+        "pageInfo": "738-752",
+        "affiliation": "The New Zealand Institute for Plant and Food Research Ltd, Palmerston North, 4410, New Zealand.",
+        "publicationStatus": "ppublish",
+        "language": "eng",
+        "pubModel": "Print-Electronic",
+        "pubTypeList": {
+          "pubType": [
+            "Research Support, Non-U.S. Gov't",
+            "Journal Article"
+          ]
+        },
+        "grantsList": {
+          "grant": [
+            {
+              "agency": "Marsden Fund of New Zealand/Te Pūtea Rangahau A Marsden",
+              "grantId": "PAF1501",
+              "orderIn": 0
+            }
+          ]
+        },
+        "meshHeadingList": {
+          "meshHeading": [
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Plants, Genetically Modified"
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Antirrhinum",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Flowers",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  },
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "PH",
+                    "qualifierName": "physiology"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Anthocyanins",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "ME",
+                    "qualifierName": "metabolism"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Plant Proteins",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  },
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "ME",
+                    "qualifierName": "metabolism"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "DNA Transposable Elements",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Pigmentation",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Gene Expression Regulation, Plant"
+            },
+            {
+              "majorTopic_YN": "Y",
+              "descriptorName": "Phenotype"
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Alleles"
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Genes, Plant"
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Promoter Regions, Genetic",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Nicotiana",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "keywordList": {
+          "keyword": [
+            "Flavonoid",
+            "Transcription factor",
+            "Anthocyanin",
+            "Antirrhinum",
+            "Repressor",
+            "Myb",
+            "Flower Colour"
+          ]
+        },
+        "chemicalList": {
+          "chemical": [
+            {
+              "name": "Plant Proteins",
+              "registryNumber": "0"
+            },
+            {
+              "name": "Anthocyanins",
+              "registryNumber": "0"
+            },
+            {
+              "name": "DNA Transposable Elements",
+              "registryNumber": "0"
+            }
+          ]
+        },
+        "subsetList": {
+          "subset": [
+            {
+              "code": "IM",
+              "name": "Index Medicus"
+            }
+          ]
+        },
+        "fullTextUrlList": {
+          "fullTextUrl": [
+            {
+              "availability": "Subscription required",
+              "availabilityCode": "S",
+              "documentStyle": "doi",
+              "site": "DOI",
+              "url": "https://doi.org/10.1111/nph.19866"
+            }
+          ]
+        },
+        "isOpenAccess": "N",
+        "inEPMC": "N",
+        "inPMC": "N",
+        "citedByCount": 9,
+        "hasReferences": "Y",
+        "hasTextMinedTerms": "Y",
+        "hasDbCrossReferences": "N",
+        "hasPDF": "N",
+        "hasBook": "N",
+        "hasSuppl": "N",
+        "hasLabsLinks": "N",
+        "hasData": "N",
+        "license": "cc by-nc-nd",
+        "authMan": "N",
+        "epmcAuthMan": "N",
+        "nihAuthMan": "N",
+        "hasTMAccessionNumbers": "N",
+        "dateOfCompletion": "2024-06-20",
+        "dateOfCreation": "2024-06-01",
+        "dateOfRevision": "2026-06-11",
+        "electronicPublicationDate": "2024-06-01",
+        "firstPublicationDate": "2024-06-01",
+        "firstIndexDate": "2024-06-02",
+        "hasEvaluations": "N"
+      }
+    ]
+  }
+}

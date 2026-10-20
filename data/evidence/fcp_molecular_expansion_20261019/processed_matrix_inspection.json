@@ -1,0 +1,55 @@
+[
+  {
+    "file": "GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz",
+    "header": [
+      "tracking_id",
+      "Orychophragmus_violaceus_W1",
+      "Orychophragmus_violaceus_W2",
+      "Orychophragmus_violaceus_P1",
+      "Orychophragmus_violaceus_P2"
+    ],
+    "header_fields": 5,
+    "row_width_counts": {
+      "5": 34133
+    },
+    "data_rows": 34133,
+    "duplicated_header_labels": []
+  },
+  {
+    "file": "GSE93879_Lobularia_maritima.genes.fpkm_table.xls.gz",
+    "header": [
+      "tracking_id",
+      "Lobularia_maritima_W1 Lobularia_maritima_W2",
+      "Lobularia_maritima_P1",
+      "Lobularia_maritima_P2"
+    ],
+    "header_fields": 4,
+    "row_width_counts": {
+      "5": 34133
+    },
+    "data_rows": 34133,
+    "duplicated_header_labels": []
+  },
+  {
+    "file": "GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz",
+    "header": [
+      "tracking_id",
+      "Matthiola_incana_W1",
+      "Matthiola_incana_W1",
+      "Matthiola_incana_LP1",
+      "Matthiola_incana_LP2",
+      "Matthiola_incana_RB1",
+      "Matthiola_incana_RB2",
+      "Matthiola_incana_DP1",
+      "Matthiola_incana_DP2"
+    ],
+    "header_fields": 9,
+    "row_width_counts": {
+      "9": 34133
+    },
+    "data_rows": 34133,
+    "duplicated_header_labels": [
+      "Matthiola_incana_W1"
+    ]
+  }
+]

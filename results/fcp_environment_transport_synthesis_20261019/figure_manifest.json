@@ -1,0 +1,19 @@
+{
+  "schema": "fcp_environment_transfer_figure_v1",
+  "source_sha256": {
+    "results/fcp_environment_native_units_20261019/primary_summary.csv": "f4d0cd360916a4c3d10db09a890eb367f893d326afd5306be1740413c48094c9",
+    "results/fcp_environment_transport_20261019/genus_summary.csv": "9bce3513b4a581819618f8a947cdeebb13eb9155c12b540b49bbdecdf80d116e",
+    "results/fcp_environment_transport_20261019/spatial_summary.csv": "d80249801db0eb8e0f9221105f52660a60bd1e8907ac2a088f08c5cc538b1c85",
+    "results/fcp_environment_native_units_20261019/slope_modifier_contrasts.csv": "86f6f4b94a2ad09ed6ea4f357f1a31c3fa83efdc9b0d61cbe1de606084c63d03"
+  },
+  "script_sha256": "886024395065fbb898f1d097e4fca7daa164d5f24f83fedce167799f92c50316",
+  "n_plotted_estimates": 21,
+  "no_synthetic_or_imputed_data": true,
+  "output_sha256": {
+    "fcp_environment_transfer.png": "af0708ad9b3c4863b8b56fccbdec37563af37b7d07a9b9ef9792c1afdaf2ee4a",
+    "fcp_environment_transfer.svg": "4dac3b804b1debce678ff65cf2e1c9bd0e6beaa6af7bb09cfb99b10bbe04d961",
+    "fcp_native_gift_traits.png": "f54228a4c150a625c630bc26b6960e3733faebf867d6b8226df0b4a283cee00d",
+    "fcp_native_gift_traits.svg": "4b7db86314de53b3c345d94ec7b325524f8e79fd50fcfe875506ad550581ba4c",
+    "plotted_values.csv": "012b0bfb4454b77a9097af5ec57e8190a8c5fc04fc3708231b2da15c3761dbd3"
+  }
+}

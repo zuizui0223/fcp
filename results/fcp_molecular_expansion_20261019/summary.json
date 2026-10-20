@@ -1,0 +1,79 @@
+{
+  "schema": "fcp_molecular_expansion_v1",
+  "query": "tax_tree(33090) AND library_source=\"TRANSCRIPTOMIC\" AND ((study_title=\"*flower*\" OR study_title=\"*petal*\") AND (study_title=\"*pigment*\" OR study_title=\"*anthocyanin*\" OR study_title=\"*carotenoid*\" OR study_title=\"*color*\" OR study_title=\"*colour*\"))",
+  "screen_denominators": [
+    {
+      "screen": "original",
+      "runs": 131,
+      "projects": 15,
+      "submitted_taxon_labels": 13,
+      "experiments": 131,
+      "biosamples": 123,
+      "exact_roster_species": 7,
+      "exact_environment_species": 2
+    },
+    {
+      "screen": "expanded",
+      "runs": 682,
+      "projects": 65,
+      "submitted_taxon_labels": 67,
+      "experiments": 681,
+      "biosamples": 652,
+      "exact_roster_species": 12,
+      "exact_environment_species": 5
+    },
+    {
+      "screen": "union",
+      "runs": 801,
+      "projects": 78,
+      "submitted_taxon_labels": 74,
+      "experiments": 800,
+      "biosamples": 763,
+      "exact_roster_species": 16,
+      "exact_environment_species": 6
+    },
+    {
+      "screen": "expanded_only",
+      "runs": 670,
+      "projects": 63,
+      "submitted_taxon_labels": 66,
+      "experiments": 669,
+      "biosamples": 640,
+      "exact_roster_species": 12,
+      "exact_environment_species": 5
+    }
+  ],
+  "overlapping_runs": 12,
+  "overlapping_projects": 2,
+  "expanded_projects_dispositioned": 65,
+  "new_curated_contrasts": 6,
+  "new_curated_species": 3,
+  "union_curated_contrasts": 24,
+  "union_curated_species": 14,
+  "union_curated_tissue_rows": 39,
+  "union_molecular_environment_species": 7,
+  "new_species_with_unpatterned_white_chromatic_primary_evidence": [
+    "Matthiola incana",
+    "Centaurea cyanus"
+  ],
+  "new_species_with_partial_white_pattern_primary_evidence": [
+    "Antirrhinum majus"
+  ],
+  "drought_factorial_submitted_samples": 18,
+  "drought_factorial_cells": 6,
+  "drought_independent_plant_replication_verified": false,
+  "drought_primary_paper_located": false,
+  "raw_read_downloads": 0,
+  "rna_differential_expression_fit": false,
+  "processed_expression_descriptive": {
+    "genes": 3,
+    "species_with_descriptive_values": 2,
+    "per_column_values": 36,
+    "label_conditional_gene_contrasts": 12,
+    "count_DE_tests": 0,
+    "source_header_repaired": false,
+    "replication_and_annotation_limitations_retained": true
+  },
+  "cross_species_mechanism_environment_fit": false,
+  "reason_no_cross_species_fit": "Seven heterogeneous selectively documented environment species, including partial pattern and commercial contrasts; unsuitable for representative mechanism-frequency or environment-mechanism regression. Species annotation is permitted without same-individual data."
+}

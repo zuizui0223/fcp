@@ -1,0 +1,4 @@
+species,file,rows,header_fields,numeric_row_fields,duplicate_headers,status
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,34133,9,9,Matthiola_incana_W1,conditional_duplicate_white_identity
+Orychophragmus violaceus,GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz,34133,5,5,,exact_sample_header_join
+Lobularia maritima,GSE93879_Lobularia_maritima.genes.fpkm_table.xls.gz,34133,4,5,,blocked_missing_header_separator

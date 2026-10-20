@@ -1,0 +1,572 @@
+{
+  "completed_utc": "2026-10-18T13:37:46.867112+00:00",
+  "gift_version": "3.2",
+  "api": "https://gift.uni-goettingen.de/api/extended/index3.2.php",
+  "roster_species": 4475,
+  "environment_species": 1574,
+  "gift_species_rows": 372098,
+  "match_status_counts": {
+    "unique_exact_name": 4334,
+    "unmatched_exact_name": 141
+  },
+  "traits": [
+    {
+      "Lvl1": "1",
+      "Category": "Morphology",
+      "Lvl2": "1.1",
+      "Trait1": "Woodiness",
+      "Lvl3": "1.1.1",
+      "Trait2": "Woodiness_1",
+      "Units": "woody, non-woody, variable",
+      "type": "categorical",
+      "comment": null,
+      "count": 248944
+    },
+    {
+      "Lvl1": "2",
+      "Category": "Life history",
+      "Lvl2": "2.1",
+      "Trait1": "Lifecycle",
+      "Lvl3": "2.1.1",
+      "Trait2": "Lifecycle_1",
+      "Units": "annual, biennial, perennial, variable",
+      "type": "categorical",
+      "comment": "Combinations possible",
+      "count": 190225
+    },
+    {
+      "Lvl1": "3",
+      "Category": "Reproduction",
+      "Lvl2": "3.1",
+      "Trait1": "Self fertilization",
+      "Lvl3": "3.1.1",
+      "Trait2": "Self_fertilization_1",
+      "Units": "present, absent",
+      "type": "categorical",
+      "comment": null,
+      "count": 3650
+    }
+  ],
+  "agreement_threshold": 0.66,
+  "biasref": 0,
+  "biasderiv": 0,
+  "missing_semantics": "unknown documentation, never biological absence",
+  "matching": "unique exact species string only; no synonym/genus/family imputation",
+  "self_fertilization_interpretation": "GIFT recorded present/absent category; not realized selfing rate or a pigment mechanism",
+  "source_sha256": {
+    "results/fcp_real_447500_white_axis_decomposition_20261018/species_photo_composition.csv": "b0670fef9bcfde89927e62ad43febf7da462a31d620eeaec04658e1f928d5a1d",
+    "results/fcp_real_447500_environment_description_20261018/primary_ge5_species_environment.csv": "1fdfa5fafb2cc9153b4c7a0732757059f6d65ea1cb85457b1cffe3b28f61f544"
+  },
+  "public_api_pages": [
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits_meta",
+      "cache_file": "traits_meta.json",
+      "rows": 109,
+      "bytes": 22449,
+      "sha256": "ee20bafd237be38b4cb97d65219f65d1f02ecc5fca09867c9cdfc1640fb30af4"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=0&limit=10000",
+      "cache_file": "species_000000.json",
+      "rows": 10000,
+      "bytes": 1219396,
+      "sha256": "633d7ff1622238da88770413b21d5919fe7452768a0b798cc7bb1c6f33eb0bfb"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=10000&limit=10000",
+      "cache_file": "species_010000.json",
+      "rows": 10000,
+      "bytes": 1234078,
+      "sha256": "6993cd2c39bb7dc7a476dc241354fd5d7b8dddc25de6436a92afb5d09cfab579"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=20000&limit=10000",
+      "cache_file": "species_020000.json",
+      "rows": 10000,
+      "bytes": 1229560,
+      "sha256": "7a201cb6a31b63698f77d08b63f3a78a6f5c04c7247c46fd0b223540958d22d3"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=30000&limit=10000",
+      "cache_file": "species_030000.json",
+      "rows": 10000,
+      "bytes": 1233294,
+      "sha256": "39dde65a96f65b5548f5cecd3aa0b62a3f7537c9e7b46b954605cbf95c1c03dd"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=40000&limit=10000",
+      "cache_file": "species_040000.json",
+      "rows": 10000,
+      "bytes": 1236672,
+      "sha256": "4b19b4f95873d85aa17af38d10edeb11513f4bc1d05c7f2a7b4bedd218367c3c"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=50000&limit=10000",
+      "cache_file": "species_050000.json",
+      "rows": 10000,
+      "bytes": 1250206,
+      "sha256": "8b195196a4491c0da0c40f9aaec4adcea0a9d64d769e722fd35d88215d7daab9"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=60000&limit=10000",
+      "cache_file": "species_060000.json",
+      "rows": 10000,
+      "bytes": 1243003,
+      "sha256": "777d26d3a0005fa3d13cb2b194a508c73103c10036d14ccfa63d15d41ce70d01"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=70000&limit=10000",
+      "cache_file": "species_070000.json",
+      "rows": 10000,
+      "bytes": 1240303,
+      "sha256": "f4bee510a1206104c10903e060e320deadc00598e176d11dbd2d32c9a3e9bc91"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=80000&limit=10000",
+      "cache_file": "species_080000.json",
+      "rows": 10000,
+      "bytes": 1246014,
+      "sha256": "7014c8fe46026538d1eed18da034e9abe9c2848654cdc88359043c7d9b6377da"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=90000&limit=10000",
+      "cache_file": "species_090000.json",
+      "rows": 10000,
+      "bytes": 1261592,
+      "sha256": "0d15ea5b2f6f1e317498d2b825ec72f7bef948c86ef2de7bf22aec7f2e35cad9"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=100000&limit=10000",
+      "cache_file": "species_100000.json",
+      "rows": 10000,
+      "bytes": 1249246,
+      "sha256": "3e8e70f76a0d1d2706edeaade318934fffa660db6c27dc24868c770da590b661"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=110000&limit=10000",
+      "cache_file": "species_110000.json",
+      "rows": 10000,
+      "bytes": 1246805,
+      "sha256": "a23ee3643b38686a14d8d2c1ddfb019742f4bba39f831303b1f03606341e995b"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=120000&limit=10000",
+      "cache_file": "species_120000.json",
+      "rows": 10000,
+      "bytes": 1254667,
+      "sha256": "9ba6483a938b21c20d380e014a769d332662eb245e48838d7fd73743a38f5629"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=130000&limit=10000",
+      "cache_file": "species_130000.json",
+      "rows": 10000,
+      "bytes": 1288569,
+      "sha256": "63466121a34fad4147fab6bf0f49677720f33d9cd18741e3db2d2e1c942b244b"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=140000&limit=10000",
+      "cache_file": "species_140000.json",
+      "rows": 10000,
+      "bytes": 1278196,
+      "sha256": "adf03c88043fa3ca8af66a440e99ff04e88b217781b5c91d2a0b3817235b2082"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=150000&limit=10000",
+      "cache_file": "species_150000.json",
+      "rows": 10000,
+      "bytes": 1252999,
+      "sha256": "850762dd498332c52cde2ea075600b5b27fc2d18baf81d801da43a2778dcd522"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=160000&limit=10000",
+      "cache_file": "species_160000.json",
+      "rows": 10000,
+      "bytes": 1269490,
+      "sha256": "9e179e8b7078e932c5fa141bfe655f4788d0b144e9924fcd0b6d8858b0ba3c60"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=170000&limit=10000",
+      "cache_file": "species_170000.json",
+      "rows": 10000,
+      "bytes": 1256178,
+      "sha256": "50edefdc1561ae106de6f9bad52d47d95e6ac1d4a93d5c94ac1da5c9a693a2df"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=180000&limit=10000",
+      "cache_file": "species_180000.json",
+      "rows": 10000,
+      "bytes": 1262267,
+      "sha256": "d068212699fe6000252de82cb6d3bda0eb893f3a5016ca8873846810f8fc0fd2"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=190000&limit=10000",
+      "cache_file": "species_190000.json",
+      "rows": 10000,
+      "bytes": 1260997,
+      "sha256": "70eae71620d39fb02749301a84e7b46053b67dda2a613c8b5b0853679433905b"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=200000&limit=10000",
+      "cache_file": "species_200000.json",
+      "rows": 10000,
+      "bytes": 1250462,
+      "sha256": "23188c0d086cf722be9b345fda39b545e5109fb1d2bb1c4ace7e22341b2da7df"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=210000&limit=10000",
+      "cache_file": "species_210000.json",
+      "rows": 10000,
+      "bytes": 1237214,
+      "sha256": "af82a80393a967c955c69f12ddf7ba9a78214082fc4e8531ce28dfefb508de65"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=220000&limit=10000",
+      "cache_file": "species_220000.json",
+      "rows": 10000,
+      "bytes": 1265102,
+      "sha256": "2c9f8aacedee993eba2d7952e7ed0e5ad3ea8493ac6cebb15786b145f715215e"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=230000&limit=10000",
+      "cache_file": "species_230000.json",
+      "rows": 10000,
+      "bytes": 1274947,
+      "sha256": "1e5bf202f97af02691d2bab8050af0f555b360c7d4579a41afa2b0ed2204523e"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=240000&limit=10000",
+      "cache_file": "species_240000.json",
+      "rows": 10000,
+      "bytes": 1266079,
+      "sha256": "87dd819577e2eb1f403cf5612ea91562ba3c5b68fb8349e9ed6b7a5beee79de8"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=250000&limit=10000",
+      "cache_file": "species_250000.json",
+      "rows": 10000,
+      "bytes": 1254036,
+      "sha256": "4577e6cf9c2d4bb1776e7ac6c1fa4e2316ed1a85a63a4d247e828bdbb9566e1f"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=260000&limit=10000",
+      "cache_file": "species_260000.json",
+      "rows": 10000,
+      "bytes": 1263277,
+      "sha256": "72d4d64382a2001ee4abdf3235ed2117941393951cd4b59660218eb7c91345eb"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=270000&limit=10000",
+      "cache_file": "species_270000.json",
+      "rows": 10000,
+      "bytes": 1268049,
+      "sha256": "fa32944324d9c19869461e440c254fec05609159881166d3a507746ba944d9f3"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=280000&limit=10000",
+      "cache_file": "species_280000.json",
+      "rows": 10000,
+      "bytes": 1306024,
+      "sha256": "26dab9194deab43715b447ef484387d7ccfcf780f6f3ba24f2e3e249b20fd70f"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=290000&limit=10000",
+      "cache_file": "species_290000.json",
+      "rows": 10000,
+      "bytes": 1282304,
+      "sha256": "3cb29779ac64bc5794bcff00fa948ca959b7e7d9b5516071f66adfe99a39acd9"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=300000&limit=10000",
+      "cache_file": "species_300000.json",
+      "rows": 10000,
+      "bytes": 1293464,
+      "sha256": "0d6a7208f1dcba291fa586562a6f8286385450c4fb84b8538c9ea2ff8bc19d5b"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=310000&limit=10000",
+      "cache_file": "species_310000.json",
+      "rows": 10000,
+      "bytes": 1327458,
+      "sha256": "dc9345c14d65874dc455d44badb0cf4b1fdd2f80e1573082a7eb72835adcf323"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=320000&limit=10000",
+      "cache_file": "species_320000.json",
+      "rows": 10000,
+      "bytes": 1347695,
+      "sha256": "21b21e3760c38a4cfa7b6a6cb0c631b81188c17fb3096ad6f93dd7e440b5fee7"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=330000&limit=10000",
+      "cache_file": "species_330000.json",
+      "rows": 10000,
+      "bytes": 1319612,
+      "sha256": "1e3db478bfb13274ad08aeea4c7dca06e430b7bc4237bad736e1c518a5cf95f9"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=340000&limit=10000",
+      "cache_file": "species_340000.json",
+      "rows": 10000,
+      "bytes": 1299227,
+      "sha256": "837a5042e2a8a7474cc6e8bce120f93b2946ee7d08bf05141f15c49004f469af"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=350000&limit=10000",
+      "cache_file": "species_350000.json",
+      "rows": 10000,
+      "bytes": 1281787,
+      "sha256": "2d4dc6a76ba2d94f3413e7f8730d939285000d53471eee309434498bd820e051"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=360000&limit=10000",
+      "cache_file": "species_360000.json",
+      "rows": 10000,
+      "bytes": 1279266,
+      "sha256": "00a64f1522242e0ca19c89a5442144f246a07be40dcaa2636129cd05bea7408d"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=species&startat=370000&limit=10000",
+      "cache_file": "species_370000.json",
+      "rows": 2098,
+      "bytes": 273000,
+      "sha256": "1f1dbeb998b050db0a7d52ba0fba4d4d518485df1351b913120611c9e031a6ea"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=3.1.1&biasref=0&biasderiv=0&startat=0&limit=10000",
+      "cache_file": "traits_3_1_1_000000.json",
+      "rows": 3650,
+      "bytes": 367750,
+      "sha256": "59d44b73c6267fb6bb08a677b58395c5480392415a50b5eccbfd9e111407fd17"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=0&limit=10000",
+      "cache_file": "traits_2_1_1_000000.json",
+      "rows": 10000,
+      "bytes": 1192713,
+      "sha256": "d8c9277764b5635da5a9ed2cbcb7d5d606d0be73cad310f48704b728f009a7b6"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=10000&limit=10000",
+      "cache_file": "traits_2_1_1_010000.json",
+      "rows": 10000,
+      "bytes": 1192219,
+      "sha256": "32cfead8f261baf57404cb0dd3b3a08f1566b9ef2e66a135138a7cdf3913a3e1"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=20000&limit=10000",
+      "cache_file": "traits_2_1_1_020000.json",
+      "rows": 10000,
+      "bytes": 1127726,
+      "sha256": "bcb675a0692e925aad49efd86f2bb66f94d53f1ec29109d5fdc7cea5cbba2e06"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=30000&limit=10000",
+      "cache_file": "traits_2_1_1_030000.json",
+      "rows": 10000,
+      "bytes": 1055266,
+      "sha256": "75e6bb1c39825ffc2b0000608eecc044e9d5161d0d2c452a6eff30fc69d66614"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=40000&limit=10000",
+      "cache_file": "traits_2_1_1_040000.json",
+      "rows": 10000,
+      "bytes": 1041092,
+      "sha256": "5312bc270eb318ae13ab18a6df7de36ee163082f73533988e2d84bf4e969326a"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=50000&limit=10000",
+      "cache_file": "traits_2_1_1_050000.json",
+      "rows": 10000,
+      "bytes": 1076673,
+      "sha256": "f748ff94df3099cc3eeea02398f85bb1816969e0860fc3bcf678914538629645"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=60000&limit=10000",
+      "cache_file": "traits_2_1_1_060000.json",
+      "rows": 10000,
+      "bytes": 1082033,
+      "sha256": "2f907708c540930d643c723d35fa22de4be72d2ac010f2d8c95f99c6343a6d8e"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=70000&limit=10000",
+      "cache_file": "traits_2_1_1_070000.json",
+      "rows": 10000,
+      "bytes": 1067137,
+      "sha256": "b1027eca3ae09382c9ab4cc8b70a67fabc1e40e341dd36d24ac7a99d9d68a032"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=80000&limit=10000",
+      "cache_file": "traits_2_1_1_080000.json",
+      "rows": 10000,
+      "bytes": 1087097,
+      "sha256": "5ca2a7205372bc5ab92471635cb5c424075c49d1836cc8a6f60085190ab118a7"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=2.1.1&biasref=0&biasderiv=0&startat=90000&limit=10000",
+      "cache_file": "traits_2_1_1_090000.json",
+      "rows": 5744,
+      "bytes": 606070,
+      "sha256": "9ff01f37ac498038011d72dced0f9a0fc54db9e97d2b5d3a480a9890ee68c3c9"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=0&limit=10000",
+      "cache_file": "traits_1_1_1_000000.json",
+      "rows": 10000,
+      "bytes": 1238771,
+      "sha256": "766b662f203282924299c9a2e16dbaf72acc6093b0ed2e38405d412f00022518"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=10000&limit=10000",
+      "cache_file": "traits_1_1_1_010000.json",
+      "rows": 10000,
+      "bytes": 1252886,
+      "sha256": "5364a8ed9e3e746a7c59f0f8405648521e2ba11afc4ac392ad764fdb6f34e6c8"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=20000&limit=10000",
+      "cache_file": "traits_1_1_1_020000.json",
+      "rows": 10000,
+      "bytes": 1233367,
+      "sha256": "cb6794709312237848117ccd860ec6aa9b78dacc6e5605dfbc9ed91c309d3987"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=30000&limit=10000",
+      "cache_file": "traits_1_1_1_030000.json",
+      "rows": 10000,
+      "bytes": 1166321,
+      "sha256": "ffaf137dcb59bd250833ba06b6176a3481bc22a144474bdbe887688f0dd94879"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=40000&limit=10000",
+      "cache_file": "traits_1_1_1_040000.json",
+      "rows": 10000,
+      "bytes": 1236586,
+      "sha256": "c2bc5ff129a0a89b8e27dfb7bcbddb40e10c955bb028be6e21b4e2d89e60b19b"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=50000&limit=10000",
+      "cache_file": "traits_1_1_1_050000.json",
+      "rows": 10000,
+      "bytes": 1113802,
+      "sha256": "b3afede17d90a5e219b5484931c742c31c6ea83d3ea2383ab553d4b77f87c3bd"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=60000&limit=10000",
+      "cache_file": "traits_1_1_1_060000.json",
+      "rows": 10000,
+      "bytes": 1073828,
+      "sha256": "d95c921d97b79cf32ed12b3679a4fcd0da5e12578fcb949ddd55e7c4d979fae1"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=70000&limit=10000",
+      "cache_file": "traits_1_1_1_070000.json",
+      "rows": 10000,
+      "bytes": 1170542,
+      "sha256": "38bbebc4cc20d9fe8ad954d093c7b3526cc5c72c218e22c69a5d6bf396b96dc1"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=80000&limit=10000",
+      "cache_file": "traits_1_1_1_080000.json",
+      "rows": 10000,
+      "bytes": 1137185,
+      "sha256": "da3f6352be3e7351f73178a09a1e4d9ad271799b525751fb0713340da2fe21bc"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=90000&limit=10000",
+      "cache_file": "traits_1_1_1_090000.json",
+      "rows": 10000,
+      "bytes": 1164330,
+      "sha256": "548bc16992e9217f5f46cad90cfdc8d41c1fce4af46c60f0071b966b90e9e8e1"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=100000&limit=10000",
+      "cache_file": "traits_1_1_1_100000.json",
+      "rows": 10000,
+      "bytes": 1127289,
+      "sha256": "db8246d95b9072f2759b3dfb3128d54a1c2735fbe48cf138927d98db50e44301"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=110000&limit=10000",
+      "cache_file": "traits_1_1_1_110000.json",
+      "rows": 10000,
+      "bytes": 1086945,
+      "sha256": "841d46de1e6b95d13ddce6c45dc5af168fba852ca4e5240a615edf0049a82d46"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=120000&limit=10000",
+      "cache_file": "traits_1_1_1_120000.json",
+      "rows": 10000,
+      "bytes": 1082886,
+      "sha256": "2663b4d1a127e03e1ef20fc0bea3af4dbdc0f8a14a94acb976510fcdb6e31fb3"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=130000&limit=10000",
+      "cache_file": "traits_1_1_1_130000.json",
+      "rows": 10000,
+      "bytes": 1085449,
+      "sha256": "d9e3a8048f77acbb1a45d67177fc348fd212f1a5c2f0ae61a8b9b688dd78ef40"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=140000&limit=10000",
+      "cache_file": "traits_1_1_1_140000.json",
+      "rows": 10000,
+      "bytes": 1109507,
+      "sha256": "8e379808b2534f5ce0b719492e3634689010d70d140652bfdf3d42c114641660"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=150000&limit=10000",
+      "cache_file": "traits_1_1_1_150000.json",
+      "rows": 10000,
+      "bytes": 1080713,
+      "sha256": "5273f5307c953e0238cd2ef344ea01369ccfa98bac1186e1a79503c46e0a24f4"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=160000&limit=10000",
+      "cache_file": "traits_1_1_1_160000.json",
+      "rows": 10000,
+      "bytes": 1081236,
+      "sha256": "8cffdeacc0ddf7a9c25dcb511859a288a3a128ddc21da374f0d254549570e395"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=170000&limit=10000",
+      "cache_file": "traits_1_1_1_170000.json",
+      "rows": 10000,
+      "bytes": 1038315,
+      "sha256": "3fc334dda6477018f12a61caee4457846c811baa522a85f5bfe22ba11872d66c"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=180000&limit=10000",
+      "cache_file": "traits_1_1_1_180000.json",
+      "rows": 10000,
+      "bytes": 1039970,
+      "sha256": "972ccc3a1d0afd21969acf968c9f38426c03973599806b18cfee2b6855d9c73d"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=190000&limit=10000",
+      "cache_file": "traits_1_1_1_190000.json",
+      "rows": 10000,
+      "bytes": 1079726,
+      "sha256": "25772e16497c642ec2c4b5c89c93d847dc1b1f643698cf102b548a1466e348eb"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=200000&limit=10000",
+      "cache_file": "traits_1_1_1_200000.json",
+      "rows": 10000,
+      "bytes": 1143564,
+      "sha256": "5171194061ad93660a67da0dcf14de7e8305a9d536bbb5015d7600742ce9af40"
+    },
+    {
+      "url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits&traitid=1.1.1&biasref=0&biasderiv=0&startat=210000&limit=10000",
+      "cache_file": "traits_1_1_1_210000.json",
+      "rows": 8316,
+      "bytes": 879059,
+      "sha256": "60db08bb19d26eb70057ca35c83ea078d84c3a3cdfd7d0e23d7f89374f6ee8ca"
+    }
+  ],
+  "code_sha256": "44e308b9e0f36ebc0ec2bf77f23a1da10796b34f632bad26ca427b234a70bc72",
+  "output_sha256": {
+    "gift_matched_source_records.csv": "7fb93684ec56a98a8a3ddebe52af3c27014f78599d9f794e3aa16e64519294f9",
+    "species_trait_join.csv": "087755d43dbf87de57049c9a065d7019df2bf3f3ddd36fcbb3e795d90eebed9f",
+    "trait_coverage.csv": "4ec7d1733bfa064959385f2439d2912f3643873e2d191cf78e76af4e258bd4a3"
+  }
+}

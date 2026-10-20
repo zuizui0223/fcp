@@ -1,0 +1,424 @@
+{
+  "by_cohort_descriptive": {
+    "discovery": {
+      "nonwhite_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 166,
+        "null_mean_depletion": 4.5034456065103295e-05,
+        "null_mean_depletion_q025": -0.004156896080614825,
+        "null_mean_depletion_q975": 0.0047369996466784595,
+        "null_mean_global_mismatch": 0.05646108282217792,
+        "null_mean_local_mismatch": 0.05641604836611282,
+        "null_mean_local_q025": 0.05172408317549944,
+        "null_mean_local_q975": 0.060617978902792705,
+        "observed_mean_depletion": 0.008617149810896162,
+        "observed_mean_global_mismatch": 0.05646108282217792,
+        "observed_mean_local_mismatch": 0.04784393301128176,
+        "observed_positive_depletion_species": 50,
+        "p_upper_posthoc": null
+      },
+      "total": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 166,
+        "null_mean_depletion": -0.00029618636085199606,
+        "null_mean_depletion_q025": -0.008005529222693462,
+        "null_mean_depletion_q975": 0.007650572673902465,
+        "null_mean_global_mismatch": 0.22139471031306737,
+        "null_mean_local_mismatch": 0.2216908966739194,
+        "null_mean_local_q025": 0.2137441376391649,
+        "null_mean_local_q975": 0.22940023953576089,
+        "observed_mean_depletion": 0.020529254583812922,
+        "observed_mean_global_mismatch": 0.22139471031306737,
+        "observed_mean_local_mismatch": 0.20086545572925446,
+        "observed_positive_depletion_species": 91,
+        "p_upper_posthoc": null
+      },
+      "white_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 166,
+        "null_mean_depletion": -0.0003412208169171014,
+        "null_mean_depletion_q025": -0.007923001393741405,
+        "null_mean_depletion_q975": 0.007518213858239006,
+        "null_mean_global_mismatch": 0.16493362749088944,
+        "null_mean_local_mismatch": 0.1652748483078066,
+        "null_mean_local_q025": 0.15741541363265044,
+        "null_mean_local_q975": 0.17285662888463083,
+        "observed_mean_depletion": 0.011912104772916762,
+        "observed_mean_global_mismatch": 0.16493362749088944,
+        "observed_mean_local_mismatch": 0.1530215227179727,
+        "observed_positive_depletion_species": 82,
+        "p_upper_posthoc": null
+      }
+    },
+    "new_U100": {
+      "nonwhite_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 1020,
+        "null_mean_depletion": -1.4416173794273776e-05,
+        "null_mean_depletion_q025": -0.0016409293337440913,
+        "null_mean_depletion_q975": 0.0014484861040079382,
+        "null_mean_global_mismatch": 0.04417039780754885,
+        "null_mean_local_mismatch": 0.044184813981343135,
+        "null_mean_local_q025": 0.042721911703540914,
+        "null_mean_local_q975": 0.04581132714129294,
+        "observed_mean_depletion": 0.0024306841713238867,
+        "observed_mean_global_mismatch": 0.04417039780754885,
+        "observed_mean_local_mismatch": 0.04173971363622496,
+        "observed_positive_depletion_species": 306,
+        "p_upper_posthoc": null
+      },
+      "total": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 1020,
+        "null_mean_depletion": 3.255959580224684e-05,
+        "null_mean_depletion_q025": -0.003112084450210034,
+        "null_mean_depletion_q975": 0.0032853223314687936,
+        "null_mean_global_mismatch": 0.21707624570532313,
+        "null_mean_local_mismatch": 0.2170436861095209,
+        "null_mean_local_q025": 0.21379092337385405,
+        "null_mean_local_q975": 0.22018833015553319,
+        "observed_mean_depletion": 0.017598697724511534,
+        "observed_mean_global_mismatch": 0.21707624570532313,
+        "observed_mean_local_mismatch": 0.19947754798081163,
+        "observed_positive_depletion_species": 567,
+        "p_upper_posthoc": null
+      },
+      "white_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 1020,
+        "null_mean_depletion": 4.6975769596520866e-05,
+        "null_mean_depletion_q025": -0.0026347099476135426,
+        "null_mean_depletion_q975": 0.0032209687969467406,
+        "null_mean_global_mismatch": 0.1729058478977743,
+        "null_mean_local_mismatch": 0.17285887212817785,
+        "null_mean_local_q025": 0.1696848791008278,
+        "null_mean_local_q975": 0.1755405578453879,
+        "observed_mean_depletion": 0.015168013553187644,
+        "observed_mean_global_mismatch": 0.1729058478977743,
+        "observed_mean_local_mismatch": 0.15773783434458666,
+        "observed_positive_depletion_species": 547,
+        "p_upper_posthoc": null
+      }
+    },
+    "prospective": {
+      "nonwhite_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 204,
+        "null_mean_depletion": 1.371972120704001e-05,
+        "null_mean_depletion_q025": -0.003624634693462813,
+        "null_mean_depletion_q975": 0.0036960861463247257,
+        "null_mean_global_mismatch": 0.051206866495007115,
+        "null_mean_local_mismatch": 0.05119314677380007,
+        "null_mean_local_q025": 0.04751078034868239,
+        "null_mean_local_q975": 0.05483150118846991,
+        "observed_mean_depletion": 0.004278220301270998,
+        "observed_mean_global_mismatch": 0.051206866495007115,
+        "observed_mean_local_mismatch": 0.046928646193736115,
+        "observed_positive_depletion_species": 59,
+        "p_upper_posthoc": null
+      },
+      "total": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 204,
+        "null_mean_depletion": 0.00024084957433838958,
+        "null_mean_depletion_q025": -0.007070455695414768,
+        "null_mean_depletion_q975": 0.0062677998610377325,
+        "null_mean_global_mismatch": 0.2482035979589538,
+        "null_mean_local_mismatch": 0.24796274838461546,
+        "null_mean_local_q025": 0.24193579809791602,
+        "null_mean_local_q975": 0.25527405365436856,
+        "observed_mean_depletion": 0.01468491968437185,
+        "observed_mean_global_mismatch": 0.2482035979589538,
+        "observed_mean_local_mismatch": 0.233518678274582,
+        "observed_positive_depletion_species": 113,
+        "p_upper_posthoc": null
+      },
+      "white_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 204,
+        "null_mean_depletion": 0.00022712985313135212,
+        "null_mean_depletion_q025": -0.0076418947928130945,
+        "null_mean_depletion_q975": 0.0055514226257913895,
+        "null_mean_global_mismatch": 0.19699673146394667,
+        "null_mean_local_mismatch": 0.19676960161081533,
+        "null_mean_local_q025": 0.19144530883815525,
+        "null_mean_local_q975": 0.2046386262567597,
+        "observed_mean_depletion": 0.010406699383100855,
+        "observed_mean_global_mismatch": 0.19699673146394667,
+        "observed_mean_local_mismatch": 0.18659003208084585,
+        "observed_positive_depletion_species": 104,
+        "p_upper_posthoc": null
+      }
+    },
+    "validation": {
+      "nonwhite_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 181,
+        "null_mean_depletion": 0.00021237586195388207,
+        "null_mean_depletion_q025": -0.003351814810569395,
+        "null_mean_depletion_q975": 0.004056788430018895,
+        "null_mean_global_mismatch": 0.04296635376542734,
+        "null_mean_local_mismatch": 0.04275397790347345,
+        "null_mean_local_q025": 0.03890956533540844,
+        "null_mean_local_q975": 0.04631816857599672,
+        "observed_mean_depletion": 0.0030859612601086793,
+        "observed_mean_global_mismatch": 0.04296635376542734,
+        "observed_mean_local_mismatch": 0.039880392505318656,
+        "observed_positive_depletion_species": 63,
+        "p_upper_posthoc": null
+      },
+      "total": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 181,
+        "null_mean_depletion": 0.00022861180048299864,
+        "null_mean_depletion_q025": -0.007060161982022489,
+        "null_mean_depletion_q975": 0.00782551919384996,
+        "null_mean_global_mismatch": 0.22866216076753232,
+        "null_mean_local_mismatch": 0.22843354896704934,
+        "null_mean_local_q025": 0.22083664157368219,
+        "null_mean_local_q975": 0.2357223227495549,
+        "observed_mean_depletion": 0.018672971642749295,
+        "observed_mean_global_mismatch": 0.22866216076753232,
+        "observed_mean_local_mismatch": 0.2099891891247831,
+        "observed_positive_depletion_species": 104,
+        "p_upper_posthoc": null
+      },
+      "white_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 181,
+        "null_mean_depletion": 1.623593852911597e-05,
+        "null_mean_depletion_q025": -0.006671254981122725,
+        "null_mean_depletion_q975": 0.0059641527653259896,
+        "null_mean_global_mismatch": 0.185695807002105,
+        "null_mean_local_mismatch": 0.18567957106357585,
+        "null_mean_local_q025": 0.17973165423677895,
+        "null_mean_local_q975": 0.1923670619832278,
+        "observed_mean_depletion": 0.015587010382640614,
+        "observed_mean_global_mismatch": 0.185695807002105,
+        "observed_mean_local_mismatch": 0.1701087966194644,
+        "observed_positive_depletion_species": 96,
+        "p_upper_posthoc": null
+      }
+    },
+    "wave4": {
+      "nonwhite_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 190,
+        "null_mean_depletion": 5.78333205110511e-05,
+        "null_mean_depletion_q025": -0.003343115247667117,
+        "null_mean_depletion_q975": 0.003788652168924486,
+        "null_mean_global_mismatch": 0.04235821773245413,
+        "null_mean_local_mismatch": 0.04230038441194307,
+        "null_mean_local_q025": 0.03856956556352964,
+        "null_mean_local_q975": 0.04570133298012124,
+        "observed_mean_depletion": -0.001680452851143567,
+        "observed_mean_global_mismatch": 0.04235821773245413,
+        "observed_mean_local_mismatch": 0.044038670583597686,
+        "observed_positive_depletion_species": 55,
+        "p_upper_posthoc": null
+      },
+      "total": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 190,
+        "null_mean_depletion": 2.091907952662186e-05,
+        "null_mean_depletion_q025": -0.008170589871576109,
+        "null_mean_depletion_q975": 0.007896733424890428,
+        "null_mean_global_mismatch": 0.2358399102424004,
+        "null_mean_local_mismatch": 0.23581899116287383,
+        "null_mean_local_q025": 0.2279431768175101,
+        "null_mean_local_q975": 0.24401050011397662,
+        "observed_mean_depletion": 0.017293596294403593,
+        "observed_mean_global_mismatch": 0.2358399102424004,
+        "observed_mean_local_mismatch": 0.21854631394799676,
+        "observed_positive_depletion_species": 109,
+        "p_upper_posthoc": null
+      },
+      "white_nonwhite": {
+        "holm_two_component_p_posthoc": null,
+        "n_species": 190,
+        "null_mean_depletion": -3.691424098443065e-05,
+        "null_mean_depletion_q025": -0.007435486163596847,
+        "null_mean_depletion_q975": 0.007526666042250727,
+        "null_mean_global_mismatch": 0.19348169250994626,
+        "null_mean_local_mismatch": 0.19351860675093072,
+        "null_mean_local_q025": 0.18595502646769557,
+        "null_mean_local_q975": 0.20091717867354325,
+        "observed_mean_depletion": 0.018974049145547157,
+        "observed_mean_global_mismatch": 0.19348169250994626,
+        "observed_mean_local_mismatch": 0.1745076433643991,
+        "observed_positive_depletion_species": 105,
+        "p_upper_posthoc": null
+      }
+    }
+  },
+  "composition": {
+    "all_measured_taxa": {
+      "all_unequal_pairs": 1374173,
+      "fraction_average_denominator_multistate_species": 4189,
+      "n_classifiable_photos": 227107,
+      "n_species": 4475,
+      "observed_multistate_species": 4189,
+      "pooled_photo_pair_weighted_white_fraction_of_unequal_pairs": 0.8154904804562453,
+      "species_equal_mean_white_fraction_of_unequal_pairs_among_multistate_species": 0.8514617053385473,
+      "species_median_white_fraction_of_unequal_pairs_among_multistate_species": 0.9712230215827338,
+      "white_fraction_among_observed_multistate_species": 0.9816185247075674,
+      "white_ge5_nonwhite_ge5_fraction_of_all_species_in_panel": 0.5383240223463687,
+      "white_ge5_nonwhite_ge5_species": 2409,
+      "white_in_observed_polymorphism_fraction": 0.9188826815642458,
+      "white_in_observed_polymorphism_species": 4112,
+      "white_nonwhite_pairs": 1120625
+    },
+    "ge40_classifiable": {
+      "all_unequal_pairs": 1153347,
+      "fraction_average_denominator_multistate_species": 3029,
+      "n_classifiable_photos": 192676,
+      "n_species": 3297,
+      "observed_multistate_species": 3029,
+      "pooled_photo_pair_weighted_white_fraction_of_unequal_pairs": 0.8188316265616505,
+      "species_equal_mean_white_fraction_of_unequal_pairs_among_multistate_species": 0.8554972273708022,
+      "species_median_white_fraction_of_unequal_pairs_among_multistate_species": 0.984375,
+      "white_fraction_among_observed_multistate_species": 0.9782106305711455,
+      "white_ge5_nonwhite_ge5_fraction_of_all_species_in_panel": 0.47740370033363666,
+      "white_ge5_nonwhite_ge5_species": 1574,
+      "white_in_observed_polymorphism_fraction": 0.8986957840461025,
+      "white_in_observed_polymorphism_species": 2963,
+      "white_nonwhite_pairs": 944397
+    }
+  },
+  "composition_definitions": {
+    "main_panel": "3297 species with >=40 four-state-classifiable photos; all4475 also shown",
+    "no_population_prevalence": true,
+    "observed_multistate": "at least two coarse photo states among retained classifiable photos",
+    "pair_fraction": "unordered white-nonwhite pairs / all unordered unequal-state pairs",
+    "support_sensitivity": "at least five white and at least five nonwhite photos",
+    "white_in_observed_polymorphism": "at least one white and at least one nonwhite photo",
+    "zero_unequal_pairs": "monomorphic species excluded from pair-fraction averages only"
+  },
+  "date": "2026-10-18",
+  "exact_reconstruction": {
+    "absolute_tolerance": 1e-12,
+    "max_absolute_additivity_error": 1.942890293094024e-16,
+    "max_absolute_original_total_null_error": 0.0,
+    "original_total_null_values_checked": 350439,
+    "species": 1761,
+    "worlds_per_species": 199
+  },
+  "method": {
+    "cohort_summaries": "descriptive matched-null summaries; no new cohort p-values",
+    "equal_species_weighting": true,
+    "new_test_family": "two pooled one-sided positive-depletion component tests; Holm2",
+    "original_vertex_worlds": 199,
+    "radius_km": 50,
+    "radius_post_hoc": true,
+    "same_1761_species_same_all_pair_denominators": true,
+    "seed_mapping": {
+      "discovery": "discovery",
+      "new_U100": "third",
+      "prospective": "third",
+      "validation": "validation",
+      "wave4": "third"
+    },
+    "total_result": "original result authenticated, not a new confirmation",
+    "unequal_pair_partition": "I(a!=b) = I(exactly_one_white) + I(a!=b and neither_white)",
+    "white_vertices_removed": false
+  },
+  "nonclaims": [
+    "Post hoc decomposition of existing photographic structure, not a new prospective test",
+    "Coarse white/nonwhite state is not pigment chemistry, anthocyanin loss or a genotype",
+    "No fitness, pigment production cost, selection or local adaptation measured",
+    "Photo state proportions are not natural plant/population morph frequencies",
+    "This pairwise decomposition is distinct from sign-invariant continuous H2 W",
+    "Same source and exposure/observer biases remain"
+  ],
+  "output_sha256": {
+    "component_summary.csv": "6b0600c5a6a2e95389cb13183b974fdcbe54357a6388403f0567617ad73e33cb",
+    "component_vertex_nulls.npz": "5599b02e5dc0f4c9b6c145447e5f0a440ecfad60e7f542df9cb9d9378728732a",
+    "species_photo_composition.csv": "b0670fef9bcfde89927e62ad43febf7da462a31d620eeaec04658e1f928d5a1d",
+    "species_spatial_decomposition.csv": "01d8536b163f06ea1ebffaaa6905e727527ad1071b6d84283fb24b851161ded3"
+  },
+  "pooled_effect_decomposition": {
+    "nonwhite_nonwhite": 0.0028516607672804113,
+    "nonwhite_nonwhite_over_positive_pooled_total": 0.161889106166781,
+    "ratio_caveat": "components may be negative or cancel; this is descriptive and not a bounded causal variance fraction",
+    "ratio_definition": "ratio of species-equal pooled mean effects, not mean of species ratios",
+    "species_ratios_not_computed": true,
+    "total": 0.0176149021685411,
+    "white_nonwhite": 0.014763241401260686,
+    "white_nonwhite_over_positive_pooled_total": 0.8381108938332189
+  },
+  "pooled_spatial": {
+    "nonwhite_nonwhite": {
+      "holm_two_component_p_posthoc": 0.01,
+      "n_species": 1761,
+      "null_mean_depletion": 2.555275836095194e-05,
+      "null_mean_depletion_q025": -0.0012332515180501365,
+      "null_mean_depletion_q975": 0.0012333700995257576,
+      "null_mean_global_mismatch": 0.04582482548431087,
+      "null_mean_local_mismatch": 0.045799272725949976,
+      "null_mean_local_q025": 0.04459145538478516,
+      "null_mean_local_q975": 0.047058077002361,
+      "observed_mean_depletion": 0.0028516607672804113,
+      "observed_mean_global_mismatch": 0.04582482548431087,
+      "observed_mean_local_mismatch": 0.042973164717030464,
+      "observed_positive_depletion_species": 533,
+      "p_upper_posthoc": 0.005
+    },
+    "total": {
+      "holm_two_component_p_posthoc": null,
+      "n_species": 1761,
+      "null_mean_depletion": 4.459427937499861e-05,
+      "null_mean_depletion_q025": -0.0020032432146546587,
+      "null_mean_depletion_q975": 0.002473599763156203,
+      "null_mean_global_mismatch": 0.22430452047700442,
+      "null_mean_local_mismatch": 0.22425992619762944,
+      "null_mean_local_q025": 0.22183092071384813,
+      "null_mean_local_q975": 0.22630776369165906,
+      "observed_mean_depletion": 0.0176149021685411,
+      "observed_mean_global_mismatch": 0.22430452047700442,
+      "observed_mean_local_mismatch": 0.20668961830846333,
+      "observed_positive_depletion_species": 984,
+      "p_upper_posthoc": null
+    },
+    "white_nonwhite": {
+      "holm_two_component_p_posthoc": 0.01,
+      "n_species": 1761,
+      "null_mean_depletion": 1.9041521014046698e-05,
+      "null_mean_depletion_q025": -0.0018313104811536088,
+      "null_mean_depletion_q975": 0.0022115626443931623,
+      "null_mean_global_mismatch": 0.17847969499269356,
+      "null_mean_local_mismatch": 0.1784606534716796,
+      "null_mean_local_q025": 0.1762681323483004,
+      "null_mean_local_q975": 0.18031100547384724,
+      "observed_mean_depletion": 0.014763241401260686,
+      "observed_mean_global_mismatch": 0.17847969499269356,
+      "observed_mean_local_mismatch": 0.16371645359143286,
+      "observed_positive_depletion_species": 934,
+      "p_upper_posthoc": 0.005
+    }
+  },
+  "schema": "fcp_real_447500_exact_white_axis_spatial_decomposition_v1",
+  "source": {
+    "input_files": {
+      "photos": {
+        "path": "/workspace/scratch/2b742620c4bf/fcp_inputs/full447500/measured/fcp_all4730_original_method_measured_photos.csv.gz",
+        "sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6"
+      },
+      "receipt": {
+        "path": "/workspace/scratch/2b742620c4bf/fcp_inputs/full447500/measured/fcp_all4730_original_photo_combine_receipt.json",
+        "sha256": "63403d03222f5485ab3dc935bc08081742c4c984666b7ae85e24d78800f1ac3c"
+      },
+      "spatial_result": {
+        "path": "/workspace/scratch/2b742620c4bf/fcp_inputs/full447500/spatial/fcp_all4730_unchanged_original_50km_results.json",
+        "sha256": "79aeab0555ec2efd865606a9bdc3e06574a5168c38029ee16e22b945e1a9eacf"
+      },
+      "species": {
+        "path": "/workspace/scratch/2b742620c4bf/fcp_inputs/full447500/spatial/fcp_all4730_unchanged_original_50km_species.csv",
+        "sha256": "960e8c4bae8a9ecb01fefbef06b6b88cd8fdc63d86af3e4c354cab4eb1aedd35"
+      }
+    },
+    "original_real_measurement_release": "fcp-all4730-original-method-actual-colour-results-20261017",
+    "original_total_null_npz_sha256": "e0623b881379fec3533558b302deeccc0bc4c69b132f068ca7ab9f2e9951e80b",
+    "original_total_robust_result_sha256": "dad77a486f9477f8cad0e2aaf53859d3ec9fb2880b6f968b9854ef61cc1b765e"
+  },
+  "status": "complete_source_and_original_null_authenticated"
+}

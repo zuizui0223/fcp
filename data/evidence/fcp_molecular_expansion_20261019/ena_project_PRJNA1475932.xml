@@ -1,0 +1,54 @@
+<PROJECT_SET>
+<PROJECT accession="PRJNA1475932" alias="PRJNA1475932" center_name="Hebei University" broker_name="NCBI">
+  <IDENTIFIERS>
+    <PRIMARY_ID>PRJNA1475932</PRIMARY_ID>
+    <SECONDARY_ID>SRP707544</SECONDARY_ID>
+    <SUBMITTER_ID namespace="Hebei University">PRJNA1475932</SUBMITTER_ID>
+  </IDENTIFIERS>
+  <TITLE>Effects of Drought on Physiology and Flower Color Differentiation of Orychophragmus violaceus</TITLE>
+  <DESCRIPTION>Flower color is one of the most important horticultural traits of ornamental plants, and the elucidation of its coloration mechanisms and molecular regulatory networks is a frontier in plant secondary metabolism research. ORYCHOPHRAGMUS violaceus, commonly known as Chinese violet cress, is widely used in urban landscaping due to its typical violet corolla. However, natural populations commonly exhibit three distinct flower color variations: purple, light purple, and white. The molecular basis of this floral color polymorphism and its environmental response mechanisms remain to be systematically elucidated. In this study, using O. violaceus as the material, we established four drought gradient treatments (30 percent, 45 percent, 60 percent, and 75 percent of field capacity) and employed an integrated transcriptomic and metabolomic analysis strategy to systematically investigate the molecular regulatory mechanisms underlying drought-induced flower color differentiation, while also analyzing physiological and biochemical indicators to decipher its drought adaptation strategies. The results showed that drought treatment significantly altered the composition ratio of flower colors in O. violaceus. The 30 percent field capacity treatment increased the proportion of purple flowers by 107.7 percent compared with the control while significantly suppressing the formation of white flowers. Transcriptomic analysis identified 3402 and 8615 differentially expressed genes (DEGs) between the control and drought-treated groups, respectively. Drought treatment generally upregulated 15 classes of key enzyme genes involved in the anthocyanin biosynthesis pathway in light purple petals, with the most pronounced responses observed in early biosynthesis genes (PAL, C4H, 4CL, CHS, CHI, F3H) and ANS. Metabolomics detected 140 flavonoid metabolites. Drought stress reshaped the allocation of anthocyanin metabolic flux by upregulating the accumulation of cyanidin type anthocyanins while restricting the synthesis of delphinidin type anthocyanins. Regulatory network analysis revealed that MYB and BHLH transcription factors are the core regulators of anthocyanin synthesis in O. violaceus, with their expression significantly correlated with both structural genes and anthocyanin content, whereas WD40 contributed only modestly to this regulation. At the physiological level, drought stress induced osmotic adjustment in O. violaceus by increasing the accumulation of proline (165.85 percent), soluble sugars (54.72 percent), and soluble proteins (71.51 percent), while simultaneously enhancing the activities of superoxide dismutase (SOD), peroxidase (POD), and DPPH radical scavenging capacity to maintain redox homeostasis. Integrated phenotypic and physiological data indicated that 60 percent field capacity is closest to the optimal water condition for both growth and stress tolerance in O. violaceus. This study provides a systematic framework for understanding the environmentally regulated mechanisms of flower color formation in O. violaceus and establishes a theoretical foundation for its landscape application and molecular breeding for flower color under drought prone habitats.</DESCRIPTION>
+  <SUBMISSION_PROJECT>
+    <SEQUENCING_PROJECT/>
+  </SUBMISSION_PROJECT>
+  <PROJECT_LINKS>
+    <PROJECT_LINK>
+      <XREF_LINK>
+        <DB>ENA-FASTQ-FILES</DB>
+        <ID><![CDATA[https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJNA1475932&result=read_run&fields=run_accession,fastq_ftp,fastq_md5,fastq_bytes]]></ID>
+      </XREF_LINK>
+    </PROJECT_LINK>
+    <PROJECT_LINK>
+      <XREF_LINK>
+        <DB>ENA-SUBMITTED-FILES</DB>
+        <ID><![CDATA[https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJNA1475932&result=read_run&fields=run_accession,submitted_ftp,submitted_md5,submitted_bytes,submitted_format]]></ID>
+      </XREF_LINK>
+    </PROJECT_LINK>
+  </PROJECT_LINKS>
+  <PROJECT_ATTRIBUTES>
+    <PROJECT_ATTRIBUTE>
+      <TAG>ENA-REFSEQ</TAG>
+      <VALUE>N</VALUE>
+    </PROJECT_ATTRIBUTE>
+    <PROJECT_ATTRIBUTE>
+      <TAG>PROJECT-ID</TAG>
+      <VALUE>1475932</VALUE>
+    </PROJECT_ATTRIBUTE>
+    <PROJECT_ATTRIBUTE>
+      <TAG>NCBI-PROJECT-TYPE</TAG>
+      <VALUE>SUBMISSION</VALUE>
+    </PROJECT_ATTRIBUTE>
+    <PROJECT_ATTRIBUTE>
+      <TAG>ENA-STATUS</TAG>
+      <VALUE>PUBLIC</VALUE>
+    </PROJECT_ATTRIBUTE>
+    <PROJECT_ATTRIBUTE>
+      <TAG>ENA-FIRST-PUBLIC</TAG>
+      <VALUE>2026-06-19</VALUE>
+    </PROJECT_ATTRIBUTE>
+    <PROJECT_ATTRIBUTE>
+      <TAG>ENA-LAST-UPDATE</TAG>
+      <VALUE>2026-06-19</VALUE>
+    </PROJECT_ATTRIBUTE>
+  </PROJECT_ATTRIBUTES>
+</PROJECT>
+</PROJECT_SET>

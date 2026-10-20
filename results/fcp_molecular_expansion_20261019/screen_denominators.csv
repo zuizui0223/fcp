@@ -1,0 +1,5 @@
+screen,runs,projects,submitted_taxon_labels,experiments,biosamples,exact_roster_species,exact_environment_species
+original,131,15,13,131,123,7,2
+expanded,682,65,67,681,652,12,5
+union,801,78,74,800,763,16,6
+expanded_only,670,63,66,669,640,12,5

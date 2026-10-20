@@ -1,0 +1,5 @@
+minimum_white_and_chromatic_photos,n_species,denominator_all_multicolor_ge40,share_of_multicolor_species,mean_fraction_different_color_pairs_involving_white,median_fraction_different_color_pairs_involving_white,n_more_than_half_pairs_involving_white,n_with_only_one_chromatic_state
+1,2963,3029,0.9782106305711455,0.8745531899109552,0.985781990521327,2715,1361
+3,2126,3029,0.7018818091779465,0.8795784629667115,0.9714962762356127,1977,762
+5,1574,3029,0.5196434466820733,0.8843305391997077,0.9577883056626977,1490,477
+10,876,3029,0.28920435787388576,0.9003705997918464,0.9342353447497198,871,231

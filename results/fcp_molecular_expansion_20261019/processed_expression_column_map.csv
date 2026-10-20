@@ -1,0 +1,13 @@
+species,source_file,source_column_index,literal_source_header,source_header_occurrence,phenotype,stage,sample_accession,geo_accession,identity_status
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,1,Matthiola_incana_W1,1,white flower,half-open flowers,,,duplicate_W1_header_cannot_assign_W1_vs_W2
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,2,Matthiola_incana_W1,2,white flower,half-open flowers,,,duplicate_W1_header_cannot_assign_W1_vs_W2
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,3,Matthiola_incana_LP1,1,modena flower,half-open flowers,SAMN06250608,GSM2464423,exact_GEO_sample_title_join
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,4,Matthiola_incana_LP2,1,modena flower,half-open flowers,SAMN06250604,GSM2464424,exact_GEO_sample_title_join
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,5,Matthiola_incana_RB1,1,pink flower,half-open flowers,SAMN06250605,GSM2464425,exact_GEO_sample_title_join
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,6,Matthiola_incana_RB2,1,pink flower,half-open flowers,SAMN06250607,GSM2464426,exact_GEO_sample_title_join
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,7,Matthiola_incana_DP1,1,lavender flower,half-open flowers,SAMN06250610,GSM2464421,exact_GEO_sample_title_join
+Matthiola incana,GSE93879_Matthiola_incana.genes.fpkm_table.xls.gz,8,Matthiola_incana_DP2,1,lavender flower,half-open flowers,SAMN06250609,GSM2464422,exact_GEO_sample_title_join
+Orychophragmus violaceus,GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz,1,Orychophragmus_violaceus_W1,1,white-violet flower,half-open flowers,SAMN06250600,GSM2464431,exact_GEO_sample_title_join
+Orychophragmus violaceus,GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz,2,Orychophragmus_violaceus_W2,1,white-violet flower,half-open flowers,SAMN06250595,GSM2464432,exact_GEO_sample_title_join
+Orychophragmus violaceus,GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz,3,Orychophragmus_violaceus_P1,1,violet flower,half-open flowers,SAMN06250602,GSM2464429,exact_GEO_sample_title_join
+Orychophragmus violaceus,GSE93879_Orychophragmus_violaceus.genes.fpkm_table.xls.gz,4,Orychophragmus_violaceus_P2,1,violet flower,half-open flowers,SAMN06250601,GSM2464430,exact_GEO_sample_title_join

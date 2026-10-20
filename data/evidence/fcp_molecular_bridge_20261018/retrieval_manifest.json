@@ -1,0 +1,160 @@
+{
+  "query": "tax_tree(33090) AND library_source=\"TRANSCRIPTOMIC\" AND ((study_title=\"*flower*\" AND (study_title=\"*white*\" OR study_title=\"*polymorph*\")) OR (study_title=\"*petal*\" AND study_title=\"*white*\"))",
+  "fields": "experiment_accession,run_accession,study_accession,secondary_study_accession,scientific_name,tax_id,study_title,sample_accession,sample_title,library_name,library_layout,library_strategy,library_source,instrument_platform",
+  "results": [
+    {
+      "file": "ena_title_screen_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/search?result=read_run&query=tax_tree%2833090%29+AND+library_source%3D%22TRANSCRIPTOMIC%22+AND+%28%28study_title%3D%22%2Aflower%2A%22+AND+%28study_title%3D%22%2Awhite%2A%22+OR+study_title%3D%22%2Apolymorph%2A%22%29%29+OR+%28study_title%3D%22%2Apetal%2A%22+AND+study_title%3D%22%2Awhite%2A%22%29%29&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv&limit=0",
+      "bytes": 32381,
+      "sha256": "63513f96a8a7f984711584ff020beb714f303aaba6e517c4406914e06101fc66",
+      "retrieved_utc": "2026-10-18T13:35:19.923231+00:00"
+    },
+    {
+      "file": "ena_SRP033277_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=SRP033277&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 8348,
+      "sha256": "6631a18500291cc763aa4ab32177905c002d3624dafd997f6f4bd9d1e6f4a36b",
+      "retrieved_utc": "2026-10-18T13:35:19.515546+00:00"
+    },
+    {
+      "file": "ena_SRA028419_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=SRA028419&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 1036,
+      "sha256": "88a5cb614e86b5cb5c6a07f9a91f7038c5a8911f6311752354af009fc099a73a",
+      "retrieved_utc": "2026-10-18T13:35:19.124540+00:00"
+    },
+    {
+      "file": "ena_PRJNA504609_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJNA504609&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 24309,
+      "sha256": "8951a40b9977c4e2eb5b95206c800d4dabae3fceba18d0673df7ceb414435609",
+      "retrieved_utc": "2026-10-18T13:35:19.325182+00:00"
+    },
+    {
+      "file": "ena_PRJNA1136702_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJNA1136702&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 3123,
+      "sha256": "7a5d7ef42f38f638ed0d157e3893bee23912f7d8bbc3ef9604f412cb11ca4754",
+      "retrieved_utc": "2026-10-18T13:35:19.320748+00:00"
+    },
+    {
+      "file": "ena_SRR998575_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=SRR998575&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 434,
+      "sha256": "1f2060b265724b2b1a5cab4c3b094c85c77bad9104c52af96d19fa851f304ba6",
+      "retrieved_utc": "2026-10-18T13:35:20.093457+00:00"
+    },
+    {
+      "file": "ena_SRR998853_runs.tsv",
+      "url": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=SRR998853&result=read_run&fields=experiment_accession%2Crun_accession%2Cstudy_accession%2Csecondary_study_accession%2Cscientific_name%2Ctax_id%2Cstudy_title%2Csample_accession%2Csample_title%2Clibrary_name%2Clibrary_layout%2Clibrary_strategy%2Clibrary_source%2Cinstrument_platform&format=tsv",
+      "bytes": 449,
+      "sha256": "c9ef304dd2165d58aea2b13dec9ff8d2e41a257e8061a0ce0c6b7f6107b90890",
+      "retrieved_utc": "2026-10-18T13:35:20.282000+00:00"
+    },
+    {
+      "file": "epmc_ajb2.70096.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1002%2Fajb2.70096&format=json",
+      "bytes": 1055,
+      "sha256": "d0be8f9ceb392482e8911311b45fa35bdbbdf283a2a4c0954f4de0f6493ddf3f",
+      "retrieved_utc": "2026-10-18T13:35:20.284877+00:00"
+    },
+    {
+      "file": "epmc_s12298-019-00664-6.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1007%2Fs12298-019-00664-6&format=json",
+      "bytes": 1098,
+      "sha256": "b144720b64a2e5ee4a58efd4c930ad1c851dd856b50aa095ce2eafa3fb957577",
+      "retrieved_utc": "2026-10-18T13:35:20.861201+00:00"
+    },
+    {
+      "file": "epmc_s41467-018-07936-x.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1038%2Fs41467-018-07936-x&format=json",
+      "bytes": 1109,
+      "sha256": "66b05c827c1178db5f97b8ec370c57d9d8c826a788863e8080a270d042fac916",
+      "retrieved_utc": "2026-10-18T13:35:20.863397+00:00"
+    },
+    {
+      "file": "epmc_s41598-019-48122-3.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1038%2Fs41598-019-48122-3&format=json",
+      "bytes": 1099,
+      "sha256": "c85b195f66322db9b5ff24c4922f17f9f06e20ac9a0dd1028a982b4a27843ebb",
+      "retrieved_utc": "2026-10-18T13:35:21.269530+00:00"
+    },
+    {
+      "file": "epmc_eru168.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1093%2Fjxb%2Feru168&format=json",
+      "bytes": 1095,
+      "sha256": "b6360f7d135590fb8dd3731beb42dcac8506934d420bf33d36ae4b7860894529",
+      "retrieved_utc": "2026-10-18T13:35:21.282115+00:00"
+    },
+    {
+      "file": "epmc_nph.14998.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1111%2Fnph.14998&format=json",
+      "bytes": 967,
+      "sha256": "1a179b284fca24adac2ad9591c861ee375e812ed9dbd0a64cc96a9a5b47015aa",
+      "retrieved_utc": "2026-10-18T13:35:21.662546+00:00"
+    },
+    {
+      "file": "epmc_nph.71163.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1111%2Fnph.71163&format=json",
+      "bytes": 877,
+      "sha256": "dc8697a4e4261fb994b5d093a97a09da70f0b3833d8f533b689d27e7760524b0",
+      "retrieved_utc": "2026-10-18T13:35:21.978450+00:00"
+    },
+    {
+      "file": "epmc_s12870-019-2082-6.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1186%2Fs12870-019-2082-6&format=json",
+      "bytes": 1026,
+      "sha256": "f436efaa0146fed77e940f7ff8d355a50adb89a341cf0719809034f3b6686355",
+      "retrieved_utc": "2026-10-18T13:35:21.803999+00:00"
+    },
+    {
+      "file": "epmc_s12870-025-07412-x.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1186%2Fs12870-025-07412-x&format=json",
+      "bytes": 1001,
+      "sha256": "46171c6dda2ba9447a946c2072eccd7a42800035d6463dc445b24e5fb6a01c97",
+      "retrieved_utc": "2026-10-18T13:35:22.338186+00:00"
+    },
+    {
+      "file": "epmc_journal.pone.0018230.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1371%2Fjournal.pone.0018230&format=json",
+      "bytes": 1217,
+      "sha256": "d7441f185691bf8c611dfcfda6fdc500e28e6121482780eafcee8e15c2c1de80",
+      "retrieved_utc": "2026-10-18T13:35:22.349454+00:00"
+    },
+    {
+      "file": "epmc_journal.pone.0101338.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1371%2Fjournal.pone.0101338&format=json",
+      "bytes": 1107,
+      "sha256": "d72d59f6fc30760ed5de79644ef14c56c7c1a1b159ed06a6c4cfcd20416f57ae",
+      "retrieved_utc": "2026-10-18T13:35:23.532075+00:00"
+    },
+    {
+      "file": "epmc_genetics.104.034975.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.1534%2Fgenetics.104.034975&format=json",
+      "bytes": 1106,
+      "sha256": "559774277d9bd430da6d54ba5abbfc9d611d4f3bfa1a93746d42eb5d94f6f51c",
+      "retrieved_utc": "2026-10-18T13:35:22.777596+00:00"
+    },
+    {
+      "file": "epmc_fpls.2016.00204.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.3389%2Ffpls.2016.00204&format=json",
+      "bytes": 1082,
+      "sha256": "8ffbbb41ab44e30ab9f8c3c74b90987158c56d3b4d7cb6c694f5eb89e6da08ed",
+      "retrieved_utc": "2026-10-18T13:35:23.088589+00:00"
+    },
+    {
+      "file": "epmc_fpls.2025.1509120.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.3389%2Ffpls.2025.1509120&format=json",
+      "bytes": 1067,
+      "sha256": "19174a88b67a6ac538f62416b51decfaa89cdf5e1adfe95ba198bf9f527d6ebd",
+      "retrieved_utc": "2026-10-18T13:35:23.243388+00:00"
+    },
+    {
+      "file": "epmc_biology14121669.json",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A10.3390%2Fbiology14121669&format=json",
+      "bytes": 1078,
+      "sha256": "b92faa28d4eca5fe29db75968cb761da324d27944dbeb183a4a085d5cf2ad893",
+      "retrieved_utc": "2026-10-18T13:35:23.420526+00:00"
+    }
+  ]
+}

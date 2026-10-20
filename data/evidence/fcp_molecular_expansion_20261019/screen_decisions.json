@@ -1,0 +1,262 @@
+{
+  "PRJDB10290": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJDB18903": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJDB36030": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJDB9680": {
+    "status": "unmatched_small_RNA_bicolor",
+    "reason": "Small-RNA unstable bicolor Dahlia project, including leaf; not mRNA libraries or demonstrated replicated whole white/chromatic morph comparison."
+  },
+  "PRJNA1015409": {
+    "status": "unmatched_infraspecific_label",
+    "reason": "Raphanus sativus var. sativus retained as submitted; no collapse or inferred match to a different Raphanus species. Six metadata samples do not by themselves verify biological replication."
+  },
+  "PRJNA1054305": {
+    "status": "curated_primary_partial_white_pattern",
+    "reason": "Eluta paper verified: near-white lobes retain red bullseye; T4 gene intervention. Whole-petal RNA libraries have collection-year confounding (El/El 2018, other genotypes 2017); not unpatterned white morphs."
+  },
+  "PRJNA1079912": {
+    "status": "unresolved_title_sample_species_conflict",
+    "reason": "Submitted Physalis pubescens differs from Physalis philadelphica in study title; retain submitted label and defer taxonomic resolution."
+  },
+  "PRJNA1098584": {
+    "status": "deferred_roster_not_environment_white_candidate",
+    "reason": "Brassica rapa exact roster outside environment panel; 18 samples. Carotenoid title may contain white/yellow contrast, primary design not reviewed in fixed environmental-priority scope."
+  },
+  "PRJNA1122233": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1136134": {
+    "status": "exclude_cross_species_color_contrast_for_primary_target",
+    "reason": "Three Camellia species have three samples each; no within-species white/chromatic comparison established by returned metadata."
+  },
+  "PRJNA1136702": {
+    "status": "already_curated_primary_white_chromatic",
+    "reason": "Previously curated three Orychophragmus morphs x three biological petal libraries. This query rediscovers those samples; no additional species or independent origin."
+  },
+  "PRJNA1151241": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1165243": {
+    "status": "exclude_pericarp_not_petal",
+    "reason": "Submitted title is passion flower pericarp; no floral white/chromatic comparison."
+  },
+  "PRJNA1167914": {
+    "status": "unresolved_submitted_genus",
+    "reason": "Submitted scientific_name is Verbena; title names Verbena stricta. No automatic genus-to-species conversion."
+  },
+  "PRJNA1173129": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1198018": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1224996": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1240698": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1259577": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1273488": {
+    "status": "exclude_no_white_comparator_in_returned_titles",
+    "reason": "Bombax ceiba metadata lists orange-yellow, orange-red, dark red, red and yellow flower triplicates; no white group."
+  },
+  "PRJNA1287094": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1291401": {
+    "status": "deferred_non_environment_primary_review",
+    "reason": "Exact roster species outside environmental panel; title alone does not establish white/chromatic phenotype, biological replication, or pigment mechanism."
+  },
+  "PRJNA1320947": {
+    "status": "deferred_non_environment_primary_review",
+    "reason": "Exact roster species outside environmental panel; title alone does not establish white/chromatic phenotype, biological replication, or pigment mechanism."
+  },
+  "PRJNA1330313": {
+    "status": "deferred_non_environment_primary_review",
+    "reason": "Exact roster species outside environmental panel; title alone does not establish white/chromatic phenotype, biological replication, or pigment mechanism."
+  },
+  "PRJNA1335364": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1448100": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1475932": {
+    "status": "priority_factorial_metadata_primary_paper_unresolved",
+    "reason": "Complete sample attributes support white/light-purple/purple x control/drought_30%, 3 samples per cell. Plant/pool replication not established; no linked paper located. Preserve design as conditional reanalysis candidate; do not treat project abstract results as verified biological outcomes."
+  },
+  "PRJNA1520254": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA1521576": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA202395": {
+    "status": "exclude_lexical_tricolor_false_positive",
+    "reason": "Amaranthus tricolor name contains color and title concerns in vitro flowering induction; no petal color contrast established."
+  },
+  "PRJNA354115": {
+    "status": "exclude_no_white_comparator_in_returned_titles",
+    "reason": "Canna indica cultivar titles Tropical sunrise and Red president; no white comparator established."
+  },
+  "PRJNA356309": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA362874": {
+    "status": "geo_verified_white_chromatic_reanalysis_candidates",
+    "reason": "GEO GSE93879 explicitly reports two biological replicates. Matthiola: white/lavender/modena/pink. Lobularia: white/violet, outside environment panel. Orychophragmus W labels are white-violet, not pure white. Genome annotation descriptions conflict and require reconciliation. Other taxon labels retained unchanged; Erysimum/Eruca title mismatches not repaired."
+  },
+  "PRJNA517484": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA566987": {
+    "status": "exclude_lexical_bicolor_false_positive",
+    "reason": "Sorghum bicolor taxon name contains color; submitted title is generic FLOWER transcriptome, not a flower-colour contrast."
+  },
+  "PRJNA566989": {
+    "status": "exclude_lexical_bicolor_false_positive",
+    "reason": "Sorghum bicolor taxon name contains color; leaf/shoot/flower tissue transcriptome is not a colour-morph contrast. Four runs share one BioSample."
+  },
+  "PRJNA577252": {
+    "status": "within_petal_regions_not_individual_morph_contrast",
+    "reason": "White/violet/blue regions of the same Dwarf Tom Pouce Blue cultivar; three submitted replicates per region. Contextual mechanism only. Species follow-up to separate 2019 six-cultivar primary paper adds real white/chromatic qPCR/chemistry evidence; that paper is not assigned this RNA accession."
+  },
+  "PRJNA583229": {
+    "status": "exclude_lexical_bicolor_false_positive",
+    "reason": "Sorghum bicolor taxon name contains color; generic flower transcriptome, not a flower-colour contrast."
+  },
+  "PRJNA700000": {
+    "status": "unmatched_run_replication_ambiguous",
+    "reason": "Rhododendron obtusum has 11 runs and 2 BioSamples including full-length transcriptome; run count does not establish biological replication."
+  },
+  "PRJNA713081": {
+    "status": "exclude_lexical_bicolor_false_positive",
+    "reason": "Sorghum bicolor taxon name contains color; generic flower transcriptome, not a flower-colour contrast."
+  },
+  "PRJNA725063": {
+    "status": "exclude_no_white_contrast_in_sample_metadata",
+    "reason": "Three Rosa rugosa samples are Pink Zizhi/Red Zizhi; no white phenotype in the frozen title/sample attributes. No white-morph mechanism inferred."
+  },
+  "PRJNA725146": {
+    "status": "exclude_nonfloral_tissue",
+    "reason": "Returned by the fixed title query, but displayed sample titles identify Malus domestica fruit skin WT/transgenic material. No floral white/chromatic comparison; why this displayed study title satisfies flower/petal is unresolved."
+  },
+  "PRJNA737079": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA738310": {
+    "status": "unmatched_true_white_candidate",
+    "reason": "Carthamus tinctorius metadata lists white/yellow/light-red/deep-red triplicates; no exact roster match. No mechanism annotation from metadata."
+  },
+  "PRJNA742868": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA744371": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA764008": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA772706": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA781131": {
+    "status": "unmatched_true_white_candidate",
+    "reason": "Nicotiana alata metadata lists white/red/lemon/purple corolla with three labels each, but no exact roster match. Candidate biological plant replication unreviewed."
+  },
+  "PRJNA782763": {
+    "status": "deferred_non_environment_primary_review",
+    "reason": "Exact roster species outside environmental panel; title alone does not establish white/chromatic phenotype, biological replication, or pigment mechanism."
+  },
+  "PRJNA796538": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA819825": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA848086": {
+    "status": "deferred_non_environment_primary_review",
+    "reason": "Exact roster species outside environmental panel; title alone does not establish white/chromatic phenotype, biological replication, or pigment mechanism."
+  },
+  "PRJNA880364": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA885821": {
+    "status": "unmatched_hybrid_run_replication_ambiguous",
+    "reason": "Rosa hybrid cultivar label is not species-resolved; six runs share one BioSample, not six independent plants."
+  },
+  "PRJNA899604": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA903270": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA904836": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA907866": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA928569": {
+    "status": "unmatched_run_replication_ambiguous",
+    "reason": "Torenia fournieri metadata has 15 runs/5 BioSamples; no automatic three biological replicates per color. No exact roster match."
+  },
+  "PRJNA929421": {
+    "status": "exclude_cross_species_color_contrast_for_primary_target",
+    "reason": "Liriodendron tulipifera, L. chinense and their hybrid are separate submitted labels; no demonstrated white/chromatic contrast within exact roster species."
+  },
+  "PRJNA952839": {
+    "status": "exclude_cross_species_color_contrast_for_primary_target",
+    "reason": "White samples are Rhododendron wardii var. puralbum, pink R. simsii and red hybrid; color is not a demonstrated within-species contrast."
+  },
+  "PRJNA955094": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA988950": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  },
+  "PRJNA991929": {
+    "status": "unmatched_submitted_taxon_deferred",
+    "reason": "No exact submitted species label matches the measured roster; no synonym, infraspecies collapse, genus/family assignment, or hybrid inference. Mechanism remains unreviewed."
+  }
+}

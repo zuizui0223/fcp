@@ -1,0 +1,409 @@
+{
+  "version": "6.9",
+  "hitCount": 1,
+  "request": {
+    "queryString": "DOI:10.1016/j.plaphy.2019.06.018",
+    "resultType": "core",
+    "cursorMark": "*",
+    "pageSize": 25,
+    "sort": "",
+    "synonym": false
+  },
+  "resultList": {
+    "result": [
+      {
+        "id": "31255906",
+        "source": "MED",
+        "pmid": "31255906",
+        "doi": "10.1016/j.plaphy.2019.06.018",
+        "title": "Metabolite and gene expression analysis reveal the molecular mechanism for petal colour variation in six Centaurea cyanus cultivars.",
+        "authorString": "Deng C, Li S, Feng C, Hong Y, Huang H, Wang J, Wang L, Dai S.",
+        "authorList": {
+          "author": [
+            {
+              "fullName": "Deng C",
+              "lastName": "Deng",
+              "firstName": "Chengyan",
+              "initials": "C",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Beijing Key Laboratory of Ornamental Plants Germplasm Innovation & Molecular Breeding, National Engineering Research Center for Floriculture, Beijing Laboratory of Urban and Rural Ecological Environment and College of Landscape Architecture, Beijing Forestry University, Beijing, 100083, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Li S",
+              "lastName": "Li",
+              "firstName": "Shanshan",
+              "initials": "S",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Key Laboratory of Plant Resources and Beijing Botanical Garden, Institute of Botany, The Chinese Academy of Sciences, Beijing, 100093, China; University of Chinese Academy of Sciences, Beijing, 100049, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Feng C",
+              "lastName": "Feng",
+              "firstName": "Chengyong",
+              "initials": "C",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Key Laboratory of Plant Resources and Beijing Botanical Garden, Institute of Botany, The Chinese Academy of Sciences, Beijing, 100093, China; University of Chinese Academy of Sciences, Beijing, 100049, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Hong Y",
+              "lastName": "Hong",
+              "firstName": "Yan",
+              "initials": "Y",
+              "authorId": {
+                "type": "ORCID",
+                "value": "0009-0009-2248-7394"
+              },
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Beijing Key Laboratory of Ornamental Plants Germplasm Innovation & Molecular Breeding, National Engineering Research Center for Floriculture, Beijing Laboratory of Urban and Rural Ecological Environment and College of Landscape Architecture, Beijing Forestry University, Beijing, 100083, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Huang H",
+              "lastName": "Huang",
+              "firstName": "He",
+              "initials": "H",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Beijing Key Laboratory of Ornamental Plants Germplasm Innovation & Molecular Breeding, National Engineering Research Center for Floriculture, Beijing Laboratory of Urban and Rural Ecological Environment and College of Landscape Architecture, Beijing Forestry University, Beijing, 100083, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Wang J",
+              "lastName": "Wang",
+              "firstName": "Jiaying",
+              "initials": "J",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Beijing Key Laboratory of Ornamental Plants Germplasm Innovation & Molecular Breeding, National Engineering Research Center for Floriculture, Beijing Laboratory of Urban and Rural Ecological Environment and College of Landscape Architecture, Beijing Forestry University, Beijing, 100083, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Wang L",
+              "lastName": "Wang",
+              "firstName": "Liangsheng",
+              "initials": "L",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Key Laboratory of Plant Resources and Beijing Botanical Garden, Institute of Botany, The Chinese Academy of Sciences, Beijing, 100093, China; University of Chinese Academy of Sciences, Beijing, 100049, China."
+                  }
+                ]
+              }
+            },
+            {
+              "fullName": "Dai S",
+              "lastName": "Dai",
+              "firstName": "Silan",
+              "initials": "S",
+              "authorAffiliationDetailsList": {
+                "authorAffiliation": [
+                  {
+                    "affiliation": "Beijing Key Laboratory of Ornamental Plants Germplasm Innovation & Molecular Breeding, National Engineering Research Center for Floriculture, Beijing Laboratory of Urban and Rural Ecological Environment and College of Landscape Architecture, Beijing Forestry University, Beijing, 100083, China. Electronic address: silandai@sina.com."
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "authorIdList": {
+          "authorId": [
+            {
+              "type": "ORCID",
+              "value": "0009-0009-2248-7394"
+            }
+          ]
+        },
+        "dataLinksTagsList": {
+          "dataLinkstag": [
+            "related_data"
+          ]
+        },
+        "journalInfo": {
+          "volume": "142",
+          "journalIssueId": 2857095,
+          "dateOfPublication": "2019 Sep",
+          "monthOfPublication": 9,
+          "yearOfPublication": 2019,
+          "journal": {
+            "medlineAbbreviation": "Plant Physiol Biochem",
+            "title": "Plant physiology and biochemistry : PPB",
+            "essn": "1873-2690",
+            "issn": "0981-9428",
+            "nlmid": "9882449",
+            "isoabbreviation": "Plant Physiol Biochem"
+          },
+          "printPublicationDate": "2019-09-01"
+        },
+        "pubYear": "2019",
+        "pageInfo": "22-33",
+        "affiliation": "Beijing Key Laboratory of Ornamental Plants Germplasm Innovation & Molecular Breeding, National Engineering Research Center for Floriculture, Beijing Laboratory of Urban and Rural Ecological Environment and College of Landscape Architecture, Beijing Forestry University, Beijing, 100083, China.",
+        "publicationStatus": "ppublish",
+        "language": "eng",
+        "pubModel": "Print-Electronic",
+        "pubTypeList": {
+          "pubType": [
+            "Journal Article"
+          ]
+        },
+        "grantsList": {
+          "grant": [
+            {
+              "agency": "National Natural Science Foundation of China",
+              "orderIn": 0
+            }
+          ]
+        },
+        "meshHeadingList": {
+          "meshHeading": [
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Centaurea",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "Y",
+                    "abbreviation": "PH",
+                    "qualifierName": "physiology"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Flowers",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "Y",
+                    "abbreviation": "PH",
+                    "qualifierName": "physiology"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Flavonoids",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  },
+                  {
+                    "majorTopic_YN": "Y",
+                    "abbreviation": "ME",
+                    "qualifierName": "metabolism"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Anthocyanins",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  },
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "ME",
+                    "qualifierName": "metabolism"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Cytochrome P-450 Enzyme System",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  },
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "ME",
+                    "qualifierName": "metabolism"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Plant Proteins",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "Y",
+                    "abbreviation": "GE",
+                    "qualifierName": "genetics"
+                  },
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "ME",
+                    "qualifierName": "metabolism"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Pigmentation",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "Y",
+                    "abbreviation": "PH",
+                    "qualifierName": "physiology"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Chromatography, High Pressure Liquid",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "MT",
+                    "qualifierName": "methods"
+                  }
+                ]
+              }
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Gene Expression Regulation, Plant"
+            },
+            {
+              "majorTopic_YN": "N",
+              "descriptorName": "Tandem Mass Spectrometry",
+              "meshQualifierList": {
+                "meshQualifier": [
+                  {
+                    "majorTopic_YN": "N",
+                    "abbreviation": "MT",
+                    "qualifierName": "methods"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "keywordList": {
+          "keyword": [
+            "Flavonoids",
+            "Biosynthetic pathway",
+            "Gene Expression",
+            "Centaurea Cyanus",
+            "Petal Colour"
+          ]
+        },
+        "chemicalList": {
+          "chemical": [
+            {
+              "name": "Plant Proteins",
+              "registryNumber": "0"
+            },
+            {
+              "name": "Flavonoids",
+              "registryNumber": "0"
+            },
+            {
+              "name": "Cytochrome P-450 Enzyme System",
+              "registryNumber": "9035-51-2"
+            },
+            {
+              "name": "Anthocyanins",
+              "registryNumber": "0"
+            },
+            {
+              "name": "flavonoid 3'-hydroxylase",
+              "registryNumber": "EC 1.14.14.82"
+            }
+          ]
+        },
+        "subsetList": {
+          "subset": [
+            {
+              "code": "IM",
+              "name": "Index Medicus"
+            }
+          ]
+        },
+        "fullTextUrlList": {
+          "fullTextUrl": [
+            {
+              "availability": "Subscription required",
+              "availabilityCode": "S",
+              "documentStyle": "doi",
+              "site": "DOI",
+              "url": "https://doi.org/10.1016/j.plaphy.2019.06.018"
+            }
+          ]
+        },
+        "isOpenAccess": "N",
+        "inEPMC": "N",
+        "inPMC": "N",
+        "citedByCount": 13,
+        "hasReferences": "Y",
+        "hasTextMinedTerms": "Y",
+        "hasDbCrossReferences": "Y",
+        "dbCrossReferenceList": {
+          "dbName": [
+            "EMBL"
+          ]
+        },
+        "hasPDF": "N",
+        "hasBook": "N",
+        "hasSuppl": "N",
+        "hasLabsLinks": "N",
+        "hasData": "Y",
+        "authMan": "N",
+        "epmcAuthMan": "N",
+        "nihAuthMan": "N",
+        "hasTMAccessionNumbers": "N",
+        "dateOfCompletion": "2019-12-09",
+        "dateOfCreation": "2019-07-01",
+        "dateOfRevision": "2020-09-30",
+        "electronicPublicationDate": "2019-06-14",
+        "firstPublicationDate": "2019-06-14",
+        "firstIndexDate": "2019-07-03",
+        "hasEvaluations": "N"
+      }
+    ]
+  }
+}

@@ -1,0 +1,584 @@
+{
+  "adaptive_predictor_dropping": false,
+  "bootstrap": {
+    "conditional_on_fixed_OOF_fits": true,
+    "family2_quantiles": [
+      0.0125,
+      0.9875
+    ],
+    "family4_quantiles": [
+      0.00625,
+      0.99375
+    ],
+    "genus_seed": 2026101901,
+    "nominal_quantiles": [
+      0.025,
+      0.975
+    ],
+    "refits_inside_bootstrap": false,
+    "repetitions": 2000,
+    "sampling": "727 panel genus clusters sampled with replacement; retain all member species, equal species weights",
+    "shared_draws_across_contrasts": true,
+    "spatial_seed": 2026101902
+  },
+  "buffer_exclusion": "exclude training photos at distance <= buffer around any conspecific test photo; buffer 0 has no additional distance filter",
+  "buffers_km": [
+    0.0,
+    50.0
+  ],
+  "cell_folds": 5,
+  "cell_key": "floor(latitude),floor(canonical longitude in [-180,180)); north pole belongs to latitude cell 89",
+  "cell_seed": "FCP-20261019-global1deg5-v1",
+  "constant_response_fit_status_counts": [
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 3,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 2,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 3,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 2,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geography",
+      "n": 3,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geography",
+      "n": 2,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "intercept",
+      "n": 3,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "intercept",
+      "n": 2,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "climate",
+      "n": 8,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "climate",
+      "n": 43,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 1,
+      "status": "geographic_basis_not_identifiable"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 7,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 43,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 1,
+      "status": "geographic_basis_not_identifiable"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 7,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 43,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "intercept",
+      "n": 8,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "intercept",
+      "n": 43,
+      "status": "training_n_below_20"
+    }
+  ],
+  "constant_training_response_is_eligible": true,
+  "distance": "haversine, mean Earth radius 6371.0088 km",
+  "extrapolation_range_boundary_tolerance": "64 * float64 epsilon * max(1, abs(training feature minimum), abs(training feature maximum)); direct physical features, not inverse standardization",
+  "fold_hash": "SHA256(UTF8(seed + colon + key)); whole digest big-endian integer modulo fold count",
+  "genus_coefficient_training": "marginal REML of training-genus primary joint species slopes in common physical units",
+  "genus_folds": 10,
+  "genus_key": "exact first whitespace-separated species-name word",
+  "genus_primary_metric": "equal-species mean of log(2) minus conditional loss over every white/chromatic pair",
+  "genus_secondary_metric": "equal-species mean within-species pair AUC with half ties",
+  "genus_seed": "FCP-20261019-genus10-v1",
+  "genus_summary": [
+    {
+      "bootstrap_master_genera": 727,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_seed": 2026101901,
+      "model": "BIO5_component",
+      "n_genera": 727,
+      "n_photos": 86114,
+      "n_species": 1574,
+      "pair_auc": 0.5160611243646646,
+      "pair_auc_above_half_species_fraction": 0.554002541296061,
+      "pair_auc_bootstrap_finite_draws": 2000,
+      "pair_auc_ci95_high": 0.5218980818587275,
+      "pair_auc_ci95_low": 0.5102204686837635,
+      "pair_auc_family2_high": 0.5228505630272988,
+      "pair_auc_family2_low": 0.509118222657115,
+      "pair_logloss_gain": 0.0006988143887199898,
+      "pair_logloss_gain_bootstrap_finite_draws": 2000,
+      "pair_logloss_gain_ci95_high": 0.0012109392307101173,
+      "pair_logloss_gain_ci95_low": 0.00018198050006957883,
+      "pair_logloss_gain_family2_high": 0.0013207657196815713,
+      "pair_logloss_gain_family2_low": 9.218793699109037e-05,
+      "pair_logloss_gain_positive_species_fraction": 0.5406607369758577,
+      "primary_comparison_family_size": 2
+    },
+    {
+      "bootstrap_master_genera": 727,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_seed": 2026101901,
+      "model": "joint_three",
+      "n_genera": 727,
+      "n_photos": 86114,
+      "n_species": 1574,
+      "pair_auc": 0.5144016123484312,
+      "pair_auc_above_half_species_fraction": 0.5546378653113088,
+      "pair_auc_bootstrap_finite_draws": 2000,
+      "pair_auc_ci95_high": 0.5201799530230284,
+      "pair_auc_ci95_low": 0.508609026669942,
+      "pair_auc_family2_high": 0.5208297695540971,
+      "pair_auc_family2_low": 0.5076972552056748,
+      "pair_logloss_gain": 0.0006337940568170536,
+      "pair_logloss_gain_bootstrap_finite_draws": 2000,
+      "pair_logloss_gain_ci95_high": 0.0011209661539575968,
+      "pair_logloss_gain_ci95_low": 0.00014953725268368925,
+      "pair_logloss_gain_family2_high": 0.0011832240447803338,
+      "pair_logloss_gain_family2_low": 6.949100743041565e-05,
+      "pair_logloss_gain_positive_species_fraction": 0.5374841168996188,
+      "primary_comparison_family_size": 2
+    }
+  ],
+  "limitations": [
+    "The panel and predictor choice were previously examined; this is post hoc internal validation.",
+    "Held-out-genera scores discriminate photos within selected species and do not calibrate absolute white frequency.",
+    "Genus-cluster percentile intervals condition on fitted cross-validation; cross-fold dependence and training uncertainty remain.",
+    "Genus blocking does not constitute complete phylogenetic control.",
+    "Buffered spatial comparisons have changing coverage and environmental extrapolation.",
+    "Photos, classification, spatial sampling, cultivation, and observer biases remain; no adaptation, pigment-cost, or fitness inference."
+  ],
+  "minimum_training_photos": 20,
+  "missing_any_raster_classifiable_photos": 29,
+  "n_global_1deg_cells": 5089,
+  "n_panel_genera": 727,
+  "n_panel_photos": 86114,
+  "n_panel_species": 1574,
+  "physical_increments": [
+    1.0,
+    10.0,
+    1000.0
+  ],
+  "prediction_storage": {
+    "failed_model_prediction": "NaN",
+    "genus_array_axes": [
+      "photo_index",
+      "model"
+    ],
+    "join_key": "photo_index shared across NPZ and photo_index.csv.gz",
+    "outside_range_missing": -1,
+    "photo_ids_are_actual_source_ids": true,
+    "spatial_array_axes": [
+      "buffer",
+      "photo_index",
+      "model"
+    ]
+  },
+  "predictors": [
+    "BIO5",
+    "BIO14",
+    "SRADmean"
+  ],
+  "raw_firth_variance_diagnostic": "max_test_linear_predictor_variance uses raw Firth covariance; it is not recalibrated prediction variance or an interval",
+  "schema": "fcp_environment_transport_20261019_v1",
+  "spatial_fit_status_counts": [
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 7617,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 2,
+      "status": "rank_deficient"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 57,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "climate",
+      "n": 2,
+      "status": "zero_or_near_zero_training_predictor_sd"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 2078,
+      "status": "geographic_basis_not_identifiable"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 5539,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 2,
+      "status": "rank_deficient"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 57,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geoclimate",
+      "n": 2,
+      "status": "zero_or_near_zero_training_predictor_sd"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geography",
+      "n": 2078,
+      "status": "geographic_basis_not_identifiable"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geography",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geography",
+      "n": 5543,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "geography",
+      "n": 57,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "intercept",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "intercept",
+      "n": 7621,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 0.0,
+      "model": "intercept",
+      "n": 57,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "climate",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "climate",
+      "n": 7367,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "climate",
+      "n": 310,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "climate",
+      "n": 1,
+      "status": "zero_or_near_zero_training_predictor_sd"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 2070,
+      "status": "geographic_basis_not_identifiable"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 5297,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 310,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geoclimate",
+      "n": 1,
+      "status": "zero_or_near_zero_training_predictor_sd"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 2070,
+      "status": "geographic_basis_not_identifiable"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 5298,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "geography",
+      "n": 310,
+      "status": "training_n_below_20"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "intercept",
+      "n": 192,
+      "status": "no_test_photos"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "intercept",
+      "n": 7368,
+      "status": "ok"
+    },
+    {
+      "buffer_km": 50.0,
+      "model": "intercept",
+      "n": 310,
+      "status": "training_n_below_20"
+    }
+  ],
+  "spatial_models": [
+    "intercept",
+    "climate",
+    "geography",
+    "geoclimate"
+  ],
+  "spatial_primary_metric": "binary log loss baseline minus augmented; exact matched successful predictions; pooled test photos within species then equal species weight",
+  "spatial_recalibration": {
+    "all_spatial_scores_use_recalibrated_predictions": true,
+    "method": "pre-result common smoothed train-only intercept recalibration, not standard FLIC",
+    "raw_and_adjusted_intercepts_saved": true,
+    "slopes_unchanged": true,
+    "target": "(training_white + 0.5)/(training_n + 1)",
+    "test_information_used": false
+  },
+  "spatial_secondary_metric": "same paired Brier-score gain",
+  "spatial_summary": [
+    {
+      "abs_train_z_gt_3_fraction_photos": 0.04269877220169269,
+      "augmented_logloss_equal_species": 0.5859602051218327,
+      "baseline_logloss_equal_species": 0.5260359571164658,
+      "bootstrap_master_genera": 727,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_seed": 2026101902,
+      "brier_gain": -0.012329475499640278,
+      "brier_gain_bootstrap_finite_draws": 2000,
+      "brier_gain_ci95_high": -0.010739268205470361,
+      "brier_gain_ci95_low": -0.014085276478133959,
+      "brier_gain_family4_high": -0.010288381874784955,
+      "brier_gain_family4_low": -0.014542588592197644,
+      "brier_gain_positive_species_fraction": 0.2267515923566879,
+      "buffer_km": 0.0,
+      "comparison": "climate_vs_intercept",
+      "logloss_gain": -0.05992424800536707,
+      "logloss_gain_bootstrap_finite_draws": 2000,
+      "logloss_gain_ci95_high": -0.052083241332946624,
+      "logloss_gain_ci95_low": -0.06930712533337399,
+      "logloss_gain_family4_high": -0.04937940439174186,
+      "logloss_gain_family4_low": -0.07256887719895666,
+      "logloss_gain_positive_species_fraction": 0.20382165605095542,
+      "n_genera": 727,
+      "n_photos": 83890,
+      "n_species": 1570,
+      "outside_training_range_fraction_photos": 0.14654905233043272,
+      "primary_comparison_family_size": 4
+    },
+    {
+      "abs_train_z_gt_3_fraction_photos": 0.07064208228817148,
+      "augmented_logloss_equal_species": 0.7680191326163955,
+      "baseline_logloss_equal_species": 0.6182420248922997,
+      "bootstrap_master_genera": 727,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_seed": 2026101902,
+      "brier_gain": -0.017546517206773027,
+      "brier_gain_bootstrap_finite_draws": 2000,
+      "brier_gain_ci95_high": -0.014574676049077808,
+      "brier_gain_ci95_low": -0.02042489888043326,
+      "brier_gain_family4_high": -0.01377281591862904,
+      "brier_gain_family4_low": -0.02124487050071829,
+      "brier_gain_positive_species_fraction": 0.2514147130153597,
+      "buffer_km": 0.0,
+      "comparison": "geoclimate_vs_geography",
+      "logloss_gain": -0.14977710772409594,
+      "logloss_gain_bootstrap_finite_draws": 2000,
+      "logloss_gain_ci95_high": -0.0951596304701359,
+      "logloss_gain_ci95_low": -0.2127951855223204,
+      "logloss_gain_family4_high": -0.08116801820606986,
+      "logloss_gain_family4_low": -0.2333172839363186,
+      "logloss_gain_positive_species_fraction": 0.2400970088924818,
+      "n_genera": 601,
+      "n_photos": 61394,
+      "n_species": 1237,
+      "outside_training_range_fraction_photos": 0.22635762452356908,
+      "primary_comparison_family_size": 4
+    },
+    {
+      "abs_train_z_gt_3_fraction_photos": 0.049019856465397,
+      "augmented_logloss_equal_species": 0.6007585435421802,
+      "baseline_logloss_equal_species": 0.5273054538865096,
+      "bootstrap_master_genera": 727,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_seed": 2026101902,
+      "brier_gain": -0.01563555858676785,
+      "brier_gain_bootstrap_finite_draws": 2000,
+      "brier_gain_ci95_high": -0.013490439973547288,
+      "brier_gain_ci95_low": -0.017889841096814935,
+      "brier_gain_family4_high": -0.012771379980290045,
+      "brier_gain_family4_low": -0.01856096162996594,
+      "brier_gain_positive_species_fraction": 0.22796934865900384,
+      "buffer_km": 50.0,
+      "comparison": "climate_vs_intercept",
+      "logloss_gain": -0.07345308965567061,
+      "logloss_gain_bootstrap_finite_draws": 2000,
+      "logloss_gain_ci95_high": -0.06329620674776143,
+      "logloss_gain_ci95_low": -0.0845310769414261,
+      "logloss_gain_family4_high": -0.06098061921002185,
+      "logloss_gain_family4_low": -0.08693027990217819,
+      "logloss_gain_positive_species_fraction": 0.20689655172413793,
+      "n_genera": 726,
+      "n_photos": 78866,
+      "n_species": 1566,
+      "outside_training_range_fraction_photos": 0.16479851900692313,
+      "primary_comparison_family_size": 4
+    },
+    {
+      "abs_train_z_gt_3_fraction_photos": 0.0862011005148711,
+      "augmented_logloss_equal_species": 0.8990736120905498,
+      "baseline_logloss_equal_species": 0.6617575322990001,
+      "bootstrap_master_genera": 727,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_seed": 2026101902,
+      "brier_gain": -0.025289835852100765,
+      "brier_gain_bootstrap_finite_draws": 2000,
+      "brier_gain_ci95_high": -0.021284266332508472,
+      "brier_gain_ci95_low": -0.029675576374883373,
+      "brier_gain_family4_high": -0.01973149989386171,
+      "brier_gain_family4_low": -0.031158457289557084,
+      "brier_gain_positive_species_fraction": 0.26661264181523503,
+      "buffer_km": 50.0,
+      "comparison": "geoclimate_vs_geography",
+      "logloss_gain": -0.2373160797915498,
+      "logloss_gain_bootstrap_finite_draws": 2000,
+      "logloss_gain_ci95_high": -0.16515897868643445,
+      "logloss_gain_ci95_low": -0.31742698115636775,
+      "logloss_gain_family4_high": -0.14620058524831056,
+      "logloss_gain_family4_low": -0.338888901474986,
+      "logloss_gain_positive_species_fraction": 0.24230145867098865,
+      "n_genera": 600,
+      "n_photos": 56519,
+      "n_species": 1234,
+      "outside_training_range_fraction_photos": 0.25793096126966153,
+      "primary_comparison_family_size": 4
+    }
+  ],
+  "status": "complete_post_hoc_internal_transport_evaluation"
+}

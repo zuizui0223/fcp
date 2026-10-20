@@ -1,0 +1,43 @@
+{
+  "started_utc": "2026-10-19T00:35:14.003663+00:00",
+  "completed_utc": "2026-10-19T00:36:10.345773+00:00",
+  "command": [
+    "/workspace/scratch/2b742620c4bf/fcp/scripts/analysis/run_fcp_environment_native_units_20261019.py"
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "packages": {
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0"
+  },
+  "git_head_at_execution": "4aa43e7f8d799c4ffcbf833b0e7504321a72ff46",
+  "script_sha256": "95dd78235b845933ac3f07dfa6792868534d56d340d9940ed1f54e8dd7476bc4",
+  "test_sha256": "5a7955ca9d6fc63e7b862550a4bbd4dc162c4b8ea69c66487c94143ba122cdc2",
+  "protocol_source_sha256_at_execution": "296e590a8252a482b25419ed236681c53e53da17412b6fe19baeff4d22f3f9d3",
+  "source_receipt_sha256": {
+    "/workspace/scratch/2b742620c4bf/fcp/results/fcp_real_447500_environment_model_20261018/execution_receipt.json": "8c418ace8fd5657c30a873407144685a0b28fb9651a42bf550403529a6ce8894",
+    "/workspace/scratch/2b742620c4bf/fcp/results/fcp_gift_modifiers_20261018/profile.json": "892b5b3ea560c793ce2d4abe5dbb638cbd7ffedfb08228c010121ddb377799ae",
+    "/workspace/scratch/2b742620c4bf/fcp/results/fcp_gift_modifiers_20261018/modifier_profile.json": "5721be6bd8ca9b3e75bb21e1a6832a90d95f89bc04c9c159b13f149ba1a71954"
+  },
+  "input_hash_references_verified": 114,
+  "output_sha256": {
+    "input_verification.csv": "fdc3bec544ef850eace13ab7aaa7d18c1275280b1cf81111aa954ad416799c60",
+    "species_slopes.csv": "02599bd4b47c5b8d885d5fe61e5d00f8712a1a7b7fd85ccc666fc67b90e736b6",
+    "species_slopes_with_traits.csv": "3713ffed4bf0a2a64c322867182f59418ac86199eaa94b61604851900d236d7b",
+    "prediction_covariance_audit.csv": "32207b547a8dfffea6b8af41d0ecce6ba68c4a608cc2962303bb3d99ce623443",
+    "meta_summary.csv": "bdc0da76fc3166f004f89058aac0d098bafefa4f9c353860e1385b066fca7529",
+    "reml_numerical_scale_checks.csv": "7827cf6947ddf9202a5c9c32c1f606913d9036cafc60dd0e8a4f412bc08e75ba",
+    "genus_cluster_bootstrap.csv": "c644b375cae16e5223a269a36cc681c945f7aa9c848bc3f67ff08801e13e8d06",
+    "primary_summary.csv": "f4d0cd360916a4c3d10db09a890eb367f893d326afd5306be1740413c48094c9",
+    "overall_scale_comparison.csv": "6cdeec877c55ef773ca2cd18bf9306c7ba47da2abfbd80b1fbc82217489507bc",
+    "slope_modifier_contrasts.csv": "86f6f4b94a2ad09ed6ea4f357f1a31c3fa83efdc9b0d61cbe1de606084c63d03",
+    "gift_scale_comparison.csv": "179cb31bfa31a65ba27791407530768e45957a08776f08ad34119d52b4a6fd0a",
+    "environment_range_diagnostics.csv": "2ca27c5c93ee0d36d12313c7fba5eceebaa2ff197dee31dd27c38ba9d04259df",
+    "range_tail_contributions.csv": "5ac2fa13030f55f10ac8bca83492e84aa3752f33fac374c03090c36a980cb8fa",
+    "range_tail_species.csv": "93447b85c8eacbc924af3b8880a9c7d9b86bf8cf72a36c8c842ce696ce169acf",
+    "equal_species_bootstrap_draws.npz": "86a93feb0d63aac090cd49ac82a01e94ad215dc53a043fc0ea14c7e2b55faf09",
+    "protocol_at_execution.md": "296e590a8252a482b25419ed236681c53e53da17412b6fe19baeff4d22f3f9d3",
+    "profile.json": "ed8a6d809cb4d77efcff78bd23a62345a12089ff1d088cc5312466a0e6856808"
+  }
+}

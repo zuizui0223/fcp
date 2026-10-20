@@ -1,0 +1,84 @@
+{
+  "schema": "fcp_temperature_vs_geographic_colour_sorting_exploratory_v1",
+  "source_sha256": {
+    "species_slopes": "ead2223465d8cdde6869cbd82196e56ffadb33db7fa0006f58bac14db1f790f2",
+    "spatial_decomposition": "01d8536b163f06ea1ebffaaa6905e727527ad1071b6d84283fb24b851161ded3"
+  },
+  "baseline": {
+    "n_species": 787,
+    "n_genera": 448,
+    "raw_abs_temperature_slope_vs_spatial": 0.11600023980669084,
+    "raw_signed_temperature_slope_vs_spatial": 0.002432717141207349,
+    "covariate_adjusted_abs_vs_spatial": 0.09142206202924708,
+    "covariate_adjusted_signed_vs_spatial": -0.00763423305746987,
+    "genus_bootstrap_95_abs": [
+      0.02532140472751345,
+      0.15567949074831133
+    ],
+    "genus_bootstrap_95_signed": [
+      -0.08566387770216499,
+      0.07398785103220554
+    ]
+  },
+  "high_support": {
+    "n_species": 92,
+    "n_genera": 67,
+    "adjusted_abs_vs_spatial": 0.1297349002324877,
+    "adjusted_signed_vs_spatial": -0.0825564241147877
+  },
+  "by_cohort": [
+    {
+      "cohort": "new_U100",
+      "n_species": 435,
+      "spearman_abs": 0.1103671328416458,
+      "spearman_signed": -0.01575377913715108
+    },
+    {
+      "cohort": "discovery",
+      "n_species": 72,
+      "spearman_abs": 0.20078461637404335,
+      "spearman_signed": 0.014920573670332497
+    },
+    {
+      "cohort": "prospective",
+      "n_species": 102,
+      "spearman_abs": 0.03886322384380071,
+      "spearman_signed": -0.09540799882386868
+    },
+    {
+      "cohort": "wave4",
+      "n_species": 95,
+      "spearman_abs": 0.20425531914893616,
+      "spearman_signed": -0.006075027995520716
+    },
+    {
+      "cohort": "validation",
+      "n_species": 83,
+      "spearman_abs": -0.030414340287981192,
+      "spearman_signed": 0.17961042777381303
+    }
+  ],
+  "controls": [
+    "first-stage slope SE",
+    "photographed white fraction",
+    "photo count",
+    "sampled BIO5 climate SD",
+    "50-km photo-pair count",
+    "global white mismatch",
+    "source cohort"
+  ],
+  "bootstrap": {
+    "unit": "genus",
+    "n_draws": 500,
+    "seed": 2026101921,
+    "conditional_on_fitted_slopes": true
+  },
+  "limitations": [
+    "Both slope and geographic sorting are computed from the same photographic colour labels; mathematically coupled under geographic climate autocorrelation.",
+    "No matched null jointly re-fitting slopes and spatial effects after within-species label permutation was executed.",
+    "Species inclusion is the overlap of two previously selected analyses, not a random sample.",
+    "Partial rank correlation is descriptive, not a mechanism adjustment or causal selection coefficient.",
+    "The sign of temperature slopes is not systematically associated with spatial sorting strength.",
+    "Distinct biological colour morph frequencies, genetic isolation and pigment costs are unmeasured."
+  ]
+}

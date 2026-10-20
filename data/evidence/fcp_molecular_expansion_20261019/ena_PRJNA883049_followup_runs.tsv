@@ -1,0 +1,22 @@
+run_accession	experiment_accession	study_accession	secondary_study_accession	scientific_name	tax_id	study_title	sample_accession	sample_title	library_name	library_layout	library_strategy	library_source	instrument_platform
+SRR21682376	SRX17680462	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958972	Plant sample from Matthiola incana	S972	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682377	SRX17680461	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958971	Plant sample from Matthiola incana	S971	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682391	SRX17680447	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958976	Plant sample from Matthiola incana	S976	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682394	SRX17680444	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958973	Plant sample from Matthiola incana	S973	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682395	SRX17680443	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958964	Plant sample from Matthiola incana	S964	SINGLE	WGS	GENOMIC	PACBIO_SMRT
+SRR21682396	SRX17680442	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958963	Plant sample from Matthiola incana	S963	SINGLE	WGS	GENOMIC	PACBIO_SMRT
+SRR21682378	SRX17680460	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958970	Plant sample from Matthiola incana	S970	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682381	SRX17680457	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958967	Plant sample from Matthiola incana	S967	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682383	SRX17680455	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958983	Plant sample from Matthiola incana	S983	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682385	SRX17680453	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958982	Plant sample from Matthiola incana	S982	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682389	SRX17680449	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958978	Plant sample from Matthiola incana	S978	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682382	SRX17680456	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958966	Plant sample from Matthiola incana	S966	SINGLE	WGS	GENOMIC	ILLUMINA
+SRR21682387	SRX17680451	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958980	Plant sample from Matthiola incana	S980	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682392	SRX17680446	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958975	Plant sample from Matthiola incana	S975	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682393	SRX17680445	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958974	Plant sample from Matthiola incana	S974	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682380	SRX17680458	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958968	Plant sample from Matthiola incana	S968	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682384	SRX17680454	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958965	Plant sample from Matthiola incana	S965	SINGLE	RNA-Seq	GENOMIC	PACBIO_SMRT
+SRR21682386	SRX17680452	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958981	Plant sample from Matthiola incana	S981	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682390	SRX17680448	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958977	Plant sample from Matthiola incana	S977	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682379	SRX17680459	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958969	Plant sample from Matthiola incana	S969	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA
+SRR21682388	SRX17680450	PRJNA883049	SRP399210	Matthiola incana	3724	Matthiola incana Raw sequence reads	SAMN30958979	Plant sample from Matthiola incana	S979	PAIRED	RNA-Seq	TRANSCRIPTOMIC	ILLUMINA

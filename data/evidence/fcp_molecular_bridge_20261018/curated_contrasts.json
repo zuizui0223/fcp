@@ -1,0 +1,709 @@
+{
+  "schema": "fcp_molecular_contrast_v1",
+  "curated_date": "2026-10-18",
+  "scope": "bounded accession title screen plus explicit seed and primary-paper follow-up; not systematic literature census",
+  "contrasts": [
+    {
+      "contrast_id": "PN_2011_ORGAN_SPECIFICITY",
+      "species": "Parrya nudicaulis",
+      "morph_contrast": "white versus purple",
+      "tissues": [
+        "petal",
+        "leaf",
+        "sepal"
+      ],
+      "source_dois": [
+        "10.1371/journal.pone.0018230"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1371/journal.pone.0018230"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_polymorphism_genetic_cause_not_mapped",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "anthocyanin_pathway_biochemical_evidence",
+      "loss_scope": "petal_specific_downregulation",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_correlation",
+      "candidate_genes": "CHS",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [],
+      "library_design": "organ-resolved qRT-PCR; not four RNAseq libraries",
+      "biological_replication": "independent plants by organ in source; exact n not extracted",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "PN_ALASKA_CHS_MECHANISM",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "CHS expression association and organ specificity; causal regulatory variant not identified",
+      "tissue_results": {
+        "petal": "white CHS expression reduced",
+        "leaf": "no corresponding CHS reduction",
+        "sepal": "no corresponding CHS reduction"
+      },
+      "population_or_lineage": "Alaska; organ experiment exact allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "PN_2014_SAVAGE",
+      "species": "Parrya nudicaulis",
+      "morph_contrast": "white versus purple",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1371/journal.pone.0101338"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1371/journal.pone.0101338"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_polymorphism_genetic_cause_not_mapped",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "anthocyanin_pathway_biochemical_evidence",
+      "loss_scope": "petal_specific_downregulation",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_correlation",
+      "candidate_genes": "CHS",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "SRA028419"
+      ],
+      "library_design": "one white pool and one purple pool; 3-5 individuals per pool",
+      "biological_replication": "one RNA library per color within population; individuals within pool not independent libraries",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "PN_ALASKA_CHS_MECHANISM",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "CHS expression association and organ specificity; causal regulatory variant not identified",
+      "tissue_results": {
+        "petal": "white CHS expression reduced"
+      },
+      "population_or_lineage": "Savage",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "PN_2014_12_MILE_SUMMIT",
+      "species": "Parrya nudicaulis",
+      "morph_contrast": "white versus purple",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1371/journal.pone.0101338"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1371/journal.pone.0101338"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_polymorphism_genetic_cause_not_mapped",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "anthocyanin_pathway_biochemical_evidence",
+      "loss_scope": "petal_specific_downregulation",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_correlation",
+      "candidate_genes": "CHS",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "SRA028419"
+      ],
+      "library_design": "one white pool and one purple pool; 3-5 individuals per pool",
+      "biological_replication": "one RNA library per color within population; individuals within pool not independent libraries",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "PN_ALASKA_CHS_MECHANISM",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "CHS expression association and organ specificity; causal regulatory variant not identified",
+      "tissue_results": {
+        "petal": "white CHS expression reduced"
+      },
+      "population_or_lineage": "12 Mile Summit",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "SL_BARRA_2016_DARK_PINK",
+      "species": "Silene littorea",
+      "morph_contrast": "white versus dark_pink",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.3389/fpls.2016.00204"
+      ],
+      "source_urls": [
+        "https://doi.org/10.3389/fpls.2016.00204"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_polymorphism",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC_cyanidin_and_other_flavonoids",
+      "loss_scope": "petal_loss_vegetative_scope_not_tested_in_this_RNA_design",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_correlation",
+      "candidate_genes": "F3h1;Myb1a",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "SRP033277"
+      ],
+      "library_design": "3 morphs x 3 developmental stages; 9 biological samples/libraries; 18 sequencing runs",
+      "biological_replication": "one sample per morph x stage; 2 technical sequencing runs per sample; no within-cell biological replication",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "SL_BARRA_2016_9LIB",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "candidate expression/biochemistry only; no SNP consistently differentiated morphs in expanded survey",
+      "population_or_lineage": "Barra; same nine libraries shared by both morph contrasts",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "SL_BARRA_2016_LIGHT_PINK",
+      "species": "Silene littorea",
+      "morph_contrast": "white versus light_pink",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.3389/fpls.2016.00204"
+      ],
+      "source_urls": [
+        "https://doi.org/10.3389/fpls.2016.00204"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_polymorphism",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC_cyanidin_and_other_flavonoids",
+      "loss_scope": "petal_loss_vegetative_scope_not_tested_in_this_RNA_design",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_correlation",
+      "candidate_genes": "F3h1;Myb1a",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "SRP033277"
+      ],
+      "library_design": "3 morphs x 3 developmental stages; 9 biological samples/libraries; 18 sequencing runs",
+      "biological_replication": "one sample per morph x stage; 2 technical sequencing runs per sample; no within-cell biological replication",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "SL_BARRA_2016_9LIB",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "candidate expression/biochemistry only; no SNP consistently differentiated morphs in expanded survey",
+      "population_or_lineage": "Barra; same nine libraries shared by both morph contrasts",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "SL_2019_PAL",
+      "species": "Silene littorea",
+      "morph_contrast": "PAL white versus fully pigmented pink",
+      "tissues": [
+        "petal",
+        "calyx",
+        "leaf",
+        "stem"
+      ],
+      "source_dois": [
+        "10.1186/s12870-019-2082-6"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1186/s12870-019-2082-6"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_phenotype_genetic_cause_not_mapped",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC_MS_and_spectrophotometry;flavones_retained",
+      "loss_scope": "petal_specific_anthocyanin_loss",
+      "molecular_tier": "T1_chemistry",
+      "mechanism_class": "organ_resolved_pigment_phenotype",
+      "candidate_genes": "",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [],
+      "library_design": "not_applicable",
+      "biological_replication": "four populations; common phenotypes 11-20 plants; rare WAL 6,5,6,3 plants by population; repeated organs within plant are paired",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "SL_2019_FIELD_BIOCHEMISTRY",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "PAL and WAL coexist in one species; flavone production persists; no causal allele or pigment production cost established",
+      "population_or_lineage": "Barra;Louro;Brena;Trafalgar",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "SL_2019_WAL",
+      "species": "Silene littorea",
+      "morph_contrast": "WAL white versus fully pigmented pink",
+      "tissues": [
+        "petal",
+        "calyx",
+        "leaf",
+        "stem"
+      ],
+      "source_dois": [
+        "10.1186/s12870-019-2082-6"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1186/s12870-019-2082-6"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "natural_phenotype_genetic_cause_not_mapped",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC_MS_and_spectrophotometry;flavones_retained",
+      "loss_scope": "whole_plant_anthocyanin_loss_sampled_four_organs",
+      "molecular_tier": "T1_chemistry",
+      "mechanism_class": "organ_resolved_pigment_phenotype",
+      "candidate_genes": "",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [],
+      "library_design": "not_applicable",
+      "biological_replication": "four populations; common phenotypes 11-20 plants; rare WAL 6,5,6,3 plants by population; repeated organs within plant are paired",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "SL_2019_FIELD_BIOCHEMISTRY",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "PAL and WAL coexist in one species; flavone production persists; no causal allele or pigment production cost established",
+      "population_or_lineage": "Barra;Louro;Brena;Trafalgar",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "BS_2018_GXE",
+      "species": "Boechera stricta",
+      "morph_contrast": "white versus pigmented lineages",
+      "tissues": [
+        "flower",
+        "leaf"
+      ],
+      "source_dois": [
+        "10.1111/nph.14998"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1111/nph.14998"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "genetic_and_plastic",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "not_extracted",
+      "loss_scope": "flower_leaf_defense_association_not_WAL_validation",
+      "molecular_tier": "T0_trait_only",
+      "mechanism_class": "common_garden_GxE",
+      "candidate_genes": "",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "doi:10.5061/dryad.q0032"
+      ],
+      "library_design": "not_applicable",
+      "biological_replication": "3334 transplants;104 maternal families;43 source populations;5 gardens;2464 flowered",
+      "environment_treatment": "common_garden_elevation;drought;soil_pH;herbivory",
+      "fitness_or_tradeoff": "drought induces pigmentation in white lineages; white fecundity advantage well-watered; pigmented families lower herbivory",
+      "independence_group": "BS_2018_GXE",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "genetic and plastic trait response; no causal pigment allele or biosynthetic cost measured",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "MA_2026_SEASON",
+      "species": "Moricandia arvensis",
+      "morph_contrast": "white summer versus lilac spring flowers",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1002/ajb2.70096"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1002/ajb2.70096"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "within_individual_plasticity",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "UHPLC_ESI_MS_MS;anthocyanins_vs_UV_absorbing_flavonoids",
+      "loss_scope": "petal_anthocyanin_loss_with_UV_phenolic_retention",
+      "molecular_tier": "T1_chemistry",
+      "mechanism_class": "plastic_pigment_reallocation",
+      "candidate_genes": "",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [],
+      "library_design": "not_applicable",
+      "biological_replication": "100 field plants marked for paired spring/summer flowers; controlled pigment profiling separate design",
+      "environment_treatment": "season;summer_like_heat",
+      "fitness_or_tradeoff": "UV flavonoid accumulation; pollinator visual models; no measured pigment synthesis resource cost",
+      "independence_group": "MA_2026_SEASON",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "white phenotype can retain or increase phenolic investment; not genetic morph mechanism",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "VM_2026_THERMAL",
+      "species": "Vinca minor",
+      "morph_contrast": "light versus dark floral color morphs",
+      "tissues": [
+        "flower"
+      ],
+      "source_dois": [
+        "10.1111/nph.71163"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1111/nph.71163"
+      ],
+      "discovery_route": "prior_design_seed",
+      "wild_or_horticultural": "experimental_morph_material_origin_not_extracted",
+      "phenotype_origin": "not_resolved_by_causal_pigment_analysis",
+      "pigment_class": "not_assigned_from_RGB",
+      "pigment_chemical_verification": "not_verified_in_this_record",
+      "loss_scope": "not_measured",
+      "molecular_tier": "T0_trait_only",
+      "mechanism_class": "floral_energy_balance",
+      "candidate_genes": "",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [],
+      "library_design": "not_applicable",
+      "biological_replication": "three floral morphs; sample allocation not extracted; no RNA experiment",
+      "environment_treatment": "radiation;thermal;water_balance",
+      "fitness_or_tradeoff": "dark flowers absorb more radiation; latent cooling and heat tolerance measured",
+      "independence_group": "VM_2026_THERMAL",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "thermal/water trait association; no pigment biosynthetic mutation identified",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "GR_2019_PUFLATSCH",
+      "species": "Gymnadenia rhellicani",
+      "morph_contrast": "white versus black with intermediate red heterozygotes",
+      "tissues": [
+        "flower"
+      ],
+      "source_dois": [
+        "10.1038/s41467-018-07936-x"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1038/s41467-018-07936-x"
+      ],
+      "discovery_route": "primary_paper_followup",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "genetic_variant_segregation",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "UHPLC_MS_MS_cyanidins;carotenoids_similar",
+      "loss_scope": "partial_flower_loss;labellum_lobes_retain_pigment;vegetative_scope_unmeasured",
+      "molecular_tier": "T4_gene_intervention",
+      "mechanism_class": "regulator_coding_two_stop_codon_alleles",
+      "candidate_genes": "GrMYB1;GrANS1",
+      "causal_variant_identified": true,
+      "functional_intervention": true,
+      "accessions": [
+        "PRJNA504609"
+      ],
+      "library_design": "full RNAseq 1 focal plant per morph plus other populations/species; 3prime expression profiles additional 45 focal plants",
+      "biological_replication": "Puflatsch 88 genotyped; Bondone 23; four flowers pooled within individual; species and populations not exchangeable replicates",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "pollinator-mediated heterozygote advantage at focal population",
+      "independence_group": "GR_2019_PUFLATSCH",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "independent alleles by population; limited RNAi response in 2/22 plants; no allele-specific rescue; not full-plant pigment-loss evidence",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "independent_population_alleles_reported"
+    },
+    {
+      "contrast_id": "GR_2019_BONDONE",
+      "species": "Gymnadenia rhellicani",
+      "morph_contrast": "white versus black with intermediate red heterozygotes",
+      "tissues": [
+        "flower"
+      ],
+      "source_dois": [
+        "10.1038/s41467-018-07936-x"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1038/s41467-018-07936-x"
+      ],
+      "discovery_route": "primary_paper_followup",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "genetic_variant_segregation",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "UHPLC_MS_MS_cyanidins;carotenoids_similar",
+      "loss_scope": "partial_flower_loss;labellum_lobes_retain_pigment;vegetative_scope_unmeasured",
+      "molecular_tier": "T3_variant_association",
+      "mechanism_class": "regulator_coding_independent_frameshift_deletion",
+      "candidate_genes": "GrMYB1;GrANS1",
+      "causal_variant_identified": true,
+      "functional_intervention": false,
+      "accessions": [
+        "PRJNA504609"
+      ],
+      "library_design": "full RNAseq 1 focal plant per morph plus other populations/species; 3prime expression profiles additional 45 focal plants",
+      "biological_replication": "Puflatsch 88 genotyped; Bondone 23; four flowers pooled within individual; species and populations not exchangeable replicates",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "pollinator-mediated heterozygote advantage at focal population",
+      "independence_group": "GR_2019_BONDONE",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "independent alleles by population; limited RNAi response in 2/22 plants; no allele-specific rescue; not full-plant pigment-loss evidence",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "independent_population_alleles_reported"
+    },
+    {
+      "contrast_id": "MU_2014_ALBUM",
+      "species": "Muscari armeniacum",
+      "morph_contrast": "white forma album versus blue",
+      "tissues": [
+        "flower"
+      ],
+      "source_dois": [
+        "10.1093/jxb/eru168"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1093/jxb/eru168"
+      ],
+      "discovery_route": "primary_paper_followup",
+      "wild_or_horticultural": "ornamental_variants_experimental_garden",
+      "phenotype_origin": "variant_origin_not_established",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "HPLC_anthocyanins_and_other_flavonoids",
+      "loss_scope": "floral_only_measured",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "metabolic_branch_expression_hypothesis",
+      "candidate_genes": "DFR;FLS",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "SRR998575",
+        "SRR998853"
+      ],
+      "library_design": "two RNAseq libraries; one per morph",
+      "biological_replication": "HPLC n=3 biological; qPCR >=2 biological x3 technical; RNAseq one library per morph",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "MU_2014_ALBUM",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "substrate competition hypothesis; no causal allele or flux measurement",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "IP_2005_W",
+      "species": "Ipomoea purpurea",
+      "morph_contrast": "white corolla with pigmented rays ww versus pigmented WW",
+      "tissues": [
+        "flower"
+      ],
+      "source_dois": [
+        "10.1534/genetics.104.034975"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1534/genetics.104.034975"
+      ],
+      "discovery_route": "primary_paper_followup",
+      "wild_or_horticultural": "wild",
+      "phenotype_origin": "genetic_variant_segregation",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "anthocyanin_regulatory_locus;quantitative_chemistry_not_extracted",
+      "loss_scope": "partial_corolla_loss;not_whole_plant_validation",
+      "molecular_tier": "T3_variant_association",
+      "mechanism_class": "regulator_coding_loss_of_function",
+      "candidate_genes": "Ipmyb1",
+      "causal_variant_identified": true,
+      "functional_intervention": false,
+      "accessions": [
+        "AY986823-AY986898"
+      ],
+      "library_design": "targeted gene sequencing and locus association; not RNAseq",
+      "biological_replication": "segregating southeastern US populations; exact per-genotype sample counts not extracted",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "IP_2005_W",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "functional/nonfunctional W-locus MYB alleles; no source-supported assignment of all FCP white photographs to W",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "EC_2019_PSY",
+      "species": "Eschscholzia californica",
+      "morph_contrast": "four commercial white varieties versus three orange",
+      "tissues": [
+        "flower_bud",
+        "leaf"
+      ],
+      "source_dois": [
+        "10.1038/s41598-019-48122-3"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1038/s41598-019-48122-3"
+      ],
+      "discovery_route": "ENA_title_screen_plus_primary_paper",
+      "wild_or_horticultural": "commercial_varieties;field_white_plants_possible_seed_contaminants",
+      "phenotype_origin": "genetic_splice_site_deletion",
+      "pigment_class": "carotenoid",
+      "pigment_chemical_verification": "carotenoid_deficiency_from_prior_biochemistry;PSY_sequence",
+      "loss_scope": "floral_PSY1A_loss;leaf_PSY1B_C_retained",
+      "molecular_tier": "T3_variant_association",
+      "mechanism_class": "structural_gene_splice_site_deletion",
+      "candidate_genes": "PSY1A;PSY1B;PSY1C",
+      "causal_variant_identified": true,
+      "functional_intervention": false,
+      "accessions": [
+        "PRJNA517727",
+        "MK620867-MK620871"
+      ],
+      "library_design": "developing flower buds four white and three orange varieties; additional leaf libraries; ten runs total",
+      "biological_replication": "cultivars are not independent origins: identical 76bp deletion; three field white specimens carry same deletion",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "EC_2019_PSY",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "strong genetic/splicing evidence; predicted enzyme truncation not rescue; one shared origin likely; horticultural bias",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "shared_allele_likely_single_origin"
+    },
+    {
+      "contrast_id": "OV_2025_OVW1",
+      "species": "Orychophragmus violaceus",
+      "morph_contrast": "OvW-1 white versus OvP-37 purple inbred lines",
+      "tissues": [
+        "petal",
+        "leaf",
+        "petiole",
+        "young_silique"
+      ],
+      "source_dois": [
+        "10.1186/s12870-025-07412-x",
+        "10.3390/biology14121669"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1186/s12870-025-07412-x",
+        "https://doi.org/10.3390/biology14121669"
+      ],
+      "discovery_route": "ENA_title_screen_plus_primary_paper",
+      "wild_or_horticultural": "natural_mutant_inbred_lines_under_cultivation",
+      "phenotype_origin": "single_recessive_locus_mapping",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "total_petal_anthocyanin_spectrophotometry;vegetative_chemical_profile_not_extracted",
+      "loss_scope": "multi_organ_ANS_downregulation;whole_plant_loss_reported_not_full_chemistry",
+      "molecular_tier": "T3_mapped_candidate_variant",
+      "mechanism_class": "candidate_cis_promoter_insertions",
+      "candidate_genes": "OvANS",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "PRJNA1094639"
+      ],
+      "library_design": "two lines x three biological petal RNA libraries; four-organ qPCR",
+      "biological_replication": "RNA n=3 per line; qPCR n=3 per tissue; F2 1224; backcross508; interval1.37Mb/76genes",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "OV_2025_OVW1",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "promoter insertions and mapped interval support candidate; no promoter perturbation/rescue; not proven nucleotide causality",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "OV_2025_3MORPH",
+      "species": "Orychophragmus violaceus",
+      "morph_contrast": "white versus purple with light purple third morph",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.3389/fpls.2025.1509120"
+      ],
+      "source_urls": [
+        "https://doi.org/10.3389/fpls.2025.1509120"
+      ],
+      "discovery_route": "ENA_title_screen_followup",
+      "wild_or_horticultural": "three_morphs_sampled;horticultural_species",
+      "phenotype_origin": "not_established_in_this_design",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "LC_MS_flavonoids_and_anthocyanins",
+      "loss_scope": "petals_only_assayed",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_metabolite_correlation",
+      "candidate_genes": "OvANS;OvMYB;OvbHLH",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "PRJNA1136702"
+      ],
+      "library_design": "3 morphs x3 biological petal replicates;9libraries",
+      "biological_replication": "3 biological samples per morph; no population crossing",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "OV_2025_3MORPH",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "independent experiment from OvW1; origin independence not established; no causal regulator variant",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    },
+    {
+      "contrast_id": "PV_2019_CULTIVARS",
+      "species": "Primula vulgaris",
+      "morph_contrast": "white versus red cultivars",
+      "tissues": [
+        "petal"
+      ],
+      "source_dois": [
+        "10.1007/s12298-019-00664-6"
+      ],
+      "source_urls": [
+        "https://doi.org/10.1007/s12298-019-00664-6"
+      ],
+      "discovery_route": "ENA_title_screen_plus_primary_paper",
+      "wild_or_horticultural": "cultivars",
+      "phenotype_origin": "cultivar_contrast_no_causal_mapping",
+      "pigment_class": "anthocyanin",
+      "pigment_chemical_verification": "UHPSFC_MS;anthocyanins_only_red;flavonoids_both",
+      "loss_scope": "petals_only_assayed",
+      "molecular_tier": "T2_expression",
+      "mechanism_class": "expression_correlation",
+      "candidate_genes": "FLS;F3primeH;DFR;ANS;AOMT;bHLH;MYB",
+      "causal_variant_identified": false,
+      "functional_intervention": false,
+      "accessions": [
+        "PRJNA415931"
+      ],
+      "library_design": "paper reports six libraries/three biological replicates per color; metadata has two BioSamples and six experiments",
+      "biological_replication": "three biological per color source-reported; specimen independence cannot be recovered from two BioSamples alone",
+      "environment_treatment": "none",
+      "fitness_or_tradeoff": "not_measured",
+      "independence_group": "PV_2019_CULTIVARS",
+      "fcp_individual_or_morph_linkage": "species_only_unverified",
+      "strict_fcp_mechanistic_coupling_eligible": false,
+      "claim_ceiling": "cultivar candidate-expression association; no causal variant; public sample metadata require reconciliation",
+      "population_or_lineage": "see biological_replication and morph_contrast; finer allocation not extracted",
+      "independent_allele_origin_status": "not_established"
+    }
+  ]
+}
