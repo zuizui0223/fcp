@@ -1,0 +1,180 @@
+{
+  "schema": "fcp_H2_H3_world_geoclimate_crossed_447500_actual_photos_provenance_20261020",
+  "run": "https://github.com/zuizui0223/fcp/actions/runs/39441919750",
+  "branch": "analysis/fcp-h1-h5-minimal-20261020",
+  "actual_photo_release": "fcp-all4730-original-method-actual-colour-results-20261017",
+  "climate_release": "fcp-worldclim-2.1-10m-20260925",
+  "is_field_opportunity_not_biological_history": true,
+  "results": {
+    "claim_ceiling": "sampling/geoclimatic identifiability of field-pair contrasts only; no relative historical vs environmental causal contribution",
+    "climate_variables": "WorldClim2.1 long-term BIO5 max warmest-month temperature and BIO12 annual precipitation, 1970-2000",
+    "independent_source_observation_rows_before_bioclim": 447500,
+    "independent_source_observation_rows_with_bioclim": 447446,
+    "label_outcome_not_used_to_choose_cells_or_pairings": true,
+    "named_anchor_diagnostics": [
+      {
+        "absolute_threshold_crossed_sites": false,
+        "crossed_geo_climate_pairs_4_distinct_sites": 0,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": true,
+        "n_potential_sites": 6,
+        "native_wild_status_unverified": true,
+        "species": "Campanula punctata"
+      },
+      {
+        "absolute_threshold_crossed_sites": null,
+        "crossed_geo_climate_pairs_4_distinct_sites": null,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": false,
+        "n_potential_sites": null,
+        "native_wild_status_unverified": true,
+        "species": "Hesperis matronalis"
+      },
+      {
+        "absolute_threshold_crossed_sites": false,
+        "crossed_geo_climate_pairs_4_distinct_sites": 1,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": true,
+        "n_potential_sites": 8,
+        "native_wild_status_unverified": true,
+        "species": "Anemone coronaria"
+      },
+      {
+        "absolute_threshold_crossed_sites": null,
+        "crossed_geo_climate_pairs_4_distinct_sites": null,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": false,
+        "n_potential_sites": null,
+        "native_wild_status_unverified": true,
+        "species": "Iris lutescens"
+      },
+      {
+        "absolute_threshold_crossed_sites": false,
+        "crossed_geo_climate_pairs_4_distinct_sites": 0,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": true,
+        "n_potential_sites": 7,
+        "native_wild_status_unverified": true,
+        "species": "Leptosiphon parviflorus"
+      },
+      {
+        "absolute_threshold_crossed_sites": null,
+        "crossed_geo_climate_pairs_4_distinct_sites": null,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": false,
+        "n_potential_sites": null,
+        "native_wild_status_unverified": true,
+        "species": "Ipomoea purpurea"
+      },
+      {
+        "absolute_threshold_crossed_sites": null,
+        "crossed_geo_climate_pairs_4_distinct_sites": null,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": false,
+        "n_potential_sites": null,
+        "native_wild_status_unverified": true,
+        "species": "Cirsium palustre"
+      },
+      {
+        "absolute_threshold_crossed_sites": false,
+        "crossed_geo_climate_pairs_4_distinct_sites": 0,
+        "genotype_or_demographic_history_available_in_this_comparison": false,
+        "in_1degree_3obs_crossed_site_panel": true,
+        "n_potential_sites": 5,
+        "native_wild_status_unverified": true,
+        "species": "Campanula latifolia"
+      }
+    ],
+    "no_native_filter_or_historical_genomic_or_adaptation_measurement": true,
+    "original_classifiable_photo_rows": 227107,
+    "original_photo_measurement_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "original_photo_rows": 447500,
+    "original_species": 4475,
+    "schema": "fcp_actual_447500_photo_sites_H2_H3_geoclimatic_crossing_feasibility_v1",
+    "sensitive_coordinates_and_photo_identifiers_exported": false,
+    "source_era_observer_and_photo_biased": true,
+    "source_frame_diagnostics": {
+      "1degree_min2independentobservations": {
+        "absolute_sensitivity": "far≥400km and climate distance≤1; near≤200km and climate distance≥1.5; climate distance sqrt((dBIO5/3C)^2+(dBIO12/400mm)^2)",
+        "n_crossed_taxa_with_white_and_nonwhite_photo_labels_ge5": 1638,
+        "n_original_unique_observation_rows_with_bio5_and_bio12": 447446,
+        "n_taxa_with_absolute_threshold_crossed_pairs": 1818,
+        "n_taxa_with_at_least_4_sites": 3905,
+        "n_taxa_with_at_least_one_site": 4162,
+        "n_taxa_with_both_crossed_pair_types_disjoint": 3067,
+        "n_true_genetic_population_or_historical_connectivity_tests": 0,
+        "primary_comparison_definition": "far distance upper-third and BIO5+BIO12 climate distance lower-third vs near distance lower-third and climate upper-third within species, 4 distinct photo cells",
+        "selected_using_colour_outcome": false,
+        "site_density": "at least 2 independent source observation IDs and at least 2 observers in a 1-degree photo locality"
+      },
+      "1degree_min3independentobservations": {
+        "absolute_sensitivity": "far≥400km and climate distance≤1; near≤200km and climate distance≥1.5; climate distance sqrt((dBIO5/3C)^2+(dBIO12/400mm)^2)",
+        "n_crossed_taxa_with_white_and_nonwhite_photo_labels_ge5": 1022,
+        "n_original_unique_observation_rows_with_bio5_and_bio12": 447446,
+        "n_taxa_with_absolute_threshold_crossed_pairs": 1044,
+        "n_taxa_with_at_least_4_sites": 3184,
+        "n_taxa_with_at_least_one_site": 3672,
+        "n_taxa_with_both_crossed_pair_types_disjoint": 1888,
+        "n_true_genetic_population_or_historical_connectivity_tests": 0,
+        "primary_comparison_definition": "far distance upper-third and BIO5+BIO12 climate distance lower-third vs near distance lower-third and climate upper-third within species, 4 distinct photo cells",
+        "selected_using_colour_outcome": false,
+        "site_density": "at least 3 independent source observation IDs and at least 2 observers in a 1-degree photo locality"
+      },
+      "1degree_min5independentobservations": {
+        "absolute_sensitivity": "far≥400km and climate distance≤1; near≤200km and climate distance≥1.5; climate distance sqrt((dBIO5/3C)^2+(dBIO12/400mm)^2)",
+        "n_crossed_taxa_with_white_and_nonwhite_photo_labels_ge5": 374,
+        "n_original_unique_observation_rows_with_bio5_and_bio12": 447446,
+        "n_taxa_with_absolute_threshold_crossed_pairs": 300,
+        "n_taxa_with_at_least_4_sites": 2027,
+        "n_taxa_with_at_least_one_site": 2940,
+        "n_taxa_with_both_crossed_pair_types_disjoint": 721,
+        "n_true_genetic_population_or_historical_connectivity_tests": 0,
+        "primary_comparison_definition": "far distance upper-third and BIO5+BIO12 climate distance lower-third vs near distance lower-third and climate upper-third within species, 4 distinct photo cells",
+        "selected_using_colour_outcome": false,
+        "site_density": "at least 5 independent source observation IDs and at least 3 observers in a 1-degree photo locality"
+      },
+      "2degree_min2independentobservations": {
+        "absolute_sensitivity": "far≥400km and climate distance≤1; near≤200km and climate distance≥1.5; climate distance sqrt((dBIO5/3C)^2+(dBIO12/400mm)^2)",
+        "n_crossed_taxa_with_white_and_nonwhite_photo_labels_ge5": 1787,
+        "n_original_unique_observation_rows_with_bio5_and_bio12": 447446,
+        "n_taxa_with_absolute_threshold_crossed_pairs": 1459,
+        "n_taxa_with_at_least_4_sites": 4226,
+        "n_taxa_with_at_least_one_site": 4431,
+        "n_taxa_with_both_crossed_pair_types_disjoint": 3309,
+        "n_true_genetic_population_or_historical_connectivity_tests": 0,
+        "primary_comparison_definition": "far distance upper-third and BIO5+BIO12 climate distance lower-third vs near distance lower-third and climate upper-third within species, 4 distinct photo cells",
+        "selected_using_colour_outcome": false,
+        "site_density": "at least 2 independent source observation IDs and at least 2 observers in a 2-degree photo locality"
+      },
+      "2degree_min3independentobservations": {
+        "absolute_sensitivity": "far≥400km and climate distance≤1; near≤200km and climate distance≥1.5; climate distance sqrt((dBIO5/3C)^2+(dBIO12/400mm)^2)",
+        "n_crossed_taxa_with_white_and_nonwhite_photo_labels_ge5": 1203,
+        "n_original_unique_observation_rows_with_bio5_and_bio12": 447446,
+        "n_taxa_with_absolute_threshold_crossed_pairs": 852,
+        "n_taxa_with_at_least_4_sites": 3802,
+        "n_taxa_with_at_least_one_site": 4221,
+        "n_taxa_with_both_crossed_pair_types_disjoint": 2265,
+        "n_true_genetic_population_or_historical_connectivity_tests": 0,
+        "primary_comparison_definition": "far distance upper-third and BIO5+BIO12 climate distance lower-third vs near distance lower-third and climate upper-third within species, 4 distinct photo cells",
+        "selected_using_colour_outcome": false,
+        "site_density": "at least 3 independent source observation IDs and at least 2 observers in a 2-degree photo locality"
+      },
+      "2degree_min5independentobservations": {
+        "absolute_sensitivity": "far≥400km and climate distance≤1; near≤200km and climate distance≥1.5; climate distance sqrt((dBIO5/3C)^2+(dBIO12/400mm)^2)",
+        "n_crossed_taxa_with_white_and_nonwhite_photo_labels_ge5": 475,
+        "n_original_unique_observation_rows_with_bio5_and_bio12": 447446,
+        "n_taxa_with_absolute_threshold_crossed_pairs": 318,
+        "n_taxa_with_at_least_4_sites": 2728,
+        "n_taxa_with_at_least_one_site": 3728,
+        "n_taxa_with_both_crossed_pair_types_disjoint": 899,
+        "n_true_genetic_population_or_historical_connectivity_tests": 0,
+        "primary_comparison_definition": "far distance upper-third and BIO5+BIO12 climate distance lower-third vs near distance lower-third and climate upper-third within species, 4 distinct photo cells",
+        "selected_using_colour_outcome": false,
+        "site_density": "at least 5 independent source observation IDs and at least 3 observers in a 2-degree photo locality"
+      }
+    },
+    "spatial_cell_is_a_source_photo_locality_not_a_breeding_population": true,
+    "wild_or_cultivated_and_native_or_introduced_status_unverified": true,
+    "worldclim_bioclim_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf"
+  }
+}
