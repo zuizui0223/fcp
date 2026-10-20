@@ -287,7 +287,7 @@ def bootstrap_genus(rows,key,n_reps=499):
     return [float(x) for x in np.quantile(means,[.025,.975])]
 
 
-def summarize(rows,worlds):
+def summarize(rows,worlds,null_meta):
     panel=pd.DataFrame(rows)
     alln=len(panel)
     check(alln==TOTAL_TAXA and panel.inat_taxon_id.is_unique,
@@ -307,7 +307,8 @@ def summarize(rows,worlds):
        "W_axis_sq_alignment",panel.H1_original_primary_gate_pass),
       "H1_n_strict_existing_gate":int(panel.H1_original_primary_gate_pass.sum()),
       "n_h2_any_local50_pair":int(valid.sum()),
-      "n_h2_original_30plus_local_pairs":int((panel.n_local50km_colour_photo_pairs>=30).sum()),
+      "n_h2_30plus_local_pairs_without_prior_classifiability_gate":int((panel.n_local50km_colour_photo_pairs>=30).sum()),
+      "n_h2_original_30plus_pairs_AND_40plus_classifiable":int(((panel.n_local50km_colour_photo_pairs>=30)&(panel.n_classified_photo>=40)).sum()),
       "H2_mean_depletion_across_any_local_pair":mean_numeric("global_vs_local_50km_colour_mismatch_delta"),
       "H2_median_depletion_across_any_local_pair":(
          float(panel.loc[valid,"global_vs_local_50km_colour_mismatch_delta"].median()) if valid.any() else None),
@@ -319,9 +320,7 @@ def summarize(rows,worlds):
       "H3_BIO5_photo_mean_C_all_identifiable":mean_numeric("BIO5_white_minus_nonwhite_C"),
       "H3_BIO12_photo_mean_mm_all_identifiable":mean_numeric("BIO12_white_minus_nonwhite_mm"),
       "H3_BIO5_genus_bootstrap_CI95":bootstrap_genus(rows,"BIO5_white_minus_nonwhite_C"),
-      "n_IBD_IBE_partial_correlations_estimable":int(
-          panel.photographic_IBD_like_partial_r.notna().sum()
-          &panel.photographic_IBE_BIO5_like_partial_r.notna().sum()),  # corrected below
+      "n_IBD_IBE_partial_correlations_estimable":0,  # exact rowwise paired n below
       "n_h4_same_month_local_distinct_observer_pairs_any":
           int((panel.n_local5km_same_year_month_diff_observer_pairs>0).sum()),
       "n_h4_same_month_local_diff_colour_labels_any":
@@ -338,6 +337,7 @@ def summarize(rows,worlds):
     result["IBD_like_partial_r_mean_in_estimable"]=mean_numeric("photographic_IBD_like_partial_r")
     result["IBE_BIO5_like_partial_r_mean_in_estimable"]=mean_numeric("photographic_IBE_BIO5_like_partial_r")
     if len(worlds):
+        check(len(worlds)==len(null_meta),"H2 local pair null metadata source alignment")
         a=np.stack(worlds)
         # The supplied nulls belong to the exact fixed source-eligible set
         # n_local_pairs>=1; each taxon is given equal, not pair-number, weight.
@@ -346,6 +346,34 @@ def summarize(rows,worlds):
         result["H2_any_local_pairs_null_reps"]=len(null)
         result["H2_any_local_pairs_mean_null"]=float(null.mean())
         result["H2_any_local_pairs_one_sided_p"]=float((1+int(np.count_nonzero(null>=observed)))/(len(null)+1))
+        meta=pd.DataFrame(null_meta)
+        check(meta.inat_taxon_id.is_unique,"H2 species vertices duplicated")
+        full=panel.set_index("inat_taxon_id",verify_integrity=True)
+        supports={}
+        for label,filter_mask in (
+          ("at_least_1_local_photo_pair",meta.n_local_pairs>=1),
+          ("at_least_5_local_photo_pairs",meta.n_local_pairs>=5),
+          ("at_least_30_local_photo_pairs",meta.n_local_pairs>=30),
+          ("at_least_30_local_pairs_and_40plus_colours",
+           (meta.n_local_pairs>=30)&(meta.n_classified_photo>=40)),
+          ("at_least_100_local_photo_pairs",meta.n_local_pairs>=100),
+        ):
+            ix=np.flatnonzero(filter_mask.to_numpy())
+            if not len(ix):
+                supports[label]={"n_species":0,"state":"not_estimable"}
+                continue
+            y=full.loc[meta.iloc[ix].inat_taxon_id,
+                       "global_vs_local_50km_colour_mismatch_delta"].to_numpy(float)
+            simu=a[ix].mean(axis=0)
+            x=float(y.mean())
+            supports[label]={
+               "n_species":int(len(ix)), "observed_mean_depletion":x,
+               "null_mean":float(simu.mean()),
+               "upper_p_199":float((1+int(np.count_nonzero(simu>=x)))/(PERMS+1)),
+               "median_species_depletion":float(np.median(y)),
+               "photo_composition_and_vertices_fixed":True,
+            }
+        result["H2_pair_opportunity_sensitivity"]=supports
     bycohort={}
     for cohort,sub in panel.groupby("source_cohort",sort=True):
         bycohort[cohort]={
@@ -373,6 +401,7 @@ def analyze(args):
                   n_distinct_observers_source=("observer_id","nunique")).reset_index())
     rows=[]
     null_worlds=[]
+    null_meta=[]
     invalid_axis=[]
     for index,(tid,g) in enumerate(d.groupby("inat_taxon_id",sort=True)):
         rec=full.loc[full.inat_taxon_id.eq(tid)].iloc[0]
@@ -419,10 +448,11 @@ def analyze(args):
                 perm=labels[rng.permutation(len(labels))]
                 null[k]=gD-float(np.mean(perm[aa]!=perm[bb]))
             null_worlds.append(null)
+            null_meta.append({"inat_taxon_id":int(tid),"n_local_pairs":int(geo["n_local50km_colour_photo_pairs"]),"n_classified_photo":int(n)})
         if (index+1)%750==0:
             print("FCP_ALL4475_ANALYSIS_TAXA_COMPLETED",index+1,flush=True)
     check(len(rows)==TOTAL_TAXA,"lost species in analysis grouping")
-    result=summarize(rows,null_worlds)
+    result=summarize(rows,null_worlds,null_meta)
     result.update({
         "schema":"fcp_entire4475_same_source_hypothesis_measurement_v1",
         "complete_input_authentic_sha":SOURCE_SHA,
