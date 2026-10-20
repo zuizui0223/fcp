@@ -1,6 +1,6 @@
 {
   "schema": "fcp_source_authenticated_white_vs_nonwhite_geographic_component_20261020_v1",
-  "verified_workflow_run": "https://github.com/zuizui0223/fcp/actions/runs/39422571304",
+  "verified_workflow_run": "https://github.com/zuizui0223/fcp/actions/runs/39423430999",
   "workflow_success": true,
   "source_photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
   "same_original_photo_source": true,
@@ -24,6 +24,185 @@
       "n_eligible_cell_pairs_not_independent": 3127,
       "n_species": 2118,
       "posthoc_not_prospective": true,
+      "relative_component_baseline_normalized": {
+        "primary_min_null_baseline_0_01": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "matched_null_p_upper_exploratory": 0.185,
+              "mean_relative_white_minus_nonwhite": 0.13304765270412203,
+              "n": 102
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.075,
+              "mean_relative_white_minus_nonwhite": 0.101299757879658,
+              "n": 410
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.025,
+              "mean_relative_white_minus_nonwhite": 0.10510927931732282,
+              "n": 508
+            },
+            "prospective": {
+              "matched_null_p_upper_exploratory": 0.095,
+              "mean_relative_white_minus_nonwhite": 0.1737513758922088,
+              "n": 114
+            },
+            "validation": {
+              "matched_null_p_upper_exploratory": 0.31,
+              "mean_relative_white_minus_nonwhite": 0.09948338940967516,
+              "n": 94
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.53,
+              "mean_relative_white_minus_nonwhite": -0.011970553013819338,
+              "n": 100
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5305010893246187,
+          "matched_null_p_upper_mean_white_advantage": 0.02,
+          "matched_null_p_upper_median_white_advantage": 0.235,
+          "matched_null_p_upper_trim10_white_advantage": 0.075,
+          "mean_relative_nonwhite_excess": 0.06728630343146351,
+          "mean_relative_white_excess": 0.1706941624988489,
+          "mean_white_minus_nonwhite_relative_excess": 0.10340785906738537,
+          "median_white_minus_nonwhite_relative_excess": 0.1055886347953448,
+          "min_component_null_baseline": 0.01,
+          "n_eligible_species": 918,
+          "n_per_cohort": {
+            "discovery": 102,
+            "new_U100": 508,
+            "prospective": 114,
+            "validation": 94,
+            "wave4": 100
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 918,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            0.0019303258611912517,
+            0.20610865241417015
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.10735068117456352
+        },
+        "sensitivity_min_null_baseline_0_005": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "matched_null_p_upper_exploratory": 0.185,
+              "mean_relative_white_minus_nonwhite": 0.13773754999905125,
+              "n": 105
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.065,
+              "mean_relative_white_minus_nonwhite": 0.10898973702498616,
+              "n": 416
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.025,
+              "mean_relative_white_minus_nonwhite": 0.10297099437419135,
+              "n": 522
+            },
+            "prospective": {
+              "matched_null_p_upper_exploratory": 0.105,
+              "mean_relative_white_minus_nonwhite": 0.17865479133284237,
+              "n": 115
+            },
+            "validation": {
+              "matched_null_p_upper_exploratory": 0.285,
+              "mean_relative_white_minus_nonwhite": 0.10697742658966446,
+              "n": 95
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.485,
+              "mean_relative_white_minus_nonwhite": 0.0016745675564242622,
+              "n": 101
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5319829424307037,
+          "matched_null_p_upper_mean_white_advantage": 0.02,
+          "matched_null_p_upper_median_white_advantage": 0.21,
+          "matched_null_p_upper_trim10_white_advantage": 0.06,
+          "mean_relative_nonwhite_excess": 0.06257444223377044,
+          "mean_relative_white_excess": 0.1682147297238793,
+          "mean_white_minus_nonwhite_relative_excess": 0.10564028749010887,
+          "median_white_minus_nonwhite_relative_excess": 0.1134991356799896,
+          "min_component_null_baseline": 0.005,
+          "n_eligible_species": 938,
+          "n_per_cohort": {
+            "discovery": 105,
+            "new_U100": 522,
+            "prospective": 115,
+            "validation": 95,
+            "wave4": 101
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 938,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            0.009894400746466489,
+            0.20677608054973134
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.11014006912121065
+        },
+        "sensitivity_min_null_baseline_0_02": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "matched_null_p_upper_exploratory": 0.295,
+              "mean_relative_white_minus_nonwhite": 0.0736934295544647,
+              "n": 86
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.175,
+              "mean_relative_white_minus_nonwhite": 0.07102460535703384,
+              "n": 335
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.11,
+              "mean_relative_white_minus_nonwhite": 0.08301786155298006,
+              "n": 422
+            },
+            "prospective": {
+              "matched_null_p_upper_exploratory": 0.075,
+              "mean_relative_white_minus_nonwhite": 0.18424029334544134,
+              "n": 100
+            },
+            "validation": {
+              "matched_null_p_upper_exploratory": 0.5,
+              "mean_relative_white_minus_nonwhite": -0.00924176350202461,
+              "n": 71
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.51,
+              "mean_relative_white_minus_nonwhite": -0.004003285551000169,
+              "n": 78
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5178335535006605,
+          "matched_null_p_upper_mean_white_advantage": 0.065,
+          "matched_null_p_upper_median_white_advantage": 0.29,
+          "matched_null_p_upper_trim10_white_advantage": 0.195,
+          "mean_relative_nonwhite_excess": 0.08301000152519283,
+          "mean_relative_white_excess": 0.16072041152514516,
+          "mean_white_minus_nonwhite_relative_excess": 0.07771040999995232,
+          "median_white_minus_nonwhite_relative_excess": 0.06539015865484821,
+          "min_component_null_baseline": 0.02,
+          "n_eligible_species": 757,
+          "n_per_cohort": {
+            "discovery": 86,
+            "new_U100": 422,
+            "prospective": 100,
+            "validation": 71,
+            "wave4": 78
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 757,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.03120971312649523,
+            0.1857007914161003
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.07615412007571279
+        }
+      },
       "repetitions": 199,
       "robust_white_effect_distribution": {
         "all_spatially_evaluable_taxa": {
@@ -493,6 +672,185 @@
       "n_eligible_cell_pairs_not_independent": 1711,
       "n_species": 1282,
       "posthoc_not_prospective": true,
+      "relative_component_baseline_normalized": {
+        "primary_min_null_baseline_0_01": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "matched_null_p_upper_exploratory": 0.81,
+              "mean_relative_white_minus_nonwhite": -0.19064787642599723,
+              "n": 37
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.485,
+              "mean_relative_white_minus_nonwhite": -0.0022630227782152986,
+              "n": 179
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.285,
+              "mean_relative_white_minus_nonwhite": 0.0522643814371583,
+              "n": 216
+            },
+            "prospective": {
+              "matched_null_p_upper_exploratory": 0.255,
+              "mean_relative_white_minus_nonwhite": 0.13557263639043884,
+              "n": 46
+            },
+            "validation": {
+              "matched_null_p_upper_exploratory": 0.335,
+              "mean_relative_white_minus_nonwhite": 0.08627069287434141,
+              "n": 49
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.65,
+              "mean_relative_white_minus_nonwhite": -0.08116414626258624,
+              "n": 47
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5063291139240507,
+          "matched_null_p_upper_mean_white_advantage": 0.37,
+          "matched_null_p_upper_median_white_advantage": 0.58,
+          "matched_null_p_upper_trim10_white_advantage": 0.52,
+          "mean_relative_nonwhite_excess": 0.11497938982951075,
+          "mean_relative_white_excess": 0.14253388429312,
+          "mean_white_minus_nonwhite_relative_excess": 0.027554494463609233,
+          "median_white_minus_nonwhite_relative_excess": 0.009996584081821358,
+          "min_component_null_baseline": 0.01,
+          "n_eligible_species": 395,
+          "n_per_cohort": {
+            "discovery": 37,
+            "new_U100": 216,
+            "prospective": 46,
+            "validation": 49,
+            "wave4": 47
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 395,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.12944040622845954,
+            0.187640795155335
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.04279069883504829
+        },
+        "sensitivity_min_null_baseline_0_005": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "matched_null_p_upper_exploratory": 0.74,
+              "mean_relative_white_minus_nonwhite": -0.13504806906475833,
+              "n": 39
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.46,
+              "mean_relative_white_minus_nonwhite": 0.013017459854629649,
+              "n": 186
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.405,
+              "mean_relative_white_minus_nonwhite": 0.015674113509221606,
+              "n": 230
+            },
+            "prospective": {
+              "matched_null_p_upper_exploratory": 0.23,
+              "mean_relative_white_minus_nonwhite": 0.1463011107403119,
+              "n": 48
+            },
+            "validation": {
+              "matched_null_p_upper_exploratory": 0.31,
+              "mean_relative_white_minus_nonwhite": 0.10142756957889063,
+              "n": 50
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.675,
+              "mean_relative_white_minus_nonwhite": -0.08991244016311867,
+              "n": 49
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5072115384615384,
+          "matched_null_p_upper_mean_white_advantage": 0.405,
+          "matched_null_p_upper_median_white_advantage": 0.515,
+          "matched_null_p_upper_trim10_white_advantage": 0.605,
+          "mean_relative_nonwhite_excess": 0.11293771664849553,
+          "mean_relative_white_excess": 0.12742399943715438,
+          "mean_white_minus_nonwhite_relative_excess": 0.014486282788658843,
+          "median_white_minus_nonwhite_relative_excess": 0.04326157452066953,
+          "min_component_null_baseline": 0.005,
+          "n_eligible_species": 416,
+          "n_per_cohort": {
+            "discovery": 39,
+            "new_U100": 230,
+            "prospective": 48,
+            "validation": 50,
+            "wave4": 49
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 416,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.14549901659965062,
+            0.15359629854829346
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.025969146031641542
+        },
+        "sensitivity_min_null_baseline_0_02": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "matched_null_p_upper_exploratory": 0.965,
+              "mean_relative_white_minus_nonwhite": -0.478205345246614,
+              "n": 24
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.74,
+              "mean_relative_white_minus_nonwhite": -0.0795409910372495,
+              "n": 124
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.87,
+              "mean_relative_white_minus_nonwhite": -0.11303761897257625,
+              "n": 157
+            },
+            "prospective": {
+              "matched_null_p_upper_exploratory": 0.29,
+              "mean_relative_white_minus_nonwhite": 0.1377297684694881,
+              "n": 33
+            },
+            "validation": {
+              "matched_null_p_upper_exploratory": 0.475,
+              "mean_relative_white_minus_nonwhite": 0.021178440951196635,
+              "n": 33
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.695,
+              "mean_relative_white_minus_nonwhite": -0.10676839745831765,
+              "n": 34
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.45907473309608543,
+          "matched_null_p_upper_mean_white_advantage": 0.88,
+          "matched_null_p_upper_median_white_advantage": 0.885,
+          "matched_null_p_upper_trim10_white_advantage": 0.94,
+          "mean_relative_nonwhite_excess": 0.2075072886901199,
+          "mean_relative_white_excess": 0.10925109983847073,
+          "mean_white_minus_nonwhite_relative_excess": -0.09825618885164913,
+          "median_white_minus_nonwhite_relative_excess": -0.12579754934836673,
+          "min_component_null_baseline": 0.02,
+          "n_eligible_species": 281,
+          "n_per_cohort": {
+            "discovery": 24,
+            "new_U100": 157,
+            "prospective": 33,
+            "validation": 33,
+            "wave4": 34
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 281,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.26876386765645094,
+            0.08032421469736674
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": -0.09749639051746618
+        }
+      },
       "repetitions": 199,
       "robust_white_effect_distribution": {
         "all_spatially_evaluable_taxa": {
@@ -961,6 +1319,176 @@
       "n_eligible_cell_pairs_not_independent": 1711,
       "n_species": 1282,
       "posthoc_not_prospective": true,
+      "relative_component_baseline_normalized": {
+        "primary_min_null_baseline_0_01": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "n": 15,
+              "status": "under_20"
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.755,
+              "mean_relative_white_minus_nonwhite": -0.10446231512470684,
+              "n": 77
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.055,
+              "mean_relative_white_minus_nonwhite": 0.250460050724572,
+              "n": 97
+            },
+            "prospective": {
+              "n": 17,
+              "status": "under_20"
+            },
+            "validation": {
+              "n": 18,
+              "status": "under_20"
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.91,
+              "mean_relative_white_minus_nonwhite": -0.3358238467445768,
+              "n": 27
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5114942528735632,
+          "matched_null_p_upper_mean_white_advantage": 0.22,
+          "matched_null_p_upper_median_white_advantage": 0.375,
+          "matched_null_p_upper_trim10_white_advantage": 0.325,
+          "mean_relative_nonwhite_excess": 0.08132095836426591,
+          "mean_relative_white_excess": 0.1747176632819732,
+          "mean_white_minus_nonwhite_relative_excess": 0.09339670491770724,
+          "median_white_minus_nonwhite_relative_excess": 0.06703401020452593,
+          "min_component_null_baseline": 0.01,
+          "n_eligible_species": 174,
+          "n_per_cohort": {
+            "discovery": 15,
+            "new_U100": 97,
+            "prospective": 17,
+            "validation": 18,
+            "wave4": 27
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 174,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.11604158657311561,
+            0.3186436743404567
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.0915900323436771
+        },
+        "sensitivity_min_null_baseline_0_005": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "n": 15,
+              "status": "under_20"
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.695,
+              "mean_relative_white_minus_nonwhite": -0.06914772525783812,
+              "n": 79
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.045,
+              "mean_relative_white_minus_nonwhite": 0.24926390673752255,
+              "n": 99
+            },
+            "prospective": {
+              "n": 18,
+              "status": "under_20"
+            },
+            "validation": {
+              "n": 18,
+              "status": "under_20"
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.88,
+              "mean_relative_white_minus_nonwhite": -0.29407049901770205,
+              "n": 28
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5168539325842697,
+          "matched_null_p_upper_mean_white_advantage": 0.18,
+          "matched_null_p_upper_median_white_advantage": 0.31,
+          "matched_null_p_upper_trim10_white_advantage": 0.265,
+          "mean_relative_nonwhite_excess": 0.06401771566670719,
+          "mean_relative_white_excess": 0.17196410033887308,
+          "mean_white_minus_nonwhite_relative_excess": 0.10794638467216586,
+          "median_white_minus_nonwhite_relative_excess": 0.0742364794599269,
+          "min_component_null_baseline": 0.005,
+          "n_eligible_species": 178,
+          "n_per_cohort": {
+            "discovery": 15,
+            "new_U100": 99,
+            "prospective": 18,
+            "validation": 18,
+            "wave4": 28
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 178,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.11489118194618025,
+            0.34625176480969877
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.10962523850055038
+        },
+        "sensitivity_min_null_baseline_0_02": {
+          "cohort_sensitivity": {
+            "discovery": {
+              "n": 12,
+              "status": "under_20"
+            },
+            "leave_out_new_U100": {
+              "matched_null_p_upper_exploratory": 0.535,
+              "mean_relative_white_minus_nonwhite": -0.0031484040462679674,
+              "n": 67
+            },
+            "new_U100": {
+              "matched_null_p_upper_exploratory": 0.06,
+              "mean_relative_white_minus_nonwhite": 0.24989374735025247,
+              "n": 91
+            },
+            "prospective": {
+              "n": 17,
+              "status": "under_20"
+            },
+            "validation": {
+              "n": 13,
+              "status": "under_20"
+            },
+            "wave4": {
+              "matched_null_p_upper_exploratory": 0.89,
+              "mean_relative_white_minus_nonwhite": -0.2965818102075741,
+              "n": 25
+            }
+          },
+          "fraction_species_white_relative_excess_gt_nonwhite": 0.5189873417721519,
+          "matched_null_p_upper_mean_white_advantage": 0.125,
+          "matched_null_p_upper_median_white_advantage": 0.23,
+          "matched_null_p_upper_trim10_white_advantage": 0.175,
+          "mean_relative_nonwhite_excess": 0.06536831465764993,
+          "mean_relative_white_excess": 0.2079593775549475,
+          "mean_white_minus_nonwhite_relative_excess": 0.1425910628972976,
+          "median_white_minus_nonwhite_relative_excess": 0.10583394063489454,
+          "min_component_null_baseline": 0.02,
+          "n_eligible_species": 158,
+          "n_per_cohort": {
+            "discovery": 12,
+            "new_U100": 91,
+            "prospective": 17,
+            "validation": 13,
+            "wave4": 25
+          },
+          "n_taxa_with_white_and_nonwhite_labels": 158,
+          "posthoc_component_scale_sensitivity": true,
+          "species_bootstrap_CI95_mean_white_minus_nonwhite": [
+            -0.08370281393347503,
+            0.38722560646292853
+          ],
+          "status": "estimable",
+          "trimmed10_white_minus_nonwhite_relative_excess": 0.13708885827491946
+        }
+      },
       "repetitions": 199,
       "robust_white_effect_distribution": {
         "all_spatially_evaluable_taxa": {
@@ -1355,5 +1883,8 @@
     "schema": "fcp_actual_447500_species_grid_vertex_null_v1"
   },
   "verified_strict_mixed5_leave_newU100_N": 55,
-  "notes_addendum": "Only 127 high-purity taxa have ≥5 white and ≥5 nonwhite labelled photos in ≥2 eligible cells; 72 come from new_U100. The 55 excluding new_U100 have exploratory positive mean p=.010, median p=.095. Pooled all-1282 high-purity white mean loses support without new_U100 (p=.14). Do not infer a universal inherited white-flower cline or demographic history from these photographic labels."
+  "notes_addendum": "Only 127 high-purity taxa have ≥5 white and ≥5 nonwhite labelled photos in ≥2 eligible cells; 72 come from new_U100. The 55 excluding new_U100 have exploratory positive mean p=.010, median p=.095. Pooled all-1282 high-purity white mean loses support without new_U100 (p=.14). Do not infer a universal inherited white-flower cline or demographic history from these photographic labels.",
+  "baseline_normalized_result_qualification": "Absolute geographic white-axis contribution is high, but the direct comparison of white-component and nonwhite-component RELATIVE excess after each component's own null baseline is not supported at any 0.005 / 0.01 / 0.02 opportunity threshold in broad or high-purity photographs. This does not establish special selective clustering of white morphs.",
+  "related_independent_existing_PR_248": "https://github.com/zuizui0223/fcp/pull/248",
+  "claim_version": 2
 }
