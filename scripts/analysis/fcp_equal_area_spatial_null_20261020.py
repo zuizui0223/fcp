@@ -66,6 +66,8 @@ def taxon_test(g,tag):
     g=g.sort_values(['cell','photo_id'],kind='mergesort')
     sites,n=np.unique(g.cell.to_numpy(),return_counts=True)
     if len(sites)<2:return None
+    check(g.fcp_source_cohort.nunique()==1,'source-cohort taxon identity inconsistent')
+    cohort=str(g.fcp_source_cohort.iloc[0])
     labels=pd.Categorical(g.morph, categories=STATES).codes
     check(np.min(labels)>=0,'bad morph code')
     starts=np.insert(np.cumsum(n)[:-1],0,0)
@@ -79,7 +81,7 @@ def taxon_test(g,tag):
     for k in range(REPS):
         x=np.add.reduceat(np.eye(N_STATES,dtype=int)[rng.permutation(labels)],starts,axis=0)
         null[k]=score(x/denominators)
-    return {'taxon_id':tid, 'n_photos_in_eligible_cells':int(len(g)),
+    return {'taxon_id':tid, 'cohort':cohort, 'n_photos_in_eligible_cells':int(len(g)),
            'n_eligible_cells':int(len(sites)), 'n_cell_pairs':int(len(sites)*(len(sites)-1)//2),
            'observed_tv':actual[0], 'observed_abs_white_delta':actual[1],
            'observed_nonwhite_residual_tv':actual[2],
@@ -91,6 +93,34 @@ def taxon_test(g,tag):
            'excess_nonwhite_residual':actual[2]-null[:,2].mean()}, null
 
 
+def summarize_by_source_cohort(frame:pd.DataFrame, stacked_null:np.ndarray):
+    """Same original species-equal nulls, now shown within disjoint source cohorts."""
+    out={}
+    for cohort in ('discovery','validation','prospective','wave4','new_U100'):
+        chosen=frame.cohort.eq(cohort).to_numpy()
+        if not chosen.any():
+            out[cohort]={'n_species':0,'status':'underidentified'}
+            continue
+        part=frame.loc[chosen]
+        means=stacked_null[chosen].mean(axis=0)
+        obs=part[['observed_tv','observed_abs_white_delta','observed_nonwhite_residual_tv']].mean().to_numpy()
+        nullmeans=means.mean(axis=0)
+        excess=obs-nullmeans
+        out[cohort]={
+            'n_species':int(len(part)),
+            'mean_excess_total_tv':float(excess[0]),
+            'mean_excess_white_delta':float(excess[1]),
+            'mean_excess_nonwhite_residual':float(excess[2]),
+            'white_share_of_mean_excess_turnover':float(excess[1]/excess[0]) if abs(excess[0])>1e-12 else None,
+            'species_bootstrap_95CI_white_share':bootstrap_component_share(part),
+            'p_upper_white_axis_199':float((1+np.count_nonzero(means[:,1]>=obs[1]))/(REPS+1)),
+            'p_upper_nonwhite_residual_199':float((1+np.count_nonzero(means[:,2]>=obs[2]))/(REPS+1)),
+            'fraction_of_species_positive_white_excess':float((part.excess_white_delta>0).mean()),
+            'exploratory_posthoc':True,
+        }
+    return out
+
+
 def calculate(d,tag):
     rows=[];nulls=[]
     for _,g in d.groupby('inat_taxon_id',sort=True):
@@ -99,13 +129,15 @@ def calculate(d,tag):
         row,vals=ret;rows.append(row);nulls.append(vals)
     frame=pd.DataFrame(rows)
     check(len(frame)>0,'no eligible species in geographic turnover')
-    sims=np.mean(np.stack(nulls,axis=0),axis=0)
+    stack=np.stack(nulls,axis=0)
+    sims=np.mean(stack,axis=0)
     observed=frame[['observed_tv','observed_abs_white_delta','observed_nonwhite_residual_tv']].mean().to_numpy()
     nullmean=sims.mean(axis=0)
     p=[float((1+np.count_nonzero(sims[:,col]>=observed[col]))/(REPS+1))
        for col in range(3)]
     return frame,{
         'n_species':int(len(frame)),
+        'source_cohort_replication':summarize_by_source_cohort(frame,stack),
         'n_eligible_cell_pairs_not_independent':int(frame.n_cell_pairs.sum()),
         'mean_observed_between_cell_tv':float(observed[0]),
         'mean_null_tv':float(nullmean[0]),
