@@ -28,7 +28,7 @@ PALETTE = {
     "blue_purple": ("flower_fraction_blue", "flower_fraction_purple"),
 }
 COLUMNS = [
-    "inat_taxon_id", "photo_id", "observation_id", "observer_id",
+    "inat_taxon_id", "photo_id", "observation_id", "observer_id", "fcp_source_cohort",
     "latitude", "longitude", "positional_accuracy_m", "morph", "global_classifiable",
     *(f for group in PALETTE.values() for f in group),
 ]
@@ -58,6 +58,8 @@ def read_original(path):
           "complete real photograph/source species count mismatch")
     check(raw.photo_id.nunique() == TOTAL_ROWS,
           "photo IDs were reused")
+    check(raw.groupby("inat_taxon_id").fcp_source_cohort.nunique().eq(1).all(),
+          "source species/cohort disjointness violated")
     ok = raw.global_classifiable.fillna(False).astype(str).str.lower().isin(("true", "1", "yes"))
     d = raw.loc[ok & raw.morph.isin(STATES)].copy()
     check(len(d) == CLASSIFIED_ROWS, "classified real photo count mismatch")
