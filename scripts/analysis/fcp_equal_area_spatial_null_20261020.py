@@ -100,7 +100,7 @@ def calculate(d,tag):
     frame=pd.DataFrame(rows)
     check(len(frame)>0,'no eligible species in geographic turnover')
     sims=np.mean(np.stack(nulls,axis=0),axis=0)
-    observed=frame[['observed_tv','observed_abs_white_delta']].mean().to_numpy()
+    observed=frame[['observed_tv','observed_abs_white_delta','observed_nonwhite_residual_tv']].mean().to_numpy()
     nullmean=sims.mean(axis=0)
     p=[float((1+np.count_nonzero(sims[:,col]>=observed[col]))/(REPS+1))
        for col in range(3)]
