@@ -219,6 +219,46 @@ def summarize(frame,per_species,mode,support_filter):
     }
 
 
+def cohort_sensitivity(frame,per_species):
+    """Same original nulls evaluated by disjoint taxon cohort; no per-cohort refit."""
+    out={}
+    for cohort in (*COHORTS,"leave_out_new_U100"):
+        if cohort=="leave_out_new_U100":
+            sub=frame.loc[frame.cohort.ne("new_U100")]
+        else:
+            sub=frame.loc[frame.cohort.eq(cohort)]
+        if len(sub)<20:
+            out[cohort]={"n_species":int(len(sub)),"status":"insufficient_species"}
+            continue
+        subres={}
+        for mode in MODES:
+            x=summarize(sub,per_species,mode,"all")
+            subres[mode]={
+                "n_species":x["n_species"],
+                "mean_excess_tv":x["mean_excess"]["tv"],
+                "p_upper_tv":x["one_sided_199_world_vertex_p"]["tv"],
+                "mean_excess_white_photo_frequency":x["mean_excess"]["white_abs"],
+                "p_upper_white":x["one_sided_199_world_vertex_p"]["white_abs"],
+            }
+        u=subres["unrestricted"]["mean_excess_tv"]
+        m=subres["calendar_month"]["mean_excess_tv"]
+        ym=subres["calendar_year_month"]["mean_excess_tv"]
+        out[cohort]={
+          "n_species":int(len(sub)),
+          "source_cohort":cohort,
+          "n_with_month_crosscell_observer_pair_5plus":int(
+              (sub.calendar_month_n_cross_cell_distinct_observer_photo_pairs>=5).sum()),
+          "n_with_year_month_crosscell_observer_pair_5plus":int(
+              (sub.calendar_year_month_n_cross_cell_distinct_observer_photo_pairs>=5).sum()),
+          "worlds":subres,
+          "absolute_drop_excess_from_unrestricted_to_month":float(u-m),
+          "absolute_drop_excess_from_month_to_yearmonth":float(m-ym),
+          "yearmonth_to_unrestricted_excess_ratio":float(ym/u) if abs(u)>1e-12 else None,
+          "status":"posthoc_source_disjoint_photo_cohort_comparison",
+        }
+    return out
+
+
 def analyze_one(d,tag):
     per_species={}
     rows=[]
@@ -232,6 +272,7 @@ def analyze_one(d,tag):
     check(len(frame)>0,"no geographically eligible species after date matching")
     results={
         "n_species":int(len(frame)),
+        "source_cohort_sensitivity":cohort_sensitivity(frame,per_species),
         "all_eligible":{m:summarize(frame,per_species,m,"all")
                         for m in MODES},
         "month_geometry_5plus_independent_cross_cell_pairs":{
