@@ -34,6 +34,26 @@ The covariance identity is exact: within the same five-degree month stratum, whi
 - All source cohorts use the same imagery and colour measurement pipeline; source-disjoint species do not imply source-independent replication.
 - A positive between-one-degree component may arise from historical population structure, contemporary habitat gradients, phenology/observer sampling or spatially structured plasticity. The current data do not identify which.
 
+## Exact matched-quality reanalysis (now completed)
+
+Without changing the biological stratum definitions, the source-authenticated rerun retained the same **327 species and 396 taxon x 5-degree cell x calendar-month strata** in both original and high-purity photo datasets. The retained high-purity photographs are a nested subset of the original observations, not another independently photographed study.
+
+| Identical taxon / 5-degree cell / month opportunity | Original classified photos | High-purity photos |
+|---|---:|---:|
+| Entire BIO5 white-minus-nonwhite difference | +0.26495 C | +0.32985 C |
+| **Between nested 1-degree cells** | **+0.21184 C** | **+0.27158 C** |
+| Within nested 1-degree cells | +0.05311 C | +0.05827 C |
+| Between-component 5-degree vertex-null upper p | 0.010 | 0.005 |
+| Within-component 1-degree-conditioned upper p | 0.090 | 0.075 |
+
+The difference between strict and original BIO5 effects among identical taxa is +0.06490 C for the total, +0.05974 C between nested 1-degree cells and +0.00516 C within nested 1-degree cells. However species-bootstrap 95% intervals all cross zero: total [-0.02246,+0.16193], between [-0.02341,+0.14747], within [-0.05005,+0.05978] C.
+
+**Interpretation:** Once species and site-month observational opportunity are fixed, the between-one-degree component still dominates in **both** photo-quality representations, while the one-degree conditional effect remains unsupported. The changes caused by the strict photo-purity selection are smaller and uncertain, not a confirmed improvement in any morphological correctness. The quality filter may also change which 1-degree subcells contribute inside the matched 5-degree strata.
+
+**Permanent real-data receipt:** [nested spatial-climate full pooled/matched source summary](../results/fcp_nested_1deg_5deg_climate_real_20261020.json). Verified actual source Action: https://github.com/zuizui0223/fcp/actions/runs/39431312956.
+
+These outputs test geographic distribution of photographic labels and **cannot** establish that range history (past refugia, expansion or restricted genetic dispersal) dominates climate, or that photos in high-temperature cells capture genetically controlled pigment loss.
+
 ## Broader FCP synthesis
 
 The prospective white-versus-chromatic continuous phenotype-space W is supported as a repeated direction, but the independent hypothesis of preferential proportional geographic sorting of white photographs is not supported after component-baseline normalization (PR #249). An earlier three-cohort phenotypic IBD-like distance association is larger than the BIO5-associated IBE-like residual, without establishing that past distributions have larger causal effects. Separately, PR #248 finds a weak positive average BIO5 relation on a 1,574-species panel and poor spatial transfer by the tested species-specific climate models.
