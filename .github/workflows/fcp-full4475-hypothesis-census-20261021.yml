@@ -4,6 +4,7 @@ on:
     branches: [analysis/fcp-np-all4475-unified-20261021]
     paths:
       - scripts/analysis/fcp_full4475_hypothesis_census_20261021.py
+      - scripts/analysis/fcp_all4475_white_axis_coarse_construction_null_20261021.py
       - .github/workflows/fcp-full4475-hypothesis-census-20261021.yml
   workflow_dispatch:
 permissions:
@@ -76,6 +77,27 @@ jobs:
           assert result['n_H5_any_external_curated_literature']>=0
           print('FCP_ALL4475_COMPLETE_ROSTER_OBSERVATIONAL_ONLY_QA_PASS')
           print('FCP_ALL4475_COMPLETE_SUMMARY',json.dumps(result,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - name: Test entire actual 4475-species white axis against within-cohort class-preserving construction null
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1
+          python -m py_compile scripts/analysis/fcp_all4475_white_axis_coarse_construction_null_20261021.py
+          python scripts/analysis/fcp_all4475_white_axis_coarse_construction_null_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_white_axis_coarse_construction_null_20261021.py \
+            --photos /tmp/fcp-all4475/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --species-master /tmp/fcp-all4475/results/all_4475_species_H1_H5_photo_climate_molecular_scope.csv \
+            --out /tmp/fcp-all4475/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          o=json.loads(Path("/tmp/fcp-all4475/results/all4475_white_axis_coarse_preserving_null_result.json").read_text())
+          assert o['taxon_count']==4475
+          assert o['H1_W']['all_4475']['n_species']==4475
+          assert o['H1_W']['all_4475']['n_null_worlds']==199
+          assert o['no_taxa_excluded_from_full_primary_W'] is True
+          print('FCP_ALL4475_STRUCTURE_PRESERVING_WORLD_NULL_VERIFIED')
           PY
       - name: Upload true original photo entire-taxon inference and missingness with no original locations
         if: always()
