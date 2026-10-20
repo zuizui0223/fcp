@@ -59,7 +59,12 @@ jobs:
           assert x['input_source_measured_species']==4475
           assert x['source_photo_sha256']=='8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6'
           assert x['worldclim_zip_sha256']=='00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf'
-          assert len(x['panels'])==4
+          assert len(x['panels'])==6
+          for scale in (1,5):
+            strict=x['panels'][f'cell{scale}_strict']
+            broad=x['panels'][f'cell{scale}_all_matched_to_strict_opportunity']
+            assert strict['species_equal_pooled']['n_species']==broad['species_equal_pooled']['n_species']
+            assert strict['opportunity_gates']['n_qualified_strata']==broad['opportunity_gates']['n_qualified_strata']
           print("FCP_LOCAL_CLIMATE_SOURCE_AND_EVIDENCE_BOUNDARY_PASS")
           print("FCP_NESTED_LOCAL_CLIMATE_COMPLETE_JSON",json.dumps(x,sort_keys=True,separators=(',',':'),allow_nan=False))
           PY
