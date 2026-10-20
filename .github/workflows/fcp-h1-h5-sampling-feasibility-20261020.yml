@@ -1,0 +1,65 @@
+name: FCP H1 organ-panel and H5 rare-WAL minimum sampling feasibility
+on:
+  push:
+    branches: [analysis/fcp-h1-h5-minimal-20261020]
+    paths:
+      - scripts/analysis/audit_fcp_h1_h5_sampling_feasibility_20261020.py
+      - .github/workflows/fcp-h1-h5-sampling-feasibility-20261020.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-based-minimal-field-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check only deterministic binomial calculations and syntax
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp_h1_h5_sampling_feasibility_20261020.py
+          python scripts/analysis/audit_fcp_h1_h5_sampling_feasibility_20261020.py --self-test
+      - name: Recover the actually measured 4475-species original photographic roster and strict C/S bridge
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-h1h5-field
+          git fetch --no-tags --depth=1 origin 69c0fb481f361fd8764d376a10fbd7035fd73d73
+          git show 69c0fb481f361fd8764d376a10fbd7035fd73d73:results/fcp_real_447500_white_axis_decomposition_20261018/species_photo_composition.csv > /tmp/fcp-h1h5-field/species_photo_composition.csv
+          git show 69c0fb481f361fd8764d376a10fbd7035fd73d73:results/fcp_cs_literature_photo_bridge_20261020/summary.json > /tmp/fcp-h1h5-field/cs_bridge.json
+          test "$(git hash-object /tmp/fcp-h1h5-field/species_photo_composition.csv)" = "d72bc06760e3b96a3c8ab1237ebf758b214f0fc6"
+          test "$(git hash-object /tmp/fcp-h1h5-field/cs_bridge.json)" = "58899cd4a72538046a5c2e3d80bcfe1974be5f84"
+          test "$(git hash-object archive/fcp_submission_20260925/h3a_tree/species_family_preflight.csv)" = "ecb94dead8dafd1c71e5eeef0ad7881e17fb009f"
+          test "$(git hash-object data/frozen/jbi_cs_evidence_freeze_v22.csv)" = "dc9ab58bd1164a6d378a05a32f6613ebc75e1679"
+          test "$(git hash-object results/polymorphism_silene_decoupling_persistence_20260925/result.json)" = "6761de7d0c2b68cc6076194ddcc97d0800c75a1c"
+      - name: Select outcome-ascertained independent-flower audit candidates and compute true WAL rarity sampling power
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp_h1_h5_sampling_feasibility_20261020.py \
+            --family archive/fcp_submission_20260925/h3a_tree/species_family_preflight.csv \
+            --photo-roster /tmp/fcp-h1h5-field/species_photo_composition.csv \
+            --silene-frequencies results/polymorphism_silene_decoupling_persistence_20260925/result.json \
+            --cs data/frozen/jbi_cs_evidence_freeze_v22.csv \
+            --cs-bridge /tmp/fcp-h1h5-field/cs_bridge.json \
+            --out /tmp/fcp-h1h5-field/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path("/tmp/fcp-h1h5-field/results")
+          x=json.loads((root/"h1_h5_field_feasibility_actual_source.json").read_text())
+          assert x["taxa_panel"]["distinct_families_selected"]==20
+          assert x["taxa_panel"]["n_preselected_independent_floral_organ_QA_taxa"]==20
+          assert x["fcp_literature_population_organization_overlap"]["n_S_only_spatial_photo_overlap"]==0
+          assert len(x["rare_pigment_morph_sampling"])==6
+          print("FCP_FIELD_PILOT_ORIGINAL_SOURCE_AND_RARITY_PASS")
+          PY
+      - name: Upload actual source-backed candidate table and frequency power probabilities
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-h1-h5-minimum-sampling-feasibility-20261020
+          path: /tmp/fcp-h1h5-field/results/
+          if-no-files-found: error
+          retention-days: 90
