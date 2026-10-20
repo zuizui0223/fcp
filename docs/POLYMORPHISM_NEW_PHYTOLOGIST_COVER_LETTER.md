@@ -1,62 +1,51 @@
-# New Phytologist cover letter — working draft
+# New Phytologist cover letter — global evolutionary synthesis (working draft)
 
-**Manuscript title:** Species-wide flower-colour variation is geographically partitioned across plant species
+**Manuscript title:** A recurrent flower-colour axis with heterogeneous geographic and climatic associations across plant species
 
 **Article type:** Full Paper
 
-**Corresponding author:** [NAME TO CONFIRM]  
-**Affiliation:** [AFFILIATION TO CONFIRM]  
-**Email:** [EMAIL TO CONFIRM]
+**Corresponding author:** [NAME TO CONFIRM]
+**Affiliation:** [AFFILIATION TO CONFIRM]
+**Email / ORCID:** [EMAIL / ORCID TO CONFIRM]
 
 Dear Editors of *New Phytologist*,
 
-We submit the Full Paper, **“Species-wide flower-colour variation is geographically partitioned across plant species,”** for consideration in *New Phytologist*.
+We submit our Full Paper, **“A recurrent flower-colour axis with heterogeneous geographic and climatic associations across plant species,”** for consideration. The study uses a prospective within-species phenotype-space test, an authentic worldwide photographic distribution and explicitly bounded ecological association analyses to address a central comparative evolutionary question: why a recurrent visible colour contrast need not have a universally repeated spatial or environmental realization.
 
-### Question 1 — What hypotheses or questions does this work address?
+### 1. What hypotheses or questions does this work address?
 
-When species vary in flower colour across their ranges, is that variation locally coexisting or geographically partitioned? Does colour turnover reflect geographic separation alone or also environmental differences, and do species repeatedly use common phenotype-space directions?
+Do flowering plant species repeatedly vary along an achromatic–chromatic direction, and does that recurrence entail a common ecological response? We distinguish recurrence in phenotype space from its geographic allocation and from mechanisms of local maintenance that require independent population-genetic and physiological evidence.
 
-### Question 2 — How does this work advance our current understanding of plant science?
+### 2. How does the work advance understanding of plant science?
 
-Across three species-disjoint cohorts, nearby conspecific observations were less colour-diverse than expected from each species' fixed range-wide composition. This geographic partitioning survived observer, white-state and continuous-colour falsification tests, generalizing population-level clines and mosaics to hundreds of plant species under one comparative design.
+Across 4,475 species, a frozen prospective test confirms excess achromatic–chromatic alignment. In 1,761 spatially eligible species, nearby photographs are modestly more colour-similar than expected; a separate 1,574-species climate analysis yields a small, weakly transferable average association. Opportunity normalization does not support preferential white-specific geographic sorting.
 
-### Question 3 — Why is this work important and timely?
+### 3. Why is the work important and timely?
 
-A species-wide ITV value can conceal where variation resides. We show that flower-colour diversity is distributed among localities, creating spatial structure on which selection, gene flow, drift or plasticity can act. This moves comparative ITV from measuring variation amount to asking how variation is geographically maintained.
+Large photographic datasets now enable broad comparative tests of intraspecific plant traits, yet similar visible outcomes need not have shared evolutionary causes. Our evidence separates a recurrent phenotype direction from heterogeneous geographic realization, while explicitly distinguishing tested patterns from conjectures about adaptation, historical connectivity and pigment costs.
 
-## Key result and evidential chronology
+## Evidence and inference hierarchy
 
-The study begins from an outcome-blind **42,111-species iNaturalist opportunity frame**. A high-depth resource contains **500 discovery + 500 species-disjoint validation species and 100,000 photographs**; a later cohort adds **499 newly sampled species and 49,900 photographs** after the achromatic–chromatic target was frozen.
+Our outcome-blind source frame comprises **42,111 species** before colour measurement. The authentic source has **447,500 photographs from 4,475 plant species** (227,107 classifiable into the original four colour states). A previously fixed and species-disjoint prospective contrast confirms excess achromatic–chromatic alignment in continuous nine-colour phenotype space (**158 eligible species; W = 0.517**, compared with the coarse-colour-preserving structured-null median **0.457**, **p = 0.001**).
 
-The central ecological result is a post-outcome analysis that was transported across all three species sets. At the fixed 50-km scale, mean species-wide minus local four-state pair diversity was **0.02053** in discovery, **0.01867** in validation and **0.01468** in the third cohort; a composition-preserving matched null gave **p = 0.005 in all three**. The effect persisted when same-observer photo pairs were excluded, when every white observation was removed, and when continuous nine-colour dissimilarity replaced the coarse states. The same local depletion was also detected at 25, 100 and 250 km.
+Across five species-disjoint photographic cohorts, **1,761 taxa** meet the 50-km matched-null eligibility rule. The source-conditional mean depletion of local colour mismatch is **0.017615** (**p = 0.005**, post hoc). Although **83.8%** of its raw effect involves white–chromatic pairs, these account for **79.6%** of the original unequal-photo-pair baseline. Component-normalized relative white-specific sorting is **not supported**. We do not interpret this result as local genetic colour-morph coexistence or preferential white-flower adaptation.
 
-Continuous colour turnover contained both geographic and environmental structure. Geographic distance remained associated with colour after BIO5 difference was removed (mean partial rho = **0.02760**, **0.02414**, **0.02225** across the three cohorts), while BIO5 difference retained a smaller association after geography was removed (**0.00925**, **0.00826**, **0.01019**). We describe the latter only as a phenotypic IBE-like candidate because matched-background and strict same-observer controls do not confirm it as a flower-specific, observer-independent environmental response.
+The exploratory five-cohort white-photograph association with warmest-month maximum temperature (WorldClim BIO5) is small (**mean +0.03233 log odds per °C**, genus-bootstrap 95% interval **+0.01786 to +0.04728**, **1,574 species/86,114 photographs**). Its species-specific geographic transfer is poor, while genus-held-out shared-slope discrimination is only slightly above chance. Continuous-colour IBD-like associations exceed BIO5 IBE-like associations across the first three cohorts; **geographic distance is not a direct measurement of population history or gene flow**.
 
-A complementary prospectively protected result concerns phenotype space. The third cohort contained **499 species and 49,900 photographs**, of which **377** passed the measurement-support gate. After freezing the achromatic–chromatic target, **158** primary-tier species yielded W = **0.517** versus a structured-null median of **0.457** (p = **0.001**); the strict tier yielded W = **0.533** (p = **0.001**). This remains evidence for recurrent displacement geometry, not for one universal adaptive cause.
+A published *Silene littorea* flower-restricted versus whole-plant pigment-loss contrast provides a reason to distinguish developmental accessibility from evolutionary persistence. It is an **external mechanistic example**, not a pigment/genotype result from our photographed plants. Likewise, natural-population C/S categories are not inferred from 5-km photographic co-occurrence.
 
-## Scope boundary
+## Interpretation and research relevance
 
-The distributed-polymorphism analyses are explicitly post hoc, although they reproduce across three species-disjoint cohorts and multiple falsification tests. They establish **geographic partitioning of phenotype variation**, not local adaptation. The photographs do not measure fitness, neutral population structure, reciprocal-transplant performance or gene flow, so spatially varying selection cannot be separated from drift, dispersal limitation, colonisation history or phenotypic plasticity.
+The conceptual advance lies in keeping three scales distinct: **which colour directions repeatedly become expressed**, **how photographs of those variants are geographically distributed**, and **which processes could maintain heritable morphs in real populations**. We find comparative support for the first and a modest geographic signature for the second; we do not claim to have established the third causally. The study also reports meaningful negative tests rather than treating an unexplained landscape pattern as evidence of drift, local adaptation, universal white-flower selection or reduced pigment costs.
 
-The prospective achromatic–chromatic test remains species-disjoint but within the **same iNaturalist opportunity universe** and measurement system; it is **not an independent-source replication**. The coarse white state is exposure-coupled rather than artifact-cleared: the direct near-clip control gave OR = **1.444**, and the frozen executable validity state remained **INDETERMINATE** after high-clip exclusion narrowly missed its vector-retention gate. The BIO5 IBE-like residual is technically bounded and is not used as causal evidence.
+## Author and submission details to finalize
 
-The manuscript is accompanied by five main figures, one data-provenance and inferential-necessity table, a frozen claim ledger, machine-readable prospective results and Supporting Information that records the chain of custody from pre-opening selection through the terminal prospective test.
+The author list, institutional addresses, contributions, competing interests, correspondence ORCID, approvals, permanent raw data/code archiving and final graphics require author confirmation. The manuscript's revised **five main figure layouts are not yet rendered**; this cover letter is a draft and should **not** be taken as a submission statement until those items and permissions are complete.
 
-## Administrative items to confirm before formal submission
-
-- final author list and affiliations;
-- corresponding-author details and ORCID;
-- approval by all authors;
-- originality/no simultaneous submission;
-- competing interests;
-- funding and acknowledgements;
-- author contributions;
-- permanent data/code archive identifier;
-- whether a presubmission enquiry was made, for disclosure in this letter if applicable.
-
-Thank you for considering this work for *New Phytologist*.
+Thank you for considering the study.
 
 Sincerely,
 
-[CORRESPONDING AUTHOR NAME]  
-on behalf of all authors
+[CORRESPONDING AUTHOR NAME]
+
+On behalf of all authors
