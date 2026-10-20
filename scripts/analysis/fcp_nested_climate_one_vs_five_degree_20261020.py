@@ -82,7 +82,7 @@ def local_permutation(x,y,params,*,taxon,cell,month,purity):
             "within-1degree label shuffle changed between-subcell colour share")
     return obs,null5,null1
 
-def analyse(d,purity):
+def analyse(d,purity,only_strata=None):
     g=make_cell(d,5)
     if purity:
         g=g.loc[high_purity_mask(g)].copy()
@@ -97,7 +97,10 @@ def analyse(d,purity):
       "strata_with_any_within1deg_temperature_variation":0,
     }
     groups={}
+    valid_strata=set()
     for (tid,cell,month),part in g.groupby(["inat_taxon_id","spatialcell","month"],sort=True):
+        key=(int(tid),int(cell),int(month))
+        if only_strata is not None and key not in only_strata:continue
         diagnostics["strata_5deg_month_any"]+=1
         y=part.morph.eq("white").to_numpy()
         n=len(y)
@@ -111,6 +114,7 @@ def analyse(d,purity):
         if np.ptp(x[:,1])<MIN_BIO5_RANGE:continue
         diagnostics["strata_bio5_range_ge_0p5C"]+=1
         diagnostics["strata_5deg_qualified"]+=1
+        valid_strata.add(key)
         sub=local_cells(part)
         uk=np.unique(sub)
         if len(uk)>=2:diagnostics["strata_5deg_with_2plus_nested_1deg_cells"]+=1
@@ -140,10 +144,14 @@ def analyse(d,purity):
             entries=valid if cohort=="pooled" else [v for v in valid if v["cohort"]==cohort]
             summary[cohort]=summarise_taxa(entries,scope,cohort,purity)
         result[scope+"_eligible_5deg_month_strata"]=summary
-    return {"original_geocoded_observation_rows":int(len(g)),
-            "quality":"high_purity" if purity else "all_classifiable",
-            "diagnostics":diagnostics,
-            "results":result}
+    taxon_means={tid:np.stack(v["all_obs"]).mean(axis=0)
+                 for tid,v in groups.items() if v["all_obs"]}
+    return ({"original_geocoded_observation_rows":int(len(g)),
+             "quality":"high_purity" if purity else "all_classifiable",
+             "conditional_exact_taxon_cell_month_support":only_strata is not None,
+             "diagnostics":diagnostics,
+             "results":result},
+            valid_strata,taxon_means)
 
 def summarise_taxa(entries,scope,cohort,purity):
     n=len(entries)
@@ -189,6 +197,34 @@ def summarise_taxa(entries,scope,cohort,purity):
       "status":"exploratory" if n>=20 else "underpowered_no_p_value",
     }
 
+def matched_quality_delta(all_photo,pure_photo):
+    require(set(all_photo)==set(pure_photo),"strict versus full taxa not identical")
+    ids=sorted(pure_photo)
+    n=len(ids)
+    require(n>=20,"matched quality subset has insufficient independent taxa")
+    broad=np.stack([all_photo[k] for k in ids])
+    strict=np.stack([pure_photo[k] for k in ids])
+    diff=strict-broad
+    rng=np.random.default_rng(stable_seed(MASTER,"paired_quality",n))
+    draws=rng.integers(0,n,size=(999,n))
+    boot=np.mean(diff[draws],axis=1)
+    return {
+      "n_same_taxa":n,
+      "quality_subset_is_nested_not_independent":True,
+      "species_equal_strict_minus_all_degrees_C":{
+        component:{axis:float(diff[:,i,k].mean())
+              for k,axis in enumerate(AXES)}
+          for i,component in enumerate(COMPONENTS)},
+      "species_bootstrap95_strict_minus_all_degrees_C":{
+        component:{axis:[float(v) for v in np.quantile(boot[:,i,k],[.025,.975])]
+              for k,axis in enumerate(AXES)}
+          for i,component in enumerate(COMPONENTS)},
+      "all_analysis_uses_identical_taxon_5deg_cell_calendar_month_strata":True,
+      "strict_quality_may_change_the_number_of_1deg_subcells_within_those_strata":True,
+      "posthoc_unequal_photo_count_after_filtering":True,
+    }
+
+
 def synthetic_test():
     # Four 10C and four 20C photos; white biased to warm subcell,
     # but temperature is constant INSIDE each 1degree subcell.
@@ -221,8 +257,16 @@ def main():
             "photos, worldclim and output mandatory")
     synthetic_test()
     d=climate_sample(photo_read(a.photos),a.worldclim_zip)
-    broad=analyse(d,False)
-    pure=analyse(d,True)
+    broad,broad_strata,_=analyse(d,False)
+    pure,strict_strata,pure_taxon_means=analyse(d,True)
+    matched_broad,matched_strata,matched_taxon_means=analyse(d,False,
+                  only_strata=strict_strata)
+    require(strict_strata==matched_strata,
+            "original photos do not retain all strict photo qualifying strata")
+    matched=matched_quality_delta(matched_taxon_means,pure_taxon_means)
+    require(matched["n_same_taxa"]==
+            pure["results"]["all_eligible_5deg_month_strata"]["pooled"]["n_species"],
+            "strict/original matched taxon denominator drift")
     result={
        "schema":"fcp_real_447500_within5deg_vs_between1deg_thermal_difference_v1",
        "source_photo_sha256":PHOTO_SHA,
@@ -232,6 +276,9 @@ def main():
        "date_and_classifiable_geo_climate_rows":int(len(d)),
        "five_degree_all":broad,
        "five_degree_strict_purity":pure,
+       "same_taxon_5degcell_month_original_opportunity":matched_broad,
+       "exact_quality_opportunity_matched_delta":matched,
+       "n_same_taxon_cell_month_strata_strict_and_original":len(strict_strata),
        "nested_spatial_decomposition_is_exact":True,
        "cal_month_match_across_years":True,
        "no_genetic_IBD_IBE_demographic_history_or_causal_adaptation":True,
@@ -244,6 +291,8 @@ def main():
     compact=lambda z:{key:z["results"][key]["pooled"] for key in z["results"]}
     print("FCP_REAL_NESTED_CLIMATE_RESULTS",json.dumps({
          "n_source":len(d),"broad":compact(broad),"strict":compact(pure),
+         "matched_original":compact(matched_broad),
+         "matched_delta":matched,
          "opportunity_broad":broad["diagnostics"],
          "opportunity_strict":pure["diagnostics"]},sort_keys=True,allow_nan=False))
 
