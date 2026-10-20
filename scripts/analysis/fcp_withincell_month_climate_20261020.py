@@ -105,10 +105,22 @@ def climate_sample(df,archive):
             data=z.read(member)
             with Image.open(io.BytesIO(data)) as image:
                 nodata=validate_tiff(image)
-                array=np.asarray(image,dtype=float)
-            v=np.full(len(df),np.nan)
-            v[valid]=array[rr[valid],cc[valid]]
-            v[v==nodata]=np.nan
+                # Preserve the original TIFF dtype before comparing its exact
+                # nodata sentinel. Float32 -> float64 conversion otherwise
+                # changes e.g. -3.4e38 and lets a gigantic false temperature
+                # difference pass the scientific source gate.
+                array=np.array(image)
+            v=np.full(len(df),np.nan,dtype=float)
+            sampled=array[rr[valid],cc[valid]]
+            native_nodata=np.asarray(nodata,dtype=sampled.dtype).item()
+            keep=(sampled!=native_nodata)&np.isfinite(sampled)
+            v[valid]=np.where(keep,sampled.astype(float),np.nan)
+            # BIO1 and BIO5 are degrees Celsius, not arbitrary climate indices.
+            # Never silently treat missing or physically impossible raster
+            # values as temperatures in a signed phenotype association.
+            impossible=np.isfinite(v)&((v < -100.)|(v > 100.))
+            require(int(np.sum(impossible))==0,
+                    f"WorldClim BIO{index} has out-of-range unmasked temperature values")
             out[f"BIO{index}"]=v
     for field,values in out.items():df[field]=values
     return df.dropna(subset=["BIO1","BIO5"]).copy()
@@ -232,7 +244,18 @@ def analyse(d,size,purity,tag):
         "no_genetic_IBE_or_population_polymorphism_inference":True,
     }
 
+def test_float32_nodata_cast():
+    raw=np.asarray([-3.4e38,20.0],dtype=np.float32)
+    tag=-3.4e38
+    expected=np.asarray(tag,dtype=raw.dtype).item()
+    require(raw[0]==expected and np.isfinite(raw[1]),
+            "original-dtype nodata sentinel mismatch")
+    require(raw.astype(float)[0]!=tag,
+            "test must detect float32-to-float64 nodata representation drift")
+
+
 def synthetic_test():
+    test_float32_nodata_cast()
     vals=np.array([[20.,29.],[20.,29.],[21.,30.],[21.,30.],
                    [18.,25.],[18.,25.]],float)
     labels=np.array([True,True,False,False,False,False])
