@@ -201,8 +201,9 @@ def synthetic_tests():
     a = great_circle_km([0,0],[0,1])
     check(abs(a[0,1]-111.2)<1,"great-circle km arithmetic")
     sites = pd.DataFrame({
-      "lat":[0,0,0,0], "lon":[0,1,8,9],
-      "BIO5":[20,25,20,25],"BIO12":[1000,1700,1000,1700]
+      "lat":[0]*8, "lon":[0,1,2,3,20,21,22,23],
+      "BIO5":[20,25,20,25,20,25,20,25],
+      "BIO12":[1000,1700,1000,1700,1000,1700,1000,1700],
     })
     # Far pairs at similar climate and near pairs at divergent climate.
     o = crossed_pair_opportunity(sites)
