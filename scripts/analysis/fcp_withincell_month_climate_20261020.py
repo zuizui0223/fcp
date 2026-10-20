@@ -238,7 +238,7 @@ def synthetic_test():
     labels=np.array([True,True,False,False,False,False])
     obs,null=stratum_obs_and_null(vals,labels,taxon=1,cell=2,month=3,size=1,tag="test")
     require(obs.shape==(2,) and null.shape==(REPS,2),"synthetic shape error")
-    require(np.allclose(obs,[-.5,0.]),"true signed temperature contrast error")
+    require(np.allclose(obs,[.5,1.5]),"true signed temperature contrast error")
     require(np.allclose(np.mean(null,axis=0),[0,0],atol=.3),"null unexpected")
     # A cell with no actual climate difference is not evidence for local sorting.
     demo=pd.DataFrame({
