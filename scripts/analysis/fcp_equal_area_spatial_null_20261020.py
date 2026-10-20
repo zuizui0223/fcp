@@ -18,6 +18,32 @@ REPS=199
 N_STATES=4
 
 
+def bootstrap_component_share(frame:pd.DataFrame, reps:int=999):
+    """Resample species, not photo-pairs. A ratio CI may be unbounded near zero."""
+    a=frame[['excess_tv','excess_white_delta']].to_numpy(float)
+    n=len(a)
+    if n<20:return [None,None]
+    rng=np.random.default_rng(2026102039)
+    draws=rng.integers(0,n,size=(reps,n))
+    means=a[draws].mean(axis=1)
+    ratios=np.divide(means[:,1],means[:,0],
+        out=np.full(reps,np.nan),where=np.abs(means[:,0])>1e-12)
+    finite=ratios[np.isfinite(ratios)]
+    return [float(x) for x in np.quantile(finite,[.025,.975])] if len(finite)>reps*.95 else [None,None]
+
+
+def selftest():
+    arr=np.array([[.5,.3,.2,0],[.2,.3,.3,.2]],float)
+    tv,white,res=score(arr)
+    check(abs(tv-.3)<1e-12 and abs(white-.3)<1e-12 and abs(res)<1e-12,
+          "pure white/nonwhite compositional switch")
+    arr=np.array([[.5,.5,0,0],[.5,0,.5,0]],float)
+    tv,white,res=score(arr)
+    check(abs(tv-.5)<1e-12 and abs(white)<1e-12 and abs(res-.5)<1e-12,
+          "pure nonwhite hue switch")
+    print("FCP_SPATIAL_COLOUR_DECOMPOSITION_TESTS_PASS")
+
+
 def eligible_units(d):
     opportunity=group_stats(d,['inat_taxon_id','cell'],10,3)
     keep=opportunity[['inat_taxon_id','cell']]
@@ -29,7 +55,11 @@ def score(frequencies):
     a,b=np.triu_indices(len(frequencies),k=1)
     if len(a)==0:return np.nan,np.nan
     x=frequencies[a]-frequencies[b]
-    return float(np.abs(x).sum(axis=1).mean()/2),float(np.abs(x[:,0]).mean())
+    tv=float(np.abs(x).sum(axis=1).mean()/2)
+    white=float(np.abs(x[:,0]).mean())
+    residual=tv-white
+    check(residual >= -1e-12,"invalid TV decomposition")
+    return tv, white, max(0.0,residual)
 
 
 def taxon_test(g,tag):
@@ -45,17 +75,20 @@ def taxon_test(g,tag):
     tid=int(g.inat_taxon_id.iloc[0]); seed=int.from_bytes(
        hashlib.sha256(f'20261020_{tag}_{tid}'.encode()).digest()[:8], 'little')
     rng=np.random.default_rng(seed)
-    null=np.empty((REPS,2))
+    null=np.empty((REPS,3))
     for k in range(REPS):
         x=np.add.reduceat(np.eye(N_STATES,dtype=int)[rng.permutation(labels)],starts,axis=0)
         null[k]=score(x/denominators)
     return {'taxon_id':tid, 'n_photos_in_eligible_cells':int(len(g)),
            'n_eligible_cells':int(len(sites)), 'n_cell_pairs':int(len(sites)*(len(sites)-1)//2),
            'observed_tv':actual[0], 'observed_abs_white_delta':actual[1],
+           'observed_nonwhite_residual_tv':actual[2],
            'null_expected_tv':float(null[:,0].mean()),
            'null_expected_white_delta':float(null[:,1].mean()),
+           'null_expected_nonwhite_residual':float(null[:,2].mean()),
            'excess_tv':actual[0]-null[:,0].mean(),
-           'excess_white_delta':actual[1]-null[:,1].mean()}, null
+           'excess_white_delta':actual[1]-null[:,1].mean(),
+           'excess_nonwhite_residual':actual[2]-null[:,2].mean()}, null
 
 
 def calculate(d,tag):
@@ -70,7 +103,7 @@ def calculate(d,tag):
     observed=frame[['observed_tv','observed_abs_white_delta']].mean().to_numpy()
     nullmean=sims.mean(axis=0)
     p=[float((1+np.count_nonzero(sims[:,col]>=observed[col]))/(REPS+1))
-       for col in range(2)]
+       for col in range(3)]
     return frame,{
         'n_species':int(len(frame)),
         'n_eligible_cell_pairs_not_independent':int(frame.n_cell_pairs.sum()),
@@ -80,8 +113,14 @@ def calculate(d,tag):
         'mean_observed_white_delta':float(observed[1]),
         'mean_null_white_delta':float(nullmean[1]),
         'mean_excess_white_delta':float(observed[1]-nullmean[1]),
+        'mean_observed_nonwhite_residual':float(observed[2]),
+        'mean_null_nonwhite_residual':float(nullmean[2]),
+        'mean_excess_nonwhite_residual':float(observed[2]-nullmean[2]),
+        'white_share_of_mean_excess_turnover':float((observed[1]-nullmean[1])/(observed[0]-nullmean[0])) if abs(observed[0]-nullmean[0])>1e-12 else None,
+        'species_bootstrap_95CI_white_share':bootstrap_component_share(frame),
         'vertex_permutation_upper_p_tv_exploratory':p[0],
         'vertex_permutation_upper_p_white_exploratory':p[1],
+        'vertex_permutation_upper_p_nonwhite_residual_exploratory':p[2],
         'repetitions':REPS,
         'species_equal_not_photo_pair_equal':True,
         'fixed_original_taxon_cell_photo_opportunities':True,
@@ -94,6 +133,7 @@ def main():
     parser.add_argument('--photos',type=Path,required=True)
     parser.add_argument('--out',type=Path,required=True)
     a=parser.parse_args()
+    selftest()
     data=read_original(a.photos)
     geo=geographic_units(data)
     allunits,opp=eligible_units(geo)
