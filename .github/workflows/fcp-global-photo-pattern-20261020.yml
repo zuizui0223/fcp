@@ -1,0 +1,68 @@
+name: FCP world flower-colour pattern from actual frozen 447500 photos
+on:
+  push:
+    branches: [analysis/fcp-global-pattern-20261020]
+    paths:
+      - scripts/analysis/fcp_global_photo_atlas_20261020.py
+      - .github/workflows/fcp-global-photo-pattern-20261020.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  actual-original-measured-global-atlas:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install numerical dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Check actual world atlas formulas on synthetic fixtures
+        run: |
+          python -m py_compile scripts/analysis/fcp_global_photo_atlas_20261020.py
+          python scripts/analysis/fcp_global_photo_atlas_20261020.py --self-test
+      - name: Authenticate and extract complete actual 447500-photo measurement archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-world/{original,source,atlas}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$SOURCE_FILE" --dir /tmp/fcp-world/original
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp-world/original/$SOURCE_FILE" | sha256sum -c -
+          tar -xzf "/tmp/fcp-world/original/$SOURCE_FILE" -C /tmp/fcp-world/source
+          test -s /tmp/fcp-world/source/measured/fcp_all4730_original_method_measured_photos.csv.gz
+      - name: Compute photographed within-species global diversity atlas and controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_global_photo_atlas_20261020.py \
+            --photos /tmp/fcp-world/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out /tmp/fcp-world/atlas
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/fcp-world/atlas/global_photo_pattern_result.json").read_text())
+          assert d["original_measured_rows"]==447500
+          assert d["original_classifiable_four_state_rows"]==227107
+          assert d["original_measured_species"]==4475
+          assert d["global_D_evaluable_species_min40photos_3observers"]>0
+          print("FCP_GLOBAL_SOURCE_REAL_PHOTO_QA_PASS",
+            json.dumps({"n_species_global":d["global_D_evaluable_species_min40photos_3observers"],
+              "n_species_grid":d["n_species_eligible_any_cell"],
+              "n_spanning_grid":d["n_species_spanning_2plus_eligible_cells"],
+              "quality_photos":d["quality_sensitivity"]["photos"]}))
+          PY
+      - name: Upload actual globally aggregated figures source without sensitive coordinates
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-447500-global-photo-patterns-20261020
+          path: /tmp/fcp-world/atlas/
+          if-no-files-found: error
+          retention-days: 90
