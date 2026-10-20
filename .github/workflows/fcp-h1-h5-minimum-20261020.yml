@@ -1,0 +1,52 @@
+name: FCP H1-H5 minimum discriminating evidence audit
+on:
+  push:
+    branches: [analysis/fcp-h1-h5-minimal-20261020]
+    paths:
+      - scripts/analysis/audit_fcp_h1_h5_minimum_20261020.py
+      - results/fcp_h1h5_minimal_h3_nested_worldclim_verified_20261020.json
+      - .github/workflows/fcp-h1-h5-minimum-20261020.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independently-review-primary-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify executable audit syntax
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp_h1_h5_minimum_20261020.py
+      - name: Recover frozen PR248 literature molecular and C/S bridge evidence without merging
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-h1h5
+          git fetch --no-tags --depth=1 origin 69c0fb481f361fd8764d376a10fbd7035fd73d73
+          git show 69c0fb481f361fd8764d376a10fbd7035fd73d73:results/fcp_cs_literature_photo_bridge_20261020/summary.json > /tmp/fcp-h1h5/cs.json
+          git show 69c0fb481f361fd8764d376a10fbd7035fd73d73:results/fcp_molecular_expansion_20261019/summary.json > /tmp/fcp-h1h5/molecular.json
+          test "$(git hash-object /tmp/fcp-h1h5/cs.json)" = "58899cd4a72538046a5c2e3d80bcfe1974be5f84"
+          test "$(git hash-object /tmp/fcp-h1h5/molecular.json)" = "59958fdd381d353849686b754abb2271790052ca"
+      - name: Evaluate H1 to H5 with claim-boundary guards
+        run: |
+          python scripts/analysis/audit_fcp_h1_h5_minimum_20261020.py \
+            --h1 results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json \
+            --clip results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json \
+            --ibd results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json \
+            --coex results/fcp_local_photo_coexistence_month_null_verified_20261018.json \
+            --cs /tmp/fcp-h1h5/cs.json \
+            --pal results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json \
+            --molecular /tmp/fcp-h1h5/molecular.json \
+            --nested results/fcp_h1h5_minimal_h3_nested_worldclim_verified_20261020.json \
+            --out /tmp/fcp-h1h5/h1_h5_evidence_decision.json
+      - name: Upload synthetic-free actual evidence decision only
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-h1-h5-minimum-evidence-audit-20261020
+          path: /tmp/fcp-h1h5/h1_h5_evidence_decision.json
+          retention-days: 90
+          if-no-files-found: error
