@@ -61,6 +61,7 @@ jobs:
           assert x['worldclim_zip_sha256']=='00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf'
           assert len(x['panels'])==4
           print("FCP_LOCAL_CLIMATE_SOURCE_AND_EVIDENCE_BOUNDARY_PASS")
+          print("FCP_NESTED_LOCAL_CLIMATE_COMPLETE_JSON",json.dumps(x,sort_keys=True,separators=(',',':'),allow_nan=False))
           PY
       - name: Archive source-authenticated aggregate results with no coordinates or observation IDs
         uses: actions/upload-artifact@v4
