@@ -1,5 +1,7 @@
 # FCP global flower-colour pattern — actual measured-photo results, 20 October 2026
 
+**Follow-up verified year-month-conditioned regional null:** [actual-photo season/time audit, cohort-specific nontransport and source results](FCP_WORLD_GEOGRAPHY_VS_SAMPLING_TIME_20261020.md).
+
 **Status:** actual 447,500-image source verified and successfully analysed; exploratory real-image estimands. The original three-cohort prospective W, original frozen 50-km result and main branch were not modified.
 
 **Primary run:** https://github.com/zuizui0223/fcp/actions/runs/39412659475
