@@ -1,0 +1,1235 @@
+{
+  "analysis": "same taxon, photo-lat/lon cell and calendar month, conditional white/photo label permutation",
+  "climate_years": "WorldClim 2.1 long-term 1970–2000 normals (not observation-year weather)",
+  "date_month_conditioning": "calendar month-of-year, photographs may be from different years",
+  "eligible_dated_independent_obs_classifiable_before_climate": 226601,
+  "eligible_dated_independent_obs_with_climate": 226572,
+  "exploratory_posthoc_multiple_comparisons": true,
+  "input_source_measured_photos": 447500,
+  "input_source_measured_species": 4475,
+  "no_genetic_IBE_history_or_local_adaptation_identification": true,
+  "no_native_or_cultivation_filter": true,
+  "no_source_species_biological_inheritance_validation": true,
+  "panels": {
+    "cell1_all": {
+      "cell_size_degrees": 1,
+      "condition_on_calendar_month_of_year": true,
+      "matched_exact_taxon_cell_month_between_photo_quality_conditions": false,
+      "max_source_coordinate_accuracy_m": 1000,
+      "minimum_BIO5_contrast_range_C": 0.5,
+      "minimum_each_white_nonwhite": 2,
+      "minimum_n_photos_each_stratum": 6,
+      "minimum_observers_each_colour": 2,
+      "n_species_with_two_plus_eligible_strata": 63,
+      "no_genetic_IBE_or_population_polymorphism_inference": true,
+      "opportunity_gates": {
+        "n_both_colours": 335,
+        "n_independent_observers": 333,
+        "n_qualified_strata": 312,
+        "n_sufficient_BIO5_contrast": 312,
+        "total_taxon_cells_monthly": 169642
+      },
+      "photo_quality": "all_four_state_classified",
+      "source_photo_rows_retained_before_stratum_gates": 213367,
+      "species_disjoint_cohorts": {
+        "discovery": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.026988451584670115,
+            "BIO5": 0.18150394669892014
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.023327137415224186,
+            "BIO5": 0.08481868108113133
+          },
+          "n_null_worlds": 199,
+          "n_species": 18,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.4444444444444444,
+            "BIO5": 0.6111111111111112
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "new_U100": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.07124857854846811,
+            "BIO5": 0.10446576482031213
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.046283451716103485,
+            "BIO5": 0.13683350880940282
+          },
+          "n_null_worlds": 199,
+          "n_species": 133,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.19,
+            "BIO5": 0.195
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5939849624060151,
+            "BIO5": 0.5789473684210527
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.07156373792741857,
+              0.21963053466914573
+            ],
+            "BIO5": [
+              -0.11952305287759521,
+              0.3267141442445554
+            ]
+          },
+          "status": "exploratory"
+        },
+        "prospective": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.036688333964112675,
+            "BIO5": -0.0028824311169437953
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.1002345085144043,
+            "BIO5": 0.09937508900960523
+          },
+          "n_null_worlds": 199,
+          "n_species": 35,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.31,
+            "BIO5": 0.47
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.6,
+            "BIO5": 0.6
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.20700353519471026,
+              0.2763041010346462
+            ],
+            "BIO5": [
+              -0.41568535495112474,
+              0.3904249083691374
+            ]
+          },
+          "status": "exploratory"
+        },
+        "validation": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": -0.04298101089194056,
+            "BIO5": 0.013758394702357893
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.029219643274944456,
+            "BIO5": -0.07578748067220431
+          },
+          "n_null_worlds": 199,
+          "n_species": 25,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.6,
+            "BIO5": 0.45
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.48,
+            "BIO5": 0.44
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.4939042116428161,
+              0.3625046138893069
+            ],
+            "BIO5": [
+              -0.5133537356192188,
+              0.49868569567062887
+            ]
+          },
+          "status": "exploratory"
+        },
+        "wave4": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.17932871369279224,
+            "BIO5": 0.19919691473674325
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.0033435265223200616,
+            "BIO5": -0.015485715866089933
+          },
+          "n_null_worlds": 199,
+          "n_species": 26,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.105,
+            "BIO5": 0.135
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5,
+            "BIO5": 0.46153846153846156
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.0717709023184854,
+              0.45639313850286745
+            ],
+            "BIO5": [
+              -0.11425072210869401,
+              0.552508127845788
+            ]
+          },
+          "status": "exploratory"
+        }
+      },
+      "species_equal_pooled": {
+        "mean_white_minus_nonwhite_degrees_C": {
+          "BIO1": 0.06259057404189179,
+          "BIO5": 0.09528781571014056
+        },
+        "median_species_effect_degrees_C": {
+          "BIO1": 0.036795434497648216,
+          "BIO5": 0.08976892630258249
+        },
+        "n_null_worlds": 199,
+        "n_species": 237,
+        "null_upper_p_199_one_sided_white_warmer": {
+          "BIO1": 0.125,
+          "BIO5": 0.125
+        },
+        "positive_species_fraction": {
+          "BIO1": 0.5611814345991561,
+          "BIO5": 0.5569620253164557
+        },
+        "species_bootstrap95_conditional": {
+          "BIO1": [
+            -0.04693729896536991,
+            0.16461361997304888
+          ],
+          "BIO5": [
+            -0.0652309369794727,
+            0.2475887035046904
+          ]
+        },
+        "status": "exploratory"
+      }
+    },
+    "cell1_all_matched_to_strict_opportunity": {
+      "cell_size_degrees": 1,
+      "condition_on_calendar_month_of_year": true,
+      "matched_exact_taxon_cell_month_between_photo_quality_conditions": true,
+      "max_source_coordinate_accuracy_m": 1000,
+      "minimum_BIO5_contrast_range_C": 0.5,
+      "minimum_each_white_nonwhite": 2,
+      "minimum_n_photos_each_stratum": 6,
+      "minimum_observers_each_colour": 2,
+      "n_species_with_two_plus_eligible_strata": 5,
+      "no_genetic_IBE_or_population_polymorphism_inference": true,
+      "opportunity_gates": {
+        "n_both_colours": 335,
+        "n_independent_observers": 333,
+        "n_qualified_strata": 50,
+        "n_qualified_strata_before_matched_quality": 312,
+        "n_sufficient_BIO5_contrast": 312,
+        "total_taxon_cells_monthly": 169642
+      },
+      "photo_quality": "all_four_state_classified",
+      "source_photo_rows_retained_before_stratum_gates": 213367,
+      "species_disjoint_cohorts": {
+        "discovery": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.12739032812607695,
+            "BIO5": 0.27844056716332233
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.020224621662723763,
+            "BIO5": 0.04669789167551386
+          },
+          "n_null_worlds": 199,
+          "n_species": 3,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.3333333333333333,
+            "BIO5": 0.6666666666666666
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "new_U100": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.20965274882663296,
+            "BIO5": 0.3037082878200085
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.1965332660410149,
+            "BIO5": 0.19410355885823094
+          },
+          "n_null_worlds": 199,
+          "n_species": 24,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.105,
+            "BIO5": 0.085
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.7083333333333334,
+            "BIO5": 0.6666666666666666
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.10848625795322044,
+              0.5868912543045952
+            ],
+            "BIO5": [
+              -0.06796501679825111,
+              0.7126245701142156
+            ]
+          },
+          "status": "exploratory"
+        },
+        "prospective": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.05087849601866434,
+            "BIO5": 0.23475046864262072
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.00280526479085097,
+            "BIO5": 0.007338417900935923
+          },
+          "n_null_worlds": 199,
+          "n_species": 6,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5,
+            "BIO5": 0.5
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "validation": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.2694940697026311,
+            "BIO5": 0.14509599261138248
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.08088461558024207,
+            "BIO5": -0.0661639563098646
+          },
+          "n_null_worlds": 199,
+          "n_species": 5,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.2,
+            "BIO5": 0.2
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "wave4": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.08020431614653703,
+            "BIO5": 0.04416411522107246
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.02067995071411488,
+            "BIO5": -0.29941609700520644
+          },
+          "n_null_worlds": 199,
+          "n_species": 5,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.2,
+            "BIO5": 0.2
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        }
+      },
+      "species_equal_pooled": {
+        "mean_white_minus_nonwhite_degrees_C": {
+          "BIO1": 0.1736651130598895,
+          "BIO5": 0.24370055721367836
+        },
+        "median_species_effect_degrees_C": {
+          "BIO1": 0.0381409100123733,
+          "BIO5": 0.022610134548607164
+        },
+        "n_null_worlds": 199,
+        "n_species": 43,
+        "null_upper_p_199_one_sided_white_warmer": {
+          "BIO1": 0.09,
+          "BIO5": 0.07
+        },
+        "positive_species_fraction": {
+          "BIO1": 0.5348837209302325,
+          "BIO5": 0.5348837209302325
+        },
+        "species_bootstrap95_conditional": {
+          "BIO1": [
+            -0.05296663212065711,
+            0.45269364783451754
+          ],
+          "BIO5": [
+            -0.02903292978082933,
+            0.573173013489271
+          ]
+        },
+        "status": "exploratory"
+      }
+    },
+    "cell1_strict": {
+      "cell_size_degrees": 1,
+      "condition_on_calendar_month_of_year": true,
+      "matched_exact_taxon_cell_month_between_photo_quality_conditions": false,
+      "max_source_coordinate_accuracy_m": 1000,
+      "minimum_BIO5_contrast_range_C": 0.5,
+      "minimum_each_white_nonwhite": 2,
+      "minimum_n_photos_each_stratum": 6,
+      "minimum_observers_each_colour": 2,
+      "n_species_with_two_plus_eligible_strata": 5,
+      "no_genetic_IBE_or_population_polymorphism_inference": true,
+      "opportunity_gates": {
+        "n_both_colours": 57,
+        "n_independent_observers": 56,
+        "n_qualified_strata": 50,
+        "n_sufficient_BIO5_contrast": 50,
+        "total_taxon_cells_monthly": 125224
+      },
+      "photo_quality": "strict_ROI_65pct_other_le20pct",
+      "source_photo_rows_retained_before_stratum_gates": 152407,
+      "species_disjoint_cohorts": {
+        "discovery": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.10797576109568278,
+            "BIO5": 0.19948658798679966
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.07846832275390625,
+            "BIO5": -0.13950061798095703
+          },
+          "n_null_worlds": 199,
+          "n_species": 3,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.3333333333333333,
+            "BIO5": 0.3333333333333333
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "new_U100": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.2469826416757989,
+            "BIO5": 0.361056698998833
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.14674170811971088,
+            "BIO5": 0.3548439873589402
+          },
+          "n_null_worlds": 199,
+          "n_species": 24,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.07,
+            "BIO5": 0.03
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.7083333333333334,
+            "BIO5": 0.75
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.027505350862310485,
+              0.5856916948573447
+            ],
+            "BIO5": [
+              0.02121241359071129,
+              0.7441346993238188
+            ]
+          },
+          "status": "exploratory"
+        },
+        "prospective": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.010275242063732648,
+            "BIO5": 0.1782045602798424
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.10083332061767791,
+            "BIO5": -0.08301258087158914
+          },
+          "n_null_worlds": 199,
+          "n_species": 6,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.3333333333333333,
+            "BIO5": 0.5
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "validation": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.24663111203246615,
+            "BIO5": 0.11195100943247241
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.16379117965698242,
+            "BIO5": -0.1425180435180664
+          },
+          "n_null_worlds": 199,
+          "n_species": 5,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.4,
+            "BIO5": 0.2
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        },
+        "wave4": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": -0.1467106937226795,
+            "BIO5": -0.45318886393592733
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.0685094197591134,
+            "BIO5": -0.5383116722106962
+          },
+          "n_null_worlds": 199,
+          "n_species": 5,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.4,
+            "BIO5": 0.4
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": null,
+            "BIO5": null
+          },
+          "status": "underpowered_no_p_value"
+        }
+      },
+      "species_equal_pooled": {
+        "mean_white_minus_nonwhite_degrees_C": {
+          "BIO1": 0.15843637738226862,
+          "BIO5": 0.20062461928125983
+        },
+        "median_species_effect_degrees_C": {
+          "BIO1": 0.027753512064613517,
+          "BIO5": 0.08505821228027344
+        },
+        "n_null_worlds": 199,
+        "n_species": 43,
+        "null_upper_p_199_one_sided_white_warmer": {
+          "BIO1": 0.135,
+          "BIO5": 0.135
+        },
+        "positive_species_fraction": {
+          "BIO1": 0.5581395348837209,
+          "BIO5": 0.5813953488372093
+        },
+        "species_bootstrap95_conditional": {
+          "BIO1": [
+            -0.06055517128904343,
+            0.4042460942446023
+          ],
+          "BIO5": [
+            -0.0728628496049464,
+            0.4914762221099315
+          ]
+        },
+        "status": "exploratory"
+      }
+    },
+    "cell5_all": {
+      "cell_size_degrees": 5,
+      "condition_on_calendar_month_of_year": true,
+      "matched_exact_taxon_cell_month_between_photo_quality_conditions": false,
+      "max_source_coordinate_accuracy_m": 5000,
+      "minimum_BIO5_contrast_range_C": 0.5,
+      "minimum_each_white_nonwhite": 2,
+      "minimum_n_photos_each_stratum": 6,
+      "minimum_observers_each_colour": 2,
+      "n_species_with_two_plus_eligible_strata": 432,
+      "no_genetic_IBE_or_population_polymorphism_inference": true,
+      "opportunity_gates": {
+        "n_both_colours": 1693,
+        "n_independent_observers": 1686,
+        "n_qualified_strata": 1673,
+        "n_sufficient_BIO5_contrast": 1673,
+        "total_taxon_cells_monthly": 113152
+      },
+      "photo_quality": "all_four_state_classified",
+      "source_photo_rows_retained_before_stratum_gates": 226572,
+      "species_disjoint_cohorts": {
+        "discovery": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.00687449494220183,
+            "BIO5": 0.24735415672408437
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.07326614553966238,
+            "BIO5": 0.17134730651895796
+          },
+          "n_null_worlds": 199,
+          "n_species": 108,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.535,
+            "BIO5": 0.035
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.4537037037037037,
+            "BIO5": 0.5925925925925926
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.19903791740460844,
+              0.2064567402386773
+            ],
+            "BIO5": [
+              -0.030539407309707136,
+              0.5148110987955379
+            ]
+          },
+          "status": "exploratory"
+        },
+        "new_U100": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.06180006571987847,
+            "BIO5": 0.18037589774948828
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.03381497330135789,
+            "BIO5": 0.11669313339959568
+          },
+          "n_null_worlds": 199,
+          "n_species": 587,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.1,
+            "BIO5": 0.005
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5195911413969335,
+            "BIO5": 0.5519591141396933
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.017327430344317676,
+              0.13893348114199702
+            ],
+            "BIO5": [
+              0.0677485081699822,
+              0.28549363631500063
+            ]
+          },
+          "status": "exploratory"
+        },
+        "prospective": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.21677411798506205,
+            "BIO5": 0.2763036106549163
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.1567095015075175,
+            "BIO5": 0.28676218456691416
+          },
+          "n_null_worlds": 199,
+          "n_species": 142,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.005,
+            "BIO5": 0.02
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.6126760563380281,
+            "BIO5": 0.6126760563380281
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              0.028091386902272707,
+              0.3926036281357222
+            ],
+            "BIO5": [
+              0.0046982917191180406,
+              0.5389577054717439
+            ]
+          },
+          "status": "exploratory"
+        },
+        "validation": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.13073707327813575,
+            "BIO5": 0.1784268765970885
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.07614952041988943,
+            "BIO5": -0.026531163383932466
+          },
+          "n_null_worlds": 199,
+          "n_species": 121,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.075,
+            "BIO5": 0.07
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5371900826446281,
+            "BIO5": 0.4793388429752066
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.04862491133269646,
+              0.3007383604545881
+            ],
+            "BIO5": [
+              -0.06079287911672634,
+              0.42022246346032743
+            ]
+          },
+          "status": "exploratory"
+        },
+        "wave4": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": -0.01750729533835158,
+            "BIO5": 0.13057299199481337
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.004344969656731775,
+            "BIO5": 0.19168040700805378
+          },
+          "n_null_worlds": 199,
+          "n_species": 116,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.635,
+            "BIO5": 0.13
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5,
+            "BIO5": 0.5775862068965517
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.18302714832586175,
+              0.17209780941864414
+            ],
+            "BIO5": [
+              -0.10734347412909775,
+              0.3578292619303968
+            ]
+          },
+          "status": "exploratory"
+        }
+      },
+      "species_equal_pooled": {
+        "mean_white_minus_nonwhite_degrees_C": {
+          "BIO1": 0.07596773593352969,
+          "BIO5": 0.1941956543368669
+        },
+        "median_species_effect_degrees_C": {
+          "BIO1": 0.038010295232135505,
+          "BIO5": 0.1340044463122272
+        },
+        "n_null_worlds": 199,
+        "n_species": 1074,
+        "null_upper_p_199_one_sided_white_warmer": {
+          "BIO1": 0.01,
+          "BIO5": 0.005
+        },
+        "positive_species_fraction": {
+          "BIO1": 0.5251396648044693,
+          "BIO5": 0.5586592178770949
+        },
+        "species_bootstrap95_conditional": {
+          "BIO1": [
+            0.017200802705448135,
+            0.1391642677972745
+          ],
+          "BIO5": [
+            0.10998228326592757,
+            0.27879933694242376
+          ]
+        },
+        "status": "exploratory"
+      }
+    },
+    "cell5_all_matched_to_strict_opportunity": {
+      "cell_size_degrees": 5,
+      "condition_on_calendar_month_of_year": true,
+      "matched_exact_taxon_cell_month_between_photo_quality_conditions": true,
+      "max_source_coordinate_accuracy_m": 5000,
+      "minimum_BIO5_contrast_range_C": 0.5,
+      "minimum_each_white_nonwhite": 2,
+      "minimum_n_photos_each_stratum": 6,
+      "minimum_observers_each_colour": 2,
+      "n_species_with_two_plus_eligible_strata": 61,
+      "no_genetic_IBE_or_population_polymorphism_inference": true,
+      "opportunity_gates": {
+        "n_both_colours": 1693,
+        "n_independent_observers": 1686,
+        "n_qualified_strata": 396,
+        "n_qualified_strata_before_matched_quality": 1673,
+        "n_sufficient_BIO5_contrast": 1673,
+        "total_taxon_cells_monthly": 113152
+      },
+      "photo_quality": "all_four_state_classified",
+      "source_photo_rows_retained_before_stratum_gates": 226572,
+      "species_disjoint_cohorts": {
+        "discovery": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.13612774156073737,
+            "BIO5": 0.24317584980271997
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.11753567156959299,
+            "BIO5": 0.04500356553092999
+          },
+          "n_null_worlds": 199,
+          "n_species": 24,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.275,
+            "BIO5": 0.175
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.4583333333333333,
+            "BIO5": 0.5833333333333334
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.2498067968553822,
+              0.5560743663570602
+            ],
+            "BIO5": [
+              -0.2790763148203142,
+              0.7603098533855969
+            ]
+          },
+          "status": "exploratory"
+        },
+        "new_U100": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.07898958313370016,
+            "BIO5": 0.27389219495317796
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.023569583892822266,
+            "BIO5": 0.07861656612819701
+          },
+          "n_null_worlds": 199,
+          "n_species": 177,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.11,
+            "BIO5": 0.005
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5254237288135594,
+            "BIO5": 0.5310734463276836
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.05196114714375537,
+              0.22253118071579617
+            ],
+            "BIO5": [
+              0.07751881248373584,
+              0.480884308988839
+            ]
+          },
+          "status": "exploratory"
+        },
+        "prospective": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.15354653175685185,
+            "BIO5": 0.2295659036782481
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.12135295640854515,
+            "BIO5": 0.15201008729259988
+          },
+          "n_null_worlds": 199,
+          "n_species": 41,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.105,
+            "BIO5": 0.085
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.6097560975609756,
+            "BIO5": 0.6097560975609756
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.08318954512068208,
+              0.38010018671633816
+            ],
+            "BIO5": [
+              -0.15703488499065163,
+              0.6090658711016473
+            ]
+          },
+          "status": "exploratory"
+        },
+        "validation": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.30857982582056315,
+            "BIO5": 0.2641617457360741
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.20476883933657497,
+            "BIO5": 0.24445874350411145
+          },
+          "n_null_worlds": 199,
+          "n_species": 35,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.035,
+            "BIO5": 0.135
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.6,
+            "BIO5": 0.5714285714285714
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.03000721172356928,
+              0.6123495444553612
+            ],
+            "BIO5": [
+              -0.2169570183450535,
+              0.7434021388903709
+            ]
+          },
+          "status": "exploratory"
+        },
+        "wave4": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.03727655491578519,
+            "BIO5": 0.2733003303451346
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.006412959710145216,
+            "BIO5": 0.21920018929701612
+          },
+          "n_null_worlds": 199,
+          "n_species": 50,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.375,
+            "BIO5": 0.035
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.46,
+            "BIO5": 0.6
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.2130780704170758,
+              0.31244189449187937
+            ],
+            "BIO5": [
+              -0.08076667870592369,
+              0.6727674373702925
+            ]
+          },
+          "status": "exploratory"
+        }
+      },
+      "species_equal_pooled": {
+        "mean_white_minus_nonwhite_degrees_C": {
+          "BIO1": 0.11072706869621565,
+          "BIO5": 0.26494806902386947
+        },
+        "median_species_effect_degrees_C": {
+          "BIO1": 0.05284096399942939,
+          "BIO5": 0.09978302887507695
+        },
+        "n_null_worlds": 199,
+        "n_species": 327,
+        "null_upper_p_199_one_sided_white_warmer": {
+          "BIO1": 0.01,
+          "BIO5": 0.005
+        },
+        "positive_species_fraction": {
+          "BIO1": 0.5290519877675841,
+          "BIO5": 0.5596330275229358
+        },
+        "species_bootstrap95_conditional": {
+          "BIO1": [
+            0.012925513201378152,
+            0.21855872260788908
+          ],
+          "BIO5": [
+            0.11399204634087447,
+            0.41209831552408993
+          ]
+        },
+        "status": "exploratory"
+      }
+    },
+    "cell5_strict": {
+      "cell_size_degrees": 5,
+      "condition_on_calendar_month_of_year": true,
+      "matched_exact_taxon_cell_month_between_photo_quality_conditions": false,
+      "max_source_coordinate_accuracy_m": 5000,
+      "minimum_BIO5_contrast_range_C": 0.5,
+      "minimum_each_white_nonwhite": 2,
+      "minimum_n_photos_each_stratum": 6,
+      "minimum_observers_each_colour": 2,
+      "n_species_with_two_plus_eligible_strata": 61,
+      "no_genetic_IBE_or_population_polymorphism_inference": true,
+      "opportunity_gates": {
+        "n_both_colours": 403,
+        "n_independent_observers": 400,
+        "n_qualified_strata": 396,
+        "n_sufficient_BIO5_contrast": 396,
+        "total_taxon_cells_monthly": 87617
+      },
+      "photo_quality": "strict_ROI_65pct_other_le20pct",
+      "source_photo_rows_retained_before_stratum_gates": 161665,
+      "species_disjoint_cohorts": {
+        "discovery": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.054062085688703375,
+            "BIO5": 0.2548207460486461
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": -0.08865836064020716,
+            "BIO5": 0.0032322565714508755
+          },
+          "n_null_worlds": 199,
+          "n_species": 24,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.415,
+            "BIO5": 0.19
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.4583333333333333,
+            "BIO5": 0.5
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.37795356876524616,
+              0.5105575246721676
+            ],
+            "BIO5": [
+              -0.3698145986834013,
+              0.9304695017237277
+            ]
+          },
+          "status": "exploratory"
+        },
+        "new_U100": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.21483317678665884,
+            "BIO5": 0.4311561601624847
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.08915400505065918,
+            "BIO5": 0.1326980590820277
+          },
+          "n_null_worlds": 199,
+          "n_species": 177,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.005,
+            "BIO5": 0.005
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.559322033898305,
+            "BIO5": 0.5480225988700564
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              0.06514687048826466,
+              0.35724711989657815
+            ],
+            "BIO5": [
+              0.19042710128431176,
+              0.6623992334779998
+            ]
+          },
+          "status": "exploratory"
+        },
+        "prospective": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.1135246351170973,
+            "BIO5": 0.015945167715250397
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.06115851231983527,
+            "BIO5": 0.3024125099182129
+          },
+          "n_null_worlds": 199,
+          "n_species": 41,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.225,
+            "BIO5": 0.43
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5365853658536586,
+            "BIO5": 0.5853658536585366
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.2012011114453412,
+              0.40660229261040587
+            ],
+            "BIO5": [
+              -0.46536558897032726,
+              0.47854746285236777
+            ]
+          },
+          "status": "exploratory"
+        },
+        "validation": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.2377818405767098,
+            "BIO5": 0.13315565421964962
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.04910628000895301,
+            "BIO5": 0.018354733784988753
+          },
+          "n_null_worlds": 199,
+          "n_species": 35,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.125,
+            "BIO5": 0.36
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.5714285714285714,
+            "BIO5": 0.5428571428571428
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.1672469348262925,
+              0.6228275443207322
+            ],
+            "BIO5": [
+              -0.44244591749958934,
+              0.7101919799573582
+            ]
+          },
+          "status": "exploratory"
+        },
+        "wave4": {
+          "mean_white_minus_nonwhite_degrees_C": {
+            "BIO1": 0.06203621491679075,
+            "BIO5": 0.40232237891727224
+          },
+          "median_species_effect_degrees_C": {
+            "BIO1": 0.11858023745673041,
+            "BIO5": 0.3159627914428711
+          },
+          "n_null_worlds": 199,
+          "n_species": 50,
+          "null_upper_p_199_one_sided_white_warmer": {
+            "BIO1": 0.37,
+            "BIO5": 0.045
+          },
+          "positive_species_fraction": {
+            "BIO1": 0.54,
+            "BIO5": 0.62
+          },
+          "species_bootstrap95_conditional": {
+            "BIO1": [
+              -0.25839723999214126,
+              0.3457996053705171
+            ],
+            "BIO5": [
+              -0.0440889835104603,
+              0.8830004673114165
+            ]
+          },
+          "status": "exploratory"
+        }
+      },
+      "species_equal_pooled": {
+        "mean_white_minus_nonwhite_degrees_C": {
+          "BIO1": 0.16942399863484056,
+          "BIO5": 0.32984910389542477
+        },
+        "median_species_effect_degrees_C": {
+          "BIO1": 0.08204917907715092,
+          "BIO5": 0.13583389918008493
+        },
+        "n_null_worlds": 199,
+        "n_species": 327,
+        "null_upper_p_199_one_sided_white_warmer": {
+          "BIO1": 0.005,
+          "BIO5": 0.005
+        },
+        "positive_species_fraction": {
+          "BIO1": 0.5474006116207951,
+          "BIO5": 0.5596330275229358
+        },
+        "species_bootstrap95_conditional": {
+          "BIO1": [
+            0.05178773977255931,
+            0.28280952529513065
+          ],
+          "BIO5": [
+            0.15178728925705745,
+            0.4991393820921722
+          ]
+        },
+        "status": "exploratory"
+      }
+    }
+  },
+  "primary_environment": "BIO5 maximum temperature of warmest month",
+  "schema": "fcp_source_locked_within_cell_month_climate_white_photo_v1",
+  "secondary_environment": "BIO1 annual mean temperature",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "worldclim_zip_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "provenance_addendum": {
+    "verified_action": "https://github.com/zuizui0223/fcp/actions/runs/39429797751",
+    "run_id": 39429797751,
+    "job_id": 118651553500,
+    "workflow_status": "success",
+    "source_pinned_original_measurements": true,
+    "worldclim_climate_zip_authenticated": true,
+    "raster_nodata_cast_fixed": true,
+    "exact_taxon_cell_month_matched_purity_analysis": true,
+    "actual_field_or_genomic_measurements": false,
+    "not_observation_year_weather": true,
+    "posthoc_multiple_comparisons_exploratory": true
+  }
+}
