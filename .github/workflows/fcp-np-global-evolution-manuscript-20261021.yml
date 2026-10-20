@@ -1,0 +1,57 @@
+name: FCP New Phytologist global-evolution paper source and editorial audit
+on:
+  push:
+    branches: [analysis/fcp-np-global-evolutionary-synthesis-20261021]
+    paths:
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - docs/FCP_NP_GLOBAL_EVO_FIGURE_EVIDENCE_CONTRACT_20261021.md
+      - docs/supporting/FCP_NP_GLOBAL_20261021_*
+      - scripts/analysis/audit_fcp_np_global_manuscript_20261021.py
+      - .github/workflows/fcp-np-global-evolution-manuscript-20261021.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-full-paper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Audit executable syntax without constructing new biological observations
+        run: python -m py_compile scripts/analysis/audit_fcp_np_global_manuscript_20261021.py
+      - name: Resolve source-locked PR249 world atlas and PR251 nested climate without merging branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-np-global/source /tmp/fcp-np-global/result
+          git fetch --no-tags --depth=1 origin fb452cc7e0c649597662823a342ea877af78d0be
+          git fetch --no-tags --depth=1 origin cbd3ffc581abb8558cd8ed40b71bd09e4294a9ca
+          git show fb452cc7e0c649597662823a342ea877af78d0be:results/fcp_world_pattern_real_447500_20261020.json \
+            > /tmp/fcp-np-global/source/world_atlas.json
+          git show fb452cc7e0c649597662823a342ea877af78d0be:results/fcp_world_white_axis_spatial_decomposition_real_20261020.json \
+            > /tmp/fcp-np-global/source/world_white.json
+          git show cbd3ffc581abb8558cd8ed40b71bd09e4294a9ca:results/fcp_h1h5_minimal_h3_nested_worldclim_verified_20261020.json \
+            > /tmp/fcp-np-global/source/nested.json
+          test "$(git hash-object /tmp/fcp-np-global/source/world_atlas.json)" = "2d3d7627362bd4123f50d4b0d976f5ee3efd5a3d"
+          test "$(git hash-object /tmp/fcp-np-global/source/world_white.json)" = "d8cca6158b7cd23347015fe1e68fadb3234b05b0"
+          test "$(git hash-object /tmp/fcp-np-global/source/nested.json)" = "532add01994af7c2cca76623194e4d83ccd92fb5"
+      - name: Validate New Phytologist Full Paper word-count format and exact frozen original evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp_np_global_manuscript_20261021.py \
+            --atlas /tmp/fcp-np-global/source/world_atlas.json \
+            --world-white /tmp/fcp-np-global/source/world_white.json \
+            --nested /tmp/fcp-np-global/source/nested.json \
+            --out /tmp/fcp-np-global/result/manuscript_evidence_and_format_qa.json
+          test -s /tmp/fcp-np-global/result/manuscript_evidence_and_format_qa.json
+      - name: Retain reviewable only-real-evidence audit receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-np-global-evolution-source-manuscript-QA-20261021
+          path: /tmp/fcp-np-global/result/
+          if-no-files-found: error
+          retention-days: 90
