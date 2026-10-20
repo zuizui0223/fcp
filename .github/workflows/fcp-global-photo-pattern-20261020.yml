@@ -6,6 +6,7 @@ on:
       - scripts/analysis/fcp_global_photo_atlas_20261020.py
       - scripts/analysis/fcp_global_photo_quality_probe_20261020.py
       - scripts/analysis/fcp_equal_area_spatial_null_20261020.py
+      - scripts/analysis/fcp_world_phenology_conditioned_geography_20261020.py
       - .github/workflows/fcp-global-photo-pattern-20261020.yml
   workflow_dispatch:
 permissions:
@@ -84,6 +85,30 @@ jobs:
           python scripts/analysis/fcp_equal_area_spatial_null_20261020.py \
             --photos /tmp/fcp-world/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
             --out /tmp/fcp-world/atlas
+      - name: Evaluate regional flower-photo sorting after within-species month and year-month label constraints
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/fcp_world_phenology_conditioned_geography_20261020.py
+          python scripts/analysis/fcp_world_phenology_conditioned_geography_20261020.py --self-test
+          python scripts/analysis/fcp_world_phenology_conditioned_geography_20261020.py \
+            --photos /tmp/fcp-world/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out /tmp/fcp-world/atlas
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp-world/atlas/fcp_world_geographic_photo_month_null_result.json')
+          d=json.loads(p.read_text())
+          assert d['actual_genuine_original_photo_rows']==447500
+          assert d['actual_classifiable_photos']==227107
+          a=d['results']['same_taxa_cells_original_quality']
+          b=d['results']['same_taxa_cells_high_purity']
+          assert a['n_species']==b['n_species']
+          print("FCP_REGIONAL_SAMPLING_MONTH_QA_PASS",
+                json.dumps({'matched_taxa':a['n_species'],
+                  'dated':d['date_filter']['dated_2000_2026'],
+                  'year_month_cross_cell_taxa':b['n_taxa_with_year_month_geometry_5plus']}))
+          PY
       - name: Upload actual globally aggregated figures source without sensitive coordinates
         uses: actions/upload-artifact@v4
         with:
