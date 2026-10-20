@@ -97,6 +97,30 @@ Excluding New U100 from that colour-opportunity-selected set leaves 55 taxa: mea
 
 **Interpretation ceiling:** white/nonwhite geographic photographic sorting is a repeatable *population-sample phenotype candidate* in several source cohorts and in a strongly colour-supported subset, but the broad claim that all plants repeatedly differentiate genetically on the white axis is not established. The white frequency indicator and prospective continuous-colour W result are distinct measures.
 
+### Required further correction: compare each component relative to its own null baseline
+
+The 89.5% strict-photo relative share above describes the white/rest allocation of an **absolute small geographic excess**. It is **not a claim that the white component has preferential spatial sorting relative to the nonwhite component**. A parallel FCP development [PR #248](https://github.com/zuizui0223/fcp/pull/248) already warned that 50-km white–chromatic dominance can arise because white-containing contrasts dominate the available photo-label composition; the earlier component-baseline-corrected 50-km result did **not** support a white-specific spatial clustering advantage.
+
+In this branch, we therefore made the direct matched-taxon relative comparison at a second *equal-area interregional* scale. For every eligible species and colour component we divide the observed geographic TV component by that same component's expected TV under the original species-vertex-label null, then subtract 1. The two relative excesses are compared within identical taxa. We require a nontrivial **null expected white and null expected nonwhite residual ≥0.01** to avoid division by near-zero opportunity; 0.005 and 0.02 are explicitly post hoc sensitivity gates. The exact null worlds, species weighting, observed species/photo composition and source cohort are unchanged.
+
+| Regional scale component-normalized comparison | Broad photos | Strict-purity photos |
+|---|---:|---:|
+| Eligible taxa, BOTH component null expectations ≥0.01 | 395 | 174 |
+| Mean relative excess of white component | +0.1425 | +0.1747 |
+| Mean relative excess of nonwhite residual component | +0.1150 | +0.0813 |
+| White minus nonwhite relative excess | +0.0276 | +0.0934 |
+| Matched vertex-null upper p for white component stronger | **0.370** | **0.220** |
+| Species-bootstrap 95% CI for difference | [−0.1294, +0.1876] | [−0.1160, +0.3186] |
+
+Thresholds 0.005 and 0.02 do not lead to a supported white-specific relative excess in either source-quality collection (all matched p ≥0.125). The direction even becomes negative for broad photos at the 0.02 gate. Among strict-quality taxa with baseline ≥0.01, omitting the new U100 species gives n=77, relative difference −0.1045 and p=.755.
+
+**Verdict: white-specific proportional geographic enrichment is NOT SUPPORTED.** This result is consistent with the original 50-km component-baseline-normalized non-support on PR #248. Our pooled 89.5% white fraction must not be used in the abstract as evidence of preferential spatial selection for white flowers, repeated anthocyanin loss, molecular accessibility, cost–benefit advantage, or parallel adaptation. It can appear only as a clearly labelled *photographic compositional decomposition* with component-specific baseline and quality sensitivities.
+
+[Source-locked numerical result](../results/fcp_world_white_axis_spatial_decomposition_real_20261020.json) — [successful exact-original-photo Actions #39423430999](https://github.com/zuizui0223/fcp/actions/runs/39423430999).
+
+**Important remaining distinction:** the independent, species-disjoint prospective white/chromatic **phenotype-space W** confirmation is unchanged and supported. The independent empirical predictions "the white phenotype vector is common" and "white morphs are preferentially geographically structured" are NOT equivalent. The latter has failed this direct component-normalised test at present.
+
+
 ### Immediate evolutionary follow-up, not yet done
 
 The next FCP empirical model should condition colour reassignment on calendar month (and separately year-month) and independent observer/locality availability, then compare **white-axis sorting effect heterogeneity across native taxa**. WorldClim BIO5/BIO14 are suitable named exploratory environment covariates, but no new environment association or historical demographic reconstruction was estimated by this run. For true history-versus-environment attribution, neutral SNPs, reconstructed colonization/connectivity, accessible habitat M, and documented heritable colour morphs remain required.
