@@ -51,7 +51,58 @@ For all 2,118 photo-supported taxa in 2+ eligible cells, observed TV=.110117, nu
 
 **Defensible scientific statement:** source iNaturalist photographic flower-colour composition contains a small geographically nonrandom component beyond sampled colour composition and geographical photo-count allocation. This persists under a fixed strict photo-colour-purity screen in an exactly matched 1,282-taxon, same-grid comparison. It does not prove within-population polymorphism, drift, genetic IBD/IBE, demographic colonisation history, divergent selection or speciation.
 
-## 5. Manuscript priorities and process hypotheses
+## 5. New explicit geographical colour-axis decomposition (actual source, further audits)
+
+[The completed CI run #39422571304](https://github.com/zuizui0223/fcp/actions/runs/39422571304) used all authentic source photographs and retained the five authentic species-disjoint sourcing cohorts. All 199-source-vertex nulls and robustness statistics were recalculated; these are **post hoc exploratory additions**, not new prospective confirmation.
+
+For four-class cell frequency vectors, the between-cell total variation has an exact nonnegative decomposition:
+
+\[
+TV(p_a,p_b)=\left|p_{a,\mathrm{white}}-p_{b,\mathrm{white}}\right|
++\frac{1}{2}\left(\sum_{k\ne\mathrm{white}}|p_{a,k}-p_{b,k}|-\left|p_{a,\mathrm{white}}-p_{b,\mathrm{white}}\right|\right).
+\]
+
+The first term captures the observed geographic white-versus-rest photo-label contrast. The second captures nonwhite colour redistribution after accounting for the required compositional balance. **These are not biochemical anthocyanin or phenotypic-vector-W measurements.**
+
+| Same 1,282 taxa and same sampled regional grid cells | Broad photographs | Strict ROI-purity photographs |
+|---|---:|---:|
+| Total TV excess after source-composition-preserving vertex null | +0.008387 | +0.007273 |
+| White/rest component excess | +0.006308 | +0.006507 |
+| Residual nonwhite composition excess | +0.002079 | +0.000767 |
+| Ratio of white-component excess to total TV excess | 75.2% | 89.5% |
+| Matched upper p white | .005 | .005 |
+| Matched upper p nonwhite residual | .005 | .085 |
+
+The strict-purity 89.5% ratio measures the **relative allocation of a small observed-minus-null excess**; the bootstrap 95% interval 72.1–104.5% is unstable near a small denominator and is *not* a percentage of flowers, species or phenotype contrasts.
+
+### Strong heterogeneity by independent taxon sampling cohort
+
+| Cohort | Strict-purity eligible taxa | Mean excess white/rest | Original 199-world upper p |
+|---|---:|---:|---:|
+| Discovery | 127 | +.005351 | .035 |
+| Validation | 135 | −.000934 | .645 |
+| Prospective | 155 | +.002071 | .305 |
+| Wave4 | 147 | +.001911 | .310 |
+| New U100 | 718 | +.010009 | .005 |
+
+Leaving out New U100 leaves 564 taxa, mean excess +.002048, upper p=.14. Hence the pooled 89.5% value is **not a consistently cross-cohort-replicated general law**. It is largely supported by the new, larger source cohort. The source cohorts are distinct *species*, but all share the same iNaturalist image acquisition and ROI model.
+
+### Matched-null robustness and genuine photo-colour opportunity
+
+In the whole 1,282-species strict subset, matched-null mean upper p=.005, matched-null 10%-trimmed mean upper p=.01, but the median taxon white excess equals 0 and does **not** exceed its null (p=1.0). White/excess dominance in the species-equal mean is therefore not typical of all photographed taxa.
+
+Eligibility requiring at least five high-purity white-labelled and five nonwhite-labelled photographs **within eligible grid cells** leaves 127 taxa. In that taxon set, white-frequency component excess averaged +.05566 and had median +.01928; both mean and median matched permutation p=.005. This is a **selection on documented colour-sampling opportunity**, preserved under the within-taxon vertex null, not proof of genetic morph coexistence. The cohort counts in those 127 taxa are 9/11/24/11/72 for Discovery/Validation/Prospective/Wave4/New U100.
+
+Excluding New U100 from that colour-opportunity-selected set leaves 55 taxa: mean white component excess +.03027, permutation p=.010, median +.00973, permutation p=.095. The remaining 55 are not sufficiently broad for a universal taxon law, and cohort-specific n=9 and n=11 are below the declared descriptive gate of 20.
+
+**Interpretation ceiling:** white/nonwhite geographic photographic sorting is a repeatable *population-sample phenotype candidate* in several source cohorts and in a strongly colour-supported subset, but the broad claim that all plants repeatedly differentiate genetically on the white axis is not established. The white frequency indicator and prospective continuous-colour W result are distinct measures.
+
+### Immediate evolutionary follow-up, not yet done
+
+The next FCP empirical model should condition colour reassignment on calendar month (and separately year-month) and independent observer/locality availability, then compare **white-axis sorting effect heterogeneity across native taxa**. WorldClim BIO5/BIO14 are suitable named exploratory environment covariates, but no new environment association or historical demographic reconstruction was estimated by this run. For true history-versus-environment attribution, neutral SNPs, reconstructed colonization/connectivity, accessible habitat M, and documented heritable colour morphs remain required.
+
+
+## 6. Manuscript priorities and process hypotheses
 
 **Figure 1:** continuous white–chromatic phenotype axis from frozen prospective H2 plus new global source-photograph coverage. Ensure colour counts and W are separate quantities.
 
