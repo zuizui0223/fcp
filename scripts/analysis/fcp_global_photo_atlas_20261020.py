@@ -29,7 +29,7 @@ PALETTE = {
 }
 COLUMNS = [
     "inat_taxon_id", "photo_id", "observation_id", "observer_id", "fcp_source_cohort",
-    "latitude", "longitude", "positional_accuracy_m", "morph", "global_classifiable",
+    "latitude", "longitude", "positional_accuracy_m", "observed_on", "morph", "global_classifiable",
     *(f for group in PALETTE.values() for f in group),
 ]
 MIN_PER_UNIT = 10
