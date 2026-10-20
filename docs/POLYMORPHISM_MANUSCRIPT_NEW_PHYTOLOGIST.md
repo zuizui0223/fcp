@@ -12,6 +12,8 @@
 
 **Original frozen manuscript:** `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md` in parent PR #248 (unchanged there); this is a proposed replacement in the present draft branch.
 
+**Working text count (space-delimited English word estimate):** Introduction 661; Materials and Methods 2934; Results 1769; Discussion 1350; Tables 394; total including tables 7108. Five proposed main figures (colour), two tables. Author names, ORCIDs, final plot rendering and front-page details remain to be supplied.
+
 ## Summary
 
 - Why do plant species repeatedly vary along similar flower-colour directions, yet differ in the geographic organisation of that variation? We distinguished recurrent phenotype-space directions from geographical and climatic sorting across conspecific photographs.
@@ -247,11 +249,29 @@ A further nested geographic climate comparison used frozen WorldClim 2.1 long-te
 
 ---
 
+## Table 2. Five evolutionary hypotheses and the highest available level of evidence
+
+| Hypothesis and distinguishing prediction | What the current multi-species photographs establish | Decisive independent test still required |
+|---|---|---|
+| **H1. Repeated phenotypic accessibility:** floral displacement directions recur beyond label-composition nulls | **Supported for source-measured phenotype space:** frozen prospective W across 158 species, with a technically indeterminate stringent exposure gate | Independent calibrated flower-organ reflectance and genotype/morph identity; not another reshuffling of the same photo set |
+| **H2. Historical allocation:** neutral ancestry and past connectivity order colour differences even among climatically matched sites | **History unidentified:** phenotypic IBD-like signal exceeds BIO5 IBE-like, but geographic distance is not ancestry | Neutral SNP distances, independent range-history constraints and environment-matched population-pair predictions |
+| **H3. Conditional ecological sorting:** present habitat predicts colour after history, and fitness depends on morph × environment | **Photographic correlation only:** small positive BIO5 association, weakened background/sampling controls and negative species-specific spatial transfer | Neutral-ancestry-matched environments plus common-garden reproductive or survival-fitness differences |
+| **H4. Local maintenance:** frequency dependence, variable selection or migration retains inherited morphs within breeding populations | **Not identified:** strict 5-km month-matched photo test is unsupported; biological C/S crosswalk lacks S-only spatial matches | Marked plants, inherited morph verification, pollen/seed fitness and repeated years in true interbreeding populations |
+| **H5. Tissue-specific pigment constraint:** petal-restricted biochemical changes persist differently from whole-plant losses | **Published case evidence only:** petal-only versus whole-plant loss in Silene; not the photographed individuals | Paired petal/leaf chemical assays, genotypes and fitness across independent origins |
+
+These five hypotheses are an **evolutionary synthesis proposed after the principal photographic tests**. They must not be presented as five pre-registered positive tests or five experimentally verified causes.
+
+---
+
 ## Results
 
 ### Repeated directions of colour variation across species
 
-Five outcome-blind photo cohorts provided 447,500 original measurements from 4,475 species. Of these, 227,107 photographs could be assigned to one of the four frozen flower-colour labels. At least 40 classifiable images were available in 3,297 species. These are photo-label data selected for sampling opportunity, not a prevalence survey of genetic polymorphism in natural populations.
+Five outcome-blind photo cohorts provided 447,500 original measurements from 4,475 species. Of these, 227,107 photographs could be assigned to one of the four frozen flower-colour labels. At least 40 classifiable images were available in 3,297 species. These are photo-label data selected for sampling opportunity, not a prevalence survey of genetic polymorphism in natural populations. Within this high-depth photographic frame, 3,029 of 3,297 eligible species had at least two coarse colour labels, and 2,963 had both white and nonwhite photo labels; neither count is a frequency of biological flower-colour polymorphism in natural populations.
+
+A further source-opportunity audit showed that apparent regional trends are sensitive to the species and photographic opportunities sampled. An unpaired, equal-species 0–15° absolute-latitude subset had greater photo-colour diversity (D = 0.3315; 146 taxa) than the 60–90° subset (D = 0.2438; 98 taxa), but the same 246 taxa recorded across both tropical and extratropical zones yielded only a mean D difference of +0.0121 (95% species bootstrap interval −0.0058 to +0.0298). Thus the unpaired global gradient does not establish a replicated within-species tropical polymorphism advantage. An exploratory strict photo-colour-purity sensitivity (≥65% flower ROI in the assigned state and ≤20% in every alternative state) reduced mean categorical D from 0.1154 to 0.0647 in the *same* 1,813 photo-eligible species, underlining the importance of flower-part identity and mixed-colour ROI classification.
+
+The independent-observer reliability check demonstrated that the sampled colour diversity is not arbitrary noise: the validation cohort retained 363 observer-disjoint species with a split-half Spearman correlation of 0.7927 (bootstrap 95% interval 0.7419–0.8324) and concordance correlation 0.8474. However, this only establishes within-provider photographic repeatability; it does not distinguish genetic morphs from consistent flowering-stage, petal-structure or observer-source effects.
 
 At the primary 0.10 tier, **158** species produced admissible nonzero displacement vectors. Observed W was **0.517**. Across 999 structured-null worlds, the null median was **0.457** and the 95% interval was **0.436–0.475**. Observed W was 1.13 times the null median, with upper-tail p = **0.001**.
 
