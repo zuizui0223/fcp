@@ -1,0 +1,635 @@
+{
+  "schema": "fcp_447500_real_nested_1deg_within_5deg_observational_climate_summary_v1",
+  "date": "2026-10-20",
+  "origin": "successful exact source GitHub Action stdout, species-equal source calculations",
+  "verified_successful_action": "https://github.com/zuizui0223/fcp/actions/runs/39431312956",
+  "original_measured_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "original_worldclim_bio_zip_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "original_source_rows": 447500,
+  "original_source_taxa": 4475,
+  "classified_dated_geographic_climate_valid_photos": 226572,
+  "exact_matched_broad_strict_taxa_5degcell_month": true,
+  "year_month_exactly_matched": false,
+  "month_of_year_matched": true,
+  "climatic_covariates": [
+    "WorldClim 1970-2000 BIO1",
+    "WorldClim 1970-2000 BIO5"
+  ],
+  "nested_component_scale": "1-degree photo-record spatial bins within 5-degree geographic cells",
+  "null_methods": [
+    "199 fixed five-degree source-label permutations",
+    "199 within-one-degree label permutations preserving between-one-degree white counts"
+  ],
+  "new_real_results": {
+    "broad": {
+      "all_eligible_5deg_month_strata": {
+        "five_degree_vertex_null_upper_p": {
+          "between_1deg_month": {
+            "BIO1": 0.04,
+            "BIO5": 0.005
+          },
+          "total_5deg_month": {
+            "BIO1": 0.005,
+            "BIO5": 0.005
+          },
+          "within_1deg_month": {
+            "BIO1": 0.05,
+            "BIO5": 0.005
+          }
+        },
+        "if_no_within_cell_morph_climate_opportunity_within_component_is_zero": true,
+        "mean_signed_white_minus_nonwhite_C": {
+          "between_1deg_month": {
+            "BIO1": 0.05169584127502504,
+            "BIO5": 0.1447677275193411
+          },
+          "total_5deg_month": {
+            "BIO1": 0.07596773593353061,
+            "BIO5": 0.19419565433686892
+          },
+          "within_1deg_month": {
+            "BIO1": 0.024271894658505485,
+            "BIO5": 0.049427926817527654
+          }
+        },
+        "n_5deg_month_strata_not_independent": 1673,
+        "n_original_null_worlds": 199,
+        "n_species": 1074,
+        "one_degree_nested_conditioned_within_component_upper_p": {
+          "BIO1": 0.075,
+          "BIO5": 0.015
+        },
+        "pointwise_exploratory_no_multiple_testing_control": true,
+        "positive_species_fraction": {
+          "between_1deg_month": {
+            "BIO1": 0.5176908752327747,
+            "BIO5": 0.5381750465549349
+          },
+          "total_5deg_month": {
+            "BIO1": 0.5251396648044693,
+            "BIO5": 0.5586592178770949
+          },
+          "within_1deg_month": {
+            "BIO1": 0.4590316573556797,
+            "BIO5": 0.4757914338919926
+          }
+        },
+        "source_cohort": "pooled",
+        "species_bootstrap_95CI": {
+          "between_1deg_month": {
+            "BIO1": [
+              -0.0033502009814743885,
+              0.10397286746501838
+            ],
+            "BIO5": [
+              0.07140899276587329,
+              0.2210579149660308
+            ]
+          },
+          "total_5deg_month": {
+            "BIO1": [
+              0.013302573758648486,
+              0.135423019195385
+            ],
+            "BIO5": [
+              0.109786971527249,
+              0.2787739522852673
+            ]
+          },
+          "within_1deg_month": {
+            "BIO1": [
+              -0.007733552306192011,
+              0.05548555969431387
+            ],
+            "BIO5": [
+              0.007738293404390529,
+              0.09195281956836451
+            ]
+          }
+        },
+        "status": "exploratory"
+      },
+      "multi_eligible_5deg_month_strata": {
+        "five_degree_vertex_null_upper_p": {
+          "between_1deg_month": {
+            "BIO1": 0.04,
+            "BIO5": 0.005
+          },
+          "total_5deg_month": {
+            "BIO1": 0.005,
+            "BIO5": 0.005
+          },
+          "within_1deg_month": {
+            "BIO1": 0.04,
+            "BIO5": 0.005
+          }
+        },
+        "if_no_within_cell_morph_climate_opportunity_within_component_is_zero": true,
+        "mean_signed_white_minus_nonwhite_C": {
+          "between_1deg_month": {
+            "BIO1": 0.05189149095036571,
+            "BIO5": 0.1485602054755354
+          },
+          "total_5deg_month": {
+            "BIO1": 0.08016647029270658,
+            "BIO5": 0.20127917142425122
+          },
+          "within_1deg_month": {
+            "BIO1": 0.028274979342340772,
+            "BIO5": 0.052718965948715724
+          }
+        },
+        "n_5deg_month_strata_not_independent": 1641,
+        "n_original_null_worlds": 199,
+        "n_species": 1062,
+        "one_degree_nested_conditioned_within_component_upper_p": {
+          "BIO1": 0.04,
+          "BIO5": 0.01
+        },
+        "pointwise_exploratory_no_multiple_testing_control": true,
+        "positive_species_fraction": {
+          "between_1deg_month": {
+            "BIO1": 0.5225988700564972,
+            "BIO5": 0.544256120527307
+          },
+          "total_5deg_month": {
+            "BIO1": 0.5263653483992468,
+            "BIO5": 0.5574387947269304
+          },
+          "within_1deg_month": {
+            "BIO1": 0.4623352165725047,
+            "BIO5": 0.4745762711864407
+          }
+        },
+        "source_cohort": "pooled",
+        "species_bootstrap_95CI": {
+          "between_1deg_month": {
+            "BIO1": [
+              0.0034711546434229483,
+              0.1084575081806154
+            ],
+            "BIO5": [
+              0.07403690063622383,
+              0.22993079775266737
+            ]
+          },
+          "total_5deg_month": {
+            "BIO1": [
+              0.020734146455949964,
+              0.14150625050472806
+            ],
+            "BIO5": [
+              0.11572051754817794,
+              0.2866756994580876
+            ]
+          },
+          "within_1deg_month": {
+            "BIO1": [
+              -0.001457514384273561,
+              0.05794121999486836
+            ],
+            "BIO5": [
+              0.008787413451877767,
+              0.09135707238060678
+            ]
+          }
+        },
+        "status": "exploratory"
+      }
+    },
+    "matched_delta": {
+      "all_analysis_uses_identical_taxon_5deg_cell_calendar_month_strata": true,
+      "n_same_taxa": 327,
+      "posthoc_unequal_photo_count_after_filtering": true,
+      "quality_subset_is_nested_not_independent": true,
+      "species_bootstrap95_strict_minus_all_degrees_C": {
+        "between_1deg_month": {
+          "BIO1": [
+            -0.003397420755721052,
+            0.10721200816414396
+          ],
+          "BIO5": [
+            -0.023414377405696206,
+            0.1474662709220672
+          ]
+        },
+        "total_5deg_month": {
+          "BIO1": [
+            0.003673752768290931,
+            0.11688016720465169
+          ],
+          "BIO5": [
+            -0.022455815824866214,
+            0.16192779703895066
+          ]
+        },
+        "within_1deg_month": {
+          "BIO1": [
+            -0.02458859416901128,
+            0.04866734709890506
+          ],
+          "BIO5": [
+            -0.05005291133431649,
+            0.059779773569645714
+          ]
+        }
+      },
+      "species_equal_strict_minus_all_degrees_C": {
+        "between_1deg_month": {
+          "BIO1": 0.04813688542246593,
+          "BIO5": 0.059743854612904615
+        },
+        "total_5deg_month": {
+          "BIO1": 0.0586969299386253,
+          "BIO5": 0.06490103487155613
+        },
+        "within_1deg_month": {
+          "BIO1": 0.010560044516159372,
+          "BIO5": 0.005157180258651525
+        }
+      },
+      "strict_quality_may_change_the_number_of_1deg_subcells_within_those_strata": true
+    },
+    "matched_original": {
+      "all_eligible_5deg_month_strata": {
+        "five_degree_vertex_null_upper_p": {
+          "between_1deg_month": {
+            "BIO1": 0.025,
+            "BIO5": 0.01
+          },
+          "total_5deg_month": {
+            "BIO1": 0.01,
+            "BIO5": 0.005
+          },
+          "within_1deg_month": {
+            "BIO1": 0.18,
+            "BIO5": 0.055
+          }
+        },
+        "if_no_within_cell_morph_climate_opportunity_within_component_is_zero": true,
+        "mean_signed_white_minus_nonwhite_C": {
+          "between_1deg_month": {
+            "BIO1": 0.08347700914523072,
+            "BIO5": 0.2118382736734715
+          },
+          "total_5deg_month": {
+            "BIO1": 0.11072706869621608,
+            "BIO5": 0.2649480690238703
+          },
+          "within_1deg_month": {
+            "BIO1": 0.027250059550985396,
+            "BIO5": 0.05310979535039895
+          }
+        },
+        "n_5deg_month_strata_not_independent": 396,
+        "n_original_null_worlds": 199,
+        "n_species": 327,
+        "one_degree_nested_conditioned_within_component_upper_p": {
+          "BIO1": 0.145,
+          "BIO5": 0.09
+        },
+        "pointwise_exploratory_no_multiple_testing_control": true,
+        "positive_species_fraction": {
+          "between_1deg_month": {
+            "BIO1": 0.4954128440366973,
+            "BIO5": 0.5229357798165137
+          },
+          "total_5deg_month": {
+            "BIO1": 0.5290519877675841,
+            "BIO5": 0.5596330275229358
+          },
+          "within_1deg_month": {
+            "BIO1": 0.4801223241590214,
+            "BIO5": 0.5229357798165137
+          }
+        },
+        "source_cohort": "pooled",
+        "species_bootstrap_95CI": {
+          "between_1deg_month": {
+            "BIO1": [
+              0.0010088348298945232,
+              0.1681886407652926
+            ],
+            "BIO5": [
+              0.0752917122334906,
+              0.33542471038994326
+            ]
+          },
+          "total_5deg_month": {
+            "BIO1": [
+              0.018044043021326554,
+              0.207307282777231
+            ],
+            "BIO5": [
+              0.10843481471031084,
+              0.40244280541267524
+            ]
+          },
+          "within_1deg_month": {
+            "BIO1": [
+              -0.026698600156370045,
+              0.08473709904548216
+            ],
+            "BIO5": [
+              -0.02530652811248232,
+              0.1322908583741689
+            ]
+          }
+        },
+        "status": "exploratory"
+      },
+      "multi_eligible_5deg_month_strata": {
+        "five_degree_vertex_null_upper_p": {
+          "between_1deg_month": {
+            "BIO1": 0.025,
+            "BIO5": 0.01
+          },
+          "total_5deg_month": {
+            "BIO1": 0.01,
+            "BIO5": 0.005
+          },
+          "within_1deg_month": {
+            "BIO1": 0.185,
+            "BIO5": 0.055
+          }
+        },
+        "if_no_within_cell_morph_climate_opportunity_within_component_is_zero": true,
+        "mean_signed_white_minus_nonwhite_C": {
+          "between_1deg_month": {
+            "BIO1": 0.08305296833113118,
+            "BIO5": 0.21146570147148708
+          },
+          "total_5deg_month": {
+            "BIO1": 0.10954356066329729,
+            "BIO5": 0.26271211568298497
+          },
+          "within_1deg_month": {
+            "BIO1": 0.02649059233216617,
+            "BIO5": 0.051246414211498004
+          }
+        },
+        "n_5deg_month_strata_not_independent": 391,
+        "n_original_null_worlds": 199,
+        "n_species": 324,
+        "one_degree_nested_conditioned_within_component_upper_p": {
+          "BIO1": 0.15,
+          "BIO5": 0.11
+        },
+        "pointwise_exploratory_no_multiple_testing_control": true,
+        "positive_species_fraction": {
+          "between_1deg_month": {
+            "BIO1": 0.5,
+            "BIO5": 0.5277777777777778
+          },
+          "total_5deg_month": {
+            "BIO1": 0.5277777777777778,
+            "BIO5": 0.558641975308642
+          },
+          "within_1deg_month": {
+            "BIO1": 0.48148148148148145,
+            "BIO5": 0.5246913580246914
+          }
+        },
+        "source_cohort": "pooled",
+        "species_bootstrap_95CI": {
+          "between_1deg_month": {
+            "BIO1": [
+              0.002648743163132511,
+              0.1676367973781763
+            ],
+            "BIO5": [
+              0.09765112394113837,
+              0.33723825370967225
+            ]
+          },
+          "total_5deg_month": {
+            "BIO1": [
+              0.012680751112369949,
+              0.21763294669310645
+            ],
+            "BIO5": [
+              0.12012789271243016,
+              0.4144837828159434
+            ]
+          },
+          "within_1deg_month": {
+            "BIO1": [
+              -0.0304869221390881,
+              0.08222992240562789
+            ],
+            "BIO5": [
+              -0.025561457823558377,
+              0.12404782119102667
+            ]
+          }
+        },
+        "status": "exploratory"
+      }
+    },
+    "n_source": 226572,
+    "opportunity_broad": {
+      "strata_5deg_month_any": 113152,
+      "strata_5deg_qualified": 1673,
+      "strata_5deg_with_2plus_nested_1deg_cells": 1641,
+      "strata_bio5_range_ge_0p5C": 1673,
+      "strata_distinct_observers": 1686,
+      "strata_two_colour_photo_opportunity": 1693,
+      "strata_with_1deg_subcell_containing_both_colour_labels": 1452,
+      "strata_with_any_within1deg_temperature_variation": 1607
+    },
+    "opportunity_strict": {
+      "strata_5deg_month_any": 87617,
+      "strata_5deg_qualified": 396,
+      "strata_5deg_with_2plus_nested_1deg_cells": 389,
+      "strata_bio5_range_ge_0p5C": 396,
+      "strata_distinct_observers": 400,
+      "strata_two_colour_photo_opportunity": 403,
+      "strata_with_1deg_subcell_containing_both_colour_labels": 336,
+      "strata_with_any_within1deg_temperature_variation": 376
+    },
+    "strict": {
+      "all_eligible_5deg_month_strata": {
+        "five_degree_vertex_null_upper_p": {
+          "between_1deg_month": {
+            "BIO1": 0.015,
+            "BIO5": 0.005
+          },
+          "total_5deg_month": {
+            "BIO1": 0.01,
+            "BIO5": 0.005
+          },
+          "within_1deg_month": {
+            "BIO1": 0.09,
+            "BIO5": 0.11
+          }
+        },
+        "if_no_within_cell_morph_climate_opportunity_within_component_is_zero": true,
+        "mean_signed_white_minus_nonwhite_C": {
+          "between_1deg_month": {
+            "BIO1": 0.13161389456769665,
+            "BIO5": 0.2715821282863761
+          },
+          "total_5deg_month": {
+            "BIO1": 0.16942399863484145,
+            "BIO5": 0.3298491038954262
+          },
+          "within_1deg_month": {
+            "BIO1": 0.037810104067144794,
+            "BIO5": 0.05826697560905049
+          }
+        },
+        "n_5deg_month_strata_not_independent": 396,
+        "n_original_null_worlds": 199,
+        "n_species": 327,
+        "one_degree_nested_conditioned_within_component_upper_p": {
+          "BIO1": 0.09,
+          "BIO5": 0.075
+        },
+        "pointwise_exploratory_no_multiple_testing_control": true,
+        "positive_species_fraction": {
+          "between_1deg_month": {
+            "BIO1": 0.5229357798165137,
+            "BIO5": 0.5290519877675841
+          },
+          "total_5deg_month": {
+            "BIO1": 0.5474006116207951,
+            "BIO5": 0.5596330275229358
+          },
+          "within_1deg_month": {
+            "BIO1": 0.43730886850152906,
+            "BIO5": 0.4923547400611621
+          }
+        },
+        "source_cohort": "pooled",
+        "species_bootstrap_95CI": {
+          "between_1deg_month": {
+            "BIO1": [
+              0.02903311069509826,
+              0.24285405422017128
+            ],
+            "BIO5": [
+              0.12305045939470849,
+              0.4202343308089831
+            ]
+          },
+          "total_5deg_month": {
+            "BIO1": [
+              0.050307373737786314,
+              0.29708750690811575
+            ],
+            "BIO5": [
+              0.15473560487944796,
+              0.5018400850716437
+            ]
+          },
+          "within_1deg_month": {
+            "BIO1": [
+              -0.020682235605076434,
+              0.10072557897823532
+            ],
+            "BIO5": [
+              -0.02293648855613336,
+              0.14621330739654487
+            ]
+          }
+        },
+        "status": "exploratory"
+      },
+      "multi_eligible_5deg_month_strata": {
+        "five_degree_vertex_null_upper_p": {
+          "between_1deg_month": {
+            "BIO1": 0.015,
+            "BIO5": 0.005
+          },
+          "total_5deg_month": {
+            "BIO1": 0.01,
+            "BIO5": 0.005
+          },
+          "within_1deg_month": {
+            "BIO1": 0.085,
+            "BIO5": 0.095
+          }
+        },
+        "if_no_within_cell_morph_climate_opportunity_within_component_is_zero": true,
+        "mean_signed_white_minus_nonwhite_C": {
+          "between_1deg_month": {
+            "BIO1": 0.1307726818270404,
+            "BIO5": 0.2714160856129261
+          },
+          "total_5deg_month": {
+            "BIO1": 0.17109884440081413,
+            "BIO5": 0.3322545186983544
+          },
+          "within_1deg_month": {
+            "BIO1": 0.040326162573773715,
+            "BIO5": 0.06083843308542868
+          }
+        },
+        "n_5deg_month_strata_not_independent": 389,
+        "n_original_null_worlds": 199,
+        "n_species": 322,
+        "one_degree_nested_conditioned_within_component_upper_p": {
+          "BIO1": 0.085,
+          "BIO5": 0.075
+        },
+        "pointwise_exploratory_no_multiple_testing_control": true,
+        "positive_species_fraction": {
+          "between_1deg_month": {
+            "BIO1": 0.531055900621118,
+            "BIO5": 0.5372670807453416
+          },
+          "total_5deg_month": {
+            "BIO1": 0.5496894409937888,
+            "BIO5": 0.5652173913043478
+          },
+          "within_1deg_month": {
+            "BIO1": 0.43167701863354035,
+            "BIO5": 0.4906832298136646
+          }
+        },
+        "source_cohort": "pooled",
+        "species_bootstrap_95CI": {
+          "between_1deg_month": {
+            "BIO1": [
+              0.027836450509697196,
+              0.23370197671435378
+            ],
+            "BIO5": [
+              0.1126547353103621,
+              0.41788198908746343
+            ]
+          },
+          "total_5deg_month": {
+            "BIO1": [
+              0.05019309026009831,
+              0.2904629413476883
+            ],
+            "BIO5": [
+              0.15400719516224579,
+              0.5004321794376029
+            ]
+          },
+          "within_1deg_month": {
+            "BIO1": [
+              -0.020010438326725288,
+              0.10600550791546758
+            ],
+            "BIO5": [
+              -0.024590081392814246,
+              0.1452714251242117
+            ]
+          }
+        },
+        "status": "exploratory"
+      }
+    }
+  },
+  "caveats": [
+    "Photographed coarse white label is not a genetically validated white flower morph.",
+    "Neither 1-degree nor 5-degree temperature contrasts are historical range-shift data.",
+    "No observer-by-space adjustment beyond independent observer per morph and de-duplicated observation IDs; no native/cultivation verification.",
+    "BIO5 and BIO1 are long-term normals attached to observation coordinates, not observed weather.",
+    "This was explicitly exploratory and multiple comparisons were inspected.",
+    "Source-disjoint taxa across five cohorts share iNaturalist source and pipeline."
+  ]
+}
