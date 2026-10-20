@@ -204,6 +204,70 @@ def summarize_by_source_cohort(frame:pd.DataFrame, stacked_null:np.ndarray):
     return out
 
 
+def relative_component_excess_test(frame:pd.DataFrame, null_stack:np.ndarray, min_baseline:float):
+    """Compare proportional geographic excess after equalizing each colour component's own opportunity.
+
+    For species i:
+       Rwhite_i = observed(abs white-frequency difference)_i / E_null(white)_i - 1
+       Rother_i = observed(nonwhite residual TV)_i / E_null(other)_i - 1
+    Only species with BOTH null expected components >= predeclared floor are eligible.
+    Permutation distribution uses the identical expected denominators in each null
+    world. This is a POST HOC relative-spatial-sorting diagnostic, not selection.
+    """
+    wn=frame.null_expected_white_delta.to_numpy(float)
+    hn=frame.null_expected_nonwhite_residual.to_numpy(float)
+    eligible=(wn>=min_baseline)&(hn>=min_baseline)&np.isfinite(wn)&np.isfinite(hn)
+    n=int(eligible.sum())
+    result={'min_component_null_baseline':float(min_baseline),'n_eligible_species':n,
+            'posthoc_component_scale_sensitivity':True}
+    if n<20:
+        result['status']='not_estimable_under_20_species'
+        return result
+    x=frame.loc[eligible].copy()
+    w=wn[eligible]
+    h=hn[eligible]
+    obs_w=x.observed_abs_white_delta.to_numpy(float)/w-1.0
+    obs_h=x.observed_nonwhite_residual_tv.to_numpy(float)/h-1.0
+    diff=obs_w-obs_h
+    null_w=null_stack[eligible,:,1]/w[:,None]-1.0
+    null_h=null_stack[eligible,:,2]/h[:,None]-1.0
+    null_diff=null_w-null_h
+    def p_upper(val, null):
+        return float((1+np.count_nonzero(null>=val))/(REPS+1))
+    nullmean=null_diff.mean(axis=0)
+    nullmedian=np.median(null_diff,axis=0)
+    nulltrim=mean_trimmed(null_diff,axis=0)
+    rng=np.random.default_rng(2026102051+int(min_baseline*10000))
+    boot=rng.integers(0,n,size=(999,n))
+    bootmeans=diff[boot].mean(axis=1)
+    result.update({
+       'status':'estimable',
+       'n_taxa_with_white_and_nonwhite_labels':int(((x.n_white_photo>0)&(x.n_nonwhite_photo>0)).sum()),
+       'mean_relative_white_excess':float(obs_w.mean()),
+       'mean_relative_nonwhite_excess':float(obs_h.mean()),
+       'mean_white_minus_nonwhite_relative_excess':float(diff.mean()),
+       'median_white_minus_nonwhite_relative_excess':float(np.median(diff)),
+       'trimmed10_white_minus_nonwhite_relative_excess':float(mean_trimmed(diff)),
+       'species_bootstrap_CI95_mean_white_minus_nonwhite':[float(z) for z in np.quantile(bootmeans,[.025,.975])],
+       'matched_null_p_upper_mean_white_advantage':p_upper(float(diff.mean()),nullmean),
+       'matched_null_p_upper_median_white_advantage':p_upper(float(np.median(diff)),nullmedian),
+       'matched_null_p_upper_trim10_white_advantage':p_upper(float(mean_trimmed(diff)),nulltrim),
+       'fraction_species_white_relative_excess_gt_nonwhite':float(np.mean(diff>0)),
+       'n_per_cohort':{str(key):int(value) for key,value in x.cohort.value_counts().items()},
+    })
+    subset={}
+    for cohort in ('discovery','validation','prospective','wave4','new_U100','leave_out_new_U100'):
+        sel=(x.cohort.ne('new_U100') if cohort=='leave_out_new_U100' else x.cohort.eq(cohort)).to_numpy()
+        if int(sel.sum())<20:
+            subset[cohort]={'n':int(sel.sum()),'status':'under_20'}
+            continue
+        d=diff[sel]; nmat=null_diff[sel].mean(axis=0)
+        subset[cohort]={'n':int(len(d)), 'mean_relative_white_minus_nonwhite':float(d.mean()),
+                        'matched_null_p_upper_exploratory':p_upper(float(d.mean()),nmat)}
+    result['cohort_sensitivity']=subset
+    return result
+
+
 def calculate(d,tag):
     rows=[];nulls=[]
     for _,g in d.groupby('inat_taxon_id',sort=True):
@@ -222,6 +286,11 @@ def calculate(d,tag):
         'n_species':int(len(frame)),
         'source_cohort_replication':summarize_by_source_cohort(frame,stack),
         'robust_white_effect_distribution':robust_white_summary(frame,stack),
+        'relative_component_baseline_normalized':{
+          'primary_min_null_baseline_0_01':relative_component_excess_test(frame,stack,.01),
+          'sensitivity_min_null_baseline_0_005':relative_component_excess_test(frame,stack,.005),
+          'sensitivity_min_null_baseline_0_02':relative_component_excess_test(frame,stack,.02),
+        },
         'n_eligible_cell_pairs_not_independent':int(frame.n_cell_pairs.sum()),
         'mean_observed_between_cell_tv':float(observed[0]),
         'mean_null_tv':float(nullmean[0]),
