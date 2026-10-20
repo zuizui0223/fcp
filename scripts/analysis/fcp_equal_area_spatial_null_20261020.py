@@ -123,6 +123,12 @@ def robust_white_summary(frame:pd.DataFrame, stacked_null:np.ndarray):
     }
     for c in ('discovery','validation','prospective','wave4','new_U100'):
         cases['leave_out_'+c]=frame.cohort.ne(c).to_numpy()
+        cases['white5_'+c]=(
+          ((frame.n_white_photo>=5)&(frame.n_nonwhite_photo>=5))
+          & frame.cohort.eq(c)).to_numpy()
+    cases['white5_leave_out_new_U100']=(
+       (frame.n_white_photo>=5)&(frame.n_nonwhite_photo>=5)
+       & frame.cohort.ne('new_U100')).to_numpy()
     output={}
     for name,mask in cases.items():
         part=frame.loc[mask]
