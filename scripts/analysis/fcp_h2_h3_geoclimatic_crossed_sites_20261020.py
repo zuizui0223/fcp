@@ -219,6 +219,7 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("--photos",type=Path)
     p.add_argument("--worldclim-zip",type=Path)
+    p.add_argument("--cs-evidence",type=Path,default=Path("data/frozen/jbi_cs_evidence_freeze_v22.csv"))
     p.add_argument("--out",type=Path)
     p.add_argument("--self-test",action="store_true")
     a=p.parse_args()
@@ -287,7 +288,41 @@ def main():
            "absolute_threshold_crossed_sites":bool(x["strict_disjoint_crossing"]) if x is not None else None,
            "genotype_or_demographic_history_available_in_this_comparison":False,
            "native_wild_status_unverified":True})
+    cs = pd.read_csv(a.cs_evidence)
+    check(len(cs)==34 and cs.canonical_name.nunique()==34,
+          "frozen 34-species positive C/S evidence denominator changed")
+    statuses=("local_coexistence_only","spatial_segregation_only","coexistence_and_segregation")
+    check(set(cs.organization_state).issubset(statuses),"unknown C/S evidence class")
+    photo_name_id={str(name):int(tid) for name,tid in
+                   photo[["species","inat_taxon_id"]].drop_duplicates().itertuples(index=False)}
+    cs_pairs=[]
+    for rec in cs.to_dict("records"):
+        name=str(rec["canonical_name"])
+        p=selected.get(name)
+        identifier=photo_name_id.get(name)
+        co=cl.loc[identifier] if identifier in cl.index else None
+        cs_pairs.append({
+          "species":name,
+          "family":str(rec["family"]),
+          "strict_literature_C_S":str(rec["organization_state"]),
+          "in_original_geoclimatic_photo_roster":bool(identifier is not None),
+          "n_classifiable_photo_labels":int(co.n_classifiable) if co is not None else 0,
+          "n_white_photo_labels":int(co.n_white) if co is not None else 0,
+          "n_nonwhite_photo_labels":int(co.n_nonwhite) if co is not None else 0,
+          "n_eligible_1degree_sites_min3obs":int(p["n_potential_sites"]) if p is not None else None,
+          "rank_crossed_geo_climate_four_distinct_photo_sites":bool(p is not None and p["n_disjoint_geoclimate_crossings"]),
+          "absolute_threshold_crossed_geo_climate_four_distinct_photo_sites":bool(p is not None and p["strict_disjoint_crossing"]),
+          "ancestry_or_independent_population_genotypes_joined":False,
+          "native_or_cultivated_status_verified":False,
+        })
+    cs_counts={
+      str(t):{
+        "n_literature_species":int((cs.organization_state==t).sum()),
+        "n_with_crossed_photo_site_opportunity":sum(q["rank_crossed_geo_climate_four_distinct_photo_sites"] for q in cs_pairs if q["strict_literature_C_S"]==t),
+        "n_with_crossed_absolute_threshold_opportunity":sum(q["absolute_threshold_crossed_geo_climate_four_distinct_photo_sites"] for q in cs_pairs if q["strict_literature_C_S"]==t),
+      } for t in statuses}
     a.out.mkdir(parents=True,exist_ok=True)
+    pd.DataFrame(cs_pairs).to_csv(a.out/"strict_CS_34species_H2H3_photo_site_opportunity_NO_COORDINATES.csv",index=False)
     frame=pd.DataFrame(panel)
     if len(frame):
         frame.to_csv(a.out/"global_taxa_crossed_geo_climate_opportunity_NO_COORDINATES.csv",index=False)
@@ -308,12 +343,17 @@ def main():
      "wild_or_cultivated_and_native_or_introduced_status_unverified":True,
      "source_frame_diagnostics":output,
      "named_anchor_diagnostics":anchor,
+     "strict_literature_CS_species_overlap":{"n_total_literature_species":34,
+         "by_positive_evidence_state":cs_counts,
+         "field_crosswalk_not_population_genotype_evidence":True},
+     "strict_literature_CS_field_candidates":cs_pairs,
      "sensitive_coordinates_and_photo_identifiers_exported":False,
      "claim_ceiling":"sampling/geoclimatic identifiability of field-pair contrasts only; no relative historical vs environmental causal contribution",
     }
     (a.out/"fcp_global_H2_H3_climate_crossing_source_result.json").write_text(
         json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+"\n")
     print("FCP_REAL_H2_H3_OPPORTUNITY_RESULT",json.dumps(result,sort_keys=True,allow_nan=False))
+    print("FCP_H2_H3_STRICT_C_S_FIELD_CANDIDATES",json.dumps(cs_counts,sort_keys=True,allow_nan=False))
     print("FCP_H2_H3_FIELD_CONTRAST_CANDIDATE_TOP",json.dumps([
        {"species":x["species"],"n_potential_sites":x["n_potential_sites"],
         "n_disjoint_geoclimate_crossings":x["n_disjoint_geoclimate_crossings"],
