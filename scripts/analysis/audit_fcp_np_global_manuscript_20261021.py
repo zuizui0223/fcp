@@ -82,6 +82,16 @@ def audit_manuscript(md):
     require(len(re.findall(r"^\*\*Figure [1-5]\.",figs,re.M))==5,
             "planned primary five figure captions not intact")
     require(md.count("## Table 1.")==1,"one source/candidate Table 1 required")
+    # Never let separate hypothesis-specific n be described as an attrition
+    # funnel or as three independently collected data providers.
+    src_table=between(md,"## Table 1.","## Results")
+    for raw in ("4,475 species / 447,500 photographs",
+                "499 new species → 377 photo-classifiable → 185 coarse-second-morph-eligible → 158 continuous W vectors",
+                "1,761 species","1,574 species / 86,114 photographs"):
+        require(raw in src_table,"missing distinct-source-panel eligibility: "+raw)
+    require("distinct eligibility subsets" in src_table
+            and "not three consecutive attrition stages" in src_table,
+            "New Phytologist source panel mistakenly implied nested design")
     for heading in ["### Worldwide photographic variation","### Prospective H2: the frozen white axis is confirmed",
                     "### Geographic sorting across all 447,500",
                     "### Weak global climatic direction does not predict novel regions reliably",
