@@ -1,0 +1,102 @@
+# FCP / New Phytologist — 世界的な花色変異の生成・地理的分化・維持を結ぶ研究骨格（2026-10-20）
+
+**論文の主問い**：Why does within-species flower-colour variation repeatedly arise along similar phenotypic directions yet show different spatial outcomes across plant species?
+
+**強い研究概念：変異の「生成可能性」×「地理的な配分」×「局所的な維持」は別の過程。** 共通した色軸（white–chromatic）をもつことと、その色軸が同じ環境・遺伝子・集団史によって支配されることは同義ではない。花色のマクロ地理が示すべき新規性は、「地理的なまとまりがある」だけでなく、**似た花色差が異なる地理的・環境的条件に置かれる理由を、競合する機構仮説に分解すること**である。
+
+この設計は研究の再編成・追加検証仮説であり、**新しい因果モデルが実行・支持されたことを意味しない**。結果として数えるのは、元の実測データと凍結済み検証または明示した探索結果のみ。
+
+## 1. 最初に確立する全球パターンと推定単位
+
+対象は花色の**写真上の種内変異**（intraspecific photographed flower-colour variation）。**自然集団内の遺伝的な花色多型**（within-population genetic FCP）と混同しない。
+
+- 元データは本物の測色写真 **447,500枚・4,475種**、元の四色状態で分類可能 **227,107枚**。
+- 分類可能写真40枚以上の **3,297種**のうち、写真ラベルが複数あるのは **3,029種**。この 3,029/3,297 を世界の遺伝的FCP発生率にしない。白色ラベル、花器官以外、露出、栽培や写真選択の交絡がある。
+- 同種の50 km以内写真ペアを30以上もつ **1,761種**で、観測された全域−局所の異色ペア率の平均差 **+0.0176149**。固定色数・地点の matched vertex null は **+0.0000446**、上側置換 p = .005。正方向984種（55.88%）と帰無期待44.58%の差があり、極端な上位種だけの平均差ではない。ただし個別984種の有意性を示すものではなく、厳格な5 km/同年同月/別観察者の局所共存テストは非支持。
+- 既存の前向きに固定された連続色空間の **white–chromatic** 方向は、第三の種非重複コホートで **W = .517 vs. structured null median .457, p = .001**。白—有色が50 kmの絶対効果の **83.81%**を占める一方、全域異色ペアの **79.57%**が初めから白—有色であり、成分ごとの全域異色率で規格化すると白色関連の特別に強い分化は支持されない（636種、差−0.01249、属bootstrap CI [−0.06813,+0.04591]）。
+- 生物学的な地域区分（C=同一自然集団での共存、S=集団間差、C+S=両方）は**別の文献根拠で証明する状態**。34種の厳格なC/S positive-evidence freezeでは **C-only 11・S-only 8・C+S 15**。写真atlasとの完全学名一致は16種、50 km解析までの重複は5種、うち **S-only = 0種**。この2データベースの結合でC対Sの因果差を推定できない。文献C/Sの0は「未文書化」であり自然界の不在ではない。
+
+**世界的パターンの主図は「色型の絶対頻度」ではなく、(i) 種内の色軸、(ii) 色差の空間分割、(iii) その幅と不均一性の種間分布を、固定観察可能性と種等重み付きで併置する。**
+
+## 2. 競合する生物学的仮説（定量化と棄却条件）
+
+| ID | 仮説（因果機構） | 異なる予測・反証可能性 | 現在の証拠 | 現在の判定 |
+|---|---|---|---|---|
+| **H1 地理的・歴史的隔離** | 収縮・再拡大、refugial history、創始者効果、遺伝子流動制約が集団間の色差を蓄積する | **現在気候の似た地点間でも**、過去の分布障壁、refugiumからの経路距離、neutral F_ST、地理抵抗が花色差を説明する。共通環境の反復だけで色型分離が消えなければ支持候補。中立構造と色構造が不整合なら単純な漂移説に不利 | 連続色の三コホートで IBD-like > BIO5 IBE-like。ただし **地理距離は分布史や遺伝子流動そのものではない**。JBIのGBIF分断proxyは未支持 | **地理的相関は支持、歴史的原因は未検証** |
+| **H2 環境による形質ソーティング** | 気温・乾燥・土壌・光・送粉者/植食者の空間勾配が色型頻度を分ける | **地理距離と環境可用域 M を揃えた比較**でも環境差が色差と対応し、現地・共通圃場で色型×処理の適応度交互作用が現れる。遺伝的色型による適応なら neutral ancestry を調整後も残る | 1,574種・86,114枚で BIO5（最暖月最高気温）に対して白方向の種等重み平均 **log-odds +0.03233/℃（属CI +0.01786〜+0.04728）**、別推定REML +0.01708/℃。元の小規模事前固定BIO5 transportは非支持、観察者感度あり | **平均的な気温との関連を支持、局所適応は未検証** |
+| **H3 空間×時間の変動選択と共存** | 環境・送粉者・敵の時間的変動、頻度依存、自己受粉/貯蔵効果が集団内のCを維持し、恒常的な空間分化がSを作る | 種内の同一地点を追跡した**年別・花期別の環境変動**が大きいほどCが、長期の地域差と隔離が強いほどSが現れる。C+Sは境界やモザイクで両方存在 | JBI core-v6: 74種中32種にC/S正の文書証拠、BIO4季節性はC候補だが平均気温・緯度調整で弱化。単純気候幅・総hypervolumeは不支持、動的TerraClimateは設計済だが実データ未取得 | **未検証の主要仮説** |
+| **H4 色素制御の器官モジュール性** | 花弁特異的な色素変化は、葉などのストレス防御を失わずに花色を変えられるため、全身性色素喪失より持続しやすい | ペタルのみのアントシアニン消失（PAL）が全植物消失（WAL）より高頻度に維持される（同一種/独立起源での検証）。器官別色素、cis/trans発現、共通圃場、適応度で多面発現を評価する。共通色軸でも同一遺伝子起源は仮定しない | Silene littorea文献ではPAL自然頻度8–21%、WAL 0.05–0.86%（選択された4集団）。29 ABP loci中 F3h1のbud-stage発現は色型間で >42倍、Myb1a候補。cross-species補遺13 PAL/13 WALは文献バイアスあり。現在の4,475種写真へ遺伝子型を結べない | **器官別の機構の外部根拠あり、全球適応機構は未検証** |
+
+### H1/H2 の現存 IBD–IBE の数値上の位置づけ
+
+三つの**元コホートだけ**（369+363+377=1,109種）の連続9色Jensen–Shannon距離の対称な偏順位相関：
+
+| 群 | geographic distanceの残差相関（IBD-like） | BIO5差の残差相関（IBE-like） |
+|---|---:|---:|
+| Discovery | +0.02760 (p=.005) | +0.00925 (p=.005) |
+| Validation | +0.02414 (p=.005) | +0.00826 (p=.010) |
+| Third | +0.02225 (p=.005) | +0.01019 (p=.005) |
+
+種数加重の単純なコホート要約では +0.02465 vs +0.00924（比約2.67）。**この比は歴史/環境の原因寄与率ではない**。環境側の strict same-observer と花–背景差の監査ではIBE-likeを支持せず、photo-colourの識別上限がある。**「分布変遷の寄与が環境より多い」はこのデータから言えない。**
+
+### 「分布史」ではなく「地理距離」を入れただけ、という査読者への回答
+
+生物地理史H1の独立説明変数を初めて作る必要がある：
+
+- 過去のLGM〜現在の分布可能域の安定性/分断と**時期別の到達可能性**。環境ニッチモデルは使っても過去の実在個体群を直接観測したことにはならない。
+- 種内の遺伝的系統・neutral F_STと、古い障壁・refugium・移住経路・接続性。**地理距離だけからrefugiumや移住方向を逆算しない**。
+- 現在の距離・現在の環境差・過去の隔離指標を**同じ種・同じ地点対**で同時に比較し、位置・地域・写真の観測努力を統制する。環境可用域(M)に対する一致を評価。
+- 特に地理距離が近いのに環境が違う地点対と、環境が似ているのに過去隔離が違う地点対を対照にする。これが単なるIBDの地図を超える機構識別の鍵。
+
+## 3. 独立した実験的・系統地理学的事例と、一般化の対象
+
+**独立一次研究の役割はモデルの対照予測であって、4,475種の遺伝子を測ったことではない**。
+
+- *Iris lutescens*: 41集団・1,120個体と中立マーカーを併用し、遺伝子流動と漂移が地理的花色差の説明に関与。doi:10.1093/aob/mcw036。**H1に整合するケース**。
+- *Linanthus parryae*: 色型が急変する地形境界で中立遺伝子の分化が乏しく、相互移植で現地型が有利。doi:10.1111/j.1558-5646.2007.00219.x。**H2選択に整合するケース**。
+- *Campanula americana*: 24集団で**花弁反射強度は気温、蜂の視覚で捉えた色は氷期後の移住史**との対応が報告。doi:10.3389/fpls.2020.00991。**同一種の色の別次元にH1/H2が重なり得るケース**。分布史と環境が花色に効くという発想自体は既刊であり、こちらの独自性は大規模な多種比較・形質空間軸の統合でなければならない。
+- *Boechera stricta*: 共通圃場と乾燥処理により色の遺伝的clineと可塑性、乾燥条件での色素誘導、湿潤条件で白花と繁殖利得との関連が示された。doi:10.1111/nph.14998。**H2の選択環境とH3可塑性を区別する対照系**。
+- *Silene littorea*: *F3h1*の発現差、PAL/WALの器官別色素化学および自然頻度の文献根拠。doi:10.3389/fpls.2016.00204; doi:10.1186/s12870-019-2082-6。**H4への機構の足場**。
+
+異なる結果が出るケースを「除外例」にせず、機構の多元性を検証する基準として明示する。
+
+## 4. 掲載可能な論文構造（主線・Fig.）
+
+**仮題A（現データに忠実）:** *Recurrent colour axes and heterogeneous geographic sorting of floral variation within plant species*.
+
+**仮題B（H1/H2/H4の新しい独立検証が揃った後）:** *Range history, environmental sorting and pigment modularity jointly organize floral polymorphism across plant lineages*.
+
+### 現在の5図の組立て
+
+1. **Fig. 1 — Global phenotypic architecture:** 対象4,475種の選択過程と世界分布、種内写真色多様性D、前向き確認したwhite–chromatic方向W。写真分類の失敗を別の色型に補完しない。
+2. **Fig. 2 — Two spatial outcomes:** 1,761種のspecies-equal `D_global−D_local50km`（分布・null・ロバスト性）。自然集団C/Sの文献34種は図内で別レイヤー・別色、写真からC/Sを割り当てない。文献×写真の重複は5種でS-only欠測という限界を明示。
+3. **Fig. 3 — Competing geography/environment associations:** 3コホートのIBD-like・IBE-like及び技術感度、447,500枚由来の1,574種BIO5白方向の正の平均関連を**別推定対象**として並置。環境ベースの原因を断定しない。
+4. **Fig. 4 — Colour axes and biochemical routes:** white–chromaticの地理効果83.81%対元頻度79.57%と規格化後のnull。外部PAL/WAL、*Silene*・*Orychophragmus*・*Parrya*の器官/経路データは**独立文献の機構アンカー**、atlasの遺伝子実測として扱わない。
+5. **Fig. 5 — Discriminating causal alternatives:** H1（歴史/系統地理）、H2（空間環境選択）、H3（時間/生物相の共存）、H4（器官制御）を接続した検証図。ただしH1の直接史料/集団ゲノムが無い段階では**概念図**として区別し、結果図に見せかけない。
+
+### 最小限の機構検証を加えた後のFig. 5（本当の差別化要件）
+
+(i) 現在距離/気候が似ても**過去接続性**の違いで色差が変わるか、(ii) 集団史を保持しても**現在環境**が色差を説明するか、(iii) 安定的な空間差と**時間的変動**がS/Cの状態を分けるか、(iv) **葉の防御と花色の切り離し**が白花型の維持可能性を変えるか、を最低2–3の独立自然系で直接測る。
+
+## 5. データ接続の優先順位と停止条件
+
+1. **写真データの実証可能性を先に固定。** 34種の文献C/S×447,500枚のexact-name crosswalkが **16/34 roster, 5/34 spatial, 0 S-only spatial** であり、厳格なC/S種間回帰は**現在できない**。実在のS-only自然系を意図的に追加観察するか、文献C/Sと画像FCPを別論文層として維持する。
+2. **全コホートで同一photo-level IBD/IBEを再実行する**ことは適切だが、単なる偏相関の拡張ではH1の歴史性を証明できない。歴史的分布推定とneutral ancestryを*独立*に足す解析を優先。
+3. **既存の正のBIO5関連はそのまま保持。** 原因でなく予測でもなく、種内写真の温度条件付き分布の実測結果。時間変動のTerraClimate凍結設計（66種×20固定地点、1,320点）の実抽出は未実行。静的BIO4季節性を年々変動の証拠へ昇格しない。
+4. **生物学的なlocal FCPと白化原因の同定。** 花弁と背景を分けた原写真の手動blind検証、野生/栽培、同一場所・同時期・別個体を先に確かめる。標的種では個体識別付きgenotyping、花弁/葉の色素化学、光×水分共通圃場、種子・送粉を並行して測る。
+5. **投稿判断。** H1/H2/H4の新規機構検証が未了なら本論文は**全球の表現型構造＋環境関連**の比較研究として主張を制限する。*New Phytologist* で「花色分化の主原因を決めた」と投稿するには証拠不足。強い機構主張は独立地理史・ゲノム・実験が得られてからにする。
+
+### 凍結済み実測・参考出所
+
+- 447,500 original measured photo release: `fcp-all4730-original-method-actual-colour-results-20261017`.
+- `results/fcp_real_447500_robust_matched_null_20261018/group_statistic_summary.csv`;
+  `results/fcp_real_447500_white_axis_decomposition_20261018/component_summary.csv`;
+  `results/fcp_environment_native_units_20261019/primary_summary.csv`;
+  `results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json`.
+- 34 strict literature state crosswalk: `data/frozen/jbi_cs_evidence_freeze_v22.csv`;
+  `results/fcp_cs_literature_photo_bridge_20261020/summary.json`.
+- Molecular status: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`;
+  `data/evidence/fcp_molecular_expansion_20261019/curated_contrasts.json`.
+- JBI competing-hypothesis evidence: `docs/JBI_SPACE_TIME_HYPOTHESES.md`;
+  `docs/JBI_FCP_MECHANISM_HYPOTHESES.md`; `docs/JBI_DYNAMIC_TERRACLIMATE_PROTOCOL.md`.
+- Direct peer-reviewed examples: Koski & Galloway (2020) DOI 10.3389/fpls.2020.00991; Vaidya et al. (2018) DOI 10.1111/nph.14998; Iris lutescens DOI 10.1093/aob/mcw036; Schemske & Bierzychudek (2007) DOI 10.1111/j.1558-5646.2007.00219.x; Casimiro-Soriguer et al. (2016) DOI 10.3389/fpls.2016.00204; del Valle et al. (2019) DOI 10.1186/s12870-019-2082-6.
