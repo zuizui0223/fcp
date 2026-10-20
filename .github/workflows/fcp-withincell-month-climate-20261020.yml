@@ -4,6 +4,7 @@ on:
     branches: [analysis/fcp-local-climate-conditional-20261020]
     paths:
       - scripts/analysis/fcp_withincell_month_climate_20261020.py
+      - scripts/analysis/fcp_nested_climate_one_vs_five_degree_20261020.py
       - .github/workflows/fcp-withincell-month-climate-20261020.yml
   workflow_dispatch:
 permissions:
@@ -67,6 +68,31 @@ jobs:
             assert strict['opportunity_gates']['n_qualified_strata']==broad['opportunity_gates']['n_qualified_strata']
           print("FCP_LOCAL_CLIMATE_SOURCE_AND_EVIDENCE_BOUNDARY_PASS")
           print("FCP_NESTED_LOCAL_CLIMATE_COMPLETE_JSON",json.dumps(x,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - name: Decompose 5-degree thermal signal within versus between nested 1-degree cells
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/fcp_nested_climate_one_vs_five_degree_20261020.py
+          python scripts/analysis/fcp_nested_climate_one_vs_five_degree_20261020.py --self-test
+          python scripts/analysis/fcp_nested_climate_one_vs_five_degree_20261020.py \
+            --photos /tmp/fcp-localclimate/measured/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-zip /tmp/fcp-localclimate/climate/wc2.1_10m_bio.zip \
+            --out /tmp/fcp-localclimate/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp-localclimate/results/nested_five_degree_one_degree_climate_components.json')
+          x=json.loads(p.read_text())
+          assert x['source_original_photo_rows']==447500
+          assert x['date_and_classifiable_geo_climate_rows']==226572
+          assert x['nested_spatial_decomposition_is_exact'] is True
+          assert x['source_photo_sha256']=='8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6'
+          assert x['worldclim_bio_zip_sha256']=='00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf'
+          a=x['five_degree_all']['results']['all_eligible_5deg_month_strata']['pooled']
+          b=x['five_degree_strict_purity']['results']['all_eligible_5deg_month_strata']['pooled']
+          assert a['n_species']==1074 and b['n_species']==327
+          print("FCP_LOCAL_CLIMATE_NESTED_SAME_SOURCE_PANEL_GATES_PASS")
           PY
       - name: Archive source-authenticated aggregate results with no coordinates or observation IDs
         uses: actions/upload-artifact@v4
