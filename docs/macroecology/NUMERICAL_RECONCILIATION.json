@@ -1,0 +1,225 @@
+{
+  "schema": "fcp_macro_paper_numbers_reconciliation_v0_1",
+  "date": "2026-10-14",
+  "status": "PASS",
+  "n_checked_rounded_manuscript_values": 30,
+  "macro_source_rows": 1280,
+  "matched_source_rows": 576,
+  "source_hashes": {
+    "photo_source_sha256": "2d6097ba1b0434632e13bbe79dd78180608a287ff5dabebc770b5c0a2cfb52a0",
+    "environment_source_sha256": "6e287294b3a05eaa383be3de644551825915bfecca9c4bde6950b4890f5e16ca"
+  },
+  "checks": [
+    {
+      "key": "world wc_bio12 point",
+      "observed": 2.254545235,
+      "manuscript_rounding": 2.255,
+      "abs_delta": 0.000454765,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_bio12 maxT low",
+      "observed": 0.318740973,
+      "manuscript_rounding": 0.319,
+      "abs_delta": 0.000259027,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_bio12 maxT high",
+      "observed": 4.190349497,
+      "manuscript_rounding": 4.19,
+      "abs_delta": 0.000349497,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_vapr_annual_mean point",
+      "observed": 3.951850325,
+      "manuscript_rounding": 3.952,
+      "abs_delta": 0.000149675,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_vapr_annual_mean maxT low",
+      "observed": 1.199253381,
+      "manuscript_rounding": 1.199,
+      "abs_delta": 0.000253381,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_vapr_annual_mean maxT high",
+      "observed": 6.704447269,
+      "manuscript_rounding": 6.704,
+      "abs_delta": 0.000447269,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_bio5 point",
+      "observed": 1.256585658,
+      "manuscript_rounding": 1.257,
+      "abs_delta": 0.000414342,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_bio5 maxT low",
+      "observed": -0.647615226,
+      "manuscript_rounding": -0.648,
+      "abs_delta": 0.000384774,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_bio5 maxT high",
+      "observed": 3.160786542,
+      "manuscript_rounding": 3.161,
+      "abs_delta": 0.000213458,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_srad_annual_mean point",
+      "observed": -0.532904076,
+      "manuscript_rounding": -0.533,
+      "abs_delta": 9.5924e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_srad_annual_mean maxT low",
+      "observed": -2.943847451,
+      "manuscript_rounding": -2.944,
+      "abs_delta": 0.000152549,
+      "status": "PASS"
+    },
+    {
+      "key": "world wc_srad_annual_mean maxT high",
+      "observed": 1.878039299,
+      "manuscript_rounding": 1.878,
+      "abs_delta": 3.9299e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "world strict genus_geo point",
+      "observed": 1.229161715,
+      "manuscript_rounding": 1.229,
+      "abs_delta": 0.000161715,
+      "status": "PASS"
+    },
+    {
+      "key": "world strict genus_geo ci low",
+      "observed": -2.045755751,
+      "manuscript_rounding": -2.046,
+      "abs_delta": 0.000244249,
+      "status": "PASS"
+    },
+    {
+      "key": "world strict genus_geo ci hi",
+      "observed": 4.50407918,
+      "manuscript_rounding": 4.504,
+      "abs_delta": 7.918e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "world all genus_geocell point",
+      "observed": 0.807976081,
+      "manuscript_rounding": 0.808,
+      "abs_delta": 2.3919e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "world all genus_geocell ci low",
+      "observed": -3.556383646,
+      "manuscript_rounding": -3.556,
+      "abs_delta": 0.000383646,
+      "status": "PASS"
+    },
+    {
+      "key": "world all genus_geocell ci hi",
+      "observed": 5.172335808,
+      "manuscript_rounding": 5.172,
+      "abs_delta": 0.000335808,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 all genus_geo point",
+      "observed": 4.715669039,
+      "manuscript_rounding": 4.716,
+      "abs_delta": 0.000330961,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 all genus_geo ci low",
+      "observed": 1.56498456,
+      "manuscript_rounding": 1.565,
+      "abs_delta": 1.544e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 all genus_geo ci hi",
+      "observed": 7.866353518,
+      "manuscript_rounding": 7.866,
+      "abs_delta": 0.000353518,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 all genus_geocell point",
+      "observed": -2.075679149,
+      "manuscript_rounding": -2.076,
+      "abs_delta": 0.000320851,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 all genus_geocell ci low",
+      "observed": -8.794268412,
+      "manuscript_rounding": -8.794,
+      "abs_delta": 0.000268412,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 all genus_geocell ci hi",
+      "observed": 4.642910115,
+      "manuscript_rounding": 4.643,
+      "abs_delta": 8.9885e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "world B minus C point",
+      "observed": 0.517883851,
+      "manuscript_rounding": 0.518,
+      "abs_delta": 0.000116149,
+      "status": "PASS"
+    },
+    {
+      "key": "world B minus C maxT low",
+      "observed": -1.253506959,
+      "manuscript_rounding": -1.253,
+      "abs_delta": 0.000506959,
+      "status": "PASS"
+    },
+    {
+      "key": "world B minus C maxT high",
+      "observed": 2.28927466,
+      "manuscript_rounding": 2.289,
+      "abs_delta": 0.00027466,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 B minus C point",
+      "observed": 3.177681593,
+      "manuscript_rounding": 3.178,
+      "abs_delta": 0.000318407,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 B minus C maxT low",
+      "observed": -0.258035028,
+      "manuscript_rounding": -0.258,
+      "abs_delta": 3.5028e-05,
+      "status": "PASS"
+    },
+    {
+      "key": "E90_E180 B minus C maxT high",
+      "observed": 6.613398215,
+      "manuscript_rounding": 6.613,
+      "abs_delta": 0.000398215,
+      "status": "PASS"
+    }
+  ],
+  "note": "Manuscript rounding/extraction audit only. Original statistical code and source replay are under PR #193/#194 and hosted Actions #38502660130; independent-source biological confirmation is not claimed."
+}
