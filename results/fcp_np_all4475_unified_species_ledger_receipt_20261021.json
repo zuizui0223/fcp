@@ -1,0 +1,39 @@
+{
+  "NA_means_not_estimable_not_zero": true,
+  "all_species_preserved": true,
+  "merged_species_ledger_sha256": "23d3daadc9799c2e7b5867d54ccc1ed98369ba79a81b72dc7f831e5197e63c49",
+  "n_original_classifiable": 227107,
+  "n_original_photos": 447500,
+  "n_result_columns": 114,
+  "n_species_H1_geometry": 4475,
+  "n_species_H2_local50_pair": 3600,
+  "n_species_H3_BIO4": 4112,
+  "n_species_H3_BIO5": 4112,
+  "n_species_H4_inherited_morph_verified": 0,
+  "n_species_H5_same_photo_individual_molecular_validated": 0,
+  "n_total_taxa": 4475,
+  "no_genetic_history_adaptation_pigment_cost_proven": true,
+  "no_original_exact_coords_photo_or_observer_ids_exported": true,
+  "output_csv_name": "fcp_np_all4475_unified_species_ledger_20261021.csv",
+  "schema": "fcp_new_phytologist_all4475_verified_original_four_workflow_species_merge_20261021",
+  "source_actual_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_csv_sha256": {
+    "master": "88953bddf52f81d5622fd8bd95b67b9049233faa341bca62e513574b02ec1f42",
+    "missing": "04be3cce85b0bfae3a86cd70e6eeab001ca0b4cfe0618776b6daa4ba3ee0c875",
+    "observer": "0b6c5898d7aea71ccc86e23c397cb709de70d406fc7f9f24fb27a8384a0ad20e",
+    "seven": "5fd635d0489717f8f10b2612d8a7238343039cd631717feaff411ae7f8a00947"
+  },
+  "source_run_ids": {
+    "master": 39453625081,
+    "missing": 39518450603,
+    "observer": 39455363831,
+    "seven": 39456497702
+  },
+  "source_workflow_artifact_sha256": {
+    "master": "32a5c6236174a86a36bf8455328bdb9923bc8ea11ca7f3a3659d6320d8336d8b",
+    "missing": "42f99f9fef2df9f2e53853e2287ae4e6c8f6b2f6222323e4148d7e1bcfa44e92",
+    "observer": "7d45ac37697d4d50cd64f9d34ced1f807625f0243c94d6686a54b71dace7b124",
+    "seven": "fd47cea6979ed8a06921c76a5f6bfabd99b82f730e75f6b9d94a98893eda774e"
+  },
+  "statistics_original_workflow_p_values_are_not_recomputed_by_the_merge": true
+}
