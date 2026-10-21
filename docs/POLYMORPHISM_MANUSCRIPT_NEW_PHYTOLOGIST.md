@@ -16,10 +16,10 @@
 
 **Word counts (working Full Paper; source-locked sections):**
 - Introduction: 677 words
-- Materials and Methods: 2,245 words
+- Materials and Methods: 2,244 words
 - Results: 2,939 words
 - Discussion: 1,619 words
-- Main text (Introduction through Discussion): 7,480 words
+- Main text (Introduction through Discussion): 7,479 words
 - Figures: 5 (all colour)
 - Tables: 2
 - Supporting Information: source-locked extended Methods/Results, reproducibility ledgers and figures
@@ -55,7 +55,7 @@ Here we investigate the observable parts of this framework with five species-dis
 
 ### Study design and authentic photographic source
 
-The present Full Paper uses one common observational sampling universe: **4,475 source species × 100 photographs = 447,500 original measured photographs**. Five species-disjoint sampling cohorts (500 discovery, 500 validation, 499 prospective, 498 fourth-wave and 2,478 new U100 taxa) came from the same iNaturalist source and unchanged image-measurement pipeline. The outcome-blind metadata frame contained 42,111 plant species, of which 4,730 met a 100-photograph opportunity rule; neither frame is a global natural-population polymorphism denominator. Taxonomic, geographic, observer and photographic licences/filters were fixed before colour outcomes, and photo pixels were processed in a location-blind worker. Exactly **227,107** photographs were assigned one of the frozen four biological-looking colour labels; remaining photographs were retained as missing classification outcomes, not silently recoloured or removed from the species register. There was no native-range restriction or explicit captive/wild filter, and a photographed colour label is not a documented inherited morph. Source hashes, implementation chronology, original 158-species prospective analysis and no-replacement rules are reported in the expanded Methods [and audit supplement](supporting/FCP_NP_ALL4475_EXTENDED_METHODS_RESULTS_20261021.md).
+The present Full Paper uses one common observational sampling universe: **4,475 source species × 100 photographs = 447,500 original measured photographs**. Five species-disjoint sampling cohorts (500 discovery, 500 validation, 499 prospective, 498 fourth-wave and 2,478 new U100 taxa) came from the same iNaturalist source and unchanged image-measurement pipeline. The outcome-blind metadata frame contained 42,111 plant species, of which 4,730 met a 100-photograph opportunity rule; neither frame is a global natural-population polymorphism denominator. Taxonomic, geographic, observer and photographic licences/filters were fixed before colour outcomes, and photo pixels were processed in a location-blind worker. Exactly **227,107** photographs were assigned one of the frozen four biological-looking colour labels; remaining photographs were retained as missing classification outcomes, not silently recoloured or removed from the species register. No native-range restriction or explicit captive/wild filter was imposed; a photographed colour label is not a documented inherited morph. Source hashes, implementation chronology, original 158-species prospective analysis and no-replacement rules are reported in the expanded Methods [and audit supplement](supporting/FCP_NP_ALL4475_EXTENDED_METHODS_RESULTS_20261021.md).
 
 ### Photographic measurement and outcome firewall
 
