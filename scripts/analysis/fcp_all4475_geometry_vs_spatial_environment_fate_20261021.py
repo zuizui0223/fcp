@@ -83,7 +83,11 @@ def rank_controls(frame, pair):
         sd=z.std()
         if sd>1e-10:
             X.append((z-z.mean())/sd)
-    for cohort in COHORTS[1:]:
+    # Change the reference cohort when a species-disjoint cohort is
+    # removed in sensitivity analysis, so the intercept and remaining
+    # source dummies never become exactly collinear.
+    present=[c for c in COHORTS if use.source_cohort.eq(c).any()]
+    for cohort in present[1:]:
         X.append(use.source_cohort.eq(cohort).to_numpy(float))
     M=np.column_stack(X)
     require_rank=np.linalg.matrix_rank(M)
