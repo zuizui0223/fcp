@@ -16,10 +16,10 @@
 
 ## Summary
 
-- Why do flowering plants repeatedly vary along similar flower-colour directions, yet distribute those variants differently across their ranges? We separated recurring phenotype-space geometry from photographic geographic sorting and climatic association.
-- We analysed 447,500 photographs of 4,475 species; 227,107 were classifiable and every species had at least eight such photographs. The mean white–chromatic alignment across all species was W = 0.4789 versus a construction-preserving null median of 0.4320 (exploratory P = 0.005). The original prospective 158-species test remained independently supported.
-- In the complete species registry, 3,600 species had valid local photo pairs: colour mismatch was lower within 50 km than range-wide (mean depletion 0.0161; P = 0.005). Among 4,112 species permitting a within-species contrast, the mean BIO5 white-classification slope was +0.0219 log odds °C⁻¹ (genus-bootstrap 95% interval +0.0085 to +0.0349).
-- In the unified species-level dataset, stronger white–chromatic W alignment did not robustly predict geographic mismatch depletion (partial rank r = +0.034; genus-bootstrap 95% interval −0.002 to +0.069) or BIO5 photo-climate slope (r = −0.009; interval −0.039 to +0.022). The matched photo source is strongly incomplete and cannot identify inherited polymorphism, selection, or demographic history. Genetic population history, local morph maintenance, pigment fitness costs and causal molecular routes remain untested explanations, not inferred causes.
+- Why do flowering plants repeatedly vary along similar colour directions but differ in their geographic outcomes? We distinguished phenotype-space geometry from geographic and climatic sorting in conspecific photographs.
+- Across 447,500 photographs from 4,475 species, 227,107 were colour-classifiable. All species were retained. The all-species white–chromatic alignment was W = 0.4789 versus a construction-preserving null median of 0.4320 (exploratory P = 0.005); the separate frozen 158-species prospective test remained supported.
+- Among the 4,475 species, 3,600 had 50-km photographic pairs (mean geographic mismatch depletion 0.0161; P = 0.005). In 4,112 species with white/nonwhite contrasts, BIO5 slopes averaged +0.0219 log odds °C⁻¹ (genus-bootstrap 95% interval +0.0085 to +0.0349).
+- White-axis alignment poorly predicted geographic sorting (partial rank r = +0.034; 95% interval −0.002 to +0.069) or BIO5 response (r = −0.009; interval −0.039 to +0.022). Common photographed phenotype geometry therefore does not establish shared selection. Genetic maintenance, demographic history and molecular pigment regulation remain untested.
 
 **Key words:** anthocyanin; floral evolution; flower colour; geographical differentiation; intraspecific variation; phenotypic diversity; plant biogeography.
 
