@@ -89,21 +89,26 @@ def merge_sources(files):
         require((test.species_master==test.species_other).all()
                 and (test[left_cohort]==test[right_cohort]).all(),
                 f"{label}: source species or cohort identities drifted")
-    require((base.set_index("inat_taxon_id").n_classified_photo
-             ==climate.set_index("inat_taxon_id").n_classifiable_photo).all(),
-             "7-climate photo denominator differs from master")
-    require((base.set_index("inat_taxon_id").n_classified_photo
-             ==missing.set_index("inat_taxon_id").classified_four_state_photos).all(),
-             "adversarial-missingness photo denominator differs from master")
-    require((base.set_index("inat_taxon_id").n_photo_white
-             ==missing.set_index("inat_taxon_id").coarse_photo_white).all(),
-             "adversarial-missingness white count differs from master")
-    require((base.set_index("inat_taxon_id").n_photo_white
-             ==climate.set_index("inat_taxon_id").n_white_photo).all(),
-             "7-axis source white count differs from master")
-    require((base.set_index("inat_taxon_id").n_classified_photo
-             ==ob.set_index("inat_taxon_id").n_photo).all(),
-             "observer D source-classified photo count differs from master")
+    # Every source has exactly the same IDs, but CSV source row orders are
+    # NOT identical. Compare aligned sorted taxon IDs rather than Pandas
+    # unequal-index Series; never drop an ID or compare positional rows.
+    b=base.set_index("inat_taxon_id").sort_index()
+    cv=climate.set_index("inat_taxon_id").sort_index()
+    mi=missing.set_index("inat_taxon_id").sort_index()
+    ov=ob.set_index("inat_taxon_id").sort_index()
+    def exact_counts(a,b,reason):
+        require(np.array_equal(a.to_numpy(dtype=np.int64),b.to_numpy(dtype=np.int64)),
+                reason)
+    exact_counts(b.n_classified_photo,cv.n_classifiable_photo,
+                 "7-climate photo denominator differs from master")
+    exact_counts(b.n_classified_photo,mi.classified_four_state_photos,
+                 "adversarial-missingness photo denominator differs from master")
+    exact_counts(b.n_photo_white,mi.coarse_photo_white,
+                 "adversarial-missingness white count differs from master")
+    exact_counts(b.n_photo_white,cv.n_white_photo,
+                 "7-axis source white count differs from master")
+    exact_counts(b.n_classified_photo,ov.n_photo,
+                 "observer D source-classified photo count differs from master")
     result=master.copy()
     for key,df in (("observer",ob),("seven",climate),("missing",missing)):
         omit={"inat_taxon_id","species","source_cohort","cohort"}
