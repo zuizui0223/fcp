@@ -1,0 +1,88 @@
+name: FCP New Phytologist global4475 geography missingness and mechanism figures
+on:
+  push:
+    branches: [analysis/fcp-np-all4475-unified-20261021]
+    paths:
+      - scripts/analysis/render_fcp_np_all4475_geo_qa_framework_20261021.py
+      - .github/workflows/fcp-np-all4475-geo-qa-mechanism-figures-20261021.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fcp-all4475-geo-missingness-mechanism-20261021
+  cancel-in-progress: false
+jobs:
+  verified-actual-result-figures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test drawing and XML valid synthetic layouts
+        run: |
+          python -m py_compile scripts/analysis/render_fcp_np_all4475_geo_qa_framework_20261021.py
+          python scripts/analysis/render_fcp_np_all4475_geo_qa_framework_20261021.py --self-test
+      - name: Render from SHA-authenticated genuine 447500-photo results in the repo
+        run: |
+          python scripts/analysis/render_fcp_np_all4475_geo_qa_framework_20261021.py \
+            --core results/fcp_np_entire4475_real_photo_source_h1_h5_20261021.json \
+            --white results/fcp_all4475_white_axis_structured_null_actual_20261021.json \
+            --missing results/fcp_np_all4475_photo_label_missingness_sharp_bounds_20261021.json \
+            --D results/fcp_all4475_D_classifiability_sensitivity_20261021.json \
+            --out /tmp/fcp_np_4475_extra_figs
+      - name: Verify all three graphic claims and source frames without inventing genotype or fitness results
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path('/tmp/fcp_np_4475_extra_figs')
+          allfiles=list(root.glob('*.svg'))
+          assert len(allfiles)==3
+          tokens={
+           'fcp_np_all4475_figure2_geo_50km_20261021.svg':
+                ('4,475','3,600','875','0.005','50-km'),
+           'fcp_np_all4475_supp_photo_missingness_20261021.svg':
+                ('4,475','227,107','220,393','0.292','0.153','0.671'),
+           'fcp_np_all4475_figure5_mechanism_schema_20261021.svg':
+                ('H1','H2','H3','H4','H5','4,475','genetic','fitness'),
+          }
+          for file,expected in tokens.items():
+              s=(root/file).read_text()
+              a=ET.fromstring(s)
+              assert a.tag.endswith('svg') and int(a.attrib.get('width',0))>=1300
+              assert len(a.findall('{http://www.w3.org/2000/svg}text'))>=10
+              for token in expected:
+                  assert token in s,(file,token)
+              assert not any(x in s for x in ('<script','<foreignObject','https://'))
+              print('FCP_NP_ALL4475_GENUINE_SOURCE_FIGURE_XML_PASS',file)
+          PY
+      - name: Store audited figures in 4475-species draft branch without touching main
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "analysis/fcp-np-all4475-unified-20261021"
+          mkdir -p docs/figures
+          cp /tmp/fcp_np_4475_extra_figs/*.svg docs/figures/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg \
+                  docs/figures/fcp_np_all4475_supp_photo_missingness_20261021.svg \
+                  docs/figures/fcp_np_all4475_figure5_mechanism_schema_20261021.svg
+          if git diff --cached --quiet; then
+            echo FCP_ALL4475_EXTRA_FIGURES_ALREADY_PERSISTED
+          else
+            git commit -m "Render genuine all-4475 FCP geographic and missingness figures plus explicit mechanism hypothesis graphic"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin HEAD:refs/heads/analysis/fcp-np-all4475-unified-20261021
+            echo FCP_ALL4475_EXTRA_FIGURES_PUSH_SUCCESS
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-NewPhytologist-all4475-geography-photoQC-H1H5-figure-trio
+          path: /tmp/fcp_np_4475_extra_figs/
+          retention-days: 90
+          if-no-files-found: error
