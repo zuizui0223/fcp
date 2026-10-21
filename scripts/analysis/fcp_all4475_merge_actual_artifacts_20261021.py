@@ -111,7 +111,8 @@ def merge_sources(files):
                  "observer D source-classified photo count differs from master")
     result=master.copy()
     for key,df in (("observer",ob),("seven",climate),("missing",missing)):
-        omit={"inat_taxon_id","species","source_cohort","cohort"}
+        # Keep the one-to-one join key; discard only duplicated descriptors.
+        omit={"species","source_cohort","cohort"}
         other=df.drop(columns=[col for col in omit if col in df],errors="ignore")
         prefix=INPUTS[key][1]
         other=other.rename(columns={k:prefix+k for k in other.columns if k!="inat_taxon_id"})
@@ -131,13 +132,71 @@ def merge_sources(files):
 
 
 def synthetic_test():
-    # Contradictory source identities must fail rather than silently collapse.
-    a=pd.DataFrame({"inat_taxon_id":[1,2],"species":["A a","B b"],"source_cohort":["discovery","validation"]})
-    require(a.inat_taxon_id.is_unique,"synthetic source identity fixture")
-    require(a.merge(a,on="inat_taxon_id",validate="one_to_one").shape[0]==2,
-            "source photo taxon join fixture")
-    print("FCP_ALL4475_FOUR_ARTIFACT_SCHEMA_GATES_SYNTHETIC_PASS")
+    """Exercise the ACTUAL four-way merge on differently ordered 4,475-row data.
 
+    These are artificial type/schema fixtures only, never a biological result.
+    A test that only checked one duplicate key did not exercise the real join
+    and let two avoidable integration bugs reach GitHub Actions.
+    """
+    n=EXPECTED_N
+    ids=np.arange(30001,30001+n,dtype=int)
+    ncls=np.full(n,50,dtype=int)
+    ncls[:N_CLASSIFIABLE_DELTA()]+=1
+    require(ncls.sum()==EXPECTED_PHOTOS,"synthetic classified-photo denominator")
+    taxa=[f"DummyGenus{i%113} example{i}" for i in ids]
+    cohorts=["discovery" if i%2==0 else "validation" for i in ids]
+    white=np.minimum(ncls,10)
+    m=pd.DataFrame({
+        "inat_taxon_id":ids,"species":taxa,"source_cohort":cohorts,
+        "n_classified_photo":ncls,"n_photo_white":white,
+        "W_axis_sq_alignment":np.full(n,0.5),
+        "D_photo_pairwise_unbiased":np.full(n,0.2),
+        "global_vs_local_50km_colour_mismatch_delta":np.full(n,np.nan),
+    })
+    ob=m[["inat_taxon_id","species","source_cohort"]].copy()
+    ob["n_photo"]=ncls
+    ob["D_split_a"]=0.2
+    ob["BIO5_Firth_beta_logodds_per_C"]=0.01
+    v=m[["inat_taxon_id","species"]].copy()
+    v["cohort"]=cohorts
+    v["n_classifiable_photo"]=ncls
+    v["n_white_photo"]=white
+    v["BIO4_signed_white_minus_nonwhite_SD"]=0.03
+    miss=m[["inat_taxon_id","species","source_cohort"]].copy()
+    miss["classified_four_state_photos"]=ncls
+    miss["coarse_photo_white"]=white
+    miss["D_if_all_100_four_state_lower_sharp"]=0.1
+    # Validate deterministic join regardless of each source CSV's sorting.
+    with TemporaryDirectory() as temp:
+        paths={}
+        for key,frame in (("master",m),("observer",ob),("seven",v),("missing",miss)):
+            p=Path(temp)/(key+".csv")
+            frame.sample(frac=1,random_state=len(key)+82).to_csv(p,index=False)
+            paths[key]=p
+        joined=merge_sources(paths)
+        require(len(joined)==n and joined.inat_taxon_id.is_unique,
+                "full shuffled test join lost distinct taxon IDs")
+        require(joined["miss_classified_four_state_photos"].eq(joined.n_classified_photo).all(),
+                "joined photo opportunity differs from canonical IDs")
+        require(joined["clim_n_classifiable_photo"].eq(joined.n_classified_photo).all(),
+                "seven-axis source opportunities not aligned")
+        # Deliberate violation MUST be trapped on identical taxon IDs.
+        invalid=ob.copy()
+        invalid.iloc[0,invalid.columns.get_loc("n_photo")]+=1
+        invalid.to_csv(paths["observer"],index=False)
+        try:
+            merge_sources(paths)
+        except RuntimeError as err:
+            require("observer D source-classified photo count" in str(err),
+                    "incorrect source-denominator error: "+str(err))
+        else:
+            raise RuntimeError("FCP_4475_ARTIFACT_JOIN_INVALID: changed source photos wrongly accepted")
+    print("FCP_ALL4475_FOUR_ARTIFACT_SHUFFLED_REAL_SCHEMA_JOIN_PASS")
+
+
+def N_CLASSIFIABLE_DELTA():
+    # 4475 * 50 + 3357 = 227107 classified rows.
+    return EXPECTED_PHOTOS-EXPECTED_N*50
 
 def main():
     p=argparse.ArgumentParser()
