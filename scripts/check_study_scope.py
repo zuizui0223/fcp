@@ -89,7 +89,51 @@ def main() -> None:
             "scripts/analysis/fcp_abiotic_hue_direction_macro_20261013.py",
             "docs/MOIS_GLOBAL_MOISTURE_MANUSCRIPT_20261014.md",
         ]
-        print("PASS fcp: 1,499-species within-species D/local structure/W; not mois rainfall")
+        current = scope.get("current_New_Phytologist_analysis_frame")
+        if current is not None:
+            import csv
+            import xml.etree.ElementTree as ET
+            require((current["original_source_photo_measurements"],
+                     current["original_source_species"],
+                     current["classifiable_four_colour_photos"])
+                    == (447500,4475,227107),
+                    "Current NP analysis is not the authentic full 4475 source")
+            require(current["all_taxa_in_result_population_even_when_nonestimable"] is True,
+                    "Current NP needs NA, not deletion, in 4475-taxon parent frame")
+            require(current["original_predeclared_W_158_species_test_unchanged"] is True,
+                    "Original prospective 158-taxon W must remain immutable")
+            require(current["historical_genetic_selection_fitness_or_molecular_cost_causes_identified"] is False,
+                    "Current all-4475 photo data cannot identify causal maintenance")
+            receipt = load(current["entire_species_data_ledger_receipt"])
+            require(receipt["n_total_taxa"]==4475
+                    and receipt["n_original_photos"]==447500
+                    and receipt["n_original_classifiable"]==227107,
+                    "Current merged 4475-source receipt changed")
+            require(receipt["n_species_H1_geometry"]==4475
+                    and receipt["n_species_H2_local50_pair"]==3600
+                    and receipt["n_species_H3_BIO5"]==4112,
+                    "Global geometry, geography and climate estimability has drifted")
+            require(receipt["n_species_H4_inherited_morph_verified"]==0
+                    and receipt["n_species_H5_same_photo_individual_molecular_validated"]==0,
+                    "Source photographs do not contain genotype/pigment maintenance effects")
+            q=load(current["new_global_N4475_W_construction_preserving_null"])
+            require(q["result"]["H1_W"]["all_4475"]["n_species"]==4475
+                    and q["result"]["H1_W"]["all_4475"]["null_upper_p"]==.005,
+                    "Whole-4475 photo W null has changed")
+            with (ROOT/current["entire_species_data_ledger"]).open(encoding="utf-8",newline="") as file:
+                entries=list(csv.DictReader(file))
+            require(len(entries)==4475
+                    and len({r["inat_taxon_id"] for r in entries})==4475,
+                    "Current 4475 species ledger is incomplete or duplicates taxa")
+            for path in scope["New_Phytologist_main_data_figures"]:
+                check = ROOT/path
+                require(check.is_file(), "NP paper figure missing: "+path)
+                ET.parse(check)
+            print("PASS fcp: immutable 1,499-species historical design PLUS current verified"
+                  " 4,475-species/447,500-photo analysis, 7 source-locked figure files,"
+                  " with NA and causal-inference ceilings retained")
+        else:
+            print("PASS fcp: 1,499-species original design; not mois rainfall")
     else:
         require(scope["estimand_level"] == "between_named_species_global_photographed_hue_environment",
                 "mois must remain a between-species global environment analysis")
