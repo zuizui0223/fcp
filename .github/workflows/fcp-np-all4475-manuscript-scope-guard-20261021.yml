@@ -49,6 +49,8 @@ jobs:
               assert fragment in manuscript,(fragment,'missing from paper')
           assert 'not identify inherited polymorphism' in manuscript.lower() or 'neither stable genetic coexistence' in manuscript.lower()
           for path in study['New_Phytologist_main_data_figures']:
-              assert path in manuscript,'Figure not referenced in manuscript: '+path
+              manuscript_relative=Path(path).relative_to('docs').as_posix()
+              assert manuscript_relative in manuscript,\
+                  'Figure not referenced relative to manuscript: '+manuscript_relative
           print('FCP_NP_ALL4475_SOURCE_AUTHENTIC_MANUSCRIPT_FIGURES_PASS')
           PY
