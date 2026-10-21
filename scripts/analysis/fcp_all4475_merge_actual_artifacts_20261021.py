@@ -84,8 +84,10 @@ def merge_sources(files):
                                    (missing,"source_cohort","missing")):
         test=base.merge(frame[["inat_taxon_id","species",cohort_col]],on="inat_taxon_id",
                         suffixes=("_master","_other"),validate="one_to_one")
+        left_cohort="source_cohort_master" if cohort_col=="source_cohort" else "source_cohort"
+        right_cohort="source_cohort_other" if cohort_col=="source_cohort" else cohort_col
         require((test.species_master==test.species_other).all()
-                and (test.source_cohort_master==test[cohort_col+"_other" if cohort_col=="source_cohort" else cohort_col]).all(),
+                and (test[left_cohort]==test[right_cohort]).all(),
                 f"{label}: source species or cohort identities drifted")
     require((base.set_index("inat_taxon_id").n_classified_photo
              ==climate.set_index("inat_taxon_id").n_classifiable_photo).all(),
