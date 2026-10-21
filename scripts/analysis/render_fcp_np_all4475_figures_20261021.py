@@ -82,7 +82,8 @@ def axes_ticks(parts,zero,line_y,mapping,ticks):
         x=mapping(z)
         parts.append(line(x,line_y-4,x,line_y+5,color="#8d9ca8",w=1))
         parts.append(txt(x,line_y+29,f"{z:+.2f}",size=15,color=GREY,anchor="middle"))
-    parts.append(line(mapping(zero),132,mapping(zero),line_y-5,color="#91a7b5",w=2,dash="5,5"))
+    if zero is not None:
+        parts.append(line(mapping(zero),132,mapping(zero),line_y-5,color="#91a7b5",w=2,dash="5,5"))
 
 
 def render_fate(root):
@@ -127,7 +128,7 @@ def render_white(data):
             txt(60,83,"Observed W versus the species/colour-state-preserving, 199-world null",size=17,color=GREY)]
     L,R=540,1140
     x=lambda a:L+(float(a)-.37)/(.56-.37)*(R-L)
-    axes_ticks(parts,.45,555,x,[.38,.42,.46,.50,.54])
+    axes_ticks(parts,None,555,x,[.38,.42,.46,.50,.54])
     for i,(key,name) in enumerate(COHORTS):
         v=z[key]
         lo,hi=v["null_q025_q975"]
