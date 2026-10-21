@@ -76,8 +76,15 @@
   },
   "New_Phytologist_main_data_figures": [
     "docs/figures/fcp_np_all4475_white_axis_five_cohorts_20261021.svg",
+    "docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg",
     "docs/figures/fcp_np_all4475_geometry_vs_fate_20261021.svg",
     "docs/figures/fcp_np_all4475_seven_abiotic_axes_20261021.svg",
+    "docs/figures/fcp_np_all4475_figure5_mechanism_schema_20261021.svg",
+    "docs/figures/fcp_np_all4475_supp_photo_missingness_20261021.svg",
     "docs/figures/fcp_global_photographic_colour_opportunity_20261020.svg"
+  ],
+  "New_Phytologist_real_source_figure_CI_runs": [
+    "https://github.com/zuizui0223/fcp/actions/runs/39529804669",
+    "https://github.com/zuizui0223/fcp/actions/runs/39530395765"
   ]
 }
