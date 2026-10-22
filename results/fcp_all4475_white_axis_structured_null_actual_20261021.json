@@ -1,0 +1,134 @@
+{
+  "schema": "fcp_entire4475_all_five_cohort_white_axis_199world_source_conditional_result_v1",
+  "successful_run": "https://github.com/zuizui0223/fcp/actions/runs/39453625081",
+  "genuine_photo_release_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "posthoc_paper_estimator": true,
+  "preserves_original_prospective_158_W_result": true,
+  "full_pop_4475": true,
+  "full_source_227107_classifiable": true,
+  "replicated_within_same_source_not_independent_provider": true,
+  "does_not_establish_floral_genotype_origins": true,
+  "result": {
+    "H1_W": {
+      "all_4475": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 4475,
+        "null_mean_W": 0.4321573204757917,
+        "null_median_W": 0.4320391234323064,
+        "null_q025_q975": [
+          0.4284717411039461,
+          0.43586515891040367
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.47887191104252164,
+        "source_descendants_with_no_assigned_morph": 0
+      },
+      "cohort_discovery": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 500,
+        "null_mean_W": 0.4187136825394086,
+        "null_median_W": 0.41857014453323577,
+        "null_q025_q975": [
+          0.4080959576685226,
+          0.42989747144190954
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.4729181362781183,
+        "source_descendants_with_no_assigned_morph": 0
+      },
+      "cohort_new_U100": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 2478,
+        "null_mean_W": 0.43388152129217455,
+        "null_median_W": 0.43370141850608085,
+        "null_q025_q975": [
+          0.42889960964051077,
+          0.4386451053376576
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.47964978309279316,
+        "source_descendants_with_no_assigned_morph": 0
+      },
+      "cohort_prospective": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 499,
+        "null_mean_W": 0.425225551537728,
+        "null_median_W": 0.42519291009545745,
+        "null_q025_q975": [
+          0.41383633749950544,
+          0.4355170982696749
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.47755029156612927,
+        "source_descendants_with_no_assigned_morph": 0
+      },
+      "cohort_validation": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 500,
+        "null_mean_W": 0.43033152452917095,
+        "null_median_W": 0.4309560685858112,
+        "null_q025_q975": [
+          0.42013916801042495,
+          0.44174906518375007
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.4716534327110516,
+        "source_descendants_with_no_assigned_morph": 0
+      },
+      "cohort_wave4": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 498,
+        "null_mean_W": 0.44585430846494584,
+        "null_median_W": 0.44573259996281844,
+        "null_q025_q975": [
+          0.4341922339607519,
+          0.4574778956422824
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.48955072173746894,
+        "source_descendants_with_no_assigned_morph": 0
+      },
+      "frozen_primary_gate_on_all_4475_frame": {
+        "fixed_species_in_every_world": true,
+        "frozen_source_cohort_and_coarse_colour_count_in_every_world": true,
+        "n_null_worlds": 199,
+        "n_species": 1217,
+        "null_mean_W": 0.49433357245676296,
+        "null_median_W": 0.49415005543950435,
+        "null_q025_q975": [
+          0.48836268282071765,
+          0.5012885180139522
+        ],
+        "null_upper_p": 0.005,
+        "observed_mean_W": 0.5194549620670097,
+        "source_descendants_with_no_assigned_morph": 0
+      }
+    },
+    "N_PERMUTATIONS": 199,
+    "W_axis": "squared dot of each species' unlabeled Hellinger 2-means composition displacement with q=[white positive,8 nonwhite equal negative], normalized",
+    "all_coarse_labels_preserved_exactly_per_taxon": true,
+    "does_not_estimate_ancestral_white_or_molecular_loss_rate": true,
+    "genuine_original_photos": 447500,
+    "no_taxa_excluded_from_full_primary_W": true,
+    "not_independent_technical_or_genetic_validation": true,
+    "null": "within the five frozen source cohorts and four frozen coarse label classes, shuffle entire nine-palette photo vectors among species, refit same Hellinger 2-mode for all species in each world",
+    "observed_photo_source_already_opened": true,
+    "original_classifiable_four_state_photos": 227107,
+    "prospective_158_species_original_confirmatory_W_result_unchanged": true,
+    "schema": "fcp_all4475_source_cohort_coarse_preserving_white_axis_posthoc_null_v1",
+    "source_original_photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "taxon_count": 4475
+  }
+}

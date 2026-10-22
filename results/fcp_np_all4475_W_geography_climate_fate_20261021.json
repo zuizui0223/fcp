@@ -1,0 +1,359 @@
+{
+  "H4_local_genetic_morphs_testable": false,
+  "H5_same_photographic_individual_pigment_mechanisms_testable": false,
+  "actual_source_species_matrix_sha256": "23d3daadc9799c2e7b5867d54ccc1ed98369ba79a81b72dc7f831e5197e63c49",
+  "all_species_in_common_parent_roster": 4475,
+  "no_genotype_phenotype_fitness_history_causal_estimation": true,
+  "no_independent_photo_provider_or_genetic_data": true,
+  "note": "CIs resample genera of existing nuisance-model residuals without refitting; not a prospective permutation, not a mechanistic no-effect proof. Negative or null co-variation may reflect measurement error.",
+  "primary_hypothesis": "similar photographed W axes do not automatically imply identical spatial or climatic associations among species",
+  "results": {
+    "W_geometry_vs_geographic_sorting": {
+      "by_disjoint_species_cohort_raw": [
+        {
+          "cohort": "discovery",
+          "n_species": 324,
+          "spearman_raw": -0.0486916892396976
+        },
+        {
+          "cohort": "new_U100",
+          "n_species": 2102,
+          "spearman_raw": 0.03376507539640346
+        },
+        {
+          "cohort": "prospective",
+          "n_species": 421,
+          "spearman_raw": 0.043525439024591064
+        },
+        {
+          "cohort": "validation",
+          "n_species": 340,
+          "spearman_raw": 0.06608980835841177
+        },
+        {
+          "cohort": "wave4",
+          "n_species": 413,
+          "spearman_raw": 0.08252557585943711
+        }
+      ],
+      "control_model": {
+        "controls": [
+          "D_photo_pairwise_unbiased",
+          "p_white_photo_label",
+          "n_classified_photo",
+          "n_distinct_observers_source",
+          "n_local50km_colour_photo_pairs"
+        ],
+        "n_effective_control_columns": 10,
+        "rank_residual_sd_W_or_x": 878.7237614936605,
+        "rank_residual_sd_y": 1035.5450254421803,
+        "status": "estimable"
+      },
+      "exploratory_posthoc": true,
+      "genus_bootstrap_95CI_conditional_fixed_residuals": [
+        -0.0022640459500695618,
+        0.06919597094598308
+      ],
+      "leave_one_source_cohort_out_diagnostic": [
+        {
+          "left_out": "discovery",
+          "n_remaining_species": 3276,
+          "partial_rank_r": 0.03974042978407531,
+          "status": "estimable"
+        },
+        {
+          "left_out": "validation",
+          "n_remaining_species": 3260,
+          "partial_rank_r": 0.03125419319997958,
+          "status": "estimable"
+        },
+        {
+          "left_out": "prospective",
+          "n_remaining_species": 3179,
+          "partial_rank_r": 0.035755290019166934,
+          "status": "estimable"
+        },
+        {
+          "left_out": "wave4",
+          "n_remaining_species": 3187,
+          "partial_rank_r": 0.02547526068391944,
+          "status": "estimable"
+        },
+        {
+          "left_out": "new_U100",
+          "n_remaining_species": 1498,
+          "partial_rank_r": 0.037603197084799866,
+          "status": "estimable"
+        }
+      ],
+      "n_genera": 1447,
+      "n_missing_taxa_retained_elsewhere": 875,
+      "n_species": 3600,
+      "not_test_of_genetic_IBD_IBE_history_or_selection": true,
+      "partial_rank_r_controlling_photo_opportunity_and_source": 0.033745038246833475,
+      "potential_shared_source_photo_measurement_artifact": true,
+      "raw_spearman": 0.036574218540020735
+    },
+    "W_geometry_vs_photo_BIO5_slope": {
+      "by_disjoint_species_cohort_raw": [
+        {
+          "cohort": "discovery",
+          "n_species": 464,
+          "spearman_raw": 0.0038231824657586904
+        },
+        {
+          "cohort": "new_U100",
+          "n_species": 2265,
+          "spearman_raw": -0.017472102324478753
+        },
+        {
+          "cohort": "prospective",
+          "n_species": 461,
+          "spearman_raw": 0.041391250454723055
+        },
+        {
+          "cohort": "validation",
+          "n_species": 461,
+          "spearman_raw": 0.045530608220412994
+        },
+        {
+          "cohort": "wave4",
+          "n_species": 461,
+          "spearman_raw": -0.00583919522899057
+        }
+      ],
+      "control_model": {
+        "controls": [
+          "D_photo_pairwise_unbiased",
+          "p_white_photo_label",
+          "n_classified_photo",
+          "n_distinct_observers_source",
+          "ob_bio5_observed_SD_C"
+        ],
+        "n_effective_control_columns": 10,
+        "rank_residual_sd_W_or_x": 1057.8842643519074,
+        "rank_residual_sd_y": 1184.1560845818663,
+        "status": "estimable"
+      },
+      "exploratory_posthoc": true,
+      "genus_bootstrap_95CI_conditional_fixed_residuals": [
+        -0.03874436062114274,
+        0.02151181528221107
+      ],
+      "leave_one_source_cohort_out_diagnostic": [
+        {
+          "left_out": "discovery",
+          "n_remaining_species": 3648,
+          "partial_rank_r": -0.009551449443168552,
+          "status": "estimable"
+        },
+        {
+          "left_out": "validation",
+          "n_remaining_species": 3651,
+          "partial_rank_r": -0.014396445551419973,
+          "status": "estimable"
+        },
+        {
+          "left_out": "prospective",
+          "n_remaining_species": 3651,
+          "partial_rank_r": -0.008813309686240313,
+          "status": "estimable"
+        },
+        {
+          "left_out": "wave4",
+          "n_remaining_species": 3651,
+          "partial_rank_r": -0.011677005046938046,
+          "status": "estimable"
+        },
+        {
+          "left_out": "new_U100",
+          "n_remaining_species": 1847,
+          "partial_rank_r": 0.004731865724216862,
+          "status": "estimable"
+        }
+      ],
+      "n_genera": 1551,
+      "n_missing_taxa_retained_elsewhere": 363,
+      "n_species": 4112,
+      "not_test_of_genetic_IBD_IBE_history_or_selection": true,
+      "partial_rank_r_controlling_photo_opportunity_and_source": -0.009270265653967887,
+      "potential_shared_source_photo_measurement_artifact": true,
+      "raw_spearman": 0.0008844941744596899
+    },
+    "W_geometry_vs_photo_temperature_seasonality": {
+      "by_disjoint_species_cohort_raw": [
+        {
+          "cohort": "discovery",
+          "n_species": 464,
+          "spearman_raw": -0.03743792598928015
+        },
+        {
+          "cohort": "new_U100",
+          "n_species": 2265,
+          "spearman_raw": 0.00724753502882045
+        },
+        {
+          "cohort": "prospective",
+          "n_species": 461,
+          "spearman_raw": -0.012777564791145854
+        },
+        {
+          "cohort": "validation",
+          "n_species": 461,
+          "spearman_raw": 0.07869862854301221
+        },
+        {
+          "cohort": "wave4",
+          "n_species": 461,
+          "spearman_raw": -0.016522890483090427
+        }
+      ],
+      "control_model": {
+        "controls": [
+          "D_photo_pairwise_unbiased",
+          "p_white_photo_label",
+          "n_classified_photo",
+          "n_distinct_observers_source"
+        ],
+        "n_effective_control_columns": 9,
+        "rank_residual_sd_W_or_x": 1057.884730323946,
+        "rank_residual_sd_y": 1183.7268824090322,
+        "status": "estimable"
+      },
+      "exploratory_posthoc": true,
+      "genus_bootstrap_95CI_conditional_fixed_residuals": [
+        -0.054228399200915364,
+        0.004984704318298186
+      ],
+      "leave_one_source_cohort_out_diagnostic": [
+        {
+          "left_out": "discovery",
+          "n_remaining_species": 3648,
+          "partial_rank_r": -0.017656296351956032,
+          "status": "estimable"
+        },
+        {
+          "left_out": "validation",
+          "n_remaining_species": 3651,
+          "partial_rank_r": -0.03181655194746741,
+          "status": "estimable"
+        },
+        {
+          "left_out": "prospective",
+          "n_remaining_species": 3651,
+          "partial_rank_r": -0.024026625871341595,
+          "status": "estimable"
+        },
+        {
+          "left_out": "wave4",
+          "n_remaining_species": 3651,
+          "partial_rank_r": -0.025005166439625828,
+          "status": "estimable"
+        },
+        {
+          "left_out": "new_U100",
+          "n_remaining_species": 1847,
+          "partial_rank_r": -0.02731178710520248,
+          "status": "estimable"
+        }
+      ],
+      "n_genera": 1551,
+      "n_missing_taxa_retained_elsewhere": 363,
+      "n_species": 4112,
+      "not_test_of_genetic_IBD_IBE_history_or_selection": true,
+      "partial_rank_r_controlling_photo_opportunity_and_source": -0.024836021699333792,
+      "potential_shared_source_photo_measurement_artifact": true,
+      "raw_spearman": 0.006154158354585323
+    },
+    "geographic_sorting_vs_photo_BIO5_slope": {
+      "by_disjoint_species_cohort_raw": [
+        {
+          "cohort": "discovery",
+          "n_species": 298,
+          "spearman_raw": 0.047321325227463504
+        },
+        {
+          "cohort": "new_U100",
+          "n_species": 1910,
+          "spearman_raw": 0.039997593341556094
+        },
+        {
+          "cohort": "prospective",
+          "n_species": 391,
+          "spearman_raw": 0.0643115170126432
+        },
+        {
+          "cohort": "validation",
+          "n_species": 314,
+          "spearman_raw": 0.0701890934046051
+        },
+        {
+          "cohort": "wave4",
+          "n_species": 379,
+          "spearman_raw": 0.055004164159988045
+        }
+      ],
+      "control_model": {
+        "controls": [
+          "D_photo_pairwise_unbiased",
+          "p_white_photo_label",
+          "n_classified_photo",
+          "n_distinct_observers_source",
+          "n_local50km_colour_photo_pairs",
+          "ob_bio5_observed_SD_C"
+        ],
+        "n_effective_control_columns": 11,
+        "rank_residual_sd_W_or_x": 947.4254572930732,
+        "rank_residual_sd_y": 947.3814594355741,
+        "status": "estimable"
+      },
+      "exploratory_posthoc": true,
+      "genus_bootstrap_95CI_conditional_fixed_residuals": [
+        0.015800525227981328,
+        0.08159911284423332
+      ],
+      "leave_one_source_cohort_out_diagnostic": [
+        {
+          "left_out": "discovery",
+          "n_remaining_species": 2994,
+          "partial_rank_r": 0.04880042552534567,
+          "status": "estimable"
+        },
+        {
+          "left_out": "validation",
+          "n_remaining_species": 2978,
+          "partial_rank_r": 0.04750517399611999,
+          "status": "estimable"
+        },
+        {
+          "left_out": "prospective",
+          "n_remaining_species": 2901,
+          "partial_rank_r": 0.047047093690579314,
+          "status": "estimable"
+        },
+        {
+          "left_out": "wave4",
+          "n_remaining_species": 2913,
+          "partial_rank_r": 0.04721820218512762,
+          "status": "estimable"
+        },
+        {
+          "left_out": "new_U100",
+          "n_remaining_species": 1382,
+          "partial_rank_r": 0.06007064401865454,
+          "status": "estimable"
+        }
+      ],
+      "n_genera": 1364,
+      "n_missing_taxa_retained_elsewhere": 1183,
+      "n_species": 3292,
+      "not_test_of_genetic_IBD_IBE_history_or_selection": true,
+      "partial_rank_r_controlling_photo_opportunity_and_source": 0.04887862859335402,
+      "potential_shared_source_photo_measurement_artifact": true,
+      "raw_spearman": 0.04725059066253781
+    }
+  },
+  "schema": "fcp_entire4475_photo_W_geometry_geographic_climatic_fate_joint_exploratory_v1",
+  "source_of_447500_photos_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "strictly_posthoc_descriptive_association_from_same_classified_photos": true
+}

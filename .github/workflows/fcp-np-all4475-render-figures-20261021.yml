@@ -1,0 +1,111 @@
+name: FCP New Phytologist real 4475 population three-figure source-locked render
+on:
+  push:
+    branches: [analysis/fcp-np-all4475-unified-20261021]
+    paths:
+      - scripts/analysis/render_fcp_np_all4475_figures_20261021.py
+      - results/fcp_np_all4475_W_geography_climate_fate_20261021.json
+      - results/fcp_np_all4475_seven_abiotic_axes_verified_20261021.json
+      - results/fcp_all4475_white_axis_structured_null_actual_20261021.json
+      - .github/workflows/fcp-np-all4475-render-figures-20261021.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fcp-np-4475-final-svg-figures
+  cancel-in-progress: false
+jobs:
+  figure-source-and-render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Authenticate committed real-photo all-species sources
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          files={
+           'joint':'results/fcp_np_all4475_W_geography_climate_fate_20261021.json',
+           'white':'results/fcp_all4475_white_axis_structured_null_actual_20261021.json',
+           'seven':'results/fcp_np_all4475_seven_abiotic_axes_verified_20261021.json',
+          }
+          obj={k:json.loads(Path(v).read_text()) for k,v in files.items()}
+          q=obj['joint']
+          assert q['all_species_in_common_parent_roster']==4475
+          assert q['results']['W_geometry_vs_geographic_sorting']['n_species']==3600
+          assert q['results']['W_geometry_vs_photo_BIO5_slope']['n_species']==4112
+          assert obj['white']['result']['H1_W']['all_4475']['n_species']==4475
+          assert obj['seven']['estimable_environment_species']==4112
+          assert obj['seven']['complete_source_4475_species'] is True
+          original='8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6'
+          assert q['source_of_447500_photos_sha256']==original
+          assert obj['white']['genuine_photo_release_sha256']==original
+          assert obj['seven']['full_source_447500_photo_measurements_sha256']==original
+          assert q['no_independent_photo_provider_or_genetic_data'] is True
+          print('FCP_NP_ALL4475_AUTHENTIC_FIGURE_INPUTS_PASS')
+          for name,path in files.items():
+              print('FCP_NP_FIGURE_SOURCE_SHA256',name,hashlib.sha256(Path(path).read_bytes()).hexdigest())
+          PY
+      - name: Render all-species observed W, seven environment axes, and geometry-versus-fate SVGs
+        run: |
+          python -m py_compile scripts/analysis/render_fcp_np_all4475_figures_20261021.py
+          python scripts/analysis/render_fcp_np_all4475_figures_20261021.py --self-test
+          python scripts/analysis/render_fcp_np_all4475_figures_20261021.py \
+            --joint results/fcp_np_all4475_W_geography_climate_fate_20261021.json \
+            --white results/fcp_all4475_white_axis_structured_null_actual_20261021.json \
+            --seven results/fcp_np_all4475_seven_abiotic_axes_verified_20261021.json \
+            --out /tmp/fcp-np4475-figures
+      - name: Parse and check exact expected source-locked SVG content
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          parent=Path('/tmp/fcp-np4475-figures')
+          assert len(list(parent.glob('*.svg')))==3
+          req={
+            'fcp_np_all4475_white_axis_five_cohorts_20261021.svg':['4,475','p = 0.005','white'],
+            'fcp_np_all4475_geometry_vs_fate_20261021.svg':['4,475','3,600','4,112'],
+            'fcp_np_all4475_seven_abiotic_axes_20261021.svg':['4,112','BIO4','BIO5']
+          }
+          for fname,tokens in req.items():
+              s=(parent/fname).read_text()
+              root=ET.fromstring(s)
+              assert root.tag.endswith('svg')
+              assert root.attrib['viewBox'] and int(root.attrib['width'])>=1300
+              assert len(root.findall('{http://www.w3.org/2000/svg}text'))>=8
+              for token in tokens:
+                  assert token.lower() in s.lower(),f'{fname} missing {token}'
+              assert '<script' not in s and 'https://' not in s and len(s)>2500
+              print('FCP_NP_FIGURE_XML_AND_SOURCE_QA_PASS',fname,len(s))
+          PY
+      - name: Persist fully rendered figures in draft analysis branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "analysis/fcp-np-all4475-unified-20261021"
+          mkdir -p docs/figures
+          cp /tmp/fcp-np4475-figures/*.svg docs/figures/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/figures/fcp_np_all4475_*_20261021.svg
+          if git diff --cached --quiet; then
+            echo FCP_NP_4475_SOURCE_LOCKED_FIGURES_ALREADY_PERSISTED
+          else
+            git commit -m "Render source-locked New Phytologist complete-4475 floral-axis and fate figures"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin HEAD:refs/heads/analysis/fcp-np-all4475-unified-20261021
+            echo FCP_NP_4475_SOURCE_LOCKED_FIGURES_PUSH_SUCCESS
+          fi
+      - name: Upload complete SVG figures for manuscript preparation
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-new-phytologist-source4475-real-world-figure-trio
+          path: /tmp/fcp-np4475-figures/
+          retention-days: 90
+          if-no-files-found: error

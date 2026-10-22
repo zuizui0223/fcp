@@ -1,0 +1,92 @@
+{
+  "bounds_assumption": "Every unclassified original source photo hypothetically has one of the same four original biological colour labels. If this assumption fails (flower organ absent, image fails ROI QC), these are NOT biological true-colour bounds.",
+  "cohort_n_taxa": {
+    "discovery": 500,
+    "new_U100": 2478,
+    "prospective": 499,
+    "validation": 500,
+    "wave4": 498
+  },
+  "genus_cluster_bootstrap_95CI": {
+    "D_given_classifiable_unbiased": [
+      0.28087827307514024,
+      0.30358609477146725
+    ],
+    "D_if_all_100_four_state_lower_sharp": [
+      0.14657268837872414,
+      0.15934337840561377
+    ],
+    "D_if_all_100_four_state_upper_sharp": [
+      0.6647426804253411,
+      0.6765933136141595
+    ]
+  },
+  "mean_D_conditional_on_classified": 0.2918725478760964,
+  "mean_D_hypothetical_all100_bound_width": 0.5178124936515998,
+  "mean_D_hypothetical_all100_sharp_lower": 0.15281927656452796,
+  "mean_D_hypothetical_all100_sharp_upper": 0.6706317702161279,
+  "median_species_D_hypothetical_lower": 0.13151515151515147,
+  "median_species_D_hypothetical_upper": 0.723030303030303,
+  "n_missing_four_state_photo_labels": 220393,
+  "n_observed_classifiable_four_state": 227107,
+  "n_original_photos": 447500,
+  "n_original_species_with_at_least_two_coarse_colours": 4189,
+  "n_species_with_D_all100_lower_above_0p1": 2470,
+  "n_species_with_D_all100_upper_below_0p1": 0,
+  "n_taxa": 4475,
+  "no_native_wild_population_genotype_evidence": true,
+  "no_unclassified_photo_label_reconstruction": true,
+  "note": "Sharp counts are algebraic for an entirely hypothetical 100-photo labelling completion, without missing-at-random assumptions. They are NOT bounds on wild genetic FCP or true pigment cost.",
+  "research_role": "post hoc whole-4475 source classification sensitivity and limitation of global phenotypic diversity interpretations",
+  "schema": "fcp_all4475_adversarial_photo_colour_missingness_sharp_bounds_v1",
+  "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "strata_by_classifiable_n": [
+    {
+      "mean_all100_lower": 0.17335322335322334,
+      "mean_all100_upper": 0.7560570960570961,
+      "mean_classified_D": 0.4352090689247656,
+      "mean_missing_photo_labels": 68.9469111969112,
+      "n_taxa": 1036,
+      "photo_bin": "20–39"
+    },
+    {
+      "mean_all100_lower": 0.18061598894932226,
+      "mean_all100_upper": 0.7140711603211604,
+      "mean_classified_D": 0.3081432536137433,
+      "mean_missing_photo_labels": 49.77403846153846,
+      "n_taxa": 1872,
+      "photo_bin": "40–59"
+    },
+    {
+      "mean_all100_lower": 0.1113815146038229,
+      "mean_all100_upper": 0.5643662026930811,
+      "mean_classified_D": 0.15384512582916796,
+      "mean_missing_photo_labels": 32.23625096824167,
+      "n_taxa": 1291,
+      "photo_bin": "60–79"
+    },
+    {
+      "mean_all100_lower": 0.04812302125734962,
+      "mean_all100_upper": 0.3349871852856927,
+      "mean_classified_D": 0.056909042063191834,
+      "mean_missing_photo_labels": 16.64179104477612,
+      "n_taxa": 134,
+      "photo_bin": "80–100"
+    },
+    {
+      "mean_all100_lower": 0.1120927585716318,
+      "mean_all100_upper": 0.7575757575757577,
+      "mean_classified_D": 0.5082325105114317,
+      "mean_missing_photo_labels": 84.08450704225352,
+      "n_taxa": 142,
+      "photo_bin": "8–19"
+    }
+  ],
+  "taxa_eliminated_or_missing_records_imputed": 0,
+  "source_actual_447500_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_run": "https://github.com/zuizui0223/fcp/actions/runs/39518450603",
+  "source_job_id": 118956182289,
+  "posthoc_exploratory": true,
+  "all_4475_hypothesis_population": true,
+  "per_species_4475_row_csv_in_GitHub_Actions_artifact": true
+}

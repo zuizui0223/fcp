@@ -3,8 +3,13 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANUSCRIPT = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md"
+# This pre-October-2026 regression module locks the original 149,900-photo
+# manuscript and its legacy extension evidence. Its exact strings (e.g. the
+# "pending 447,500" freeze) are HISTORICAL claims, not the active 4,475-taxon
+# New Phytologist manuscript. The latter is checked independently by
+# tests/test_fcp_np_all4475_submission.py; do not weaken old data checks.
 CANONICAL = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
+MANUSCRIPT = CANONICAL
 COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
 RGFCA_INTERPRETATION = ROOT / "docs" / "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md"
 FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"
