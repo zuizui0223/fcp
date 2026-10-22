@@ -25,7 +25,7 @@ The current Full Paper directly tests four **observational** predictions:
 3. **P3 — climate association:** the photographed white/nonwhite contrast correlates weakly with warmest-month maximum temperature (4,112 estimable species; univariate mean +0.0219 log odds per °C), but varies by cohort and fails strong spatial prediction.
 4. **P4 — coupled outcome:** the white–chromatic W direction does not strongly predict how much a species geographically sorts its photo colours or the sign/strength of its temperature association (rank CIs include zero).
 
-All tests on the complete source roster are **post hoc**; they concern photographed phenotypes, not direct genetic polymorphism, locally stabilizing selection, or a universally adaptive white flower. The historical 158-species prospective test remains an archived confirmation of an earlier specifically frozen target, **not** a criterion for admitting species into the present P1–P4 study.
+All tests on the complete source roster are **post hoc**; they concern photographed phenotypes, not direct genetic polymorphism, locally stabilizing selection, or a universally adaptive white flower. All five species cohorts use the same iNaturalist source and ROI procedure: the expansion is **not an independent-source replication**. The historical 158-species prospective test remains an archived confirmation of an earlier specifically frozen target, **not** a criterion for admitting species into the present P1–P4 study.
 
 ## Repository scope
 
@@ -39,6 +39,7 @@ This repository is the paper-facing FCP analysis surface. The generalized trait/
 4. **Data figures:** [`docs/figures/fcp_np_all4475_white_axis_five_cohorts_20261021.svg`](docs/figures/fcp_np_all4475_white_axis_five_cohorts_20261021.svg), [`docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg`](docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg) and five additional paper/supplemental figures.
 5. **Reproducibility contract:** [`CURRENT_PAPER_REPRODUCIBILITY.md`](CURRENT_PAPER_REPRODUCIBILITY.md)
 6. **Frozen claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
+   Historical source and claim-to-input map: [`docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`](docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md).
 7. **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
 8. **Secondary mechanism evidence hierarchy:** [`docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`](docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md)
 9. **Frozen provenance release receipt:** [`archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`](archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md)
