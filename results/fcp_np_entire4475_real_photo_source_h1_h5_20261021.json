@@ -1,0 +1,154 @@
+{
+  "schema": "fcp_entire4475_original_photo_source_h1_h5_reanalysis_evidence_receipt_v1",
+  "verified_workflow": "https://github.com/zuizui0223/fcp/actions/runs/39452979205",
+  "matched_photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "matched_climate_zip_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "H5_literature_git_blob": "e027179b818c5ae81779c798509c4cbb09579cd6",
+  "analysis_is_posthoc_entire_src": true,
+  "entire_4475_species_stored_in_actions_artifact": true,
+  "no_individual_coordinates_in_export": true,
+  "cause_of_presence_or_absence_not_identified": true,
+  "result": {
+    "H1_W_descriptive_mean_all_axis_evaluable": 0.47887191104252164,
+    "H1_W_genus_bootstrap_CI95": [
+      0.4687382874561918,
+      0.4897757758701306
+    ],
+    "H1_W_mean_on_strict_existing_gate": 0.5194549620670097,
+    "H1_n_strict_existing_gate": 1217,
+    "H2_any_local_pairs_mean_null": -0.00010925975124036858,
+    "H2_any_local_pairs_null_reps": 199,
+    "H2_any_local_pairs_one_sided_p": 0.005,
+    "H2_mean_depletion_across_any_local_pair": 0.016115883798023662,
+    "H2_mean_depletion_original_30plus_support": 0.017421421885423102,
+    "H2_median_depletion_across_any_local_pair": 0.0087255729364296,
+    "H2_pair_opportunity_sensitivity": {
+      "at_least_100_local_photo_pairs": {
+        "median_species_depletion": 0.003093545110351814,
+        "n_species": 1117,
+        "null_mean": -0.00010916454741858389,
+        "observed_mean_depletion": 0.013746365580503914,
+        "photo_composition_and_vertices_fixed": true,
+        "upper_p_199": 0.005
+      },
+      "at_least_1_local_photo_pair": {
+        "median_species_depletion": 0.0087255729364296,
+        "n_species": 3600,
+        "null_mean": -0.00010925975124036858,
+        "observed_mean_depletion": 0.016115883798023662,
+        "photo_composition_and_vertices_fixed": true,
+        "upper_p_199": 0.005
+      },
+      "at_least_30_local_pairs_and_40plus_colours": {
+        "median_species_depletion": 0.006871278057718734,
+        "n_species": 1761,
+        "null_mean": -0.00010446965661904124,
+        "observed_mean_depletion": 0.0176149021685411,
+        "photo_composition_and_vertices_fixed": true,
+        "upper_p_199": 0.005
+      },
+      "at_least_30_local_photo_pairs": {
+        "median_species_depletion": 0.006404836369276606,
+        "n_species": 2084,
+        "null_mean": -0.0000995585239188985,
+        "observed_mean_depletion": 0.017421421885423102,
+        "photo_composition_and_vertices_fixed": true,
+        "upper_p_199": 0.005
+      },
+      "at_least_5_local_photo_pairs": {
+        "median_species_depletion": 0.0070273996620247095,
+        "n_species": 3178,
+        "null_mean": -0.000037741345103342126,
+        "observed_mean_depletion": 0.017610062661334476,
+        "photo_composition_and_vertices_fixed": true,
+        "upper_p_199": 0.005
+      }
+    },
+    "H2_technical_and_sampling_eligibility_varies_by_species": true,
+    "H3_BIO12_photo_mean_mm_all_identifiable": -4.236942952742959,
+    "H3_BIO5_genus_bootstrap_CI95": [
+      0.07905253062935834,
+      0.17844068370930374
+    ],
+    "H3_BIO5_photo_mean_C_all_identifiable": 0.12821700406790246,
+    "IBD_like_partial_r_mean_in_estimable": 0.013584846215189232,
+    "IBE_BIO5_like_partial_r_mean_in_estimable": 0.006453728979125084,
+    "all_photo_measurement_rows": 447500,
+    "all_random_seed": 20261021,
+    "all_taxa": 4475,
+    "by_species_disjoint_cohort": {
+      "discovery": {
+        "H2_mean": 0.02427802273585818,
+        "H3_BIO5_mean_C": 0.02393553586955825,
+        "W_mean": 0.4729181362781183,
+        "n_H1_axis": 500,
+        "n_H2_local": 324,
+        "n_H3_climate": 464,
+        "n_species": 500
+      },
+      "new_U100": {
+        "H2_mean": 0.01353930733416926,
+        "H3_BIO5_mean_C": 0.20005660434999983,
+        "W_mean": 0.47964978309279316,
+        "n_H1_axis": 2478,
+        "n_H2_local": 2102,
+        "n_H3_climate": 2265,
+        "n_species": 2478
+      },
+      "prospective": {
+        "H2_mean": 0.025051428967610884,
+        "H3_BIO5_mean_C": 0.009529589437867171,
+        "W_mean": 0.47755029156612927,
+        "n_H1_axis": 499,
+        "n_H2_local": 421,
+        "n_H3_climate": 461,
+        "n_species": 499
+      },
+      "validation": {
+        "H2_mean": 0.011792632741103773,
+        "H3_BIO5_mean_C": 0.10161655579313643,
+        "W_mean": 0.4716534327110516,
+        "n_H1_axis": 500,
+        "n_H2_local": 340,
+        "n_H3_climate": 461,
+        "n_species": 500
+      },
+      "wave4": {
+        "H2_mean": 0.017276831870953704,
+        "H3_BIO5_mean_C": 0.025500325985894922,
+        "W_mean": 0.48955072173746894,
+        "n_H1_axis": 498,
+        "n_H2_local": 413,
+        "n_H3_climate": 461,
+        "n_species": 498
+      }
+    },
+    "claim_ceiling": "source-photographed within-species colour variation; not genetic morph prevalence, fitness, neutral population history, or molecular causality",
+    "complete_input_authentic_sha": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "complete_input_climate_zip_sha": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+    "every_species_present": true,
+    "n_H5_any_external_curated_literature": 11,
+    "n_H5_external_molecular_tier_ge2": 9,
+    "n_H5_individual_matched_molecular_phenotypes": 0,
+    "n_IBD_IBE_partial_correlations_estimable": 4189,
+    "n_axis_nonidentifiable": 0,
+    "n_h1_continuous_axis_evaluable": 4475,
+    "n_h2_30plus_local_pairs_without_prior_classifiability_gate": 2084,
+    "n_h2_any_local50_pair": 3600,
+    "n_h2_original_30plus_pairs_AND_40plus_classifiable": 1761,
+    "n_h3_BIO5_each_at_least_5_photo": 2409,
+    "n_h3_two_colours_with_complete_BIO5": 4112,
+    "n_h4_genetic_coexistence_verified": 0,
+    "n_h4_same_month_local_diff_colour_labels_any": 325,
+    "n_h4_same_month_local_distinct_observer_pairs_any": 840,
+    "n_photo_classifiable_each_at_least_two": 4475,
+    "n_photo_label_counts_below_40": 1178,
+    "n_species_total": 4475,
+    "no_molecular_causation_for_source_photo_individuals": true,
+    "no_source_row_excluded_from_roster": true,
+    "null_resampling_only_when_at_least_one_50km_photo_pair": true,
+    "schema": "fcp_entire4475_same_source_hypothesis_measurement_v1",
+    "seven_macro_taxon_H1_to_H5_are_overlapping_estimands_not_unbiased_prevalence": true,
+    "source_classified_photo_rows": 227107
+  }
+}
