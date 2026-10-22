@@ -31,6 +31,12 @@ Repository cleanup must not alter a frozen numerical result, biological decision
 - seven environmental axes: `results/fcp_np_all4475_seven_abiotic_axes_verified_20261021.json`
 - observer/BIO5 model, photo-label missingness: `results/fcp_np_all4475_observer_split_D_and_univariate_BIO5_Firth_20261021.json`; `results/fcp_np_all4475_photo_label_missingness_sharp_bounds_20261021.json`
 - current full-source CI guard: `.github/workflows/fcp-np-main-integration-guard-20261022.yml`
+- **Source-locked historical H1–H3 / modern P1–P4 ecological synthesis:** `docs/FCP_NP_H1_H3_P1_P4_ECOLOGICAL_SYNTHESIS_20261022.md`
+- frozen observer-disjoint H1 and strict stress gate: `results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json`; `results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json`
+- historical prospective H2 W: `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
+- independently replicated, earlier high-depth **D–spatial-organization correlation**: `results/polymorphism_spatial_organization_clue_20260918/result.json` (already-frozen data/reporting receipt, no full-4,475 refit)
+- failed historical H3a reserve phylogenetic signal and H3b sampled-span transport: `archive/fcp_submission_20260925/h3a_signal/result.json`; `archive/fcp_submission_20260925/h3b/result.json`
+
 
 The current source roster is **4,475 species / 447,500 measured rows**, of which 227,107 are four-colour classifiable. The P1 denominator is all 4,475 taxa; P2 has 3,600 species with observed 50-km paired-photo opportunity; P3 has 4,112 with white/nonwhite source climate contrasts; P4 uses the matching eligible pairs. Ineligible taxon outcomes are **NA** in the common source ledger, not zero. These are observational *post hoc* comparisons of one photo provider, not independent molecular/fitness evidence.
 
