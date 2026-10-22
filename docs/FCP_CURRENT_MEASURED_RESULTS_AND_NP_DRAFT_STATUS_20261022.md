@@ -34,6 +34,16 @@ The five-cohort historical-method observer-disjoint repeated-D check and frozen-
 
 A stricter exploratory same-year/month, independently observed **5-km** comparison **did not** detect additional local photo-colour clustering above its month-conditioned null: P = **0.300** (194 species with ≥5 eligible pairs) and P = **0.275** (14 species with ≥30 pairs). This null must not be silently dropped or confused with the supported 50-km result. Recurrent co-located photographs can also represent multicoloured flowers, organ/age differences or exposure artifacts.
 
+## Historical positive measurement and diversity–geography evidence retained
+
+Historical **H1** tested four-colour diversity D repeatability on 200 observer-disjoint partitions. The first-frozen validation median rho was **0.789103** and passed; a later stricter single split (rho **0.792728**) did **not** meet the required 0.80 threshold. The earlier **H2** prospective W test (158 species; W **0.517246** vs null median **0.457143**; P **0.001**) remains frozen validation of a selected phenotype direction, not the denominator for P1.
+
+A distinct ecological discovery/validation result links greater photographed species-wide D with greater geographic colour organization after observed-span and technical-failure controls (discovery **369 species**, partial rho **+0.126637**, P **0.007**; validation **363 species**, **+0.099288**, P **0.025**; validation flower-minus-background **+0.116241**, P **0.010**). This relationship was **not rerun on all 4,475 species** and is not equivalent to P2's species-conditional 50-km mismatch.
+
+The older **H3a** broad tree-wide D signal was unsupported in the 341-taxon reserve across three phylogenetic placements (P = 0.2716–0.4134). The older **H3b** photographed sampled-span association was not replicated in its 363-taxon reserve (rho **−0.002586**, P **0.958602**). These non-supports bound the earlier, smaller-sample analyses and **do not demonstrate phylogenetic or true-range-size irrelevance** in the full roster.
+
+Full historical/modern hypothesis crosswalk, exact evidence paths and tested negative outcomes: [H1–H3 × P1–P4 source-locked synthesis](FCP_NP_H1_H3_P1_P4_ECOLOGICAL_SYNTHESIS_20261022.md).
+
 ## New Phytologist Full Paper: four full-source photographic hypotheses
 
 The active Full Paper source is [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md) and its audited main-integration change is [PR #254](https://github.com/zuizui0223/fcp/pull/254). The original development draft [PR #252](https://github.com/zuizui0223/fcp/pull/252) is a historically stacked **source branch** and should not be merged in full. The integration copies exactly identified source blobs without importing the entire dependency history. This is a **working hypothesis paper, not a submitted or accepted article**. The common source registry contains 4,475 species; an unobserved locality contrast or white/nonwhite comparison is **NA**, not evidence for an actual zero effect. Its **post hoc** photographic hypotheses are:
