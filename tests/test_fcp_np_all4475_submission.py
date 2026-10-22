@@ -152,3 +152,28 @@ def test_current_article_hypothesis_falsifiability_keeps_missing_mechanisms_miss
     assert study["current_New_Phytologist_analysis_frame"][
        "historical_genetic_selection_fitness_or_molecular_cost_causes_identified"] is False
     assert "not a natural-population genetic" in s or "not genetic morph coexistence" in s
+
+
+def test_main_hypotheses_use_complete_4475_frame_not_prospective_158_gate():
+    """P1–P4 are tested on the common full-source registry, not a legacy subset."""
+    paper = manuscript()
+    summary = paper.split("## Summary\n", 1)[1].split("**Key words:**", 1)[0]
+    intro = paper.split("## Introduction\n", 1)[1].split("## Materials and Methods\n", 1)[0]
+    table1 = paper.split("## Table 1.", 1)[1].split("## Table 2.", 1)[0]
+    methods = paper.split("## Materials and Methods\n", 1)[1].split("## Table 1.", 1)[0]
+    assert "158-species" not in summary
+    assert "158 evaluable species" not in table1
+    assert "P1 (recurrent direction)" in intro
+    assert "P2 (spatial allocation)" in intro
+    assert "P3 (climatic sorting)" in intro
+    assert "P4 (coupled outcomes)" in intro
+    assert "4,475-species frame" in methods
+    assert "post hoc hypothesis test" in methods
+    assert "### Test P1:" in methods
+    assert "### Test P2:" in methods
+    assert "3,600" in table1 and "4,112" in table1
+    assert "Historical species-disjoint prospective source checks" in paper
+    # This editorial change must not erase the authenticated historical result.
+    old = source(LEGACY_W_SOURCE)
+    assert old["thresholds"]["primary_0_10"]["species"] == 158
+    assert old["decision"]["verdict"] == "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
