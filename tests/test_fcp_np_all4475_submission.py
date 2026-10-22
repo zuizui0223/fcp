@@ -198,3 +198,68 @@ def test_four_direct_photographic_predictions_are_separate_from_mechanism_hypoth
     assert "**H5." not in table
     assert "158-species prospective test" in table
     assert "Fig. 5. Candidate evolutionary mechanisms" in paper
+
+
+def test_historical_H1_H3_and_ecological_D_spatial_link_are_source_locked_and_not_upgraded():
+    """Different frozen H1/H2/H3 and P1-P4 estimands must not be conflated."""
+    summary_path = ROOT / "docs/FCP_NP_H1_H3_P1_P4_ECOLOGICAL_SYNTHESIS_20261022.md"
+    assert summary_path.exists()
+    synthesis = summary_path.read_text(encoding="utf-8")
+    paper = manuscript()
+    evidence = paper.split("## Results\n", 1)[1].split("## Discussion\n", 1)[0]
+    discussion = paper.split("## Discussion\n", 1)[1].split("## Acknowledgements\n", 1)[0]
+    supporting = paper.split("## Supporting Information\n", 1)[1]
+
+    first = source(ROOT / "results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json")
+    strict = source(ROOT / "results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json")
+    prospective = source(LEGACY_W_SOURCE)
+    spatial = source(ROOT / "results/polymorphism_spatial_organization_clue_20260918/result.json")
+    tree = source(ROOT / "archive/fcp_submission_20260925/h3a_signal/result.json")
+    span = source(ROOT / "archive/fcp_submission_20260925/h3b/result.json")
+
+    assert first["decision"]["verdict"] == "H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED"
+    assert first["reserve"]["primary20"]["partitions"] == 200
+    assert abs(first["reserve"]["primary20"]["rho_median"] - 0.7891029925726101) < 1e-12
+    assert strict["decision"]["verdict"] == "H1_OBSERVER_DISJOINT_D_RELIABILITY_NOT_SUPPORTED"
+    assert strict["decision"]["rho_floor_0_80_pass"] is False
+    assert abs(strict["reserve"]["spearman_D_A_D_B"] - 0.7927276933213221) < 1e-12
+
+    assert prospective["decision"]["verdict"] == "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
+    assert prospective["thresholds"]["primary_0_10"]["species"] == 158
+    assert tree["decision"]["verdict"] == "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
+    assert span["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+    assert span["reserve_primary"]["p_two_sided"] > 0.95
+
+    assert spatial["new_biological_analysis"] is False
+    d = spatial["discovery"]["span_plus_technical_adjusted_primary"]
+    v = spatial["reserve"]["span_plus_technical_adjusted_primary"]
+    b = spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]
+    assert abs(d["partial_rho"] - 0.1266367492856858) < 1e-12
+    assert abs(v["partial_rho"] - 0.09928771129095708) < 1e-12
+    assert abs(b["partial_rho"] - 0.1162411363016301) < 1e-12
+
+    for token in ("0.7891", "0.7927", "0.12664", "0.09929", "0.11624",
+                  "0.007", "0.025", "0.010", "H3a", "H3b", "9586", "158"):
+        assert token in evidence or token in synthesis, token
+    assert "not refitted across all 4,475 taxa" in evidence
+    assert "we also retained" in paper.lower()
+    assert "distinct ecological correlate" in discussion
+    assert "FCP_NP_H1_H3_P1_P4_ECOLOGICAL_SYNTHESIS_20261022.md" in paper
+    assert "H3a/H3b" in supporting
+    assert "genetic" in synthesis.lower()
+    assert "not tested by merely" in synthesis.lower()
+    assert "NA, not zero" in synthesis
+    assert "P1" in synthesis and "P2" in synthesis and "P3" in synthesis and "P4" in synthesis
+
+    summary = paper.split("## Summary\n", 1)[1].split("**Key words:**", 1)[0]
+    assert len([line for line in summary.splitlines() if line.startswith("- ")]) == 4
+    assert len(re.findall(r"[A-Za-z0-9]+(?:[’'-][A-Za-z0-9]+)*", summary)) <= 200
+    def part(a, b):
+        return paper.split(a, 1)[1].split(b, 1)[0]
+    full_paper = "\n".join((
+        part("## Introduction\n", "## Materials and Methods\n"),
+        part("## Materials and Methods\n", "## Table 1."),
+        part("## Results\n", "## Discussion\n"),
+        part("## Discussion\n", "## Acknowledgements\n"),
+    ))
+    assert len(re.findall(r"[A-Za-z0-9]+(?:[’'-][A-Za-z0-9]+)*", full_paper)) <= 7500
