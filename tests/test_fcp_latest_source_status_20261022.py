@@ -59,5 +59,5 @@ def test_denom_gates_and_noncausal_scope_are_not_conflated():
     assert "NA" in d
     assert "4,112" in d and "3,600" in d
     assert "P = **0.300**" in d and "P = **0.275**" in d
-    assert "not estimate worldwide genetic polymorphism prevalence" in d
-    assert "No" not in d or True  # no biological null result is inferred from absent pairs
+    assert "does **not** estimate worldwide genetic polymorphism prevalence" in d
+    assert "does not establish genetic" in d.lower()
