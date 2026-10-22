@@ -1,0 +1,73 @@
+name: FCP New Phytologist clean main integration checks
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - docs/supporting/FCP_NP_*
+      - docs/figures/fcp_np_all4475_*
+      - docs/figures/fcp_global_photographic_colour_opportunity_20261020.svg
+      - results/fcp_np_*
+      - results/fcp_all4475_*
+      - scripts/analysis/fcp_all4475_*
+      - scripts/analysis/fcp_full4475_*
+      - scripts/analysis/render_fcp_np_all4475_*
+      - scripts/analysis/run_fcp_447500_environment_model_20261018.py
+      - tests/test_fcp_np_all4475_submission.py
+      - tests/test_polymorphism_new_phytologist_submission.py
+      - scripts/check_study_scope.py
+      - study_scope.json
+      - .github/workflows/fcp-np-main-integration-guard-20261022.yml
+  push:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - tests/test_fcp_np_all4475_submission.py
+      - scripts/check_study_scope.py
+      - .github/workflows/fcp-np-main-integration-guard-20261022.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked-integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin deterministic analysis and testing dependencies
+        run: |
+          python -m pip install pytest==8.4.2 numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 Pillow==11.0.0
+      - name: Verify old frozen tests and new P1-P4 manuscript numbers, figures, scope
+        run: |
+          python -m pytest -q tests/test_polymorphism_new_phytologist_submission.py tests/test_fcp_np_all4475_submission.py
+          python scripts/check_study_scope.py
+      - name: All imported source scripts compile with their explicitly staged dependencies
+        run: |
+          python -m py_compile \
+            scripts/analysis/fcp_all4475_geometry_vs_spatial_environment_fate_20261021.py \
+            scripts/analysis/fcp_all4475_merge_actual_artifacts_20261021.py \
+            scripts/analysis/fcp_all4475_missing_photo_sharp_bounds_20261021.py \
+            scripts/analysis/fcp_all4475_observer_D_and_BIO5_Firth_20261021.py \
+            scripts/analysis/fcp_all4475_seven_abiotic_axes_20261021.py \
+            scripts/analysis/fcp_all4475_white_axis_coarse_construction_null_20261021.py \
+            scripts/analysis/fcp_full4475_hypothesis_census_20261021.py \
+            scripts/analysis/render_fcp_np_all4475_figures_20261021.py \
+            scripts/analysis/render_fcp_np_all4475_geo_qa_framework_20261021.py \
+            scripts/analysis/run_fcp_447500_environment_model_20261018.py \
+            scripts/analysis/summarize_fcp_447500_within_species_environment_20261018.py
+      - name: Run synthetic estimator and figure source self-tests without reselecting photographs
+        run: |
+          python scripts/analysis/fcp_full4475_hypothesis_census_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_white_axis_coarse_construction_null_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_observer_D_and_BIO5_Firth_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_seven_abiotic_axes_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_missing_photo_sharp_bounds_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_merge_actual_artifacts_20261021.py --self-test
+          python scripts/analysis/fcp_all4475_geometry_vs_spatial_environment_fate_20261021.py --self-test
+          python scripts/analysis/render_fcp_np_all4475_figures_20261021.py --self-test
+          python scripts/analysis/render_fcp_np_all4475_geo_qa_framework_20261021.py --self-test

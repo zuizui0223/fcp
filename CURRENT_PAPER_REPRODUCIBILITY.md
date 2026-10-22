@@ -1,6 +1,6 @@
 # Current paper reproducibility contract
 
-This file is the shortest supported route for reproducing or auditing the **active New Phytologist FCP manuscript**.
+This file routes the current **4,475-species New Phytologist P1–P4 photographic hypothesis paper** to its source-verified 447,500 original-photo archive, unified species data, figure receipts and code. The older frozen 149,900-photo prospective and original H1/H2/50-km results are preserved as a **separate historical contract**, not substituted for the current paper's full population.
 
 ## Authority order
 
@@ -16,8 +16,33 @@ Repository cleanup must not alter a frozen numerical result, biological decision
 
 ## Reader route
 
-- manuscript: `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
-- canonical manuscript: `docs/POLYMORPHISM_MANUSCRIPT.md`
+### Active 4,475-species full-source hypothesis paper
+
+- current manuscript: `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
+- full source study status and null-result distinctions: `docs/FCP_CURRENT_MEASURED_RESULTS_AND_NP_DRAFT_STATUS_20261022.md`
+- extended complete Methods and Results: `docs/supporting/FCP_NP_ALL4475_EXTENDED_METHODS_RESULTS_20261021.md`
+- original 447,500-photo study immutable complete release: `https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017`
+- original measured-photo CSV SHA256: `8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6`
+- unified 4,475 × 114 per-species matrix: `results/fcp_np_all4475_unified_species_ledger_20261021.csv`
+- species data manifest and input checksums: `results/fcp_np_all4475_unified_species_ledger_receipt_20261021.json`
+- complete-frame P1 W result: `results/fcp_all4475_white_axis_structured_null_actual_20261021.json`
+- complete-frame P2 geographic and P3 climate data: `results/fcp_np_entire4475_real_photo_source_h1_h5_20261021.json`
+- joint P4 W–geography/BIO5 checks: `results/fcp_np_all4475_W_geography_climate_fate_20261021.json`
+- seven environmental axes: `results/fcp_np_all4475_seven_abiotic_axes_verified_20261021.json`
+- observer/BIO5 model, photo-label missingness: `results/fcp_np_all4475_observer_split_D_and_univariate_BIO5_Firth_20261021.json`; `results/fcp_np_all4475_photo_label_missingness_sharp_bounds_20261021.json`
+- current full-source CI guard: `.github/workflows/fcp-np-main-integration-guard-20261022.yml`
+- **Source-locked historical H1–H3 / modern P1–P4 ecological synthesis:** `docs/FCP_NP_H1_H3_P1_P4_ECOLOGICAL_SYNTHESIS_20261022.md`
+- frozen observer-disjoint H1 and strict stress gate: `results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json`; `results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json`
+- historical prospective H2 W: `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
+- independently replicated, earlier high-depth **D–spatial-organization correlation**: `results/polymorphism_spatial_organization_clue_20260918/result.json` (already-frozen data/reporting receipt, no full-4,475 refit)
+- failed historical H3a reserve phylogenetic signal and H3b sampled-span transport: `archive/fcp_submission_20260925/h3a_signal/result.json`; `archive/fcp_submission_20260925/h3b/result.json`
+
+
+The current source roster is **4,475 species / 447,500 measured rows**, of which 227,107 are four-colour classifiable. The P1 denominator is all 4,475 taxa; P2 has 3,600 species with observed 50-km paired-photo opportunity; P3 has 4,112 with white/nonwhite source climate contrasts; P4 uses the matching eligible pairs. Ineligible taxon outcomes are **NA** in the common source ledger, not zero. These are observational *post hoc* comparisons of one photo provider, not independent molecular/fitness evidence.
+
+### Historical source-frozen paper and lineage
+
+- canonical historical manuscript: `docs/POLYMORPHISM_MANUSCRIPT.md`
 - claim ledger: `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
 - claim-to-input map: `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
 - Supporting Information map: `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
@@ -32,9 +57,11 @@ Repository cleanup must not alter a frozen numerical result, biological decision
 - phenotypic IBD/IBE-like receipt: `results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json`
 - BIO5 sorting robustness receipt: `results/polymorphism_BIO5_colour_sorting_robustness_20261007/result.json`
 
-## Self-contained snapshot
+## Historical provenance snapshot and current full-source measured release
 
-Current snapshot tag: `fcp-np-provenance-20260926`
+The following provenance snapshot originated for the earlier frozen high-depth analyses; it is not, by itself, a substitute for the separate completed 447,500-photo image-analysis release above.
+
+Provenance snapshot tag: `fcp-np-provenance-20260926`
 
 Asset: `fcp-np-provenance-20260926.tar.gz`
 
@@ -63,7 +90,7 @@ Raster-level hashes are frozen in `archive/fcp_submission_20260925/worldclim_che
 
 ## Reproducibility levels
 
-The paper distinguishes five levels of reproducibility.
+The original historical prospective analysis documented the following six reproducibility levels. The completed full-source P1–P4 paper adds separately SHA-linked matched-source result files, full 4,475-species ledger and the integration CI specified above.
 
 1. **Core numerical inference replay from frozen measured tables — demonstrated.** Exact discovery/validation and prospective-confirmation measured tables are byte-frozen. Workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reruns repeated observer-disjoint H1, deterministic H1 stress, original-cohort white-axis localization, prospective confirmation H2, and the D–spatial Step 5/5b/6/8/9 chain. The current finite-sample reporting receipt aggregates the already frozen corrected-D sensitivities; raw-versus-corrected species ranks exceed 0.99997 in both high-depth cohorts, and corrected D–spatial p-values remain 0.007 in discovery and 0.025 in validation. The H1/H2 JSONs reproduce at absolute tolerance `1e-12`; the spatial chain passes absolute `1e-10` / relative `1e-12`. The runtime is pinned by `requirements-np-replay-20260928.txt` under Python 3.12.14.
 2. **Secondary ecological-analysis replay — demonstrated.** Workflow `.github/workflows/polymorphism-secondary-reproducibility-replay.yml` reruns the prospective-cohort BIO5/BIO14/SRAD analysis, observer-paired/balanced sensitivities, BIO5 transport, and H3a/H3b. Stable cross-run verification is run `36380786248`. BIO5-family outputs pass absolute `1e-8` / relative `1e-10`; this tolerance is intentionally wider than machine epsilon because a separate runner exposed a conditional-logit CI difference of about `1.1e-10` despite identical software versions and decisions. H3a/H3b JSONs pass absolute `1e-9` / relative `1e-11`, and all six archived H3 permutation/summary/PGLS output files reproduce their original SHA256 values exactly. The BIO5 Python environment is pinned in `requirements-np-bio5-replay-20260928.txt`; H3 direct package versions are recorded in `docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md`.
@@ -89,8 +116,11 @@ python -m pip install pytest
 python -m pytest \
   tests/test_polymorphism_manuscript_claims.py \
   tests/test_polymorphism_new_phytologist_submission.py \
+  tests/test_fcp_np_all4475_submission.py \
+  tests/test_fcp_latest_source_status_20261022.py \
   tests/test_make_polymorphism_manuscript_figures.py \
   tests/test_repository_layout.py -q
+python scripts/check_study_scope.py
 
 # GitHub Actions additionally performs frozen numerical replays:
 # .github/workflows/polymorphism-reproducibility-replay.yml

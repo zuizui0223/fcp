@@ -1,0 +1,305 @@
+{
+  "axes": [
+    {
+      "axis": "BIO1",
+      "family7_excludes_zero": false,
+      "fraction_positive_species_given_estimable": 0.5097276264591439,
+      "genus_bootstrap_family7_maxT_95": [
+        -0.006256977789443983,
+        0.043333177998018405
+      ],
+      "genus_bootstrap_marginal95": [
+        0.0003349895731641844,
+        0.03580412828161461
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": 0.018538100104287213,
+      "median_species_white_minus_nonwhite_SD": 0.010585608841957975,
+      "n_species_estimable": 4112
+    },
+    {
+      "axis": "BIO4",
+      "family7_excludes_zero": true,
+      "fraction_positive_species_given_estimable": 0.5357490272373541,
+      "genus_bootstrap_family7_maxT_95": [
+        0.004210099119349182,
+        0.06053283205164009
+      ],
+      "genus_bootstrap_marginal95": [
+        0.01123630569400459,
+        0.052510130170427445
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": 0.032371465585494634,
+      "median_species_white_minus_nonwhite_SD": 0.042882632752441446,
+      "n_species_estimable": 4112
+    },
+    {
+      "axis": "BIO5",
+      "family7_excludes_zero": true,
+      "fraction_positive_species_given_estimable": 0.5384241245136187,
+      "genus_bootstrap_family7_maxT_95": [
+        0.02595974365865138,
+        0.07541594043981086
+      ],
+      "genus_bootstrap_marginal95": [
+        0.03242140520700803,
+        0.06857320484107594
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": 0.050687842049231116,
+      "median_species_white_minus_nonwhite_SD": 0.049325493396500456,
+      "n_species_estimable": 4112
+    },
+    {
+      "axis": "BIO12",
+      "family7_excludes_zero": false,
+      "fraction_positive_species_given_estimable": 0.49294747081712065,
+      "genus_bootstrap_family7_maxT_95": [
+        -0.03572736841370175,
+        0.016761630830379824
+      ],
+      "genus_bootstrap_marginal95": [
+        -0.02906976060437523,
+        0.010104174999564055
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": -0.009482868791660961,
+      "median_species_white_minus_nonwhite_SD": -0.011789009858834437,
+      "n_species_estimable": 4112
+    },
+    {
+      "axis": "BIO14",
+      "family7_excludes_zero": false,
+      "fraction_positive_species_given_estimable": 0.4980544747081712,
+      "genus_bootstrap_family7_maxT_95": [
+        -0.017344813224511757,
+        0.032334915234445746
+      ],
+      "genus_bootstrap_marginal95": [
+        -0.01091420733805889,
+        0.02612238219286175
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": 0.007495051004966995,
+      "median_species_white_minus_nonwhite_SD": -0.000172390086582816,
+      "n_species_estimable": 4112
+    },
+    {
+      "axis": "BIO15",
+      "family7_excludes_zero": false,
+      "fraction_positive_species_given_estimable": 0.49464980544747084,
+      "genus_bootstrap_family7_maxT_95": [
+        -0.04687785312436253,
+        0.005509111849822581
+      ],
+      "genus_bootstrap_marginal95": [
+        -0.04023688955166886,
+        -0.0013481190054544985
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": -0.020684370637269977,
+      "median_species_white_minus_nonwhite_SD": -0.008949686883237846,
+      "n_species_estimable": 4112
+    },
+    {
+      "axis": "SRADmean",
+      "family7_excludes_zero": false,
+      "fraction_positive_species_given_estimable": 0.49513618677042803,
+      "genus_bootstrap_family7_maxT_95": [
+        -0.03626848459232423,
+        0.015688779542757957
+      ],
+      "genus_bootstrap_marginal95": [
+        -0.029136255932276634,
+        0.008832205643598318
+      ],
+      "mean_species_equal_white_minus_nonwhite_SD": -0.010289852524783137,
+      "median_species_white_minus_nonwhite_SD": -0.005336023981331697,
+      "n_species_estimable": 4112
+    }
+  ],
+  "classified_source_photos": 227107,
+  "complete_source_4475_species": true,
+  "full_source_447500_photo_measurements_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "n_genera_bootstrap_draws": 1999,
+  "n_genera_in_bootstrap": 1634,
+  "no_annual_climate_photo_date_mismatch_claim": true,
+  "no_fitness_and_biosynthetic_cost_measured": true,
+  "no_genetic_IBE_or_local_adaptation_claim": true,
+  "no_missing_phenotype_imputation": true,
+  "schema": "fcp_all4475_source_original_seven_bioclim_srad_white_label_photo_contrasts_v1",
+  "seven_axis_multiplicity": "exploratory genus-bootstrap 7-axis simultaneous max abs studentized statistic",
+  "simultaneous_family7_cutoff": 2.674363630951915,
+  "source_cohorts": {
+    "discovery": {
+      "axes": {
+        "BIO1": {
+          "mean_species_equal": -0.006454048307974383,
+          "n_species_estimable": 464
+        },
+        "BIO12": {
+          "mean_species_equal": -0.010764506243440398,
+          "n_species_estimable": 464
+        },
+        "BIO14": {
+          "mean_species_equal": 0.02178463980478725,
+          "n_species_estimable": 464
+        },
+        "BIO15": {
+          "mean_species_equal": -0.03673895914834711,
+          "n_species_estimable": 464
+        },
+        "BIO4": {
+          "mean_species_equal": -0.002806990985176753,
+          "n_species_estimable": 464
+        },
+        "BIO5": {
+          "mean_species_equal": 0.0023643301823321997,
+          "n_species_estimable": 464
+        },
+        "SRADmean": {
+          "mean_species_equal": -0.03784266395295487,
+          "n_species_estimable": 464
+        }
+      },
+      "n_total_species": 500
+    },
+    "new_U100": {
+      "axes": {
+        "BIO1": {
+          "mean_species_equal": 0.03481158327941056,
+          "n_species_estimable": 2265
+        },
+        "BIO12": {
+          "mean_species_equal": -0.01743874904585344,
+          "n_species_estimable": 2265
+        },
+        "BIO14": {
+          "mean_species_equal": -0.005382558140088138,
+          "n_species_estimable": 2265
+        },
+        "BIO15": {
+          "mean_species_equal": -0.01517773851595686,
+          "n_species_estimable": 2265
+        },
+        "BIO4": {
+          "mean_species_equal": 0.03921247301152878,
+          "n_species_estimable": 2265
+        },
+        "BIO5": {
+          "mean_species_equal": 0.07482166138890996,
+          "n_species_estimable": 2265
+        },
+        "SRADmean": {
+          "mean_species_equal": 0.008094349046569553,
+          "n_species_estimable": 2265
+        }
+      },
+      "n_total_species": 2478
+    },
+    "prospective": {
+      "axes": {
+        "BIO1": {
+          "mean_species_equal": -0.04589174990312552,
+          "n_species_estimable": 461
+        },
+        "BIO12": {
+          "mean_species_equal": -0.026252579246005218,
+          "n_species_estimable": 461
+        },
+        "BIO14": {
+          "mean_species_equal": -0.009445564350439941,
+          "n_species_estimable": 461
+        },
+        "BIO15": {
+          "mean_species_equal": -0.018092387529080867,
+          "n_species_estimable": 461
+        },
+        "BIO4": {
+          "mean_species_equal": 0.092860102793116,
+          "n_species_estimable": 461
+        },
+        "BIO5": {
+          "mean_species_equal": 0.014248178913880416,
+          "n_species_estimable": 461
+        },
+        "SRADmean": {
+          "mean_species_equal": -0.07266948235586283,
+          "n_species_estimable": 461
+        }
+      },
+      "n_total_species": 499
+    },
+    "validation": {
+      "axes": {
+        "BIO1": {
+          "mean_species_equal": 0.031471244642227475,
+          "n_species_estimable": 461
+        },
+        "BIO12": {
+          "mean_species_equal": 0.02142782125353866,
+          "n_species_estimable": 461
+        },
+        "BIO14": {
+          "mean_species_equal": 0.033300450801119326,
+          "n_species_estimable": 461
+        },
+        "BIO15": {
+          "mean_species_equal": -0.017021078331182476,
+          "n_species_estimable": 461
+        },
+        "BIO4": {
+          "mean_species_equal": -0.004828076561788209,
+          "n_species_estimable": 461
+        },
+        "BIO5": {
+          "mean_species_equal": 0.040151533537587415,
+          "n_species_estimable": 461
+        },
+        "SRADmean": {
+          "mean_species_equal": -0.012051265327087118,
+          "n_species_estimable": 461
+        }
+      },
+      "n_total_species": 500
+    },
+    "wave4": {
+      "axes": {
+        "BIO1": {
+          "mean_species_equal": 0.015234192713965639,
+          "n_species_estimable": 461
+        },
+        "BIO12": {
+          "mean_species_equal": 0.01675521572458041,
+          "n_species_estimable": 461
+        },
+        "BIO14": {
+          "mean_species_equal": 0.0475183696237298,
+          "n_species_estimable": 461
+        },
+        "BIO15": {
+          "mean_species_equal": -0.03783594254966889,
+          "n_species_estimable": 461
+        },
+        "BIO4": {
+          "mean_species_equal": 0.010878296834970009,
+          "n_species_estimable": 461
+        },
+        "BIO5": {
+          "mean_species_equal": 0.027726739296807575,
+          "n_species_estimable": 461
+        },
+        "SRADmean": {
+          "mean_species_equal": -0.00874254537175131,
+          "n_species_estimable": 461
+        }
+      },
+      "n_total_species": 498
+    }
+  },
+  "worldclim_BIO_zip_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "worldclim_SRAD_zip_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "verified_workflow_run": "https://github.com/zuizui0223/fcp/actions/runs/39456497702",
+  "posthoc_noncausal_normal_climate_1970_2000": true,
+  "source_photo_provider_independent": false,
+  "population_frame_4475_species": true,
+  "estimable_environment_species": 4112,
+  "source_4475_species_not_dropped": true,
+  "univariate_7_axis_multiplicity_guard": true,
+  "warning": "Taxa without both classified white/nonwhite remain present in the source roster but have undefined within-species colour contrast, not zero; genus-bootstrap CIs reflect selected photo labels, not genetic morphs."
+}

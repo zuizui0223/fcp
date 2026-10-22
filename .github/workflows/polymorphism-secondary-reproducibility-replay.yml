@@ -346,6 +346,50 @@ jobs:
               print(f"{label}: JSON_MATCH_ABS_1E-9_REL_1E-11")
           PY
 
+          # Diagnose raw gzip-member changes before the historical exact-byte check.
+          # Do not suppress or replace the existing frozen SHA-256 assertion.
+          python - <<'PY'
+          import gzip
+          import hashlib
+          import os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "h3_replay"
+          old = root / "input/repository/archive/fcp_submission_20260925/h3a_signal/h3a_K_permutation_nulls.csv.gz"
+          replay = root / "repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_K_permutation_nulls.csv.gz"
+          frozen_sha = "08a943bb1444ed06156519e7413f5fd39b5b9ec8a00c91a82af1e1463ba572b9"
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+          old_bytes, new_bytes = old.read_bytes(), replay.read_bytes()
+          assert sha(old_bytes) == frozen_sha, "Source H3a archive gzip SHA drift"
+          def read_payload(raw):
+              # The archived file's extension alone does not establish gzip encoding.
+              # Keep its original compressed-or-plain bytes and frozen SHA immutable.
+              return (gzip.decompress(raw), True) if raw[:2] == bytes.fromhex("1f8b") else (raw, False)
+          old_csv, old_gzip = read_payload(old_bytes)
+          new_csv, new_gzip = read_payload(new_bytes)
+          same = old_csv == new_csv
+          print("H3A_GZIP_BYTE_DIAGNOSTIC", {
+              "source_sha256": sha(old_bytes),
+              "replay_sha256": sha(new_bytes),
+              "source_magic": old_bytes[:20].hex(),
+              "replay_magic": new_bytes[:20].hex(),
+              "source_is_gzip": old_gzip,
+              "replay_is_gzip": new_gzip,
+              "source_decoded_sha256": sha(old_csv),
+              "replay_decoded_sha256": sha(new_csv),
+              "decoded_csv_byte_identical": same,
+              "source_csv_bytes": len(old_csv),
+              "replay_csv_bytes": len(new_csv)
+          }, flush=True)
+          if not same:
+              a, b = old_csv.splitlines(), new_csv.splitlines()
+              diff = next(((i, x[:160], y[:160]) for i, (x, y) in
+                           enumerate(zip(a, b), start=1) if x != y), None)
+              print("H3A_GZIP_FIRST_UNCOMPRESSED_DIFFERENCE",
+                    {"lines_old": len(a), "lines_replay": len(b), "first": diff},
+                    flush=True)
+          PY
+
           echo '08a943bb1444ed06156519e7413f5fd39b5b9ec8a00c91a82af1e1463ba572b9  '"$root"'/repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_K_permutation_nulls.csv.gz' | sha256sum -c -
           echo '8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986  '"$root"'/repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_signal_by_scenario.csv' | sha256sum -c -
           echo 'a6886021d33f1d44a6182c5b17d42a100d051cd9ed6dbc56f711ebf6cef2eb92  '"$root"'/repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_species_D_and_sensitivity.csv' | sha256sum -c -

@@ -9,7 +9,7 @@ HISTORY = ROOT / "docs/FCP_U100_REAL_199700_EMPIRICAL_EVIDENCE_AND_447500_PENDIN
 PHOTO_SHA = "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6"
 
 
-def test_current_source_photo_completed_but_draft_unmerged():
+def test_current_source_photo_completed_and_paper_hypotheses_routed():
     r = README.read_text(encoding="utf-8")
     d = CURRENT.read_text(encoding="utf-8")
     for value in ("4,475", "447,500", "227,107"):
@@ -21,10 +21,13 @@ def test_current_source_photo_completed_but_draft_unmerged():
     assert "+0.017614902" in d
     assert "1,761" in d
     assert "not yet a completed phenotypic analysis" not in r
-    assert "current completed-study status" in r
-    assert "not yet merged into main" in r
+    assert "current measured-data status and paper-specific evidence routes" in r
+    assert "4,475-species New Phytologist Full Paper" in r
+    assert "tests/test_fcp_np_all4475_submission.py" in r
     assert "[PR #252]" in d
-    assert "stacked on an earlier analysis branch" in d
+    assert "[PR #254]" in d
+    assert "historically stacked" in d
+    assert "not a submitted or accepted article" in r.lower()
 
 
 def test_interim_pending_snapshot_is_preserved_and_marked_historical():
@@ -35,7 +38,7 @@ def test_interim_pending_snapshot_is_preserved_and_marked_historical():
     assert "199,700" in old
     assert "immutable interim evidence snapshot" in d
     assert "historical" in r.lower()
-    assert "precompletion ledger" in r
+    assert "17 October precompletion snapshot" in r
     assert "not the current analysis status" in d
 
 

@@ -47,5 +47,44 @@
     "worldwide percent white represents genetic morph balance",
     "measured natural-selection or pigmentation fitness"
   ],
-  "prospective_analyses": "More site- and date-resolved conspecific colour variation, with observation opportunity, observer, ROI/clipping and species-specific spatial/seasonal blocks; do not import mois global slope as mechanism"
+  "prospective_analyses": "More site- and date-resolved conspecific colour variation, with observation opportunity, observer, ROI/clipping and species-specific spatial/seasonal blocks; do not import mois global slope as mechanism",
+  "legacy_fixed_analysis_frame_explanation": "The 149900-photo/1499-species fixed_analysis_frame is the historically frozen pre-extension prospective W discovery/validation protocol only. It is not the population denominator of the active 2026-10-21 New Phytologist Full Paper.",
+  "current_New_Phytologist_analysis_frame": {
+    "status": "source_authenticated_posthoc_complete_4475_species_analysis",
+    "manuscript": "docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md",
+    "original_source_photo_measurements": 447500,
+    "original_source_species": 4475,
+    "source_photos_per_species": 100,
+    "classifiable_four_colour_photos": 227107,
+    "photo_source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "entire_species_data_ledger": "results/fcp_np_all4475_unified_species_ledger_20261021.csv",
+    "entire_species_data_ledger_receipt": "results/fcp_np_all4475_unified_species_ledger_receipt_20261021.json",
+    "main_observational_estimands": {
+      "H1_all_taxa_white_axis": 4475,
+      "H2_species_with_50km_photo_pair": 3600,
+      "H3_white_and_nonwhite_photo_climate_contrast": 4112,
+      "H4_n_species_with_photo_individual_verified_inherited_morph_and_fitness": 0,
+      "H5_n_species_with_paired_photographic_individual_pigment_and_genotype_function": 0
+    },
+    "original_predeclared_W_158_species_test_unchanged": true,
+    "new_global_N4475_W_construction_preserving_null": "results/fcp_all4475_white_axis_structured_null_actual_20261021.json",
+    "new_global_N4475_W_vs_geo_climate_fate": "results/fcp_np_all4475_W_geography_climate_fate_20261021.json",
+    "new_seven_climate_axes": "results/fcp_np_all4475_seven_abiotic_axes_verified_20261021.json",
+    "all_taxa_in_result_population_even_when_nonestimable": true,
+    "historical_genetic_selection_fitness_or_molecular_cost_causes_identified": false,
+    "photo_data_provider_independence": false
+  },
+  "New_Phytologist_main_data_figures": [
+    "docs/figures/fcp_np_all4475_white_axis_five_cohorts_20261021.svg",
+    "docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg",
+    "docs/figures/fcp_np_all4475_geometry_vs_fate_20261021.svg",
+    "docs/figures/fcp_np_all4475_seven_abiotic_axes_20261021.svg",
+    "docs/figures/fcp_np_all4475_figure5_mechanism_schema_20261021.svg",
+    "docs/figures/fcp_np_all4475_supp_photo_missingness_20261021.svg",
+    "docs/figures/fcp_global_photographic_colour_opportunity_20261020.svg"
+  ],
+  "New_Phytologist_real_source_figure_CI_runs": [
+    "https://github.com/zuizui0223/fcp/actions/runs/39529804669",
+    "https://github.com/zuizui0223/fcp/actions/runs/39530395765"
+  ]
 }

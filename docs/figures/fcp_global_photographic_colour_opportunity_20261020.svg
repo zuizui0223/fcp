@@ -1,0 +1,471 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1375" height="566" viewBox="0 0 1375 566">
+<rect width="1375" height="566" fill="#fffdfb"/>
+<text x="92" y="46" fill="#162736" font-family="Arial, sans-serif" font-size="27" font-weight="700">Global intraspecific photographic flower-colour patterns</text>
+<text x="92" y="73" fill="#536273" font-family="Arial, sans-serif" font-size="15">Actual 447,500 original photographs · 4,475 taxa · 18 × 9 equal-area opportunity grid</text>
+<text x="92" y="108" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#213547">A   Species-equal within-taxon colour diversity (D)</text>
+<text x="737" y="108" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#213547">B   Eligible taxon coverage</text>
+<rect x="92" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_00, 0 eligible taxa</title></rect>
+<rect x="737" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_00, 0 eligible taxa</title></rect>
+<rect x="92" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_00, 0 eligible taxa</title></rect>
+<rect x="737" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_00, 0 eligible taxa</title></rect>
+<rect x="92" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_00, 0 eligible taxa</title></rect>
+<rect x="737" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_00, 0 eligible taxa</title></rect>
+<rect x="92" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_00, 0 eligible taxa</title></rect>
+<rect x="737" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_00, 0 eligible taxa</title></rect>
+<rect x="92" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_00, 0 eligible taxa</title></rect>
+<rect x="737" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_00, 0 eligible taxa</title></rect>
+<rect x="92" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_00, 0 eligible taxa</title></rect>
+<rect x="737" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_00, 0 eligible taxa</title></rect>
+<rect x="92" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_00, 0 eligible taxa</title></rect>
+<rect x="737" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_00, 0 eligible taxa</title></rect>
+<rect x="92" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_00, 0 eligible taxa</title></rect>
+<rect x="737" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_00, 0 eligible taxa</title></rect>
+<rect x="92" y="126" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA08_00, 0 eligible taxa</title></rect>
+<rect x="737" y="126" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA08_00, 0 eligible taxa</title></rect>
+<rect x="122" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_01, 0 eligible taxa</title></rect>
+<rect x="767" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_01, 0 eligible taxa</title></rect>
+<rect x="122" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_01, 0 eligible taxa</title></rect>
+<rect x="767" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_01, 0 eligible taxa</title></rect>
+<rect x="122" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_01, 0 eligible taxa</title></rect>
+<rect x="767" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_01, 0 eligible taxa</title></rect>
+<rect x="122" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_01, 0 eligible taxa</title></rect>
+<rect x="767" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_01, 0 eligible taxa</title></rect>
+<rect x="122" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_01, 0 eligible taxa</title></rect>
+<rect x="767" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_01, 0 eligible taxa</title></rect>
+<rect x="122" y="219" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA05_01, 1 eligible taxa</title></rect>
+<rect x="767" y="219" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA05_01, 1 eligible taxa</title></rect>
+<rect x="122" y="188" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA06_01, 1 eligible taxa</title></rect>
+<rect x="767" y="188" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA06_01, 1 eligible taxa</title></rect>
+<rect x="122" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_01, 0 eligible taxa</title></rect>
+<rect x="767" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_01, 0 eligible taxa</title></rect>
+<rect x="122" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_01, 9 eligible taxa</title></rect>
+<rect x="767" y="126" width="29" height="30" rx="2" fill="#a4baca" stroke="#ffffff" stroke-width="0.8"><title>EA08_01, 9 eligible taxa</title></rect>
+<rect x="152" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_02, 0 eligible taxa</title></rect>
+<rect x="797" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_02, 0 eligible taxa</title></rect>
+<rect x="152" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_02, 0 eligible taxa</title></rect>
+<rect x="797" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_02, 0 eligible taxa</title></rect>
+<rect x="152" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_02, 0 eligible taxa</title></rect>
+<rect x="797" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_02, 0 eligible taxa</title></rect>
+<rect x="152" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_02, 0 eligible taxa</title></rect>
+<rect x="797" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_02, 0 eligible taxa</title></rect>
+<rect x="152" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_02, 0 eligible taxa</title></rect>
+<rect x="797" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_02, 0 eligible taxa</title></rect>
+<rect x="152" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_02, 0 eligible taxa</title></rect>
+<rect x="797" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_02, 0 eligible taxa</title></rect>
+<rect x="152" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_02, 0 eligible taxa</title></rect>
+<rect x="797" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_02, 0 eligible taxa</title></rect>
+<rect x="152" y="157" width="29" height="30" rx="2" fill="#6da9bd" stroke="#ffffff" stroke-width="0.8"><title>EA07_02, 624 eligible taxa, D=0.264</title></rect>
+<rect x="797" y="157" width="29" height="30" rx="2" fill="#315c84" stroke="#ffffff" stroke-width="0.8"><title>EA07_02, 624 eligible taxa</title></rect>
+<rect x="152" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_02, 17 eligible taxa</title></rect>
+<rect x="797" y="126" width="29" height="30" rx="2" fill="#93acc0" stroke="#ffffff" stroke-width="0.8"><title>EA08_02, 17 eligible taxa</title></rect>
+<rect x="182" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_03, 0 eligible taxa</title></rect>
+<rect x="827" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_03, 0 eligible taxa</title></rect>
+<rect x="182" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_03, 0 eligible taxa</title></rect>
+<rect x="827" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_03, 0 eligible taxa</title></rect>
+<rect x="182" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_03, 0 eligible taxa</title></rect>
+<rect x="827" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_03, 0 eligible taxa</title></rect>
+<rect x="182" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_03, 0 eligible taxa</title></rect>
+<rect x="827" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_03, 0 eligible taxa</title></rect>
+<rect x="182" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_03, 0 eligible taxa</title></rect>
+<rect x="827" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_03, 0 eligible taxa</title></rect>
+<rect x="182" y="219" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA05_03, 1 eligible taxa</title></rect>
+<rect x="827" y="219" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA05_03, 1 eligible taxa</title></rect>
+<rect x="182" y="188" width="29" height="30" rx="2" fill="#81bfc7" stroke="#ffffff" stroke-width="0.8"><title>EA06_03, 435 eligible taxa, D=0.245</title></rect>
+<rect x="827" y="188" width="29" height="30" rx="2" fill="#3b648a" stroke="#ffffff" stroke-width="0.8"><title>EA06_03, 435 eligible taxa</title></rect>
+<rect x="182" y="157" width="29" height="30" rx="2" fill="#83c2c8" stroke="#ffffff" stroke-width="0.8"><title>EA07_03, 668 eligible taxa, D=0.244</title></rect>
+<rect x="827" y="157" width="29" height="30" rx="2" fill="#305a83" stroke="#ffffff" stroke-width="0.8"><title>EA07_03, 668 eligible taxa</title></rect>
+<rect x="182" y="126" width="29" height="30" rx="2" fill="#d1e8e9" stroke="#ffffff" stroke-width="0.8"><title>EA08_03, 54 eligible taxa, D=0.194</title></rect>
+<rect x="827" y="126" width="29" height="30" rx="2" fill="#7493ad" stroke="#ffffff" stroke-width="0.8"><title>EA08_03, 54 eligible taxa</title></rect>
+<rect x="212" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_04, 0 eligible taxa</title></rect>
+<rect x="857" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_04, 0 eligible taxa</title></rect>
+<rect x="212" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_04, 0 eligible taxa</title></rect>
+<rect x="857" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_04, 0 eligible taxa</title></rect>
+<rect x="212" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_04, 0 eligible taxa</title></rect>
+<rect x="857" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_04, 0 eligible taxa</title></rect>
+<rect x="212" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_04, 0 eligible taxa</title></rect>
+<rect x="857" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_04, 0 eligible taxa</title></rect>
+<rect x="212" y="250" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA04_04, 1 eligible taxa</title></rect>
+<rect x="857" y="250" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA04_04, 1 eligible taxa</title></rect>
+<rect x="212" y="219" width="29" height="30" rx="2" fill="#527fa3" stroke="#ffffff" stroke-width="0.8"><title>EA05_04, 85 eligible taxa, D=0.305</title></rect>
+<rect x="857" y="219" width="29" height="30" rx="2" fill="#6889a5" stroke="#ffffff" stroke-width="0.8"><title>EA05_04, 85 eligible taxa</title></rect>
+<rect x="212" y="188" width="29" height="30" rx="2" fill="#7ab7c3" stroke="#ffffff" stroke-width="0.8"><title>EA06_04, 576 eligible taxa, D=0.252</title></rect>
+<rect x="857" y="188" width="29" height="30" rx="2" fill="#345e85" stroke="#ffffff" stroke-width="0.8"><title>EA06_04, 576 eligible taxa</title></rect>
+<rect x="212" y="157" width="29" height="30" rx="2" fill="#8bc8cc" stroke="#ffffff" stroke-width="0.8"><title>EA07_04, 756 eligible taxa, D=0.237</title></rect>
+<rect x="857" y="157" width="29" height="30" rx="2" fill="#2c5781" stroke="#ffffff" stroke-width="0.8"><title>EA07_04, 756 eligible taxa</title></rect>
+<rect x="212" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_04, 1 eligible taxa</title></rect>
+<rect x="857" y="126" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA08_04, 1 eligible taxa</title></rect>
+<rect x="242" y="374" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA00_05, 2 eligible taxa</title></rect>
+<rect x="887" y="374" width="29" height="30" rx="2" fill="#c5d5de" stroke="#ffffff" stroke-width="0.8"><title>EA00_05, 2 eligible taxa</title></rect>
+<rect x="242" y="343" width="29" height="30" rx="2" fill="#76b3c2" stroke="#ffffff" stroke-width="0.8"><title>EA01_05, 29 eligible taxa, D=0.256</title></rect>
+<rect x="887" y="343" width="29" height="30" rx="2" fill="#85a1b7" stroke="#ffffff" stroke-width="0.8"><title>EA01_05, 29 eligible taxa</title></rect>
+<rect x="242" y="312" width="29" height="30" rx="2" fill="#738791" stroke="#ffffff" stroke-width="0.8"><title>EA02_05, 34 eligible taxa, D=0.318</title></rect>
+<rect x="887" y="312" width="29" height="30" rx="2" fill="#819db5" stroke="#ffffff" stroke-width="0.8"><title>EA02_05, 34 eligible taxa</title></rect>
+<rect x="242" y="281" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA03_05, 1 eligible taxa</title></rect>
+<rect x="887" y="281" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA03_05, 1 eligible taxa</title></rect>
+<rect x="242" y="250" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA04_05, 14 eligible taxa</title></rect>
+<rect x="887" y="250" width="29" height="30" rx="2" fill="#98b0c3" stroke="#ffffff" stroke-width="0.8"><title>EA04_05, 14 eligible taxa</title></rect>
+<rect x="242" y="219" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA05_05, 6 eligible taxa</title></rect>
+<rect x="887" y="219" width="29" height="30" rx="2" fill="#adc2d0" stroke="#ffffff" stroke-width="0.8"><title>EA05_05, 6 eligible taxa</title></rect>
+<rect x="242" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_05, 0 eligible taxa</title></rect>
+<rect x="887" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_05, 0 eligible taxa</title></rect>
+<rect x="242" y="157" width="29" height="30" rx="2" fill="#a1d2d5" stroke="#ffffff" stroke-width="0.8"><title>EA07_05, 634 eligible taxa, D=0.224</title></rect>
+<rect x="887" y="157" width="29" height="30" rx="2" fill="#315b84" stroke="#ffffff" stroke-width="0.8"><title>EA07_05, 634 eligible taxa</title></rect>
+<rect x="242" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_05, 5 eligible taxa</title></rect>
+<rect x="887" y="126" width="29" height="30" rx="2" fill="#b2c5d3" stroke="#ffffff" stroke-width="0.8"><title>EA08_05, 5 eligible taxa</title></rect>
+<rect x="272" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_06, 0 eligible taxa</title></rect>
+<rect x="917" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_06, 0 eligible taxa</title></rect>
+<rect x="272" y="343" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA01_06, 14 eligible taxa</title></rect>
+<rect x="917" y="343" width="29" height="30" rx="2" fill="#98b0c3" stroke="#ffffff" stroke-width="0.8"><title>EA01_06, 14 eligible taxa</title></rect>
+<rect x="272" y="312" width="29" height="30" rx="2" fill="#6c8595" stroke="#ffffff" stroke-width="0.8"><title>EA02_06, 30 eligible taxa, D=0.315</title></rect>
+<rect x="917" y="312" width="29" height="30" rx="2" fill="#84a0b7" stroke="#ffffff" stroke-width="0.8"><title>EA02_06, 30 eligible taxa</title></rect>
+<rect x="272" y="281" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA03_06, 2 eligible taxa</title></rect>
+<rect x="917" y="281" width="29" height="30" rx="2" fill="#c5d5de" stroke="#ffffff" stroke-width="0.8"><title>EA03_06, 2 eligible taxa</title></rect>
+<rect x="272" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_06, 0 eligible taxa</title></rect>
+<rect x="917" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_06, 0 eligible taxa</title></rect>
+<rect x="272" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_06, 0 eligible taxa</title></rect>
+<rect x="917" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_06, 0 eligible taxa</title></rect>
+<rect x="272" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_06, 0 eligible taxa</title></rect>
+<rect x="917" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_06, 0 eligible taxa</title></rect>
+<rect x="272" y="157" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA07_06, 2 eligible taxa</title></rect>
+<rect x="917" y="157" width="29" height="30" rx="2" fill="#c5d5de" stroke="#ffffff" stroke-width="0.8"><title>EA07_06, 2 eligible taxa</title></rect>
+<rect x="272" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_06, 11 eligible taxa</title></rect>
+<rect x="917" y="126" width="29" height="30" rx="2" fill="#9eb6c7" stroke="#ffffff" stroke-width="0.8"><title>EA08_06, 11 eligible taxa</title></rect>
+<rect x="302" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_07, 0 eligible taxa</title></rect>
+<rect x="947" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_07, 0 eligible taxa</title></rect>
+<rect x="302" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_07, 0 eligible taxa</title></rect>
+<rect x="947" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_07, 0 eligible taxa</title></rect>
+<rect x="302" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_07, 0 eligible taxa</title></rect>
+<rect x="947" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_07, 0 eligible taxa</title></rect>
+<rect x="302" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_07, 0 eligible taxa</title></rect>
+<rect x="947" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_07, 0 eligible taxa</title></rect>
+<rect x="302" y="250" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA04_07, 1 eligible taxa</title></rect>
+<rect x="947" y="250" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA04_07, 1 eligible taxa</title></rect>
+<rect x="302" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_07, 0 eligible taxa</title></rect>
+<rect x="947" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_07, 0 eligible taxa</title></rect>
+<rect x="302" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_07, 0 eligible taxa</title></rect>
+<rect x="947" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_07, 0 eligible taxa</title></rect>
+<rect x="302" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_07, 0 eligible taxa</title></rect>
+<rect x="947" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_07, 0 eligible taxa</title></rect>
+<rect x="302" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_07, 5 eligible taxa</title></rect>
+<rect x="947" y="126" width="29" height="30" rx="2" fill="#b2c5d3" stroke="#ffffff" stroke-width="0.8"><title>EA08_07, 5 eligible taxa</title></rect>
+<rect x="332" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_08, 0 eligible taxa</title></rect>
+<rect x="977" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_08, 0 eligible taxa</title></rect>
+<rect x="332" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_08, 0 eligible taxa</title></rect>
+<rect x="977" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_08, 0 eligible taxa</title></rect>
+<rect x="332" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_08, 0 eligible taxa</title></rect>
+<rect x="977" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_08, 0 eligible taxa</title></rect>
+<rect x="332" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_08, 0 eligible taxa</title></rect>
+<rect x="977" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_08, 0 eligible taxa</title></rect>
+<rect x="332" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_08, 0 eligible taxa</title></rect>
+<rect x="977" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_08, 0 eligible taxa</title></rect>
+<rect x="332" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_08, 0 eligible taxa</title></rect>
+<rect x="977" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_08, 0 eligible taxa</title></rect>
+<rect x="332" y="188" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA06_08, 4 eligible taxa</title></rect>
+<rect x="977" y="188" width="29" height="30" rx="2" fill="#b7c9d6" stroke="#ffffff" stroke-width="0.8"><title>EA06_08, 4 eligible taxa</title></rect>
+<rect x="332" y="157" width="29" height="30" rx="2" fill="#4c82ad" stroke="#ffffff" stroke-width="0.8"><title>EA07_08, 279 eligible taxa, D=0.295</title></rect>
+<rect x="977" y="157" width="29" height="30" rx="2" fill="#486e91" stroke="#ffffff" stroke-width="0.8"><title>EA07_08, 279 eligible taxa</title></rect>
+<rect x="332" y="126" width="29" height="30" rx="2" fill="#92cbcf" stroke="#ffffff" stroke-width="0.8"><title>EA08_08, 58 eligible taxa, D=0.233</title></rect>
+<rect x="977" y="126" width="29" height="30" rx="2" fill="#7391ac" stroke="#ffffff" stroke-width="0.8"><title>EA08_08, 58 eligible taxa</title></rect>
+<rect x="362" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_09, 0 eligible taxa</title></rect>
+<rect x="1007" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_09, 0 eligible taxa</title></rect>
+<rect x="362" y="343" width="29" height="30" rx="2" fill="#d1834a" stroke="#ffffff" stroke-width="0.8"><title>EA01_09, 50 eligible taxa, D=0.382</title></rect>
+<rect x="1007" y="343" width="29" height="30" rx="2" fill="#7795ae" stroke="#ffffff" stroke-width="0.8"><title>EA01_09, 50 eligible taxa</title></rect>
+<rect x="362" y="312" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA02_09, 14 eligible taxa</title></rect>
+<rect x="1007" y="312" width="29" height="30" rx="2" fill="#98b0c3" stroke="#ffffff" stroke-width="0.8"><title>EA02_09, 14 eligible taxa</title></rect>
+<rect x="362" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_09, 0 eligible taxa</title></rect>
+<rect x="1007" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_09, 0 eligible taxa</title></rect>
+<rect x="362" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_09, 0 eligible taxa</title></rect>
+<rect x="1007" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_09, 0 eligible taxa</title></rect>
+<rect x="362" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_09, 0 eligible taxa</title></rect>
+<rect x="1007" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_09, 0 eligible taxa</title></rect>
+<rect x="362" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_09, 0 eligible taxa</title></rect>
+<rect x="1007" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_09, 0 eligible taxa</title></rect>
+<rect x="362" y="157" width="29" height="30" rx="2" fill="#5e98b6" stroke="#ffffff" stroke-width="0.8"><title>EA07_09, 880 eligible taxa, D=0.277</title></rect>
+<rect x="1007" y="157" width="29" height="30" rx="2" fill="#28547e" stroke="#ffffff" stroke-width="0.8"><title>EA07_09, 880 eligible taxa</title></rect>
+<rect x="362" y="126" width="29" height="30" rx="2" fill="#dbeced" stroke="#ffffff" stroke-width="0.8"><title>EA08_09, 95 eligible taxa, D=0.188</title></rect>
+<rect x="1007" y="126" width="29" height="30" rx="2" fill="#6586a4" stroke="#ffffff" stroke-width="0.8"><title>EA08_09, 95 eligible taxa</title></rect>
+<rect x="392" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_10, 0 eligible taxa</title></rect>
+<rect x="1037" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_10, 0 eligible taxa</title></rect>
+<rect x="392" y="343" width="29" height="30" rx="2" fill="#ca7244" stroke="#ffffff" stroke-width="0.8"><title>EA01_10, 25 eligible taxa, D=0.393</title></rect>
+<rect x="1037" y="343" width="29" height="30" rx="2" fill="#89a4ba" stroke="#ffffff" stroke-width="0.8"><title>EA01_10, 25 eligible taxa</title></rect>
+<rect x="392" y="312" width="29" height="30" rx="2" fill="#ce9d5e" stroke="#ffffff" stroke-width="0.8"><title>EA02_10, 77 eligible taxa, D=0.353</title></rect>
+<rect x="1037" y="312" width="29" height="30" rx="2" fill="#6b8ba7" stroke="#ffffff" stroke-width="0.8"><title>EA02_10, 77 eligible taxa</title></rect>
+<rect x="392" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_10, 0 eligible taxa</title></rect>
+<rect x="1037" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_10, 0 eligible taxa</title></rect>
+<rect x="392" y="250" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA04_10, 1 eligible taxa</title></rect>
+<rect x="1037" y="250" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA04_10, 1 eligible taxa</title></rect>
+<rect x="392" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_10, 0 eligible taxa</title></rect>
+<rect x="1037" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_10, 0 eligible taxa</title></rect>
+<rect x="392" y="188" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA06_10, 5 eligible taxa</title></rect>
+<rect x="1037" y="188" width="29" height="30" rx="2" fill="#b2c5d3" stroke="#ffffff" stroke-width="0.8"><title>EA06_10, 5 eligible taxa</title></rect>
+<rect x="392" y="157" width="29" height="30" rx="2" fill="#629cb8" stroke="#ffffff" stroke-width="0.8"><title>EA07_10, 122 eligible taxa, D=0.274</title></rect>
+<rect x="1037" y="157" width="29" height="30" rx="2" fill="#5e819f" stroke="#ffffff" stroke-width="0.8"><title>EA07_10, 122 eligible taxa</title></rect>
+<rect x="392" y="126" width="29" height="30" rx="2" fill="#dbeced" stroke="#ffffff" stroke-width="0.8"><title>EA08_10, 156 eligible taxa, D=0.188</title></rect>
+<rect x="1037" y="126" width="29" height="30" rx="2" fill="#587b9b" stroke="#ffffff" stroke-width="0.8"><title>EA08_10, 156 eligible taxa</title></rect>
+<rect x="422" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_11, 0 eligible taxa</title></rect>
+<rect x="1067" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_11, 0 eligible taxa</title></rect>
+<rect x="422" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_11, 0 eligible taxa</title></rect>
+<rect x="1067" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_11, 0 eligible taxa</title></rect>
+<rect x="422" y="312" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA02_11, 1 eligible taxa</title></rect>
+<rect x="1067" y="312" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA02_11, 1 eligible taxa</title></rect>
+<rect x="422" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_11, 0 eligible taxa</title></rect>
+<rect x="1067" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_11, 0 eligible taxa</title></rect>
+<rect x="422" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_11, 0 eligible taxa</title></rect>
+<rect x="1067" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_11, 0 eligible taxa</title></rect>
+<rect x="422" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_11, 0 eligible taxa</title></rect>
+<rect x="1067" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_11, 0 eligible taxa</title></rect>
+<rect x="422" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_11, 0 eligible taxa</title></rect>
+<rect x="1067" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_11, 0 eligible taxa</title></rect>
+<rect x="422" y="157" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA07_11, 2 eligible taxa</title></rect>
+<rect x="1067" y="157" width="29" height="30" rx="2" fill="#c5d5de" stroke="#ffffff" stroke-width="0.8"><title>EA07_11, 2 eligible taxa</title></rect>
+<rect x="422" y="126" width="29" height="30" rx="2" fill="#a0d1d4" stroke="#ffffff" stroke-width="0.8"><title>EA08_11, 57 eligible taxa, D=0.225</title></rect>
+<rect x="1067" y="126" width="29" height="30" rx="2" fill="#7392ac" stroke="#ffffff" stroke-width="0.8"><title>EA08_11, 57 eligible taxa</title></rect>
+<rect x="452" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_12, 0 eligible taxa</title></rect>
+<rect x="1097" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_12, 0 eligible taxa</title></rect>
+<rect x="452" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_12, 0 eligible taxa</title></rect>
+<rect x="1097" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_12, 0 eligible taxa</title></rect>
+<rect x="452" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_12, 0 eligible taxa</title></rect>
+<rect x="1097" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_12, 0 eligible taxa</title></rect>
+<rect x="452" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_12, 0 eligible taxa</title></rect>
+<rect x="1097" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_12, 0 eligible taxa</title></rect>
+<rect x="452" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_12, 0 eligible taxa</title></rect>
+<rect x="1097" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_12, 0 eligible taxa</title></rect>
+<rect x="452" y="219" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA05_12, 4 eligible taxa</title></rect>
+<rect x="1097" y="219" width="29" height="30" rx="2" fill="#b7c9d6" stroke="#ffffff" stroke-width="0.8"><title>EA05_12, 4 eligible taxa</title></rect>
+<rect x="452" y="188" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA06_12, 1 eligible taxa</title></rect>
+<rect x="1097" y="188" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA06_12, 1 eligible taxa</title></rect>
+<rect x="452" y="157" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA07_12, 2 eligible taxa</title></rect>
+<rect x="1097" y="157" width="29" height="30" rx="2" fill="#c5d5de" stroke="#ffffff" stroke-width="0.8"><title>EA07_12, 2 eligible taxa</title></rect>
+<rect x="452" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_12, 11 eligible taxa</title></rect>
+<rect x="1097" y="126" width="29" height="30" rx="2" fill="#9eb6c7" stroke="#ffffff" stroke-width="0.8"><title>EA08_12, 11 eligible taxa</title></rect>
+<rect x="482" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_13, 0 eligible taxa</title></rect>
+<rect x="482" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="343" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA01_13, 0 eligible taxa</title></rect>
+<rect x="482" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_13, 0 eligible taxa</title></rect>
+<rect x="482" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_13, 0 eligible taxa</title></rect>
+<rect x="482" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_13, 0 eligible taxa</title></rect>
+<rect x="482" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_13, 0 eligible taxa</title></rect>
+<rect x="482" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_13, 0 eligible taxa</title></rect>
+<rect x="1127" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_13, 0 eligible taxa</title></rect>
+<rect x="482" y="157" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA07_13, 1 eligible taxa</title></rect>
+<rect x="1127" y="157" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA07_13, 1 eligible taxa</title></rect>
+<rect x="482" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_13, 8 eligible taxa</title></rect>
+<rect x="1127" y="126" width="29" height="30" rx="2" fill="#a6bccc" stroke="#ffffff" stroke-width="0.8"><title>EA08_13, 8 eligible taxa</title></rect>
+<rect x="512" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_14, 0 eligible taxa</title></rect>
+<rect x="1157" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_14, 0 eligible taxa</title></rect>
+<rect x="512" y="343" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA01_14, 19 eligible taxa</title></rect>
+<rect x="1157" y="343" width="29" height="30" rx="2" fill="#90aabe" stroke="#ffffff" stroke-width="0.8"><title>EA01_14, 19 eligible taxa</title></rect>
+<rect x="512" y="312" width="29" height="30" rx="2" fill="#4d83ad" stroke="#ffffff" stroke-width="0.8"><title>EA02_14, 49 eligible taxa, D=0.294</title></rect>
+<rect x="1157" y="312" width="29" height="30" rx="2" fill="#7795af" stroke="#ffffff" stroke-width="0.8"><title>EA02_14, 49 eligible taxa</title></rect>
+<rect x="512" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_14, 0 eligible taxa</title></rect>
+<rect x="1157" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_14, 0 eligible taxa</title></rect>
+<rect x="512" y="250" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA04_14, 2 eligible taxa</title></rect>
+<rect x="1157" y="250" width="29" height="30" rx="2" fill="#c5d5de" stroke="#ffffff" stroke-width="0.8"><title>EA04_14, 2 eligible taxa</title></rect>
+<rect x="512" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_14, 0 eligible taxa</title></rect>
+<rect x="1157" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_14, 0 eligible taxa</title></rect>
+<rect x="512" y="188" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA06_14, 7 eligible taxa</title></rect>
+<rect x="1157" y="188" width="29" height="30" rx="2" fill="#aabfce" stroke="#ffffff" stroke-width="0.8"><title>EA06_14, 7 eligible taxa</title></rect>
+<rect x="512" y="157" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA07_14, 7 eligible taxa</title></rect>
+<rect x="1157" y="157" width="29" height="30" rx="2" fill="#aabfce" stroke="#ffffff" stroke-width="0.8"><title>EA07_14, 7 eligible taxa</title></rect>
+<rect x="512" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_14, 1 eligible taxa</title></rect>
+<rect x="1157" y="126" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA08_14, 1 eligible taxa</title></rect>
+<rect x="542" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_15, 0 eligible taxa</title></rect>
+<rect x="1187" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_15, 0 eligible taxa</title></rect>
+<rect x="542" y="343" width="29" height="30" rx="2" fill="#6ea9bd" stroke="#ffffff" stroke-width="0.8"><title>EA01_15, 34 eligible taxa, D=0.263</title></rect>
+<rect x="1187" y="343" width="29" height="30" rx="2" fill="#819db5" stroke="#ffffff" stroke-width="0.8"><title>EA01_15, 34 eligible taxa</title></rect>
+<rect x="542" y="312" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA02_15, 6 eligible taxa</title></rect>
+<rect x="1187" y="312" width="29" height="30" rx="2" fill="#adc2d0" stroke="#ffffff" stroke-width="0.8"><title>EA02_15, 6 eligible taxa</title></rect>
+<rect x="542" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_15, 0 eligible taxa</title></rect>
+<rect x="1187" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_15, 0 eligible taxa</title></rect>
+<rect x="542" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_15, 0 eligible taxa</title></rect>
+<rect x="1187" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_15, 0 eligible taxa</title></rect>
+<rect x="542" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_15, 0 eligible taxa</title></rect>
+<rect x="1187" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_15, 0 eligible taxa</title></rect>
+<rect x="542" y="188" width="29" height="30" rx="2" fill="#639db8" stroke="#ffffff" stroke-width="0.8"><title>EA06_15, 57 eligible taxa, D=0.273</title></rect>
+<rect x="1187" y="188" width="29" height="30" rx="2" fill="#7392ac" stroke="#ffffff" stroke-width="0.8"><title>EA06_15, 57 eligible taxa</title></rect>
+<rect x="542" y="157" width="29" height="30" rx="2" fill="#84c3c9" stroke="#ffffff" stroke-width="0.8"><title>EA07_15, 26 eligible taxa, D=0.243</title></rect>
+<rect x="1187" y="157" width="29" height="30" rx="2" fill="#88a3b9" stroke="#ffffff" stroke-width="0.8"><title>EA07_15, 26 eligible taxa</title></rect>
+<rect x="542" y="126" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA08_15, 0 eligible taxa</title></rect>
+<rect x="1187" y="126" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA08_15, 0 eligible taxa</title></rect>
+<rect x="572" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_16, 0 eligible taxa</title></rect>
+<rect x="1217" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_16, 0 eligible taxa</title></rect>
+<rect x="572" y="343" width="29" height="30" rx="2" fill="#7dbbc5" stroke="#ffffff" stroke-width="0.8"><title>EA01_16, 256 eligible taxa, D=0.249</title></rect>
+<rect x="1217" y="343" width="29" height="30" rx="2" fill="#4a7093" stroke="#ffffff" stroke-width="0.8"><title>EA01_16, 256 eligible taxa</title></rect>
+<rect x="572" y="312" width="29" height="30" rx="2" fill="#76b3c2" stroke="#ffffff" stroke-width="0.8"><title>EA02_16, 167 eligible taxa, D=0.256</title></rect>
+<rect x="1217" y="312" width="29" height="30" rx="2" fill="#567a9a" stroke="#ffffff" stroke-width="0.8"><title>EA02_16, 167 eligible taxa</title></rect>
+<rect x="572" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_16, 0 eligible taxa</title></rect>
+<rect x="1217" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_16, 0 eligible taxa</title></rect>
+<rect x="572" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_16, 0 eligible taxa</title></rect>
+<rect x="1217" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_16, 0 eligible taxa</title></rect>
+<rect x="572" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_16, 0 eligible taxa</title></rect>
+<rect x="1217" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_16, 0 eligible taxa</title></rect>
+<rect x="572" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_16, 0 eligible taxa</title></rect>
+<rect x="1217" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_16, 0 eligible taxa</title></rect>
+<rect x="572" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_16, 0 eligible taxa</title></rect>
+<rect x="1217" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_16, 0 eligible taxa</title></rect>
+<rect x="572" y="126" width="29" height="30" rx="2" fill="#d9dde2" stroke="#ffffff" stroke-width="0.8"><title>EA08_16, 1 eligible taxa</title></rect>
+<rect x="1217" y="126" width="29" height="30" rx="2" fill="#d0dee5" stroke="#ffffff" stroke-width="0.8"><title>EA08_16, 1 eligible taxa</title></rect>
+<rect x="602" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="374" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA00_17, 0 eligible taxa</title></rect>
+<rect x="602" y="343" width="29" height="30" rx="2" fill="#69a4bb" stroke="#ffffff" stroke-width="0.8"><title>EA01_17, 200 eligible taxa, D=0.268</title></rect>
+<rect x="1247" y="343" width="29" height="30" rx="2" fill="#517697" stroke="#ffffff" stroke-width="0.8"><title>EA01_17, 200 eligible taxa</title></rect>
+<rect x="602" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="312" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA02_17, 0 eligible taxa</title></rect>
+<rect x="602" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="281" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA03_17, 0 eligible taxa</title></rect>
+<rect x="602" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="250" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA04_17, 0 eligible taxa</title></rect>
+<rect x="602" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="219" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA05_17, 0 eligible taxa</title></rect>
+<rect x="602" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="188" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA06_17, 0 eligible taxa</title></rect>
+<rect x="602" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="157" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA07_17, 0 eligible taxa</title></rect>
+<rect x="602" y="126" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA08_17, 0 eligible taxa</title></rect>
+<rect x="1247" y="126" width="29" height="30" rx="2" fill="#f8f9fb" stroke="#ffffff" stroke-width="0.8"><title>EA08_17, 0 eligible taxa</title></rect>
+<text x="76" y="146" text-anchor="end" font-size="15" fill="#5b6573">63°N</text>
+<text x="722" y="146" text-anchor="end" font-size="15" fill="#5b6573">63°N</text>
+<text x="76" y="208" text-anchor="end" font-size="15" fill="#5b6573">26°N</text>
+<text x="722" y="208" text-anchor="end" font-size="15" fill="#5b6573">26°N</text>
+<text x="76" y="270" text-anchor="end" font-size="15" fill="#5b6573">EQ</text>
+<text x="722" y="270" text-anchor="end" font-size="15" fill="#5b6573">EQ</text>
+<text x="76" y="332" text-anchor="end" font-size="15" fill="#5b6573">26°S</text>
+<text x="722" y="332" text-anchor="end" font-size="15" fill="#5b6573">26°S</text>
+<text x="76" y="394" text-anchor="end" font-size="15" fill="#5b6573">63°S</text>
+<text x="722" y="394" text-anchor="end" font-size="15" fill="#5b6573">63°S</text>
+<rect x="92" y="453" width="6.2" height="17" fill="#e8f2f3" />
+<rect x="98" y="453" width="6.2" height="17" fill="#e1eff0" />
+<rect x="104" y="453" width="6.2" height="17" fill="#dbeced" />
+<rect x="110" y="453" width="6.2" height="17" fill="#d4e9eb" />
+<rect x="116" y="453" width="6.2" height="17" fill="#cee6e8" />
+<rect x="122" y="453" width="6.2" height="17" fill="#c7e3e5" />
+<rect x="128" y="453" width="6.2" height="17" fill="#c1e0e2" />
+<rect x="134" y="453" width="6.2" height="17" fill="#badde0" />
+<rect x="140" y="453" width="6.2" height="17" fill="#b3dadd" />
+<rect x="146" y="453" width="6.2" height="17" fill="#add7da" />
+<rect x="152" y="453" width="6.2" height="17" fill="#a6d4d7" />
+<rect x="158" y="453" width="6.2" height="17" fill="#a0d1d4" />
+<rect x="164" y="453" width="6.2" height="17" fill="#99ced2" />
+<rect x="170" y="453" width="6.2" height="17" fill="#93cbcf" />
+<rect x="176" y="453" width="6.2" height="17" fill="#8cc8cc" />
+<rect x="182" y="453" width="6.2" height="17" fill="#86c5c9" />
+<rect x="188" y="453" width="6.2" height="17" fill="#81c0c7" />
+<rect x="194" y="453" width="6.2" height="17" fill="#7dbbc5" />
+<rect x="200" y="453" width="6.2" height="17" fill="#79b6c3" />
+<rect x="206" y="453" width="6.2" height="17" fill="#74b1c1" />
+<rect x="212" y="453" width="6.2" height="17" fill="#70acbf" />
+<rect x="218" y="453" width="6.2" height="17" fill="#6ba7bc" />
+<rect x="224" y="453" width="6.2" height="17" fill="#67a2ba" />
+<rect x="230" y="453" width="6.2" height="17" fill="#639db8" />
+<rect x="236" y="453" width="6.2" height="17" fill="#5e98b6" />
+<rect x="242" y="453" width="6.2" height="17" fill="#5a93b4" />
+<rect x="248" y="453" width="6.2" height="17" fill="#558eb2" />
+<rect x="254" y="453" width="6.2" height="17" fill="#5189af" />
+<rect x="260" y="453" width="6.2" height="17" fill="#4d84ad" />
+<rect x="266" y="453" width="6.2" height="17" fill="#487fab" />
+<rect x="272" y="453" width="6.2" height="17" fill="#4b7da7" />
+<rect x="278" y="453" width="6.2" height="17" fill="#5680a1" />
+<rect x="284" y="453" width="6.2" height="17" fill="#60829b" />
+<rect x="290" y="453" width="6.2" height="17" fill="#6b8596" />
+<rect x="296" y="453" width="6.2" height="17" fill="#758890" />
+<rect x="302" y="453" width="6.2" height="17" fill="#7f8a8a" />
+<rect x="308" y="453" width="6.2" height="17" fill="#8a8d84" />
+<rect x="314" y="453" width="6.2" height="17" fill="#948f7e" />
+<rect x="320" y="453" width="6.2" height="17" fill="#9f9278" />
+<rect x="326" y="453" width="6.2" height="17" fill="#a99473" />
+<rect x="332" y="453" width="6.2" height="17" fill="#b4976d" />
+<rect x="338" y="453" width="6.2" height="17" fill="#be9a67" />
+<rect x="344" y="453" width="6.2" height="17" fill="#c99c61" />
+<rect x="350" y="453" width="6.2" height="17" fill="#d39f5b" />
+<rect x="356" y="453" width="6.2" height="17" fill="#dda155" />
+<rect x="362" y="453" width="6.2" height="17" fill="#de9e53" />
+<rect x="368" y="453" width="6.2" height="17" fill="#db9851" />
+<rect x="374" y="453" width="6.2" height="17" fill="#d9924f" />
+<rect x="380" y="453" width="6.2" height="17" fill="#d68c4d" />
+<rect x="386" y="453" width="6.2" height="17" fill="#d3864b" />
+<rect x="392" y="453" width="6.2" height="17" fill="#d08049" />
+<rect x="398" y="453" width="6.2" height="17" fill="#ce7b47" />
+<rect x="404" y="453" width="6.2" height="17" fill="#cb7545" />
+<rect x="410" y="453" width="6.2" height="17" fill="#c86f43" />
+<rect x="416" y="453" width="6.2" height="17" fill="#c66941" />
+<rect x="422" y="453" width="6.2" height="17" fill="#c36340" />
+<rect x="428" y="453" width="6.2" height="17" fill="#c05d3e" />
+<rect x="434" y="453" width="6.2" height="17" fill="#bd583c" />
+<rect x="440" y="453" width="6.2" height="17" fill="#bb523a" />
+<rect x="446" y="453" width="6.2" height="17" fill="#b84c38" />
+<rect x="737" y="453" width="6.2" height="17" fill="#e3eef1" />
+<rect x="743" y="453" width="6.2" height="17" fill="#e0ebef" />
+<rect x="749" y="453" width="6.2" height="17" fill="#dde9ed" />
+<rect x="755" y="453" width="6.2" height="17" fill="#d9e6eb" />
+<rect x="761" y="453" width="6.2" height="17" fill="#d6e4e9" />
+<rect x="767" y="453" width="6.2" height="17" fill="#d3e1e7" />
+<rect x="773" y="453" width="6.2" height="17" fill="#d0dee5" />
+<rect x="779" y="453" width="6.2" height="17" fill="#cddce3" />
+<rect x="785" y="453" width="6.2" height="17" fill="#cad9e1" />
+<rect x="791" y="453" width="6.2" height="17" fill="#c6d7df" />
+<rect x="797" y="453" width="6.2" height="17" fill="#c3d4de" />
+<rect x="803" y="453" width="6.2" height="17" fill="#c0d1dc" />
+<rect x="809" y="453" width="6.2" height="17" fill="#bdcfda" />
+<rect x="815" y="453" width="6.2" height="17" fill="#baccd8" />
+<rect x="821" y="453" width="6.2" height="17" fill="#b7c9d6" />
+<rect x="827" y="453" width="6.2" height="17" fill="#b3c7d4" />
+<rect x="833" y="453" width="6.2" height="17" fill="#b0c4d2" />
+<rect x="839" y="453" width="6.2" height="17" fill="#adc2d0" />
+<rect x="845" y="453" width="6.2" height="17" fill="#aabfce" />
+<rect x="851" y="453" width="6.2" height="17" fill="#a7bccc" />
+<rect x="857" y="453" width="6.2" height="17" fill="#a4baca" />
+<rect x="863" y="453" width="6.2" height="17" fill="#a0b7c8" />
+<rect x="869" y="453" width="6.2" height="17" fill="#9db5c6" />
+<rect x="875" y="453" width="6.2" height="17" fill="#9ab2c4" />
+<rect x="881" y="453" width="6.2" height="17" fill="#97afc2" />
+<rect x="887" y="453" width="6.2" height="17" fill="#94adc0" />
+<rect x="893" y="453" width="6.2" height="17" fill="#91aabe" />
+<rect x="899" y="453" width="6.2" height="17" fill="#8da8bc" />
+<rect x="905" y="453" width="6.2" height="17" fill="#8aa5ba" />
+<rect x="911" y="453" width="6.2" height="17" fill="#87a2b8" />
+<rect x="917" y="453" width="6.2" height="17" fill="#84a0b7" />
+<rect x="923" y="453" width="6.2" height="17" fill="#819db5" />
+<rect x="929" y="453" width="6.2" height="17" fill="#7e9ab3" />
+<rect x="935" y="453" width="6.2" height="17" fill="#7a98b1" />
+<rect x="941" y="453" width="6.2" height="17" fill="#7795af" />
+<rect x="947" y="453" width="6.2" height="17" fill="#7493ad" />
+<rect x="953" y="453" width="6.2" height="17" fill="#7190ab" />
+<rect x="959" y="453" width="6.2" height="17" fill="#6e8da9" />
+<rect x="965" y="453" width="6.2" height="17" fill="#6b8ba7" />
+<rect x="971" y="453" width="6.2" height="17" fill="#6788a5" />
+<rect x="977" y="453" width="6.2" height="17" fill="#6486a3" />
+<rect x="983" y="453" width="6.2" height="17" fill="#6183a1" />
+<rect x="989" y="453" width="6.2" height="17" fill="#5e809f" />
+<rect x="995" y="453" width="6.2" height="17" fill="#5b7e9d" />
+<rect x="1001" y="453" width="6.2" height="17" fill="#587b9b" />
+<rect x="1007" y="453" width="6.2" height="17" fill="#547999" />
+<rect x="1013" y="453" width="6.2" height="17" fill="#517697" />
+<rect x="1019" y="453" width="6.2" height="17" fill="#4e7395" />
+<rect x="1025" y="453" width="6.2" height="17" fill="#4b7193" />
+<rect x="1031" y="453" width="6.2" height="17" fill="#486e91" />
+<rect x="1037" y="453" width="6.2" height="17" fill="#456b90" />
+<rect x="1043" y="453" width="6.2" height="17" fill="#41698e" />
+<rect x="1049" y="453" width="6.2" height="17" fill="#3e668c" />
+<rect x="1055" y="453" width="6.2" height="17" fill="#3b648a" />
+<rect x="1061" y="453" width="6.2" height="17" fill="#386188" />
+<rect x="1067" y="453" width="6.2" height="17" fill="#355e86" />
+<rect x="1073" y="453" width="6.2" height="17" fill="#325c84" />
+<rect x="1079" y="453" width="6.2" height="17" fill="#2e5982" />
+<rect x="1085" y="453" width="6.2" height="17" fill="#2b5780" />
+<rect x="1091" y="453" width="6.2" height="17" fill="#28547e" />
+<text x="92" y="445" font-family="Arial, sans-serif" font-size="13" fill="#5b6573">Colour shown only where ≥20 species qualify</text>
+<text x="92" y="488" font-family="Arial, sans-serif" font-size="14" fill="#5b6573">D = 0.18</text>
+<text x="450" y="488" text-anchor="end" font-family="Arial, sans-serif" font-size="14" fill="#5b6573">0.42</text>
+<rect x="474" y="453" width="14" height="17" fill="#d9dde2"/>
+<text x="497" y="467" font-family="Arial, sans-serif" font-size="12" fill="#5b6573">1–19 spp.</text>
+<text x="737" y="445" font-family="Arial, sans-serif" font-size="13" fill="#5b6573">Log-scaled number of eligible species per cell</text>
+<text x="737" y="488" font-family="Arial, sans-serif" font-size="14" fill="#5b6573">1 species</text>
+<text x="1095" y="488" text-anchor="end" font-family="Arial, sans-serif" font-size="14" fill="#5b6573">880</text>
+<text x="92" y="520" font-family="Arial, sans-serif" font-size="14" fill="#48596d">A cell qualifies at ≥10 classifiable photos and ≥3 observers per taxon; D measures photographed labels, not genetic morphs.</text>
+<text x="92" y="543" font-family="Arial, sans-serif" font-size="13" fill="#778391">Exploratory. No wild/native ascertainment, historical range inference, or causal environmental effect. Source: FCP Actions #39412659475.</text>
+</svg>

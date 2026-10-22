@@ -1,0 +1,80 @@
+name: FCP New Phytologist all 4475 phenotype geometry versus geographic and climatic fate
+on:
+  push:
+    branches: [analysis/fcp-np-all4475-unified-20261021]
+    paths:
+      - scripts/analysis/fcp_all4475_geometry_vs_spatial_environment_fate_20261021.py
+      - .github/workflows/fcp-all4475-geometry-fate-20261021.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  source-verified-global-phenotype-fate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GIT_AUTHOR_NAME: github-actions[bot]
+      GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+      GIT_COMMITTER_NAME: github-actions[bot]
+      GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install source-analysis compatible SciPy rank statistics
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2
+      - name: Validate null and rank-correlation arithmetic before source result inspection
+        run: |
+          python -m py_compile scripts/analysis/fcp_all4475_geometry_vs_spatial_environment_fate_20261021.py
+          python scripts/analysis/fcp_all4475_geometry_vs_spatial_environment_fate_20261021.py --self-test
+      - name: Estimate same-4475-photo W geometry versus geographic and abiotic associations
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-global-fates
+          python scripts/analysis/fcp_all4475_geometry_vs_spatial_environment_fate_20261021.py \
+            --species-ledger results/fcp_np_all4475_unified_species_ledger_20261021.csv \
+            --receipt results/fcp_np_all4475_unified_species_ledger_receipt_20261021.json \
+            --out /tmp/fcp-global-fates
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp-global-fates/all4475_W_vs_geography_climate_fate_result.json')
+          x=json.loads(p.read_text())
+          assert x['all_species_in_common_parent_roster']==4475
+          assert x['results']['W_geometry_vs_geographic_sorting']['n_species']==3600
+          assert x['results']['W_geometry_vs_photo_BIO5_slope']['n_species']==4112
+          assert x['results']['W_geometry_vs_photo_temperature_seasonality']['n_species']==4112
+          assert x['source_of_447500_photos_sha256']=='8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6'
+          assert x['no_independent_photo_provider_or_genetic_data'] is True
+          print('FCP_JOINT_4475_PHENOTYPE_FATE_SOURCE_GATES_PASS')
+          PY
+      - name: Freeze complete joint-source result on current analysis branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "analysis/fcp-np-all4475-unified-20261021"
+          cp /tmp/fcp-global-fates/all4475_W_vs_geography_climate_fate_result.json \
+             results/fcp_np_all4475_W_geography_climate_fate_20261021.json
+          git config user.name "$GIT_AUTHOR_NAME"
+          git config user.email "$GIT_AUTHOR_EMAIL"
+          git add results/fcp_np_all4475_W_geography_climate_fate_20261021.json
+          if git diff --cached --quiet; then
+            echo FCP_4475_JOINT_GEOMETRY_FATE_ALREADY_PERSISTED
+          else
+            git commit -m "Freeze authentic all-4475 floral phenotype W versus geographic climatic fate joint comparison"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin HEAD:refs/heads/analysis/fcp-np-all4475-unified-20261021
+            echo FCP_4475_JOINT_GEOMETRY_FATE_PUSH_SUCCESS
+          fi
+      - name: Retain source-checked joint 4475 analysis artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-NP-all4475-W-geography-climate-fate-20261021
+          path: /tmp/fcp-global-fates/
+          retention-days: 90
+          if-no-files-found: error
