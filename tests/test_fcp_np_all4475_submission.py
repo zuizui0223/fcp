@@ -143,10 +143,10 @@ def test_active_new_phytologist_summary_style_and_figure_fidelity():
 def test_current_article_hypothesis_falsifiability_keeps_missing_mechanisms_missing():
     s = manuscript().lower()
     assert "why should independently evolving flowering-plant lineages" in s
-    for topic in ("phenotypic accessibility", "historical", "environmental",
-                  "local maintenance", "petal", "whole-plant"):
+    for topic in ("candidate evolutionary mechanisms", "historical", "environmental",
+                  "local genetic morph maintenance", "petal", "whole-plant"):
         assert topic in s
-    for token in ("neutral snp", "not", "fitness", "genetic", "same source"):
+    for token in ("neutral genomic", "not", "fitness", "genetic", "same source"):
         assert token in s
     study = source(SCOPE)
     assert study["current_New_Phytologist_analysis_frame"][
@@ -177,3 +177,24 @@ def test_main_hypotheses_use_complete_4475_frame_not_prospective_158_gate():
     old = source(LEGACY_W_SOURCE)
     assert old["thresholds"]["primary_0_10"]["species"] == 158
     assert old["decision"]["verdict"] == "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
+
+def test_four_direct_photographic_predictions_are_separate_from_mechanism_hypotheses():
+    """The primary study tests P1–P4 in the complete source, not unmeasured H1–H5 causes."""
+    paper = manuscript()
+    table = paper.split("## Table 2. Direct full-source photographic hypotheses", 1)[1].split(
+        "## Results", 1
+    )[0]
+    assert "not five additional positive hypothesis tests" in table
+    for label in ("**P1.", "**P2.", "**P3.", "**P4."):
+        assert table.count(label) == 1
+    for token in ("4,475 species", "3,600 species", "4,112 species",
+                  "+0.016116", "+0.021888", "+0.03375", "−0.00927",
+                  "NA", "post hoc"):
+        assert token in table
+    assert "**H1." not in table
+    assert "**H2." not in table
+    assert "**H3." not in table
+    assert "**H4." not in table
+    assert "**H5." not in table
+    assert "158-species prospective test" in table
+    assert "Fig. 5. Candidate evolutionary mechanisms" in paper
