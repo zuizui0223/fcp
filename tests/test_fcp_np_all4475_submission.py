@@ -172,7 +172,7 @@ def test_main_hypotheses_use_complete_4475_frame_not_prospective_158_gate():
     assert "### Test P1:" in methods
     assert "### Test P2:" in methods
     assert "3,600" in table1 and "4,112" in table1
-    assert "Historical species-disjoint prospective source checks" in paper
+    assert "Historical species-disjoint H2 prospective confirmation" in paper
     # This editorial change must not erase the authenticated historical result.
     old = source(LEGACY_W_SOURCE)
     assert old["thresholds"]["primary_0_10"]["species"] == 158
