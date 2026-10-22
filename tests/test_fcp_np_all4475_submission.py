@@ -247,7 +247,7 @@ def test_historical_H1_H3_and_ecological_D_spatial_link_are_source_locked_and_no
     assert "FCP_NP_H1_H3_P1_P4_ECOLOGICAL_SYNTHESIS_20261022.md" in paper
     assert "H3a/H3b" in supporting
     assert "genetic" in synthesis.lower()
-    assert "not tested by merely" in synthesis.lower()
+    assert "not retested on all 4,475 species" in synthesis.lower()
     assert "NA, not zero" in synthesis
     assert "P1" in synthesis and "P2" in synthesis and "P3" in synthesis and "P4" in synthesis
 
