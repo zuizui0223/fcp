@@ -1,6 +1,6 @@
 # Recurrent flower-colour directions and heterogeneous geographic sorting within flowering-plant species
 
-**New Phytologist Full Paper — mechanistic, evidence-bounded manuscript revision (21 October 2026)**
+**New Phytologist Full Paper — evidence-bounded P1–P4 hypothesis revision (22 October 2026)**
 
 **Authors:** [AUTHOR LIST TO CONFIRM]
 
@@ -10,16 +10,16 @@
 
 **Revision principle:** The current paper directly tests explicit, falsifiable photographic hypotheses in the complete 4,475-species registry. Earlier species-subset prospective results are retained as chronological provenance in Supporting Information, not as the main sample or a gate on the complete-frame tests. The full-frame tests remain post hoc relative to original axis selection and cannot identify causal selection.
 
-**Original frozen manuscript:** `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md` in parent PR #248 (unchanged there); this is a proposed replacement in the present draft branch.
+**Historical frozen manuscript:** the original pre-extension paper is preserved separately in `docs/POLYMORPHISM_MANUSCRIPT.md`, with its original historical tests and provenance receipts. This Full Paper uses a later 4,475-species source register and does not rewrite those frozen numerical decisions.
 
-**Working status (21 October 2026):** The entire 4,475-species source ledger and the five principal figure SVGs have been rendered from authenticated numerical results and XML/source-gate verified in GitHub Actions. Figure layout and journal-specific presentation remain subject to editorial review. Historical prospective test receipts, source photo measurements and the main branch have not been overwritten.
+**Working status (22 October 2026):** The 4,475-species source ledger and five principal figure SVGs are available as SHA-authenticated, source-verified analysis outputs; a clean paper-specific main-integration PR includes their exact source blobs and targeted regression checks. The original frozen analyses and image data are preserved separately. Figure layout, journal compliance and author details require final editorial review. **This manuscript has not been submitted.**
 
 **Word counts (working Full Paper; source-locked sections):**
-- Introduction: 719 words
-- Materials and Methods: 2,119 words
-- Results: 2,789 words
-- Discussion: 1,627 words
-- Main text (Introduction through Discussion): 7,254 words
+- Introduction: 718 words
+- Materials and Methods: 2,116 words
+- Results: 2,788 words
+- Discussion: 1,642 words
+- Main text (Introduction through Discussion): 7,264 words
 - Figures: 5 (all colour)
 - Tables: 2
 - Supporting Information: source-locked extended Methods/Results, reproducibility ledgers and figures
