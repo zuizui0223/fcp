@@ -110,7 +110,7 @@ def test_common_global_abiotic_frame_and_seven_axis_error_control():
 
 def test_active_new_phytologist_summary_style_and_figure_fidelity():
     text = manuscript()
-    assert text.startswith("# Recurrent flower-colour directions")
+    assert text.startswith("# Geographic structuring and recurrent flower-colour variation")
     headline = text.splitlines()[0][2:]
     assert len(headline) <= 130
     summary = text.split("## Summary\n",1)[1].split("**Key words:**",1)[0]
@@ -142,7 +142,7 @@ def test_active_new_phytologist_summary_style_and_figure_fidelity():
 
 def test_current_article_hypothesis_falsifiability_keeps_missing_mechanisms_missing():
     s = manuscript().lower()
-    assert "why should independently evolving flowering-plant lineages" in s
+    assert "why are different flower colours photographed in different parts of the same species" in s
     for topic in ("candidate evolutionary mechanisms", "historical", "environmental",
                   "local genetic morph maintenance", "petal", "whole-plant"):
         assert topic in s
@@ -263,3 +263,40 @@ def test_historical_H1_H3_and_ecological_D_spatial_link_are_source_locked_and_no
         part("## Discussion\n", "## Acknowledgements\n"),
     ))
     assert len(re.findall(r"[A-Za-z0-9]+(?:[’'-][A-Za-z0-9]+)*", full_paper)) <= 7500
+
+
+def test_ecological_associations_are_primary_and_source_bounded():
+    """P2/P3 and distinct old D–spatial ecology precede P4 and remain correctly qualified."""
+    text = manuscript()
+    summary = text.split("## Summary\n", 1)[1].split("**Key words:**", 1)[0]
+    results = text.split("## Results\n", 1)[1].split("## Discussion\n", 1)[0]
+    discussion = text.split("## Discussion\n", 1)[1].split("## Acknowledgements\n", 1)[0]
+    table = text.split("## Table 2.", 1)[1].split("## Results\n", 1)[0]
+    assert "organised geographically" in summary.lower()
+    assert summary.index("local colour mismatch") < summary.index("White–chromatic W")
+    for term in ("0.0161", "0.0219", "0.4789", "0.4320", "3,600", "4,112",
+                 "BIO4", "BIO5", "+0.049", "+0.127", "+0.099", "−0.009"):
+        assert term in summary, term
+    assert results.index("### P2:") < results.index("### P3:") < results.index("### P4:")
+    assert discussion.index("### Geographic allocation") < discussion.index("### Environmental sorting")
+    assert discussion.index("### Environmental sorting") < discussion.index("### A recurrent colour-variation")
+    assert "not refitted across all 4,475 taxa" in results
+    assert "50-km colour mismatch was lower" in discussion
+    assert "not" in discussion.lower() and "local adaptation" in discussion.lower()
+
+    # Source-derived ecological association must not become a causal interpretation.
+    fate = source(FATE_SOURCE)["results"]["geographic_sorting_vs_photo_BIO5_slope"]
+    assert fate["n_species"] == 3292
+    assert abs(fate["partial_rank_r_controlling_photo_opportunity_and_source"] - 0.04887862859335402) < 1e-12
+    interval = fate["genus_bootstrap_95CI_conditional_fixed_residuals"]
+    assert interval[0] > 0 and interval[1] > 0
+    assert fate["potential_shared_source_photo_measurement_artifact"] is True
+    assert "+0.04888" in results
+    assert "+0.01580" in results and "+0.08160" in results
+
+    axes = source(ABIOTIC_SOURCE)["axes"]
+    positive = {x["axis"] for x in axes if x["family7_excludes_zero"]}
+    assert positive == {"BIO4", "BIO5"}
+    assert "only **BIO4**" in results
+    assert "genetic" in discussion.lower() and "selection" in discussion.lower()
+    assert "photographic" in table.lower()
