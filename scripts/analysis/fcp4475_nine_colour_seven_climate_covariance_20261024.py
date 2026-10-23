@@ -207,6 +207,10 @@ def one_species(g, one_observer=False, perms=PERMS):
             if not available[regime,axis]:
                 continue
             for component,j in (("total",0),("between_coarse_label",1),("within_coarse_label",2)):
+                if j == 1 and not row["frequency_separation_opportunity"]:
+                    # Do not infer photographed between-label climate
+                    # sorting from one or extremely sparse label.
+                    continue
                 for metric,m in (("hue_vector_norm",0),("signed_white_fraction",1)):
                     val=float(observed[regime,m,axis,j])
                     row[f"{name}_{label}_{component}_{metric}"]=val
@@ -219,7 +223,7 @@ def one_species(g, one_observer=False, perms=PERMS):
 def fold_species(rows,observed,nulls,eligible,one_observer):
     # All species enter no-source-exclusion ledger; no zeroes for ineligible
     # taxa, including colour-specific 2+ supported class opportunities.
-    counts = np.zeros((2,NAX),int)
+    counts = np.zeros((2,NAX,3),int)
     normObs=np.zeros((2,NAX,3),float)
     normNull=np.zeros((PERMS,2,NAX,3),float)
     signedObs=np.zeros((2,NAX,3),float)
@@ -231,40 +235,49 @@ def fold_species(rows,observed,nulls,eligible,one_observer):
         for regime in range(2):
             for ax in range(NAX):
                 if not ok[regime,ax]:continue
-                counts[regime,ax]+=1
-                normObs[regime,ax]+=obs[regime,0,ax]
-                signedObs[regime,ax]+=obs[regime,1,ax]
-                normNull[:,regime,ax]+=nul[:,regime,0,ax]
-                signedNull[:,regime,ax]+=nul[:,regime,1,ax]
+                for component in range(3):
+                    if component == 1 and not row["frequency_separation_opportunity"]:
+                        continue
+                    counts[regime,ax,component]+=1
+                    normObs[regime,ax,component]+=obs[regime,0,ax,component]
+                    signedObs[regime,ax,component]+=obs[regime,1,ax,component]
+                    normNull[:,regime,ax,component]+=nul[:,regime,0,ax,component]
+                    signedNull[:,regime,ax,component]+=nul[:,regime,1,ax,component]
     out={}
     for regime,name in enumerate(("raw","geo_month_residual")):
         out[name]={}
         for ax,axis in enumerate(AXES):
-            n=int(counts[regime,ax])
+            count=counts[regime,ax]
+            n=int(count[0])
             if not n:
                 out[name][axis]={"n_species":0,"status":"not_estimable"}
                 continue
-            ob=normObs[regime,ax]/n
-            nu=normNull[:,regime,ax]/n
-            wobs=signedObs[regime,ax]/n
-            wnull=signedNull[:,regime,ax]/n
             results={}
             for j,component in enumerate(("total","between_photo_labels","within_photo_labels")):
-                pnorm=float((1+np.count_nonzero(nu[:,j]>=ob[j]))/(PERMS+1))
+                n_component=int(count[j])
+                if n_component == 0:
+                    results[component]={"n_species":0,"status":"insufficient_colour_label_support"}
+                    continue
+                ob=normObs[regime,ax,j]/n_component
+                nu=normNull[:,regime,ax,j]/n_component
+                wobs=signedObs[regime,ax,j]/n_component
+                wnull=signedNull[:,regime,ax,j]/n_component
+                pnorm=float((1+np.count_nonzero(nu>=ob))/(PERMS+1))
                 # True distribution of source photos, signed scalar white
                 # loading may be positive or negative; use two-sided null.
-                pwhite=float((1+np.count_nonzero(np.abs(wnull[:,j]-wnull[:,j].mean())
-                                              >=abs(wobs[j]-wnull[:,j].mean())))/(PERMS+1))
+                pwhite=float((1+np.count_nonzero(np.abs(wnull-wnull.mean())
+                                              >=abs(wobs-wnull.mean())))/(PERMS+1))
                 results[component]={
-                    "observed_norm_mean":float(ob[j]),
-                    "month_null_norm_mean":float(nu[:,j].mean()),
-                    "hue_vector_norm_excess_over_month_null":float(ob[j]-nu[:,j].mean()),
+                    "n_species":n_component,
+                    "observed_norm_mean":float(ob),
+                    "month_null_norm_mean":float(nu.mean()),
+                    "hue_vector_norm_excess_over_month_null":float(ob-nu.mean()),
                     "hue_norm_permutation_upper_p_199":pnorm,
-                    "observed_signed_white_fraction_change_per_climate_SD":float(wobs[j]),
-                    "month_null_signed_white_mean":float(wnull[:,j].mean()),
+                    "observed_signed_white_fraction_change_per_climate_SD":float(wobs),
+                    "month_null_signed_white_mean":float(wnull.mean()),
                     "signed_white_two_sided_p_199":pwhite,
                 }
-            out[name][axis]={"n_species":n,"components":results}
+            out[name][axis]={"n_species":n,"n_between_label_supported":int(count[1]),"components":results}
     return out
 
 
@@ -290,7 +303,7 @@ def add_multiplicity(summary):
                 adjusted=holm(ps)
                 for ax,p in zip(AXES,adjusted):
                     x=summary[regime][ax]
-                    if x["n_species"]:
+                    if x["n_species"] and x["components"][comp].get("n_species",0):
                         x["components"][comp][metric+"_holm7"]=p
 
 
