@@ -259,8 +259,13 @@ def blinded_packages(review, dest, download=False):
     return rows
 
 
+LICENSED = {"cc0","cc-by","cc-by-sa","cc-by-nc","cc-by-nc-sa"}
+SOURCE_BUCKET = "https://inaturalist-open-data.s3.amazonaws.com/photos"
+
+
 def source_image_url(item):
-    for c in ("photo_url_large","photo_url"):
+    """Exact original URL, never an inferred photograph address."""
+    for c in ("photo_url_large", "photo_url"):
         value=str(item.get(c, "")).strip()
         if value.startswith("https://"):
             host=(urlparse(value).hostname or "").lower()
@@ -270,29 +275,50 @@ def source_image_url(item):
     return None
 
 
+def photo_sources(item):
+    licence=str(item.get("photo_license", "")).strip().lower()
+    if licence not in LICENSED:
+        return []
+    pid=int(item["photo_id"])
+    exact=source_image_url(item)
+    candidates=([("authenticated_direct_source_url",exact)] if exact else [])
+    # iNaturalist's documented licensed S3 photo ID/extension scheme.
+    # Guessed paths are not evidence: count only a successful HTTP image decode
+    # as a verified recovered original photo. Do not route unlicensed images.
+    for ext in ("jpeg","jpg","png","webp"):
+        url=f"{SOURCE_BUCKET}/{pid}/medium.{ext}"
+        if url != exact:
+            candidates.append(("source_id_s3_object_verified_by_http",url))
+    return candidates
+
+
 def try_image(item, output):
-    url=source_image_url(item)
-    if url is None:
-        return False,"no_verified_direct_source_image_url"
+    options=photo_sources(item)
+    if not options:
+        return False,"ineligible_or_unknown_photo_license",None
     errors=[]
-    for attempt in range(2):
-        try:
-            req=Request(url,headers={"User-Agent":"zuizui0223-fcp-blind-photo-review/1.0",
-                                      "Accept":"image/*"})
-            with urlopen(req,timeout=18) as r:
-                data=r.read(7*1024*1024+1)
-            if len(data)>7*1024*1024 or len(data)<1000:
-                raise ValueError("photo source size outside eligible bounds")
-            with Image.open(io.BytesIO(data)) as pic:
-                picture=ImageOps.exif_transpose(pic).convert("RGB")
-                picture.thumbnail((340,300),Image.Resampling.LANCZOS)
-                output.parent.mkdir(parents=True,exist_ok=True)
-                picture.save(output,format="JPEG",quality=82)
-            return True,"source_direct_image_rendered"
-        except Exception as e:
-            errors.append(type(e).__name__)
-            time.sleep(.3*(attempt+1))
-    return False,"image_acquisition_failed:"+",".join(errors)
+    for kind,url in options:
+        for attempt in range(2):
+            try:
+                req=Request(url,headers={
+                    "User-Agent":"zuizui0223-fcp-license-verified-blind-review/1.0",
+                    "Accept":"image/*"})
+                with urlopen(req,timeout=18) as r:
+                    payload=r.read(7*1024*1024+1)
+                if len(payload)>7*1024*1024 or len(payload)<1000:
+                    raise ValueError("unexpected photo source size")
+                with Image.open(io.BytesIO(payload)) as pic:
+                    picture=ImageOps.exif_transpose(pic).convert("RGB")
+                    picture.thumbnail((340,300),Image.Resampling.LANCZOS)
+                    output.parent.mkdir(parents=True,exist_ok=True)
+                    picture.save(output,format="JPEG",quality=82)
+                return True,kind,url
+            except Exception as e:
+                errors.append(type(e).__name__)
+                if getattr(e,"code",None) in (400,403,404,410):
+                    break
+                time.sleep(.3*(attempt+1))
+    return False,"all_source_image_urls_unavailable:"+",".join(sorted(set(errors))),None
 
 
 def make_sheets(rows, dest, fetch):
@@ -307,9 +333,10 @@ def make_sheets(rows, dest, fetch):
             for future in as_completed(tasks):
                 states[tasks[future]]=future.result()
     else:
-        states={r.review_id:(False,"image_download_not_requested") for r in rows.itertuples(index=False)}
+        states={r.review_id:(False,"image_download_not_requested",None) for r in rows.itertuples(index=False)}
     fields=[{"review_id":r.review_id,"rendered":bool(states[r.review_id][0]),
-             "render_status":states[r.review_id][1]}
+             "render_status":states[r.review_id][1],
+             "verified_original_image_url":states[r.review_id][2]}
             for r in rows.itertuples(index=False)]
     pd.DataFrame(fields).to_csv(dest/"pi_mapping_ONLY"/"image_retrieval_audit.csv",index=False)
     for reviewer in (1,2):
@@ -390,6 +417,9 @@ def main():
     matched=match_species(modes,continuous,source)
     selected,missing=select_photo_rows(source,classified,matched)
     original,meta_cols=attach_original_meta(selected,args.photos)
+    original["source_photo_page"]=[
+        f"https://www.inaturalist.org/photos/{int(v)}" for v in original.photo_id
+    ]
     args.out.mkdir(parents=True,exist_ok=True)
     rows=blinded_packages(original,args.out)
     states=make_sheets(rows,args.out,args.download_images)
@@ -414,8 +444,12 @@ def main():
         "selected_reacquired_image_previews":actual,
         "direct_original_image_url_available":int(sum(source_image_url(r) is not None
                                                         for r in rows.to_dict("records"))),
+        "documented_open_dataset_image_id_candidates":int(sum(
+            bool(photo_sources(r)) for r in rows.to_dict("records"))),
         "optional_original_metadata_fields":meta_cols,
         "balance_summary":means,
+        "image_retrieval_status":("photographic_previews_complete" if actual==len(rows)
+                                  else "photographic_previews_incomplete"),
         "n_reviewers":2,
         "reviewers_are_blind_to_species_mode_date_site_observer_hue_score":True,
         "mapping_stored_separately_from_reviewer_directory":True,
