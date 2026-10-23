@@ -1,0 +1,105 @@
+name: FCP 27 photo-mode blinded botanical validation
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/build_fcp27_original_blind_photo_review_20261023.py
+      - .github/workflows/fcp27-original-photo-blind-review-20261023.yml
+      - docs/FCP_27MODE_BLIND_BOTANICAL_REVIEW_20261023.md
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.5.2 pillow
+      - run: |
+          python -m py_compile scripts/analysis/build_fcp27_original_blind_photo_review_20261023.py
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python scripts/analysis/build_fcp27_original_blind_photo_review_20261023.py --self-test
+  original-photo-review-packets:
+    needs: synthetic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_ASSET: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.5.2 pillow
+      - name: Retrieve original source and authenticate all 447500 photos
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp27/{original/release,original/measured,model,continuous,review}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_ASSET" --dir /tmp/fcp27/original/release
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp27/original/release/$SOURCE_ASSET" | sha256sum -c -
+          tar -xzf /tmp/fcp27/original/release/$SOURCE_ASSET -C /tmp/fcp27/original \
+            measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA  /tmp/fcp27/original/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+      - name: Restore proven real-data mode and continuous spatial results
+        run: |
+          set -euo pipefail
+          gh run download 39923312111 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-photo-hue-modes-spatial-shape-authentic-20261023 \
+            --dir /tmp/fcp27/model
+          gh run download 39918785955 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-4475-nine-hue-geography-real-original-20261023 \
+            --dir /tmp/fcp27/continuous
+          test -s /tmp/fcp27/model/per_species_mode_geo_metrics.csv
+          test -s /tmp/fcp27/continuous/original_per_taxon.csv
+      - name: Balance 27 cases and 27 controls and prepare re-blinded original-photo packets
+        run: |
+          python scripts/analysis/build_fcp27_original_blind_photo_review_20261023.py \
+            --photos /tmp/fcp27/original/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --modes /tmp/fcp27/model/per_species_mode_geo_metrics.csv \
+            --continuous /tmp/fcp27/continuous/original_per_taxon.csv \
+            --out /tmp/fcp27/review --download-images
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('/tmp/fcp27/review')
+          d=json.loads((root/'review_manifest.json').read_text())
+          assert d['source_original_photos']==447500
+          assert d['classifiable_photos']==227107
+          assert d['n_candidate_species']==27
+          assert d['n_one_to_one_matched_controls']==27
+          assert 486 <= d['total_selected_photo_rows'] <= 594
+          for who in (1,2):
+              p=root/'blind_reviewer_ONLY'/f'reviewer{who}_blank_annotations.csv'
+              t=pd.read_csv(p)
+              assert len(t)==d['total_selected_photo_rows']
+              assert {'species','photo_id','inat_taxon_id','review_arm','source_stratum','latitude','longitude'}.isdisjoint(t.columns)
+              assert t.review_id.is_unique
+          print('FCP27_BLINDED_PACKETS_SOURCE_VERIFIED',json.dumps(d,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-blind-reviewer-packets-20261023
+          path: /tmp/fcp27/review/blind_reviewer_ONLY/
+          retention-days: 90
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-PI-source-mapping-KEEP-SEPARATE-20261023
+          path: /tmp/fcp27/review/pi_mapping_ONLY/
+          retention-days: 90
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-review-audit-manifest-20261023
+          path: /tmp/fcp27/review/review_manifest.json
+          retention-days: 90
