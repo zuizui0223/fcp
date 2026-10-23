@@ -1,0 +1,99 @@
+{
+  "schema": "fcp_original_photo_palette_and_purity_50km_posthoc_audit_receipt_v1",
+  "date": "2026-10-23",
+  "source_archive": "fcp-all4730-original-method-actual-colour-results-20261017",
+  "authentic_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_photo_rows": 447500,
+  "classifiable_photo_rows": 227107,
+  "verified_ci_run_id": 39880111954,
+  "verified_ci_job_id": 120175178303,
+  "verified_ci_conclusion": "success",
+  "full_anonymized_json_artifact_id": 12469982240,
+  "full_artifact_name": "fcp-original-photo-palette-mode-and-purity-geography-20261023",
+  "full_artifact_zip_sha256": "f337b7dfe2b44a7dd8e943922593734acad8db32d64382af22a415c174e39d7a",
+  "full_artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/39880111954/artifacts/12469982240",
+  "quality_screen": {
+    "original_nclassified_atleast": 40,
+    "purity_photo_n_atleast": 24,
+    "classified_group_fraction_primary": 0.65,
+    "alternative_fraction": 0.75,
+    "group_photo_n_atleast": 5,
+    "group_observer_n_atleast": 3
+  },
+  "photo_quality_observed_class_support": {
+    "q65_ge2_supported_colour_groups": 895,
+    "q65_ge3_supported_colour_groups": 81,
+    "q65_ge4_supported_colour_groups": 0,
+    "q75_ge2_supported_colour_groups": 445,
+    "q75_ge3_supported_colour_groups": 26,
+    "q75_ge4_supported_colour_groups": 0
+  },
+  "quality_conditioned_50km_species_matched_label_null": {
+    "all_supported_two_or_more": {
+      "species": 306,
+      "mean_source_photo_global_minus_local": 0.04614868076348339,
+      "fraction_species_positive": 0.6372549019607843,
+      "null_mean": 0.000033740068002868445,
+      "matched_199_world_upper_p": 0.005,
+      "distinct_observer_pair_mean_depletion": 0.04557112043546877,
+      "distinct_observer_pair_null_mean": 0.000050130957715901446,
+      "distinct_observer_pair_matched_199_world_upper_p": 0.005,
+      "all_frozen_original_geo_and_photo_classes_preserved_outside_QA": true,
+      "posthoc_photo_purity_filter_not_biological_morph": true
+    },
+    "exactly_2_supported_classes": {
+      "species": 279,
+      "mean_source_photo_global_minus_local": 0.04509878128116923,
+      "fraction_species_positive": 0.6379928315412187,
+      "null_mean": 0.00011722962763841543,
+      "matched_199_world_upper_p": 0.005,
+      "distinct_observer_pair_mean_depletion": 0.04453301788709851,
+      "distinct_observer_pair_null_mean": 0.0001222308590232781,
+      "distinct_observer_pair_matched_199_world_upper_p": 0.005,
+      "all_frozen_original_geo_and_photo_classes_preserved_outside_QA": true,
+      "posthoc_photo_purity_filter_not_biological_morph": true
+    },
+    "exactly_3_supported_classes": {
+      "species": 27,
+      "mean_source_photo_global_minus_local": 0.056997642080729743,
+      "fraction_species_positive": 0.6296296296296297,
+      "null_mean": -0.0008289853815644523,
+      "matched_199_world_upper_p": 0.005,
+      "distinct_observer_pair_mean_depletion": 0.056298180101961616,
+      "distinct_observer_pair_null_mean": -0.0006949013557936567,
+      "distinct_observer_pair_matched_199_world_upper_p": 0.005,
+      "all_frozen_original_geo_and_photo_classes_preserved_outside_QA": true,
+      "posthoc_photo_purity_filter_not_biological_morph": true
+    },
+    "exactly_4_supported_classes": {
+      "species": 0,
+      "status": "no_support",
+      "null_test": "not_estimable"
+    }
+  },
+  "photographic_PCA2_GMM_BIC_pilot": {
+    "pilot_selection": "bounded SHA-order taxon-ID sample within label-richness groups 2, 3, 4",
+    "max_selected_per_supported_group": 80,
+    "n_species_tested": 160,
+    "bics_selected_components_1to4": {
+      "2": 53,
+      "3": 87,
+      "4": 20
+    },
+    "n_species_with_photo_mixture_candidate_and_observer_stability": 95,
+    "n_by_supported_photo_class_group": {
+      "2": 34,
+      "3": 97,
+      "4": 29
+    }
+  },
+  "note": "These are post hoc photographic modes under selected purity/observer/photo gates; not a census of genetically inherited morphs or local population clusters.",
+  "nulls": "199 source-species label shuffles with fixed picture positions and photo-label composition; subgroup familywise multiplicity not controlled",
+  "strict_5km_month_matched_source_result_unaltered": {
+    "n_ge5pairs": 194,
+    "p": 0.275,
+    "n_ge30pairs": 14
+  },
+  "original_P2_frozen_outcome_not_modified": true,
+  "no_individual_coordinates_observer_or_photo_ids_exported": true
+}
