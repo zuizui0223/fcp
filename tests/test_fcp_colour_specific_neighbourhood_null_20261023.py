@@ -127,4 +127,4 @@ def test_authentic_four_hue_result_receipt_and_exploratory_limit():
     for token in ("813", "727", "183", "154", "0.105", "0.065", "0.300",
                   "0.0285495", "month of year", "not"):
         assert token.lower() in doc.lower()
-    assert "photo" in str(a["conclusions"]["not_supported"]).lower()
+    assert "genotype" in str(a["conclusions"]["not_supported"]).lower()
