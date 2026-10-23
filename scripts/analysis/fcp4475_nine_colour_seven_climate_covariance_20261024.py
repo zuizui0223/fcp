@@ -405,7 +405,7 @@ def main():
         calculated=projected_colour_climate_metrics(colour_basis,zz)
         independent=exact_partition(y2,zz[0],np.array([0,0,1,1]))
         essential(np.allclose(calculated[0,0,0,:],
-                  [np.linalg.norm(x) for x in independent],atol=1e-12),
+                  [np.linalg.norm(x[0]) for x in independent],atol=1e-12),
                   "fast source covariance differs from independent exact fixture")
         q=month_shuffle(np.array([2,2,3,3]),np.random.default_rng(SEED))
         essential(set(q[:2])=={0,1} and set(q[2:])=={2,3},
