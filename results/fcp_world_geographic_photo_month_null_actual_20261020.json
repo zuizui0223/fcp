@@ -1,0 +1,1064 @@
+{
+  "actual_classifiable_photos": 227107,
+  "actual_genuine_original_photo_rows": 447500,
+  "date_filter": {
+    "classifiable": 227107,
+    "dated_2000_2026": 226601,
+    "missing_or_out_of_range": 506
+  },
+  "metrics": "between-cell mean four-state TV; absolute white/rest frequency difference; residual nonwhite TV",
+  "nulls": "same exact taxa/cells/observer positions/photographic labels; label swaps unrestricted or confined to calendar month or exact year-month",
+  "opportunity": {
+    "classifiable_in_valid_dated_geography": 226601,
+    "matched_original_photos": 67302,
+    "matched_pure_photos": 55806,
+    "shared_taxon_cell_units": 2762,
+    "strict_purity_dated_geography": 161683,
+    "taxa_matched_at_least_two_cells": 1281
+  },
+  "permutations": 199,
+  "results": {
+    "same_taxa_cells_high_purity": {
+      "all_eligible": {
+        "calendar_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 717,
+            "prospective": 155,
+            "validation": 135,
+            "wave4": 147
+          },
+          "fraction_taxa_month_geometry_5plus": 0.9875097580015613,
+          "fraction_taxa_year_month_geometry_5plus": 0.8454332552693209,
+          "mean_excess": {
+            "nonwhite_residual": 0.0008089836678376377,
+            "tv": 0.006351193408965269,
+            "white_abs": 0.005542209741127659
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.00774225286202235,
+            "tv": 0.04935623691920152,
+            "white_abs": 0.04161398405717915
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008551236529859988,
+            "tv": 0.05570743032816679,
+            "white_abs": 0.04715619379830681
+          },
+          "n_species": 1281,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.09,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "calendar_year_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 717,
+            "prospective": 155,
+            "validation": 135,
+            "wave4": 147
+          },
+          "fraction_taxa_month_geometry_5plus": 0.9875097580015613,
+          "fraction_taxa_year_month_geometry_5plus": 0.8454332552693209,
+          "mean_excess": {
+            "nonwhite_residual": 0.0004994517029162093,
+            "tv": 0.0035145765079660496,
+            "white_abs": 0.0030151248050499027
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.008051784826943778,
+            "tv": 0.05219285382020074,
+            "white_abs": 0.044141068993256906
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008551236529859988,
+            "tv": 0.05570743032816679,
+            "white_abs": 0.04715619379830681
+          },
+          "n_species": 1281,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.09,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "unrestricted": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 717,
+            "prospective": 155,
+            "validation": 135,
+            "wave4": 147
+          },
+          "fraction_taxa_month_geometry_5plus": 0.9875097580015613,
+          "fraction_taxa_year_month_geometry_5plus": 0.8454332552693209,
+          "mean_excess": {
+            "nonwhite_residual": 0.0007818842055608765,
+            "tv": 0.007262841941226977,
+            "white_abs": 0.0064809577356661555
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.007769352324299111,
+            "tv": 0.04844458838693981,
+            "white_abs": 0.04067523606264065
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008551236529859988,
+            "tv": 0.05570743032816679,
+            "white_abs": 0.04715619379830681
+          },
+          "n_species": 1281,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.075,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        }
+      },
+      "month_geometry_5plus_independent_cross_cell_pairs": {
+        "calendar_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 710,
+            "prospective": 154,
+            "validation": 130,
+            "wave4": 144
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 0.8561264822134388,
+          "mean_excess": {
+            "nonwhite_residual": 0.0008192158723320303,
+            "tv": 0.006431524708999603,
+            "white_abs": 0.005612308836667648
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.007755138465355628,
+            "tv": 0.049340546746204986,
+            "white_abs": 0.041585408280849286
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008574354337687658,
+            "tv": 0.05577207145520459,
+            "white_abs": 0.047197717117516934
+          },
+          "n_species": 1265,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.09,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "calendar_year_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 710,
+            "prospective": 154,
+            "validation": 130,
+            "wave4": 144
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 0.8561264822134388,
+          "mean_excess": {
+            "nonwhite_residual": 0.0005057688786052703,
+            "tv": 0.0035590296495688206,
+            "white_abs": 0.0030532607709636075
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.008068585459082388,
+            "tv": 0.05221304180563577,
+            "white_abs": 0.044144456346553326
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008574354337687658,
+            "tv": 0.05577207145520459,
+            "white_abs": 0.047197717117516934
+          },
+          "n_species": 1265,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.09,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "unrestricted": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 710,
+            "prospective": 154,
+            "validation": 130,
+            "wave4": 144
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 0.8561264822134388,
+          "mean_excess": {
+            "nonwhite_residual": 0.0008468279369434747,
+            "tv": 0.00740753962835991,
+            "white_abs": 0.006560711691416497
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.007727526400744184,
+            "tv": 0.04836453182684468,
+            "white_abs": 0.04063700542610044
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008574354337687658,
+            "tv": 0.05577207145520459,
+            "white_abs": 0.047197717117516934
+          },
+          "n_species": 1265,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.055,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        }
+      },
+      "n_species": 1281,
+      "n_taxa_with_any_month_crosscell_exchangeable_block": 1272,
+      "n_taxa_with_any_year_month_crosscell_exchangeable_block": 1249,
+      "n_taxa_with_month_geometry_5plus": 1265,
+      "n_taxa_with_year_month_geometry_5plus": 1083,
+      "source_cohort_sensitivity": {
+        "discovery": {
+          "absolute_drop_excess_from_month_to_yearmonth": -0.0006304605158545251,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.001318135765191443,
+          "n_species": 127,
+          "n_with_month_crosscell_observer_pair_5plus": 127,
+          "n_with_year_month_crosscell_observer_pair_5plus": 116,
+          "source_cohort": "discovery",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.007123977315810701,
+              "mean_excess_white_photo_frequency": 0.005037812435795971,
+              "n_species": 127,
+              "p_upper_tv": 0.02,
+              "p_upper_white": 0.06
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.007754437831665226,
+              "mean_excess_white_photo_frequency": 0.005011786602005998,
+              "n_species": 127,
+              "p_upper_tv": 0.015,
+              "p_upper_white": 0.035
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.008442113081002144,
+              "mean_excess_white_photo_frequency": 0.00615482669112577,
+              "n_species": 127,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.03
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.9185422840539249
+        },
+        "leave_out_new_U100": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.001490220067179679,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.00007048920951090165,
+          "n_species": 564,
+          "n_with_month_crosscell_observer_pair_5plus": 555,
+          "n_with_year_month_crosscell_observer_pair_5plus": 479,
+          "source_cohort": "leave_out_new_U100",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.0035373523137384386,
+              "mean_excess_white_photo_frequency": 0.0021750729958528933,
+              "n_species": 564,
+              "p_upper_tv": 0.035,
+              "p_upper_white": 0.095
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.0020471322465587596,
+              "mean_excess_white_photo_frequency": 0.0012793881501593982,
+              "n_species": 564,
+              "p_upper_tv": 0.075,
+              "p_upper_white": 0.155
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.00360784152324934,
+              "mean_excess_white_photo_frequency": 0.0022861223621939222,
+              "n_species": 564,
+              "p_upper_tv": 0.03,
+              "p_upper_white": 0.105
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.5674119091337042
+        },
+        "new_U100": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.003895707297476521,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.0015733136062246883,
+          "n_species": 717,
+          "n_with_month_crosscell_observer_pair_5plus": 710,
+          "n_with_year_month_crosscell_observer_pair_5plus": 604,
+          "source_cohort": "new_U100",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.008564591425294574,
+              "mean_excess_white_photo_frequency": 0.0081908361349005,
+              "n_species": 717,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.005
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.004668884127818053,
+              "mean_excess_white_photo_frequency": 0.004380474140277792,
+              "n_species": 717,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.005
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.010137905031519262,
+              "mean_excess_white_photo_frequency": 0.009780660874631926,
+              "n_species": 717,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.005
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.4605373707193207
+        },
+        "prospective": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.0031701197608438036,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.0011206997201016547,
+          "n_species": 155,
+          "n_with_month_crosscell_observer_pair_5plus": 154,
+          "n_with_year_month_crosscell_observer_pair_5plus": 126,
+          "source_cohort": "prospective",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.0031767876419418473,
+              "mean_excess_white_photo_frequency": 0.001091519805729406,
+              "n_species": 155,
+              "p_upper_tv": 0.19,
+              "p_upper_white": 0.385
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.000006667881098043615,
+              "mean_excess_white_photo_frequency": -0.000058819363691772764,
+              "n_species": 155,
+              "p_upper_tv": 0.48,
+              "p_upper_white": 0.495
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.004297487362043502,
+              "mean_excess_white_photo_frequency": 0.002189863939380844,
+              "n_species": 155,
+              "p_upper_tv": 0.125,
+              "p_upper_white": 0.275
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.0015515766624321066
+        },
+        "validation": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.0009731748871628434,
+          "absolute_drop_excess_from_unrestricted_to_month": -0.0024475965643872416,
+          "n_species": 135,
+          "n_with_month_crosscell_observer_pair_5plus": 130,
+          "n_with_year_month_crosscell_observer_pair_5plus": 110,
+          "source_cohort": "validation",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.0013135573415646515,
+              "mean_excess_white_photo_frequency": 0.0010694308597164887,
+              "n_species": 135,
+              "p_upper_tv": 0.345,
+              "p_upper_white": 0.37
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.00034038245440180803,
+              "mean_excess_white_photo_frequency": -0.00021486518546289662,
+              "n_species": 135,
+              "p_upper_tv": 0.415,
+              "p_upper_white": 0.53
+            },
+            "unrestricted": {
+              "mean_excess_tv": -0.0011340392228225901,
+              "mean_excess_white_photo_frequency": -0.0006919029894455475,
+              "n_species": 135,
+              "p_upper_tv": 0.63,
+              "p_upper_white": 0.575
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": -0.3001505129201847
+        },
+        "wave4": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.0020258872837079084,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.000197753411982117,
+          "n_species": 147,
+          "n_with_month_crosscell_observer_pair_5plus": 144,
+          "n_with_year_month_crosscell_observer_pair_5plus": 127,
+          "source_cohort": "wave4",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.0028611514301246643,
+              "mean_excess_white_photo_frequency": 0.001859729621531865,
+              "n_species": 147,
+              "p_upper_tv": 0.21,
+              "p_upper_white": 0.255
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.000835264146416756,
+              "mean_excess_white_photo_frequency": 0.0008381076166318197,
+              "n_species": 147,
+              "p_upper_tv": 0.33,
+              "p_upper_white": 0.355
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.0030589048421067813,
+              "mean_excess_white_photo_frequency": 0.0017801905814663135,
+              "n_species": 147,
+              "p_upper_tv": 0.175,
+              "p_upper_white": 0.265
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.2730598660406443
+        }
+      },
+      "year_month_geometry_5plus_independent_cross_cell_pairs": {
+        "calendar_month": {
+          "cohort_counts": {
+            "discovery": 116,
+            "new_U100": 604,
+            "prospective": 126,
+            "validation": 110,
+            "wave4": 127
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 1,
+          "mean_excess": {
+            "nonwhite_residual": 0.0010050222683459422,
+            "tv": 0.006343398626197434,
+            "white_abs": 0.005338376357851518
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.007033121354450099,
+            "tv": 0.04452363960739469,
+            "white_abs": 0.03749051825294456
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008038143622796041,
+            "tv": 0.05086703823359212,
+            "white_abs": 0.04282889461079608
+          },
+          "n_species": 1083,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.035,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "calendar_year_month": {
+          "cohort_counts": {
+            "discovery": 116,
+            "new_U100": 604,
+            "prospective": 126,
+            "validation": 110,
+            "wave4": 127
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 1,
+          "mean_excess": {
+            "nonwhite_residual": 0.0008026102660535755,
+            "tv": 0.004122767223659542,
+            "white_abs": 0.00332015695760602
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.007235533356742466,
+            "tv": 0.04674427100993258,
+            "white_abs": 0.03950873765319006
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008038143622796041,
+            "tv": 0.05086703823359212,
+            "white_abs": 0.04282889461079608
+          },
+          "n_species": 1083,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.055,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "unrestricted": {
+          "cohort_counts": {
+            "discovery": 116,
+            "new_U100": 604,
+            "prospective": 126,
+            "validation": 110,
+            "wave4": 127
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 1,
+          "mean_excess": {
+            "nonwhite_residual": 0.001141308372704439,
+            "tv": 0.006952674203670781,
+            "white_abs": 0.005811365830966343
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.006896835250091602,
+            "tv": 0.04391436402992134,
+            "white_abs": 0.037017528779829736
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.008038143622796041,
+            "tv": 0.05086703823359212,
+            "white_abs": 0.04282889461079608
+          },
+          "n_species": 1083,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.015,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        }
+      }
+    },
+    "same_taxa_cells_original_quality": {
+      "all_eligible": {
+        "calendar_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 717,
+            "prospective": 155,
+            "validation": 135,
+            "wave4": 147
+          },
+          "fraction_taxa_month_geometry_5plus": 0.9890710382513661,
+          "fraction_taxa_year_month_geometry_5plus": 0.9242779078844653,
+          "mean_excess": {
+            "nonwhite_residual": 0.002144291220891442,
+            "tv": 0.007200330744818989,
+            "white_abs": 0.005056039523927573
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.011569041337470578,
+            "tv": 0.06746862430040004,
+            "white_abs": 0.055899582962929434
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.01371333255836202,
+            "tv": 0.07466895504521903,
+            "white_abs": 0.06095562248685701
+          },
+          "n_species": 1281,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "calendar_year_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 717,
+            "prospective": 155,
+            "validation": 135,
+            "wave4": 147
+          },
+          "fraction_taxa_month_geometry_5plus": 0.9890710382513661,
+          "fraction_taxa_year_month_geometry_5plus": 0.9242779078844653,
+          "mean_excess": {
+            "nonwhite_residual": 0.001675014365449222,
+            "tv": 0.0047841135148017355,
+            "white_abs": 0.0031090991493524997
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.012038318192912798,
+            "tv": 0.0698848415304173,
+            "white_abs": 0.05784652333750451
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.01371333255836202,
+            "tv": 0.07466895504521903,
+            "white_abs": 0.06095562248685701
+          },
+          "n_species": 1281,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.01
+          },
+          "posthoc_exploratory": true
+        },
+        "unrestricted": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 717,
+            "prospective": 155,
+            "validation": 135,
+            "wave4": 147
+          },
+          "fraction_taxa_month_geometry_5plus": 0.9890710382513661,
+          "fraction_taxa_year_month_geometry_5plus": 0.9242779078844653,
+          "mean_excess": {
+            "nonwhite_residual": 0.001994238156834194,
+            "tv": 0.008380980553867406,
+            "white_abs": 0.00638674239703322
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.011719094401527826,
+            "tv": 0.06628797449135163,
+            "white_abs": 0.05456888008982379
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.01371333255836202,
+            "tv": 0.07466895504521903,
+            "white_abs": 0.06095562248685701
+          },
+          "n_species": 1281,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.01,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        }
+      },
+      "month_geometry_5plus_independent_cross_cell_pairs": {
+        "calendar_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 711,
+            "prospective": 154,
+            "validation": 131,
+            "wave4": 144
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 0.9344909234411997,
+          "mean_excess": {
+            "nonwhite_residual": 0.0021679850465366537,
+            "tv": 0.007241336204592386,
+            "white_abs": 0.005073351158055774
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.011683721615337917,
+            "tv": 0.06732041031689233,
+            "white_abs": 0.05563668870155438
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.01385170666187457,
+            "tv": 0.07456174652148471,
+            "white_abs": 0.060710039859610154
+          },
+          "n_species": 1267,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "calendar_year_month": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 711,
+            "prospective": 154,
+            "validation": 131,
+            "wave4": 144
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 0.9344909234411997,
+          "mean_excess": {
+            "nonwhite_residual": 0.0016935228114762918,
+            "tv": 0.004836976647561983,
+            "white_abs": 0.0031434538360856426
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.012158183850398279,
+            "tv": 0.06972476987392273,
+            "white_abs": 0.05756658602352451
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.01385170666187457,
+            "tv": 0.07456174652148471,
+            "white_abs": 0.060710039859610154
+          },
+          "n_species": 1267,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.01
+          },
+          "posthoc_exploratory": true
+        },
+        "unrestricted": {
+          "cohort_counts": {
+            "discovery": 127,
+            "new_U100": 711,
+            "prospective": 154,
+            "validation": 131,
+            "wave4": 144
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 0.9344909234411997,
+          "mean_excess": {
+            "nonwhite_residual": 0.0021085425832377165,
+            "tv": 0.008319362182896778,
+            "white_abs": 0.006210819599659079
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.011743164078636854,
+            "tv": 0.06624238433858794,
+            "white_abs": 0.054499220259951076
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.01385170666187457,
+            "tv": 0.07456174652148471,
+            "white_abs": 0.060710039859610154
+          },
+          "n_species": 1267,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.01,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        }
+      },
+      "n_species": 1281,
+      "n_taxa_with_any_month_crosscell_exchangeable_block": 1275,
+      "n_taxa_with_any_year_month_crosscell_exchangeable_block": 1262,
+      "n_taxa_with_month_geometry_5plus": 1267,
+      "n_taxa_with_year_month_geometry_5plus": 1184,
+      "source_cohort_sensitivity": {
+        "discovery": {
+          "absolute_drop_excess_from_month_to_yearmonth": -0.000847656405376096,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.00008111092694114419,
+          "n_species": 127,
+          "n_with_month_crosscell_observer_pair_5plus": 127,
+          "n_with_year_month_crosscell_observer_pair_5plus": 124,
+          "source_cohort": "discovery",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.0008706327478625597,
+              "mean_excess_white_photo_frequency": -0.0019104388337355463,
+              "n_species": 127,
+              "p_upper_tv": 0.36,
+              "p_upper_white": 0.705
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.0017182891532386557,
+              "mean_excess_white_photo_frequency": -0.0015640076160884225,
+              "n_species": 127,
+              "p_upper_tv": 0.305,
+              "p_upper_white": 0.695
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.0009517436748037039,
+              "mean_excess_white_photo_frequency": -0.001417292736749197,
+              "n_species": 127,
+              "p_upper_tv": 0.37,
+              "p_upper_white": 0.69
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 1.8054116867055103
+        },
+        "leave_out_new_U100": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.0008875044102942958,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.0007397305615103184,
+          "n_species": 564,
+          "n_with_month_crosscell_observer_pair_5plus": 556,
+          "n_with_year_month_crosscell_observer_pair_5plus": 521,
+          "source_cohort": "leave_out_new_U100",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.005273927488916891,
+              "mean_excess_white_photo_frequency": 0.003594602838696226,
+              "n_species": 564,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.025
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.004386423078622595,
+              "mean_excess_white_photo_frequency": 0.0028104005784439084,
+              "n_species": 564,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.045
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.006013658050427209,
+              "mean_excess_white_photo_frequency": 0.004759021499710442,
+              "n_species": 564,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.01
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.7294101263890428
+        },
+        "new_U100": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.003618719364360201,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.0015274816857728385,
+          "n_species": 717,
+          "n_with_month_crosscell_observer_pair_5plus": 711,
+          "n_with_year_month_crosscell_observer_pair_5plus": 663,
+          "source_cohort": "new_U100",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.008715660502599934,
+              "mean_excess_white_photo_frequency": 0.006205621519005222,
+              "n_species": 717,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.005
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.005096941138239733,
+              "mean_excess_white_photo_frequency": 0.003344058694669888,
+              "n_species": 717,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.015
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.010243142188372772,
+              "mean_excess_white_photo_frequency": 0.007667125362291506,
+              "n_species": 717,
+              "p_upper_tv": 0.005,
+              "p_upper_white": 0.005
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.49759546870543186
+        },
+        "prospective": {
+          "absolute_drop_excess_from_month_to_yearmonth": -0.00023955816875524671,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.0019619720590541706,
+          "n_species": 155,
+          "n_with_month_crosscell_observer_pair_5plus": 154,
+          "n_with_year_month_crosscell_observer_pair_5plus": 142,
+          "source_cohort": "prospective",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.005932451409401282,
+              "mean_excess_white_photo_frequency": 0.003969066395898599,
+              "n_species": 155,
+              "p_upper_tv": 0.06,
+              "p_upper_white": 0.165
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.006172009578156529,
+              "mean_excess_white_photo_frequency": 0.004367563958701248,
+              "n_species": 155,
+              "p_upper_tv": 0.035,
+              "p_upper_white": 0.075
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.007894423468455453,
+              "mean_excess_white_photo_frequency": 0.00615475385003586,
+              "n_species": 155,
+              "p_upper_tv": 0.02,
+              "p_upper_white": 0.035
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.7818189134163694
+        },
+        "validation": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.0041739235648421275,
+          "absolute_drop_excess_from_unrestricted_to_month": -0.0015601994879817227,
+          "n_species": 135,
+          "n_with_month_crosscell_observer_pair_5plus": 131,
+          "n_with_year_month_crosscell_observer_pair_5plus": 120,
+          "source_cohort": "validation",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.0070061399392029045,
+              "mean_excess_white_photo_frequency": 0.006497868564644918,
+              "n_species": 135,
+              "p_upper_tv": 0.02,
+              "p_upper_white": 0.025
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.002832216374360777,
+              "mean_excess_white_photo_frequency": 0.0024879905708127606,
+              "n_species": 135,
+              "p_upper_tv": 0.18,
+              "p_upper_white": 0.23
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.005445940451221182,
+              "mean_excess_white_photo_frequency": 0.006025562706484994,
+              "n_species": 135,
+              "p_upper_tv": 0.055,
+              "p_upper_white": 0.055
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.5200601071070634
+        },
+        "wave4": {
+          "absolute_drop_excess_from_month_to_yearmonth": 0.0005568482026671456,
+          "absolute_drop_excess_from_unrestricted_to_month": 0.002132164698601599,
+          "n_species": 147,
+          "n_with_month_crosscell_observer_pair_5plus": 144,
+          "n_with_year_month_crosscell_observer_pair_5plus": 135,
+          "source_cohort": "wave4",
+          "status": "posthoc_source_disjoint_photo_cohort_comparison",
+          "worlds": {
+            "calendar_month": {
+              "mean_excess_tv": 0.006792965200823495,
+              "mean_excess_white_photo_frequency": 0.005289552281073438,
+              "n_species": 147,
+              "p_upper_tv": 0.035,
+              "p_upper_white": 0.065
+            },
+            "calendar_year_month": {
+              "mean_excess_tv": 0.006236116998156349,
+              "mean_excess_white_photo_frequency": 0.0052438350532463054,
+              "n_species": 147,
+              "p_upper_tv": 0.025,
+              "p_upper_white": 0.07
+            },
+            "unrestricted": {
+              "mean_excess_tv": 0.008925129899425094,
+              "mean_excess_white_photo_frequency": 0.007460180212740447,
+              "n_species": 147,
+              "p_upper_tv": 0.015,
+              "p_upper_white": 0.045
+            }
+          },
+          "yearmonth_to_unrestricted_excess_ratio": 0.6987144241517476
+        }
+      },
+      "year_month_geometry_5plus_independent_cross_cell_pairs": {
+        "calendar_month": {
+          "cohort_counts": {
+            "discovery": 124,
+            "new_U100": 663,
+            "prospective": 142,
+            "validation": 120,
+            "wave4": 135
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 1,
+          "mean_excess": {
+            "nonwhite_residual": 0.0024498357359512436,
+            "tv": 0.007913369787174857,
+            "white_abs": 0.005463534051223698
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.011556805133310756,
+            "tv": 0.06574766293240122,
+            "white_abs": 0.05419085779909039
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.014006640869262,
+            "tv": 0.07366103271957608,
+            "white_abs": 0.05965439185031409
+          },
+          "n_species": 1184,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        },
+        "calendar_year_month": {
+          "cohort_counts": {
+            "discovery": 124,
+            "new_U100": 663,
+            "prospective": 142,
+            "validation": 120,
+            "wave4": 135
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 1,
+          "mean_excess": {
+            "nonwhite_residual": 0.0018811158344074416,
+            "tv": 0.005380631466919333,
+            "white_abs": 0.0034995156325118987
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.012125525034854558,
+            "tv": 0.06828040125265675,
+            "white_abs": 0.05615487621780219
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.014006640869262,
+            "tv": 0.07366103271957608,
+            "white_abs": 0.05965439185031409
+          },
+          "n_species": 1184,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.01
+          },
+          "posthoc_exploratory": true
+        },
+        "unrestricted": {
+          "cohort_counts": {
+            "discovery": 124,
+            "new_U100": 663,
+            "prospective": 142,
+            "validation": 120,
+            "wave4": 135
+          },
+          "fraction_taxa_month_geometry_5plus": 1,
+          "fraction_taxa_year_month_geometry_5plus": 1,
+          "mean_excess": {
+            "nonwhite_residual": 0.0025035685009956385,
+            "tv": 0.008549004378288497,
+            "white_abs": 0.006045435877292948
+          },
+          "mean_null": {
+            "nonwhite_residual": 0.011503072368266361,
+            "tv": 0.06511202834128758,
+            "white_abs": 0.05360895597302114
+          },
+          "mean_observed": {
+            "nonwhite_residual": 0.014006640869262,
+            "tv": 0.07366103271957608,
+            "white_abs": 0.05965439185031409
+          },
+          "n_species": 1184,
+          "one_sided_199_world_vertex_p": {
+            "nonwhite_residual": 0.005,
+            "tv": 0.005,
+            "white_abs": 0.005
+          },
+          "posthoc_exploratory": true
+        }
+      }
+    }
+  },
+  "schema": "fcp_world_geographic_colour_sampling_time_conditioned_v1",
+  "source_method": "same four coarse photographic labels, same taxon-cell support thresholds, identical species and cells across photo-purity treatments",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "warnings": [
+    "Post hoc test only; original 50km, original prospective white W and earlier IBD/IBE results unchanged",
+    "Month-conditioned label exchangeability captures sampling phenology and genuine temporal colour variation together; does not identify either cause",
+    "Year-month nonexchangeability can make null uninformative; opportunity denominators are mandatory",
+    "Regional photo-colour sorting is not genetic IBD, phenotype fitness, selection, demographic history or breeding-population FCP",
+    "Native occurrence, horticulture, flower-age and independent observer-specific image error remain unverified",
+    "Multiple related posthoc statistics; no unqualified p-value discovery"
+  ],
+  "provenance": {
+    "actual_source_job_id": 118637714033,
+    "successful_workflow_url": "https://github.com/zuizui0223/fcp/actions/runs/39425739017",
+    "evidence_branch": "analysis/fcp-global-pattern-20261020",
+    "original_447500_source_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "posthoc": true,
+    "same_iNaturalist_source": true,
+    "source_independent_reproduction": false,
+    "coordinates_and_observation_ids_not_exported": true,
+    "previous_frozen_H2_W_and_50km_unchanged": true
+  }
+}
