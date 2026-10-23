@@ -79,3 +79,52 @@ def test_observer_and_dominance_qc_are_explicit_not_genetic():
     assert len(COLORS) == 4
     assert len(CASES) >= 6
     assert all(x[0] != "genetically_identified_morph" for x in CASES)
+
+
+def test_authentic_four_hue_result_receipt_and_exploratory_limit():
+    import json
+    root = Path(__file__).resolve().parents[1]
+    receipt = root / "results/fcp_colour_specific_neighbourhood_null_20261023/aggregate_results.json"
+    a = json.loads(receipt.read_text(encoding="utf-8"))
+    assert a["workflow_run_id"] == 39887066227
+    assert a["artifact_id"] == 12473127210
+    assert a["source_photo_sha256"] == (
+        "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6"
+    )
+    assert a["species_ledger_sha256"] == (
+        "23d3daadc9799c2e7b5867d54ccc1ed98369ba79a81b72dc7f831e5197e63c49"
+    )
+    assert a["archived_detailed_json_sha256"] == (
+        "b53de01d630d565325757064ba4c913fc45048cabe0c082069a7c4e2d88d5336"
+    )
+    assert a["original_photo_rows"] == 447500
+    assert a["original_photo_four_state_classifiable"] == 227107
+    assert a["test_design"]["permutation_worlds"] == 199
+    assert a["test_design"]["tests_are_posthoc"] is True
+    assert not any(a["privacy"].values())
+    assert a["richness_among_eligible_base_species"] == {
+        "two_colours_each_ge5": 674,
+        "three_colours_each_ge5": 136,
+        "four_colours_each_ge5": 3,
+    }
+    c = a["cases"]
+    assert c["two_colors_5photos"]["n_species"] == 813
+    assert c["one_photo_per_observer_5photos"]["n_species"] == 727
+    assert c["two_colors_10photos"]["n_species"] == 462
+    assert c["one_photo_per_observer_10photos"]["n_species"] == 406
+    assert c["two_colors_5photos_month_preserving_null"]["n_species"] == 813
+    assert c["dominant_pixel_fraction65_5photos"]["n_species"] == 183
+    assert c["one_observer_dominant_fraction65_5photos"]["n_species"] == 154
+    for key in ("two_colors_5photos", "one_photo_per_observer_5photos",
+                "two_colors_10photos", "two_colors_5photos_month_preserving_null"):
+        assert c[key]["upper_p_199"] == .005
+        assert all(x["family4_p"] == .005 for x in c[key]["per_colour"].values())
+    assert c["one_photo_per_observer_10photos"]["per_colour"]["blue_purple"]["family4_p"] == .02
+    assert c["dominant_pixel_fraction65_5photos"]["per_colour"]["red_pink"]["family4_p"] == .105
+    assert c["one_observer_dominant_fraction65_5photos"]["per_colour"]["red_pink"]["family4_p"] == .065
+
+    doc = (root / "docs/FCP_COLOUR_SPECIFIC_GEO_CLUSTER_AND_PHOTO_ERROR_20261023.md").read_text()
+    for token in ("813", "727", "183", "154", "0.105", "0.065", "0.300",
+                  "0.0285495", "month of year", "not"):
+        assert token.lower() in doc.lower()
+    assert "photo" in str(a["conclusions"]["not_supported"]).lower()
