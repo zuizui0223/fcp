@@ -31,7 +31,7 @@ COLUMNS = ("inat_taxon_id", "species", "photo_id", "observer_id", "observed_on",
            "positional_accuracy_m", *FRACTIONS)
 RADII_KM = (5., 25., 50., 100., 250.)
 NULLS = ("full_species_shuffle", "within_month", "within_month_and_coarse_label")
-PERMUTATIONS = 199
+PERMUTATIONS = 999
 SEED = 20261023
 EARTH_RADIUS_KM = 6371.0088
 EXPECTED_ROWS = 447500
@@ -249,7 +249,7 @@ def make_summary(results: list[tuple[dict, np.ndarray]], permutations: int, *,
             if not supported:
                 fam.append({"radius_km": float(r), "n_species": 0,
                             "mean_raw_depletion": None, "mean_excess": None,
-                            "p_upper_199": None, "genus_bootstrap_excess_95ci": None})
+                            "permutation_p_upper": None, "genus_bootstrap_excess_95ci": None})
                 continue
             vals = np.array([x[f"raw_depletion_{name}"] for x, _ in supported])
             means = np.stack([n for _, n in supported]).mean(axis=0)
@@ -267,14 +267,14 @@ def make_summary(results: list[tuple[dict, np.ndarray]], permutations: int, *,
                      "null_q025_q975": [float(v) for v in np.quantile(means, [.025, .975])],
                      "genus_bootstrap_excess_95ci": ci,
                      "fraction_positive_raw": float(np.mean(vals > 0)),
-                     "p_upper_199": p_upper}
+                     "permutation_p_upper": p_upper}
             fam.append(entry)
             across_family_p.append(p_upper)
             across_family_records.append(entry)
-        valid_p = [r["p_upper_199"] for r in fam if r["p_upper_199"] is not None]
+        valid_p = [r["permutation_p_upper"] for r in fam if r["permutation_p_upper"] is not None]
         adjusted = iter(holm_adjust(valid_p))
         for r in fam:
-            r["holm_within_five_radii"] = (next(adjusted) if r["p_upper_199"] is not None else None)
+            r["holm_within_five_radii"] = (next(adjusted) if r["permutation_p_upper"] is not None else None)
         summary["statistics"][family] = fam
     for r, p in zip(across_family_records, holm_adjust(across_family_p)):
         r["holm_across_all_nulls_and_radii"] = p
