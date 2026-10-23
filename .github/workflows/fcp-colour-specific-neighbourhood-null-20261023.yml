@@ -81,7 +81,7 @@ jobs:
           stored=json.loads(Path(
             "results/fcp_colour_specific_neighbourhood_null_20261023/aggregate_results.json"
           ).read_text())
-          assert stored["workflow_run_id"]==39887066119 or stored["workflow_run_id"]==39887066227
+          assert stored["workflow_run_id"]==39887066227
           assert stored["source_photo_sha256"]==a["original_photo_sha256"]
           import hashlib
           checksum=hashlib.sha256(Path(
