@@ -1,0 +1,1431 @@
+{
+  "bootstrap_replicates": 1999,
+  "covariance_not_slope": true,
+  "familywise_seven_climate_axes_only_within_each_exploratory_family": true,
+  "fraction_is_algebraic_signed_covariance_not_genetic_morph_share": true,
+  "n_classified_photos": 227107,
+  "n_original_photos": 447500,
+  "n_taxa": 4475,
+  "no_independently_verified_flower_organs_or_photo_background": true,
+  "results": {
+    "observer_thinned": {
+      "geo_month_residual": {
+        "BIO1": {
+          "between_minus_within": 0.00230293353271004,
+          "between_minus_within_95": [
+            0.0010125193515800703,
+            0.0035641519918811104
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6741761504470754,
+              0.9249004370065492
+            ],
+            "mean_ratio": 0.804244173805917,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.0020734705925747896,
+              0.005495888925149708
+            ],
+            "mean_month_null_excess": 0.0037846797588622486,
+            "n_species": 1389
+          },
+          "n_genera": 657,
+          "n_species": 1389,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0017931955084762596,
+                0.004204415919568469
+              ],
+              "mean": 0.0030438066457861425
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0024562847847367157,
+                0.005138323917865436
+              ],
+              "mean": 0.003784679758862244
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.000245768251003003,
+                0.0012366271929534682
+              ],
+              "mean": 0.0007408731130761024
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO12": {
+          "between_minus_within": -0.0013878004692990322,
+          "between_minus_within_95": [
+            -0.00281220245528131,
+            0.000006454020575619539
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.500030883647956,
+              1.9094742437526462
+            ],
+            "mean_ratio": 0.9562078585323321,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0033207714047855837,
+              0.00027873597434882364
+            ],
+            "mean_month_null_excess": -0.0015210177152183801,
+            "n_species": 1496
+          },
+          "n_genera": 686,
+          "n_species": 1496,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0027203357559104206,
+                -0.0001717504236604519
+              ],
+              "mean": -0.001454409092258705
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0029608142193952233,
+                -0.00008374128393947864
+              ],
+              "mean": -0.001521017715218377
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0006215693569784434,
+                0.000494669622042988
+              ],
+              "mean": -0.00006660862295967286
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO14": {
+          "between_minus_within": -0.0008020812177937551,
+          "between_minus_within_95": [
+            -0.0020991785626100832,
+            0.0004163039647250448
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -5.0548227209621475,
+              10.326582206471357
+            ],
+            "mean_ratio": 1.5974902004811986,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0020916118317776695,
+              0.0013607795952419064
+            ],
+            "mean_month_null_excess": -0.00036541611826788146,
+            "n_species": 1485
+          },
+          "n_genera": 685,
+          "n_species": 1485,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.001762694342934352,
+                0.000529376886016474
+              ],
+              "mean": -0.0005837486680308193
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.001679491023178698,
+                0.0009532537666950301
+              ],
+              "mean": -0.0003654161182678814
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00032083966049269494,
+                0.0007764342974208502
+              ],
+              "mean": 0.00021833254976293584
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO15": {
+          "between_minus_within": -0.00011247672638196941,
+          "between_minus_within_95": [
+            -0.0013509419645556112,
+            0.0011572391319676469
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -2.3311998085902976,
+              4.293473017391911
+            ],
+            "mean_ratio": 0.5814637984883192,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.002363233193580945,
+              0.0009825373695568013
+            ],
+            "mean_month_null_excess": -0.0006903479120120718,
+            "n_species": 1457
+          },
+          "n_genera": 674,
+          "n_species": 1457,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0015387429441012256,
+                0.0007064040071864176
+              ],
+              "mean": -0.0004014123191970193
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.001974101097011637,
+                0.0005711027331100599
+              ],
+              "mean": -0.000690347912012072
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0008213484182077187,
+                0.00025255792340775086
+              ],
+              "mean": -0.0002889355928150499
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO4": {
+          "between_minus_within": 0.0007177882171284297,
+          "between_minus_within_95": [
+            -0.0005339757618347802,
+            0.0019848331472356495
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.2404846582215149,
+              0.9148341226326024
+            ],
+            "mean_ratio": 0.6765648278714798,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.000305666095537752,
+              0.0037596295003150112
+            ],
+            "mean_month_null_excess": 0.0020326477979263815,
+            "n_species": 1352
+          },
+          "n_genera": 646,
+          "n_species": 1352,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0001899756167014263,
+                0.0025694242511726494
+              ],
+              "mean": 0.0013752180075274059
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0007409133722000426,
+                0.003298603418218456
+              ],
+              "mean": 0.0020326477979263832
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.00014237196856803065,
+                0.001162582989087368
+              ],
+              "mean": 0.0006574297903989762
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO5": {
+          "between_minus_within": 0.002625560970058595,
+          "between_minus_within_95": [
+            0.0014033965281552408,
+            0.0038664861883708312
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6579466964883033,
+              0.8492040182738547
+            ],
+            "mean_ratio": 0.7581156004339,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.003325707790721029,
+              0.006846327396787711
+            ],
+            "mean_month_null_excess": 0.00508601759375437,
+            "n_species": 1494
+          },
+          "n_genera": 682,
+          "n_species": 1494,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0026924075234469225,
+                0.00505084312715263
+              ],
+              "mean": 0.0038557892819064783
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0037439205335156236,
+                0.006485645756074196
+              ],
+              "mean": 0.005086017593754376
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0006940082182581616,
+                0.0017797135118310628
+              ],
+              "mean": 0.0012302283118478833
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "SRADmean": {
+          "between_minus_within": 0.0008755946687048574,
+          "between_minus_within_95": [
+            -0.00016834468736028014,
+            0.001945766157014354
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -1.5457457251977174,
+              4.4085491240495385
+            ],
+            "mean_ratio": 1.0421204253573744,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.000783111591042991,
+              0.002398241048907727
+            ],
+            "mean_month_null_excess": 0.000807564728932368,
+            "n_species": 1086
+          },
+          "n_genera": 560,
+          "n_species": 1086,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00011230256682423182,
+                0.001901915709480836
+              ],
+              "mean": 0.0008415796988186111
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.00033605734576310777,
+                0.0020470842208394316
+              ],
+              "mean": 0.0008075647289323671
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0005234203078585095,
+                0.00047105639444621644
+              ],
+              "mean": -0.000034014969886246216
+            }
+          },
+          "within_plus_between_equals_total": true
+        }
+      },
+      "raw": {
+        "BIO1": {
+          "between_minus_within": 0.0025246213639371056,
+          "between_minus_within_95": [
+            0.0007138064486189997,
+            0.004341728625201046
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.5905575937232849,
+              0.8723743592080174
+            ],
+            "mean_ratio": 0.7448622437481128,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.002434465230648351,
+              0.007875908983410358
+            ],
+            "mean_month_null_excess": 0.0051551871070293544,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0021240641729025453,
+                0.0055736389131658985
+              ],
+              "mean": 0.003839904235483228
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.003234147615117335,
+                0.007110748860619217
+              ],
+              "mean": 0.0051551871070293544
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0005721466466869847,
+                0.0020355945262063714
+              ],
+              "mean": 0.001315282871546122
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO12": {
+          "between_minus_within": -0.002500428509410312,
+          "between_minus_within_95": [
+            -0.004406969006558244,
+            -0.00048045714511984507
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6556705179122235,
+              1.5346345965427632
+            ],
+            "mean_ratio": 0.9533263250568471,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.005543595666373211,
+              0.000027859272514425826
+            ],
+            "mean_month_null_excess": -0.0027578681969293926,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0044026129881988086,
+                -0.0007506777747367561
+              ],
+              "mean": -0.0026291483531698493
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.004778890265423373,
+                -0.0006744690080168824
+              ],
+              "mean": -0.002757868196929391
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0008781244664464601,
+                0.000637893768937593
+              ],
+              "mean": -0.00012871984375953724
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO14": {
+          "between_minus_within": -0.0021814330020392893,
+          "between_minus_within_95": [
+            -0.004024592890989767,
+            -0.0003594179918648081
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -9.837875516715425,
+              10.752604533941652
+            ],
+            "mean_ratio": 2.12870662763334,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.003444735431911873,
+              0.002105370217189861
+            ],
+            "mean_month_null_excess": -0.000669682607361006,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0032373964460049175,
+                0.00035253140818258924
+              ],
+              "mean": -0.0014255578047001492
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0026393196050335135,
+                0.0013267747185103853
+              ],
+              "mean": -0.000669682607361006
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.000008219455933292582,
+                0.0014958098477794095
+              ],
+              "mean": 0.00075587519733914
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO15": {
+          "between_minus_within": -0.00011434505522766897,
+          "between_minus_within_95": [
+            -0.002251812185209552,
+            0.001981497706643408
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -1.7574592326228649,
+              2.753812952823453
+            ],
+            "mean_ratio": 0.5351548690942647,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.004423689667888704,
+              0.0011710803374125837
+            ],
+            "mean_month_null_excess": -0.0016263046652380602,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0027931971158529465,
+                0.0011114871819525305
+              ],
+              "mean": -0.0008703248602328665
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0037234478630829996,
+                0.000545716151239436
+              ],
+              "mean": -0.0016263046652380611
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0015138945007324195,
+                -0.000004448219072295425
+              ],
+              "mean": -0.0007559798050051975
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO4": {
+          "between_minus_within": 0.001445407991511916,
+          "between_minus_within_95": [
+            -0.0007319026274489304,
+            0.0036688593292455714
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.1659304889031823,
+              1.1299446095558991
+            ],
+            "mean_ratio": 0.7838636406284152,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.00037389713304432706,
+              0.0054658067143915105
+            ],
+            "mean_month_null_excess": 0.0025459547906735917,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.000043225918793752086,
+                0.004005753953952778
+              ],
+              "mean": 0.001995681391092756
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0003879263736996458,
+                0.004690925476973608
+              ],
+              "mean": 0.0025459547906735913
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00014140397830781766,
+                0.0012711984916716217
+              ],
+              "mean": 0.0005502733995808397
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO5": {
+          "between_minus_within": 0.004087398972994555,
+          "between_minus_within_95": [
+            0.0021664417153289934,
+            0.006060935371760345
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.672877088407326,
+              0.8438972195834605
+            ],
+            "mean_ratio": 0.7615212833500171,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.005073967952242589,
+              0.010555348792597688
+            ],
+            "mean_month_null_excess": 0.007814658372420138,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0041372048358516616,
+                0.007754190690441545
+              ],
+              "mean": 0.0059510286727073375
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.005661090605241934,
+                0.0097721327915061
+              ],
+              "mean": 0.007814658372420135
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0011357789101200677,
+                0.002528921420743576
+              ],
+              "mean": 0.001863629699712783
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "SRADmean": {
+          "between_minus_within": 0.0013139811263740105,
+          "between_minus_within_95": [
+            -0.0008079281760149854,
+            0.003380123104375411
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.11281007004302093,
+              1.0448037482491785
+            ],
+            "mean_ratio": 0.7428420432685364,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0003603231621063345,
+              0.005771170100669579
+            ],
+            "mean_month_null_excess": 0.0027054234692816224,
+            "n_species": 1509
+          },
+          "n_genera": 689,
+          "n_species": 1509,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00004026754458420256,
+                0.004010798166363535
+              ],
+              "mean": 0.0020097022978278166
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0004587365900238886,
+                0.00501965533770275
+              ],
+              "mean": 0.002705423469281627
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00004556302172617225,
+                0.001466264617672771
+              ],
+              "mean": 0.0006957211714538061
+            }
+          },
+          "within_plus_between_equals_total": true
+        }
+      }
+    },
+    "original": {
+      "geo_month_residual": {
+        "BIO1": {
+          "between_minus_within": 0.002214626053490818,
+          "between_minus_within_95": [
+            0.0010437647470433313,
+            0.0034271043894563463
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6652300222135996,
+              0.9039723876614061
+            ],
+            "mean_ratio": 0.7880338709337412,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.0021153234692046306,
+              0.005573446071375772
+            ],
+            "mean_month_null_excess": 0.003844384770290201,
+            "n_species": 1467
+          },
+          "n_genera": 684,
+          "n_species": 1467,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0019099613009773513,
+                0.004138798932274016
+              ],
+              "mean": 0.0030295054118905074
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0026723683488844986,
+                0.005068837463062689
+              ],
+              "mean": 0.0038443847702901994
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.000339468971264905,
+                0.0012881291355886684
+              ],
+              "mean": 0.0008148793583996894
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO12": {
+          "between_minus_within": -0.001224725050198317,
+          "between_minus_within_95": [
+            -0.002517775450662998,
+            0.00007377114251031266
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.38803644918929775,
+              1.8280669242108627
+            ],
+            "mean_ratio": 0.943694946368977,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0032399958072660663,
+              0.0004797095785835403
+            ],
+            "mean_month_null_excess": -0.0013801431143412631,
+            "n_species": 1576
+          },
+          "n_genera": 712,
+          "n_species": 1576,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0025540761412745578,
+                -0.00010356183376795657
+              ],
+              "mean": -0.0013024340822697926
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.002759599467493311,
+                -0.000058910853094043185
+              ],
+              "mean": -0.0013801431143412647
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.000607265975577505,
+                0.00045195516906346384
+              ],
+              "mean": -0.00007770903207147579
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO14": {
+          "between_minus_within": -0.0008675155196109028,
+          "between_minus_within_95": [
+            -0.0019739838755849213,
+            0.0002485126537039622
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -3.7556092675478943,
+              5.575141573731621
+            ],
+            "mean_ratio": 1.3069398639425192,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.00224328248048113,
+              0.0011682141161888648
+            ],
+            "mean_month_null_excess": -0.0005375341821461324,
+            "n_species": 1567
+          },
+          "n_genera": 709,
+          "n_species": 1567,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0018092918602515533,
+                0.0004023697446173278
+              ],
+              "mean": -0.000702524850878518
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0018389279972530158,
+                0.0007635338363429793
+              ],
+              "mean": -0.0005375341821461312
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0003647297895126806,
+                0.0007006382957825505
+              ],
+              "mean": 0.0001649906687323849
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO15": {
+          "between_minus_within": -0.000003026628854751605,
+          "between_minus_within_95": [
+            -0.001201446281709051,
+            0.0011947844186824229
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -3.714870413518805,
+              5.353915123956262
+            ],
+            "mean_ratio": 0.5032630788415277,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0021639726378713414,
+              0.0012364348731590362
+            ],
+            "mean_month_null_excess": -0.0004637688823561527,
+            "n_species": 1539
+          },
+          "n_genera": 700,
+          "n_species": 1539,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0013201967040732776,
+                0.000903465833304546
+              ],
+              "mean": -0.00023339775560545108
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0016851014657060688,
+                0.0008942565663278621
+              ],
+              "mean": -0.00046376888235615156
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0007614614033582646,
+                0.00030777773872123595
+              ],
+              "mean": -0.00023037112675069948
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO4": {
+          "between_minus_within": 0.000795399254902712,
+          "between_minus_within_95": [
+            -0.0004160492182031555,
+            0.0020164694574145966
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.31117699596289267,
+              0.9008053902280859
+            ],
+            "mean_ratio": 0.6899269211493528,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.0003641293097890817,
+              0.0038237933400876037
+            ],
+            "mean_month_null_excess": 0.002093961324938343,
+            "n_species": 1426
+          },
+          "n_genera": 677,
+          "n_species": 1426,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0003198388851980249,
+                0.0024927365180592953
+              ],
+              "mean": 0.0014446802899205284
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0008969066722817871,
+                0.003265177903848484
+              ],
+              "mean": 0.0020939613249383398
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.00018843899066676027,
+                0.0010938626706173894
+              ],
+              "mean": 0.0006492810350178164
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO5": {
+          "between_minus_within": 0.0027257230123540277,
+          "between_minus_within_95": [
+            0.001569171471746651,
+            0.003894872274407602
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6720477719295229,
+              0.8439214517109422
+            ],
+            "mean_ratio": 0.758205142463969,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.0034741082654394318,
+              0.007082315926361399
+            ],
+            "mean_month_null_excess": 0.005278212095900415,
+            "n_species": 1578
+          },
+          "n_genera": 710,
+          "n_species": 1578,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.002914747342297368,
+                0.005163430229060344
+              ],
+              "mean": 0.0040019675541272184
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.004011967465044543,
+                0.0066239622678820696
+              ],
+              "mean": 0.005278212095900415
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0007562395589487067,
+                0.0018155562831409693
+              ],
+              "mean": 0.0012762445417731907
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "SRADmean": {
+          "between_minus_within": 0.0005793687597910218,
+          "between_minus_within_95": [
+            -0.0005154606728242974,
+            0.0015925691754141416
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -1.9733937862878073,
+              4.407280308247155
+            ],
+            "mean_ratio": 1.0484345764402885,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.001070842674331916,
+              0.0021272471839664368
+            ],
+            "mean_month_null_excess": 0.0005282022548172605,
+            "n_species": 1133
+          },
+          "n_genera": 578,
+          "n_species": 1133,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0004945693962229445,
+                0.001525313142934943
+              ],
+              "mean": 0.0005537855073041404
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0006197158026165393,
+                0.001680946888689644
+              ],
+              "mean": 0.000528202254817261
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0004715828117230115,
+                0.000434265641214706
+              ],
+              "mean": -0.000025583252486881333
+            }
+          },
+          "within_plus_between_equals_total": true
+        }
+      },
+      "raw": {
+        "BIO1": {
+          "between_minus_within": 0.002653114513507234,
+          "between_minus_within_95": [
+            0.0008958788493753007,
+            0.004511766398778363
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6089773255970178,
+              0.8570865088920205
+            ],
+            "mean_ratio": 0.7454148908213747,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.0028411278758987426,
+              0.007969603716742435
+            ],
+            "mean_month_null_excess": 0.005405365796320589,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0023829436750960756,
+                0.005817195498957001
+              ],
+              "mean": 0.0040292401549139115
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0034476285758724854,
+                0.007386985066963246
+              ],
+              "mean": 0.005405365796320598
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0006763805256136037,
+                0.0020967585265475497
+              ],
+              "mean": 0.0013761256414066775
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO12": {
+          "between_minus_within": -0.0018976783402254414,
+          "between_minus_within_95": [
+            -0.0037362938214051036,
+            0.00006702737808163694
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.339173016391322,
+              1.5875733645991121
+            ],
+            "mean_ratio": 0.9272948573656412,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0049575116743063394,
+              0.0005163668594002813
+            ],
+            "mean_month_null_excess": -0.0022205724074530293,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.003816367530390384,
+                -0.00016363486660511122
+              ],
+              "mean": -0.0020591253738392336
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.004255751975469771,
+                -0.00019910851017480166
+              ],
+              "mean": -0.0022205724074530276
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.000829035192258841,
+                0.0005409859678969805
+              ],
+              "mean": -0.0001614470336137923
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO14": {
+          "between_minus_within": -0.0018799381935186428,
+          "between_minus_within_95": [
+            -0.0036219359450668145,
+            0.000010837155537813597
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -6.5966211547742715,
+              10.724982796139944
+            ],
+            "mean_ratio": 1.8925708142849909,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.003398075331585223,
+              0.0020480986020471347
+            ],
+            "mean_month_null_excess": -0.000674988364769044,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.003084791300936165,
+                0.0005876568712676303
+              ],
+              "mean": -0.0012774632791438434
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0026901049975344865,
+                0.0013505945998314242
+              ],
+              "mean": -0.0006749883647690437
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00010648776267205873,
+                0.0013323509632671652
+              ],
+              "mean": 0.0006024749143747994
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO15": {
+          "between_minus_within": 0.0001857880832817708,
+          "between_minus_within_95": [
+            -0.0018093410332679352,
+            0.0020942212305448543
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -4.998342174952062,
+              4.354491237045949
+            ],
+            "mean_ratio": 0.40064013552783784,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.003777667113065145,
+              0.001907816703458091
+            ],
+            "mean_month_null_excess": -0.000934925204803527,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0022928967767014297,
+                0.0015384095845539676
+              ],
+              "mean": -0.0003745685607608767
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.0029898661667804166,
+                0.001164594646626348
+              ],
+              "mean": -0.0009349252048035272
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0013423420270848596,
+                0.00018342332661653573
+              ],
+              "mean": -0.0005603566440426475
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO4": {
+          "between_minus_within": 0.0015425556867205313,
+          "between_minus_within_95": [
+            -0.00042160850249111867,
+            0.0036121647497978633
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.325382338269094,
+              1.0622526585729917
+            ],
+            "mean_ratio": 0.7862470975846434,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.00001673145031148588,
+              0.00537216401705444
+            ],
+            "mean_month_null_excess": 0.002694447733682963,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.00020196425722380365,
+                0.004024807439602718
+              ],
+              "mean": 0.0021185017102017464
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.0006930907825258775,
+                0.004665854420272748
+              ],
+              "mean": 0.0026944477336829586
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.00009510513514418796,
+                0.001243195840997427
+              ],
+              "mean": 0.000575946023481215
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "BIO5": {
+          "between_minus_within": 0.004137583540288569,
+          "between_minus_within_95": [
+            0.002405163290255991,
+            0.005978788957892519
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              0.6686705394496427,
+              0.8307935591540075
+            ],
+            "mean_ratio": 0.7535718715493162,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": true,
+            "genus_family7_simultaneous95": [
+              0.005504314000404713,
+              0.010812888357286062
+            ],
+            "mean_month_null_excess": 0.008158601178845388,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.004477667260805635,
+                0.007844340104895941
+              ],
+              "mean": 0.006148092359566977
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                0.006246122963978719,
+                0.010093575569003735
+              ],
+              "mean": 0.00815860117884539
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.0012862253265459708,
+                0.0027135699924834326
+              ],
+              "mean": 0.0020105088192784075
+            }
+          },
+          "within_plus_between_equals_total": true
+        },
+        "SRADmean": {
+          "between_minus_within": 0.00048046471238220206,
+          "between_minus_within_95": [
+            -0.0015129651786587235,
+            0.0023442170305505356
+          ],
+          "between_signed_covariance_share_if_same_direction": {
+            "genus_bootstrap_marginal95": [
+              -1.0109304618508426,
+              1.213958544204852
+            ],
+            "mean_ratio": 0.614584054891257,
+            "not_fraction_genetic_explained_variance": true
+          },
+          "family7_total_on_common_support": {
+            "family7_excludes_zero": false,
+            "genus_family7_simultaneous95": [
+              -0.0007568036977335965,
+              0.0049499238734698435
+            ],
+            "mean_month_null_excess": 0.0020965600878681237,
+            "n_species": 1592
+          },
+          "n_genera": 716,
+          "n_species": 1592,
+          "signed_white_covariance_month_matched_excess": {
+            "between_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                -0.0006686571246170827,
+                0.003076703321311647
+              ],
+              "mean": 0.0012885124001251616
+            },
+            "total": {
+              "genus_bootstrap_marginal95": [
+                -0.000035220098231085855,
+                0.004167985436449829
+              ],
+              "mean": 0.0020965600878681237
+            },
+            "within_coarse_label": {
+              "genus_bootstrap_marginal95": [
+                0.00006775468985402434,
+                0.001557228617943234
+              ],
+              "mean": 0.0008080476877429596
+            }
+          },
+          "within_plus_between_equals_total": true
+        }
+      }
+    }
+  },
+  "schema": "fcp4475_photo9_climate7_exact_common_support_signed_covariance_v1",
+  "source_artifact_sha256": {
+    "observer_thinned": "8acfcb8b42b57937a155e1fce408e96929fa98cbe6472fb67aac2c24084bbeb1",
+    "original": "0fbffbf8f562937ca71edb95889298e6c56ac0e9253026977a0cb7a9b9a2e689",
+    "summary": "688b9ec926c39db07f4dc5d3a35940692cde8e670e96a606306eaa134e5cd0db"
+  },
+  "source_run_id": 40029760904
+}
