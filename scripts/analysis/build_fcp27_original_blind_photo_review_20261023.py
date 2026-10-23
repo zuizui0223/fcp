@@ -80,6 +80,12 @@ def match_species(mode, continuous, source):
     positive = join.loc[join.mode_status == MODE].copy().sort_values("inat_taxon_id")
     candidates = join.loc[join.mode_status == CONTROL].copy().sort_values("inat_taxon_id")
     need(len(positive) == MODE_N and len(candidates) == 1691, "original source mode frequencies drift")
+    # A negative control is not eligible merely because few geographic photo
+    # rows made bimodality harder to detect. Match only controls passing the
+    # same >=40 geo-valid photographic-mode detectability threshold.
+    need(positive.n_spatial_classifiable.ge(40).all(), "positive mode source fit gate drift")
+    candidates = candidates.loc[candidates.n_spatial_classifiable.ge(40)].copy()
+    need(len(candidates) >= 100, "fewer than 100 comparable candidate controls")
     specs = [
         ("n_classified_original", 1., "log"),
         ("pairs_50km", 0.85, "log"),
@@ -340,7 +346,7 @@ def synthetic():
         "n_classified_original":[55,64],"pairs_50km":[129,121],
         "global_jsd":[.31,.39],"photographic_pc1_explained_variance":[.69,.61],
         "photographic_coarse_label_count":[2,3]})
-    score=np.sqrt(np.tile(np.linspace(.1,.9,60)[:,None],(1,9)))
+    score=np.full((60,9),1/3.)
     a,b=mode_scores(score)
     need(a is None,"truly identical-composition photo rows must be degenerate")
     hues=np.vstack([np.linspace(.1,.9,60),np.linspace(.9,.1,60)]).T
