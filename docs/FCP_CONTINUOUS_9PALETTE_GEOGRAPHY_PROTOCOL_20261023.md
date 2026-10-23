@@ -24,13 +24,13 @@ The analysis must exactly reproduce BOTH historical 50-km four-state totals befo
 (1) 3,600 taxa, mean difference +0.016115883798023662 (any qualifying pair);
 (2) 1,761 taxa, mean +0.0176149021685411 (strict 40 photos/30 pairs).
 
-## Three species-conditioned nulls (199 permutations each)
+## Three species-conditioned nulls (999 permutations each)
 
 1. **Full species shuffle:** retain the complete nine-palette multiset and original geographic sampling locations, shuffle whole vectors among photo vertices within a species.
 2. **Calendar-month shuffle:** retain the same data and the vector composition within each original calendar month. Contrasting colours photographed in different months alone cannot create a positive month-adjusted geographic result.
 3. **Calendar-month × original coarse-label shuffle:** retain the exact original coarse category at each original vertex as well as month. Shuffle continuous vectors only within the same taxon, month and original coarse category. Any excess is within-label photographic hue/shade geography, not evidence of a new class.
 
-For each radius/null, compare the species-mean observed statistic against 199 corresponding species-mean null worlds (plus-one Monte Carlo upper P). Report photo/taxon opportunities, per-genus clustered bootstrap 95% intervals of mean excess (499 draws), Holm across five radii and Holm across the full 15 null × radius family, separately by strict/broad and by observer-thinned/unthinned analysis. Labels representing 1–4 observed categories remain descriptive and cannot be renamed cluster/morph number without mixture-model selection and blind verification.
+For each radius/null, compare the species-mean observed statistic against 999 corresponding species-mean null worlds (plus-one Monte Carlo upper P). Report photo/taxon opportunities, per-genus clustered bootstrap 95% intervals of mean excess (499 draws), Holm across five radii and Holm across the full 15 null × radius family, separately by strict/broad and by observer-thinned/unthinned analysis. Labels representing 1–4 observed categories remain descriptive and cannot be renamed cluster/morph number without mixture-model selection and blind verification.
 
 ## Controls, deliverables, and limits
 
