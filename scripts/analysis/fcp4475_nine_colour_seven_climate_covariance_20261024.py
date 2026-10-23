@@ -111,6 +111,43 @@ def month_shuffle(months, rng):
     return out
 
 
+
+def fixed_colour_component_basis(Y, codes):
+    """Once per source taxon, create exact colour covariance decomposition basis.
+
+    The three n x 9 matrices are total, photographic-label-between and
+    photographic-label-within deviations. These sum exactly to total and
+    never depend on climate or randomization.
+    """
+    Y=np.asarray(Y, dtype=float)
+    ymean=Y.mean(axis=0)
+    labels=np.zeros_like(Y)
+    for k in range(4):
+        mask = (codes==k)
+        if mask.any():
+            labels[mask]=Y[mask].mean(axis=0)
+    total=Y-ymean
+    between=labels-ymean
+    within=Y-labels
+    essential(np.max(np.abs(total-between-within))<1e-12,
+              "fixed photo-label basis fails exact covariance identity")
+    return np.column_stack((total,between,within))
+
+
+def projected_colour_climate_metrics(basis, climate):
+    """Species covariance for raw/georesid climate; output reg x metric x axis x comp.
+
+    Repeated null evaluation needs only 14 x n times n x 27 dense matrix
+    multiplication; no repeated group-by or normalization of source hues.
+    """
+    n=basis.shape[0]
+    essential(basis.shape==(n,27) and climate.shape==(2,n,NAX),
+              "matrix-based source-partition input shape failed")
+    centred=climate-climate.mean(axis=1,keepdims=True)
+    product=(centred.transpose(0,2,1)@basis/n).reshape(2,NAX,3,N_HUES)
+    return np.stack((np.linalg.norm(product,axis=-1), product[:,:,:,0]),axis=1)
+
+
 def one_species(g, one_observer=False, perms=PERMS):
     species = str(g.species.iloc[0])
     row = {
@@ -187,16 +224,13 @@ def one_species(g, one_observer=False, perms=PERMS):
     available = np.stack((varying,has_resid),axis=0)
     # raw vs geography/month-residual standardized source-climate deviations
     both=np.stack((Z,R),axis=0)
-    observed=np.full((2,2,NAX,3),np.nan) # confound, metric, axis, component
-    for regime in range(2):
-        parts=exact_partition(Y,both[regime],labels)
-        observed[regime]=metric_bundle(parts)
+    basis=fixed_colour_component_basis(Y,labels)
+    observed=projected_colour_climate_metrics(basis,both)
     rng = np.random.default_rng(SEED+int(row["inat_taxon_id"])*53+int(one_observer))
     null=np.empty((perms,2,2,NAX,3),float)
     for j in range(perms):
         perm=month_shuffle(months,rng)
-        for regime in range(2):
-            null[j,regime]=metric_bundle(exact_partition(Y,both[regime,perm],labels))
+        null[j]=projected_colour_climate_metrics(basis,both[:,perm,:])
     # Within and between magnitudes cannot be interpreted as additive shares
     # because vectors may cancel. Do not take a component ratio as variance
     # explained or as proportion of genetic morph frequency change.
@@ -308,38 +342,40 @@ def add_multiplicity(summary):
 
 
 def bootstrap_genus(per_taxa,summary,one_observer,rep=BOOTS):
+    """Exact genus clusters aggregated with vectorized sufficient statistics."""
     d=pd.DataFrame(per_taxa)
-    groups=d.groupby("genus",sort=True)
-    genera=list(groups.groups.keys())
+    codes,genus_names=pd.factorize(d.genus,sort=True)
+    G=len(genus_names)
     rng=np.random.default_rng(SEED+100+int(one_observer))
-    draws=rng.integers(len(genera),size=(rep,len(genera)))
+    draws=rng.integers(G,size=(rep,G))
     results={}
     for regime in ("raw","geo_month_residual"):
         for component in ("total","between_coarse_label","within_coarse_label"):
             for measure in ("hue_vector_norm","signed_white_fraction"):
-                sumA=np.zeros((len(genera),NAX))
-                denom=np.zeros((len(genera),NAX))
-                for i,genus in enumerate(genera):
-                    g=d.loc[groups.groups[genus]]
-                    for j,axis in enumerate(AXES):
-                        key=f"{axis}_{regime}_{component}_{measure}_excess_vs_month_null"
-                        if key not in g.columns:continue
-                        vals=pd.to_numeric(g[key],errors="coerce").dropna()
-                        sumA[i,j]=vals.sum()
-                        denom[i,j]=len(vals)
-                boot_sum=sumA[draws].sum(axis=1)
-                boot_n=denom[draws].sum(axis=1)
+                cols=[f"{ax}_{regime}_{component}_{measure}_excess_vs_month_null"
+                      for ax in AXES]
+                vals=d.reindex(columns=cols).to_numpy(float)
+                keep=np.isfinite(vals)
+                sums=np.zeros((G,NAX))
+                nums=np.zeros((G,NAX))
+                np.add.at(sums,codes,np.where(keep,vals,0))
+                np.add.at(nums,codes,keep.astype(float))
+                boot_sum=sums[draws].sum(axis=1)
+                boot_n=nums[draws].sum(axis=1)
                 estimates=np.divide(boot_sum,boot_n,out=np.full_like(boot_sum,np.nan),where=boot_n>0)
                 names={}
                 for j,axis in enumerate(AXES):
-                    if summary[regime][axis]["n_species"]>0:
+                    cell=summary[regime][axis].get("components",{}).get(
+                        {"total":"total","between_coarse_label":"between_photo_labels",
+                         "within_coarse_label":"within_photo_labels"}[component],{})
+                    if cell.get("n_species",0)>0:
                         v=estimates[:,j]
                         v=v[np.isfinite(v)]
                         if len(v)>rep*.9:
                             names[axis]={"genus_bootstrap_95ci":[float(x) for x in np.quantile(v,[.025,.975])],
                                          "n_bootstrap_draws":int(len(v))}
                 results[regime+"_"+component+"_"+measure]=names
-    return results,len(genera)
+    return results,G
 
 
 def main():
@@ -363,6 +399,14 @@ def main():
         t,b,w=exact_partition(y2,z,np.array([0,0,1,1]))
         essential(np.max(abs(t-b-w))<1e-14,
                   "continuous hue shifts lost covariance identity")
+        colour_basis=fixed_colour_component_basis(y2,np.array([0,0,1,1]))
+        zz=np.zeros((2,4,NAX),float)
+        zz[:,:,0]=np.array([-1,0,1,2],float)
+        calculated=projected_colour_climate_metrics(colour_basis,zz)
+        independent=exact_partition(y2,zz[0],np.array([0,0,1,1]))
+        essential(np.allclose(calculated[0,0,0,:],
+                  [np.linalg.norm(x) for x in independent],atol=1e-12),
+                  "fast source covariance differs from independent exact fixture")
         q=month_shuffle(np.array([2,2,3,3]),np.random.default_rng(SEED))
         essential(set(q[:2])=={0,1} and set(q[2:])=={2,3},
                   "month-conditional permutation leaked among months")
