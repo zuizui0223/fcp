@@ -1,0 +1,157 @@
+{
+  "schema": "fcp27_matched_original_botanical_photo_blind_review_source_receipt_v1",
+  "execution": {
+    "source_original_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "original_release_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+    "candidate_model_run_id": 39923312111,
+    "continuous_P2_run_id": 39918785955,
+    "blind_review_run_id": 39931967531,
+    "technical_quality_run_id": 39932618166,
+    "blind_review_artifacts": {
+      "reviewer_zip": {
+        "id": 12492480632,
+        "sha256": "cc44ea4cf2bceb3580559ba83d19a38ab34dc7db87393c42fd85ec149a8e8b57"
+      },
+      "PI_mapping_zip": {
+        "id": 12492660357,
+        "sha256": "5fa8826b845436cb97e32e5bea3f326881a373fbf66e561dba1d22dcb144fbe4"
+      },
+      "metadata_manifest": {
+        "id": 12491273672,
+        "sha256": "7528439f0cb092568905e0227069dc6bfbb3377f1d536d22e09606641a06a8c2"
+      },
+      "quality_summary": {
+        "id": 12492241545,
+        "sha256": "fc6ed119c6077d2a7254d9bb1bf636984fd6713ba1e47880668de85f81701939"
+      }
+    }
+  },
+  "review_selection": {
+    "balance_summary": {
+      "global_jsd": {
+        "candidate_mean": 0.36839987128594215,
+        "control_mean": 0.3181561926600904
+      },
+      "n_classified_original": {
+        "candidate_mean": 60.44444444444444,
+        "control_mean": 57.851851851851855
+      },
+      "pairs_50km": {
+        "candidate_mean": 246.8148148148148,
+        "control_mean": 246.44444444444446
+      },
+      "photographic_pc1_explained_variance": {
+        "candidate_mean": 0.6723436670668173,
+        "control_mean": 0.6247929164138568
+      }
+    },
+    "classifiable_photos": 227107,
+    "direct_original_image_url_available": 0,
+    "documented_open_dataset_image_id_candidates": 594,
+    "image_retrieval_status": "photographic_previews_incomplete",
+    "mapping_stored_separately_from_reviewer_directory": true,
+    "n_candidate_species": 27,
+    "n_one_to_one_matched_controls": 27,
+    "n_reviewers": 2,
+    "no_human_colour_or_botanical_judgements_yet": true,
+    "note": "PI should distribute only blind_reviewer_ONLY; PI mapping is not an actual protected secret on a public CI system. Check source photo licences and attribution before sharing image sheets.",
+    "optional_original_metadata_fields": [
+      "photo_license"
+    ],
+    "previous_authenticated_continuous_run": 39918785955,
+    "previous_authenticated_original_mode_run": 39923312111,
+    "public_repo_artifact_blind_privacy_not_cryptographic": true,
+    "reviewer_packets_are_blank_forms_not_validated_genetic_morphs": true,
+    "reviewers_are_blind_to_species_mode_date_site_observer_hue_score": true,
+    "schema": "fcp_mode_blind_botanical_review_original_photos_v1",
+    "selected_petal_pc1_low_middle_high_each_species": 3,
+    "selected_reacquired_image_previews": 589,
+    "selected_unclassified_photo_rows": 108,
+    "source_original_photos": 447500,
+    "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "total_selected_photo_rows": 594
+  },
+  "independent_image_technical_qc": {
+    "all_recovered_thumbnail_exif_removed": true,
+    "caution": "Whole-frame luminance can differ from flower petal colour and background. It cannot identify botanical colour modes, causal photo error or true native morphs.",
+    "human_petals_and_senescence_reviewer_annotations_completed": 0,
+    "mean_candidate_minus_control_absolute_frame_luminance_difference": -0.01939919701328983,
+    "n_matched_pairs_with_low_high_original_images": 27,
+    "n_reacquired_original_image_previews": 589,
+    "n_source_selected": 594,
+    "n_unavailable_source_photo_images": 5,
+    "paired_bootstrap95ci": {
+      "interval": [
+        -0.046058722456664196,
+        0.005251057629967933
+      ],
+      "n_boot": 499
+    },
+    "schema": "fcp27_source_verified_thumbnail_technical_qc_v1",
+    "source_arms": {
+      "candidate": {
+        "bright_clipped_gt20pct": 0,
+        "central_low_detail_sd_lt_0p04": 0,
+        "dark_clipped_gt20pct": 1,
+        "mean_luminance": {
+          "mean": 0.43122569426290086,
+          "median": 0.4428652226924896,
+          "n": 296,
+          "q05": 0.26249076426029205,
+          "q95": 0.5710351169109344
+        },
+        "mean_saturation": {
+          "mean": 0.3686039036492238,
+          "median": 0.3524826467037201,
+          "n": 296,
+          "q05": 0.15683700144290924,
+          "q95": 0.6424722820520401
+        },
+        "n": 296
+      },
+      "matched_control": {
+        "bright_clipped_gt20pct": 0,
+        "central_low_detail_sd_lt_0p04": 0,
+        "dark_clipped_gt20pct": 0,
+        "mean_luminance": {
+          "mean": 0.438241114439411,
+          "median": 0.4509104788303375,
+          "n": 293,
+          "q05": 0.27559095025062563,
+          "q95": 0.5590428590774535
+        },
+        "mean_saturation": {
+          "mean": 0.375856038653403,
+          "median": 0.35767316818237305,
+          "n": 293,
+          "q05": 0.18292121887207033,
+          "q95": 0.6765404820442197
+        },
+        "n": 293
+      }
+    },
+    "source_licensed_photos": {
+      "cc-by": 67,
+      "cc-by-nc": 489,
+      "cc-by-nc-sa": 15,
+      "cc-by-sa": 7,
+      "cc0": 16
+    },
+    "source_retrieval_failure_by_photo_stratum": {
+      "central_pc1": 1,
+      "unclassified_photo": 4
+    },
+    "source_retrieval_failure_by_reason": {
+      "all_source_image_urls_unavailable:HTTPError": 5
+    },
+    "technical_analysis_only": true
+  },
+  "bio_validation_human_annotator_count": 0,
+  "claims": {
+    "images_reacquired_from_verified_open_licensed_source": true,
+    "genetic_or_population_morph_identity_established": false,
+    "actual_petals_reviewed_by_human": false,
+    "image_color_camera_artifacts_ruled_out": false,
+    "source_photo_licensing_and_attribution_need_human_review_before_distribution": true
+  }
+}

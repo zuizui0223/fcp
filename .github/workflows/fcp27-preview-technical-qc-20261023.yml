@@ -1,0 +1,63 @@
+name: FCP 27 sourced photographic preview technical QC
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_fcp27_retrieved_photo_image_quality_20261023.py
+      - .github/workflows/fcp27-preview-technical-qc-20261023.yml
+      - docs/FCP_27MODE_BLIND_BOTANICAL_REVIEW_20261023.md
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  technical-diagnostics:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow
+      - name: Verify image metrics without examining biological labels
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp27_retrieved_photo_image_quality_20261023.py
+          python scripts/analysis/audit_fcp27_retrieved_photo_image_quality_20261023.py --self-test
+      - name: Retrieve only authenticated original image review artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp27qc/{pi,review,results}
+          gh run download 39931967531 --repo "$GITHUB_REPOSITORY" \
+            --name fcp27-PI-source-mapping-KEEP-SEPARATE-20261023 \
+            --dir /tmp/fcp27qc/pi
+          gh run download 39931967531 --repo "$GITHUB_REPOSITORY" \
+            --name fcp27-blind-reviewer-packets-20261023 \
+            --dir /tmp/fcp27qc/review
+          test -s /tmp/fcp27qc/pi/sealed_source_photo_mapping.csv
+          test -s /tmp/fcp27qc/pi/image_retrieval_audit.csv
+          test -d /tmp/fcp27qc/review/images
+      - name: Quantify image condition and preserve original-license/photo counts
+        run: |
+          python scripts/analysis/audit_fcp27_retrieved_photo_image_quality_20261023.py \
+            --mapping /tmp/fcp27qc/pi/sealed_source_photo_mapping.csv \
+            --retrieval /tmp/fcp27qc/pi/image_retrieval_audit.csv \
+            --images /tmp/fcp27qc/review/images \
+            --out /tmp/fcp27qc/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp27qc/results/original_photo_image_quality_summary.json').read_text())
+          assert d['n_source_selected']==594
+          assert d['n_reacquired_original_image_previews']==589
+          assert d['n_unavailable_source_photo_images']==5
+          assert d['all_recovered_thumbnail_exif_removed']
+          assert d['human_petals_and_senescence_reviewer_annotations_completed']==0
+          print('FCP27_RETRIEVAL_IMAGE_QC_PROVENANCE_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-thumbnail-QC-summary-no-identities-20261023
+          path: /tmp/fcp27qc/results/
+          retention-days: 90
