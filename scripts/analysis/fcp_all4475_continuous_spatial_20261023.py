@@ -94,6 +94,8 @@ def one_taxon(group, tid, one_observer=False, reps=REPS):
         "k_observed_valid": int((frequencies > 0).sum()),
         "k_five_valid": int((frequencies >= 5).sum()),
         "coarse_50km_delta": coarse_50,
+        "global_jsd": full,
+        "genus": str(group.species.iloc[0]).split()[0],
         "n_months_swappable_colour": sum(
             np.unique(palette[idx], axis=0).shape[0] > 1 for idx in strata
         ),
@@ -121,6 +123,60 @@ def holm(p):
         max_p = max(max_p, min(1., (len(p)-rank)*p[idx]))
         result[idx] = max_p
     return result.tolist()
+
+
+
+def adjusted_three_vs_two_month_excess(outcomes):
+    """Exploratory difference for >=5-photo-supported three vs two photo labels.
+
+    Geographic colour depletion has a mechanical opportunity relationship with
+    species-wide continuous JSD, so the ecological group contrast must include
+    continuous source-wide dissimilarity and sampling opportunity in its model.
+    """
+    rows = [r for r, _ in outcomes if r["k_five_valid"] in (2, 3)]
+    n2 = sum(r["k_five_valid"] == 2 for r in rows)
+    n3 = sum(r["k_five_valid"] == 3 for r in rows)
+    if min(n2, n3) < 20:
+        return {"status": "not_estimable", "n_k2": n2, "n_k3": n3}
+    def fit(sample):
+        x = np.array([
+            [1., float(r["k_five_valid"] == 3), r["global_jsd"],
+             np.log(r["n_classified_original"]), np.log1p(r["pairs_50km"])]
+            for r in sample], dtype=float)
+        y = np.array([r["excess_jsd_50km_month"] for r in sample], dtype=float)
+        if np.linalg.matrix_rank(x) < 5:
+            return np.nan
+        return float(np.linalg.lstsq(x, y, rcond=None)[0][1])
+    baseline = fit(rows)
+    groups = {}
+    for row in rows:
+        groups.setdefault(row["genus"], []).append(row)
+    genus_groups = list(groups.values())
+    rng = np.random.default_rng(2026102309)
+    estimates = []
+    for _ in range(499):
+        indexes = rng.integers(len(genus_groups), size=len(genus_groups))
+        sample = [row for k in indexes for row in genus_groups[k]]
+        estimates.append(fit(sample))
+    samples = np.array(estimates, float)
+    samples = samples[np.isfinite(samples)]
+    raw2 = float(np.mean([r["excess_jsd_50km_month"] for r in rows if r["k_five_valid"] == 2]))
+    raw3 = float(np.mean([r["excess_jsd_50km_month"] for r in rows if r["k_five_valid"] == 3]))
+    return {
+        "status": "exploratory_estimable" if len(samples) >= 450 else "bootstrap_unstable",
+        "n_k2": n2, "n_k3": n3, "n_genera": len(groups),
+        "raw_mean_two": raw2, "raw_mean_three": raw3,
+        "raw_three_minus_two": raw3 - raw2,
+        "adjusted_three_minus_two": baseline,
+        "genus_cluster_bootstrap_reps_success": len(samples),
+        "genus_bootstrap_95ci": (
+            [float(x) for x in np.quantile(samples, [.025, .975])]
+            if len(samples) >= 450 else None
+        ),
+        "covariates": ["global continuous JSD", "log classifiable source photo count",
+                       "log1p number of geographic pairs <=50km"],
+        "caution": "Photo-label richness is not inherited morph count. Adjustment does not correct spatially biased imaging or colour-label missingness.",
+    }
 
 
 def summarise(outcomes, reps):
@@ -168,6 +224,7 @@ def summarise(outcomes, reps):
         "n_species_50km": len(outcomes),
         "tests": output,
         "richness_descriptive_not_morph_count": descriptive,
+        "adjusted_k5_three_vs_two": adjusted_three_vs_two_month_excess(outcomes),
     }
 
 
