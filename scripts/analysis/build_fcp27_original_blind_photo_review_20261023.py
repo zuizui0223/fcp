@@ -298,8 +298,8 @@ def make_sheets(rows, dest, fetch):
     files.mkdir(parents=True,exist_ok=True)
     if fetch:
         with ThreadPoolExecutor(max_workers=8) as pool:
-            tasks={pool.submit(try_image,dict(r),files/(r.review_id+".jpg")):r.review_id
-                   for r in rows.itertuples(index=False) for r in [r._asdict()]}
+            tasks={pool.submit(try_image,record,files/(record["review_id"]+".jpg")):record["review_id"]
+                   for record in rows.to_dict(orient="records")}
             states={}
             for future in as_completed(tasks):
                 states[tasks[future]]=future.result()
