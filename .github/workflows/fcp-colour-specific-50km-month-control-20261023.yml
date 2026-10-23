@@ -4,6 +4,8 @@ on:
     paths:
       - scripts/analysis/fcp_colour_specific_50km_month_null_20261023.py
       - .github/workflows/fcp-colour-specific-50km-month-control-20261023.yml
+      - results/fcp_colour_specific_50km_month_control_20261023.json
+      - docs/FCP_COLOUR_SPECIFIC_50KM_CLUSTER_AND_MONTH_CORRECTION_20261023.md
   workflow_dispatch:
 permissions:
   contents: read
@@ -76,6 +78,20 @@ jobs:
                           assert item["n_species_with_nontrivial_month_colour_swaps"]<=item["n_species"]
               print("FCP_COLOUR_CLUSTER_50KM_AUDIT",mode,json.dumps(
                 d[mode]["colour_specific_null_families"]))
+          archived=json.loads(Path("results/fcp_colour_specific_50km_month_control_20261023.json").read_text())
+          assert archived["original_source_photo_sha256"]==d["original_source_photo_sha256"]
+          assert archived["verified_github_actions_workflow_run_id"]==39887641626
+          for mode in ("original","one_per_observer"):
+              for family in ("global_composition","calendar_month_composition"):
+                  observed=d[mode]["colour_specific_null_families"][family]
+                  frozen=archived["results"][mode][family]
+                  for x,y in zip(observed,frozen):
+                      assert x["colour"]==y["colour"]
+                      assert x["n_species"]==y["n_species"]
+                      for attr in ("mean_excess","p_upper_199","holm_p_four_colours",
+                                   "mean_observed_same_pair_fraction","mean_matched_null_fraction"):
+                          assert abs(x[attr]-y[attr])<1e-12, (mode,family,x["colour"],attr)
+          print("FCP_COLOUR_CLUSTER_SOURCE_FROZEN_RESULT_MATCH")
           print("FCP_COLOUR_CLUSTER_ORIGINAL_SOURCE_AUTHENTICATED_PASS")
           PY
       - uses: actions/upload-artifact@v4
