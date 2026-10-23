@@ -71,7 +71,7 @@ jobs:
           assert d['source_original_photos'] == 447500
           assert d['source_classified_photos'] == 227107
           assert d['source_taxa'] == 4475
-          assert d['n_permutations'] == 199
+          assert d['n_permutations'] == 999
           original = d['results']['original']
           assert original['n_total_species_source'] == 4475
           assert original['n_with_50km_opportunity'] == 3600
@@ -90,7 +90,7 @@ jobs:
                       assert len(radii) == 5
                       for x in radii:
                           if x['n_species']:
-                              assert 0 <= x['p_upper_199'] <= 1
+                              assert 0 <= x['permutation_p_upper'] <= 1
                               assert -1 <= x['mean_excess'] <= 1
                               assert 0 <= x['holm_across_all_nulls_and_radii'] <= 1
               print('FCP_C9_SOURCE_AUTHENTICATED', mode,
