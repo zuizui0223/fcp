@@ -13,6 +13,27 @@
   ],
   "results": {
     "one_per_observer": {
+      "adjusted_k5_three_vs_two": {
+        "adjusted_three_minus_two": -0.0045487043081460475,
+        "caution": "Photo-label richness is not inherited morph count. Adjustment does not correct spatially biased imaging or colour-label missingness.",
+        "covariates": [
+          "global continuous JSD",
+          "log classifiable source photo count",
+          "log1p number of geographic pairs <=50km"
+        ],
+        "genus_bootstrap_95ci": [
+          -0.017780216956118443,
+          0.00749875525487397
+        ],
+        "genus_cluster_bootstrap_reps_success": 499,
+        "n_genera": 401,
+        "n_k2": 604,
+        "n_k3": 120,
+        "raw_mean_three": 0.027777292038375114,
+        "raw_mean_two": 0.016115696842869696,
+        "raw_three_minus_two": 0.011661595195505418,
+        "status": "exploratory_estimable"
+      },
       "n_species_50km": 1655,
       "richness_descriptive_not_morph_count": {
         "k_five_valid": {
@@ -160,6 +181,27 @@
       }
     },
     "original": {
+      "adjusted_k5_three_vs_two": {
+        "adjusted_three_minus_two": -0.004520110827156244,
+        "caution": "Photo-label richness is not inherited morph count. Adjustment does not correct spatially biased imaging or colour-label missingness.",
+        "covariates": [
+          "global continuous JSD",
+          "log classifiable source photo count",
+          "log1p number of geographic pairs <=50km"
+        ],
+        "genus_bootstrap_95ci": [
+          -0.01596932030533157,
+          0.006441172291785447
+        ],
+        "genus_cluster_bootstrap_reps_success": 499,
+        "n_genera": 447,
+        "n_k2": 674,
+        "n_k3": 136,
+        "raw_mean_three": 0.028391193975051455,
+        "raw_mean_two": 0.015638228201712852,
+        "raw_three_minus_two": 0.012752965773338603,
+        "status": "exploratory_estimable"
+      },
       "n_species_50km": 1761,
       "richness_descriptive_not_morph_count": {
         "k_five_valid": {
@@ -313,15 +355,16 @@
   "source_original_photos": 447500,
   "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
   "execution_receipt": {
-    "run_id": 39918116013,
-    "job_id": 120296678222,
-    "artifact_id": 12486636004,
-    "artifact_zip_sha256": "727adfebb5299fe0003dd4cfa04baeb31b2895d8a70f82f87a890dcbe29c5987",
+    "run_id": 39918785955,
+    "job_id": 120298821399,
+    "artifact_id": 12485608012,
+    "artifact_zip_sha256": "79515908d7e46f0af4c14f490c1848fee4bed68ea580966fcc42141a78b8d24e",
     "source_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
     "original_source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "workflow_commit_sha": "3bd8ae8cbc1b189e7d830c0c673f51446da93bc7",
     "authentic_data_job_success": true,
     "synthetic_job_success": true,
-    "workflows": "https://github.com/zuizui0223/fcp/actions/runs/39918116013",
-    "posthoc": true
+    "workflow_url": "https://github.com/zuizui0223/fcp/actions/runs/39918785955",
+    "source_conditional_p_values_posthoc": true
   }
 }
