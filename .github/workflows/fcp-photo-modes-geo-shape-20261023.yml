@@ -1,0 +1,81 @@
+name: FCP photographic modes and geographic-shape audit
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_photo_modes_geographic_shape_20261023.py
+      - .github/workflows/fcp-photo-modes-geo-shape-20261023.yml
+      - docs/FCP_PHOTOGRAPHIC_MODES_GEO_SHAPE_20261023.md
+      - results/fcp_photo_modes_geo_shape_verified_20261023.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.5.2 pillow
+      - name: Unimodal-vs-multimodal and cline-vs-local nonlinear calibration
+        run: |
+          python -m py_compile scripts/analysis/fcp_photo_modes_geographic_shape_20261023.py
+          OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python scripts/analysis/fcp_photo_modes_geographic_shape_20261023.py --self-test
+  authenticated-full-photo:
+    needs: synthetic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_ASSET: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.5.2 pillow
+      - name: Fetch unmodified original photo source by SHA
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-modes/{release,measured,results}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_ASSET" --dir /tmp/fcp-modes/release
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp-modes/release/$SOURCE_ASSET" | sha256sum -c -
+          tar -xzf /tmp/fcp-modes/release/$SOURCE_ASSET -C /tmp/fcp-modes \
+            measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA  /tmp/fcp-modes/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+      - name: Estimate independent photo-mode vs spatial-signature axes
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_photo_modes_geographic_shape_20261023.py \
+            --photos /tmp/fcp-modes/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out /tmp/fcp-modes/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("/tmp/fcp-modes/results/summary.json")
+          z=json.loads(p.read_text())
+          assert z["source_original_photos"]==447500
+          assert z["source_classifiable_photos"]==227107
+          r=z["results"]
+          assert r["n_species"]==1761
+          assert abs(r["confirmed_old_p2_strict_delta"] - .0176149021685411)<1e-10
+          assert sum(r["photographic_mode_status"].values())==1761
+          assert sum(r["spatial_signature"].values())==1761
+          assert 0<=r["n_spatial_block_estimable"]<=1761
+          print("FCP_MODE_SHAPE_SOURCE_AUTHENTICATED_PASS",json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-photo-hue-modes-spatial-shape-authentic-20261023
+          path: /tmp/fcp-modes/results/
+          retention-days: 90
