@@ -1,0 +1,66 @@
+name: FCP 4475 nine-hue climate common-support audit
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_fcp4475_nine_hue_climate_common_support_20261024.py
+      - .github/workflows/fcp-4475-nine-hue-climate-common-support-20261024.yml
+      - docs/FCP_CONTINUOUS_COLOUR_SEVEN_CLIMATE_EMPIRICAL_RESULTS_20261024.md
+      - results/fcp4475_nine_hue_climate_common_support_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  common-support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Assert arithmetic and file content integrity
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp4475_nine_hue_climate_common_support_20261024.py
+          python scripts/analysis/audit_fcp4475_nine_hue_climate_common_support_20261024.py --self-test
+      - name: Download only authenticated original source-derived nine-hue/climate artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp4475-common/{source,results}
+          gh run download 40029760904 --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-nine-hue-seven-climate-within-vs-between-20261024 \
+            --dir /tmp/fcp4475-common/source
+          echo '0fbffbf8f562937ca71edb95889298e6c56ac0e9253026977a0cb7a9b9a2e689  /tmp/fcp4475-common/source/all4475_original_photo9_climate7_per_taxon.csv' | sha256sum -c -
+          echo '8acfcb8b42b57937a155e1fce408e96929fa98cbe6472fb67aac2c24084bbeb1  /tmp/fcp4475-common/source/all4475_observer_thinned_photo9_climate7_per_taxon.csv' | sha256sum -c -
+          echo '688b9ec926c39db07f4dc5d3a35940692cde8e670e96a606306eaa134e5cd0db  /tmp/fcp4475-common/source/summary.json' | sha256sum -c -
+      - name: Genus-bootstrap shared-taxon exact photo covariance and seven-axis intervals
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp4475_nine_hue_climate_common_support_20261024.py \
+            --original /tmp/fcp4475-common/source/all4475_original_photo9_climate7_per_taxon.csv \
+            --observer-thinned /tmp/fcp4475-common/source/all4475_observer_thinned_photo9_climate7_per_taxon.csv \
+            --summary /tmp/fcp4475-common/source/summary.json \
+            --out /tmp/fcp4475-common/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp4475-common/results/source_verified_common_support_seven_climate.json')
+          r=json.loads(p.read_text())
+          assert r['n_original_photos']==447500 and r['n_classified_photos']==227107
+          c=r['results']['original']['geo_month_residual']['BIO5']
+          assert c['n_species']==1578
+          a=c['signed_white_covariance_month_matched_excess']
+          assert abs(a['total']['mean']-a['between_coarse_label']['mean']-a['within_coarse_label']['mean']) <1e-12
+          assert c['between_signed_covariance_share_if_same_direction']['not_fraction_genetic_explained_variance']
+          print('FCP4475_REAL_SOURCE_BIO5_HUE_COMPOSITION_DECOMPOSITION_PASS')
+          print('FCP4475_CLIMATE_COMMON_SUPPORT_FULL_JSON',json.dumps(r,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-seven-climate-common-support-audit-20261024
+          path: /tmp/fcp4475-common/results/
+          retention-days: 90
