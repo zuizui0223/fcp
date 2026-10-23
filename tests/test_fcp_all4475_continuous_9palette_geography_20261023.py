@@ -81,5 +81,5 @@ def test_holm_and_nonestimable_radius():
     r, arr = mod.taxon_result(toy(), 111, permutations=19)
     out = mod.make_summary([(r, arr)], 19, strict=False, min_pairs=1, do_bootstrap=False)
     assert out["statistics"]["full_species_shuffle"][2]["n_species"] == 1
-    assert out["statistics"]["within_month"][0]["p_upper_199"] is not None
+    assert out["statistics"]["within_month"][0]["permutation_p_upper"] is not None
     assert out["statistics"]["within_month"][2]["genus_bootstrap_excess_95ci"] is None
