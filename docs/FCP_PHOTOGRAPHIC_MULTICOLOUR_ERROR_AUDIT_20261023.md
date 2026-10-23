@@ -1,6 +1,6 @@
 # FCP colour-label error audit — real 4,475-species source, 23 October 2026
 
-**Current status:** authentic 4,475-species / 114-column joined CSV audited at the species level. A new GitHub Actions workflow (source archive SHA-checked before use) is configured to test **original-photo observer support, same-observation discordances, and 50-km matched nulls after colour-blind observer thinning**. Raw-photo-stage outcomes are **not yet established by this document**.
+**Current status: COMPLETE, original 447,500-photo audit verified.** Both the permanent 4,475-species ledger and original photo CSV were validated by exact SHA256. Independently repeated source-conditional geographic null tests (199 worlds) passed after thresholding minor colour classes and after colour-blind one-photo-per-observer selection. Machine result: [aggregate_results.json](../results/fcp_photo_label_error_audit_20261023/aggregate_results.json); full run [#39879387172](https://github.com/zuizui0223/fcp/actions/runs/39879387172). **These tests do not establish true inherited flower-colour morphs.**
 
 ## Why this is essential
 
@@ -49,22 +49,38 @@ Using the exact 4,475-taxon permanent ledger's *already estimated* per-species g
 
 The original source-conditioned 50-km test across **3,600** species gave mean +0.016116 and matched 199-world P=0.005; the older >=40-classifiable / >=30-local-pairs gate across **1,761** species gave +0.017614902, P=0.005. A stricter same-year/month, <=5-km and distinct-observer comparison **was unsupported** (P=0.300 for 194 species with >=5 eligible pairs; P=0.275 for 14 species with >=30). Therefore geographic photo-colour clustering is observed on the broad scale, but **within-population inherited morph coexistence or true localized differentiation remains unverified**.
 
-## 4. Original-photo analysis being executed
+## 4. Authenticated 447,500-photo observer audit and new locality nulls: completed
 
-The new audit script `scripts/analysis/audit_fcp_photo_labels_original_20261023.py` and workflow `.github/workflows/fcp-original-photo-label-error-audit-20261023.yml` do the following:
+The exact archived original photo bytes passed their SHA checks; the complete CSV contained 447,500 unique source photo IDs and 227,107 coarse-colour classifiable records. Every one of the 4,475 original taxon's colour counts and each originally estimated P2 50-km depletion matched the permanent species ledger.
 
-1. **Fail closed on original ZIP and measured-photo SHA**, source table count and exact joining to all 4,475 original taxon IDs.
-2. **Count observers and distinct observation events for each colour class**, and separately report how many taxa retain 2/3/4 labels at >=5 photos and >=3 independent observers and observation events *for each label*. Observer-repeat evidence is necessary, not sufficient, for a true inherited morph.
-3. **Flag disagreeing colours within a single observation ID**, where two photographs of the same recorded observation receive different coarse labels. This could represent multilobed or bicolour flowers, different photographed organs or image/age errors—not necessarily false labels.
-4. **Reproduce the exact original 50-km per-species mismatch and 199-world composition-preserving source null**, then repeat source-conditioned permutations on *fixed-count* robust colour subsets and on **one-photo-per-observer** samples chosen *without inspecting colour*. The latter reduces repeated observer-photo pseudoreplication but still cannot rule out geography-specific camera/flower-stage biases.
-5. Upload **only aggregate JSON and a per-taxon observer-support panel with no exact photo IDs, observer IDs or geographic coordinates**. Keep all original measurements and existing results unchanged.
+**Independent observer counts per colour:** original source sampling limited each observer to at most **two source photos per taxon**. Therefore, **each recorded colour supported by five photographs was automatically represented by at least three distinct observers and three separate observation IDs**. This held in all **2,400 / 435 / 19** candidate species with ≥2 / ≥3 / all 4 coarse colours supported by ≥5 photos each. **Crucially, this additional observer-count filter is *mathematically redundant* with the five-photo threshold under the existing acquisition cap.** It is *not* independent proof of true floral morph identity, different genotypes or independent field populations.
 
-The robust subset P values are **new exploratory tests** and are permitted only because the corresponding photo-colour-count thresholds remain **fixed under each within-species label permutation**. Raw support based on observer counts is reported descriptively and does not automatically receive a P value unless selection is also recalculated under the null. Under photo thinning, selection is observer/photo-ID based and colour-blind prior to the matched null.
+**Same-observation disagreement test:** the source contained **zero distinct observation IDs represented by two or more colour-classified photos** (zero eligible multi-photo same-observation comparisons), so **zero observed within-observation label conflicts is NOT evidence of perfect classification**. The comparison is unidentifiable with this source photo selection.
+
+### Matched 50-km spatial null after photographic support and observer thinning
+
+All 199 within-species label-permutation worlds preserve each analysed species' original observed colour counts and fixed geographic sample vertices. Count-based filter thresholds are therefore invariant across the permuted worlds. One-photo-per-observer selection retained a fixed photo per observer using observer/photo ID order **without looking at photo colour**, then recomputed the matched null, not just an original effect mean.
+
+| Real original photographic sample | Species with 50-km comparison | Observed mean (global minus local) | Upper P, 199-world null |
+|---|---:|---:|---:|
+| All original source photos, baseline reproduced | 3,600 | **+0.016116** | **0.005** |
+| One photo per original observer | 3,592 | **+0.015900** | **0.005** |
+| ≥40 classifiable, ≥30 local pairs, ≥2 colours × ≥5 photos | 813 | **+0.028550** | **0.005** |
+| Same ≥5/photo filter **and one per observer** | 727 | **+0.026545** | **0.005** |
+| ≥40 classifiable, ≥30 local pairs, ≥2 colours × ≥10 photos | 462 | **+0.037440** | **0.005** |
+| Same ≥10/photo filter **and one per observer** | 406 | **+0.036319** | **0.005** |
+| ≥40 classifiable, ≥30 local pairs, ≥3 colours × ≥5 photos | 139 | **+0.031084** | **0.005** |
+
+**Interpretation:** Positive nonrandom **broad-scale spatial structuring of photographed colour labels survives** removing within-observer repeat photographs and restricting analyses to colour classes with several observations. Therefore the 50-km result is unlikely to be *entirely* the product of a single isolated misclassified photo per taxon or two repeat shots by one observer. This is a meaningful **photographic robustness result**, not an empirical estimate of a biological morph-frequency or image-error process.
+
+**Limits:** The thresholds, observer-thinning choice and tests were designed **after** the original results; these are exploratory post hoc sensitivities. P=0.005 is the **minimum obtainable value from 199 worlds**, not evidence of a precisely estimated smaller P. The cohort structure, flower organ/stage composition, camera calibration, conservation of true petal reflectance, intraspecific crop/native confusion, geographically uneven model errors and same-location observer behaviour are **not eliminated**. Colour labels were retained as originally assigned; redoing a photo-level permutation cannot prove any of those labels botanically correct. The existing strict same-year/month ≤5-km null remains unsupported (P 0.300/0.275), so local genetic coexistence is still not established.
+
+**Output and code:** [aggregate JSON](../results/fcp_photo_label_error_audit_20261023/aggregate_results.json) contains authentic photo/archive SHA receipts and the exploratory per-subset observed/null results. [Code](../scripts/analysis/audit_fcp_photo_labels_original_20261023.py) and [workflow](../.github/workflows/fcp-original-photo-label-error-audit-20261023.yml) regenerate it. The Actions upload additionally contains a **taxon-level support panel with no photo IDs, observer IDs or coordinates**. The output is not a substitute for human blind original petal checks.
 
 ## Interpretation rule
 
-- **Supported now:** multiple photographic colour labels exist, but much of the apparent 3/4-class richness has very small label support. Broad-scale same-species photo labels have nonrandom spatial organisation under the original null.
-- **Pending actual original-photo audit:** independent-observer support for each colour, within-observation disagreement and repeat-analysed 50-km null conditional on colour-blind observer thinning.
-- **Not established:** individual-genotype inherited morph frequencies, true morph counts per wild population, the fraction of geo sorting attributable to biological colour morphs, pigment cost or selection.
+- **Supported by actual reanalysis:** 4,189 taxa contain ≥2 original photo-colour labels, but higher apparent 3/4-colour richness is vulnerable to scarce minority labels; the 50-km colour-label spatial null survives multiple photographic support tiers and one-photo-per-observer controls.
+- **Not identifiable from this source:** same-observation discordance (zero eligible duplicate-observation photo groups), direct independently annotated petal hue, actual classifier false-positive/false-negative rates, and the share of geographic structure attributable to real biological morphs versus spatially systematic imaging/source errors.
+- **Not established:** individual-genotype inherited morph frequencies, reliable 3/4 genetic morph count, local sympatric morph maintenance, photo-independent climatic adaptation, pigment costs or differential selection.
 
 The central manuscript should use **“photographic colour-state variation”** where species-level genetic colour polymorphism has not been validated.
