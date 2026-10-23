@@ -1,0 +1,246 @@
+{
+  "execution_receipt": {
+    "source_run_id": 39879387172,
+    "source_job_id": 120172911876,
+    "analysis_script_git_blob_sha": "958f2ecfe768b90d780ca33fbffbad0326a178e2",
+    "analysis_script_path": "scripts/analysis/audit_fcp_photo_labels_original_20261023.py",
+    "real_photo_release_tag": "fcp-all4730-original-method-actual-colour-results-20261017",
+    "archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+    "calibration_note": "The number of observed colours per species is not the number of heritable morphs. The 199 null permutations are exact conditional photo-label shuffles, conditional on fixed composition and selected geographic vertices, not tests of image classification correctness. Observer colour support is not independent where the original design caps two photos per observer.",
+    "within_observation_diagnostic_note": "No two classifiable photographs share the same observation ID; therefore this source has zero within-observation comparisons. A count of zero conflicting observations is uninformative about photograph classification error.",
+    "new_analyses_posthoc": true,
+    "raw_photo_identifiers_or_exact_coordinates_exported": false
+  },
+  "classification_and_spatial_inference_only_not_genetic_morphs": true,
+  "exploratory_after_primary_results": true,
+  "original_photo_and_observer_check": {
+    "max_original_photos_per_observer_per_taxon": 2,
+    "n_source_classifiable_photos": 227107,
+    "n_species_four_colours_each_ge5_photos_and_3_observers_and_3_observations": 19,
+    "n_species_three_colours_each_ge5_photos_and_3_observers_and_3_observations": 435,
+    "n_species_two_colours_each_ge5_photos": 2400,
+    "n_species_two_colours_each_ge5_photos_and_3_observers_and_3_observations": 2400,
+    "same_observation_conflicting_colour_label_groups": 0,
+    "same_observation_multi_photo_comparisons": 0,
+    "species_conditioned_spatial_null_sensitivity": {
+      "full_original": {
+        "fraction_positive": 0.5458333333333333,
+        "mean_delta": 0.016115883798023662,
+        "mean_null": -0.00010925975124036858,
+        "median_delta": 0.0087255729364296,
+        "n_species": 3600,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      },
+      "one_per_observer": {
+        "fraction_positive": 0.5353563474387528,
+        "mean_delta": 0.01590008209481584,
+        "mean_null": 4.4950095537076836e-7,
+        "median_delta": 0.007595266257941963,
+        "n_species": 3592,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      },
+      "one_per_observer_photo_10_each_n40_pairs30": {
+        "fraction_positive": 0.6379310344827587,
+        "mean_delta": 0.036319269463526455,
+        "mean_null": 0.00037259867683807075,
+        "median_delta": 0.017778141147236137,
+        "n_species": 406,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      },
+      "one_per_observer_photo_5_each_n40_pairs30": {
+        "fraction_positive": 0.6024759284731774,
+        "mean_delta": 0.026544914587817294,
+        "mean_null": 0.00025506382182159963,
+        "median_delta": 0.014266477417476442,
+        "n_species": 727,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      },
+      "photo_10_each_n40_pairs30": {
+        "fraction_positive": 0.6515151515151515,
+        "mean_delta": 0.03743967347859275,
+        "mean_null": -0.00017753050881881552,
+        "median_delta": 0.019919486951505555,
+        "n_species": 462,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      },
+      "photo_5_each_3types_n40_pairs30": {
+        "fraction_positive": 0.6115107913669064,
+        "mean_delta": 0.031084283455232835,
+        "mean_null": -0.000985818154963762,
+        "median_delta": 0.016770186335403725,
+        "n_species": 139,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      },
+      "photo_5_each_n40_pairs30": {
+        "fraction_positive": 0.6186961869618696,
+        "mean_delta": 0.028549525382587742,
+        "mean_null": -0.00025404765644938,
+        "median_delta": 0.016917600373482722,
+        "n_species": 813,
+        "permutations": 199,
+        "upper_p_199": 0.005
+      }
+    },
+    "taxa_with_same_observation_conflicting_colour": 0
+  },
+  "schema": "fcp_photographic_colour_label_robustness_v1",
+  "source_ledger_sha256": "23d3daadc9799c2e7b5867d54ccc1ed98369ba79a81b72dc7f831e5197e63c49",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "species_counts": {
+    "colour_photo_count_tiers": {
+      "8": {
+        "at_least_2_colours_each_ge_1": 4189,
+        "at_least_2_colours_each_ge_10": 1223,
+        "at_least_2_colours_each_ge_2": 3660,
+        "at_least_2_colours_each_ge_3": 3167,
+        "at_least_2_colours_each_ge_5": 2400,
+        "at_least_3_colours_each_ge_1": 2446,
+        "at_least_3_colours_each_ge_10": 66,
+        "at_least_3_colours_each_ge_2": 1424,
+        "at_least_3_colours_each_ge_3": 900,
+        "at_least_3_colours_each_ge_5": 435,
+        "at_least_4_colours_each_ge_1": 814,
+        "at_least_4_colours_each_ge_10": 0,
+        "at_least_4_colours_each_ge_2": 269,
+        "at_least_4_colours_each_ge_3": 116,
+        "at_least_4_colours_each_ge_5": 19,
+        "n_species": 4475
+      },
+      "20": {
+        "at_least_2_colours_each_ge_1": 4049,
+        "at_least_2_colours_each_ge_10": 1223,
+        "at_least_2_colours_each_ge_2": 3527,
+        "at_least_2_colours_each_ge_3": 3049,
+        "at_least_2_colours_each_ge_5": 2328,
+        "at_least_3_colours_each_ge_1": 2347,
+        "at_least_3_colours_each_ge_10": 66,
+        "at_least_3_colours_each_ge_2": 1384,
+        "at_least_3_colours_each_ge_3": 884,
+        "at_least_3_colours_each_ge_5": 433,
+        "at_least_4_colours_each_ge_1": 792,
+        "at_least_4_colours_each_ge_10": 0,
+        "at_least_4_colours_each_ge_2": 266,
+        "at_least_4_colours_each_ge_3": 116,
+        "at_least_4_colours_each_ge_5": 19,
+        "n_species": 4333
+      },
+      "40": {
+        "at_least_2_colours_each_ge_1": 3029,
+        "at_least_2_colours_each_ge_10": 921,
+        "at_least_2_colours_each_ge_2": 2551,
+        "at_least_2_colours_each_ge_3": 2138,
+        "at_least_2_colours_each_ge_5": 1592,
+        "at_least_3_colours_each_ge_1": 1618,
+        "at_least_3_colours_each_ge_10": 60,
+        "at_least_3_colours_each_ge_2": 932,
+        "at_least_3_colours_each_ge_3": 610,
+        "at_least_3_colours_each_ge_5": 309,
+        "at_least_4_colours_each_ge_1": 538,
+        "at_least_4_colours_each_ge_10": 0,
+        "at_least_4_colours_each_ge_2": 182,
+        "at_least_4_colours_each_ge_3": 80,
+        "at_least_4_colours_each_ge_5": 11,
+        "n_species": 3297
+      },
+      "60": {
+        "at_least_2_colours_each_ge_1": 1227,
+        "at_least_2_colours_each_ge_10": 238,
+        "at_least_2_colours_each_ge_2": 925,
+        "at_least_2_colours_each_ge_3": 702,
+        "at_least_2_colours_each_ge_5": 458,
+        "at_least_3_colours_each_ge_1": 481,
+        "at_least_3_colours_each_ge_10": 17,
+        "at_least_3_colours_each_ge_2": 216,
+        "at_least_3_colours_each_ge_3": 121,
+        "at_least_3_colours_each_ge_5": 55,
+        "at_least_4_colours_each_ge_1": 97,
+        "at_least_4_colours_each_ge_10": 0,
+        "at_least_4_colours_each_ge_2": 24,
+        "at_least_4_colours_each_ge_3": 7,
+        "at_least_4_colours_each_ge_5": 0,
+        "n_species": 1425
+      },
+      "80": {
+        "at_least_2_colours_each_ge_1": 94,
+        "at_least_2_colours_each_ge_10": 6,
+        "at_least_2_colours_each_ge_2": 60,
+        "at_least_2_colours_each_ge_3": 40,
+        "at_least_2_colours_each_ge_5": 19,
+        "at_least_3_colours_each_ge_1": 14,
+        "at_least_3_colours_each_ge_10": 0,
+        "at_least_3_colours_each_ge_2": 4,
+        "at_least_3_colours_each_ge_3": 1,
+        "at_least_3_colours_each_ge_5": 1,
+        "at_least_4_colours_each_ge_1": 0,
+        "at_least_4_colours_each_ge_10": 0,
+        "at_least_4_colours_each_ge_2": 0,
+        "at_least_4_colours_each_ge_3": 0,
+        "at_least_4_colours_each_ge_5": 0,
+        "n_species": 134
+      }
+    },
+    "minimum_misclassified_photos_required_to_be_monochrome": {
+      "0": 4189,
+      "1": 3785,
+      "2": 3388,
+      "3": 3039,
+      "5": 2470,
+      "10": 1489,
+      "15": 826,
+      "20": 416
+    },
+    "n_four_colour_classifiable_photo_rows": 227107,
+    "n_original_photo_rows": 447500,
+    "n_species": 4475,
+    "n_unclassified_photo_rows": 220393,
+    "nclass_bins": {
+      "20-39": {
+        "at_least_2_colours_1_photo": 1020,
+        "at_least_2_colours_5_photos": 736,
+        "at_least_3_colours_1_photo": 729,
+        "at_least_4_colours_1_photo": 254,
+        "n_species": 1036
+      },
+      "40-59": {
+        "at_least_2_colours_1_photo": 1802,
+        "at_least_2_colours_5_photos": 1134,
+        "at_least_3_colours_1_photo": 1137,
+        "at_least_4_colours_1_photo": 441,
+        "n_species": 1872
+      },
+      "60-79": {
+        "at_least_2_colours_1_photo": 1133,
+        "at_least_2_colours_5_photos": 439,
+        "at_least_3_colours_1_photo": 467,
+        "at_least_4_colours_1_photo": 97,
+        "n_species": 1291
+      },
+      "8-19": {
+        "at_least_2_colours_1_photo": 140,
+        "at_least_2_colours_5_photos": 72,
+        "at_least_3_colours_1_photo": 99,
+        "at_least_4_colours_1_photo": 22,
+        "n_species": 142
+      },
+      "80-100": {
+        "at_least_2_colours_1_photo": 94,
+        "at_least_2_colours_5_photos": 19,
+        "at_least_3_colours_1_photo": 14,
+        "at_least_4_colours_1_photo": 0,
+        "n_species": 134
+      }
+    },
+    "observed_n_colour_classes": {
+      "1": 286,
+      "2": 1743,
+      "3": 1632,
+      "4": 814
+    }
+  }
+}
