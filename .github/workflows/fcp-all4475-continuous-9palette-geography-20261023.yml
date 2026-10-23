@@ -1,0 +1,110 @@
+name: FCP original 447500-photo continuous nine-palette geography
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_all4475_continuous_9palette_geography_20261023.py
+      - tests/test_fcp_all4475_continuous_9palette_geography_20261023.py
+      - .github/workflows/fcp-all4475-continuous-9palette-geography-20261023.yml
+      - docs/FCP_CONTINUOUS_9PALETTE_GEOGRAPHY_PROTOCOL_20261023.md
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic-null-guards:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical test requirements
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.3.4
+      - name: Compile and test null mechanics independently of real photos
+        run: |
+          python -m py_compile scripts/analysis/fcp_all4475_continuous_9palette_geography_20261023.py
+          python scripts/analysis/fcp_all4475_continuous_9palette_geography_20261023.py --self-test
+          python -m pytest tests/test_fcp_all4475_continuous_9palette_geography_20261023.py -q
+  authenticated-original-photos:
+    needs: synthetic-null-guards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_ASSET: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      ARCHIVE_SHA256: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      SOURCE_SHA256: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned numerical dependencies
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Retrieve and authenticate frozen original-photo release
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-c9/{release,source,results}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_ASSET" --dir /tmp/fcp-c9/release
+          echo "$ARCHIVE_SHA256  /tmp/fcp-c9/release/$SOURCE_ASSET" | sha256sum -c -
+          tar -xzf "/tmp/fcp-c9/release/$SOURCE_ASSET" -C /tmp/fcp-c9/source \
+            measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$SOURCE_SHA256  /tmp/fcp-c9/source/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+      - name: Run nine-palette geographic permutation inference and observer sensitivity
+        run: |
+          python scripts/analysis/fcp_all4475_continuous_9palette_geography_20261023.py \
+            --photos /tmp/fcp-c9/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out /tmp/fcp-c9/results
+      - name: Assert original P2 unchanged and all three nulls/radii reported
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('/tmp/fcp-c9/results/summary.json')
+          d = json.loads(p.read_text())
+          assert d['source_original_photos'] == 447500
+          assert d['source_classified_photos'] == 227107
+          assert d['source_taxa'] == 4475
+          assert d['n_permutations'] == 999
+          original = d['results']['original']
+          assert original['n_total_species_source'] == 4475
+          assert original['n_with_50km_opportunity'] == 3600
+          assert original['n_original_strict_gate'] == 1761
+          assert abs(original['old_original_3600_coarse_delta_reproduced'] - .016115883798023662) < 1e-10
+          assert abs(original['old_original_1761_coarse_delta_reproduced'] - .0176149021685411) < 1e-10
+          for mode in ('original', 'one_per_observer'):
+              r = d['results'][mode]
+              assert r['n_total_species_source'] == 4475
+              assert r['n_with_50km_opportunity'] > 0
+              for subset in ('strict_40photos_30pairs', 'broad_any_photo_pairs_50km'):
+                  v = r[subset]['statistics']
+                  assert set(v) == {
+                      'full_species_shuffle','within_month','within_month_and_coarse_label'}
+                  for family, radii in v.items():
+                      assert len(radii) == 5
+                      for x in radii:
+                          if x['n_species']:
+                              assert 0 <= x['permutation_p_upper'] <= 1
+                              assert -1 <= x['mean_excess'] <= 1
+                              assert 0 <= x['holm_across_all_nulls_and_radii'] <= 1
+              print('FCP_C9_SOURCE_AUTHENTICATED', mode,
+                    'eligible_strict',r['strict_40photos_30pairs']['n_species_with_50km_pair'],
+                    'month',r['strict_40photos_30pairs']['statistics']['within_month'][2],
+                    'coarse_residual',r['strict_40photos_30pairs']['statistics']['within_month_and_coarse_label'][2])
+          for f in ('original_taxon_metrics.csv', 'one_per_observer_taxon_metrics.csv'):
+              assert (p.parent / f).is_file()
+          PY
+      - name: Upload source-verified summary and species-only metrics (no coordinates or photo IDs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4475-continuous-nine-palette-geography-20261023
+          path: /tmp/fcp-c9/results/
+          if-no-files-found: warn
+          retention-days: 90

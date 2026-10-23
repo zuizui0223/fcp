@@ -1,0 +1,128 @@
+{
+  "schema": "fcp_all4475_continuous_nine_palette_geography_source_verified_999_worlds_v1",
+  "evidence_class": "post_hoc_observational_original_photo_palette",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_original_photos": 447500,
+  "source_classified_4state_and_9palette": 227107,
+  "source_taxa": 4475,
+  "source_provider": "iNaturalist same-source five cohorts",
+  "github_actions_run_id": 39921400989,
+  "github_actions_job_id": 120307365650,
+  "github_actions_artifact_id": 12486224900,
+  "github_actions_url": "https://github.com/zuizui0223/fcp/actions/runs/39921400989",
+  "n_permutation_worlds": 999,
+  "n_null_radii_tests_per_stratum": 15,
+  "null_models": [
+    "full_species_shuffle",
+    "within_month",
+    "within_month_and_coarse_label"
+  ],
+  "radius_km": [
+    5,
+    25,
+    50,
+    100,
+    250
+  ],
+  "p2_source_reproduction": {
+    "broad_n": 3600,
+    "broad_coarse_colour_delta": 0.016115883798023662,
+    "strict_n": 1761,
+    "strict_coarse_colour_delta": 0.0176149021685411
+  },
+  "strict_original": {
+    "n_species": 1761,
+    "n_genera": 832,
+    "r50_month_corrected": {
+      "mean_excess_jsd": 0.011407478665412177,
+      "genus_bootstrap_ci95": [
+        0.009576380662325931,
+        0.013327548168342794
+      ],
+      "permutation_p_upper": 0.001,
+      "holm15_p": 0.015
+    },
+    "r50_month_plus_coarse_label_residual": {
+      "mean_excess_jsd": 0.0051116254378333935,
+      "genus_bootstrap_ci95": [
+        0.004250387705739922,
+        0.005949255086075099
+      ],
+      "permutation_p_upper": 0.001,
+      "holm15_p": 0.015
+    },
+    "by_radius": {
+      "n_species": [
+        372,
+        1232,
+        1761,
+        1761,
+        1761
+      ],
+      "full_shuffle_excess": [
+        0.016086,
+        0.014623,
+        0.013587,
+        0.010982,
+        0.007759
+      ],
+      "month_shuffle_excess": [
+        0.01316,
+        0.012479,
+        0.011407,
+        0.009076,
+        0.006303
+      ],
+      "month_plus_coarse_excess": [
+        0.00542,
+        0.005514,
+        0.005112,
+        0.004091,
+        0.003042
+      ],
+      "all_15_holm_p": 0.015,
+      "rounded_descriptive_values": true
+    }
+  },
+  "one_per_observer": {
+    "strict_n": 1655,
+    "strict_n_genera": 787,
+    "r50_month_corrected": {
+      "mean_excess_jsd": 0.011267125702178889,
+      "genus_bootstrap_ci95": [
+        0.009231848516025638,
+        0.013126651121681342
+      ],
+      "permutation_p_upper": 0.001,
+      "holm15_p": 0.015
+    },
+    "r50_month_plus_coarse_label_residual": {
+      "mean_excess_jsd": 0.005357059930432357,
+      "genus_bootstrap_ci95": [
+        0.004434134182543691,
+        0.006271670016891012
+      ],
+      "permutation_p_upper": 0.001,
+      "holm15_p": 0.015
+    }
+  },
+  "matched_scale_descriptive": {
+    "same_strict_species_n": 372,
+    "mean_residual_jsd_5minus250km": 0.003644192894805064,
+    "genus_bootstrap_ci95": [
+      0.001586880938396354,
+      0.005546151643510306
+    ],
+    "note": "Fixed same taxon set with >=30 local photo pairs even at 5 km; bootstrap is not a new permutation-based significance test"
+  },
+  "limitations": [
+    "original 4state classifiability covers 227107/447500 photographed records",
+    "not validated petal reflectance or true flower pigment chemistry",
+    "global location-correlated image capture and floral organ/age biases remain",
+    "single photo provider and frozen ROI classifier, no independent provider validation",
+    "native or wild occurrence filter not established",
+    "no genotype, allelic frequency, genetic morph stability, molecular mechanism or phenotype-specific fitness",
+    "prior strict <=5km within-year/month distinct-observer null remains unsupported",
+    "results are exploratory and cannot establish ecological selection"
+  ]
+}
