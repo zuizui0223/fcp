@@ -57,6 +57,7 @@ jobs:
           assert abs(a['total']['mean']-a['between_coarse_label']['mean']-a['within_coarse_label']['mean']) <1e-12
           assert c['between_signed_covariance_share_if_same_direction']['not_fraction_genetic_explained_variance']
           print('FCP4475_REAL_SOURCE_BIO5_HUE_COMPOSITION_DECOMPOSITION_PASS')
+          print('FCP4475_CLIMATE_COMMON_SUPPORT_FULL_JSON',json.dumps(r,sort_keys=True,separators=(',',':'),allow_nan=False))
           PY
       - uses: actions/upload-artifact@v4
         with:
