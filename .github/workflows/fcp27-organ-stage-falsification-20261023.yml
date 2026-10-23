@@ -5,6 +5,7 @@ on:
       - scripts/analysis/fcp27_petal_organ_posthoc_sensitivity_20261023.py
       - scripts/analysis/fcp27_two_reviewer_petal_adjudication_20261023.py
       - docs/FCP27_ORGAN_STAGE_VISUAL_PILOT_AND_VALIDATION_20261023.md
+      - docs/FCP27_REVIEWER_V2_BOTANICAL_CODEBOOK_20261023.md
       - .github/workflows/fcp27-organ-stage-falsification-20261023.yml
   workflow_dispatch:
 permissions:
