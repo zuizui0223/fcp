@@ -1,0 +1,72 @@
+{
+  "schema": "fcp27_photo_organ_stage_visual_pilot_and_human_review_gate_20261023",
+  "execution": {
+    "real_source_run": 39961697815,
+    "source_job": "source-data-posthoc success",
+    "human_gate": "human-review-pending-guard success",
+    "source_artifact": {
+      "id": 12505336351,
+      "zip_sha256": "8bc3452d98f814e76f4f85730e34f4c887e5ad16b991ea9a866c6fd9d8fbf0af"
+    },
+    "human_forms_artifact": {
+      "id": 12504678510,
+      "zip_sha256": "7a4217477192f3b94f1c4a4062c1138b3ee3af5f3771ad56e11eb9b92ea87291"
+    },
+    "human_pending_artifact": {
+      "id": 12504144759,
+      "zip_sha256": "4aa345be763eb9fc023f7006339072bb78df49dffad8a3e469d9619656d04544"
+    },
+    "original_photo_mode_csv_sha256": "f799b8b0c0f6a250e5ff0c1ad15bf3150854f3099a6a9c03ad5a26711ba1e7df",
+    "original_photo_continuous_csv_sha256": "6dfb1b8ef5b9bf60d8903b97f27257c4b2ddb26e45231b9870032a8b1b5cf528"
+  },
+  "data": {
+    "source_taxa": 1761,
+    "photographic_mode_candidates": 27,
+    "coarse_nondetected_controls": 1691,
+    "visually_flagged_posthoc": [
+      "Argemone albiflora",
+      "Ochna serrulata",
+      "Oxalis tenuifolia"
+    ]
+  },
+  "estimates": {
+    "all27": {
+      "base_beta": 0.032633304391544604,
+      "base_genus_boot95": [
+        0.0028135670962382976,
+        0.06316927134198588
+      ],
+      "additional_adjustment_beta": 0.028410802582947804,
+      "additional_adjustment_genus_boot95": [
+        -0.0006621644219590519,
+        0.05955580309942093
+      ]
+    },
+    "excluding3": {
+      "n_mode": 24,
+      "base_beta": 0.04091477605226105,
+      "base_genus_boot95": [
+        0.00914379665400903,
+        0.07319358794770442
+      ],
+      "additional_adjustment_beta": 0.03662179830735714,
+      "additional_adjustment_genus_boot95": [
+        0.00579401823674166,
+        0.07090341696410657
+      ]
+    }
+  },
+  "scope": {
+    "posthoc_ai_visual_flags_unblinded": true,
+    "confidence_intervals_not_post_selection_valid": true,
+    "uninspected_24_not_botanically_verified": true,
+    "independent_human_annotations_completed": 0,
+    "blinded_review_pending_not_estimable": true,
+    "inherited_genetic_morphs_not_verified": true
+  },
+  "reproduce": {
+    "script": "scripts/analysis/fcp27_petal_organ_posthoc_sensitivity_20261023.py",
+    "human_gate": "scripts/analysis/fcp27_two_reviewer_petal_adjudication_20261023.py",
+    "workflow": ".github/workflows/fcp27-organ-stage-falsification-20261023.yml"
+  }
+}
