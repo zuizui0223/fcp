@@ -54,7 +54,7 @@ def geometry(g):
     valid = (g.latitude.between(-90, 90) & g.longitude.between(-180, 180)
              & g.positional_accuracy_m.between(0, 5000))
     a = g.loc[valid].sort_values("photo_id", kind="stable").reset_index(drop=True)
-    if len(a) < 40:
+    if len(a) < 2:
         return None
     xyz = sphere(a.latitude, a.longitude)
     pairs = np.triu_indices(len(a), k=1)
@@ -331,7 +331,7 @@ def selftest():
                           np.linspace(-.5, .5, 30), np.linspace(.5, 1.5, 30)])
     xyz = sphere(np.full(90, 35.), 135.+lng)
     mont = np.full(90, 6)
-    grad = np.column_stack([.5+.35*lng, .5-.35*lng])
+    grad = np.column_stack([.5+.25*lng, .5-.25*lng])
     grad = np.sqrt(grad/grad.sum(axis=1)[:, None])
     cv = crossval(xyz, grad, mont, geo_folds(xyz, 90))
     check(cv is not None and cv["cline_gain_vs_month"] > .05,
