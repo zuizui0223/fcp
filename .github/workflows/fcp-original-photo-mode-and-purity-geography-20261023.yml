@@ -46,7 +46,7 @@ jobs:
           mkdir -p "$root/archive" "$root/source" "$root/out"
           gh release download "$PHOTO_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PHOTO_FILE" --dir "$root/archive"
           echo "$PHOTO_TAR_SHA  $root/archive/$PHOTO_FILE" | sha256sum -c -
-          tar -xzf "$root/archive/$PHOTO_FILE" -C "$root/source" ./measured/fcp_all4730_original_method_measured_photos.csv.gz
+          tar -xzf "$root/archive/$PHOTO_FILE" -C "$root/source"
           test -s "$root/source/measured/fcp_all4730_original_method_measured_photos.csv.gz"
           echo '8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6  '"$root"'/source/measured/fcp_all4730_original_method_measured_photos.csv.gz' | sha256sum -c -
       - name: Evaluate source-authentic nine-palette modes and photo-purity geography nulls
