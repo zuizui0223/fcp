@@ -1,0 +1,69 @@
+name: FCP photographed-colour clusters and source-quality audit
+
+on:
+  push:
+    branches:
+      - analysis/fcp-cluster-error-audit-20261023
+      - main
+    paths:
+      - scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py
+      - tests/test_fcp_observed_colour_cluster_qa_20261023.py
+      - results/fcp_np_all4475_unified_species_ledger_20261021.csv
+      - .github/workflows/fcp-observed-colour-cluster-qa-20261023.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py
+      - tests/test_fcp_observed_colour_cluster_qa_20261023.py
+      - results/fcp_np_all4475_unified_species_ledger_20261021.csv
+      - .github/workflows/fcp-observed-colour-cluster-qa-20261023.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-locked-ledger-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify original measured-photo source ledger and analytic definitions
+        run: |
+          python -m py_compile scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py
+          python scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py --self-test
+          python scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py --output "$RUNNER_TEMP/fcp_colour_cluster_quality_4475.json" > "$RUNNER_TEMP/fcp_colour_cluster_quality_stdout.txt"
+      - name: Confirm key counts and write QA result summary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, os
+          o=json.loads((Path(os.environ["RUNNER_TEMP"])/"fcp_colour_cluster_quality_4475.json").read_text())
+          r=o["observed_colour_label_richness_1to4"]
+          t=o["each_detected_colour_ge5_and_atleast40photos"]
+          a=o["nested_photo_support_sensitivity"]
+          assert [r[str(i)]["species"] for i in range(1,5)]==[286,1743,1632,814]
+          assert [t[str(i)]["species"] for i in range(2,5)]==[488,134,11]
+          assert a["at_least_two_photo_classes_ge5_and_nclass_ge40"]["species"]==1592
+          assert a["at_least_three_photo_classes_ge5_and_nclass_ge40"]["species"]==309
+          assert a["four_photo_classes_ge10_and_nclass_ge40"]["species"]==0
+          assert r["4"]["species_strict_50km_ge40_ge30pairs"]==251
+          assert t["4"]["species_strict_50km_ge40_ge30pairs"]==3
+          assert o["photo_colour_classes_are_not_unsupervised_9_palette_modes"] is True
+          p=Path(os.environ["RUNNER_TEMP"])/"fcp_colour_cluster_quality_4475.json"
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as f:
+              f.write("## Photograph-labelled 1–4 category support is not genetic morph clustering\n")
+              f.write("| Colour categories present | >=1 photo | >=5 photos in EVERY observed category and >=40 classifiable |\n|---|---:|---:|\n")
+              for n in range(1,5):
+                  f.write(f"| {n} | {r[str(n)]['species']} | {t[str(n)]['species']} |\n")
+              f.write("\n***No new within-class null permutation or genetic local-morph confirmation was conducted.***\n")
+          print("CLUSTER_QA_FROZEN_4475_SOURCE_COUNTS_VERIFIED",p.stat().st_size)
+          print("CLUSTER_QA_4_COARSE_CLASSES_814_TO_11_AFTER_PICTURE_SUPPORT")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-4475-photolabel-richness-quality-audit-20261023
+          path: ${{ runner.temp }}/fcp_colour_cluster_quality_4475.json
+          retention-days: 90
