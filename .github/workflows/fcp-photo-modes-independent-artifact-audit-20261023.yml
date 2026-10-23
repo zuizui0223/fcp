@@ -1,0 +1,54 @@
+name: FCP independently audit original photo-mode outputs
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_photo_modes_spatial_artifact_20261023.py
+      - .github/workflows/fcp-photo-modes-independent-artifact-audit-20261023.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit-artifact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Validate failure behavior before source reading
+        run: |
+          python -m py_compile scripts/analysis/audit_photo_modes_spatial_artifact_20261023.py
+          python scripts/analysis/audit_photo_modes_spatial_artifact_20261023.py --self-test
+      - name: Download original authenticated completed 1761-species model artifact
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-modes-audit/source /tmp/fcp-modes-audit/results
+          gh run download 39923312111 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-photo-hue-modes-spatial-shape-authentic-20261023 \
+            --dir /tmp/fcp-modes-audit/source
+          test -s /tmp/fcp-modes-audit/source/per_species_mode_geo_metrics.csv
+          test -s /tmp/fcp-modes-audit/source/summary.json
+      - name: Independently summarize per-taxon mode/shape evidence and shortlist
+        run: |
+          python scripts/analysis/audit_photo_modes_spatial_artifact_20261023.py \
+            --artifact /tmp/fcp-modes-audit/source/per_species_mode_geo_metrics.csv \
+            --out /tmp/fcp-modes-audit/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          z=json.loads(Path('/tmp/fcp-modes-audit/results/mode_geo_source_audit.json').read_text())
+          assert z['n_original_p2_strict_taxa']==1761
+          assert z['mode_counts']['recurrent_photographic_mode_candidate']==27
+          assert sum(z['shape_counts'].values())==1761
+          print('FCP_SOURCE_MODAL_GEOGRAPHY_AUDIT_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-mode-geo-independent-audit-20261023
+          path: /tmp/fcp-modes-audit/results/
+          retention-days: 90
