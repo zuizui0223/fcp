@@ -33,10 +33,16 @@ jobs:
             --dir /tmp/fcp-modes-audit/source
           test -s /tmp/fcp-modes-audit/source/per_species_mode_geo_metrics.csv
           test -s /tmp/fcp-modes-audit/source/summary.json
+          mkdir -p /tmp/fcp-modes-audit/continuous
+          gh run download 39918785955 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-4475-nine-hue-geography-real-original-20261023 \
+            --dir /tmp/fcp-modes-audit/continuous
+          test -s /tmp/fcp-modes-audit/continuous/original_per_taxon.csv
       - name: Independently summarize per-taxon mode/shape evidence and shortlist
         run: |
           python scripts/analysis/audit_photo_modes_spatial_artifact_20261023.py \
             --artifact /tmp/fcp-modes-audit/source/per_species_mode_geo_metrics.csv \
+            --continuous /tmp/fcp-modes-audit/continuous/original_per_taxon.csv \
             --out /tmp/fcp-modes-audit/results
           python - <<'PY'
           import json
@@ -45,6 +51,7 @@ jobs:
           assert z['n_original_p2_strict_taxa']==1761
           assert z['mode_counts']['recurrent_photographic_mode_candidate']==27
           assert sum(z['shape_counts'].values())==1761
+          assert z['mode_vs_continuous_spatial_adjusted']['n_stable_mode']==27
           print('FCP_SOURCE_MODAL_GEOGRAPHY_AUDIT_VERIFIED')
           PY
       - uses: actions/upload-artifact@v4
