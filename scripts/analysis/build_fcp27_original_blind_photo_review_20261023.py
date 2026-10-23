@@ -74,7 +74,10 @@ def match_species(mode, continuous, source):
               .first().rename("source_cohort"))
     join = mode.merge(continuous, left_on="inat_taxon_id",
                       right_on="taxon_id", how="inner", validate="one_to_one")
-    join = join.join(cohort, on="inat_taxon_id")
+    need(join["species_x"].astype(str).eq(join["species_y"].astype(str)).all(),
+         "source model vs continuous matched taxonomic name changed")
+    join = (join.drop(columns="species_y").rename(columns={"species_x":"species"})
+            .join(cohort, on="inat_taxon_id"))
     need(len(join) == 1761 and join.source_cohort.notna().all(),
          "source taxon join incomplete")
     positive = join.loc[join.mode_status == MODE].copy().sort_values("inat_taxon_id")
