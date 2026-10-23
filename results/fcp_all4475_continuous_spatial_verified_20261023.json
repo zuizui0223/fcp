@@ -1,0 +1,370 @@
+{
+  "distance": "base-2 Jensen-Shannon divergence, not its square root",
+  "not_inherited_morphs_populations_or_selection": true,
+  "null": "permute whole nine-hue vectors within species; in month null preserve species-calendar-month composition",
+  "permutations": 199,
+  "posthoc": true,
+  "radii_km": [
+    5,
+    25,
+    50,
+    100,
+    250
+  ],
+  "results": {
+    "one_per_observer": {
+      "adjusted_k5_three_vs_two": {
+        "adjusted_three_minus_two": -0.0045487043081460475,
+        "caution": "Photo-label richness is not inherited morph count. Adjustment does not correct spatially biased imaging or colour-label missingness.",
+        "covariates": [
+          "global continuous JSD",
+          "log classifiable source photo count",
+          "log1p number of geographic pairs <=50km"
+        ],
+        "genus_bootstrap_95ci": [
+          -0.017780216956118443,
+          0.00749875525487397
+        ],
+        "genus_cluster_bootstrap_reps_success": 499,
+        "n_genera": 401,
+        "n_k2": 604,
+        "n_k3": 120,
+        "raw_mean_three": 0.027777292038375114,
+        "raw_mean_two": 0.016115696842869696,
+        "raw_three_minus_two": 0.011661595195505418,
+        "status": "exploratory_estimable"
+      },
+      "n_species_50km": 1655,
+      "richness_descriptive_not_morph_count": {
+        "k_five_valid": {
+          "1": {
+            "mean_month_adjusted_50km_excess": 0.0059721988593257076,
+            "n_species": 928
+          },
+          "2": {
+            "mean_month_adjusted_50km_excess": 0.016115696842869696,
+            "n_species": 604
+          },
+          "3": {
+            "mean_month_adjusted_50km_excess": 0.027777292038375114,
+            "n_species": 120
+          },
+          "4": {
+            "mean_month_adjusted_50km_excess": -0.005915242865234716,
+            "n_species": 3
+          }
+        },
+        "k_observed_valid": {
+          "1": {
+            "mean_month_adjusted_50km_excess": 0.0026874532898131555,
+            "n_species": 170
+          },
+          "2": {
+            "mean_month_adjusted_50km_excess": 0.007485588946616732,
+            "n_species": 720
+          },
+          "3": {
+            "mean_month_adjusted_50km_excess": 0.014710094543049475,
+            "n_species": 544
+          },
+          "4": {
+            "mean_month_adjusted_50km_excess": 0.021460761168803928,
+            "n_species": 221
+          }
+        }
+      },
+      "tests": {
+        "month": [
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.011385782567447603,
+            "mean_null_depletion": 0.0031826097148046485,
+            "mean_raw_depletion": 0.014568392282252252,
+            "n_species": 318,
+            "n_species_swappable_months": 318,
+            "p_upper": 0.005,
+            "radius_km": 5
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.012507669417777303,
+            "mean_null_depletion": 0.0022204188854065975,
+            "mean_raw_depletion": 0.0147280883031839,
+            "n_species": 1135,
+            "n_species_swappable_months": 1135,
+            "p_upper": 0.005,
+            "radius_km": 25
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.011233601661967895,
+            "mean_null_depletion": 0.002152342308184303,
+            "mean_raw_depletion": 0.013385943970152197,
+            "n_species": 1655,
+            "n_species_swappable_months": 1655,
+            "p_upper": 0.005,
+            "radius_km": 50
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.009062886592086154,
+            "mean_null_depletion": 0.0018630080026330522,
+            "mean_raw_depletion": 0.010925894594719206,
+            "n_species": 1655,
+            "n_species_swappable_months": 1655,
+            "p_upper": 0.005,
+            "radius_km": 100
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.0062519605235190415,
+            "mean_null_depletion": 0.0013473031770900564,
+            "mean_raw_depletion": 0.007599263700609098,
+            "n_species": 1655,
+            "n_species_swappable_months": 1655,
+            "p_upper": 0.005,
+            "radius_km": 250
+          }
+        ],
+        "unrestricted": [
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.014564941749058001,
+            "mean_null_depletion": 0.0000034505331942511882,
+            "mean_raw_depletion": 0.014568392282252252,
+            "n_species": 318,
+            "n_species_swappable_months": 318,
+            "p_upper": 0.005,
+            "radius_km": 5
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.01470042828627476,
+            "mean_null_depletion": 0.000027660016909139622,
+            "mean_raw_depletion": 0.0147280883031839,
+            "n_species": 1135,
+            "n_species_swappable_months": 1135,
+            "p_upper": 0.005,
+            "radius_km": 25
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.013434261844312212,
+            "mean_null_depletion": -0.000048317874160014176,
+            "mean_raw_depletion": 0.013385943970152197,
+            "n_species": 1655,
+            "n_species_swappable_months": 1655,
+            "p_upper": 0.005,
+            "radius_km": 50
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.010909764785154964,
+            "mean_null_depletion": 0.000016129809564242653,
+            "mean_raw_depletion": 0.010925894594719206,
+            "n_species": 1655,
+            "n_species_swappable_months": 1655,
+            "p_upper": 0.005,
+            "radius_km": 100
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.0075784352517387354,
+            "mean_null_depletion": 0.000020828448870362115,
+            "mean_raw_depletion": 0.007599263700609098,
+            "n_species": 1655,
+            "n_species_swappable_months": 1655,
+            "p_upper": 0.005,
+            "radius_km": 250
+          }
+        ]
+      }
+    },
+    "original": {
+      "adjusted_k5_three_vs_two": {
+        "adjusted_three_minus_two": -0.004520110827156244,
+        "caution": "Photo-label richness is not inherited morph count. Adjustment does not correct spatially biased imaging or colour-label missingness.",
+        "covariates": [
+          "global continuous JSD",
+          "log classifiable source photo count",
+          "log1p number of geographic pairs <=50km"
+        ],
+        "genus_bootstrap_95ci": [
+          -0.01596932030533157,
+          0.006441172291785447
+        ],
+        "genus_cluster_bootstrap_reps_success": 499,
+        "n_genera": 447,
+        "n_k2": 674,
+        "n_k3": 136,
+        "raw_mean_three": 0.028391193975051455,
+        "raw_mean_two": 0.015638228201712852,
+        "raw_three_minus_two": 0.012752965773338603,
+        "status": "exploratory_estimable"
+      },
+      "n_species_50km": 1761,
+      "richness_descriptive_not_morph_count": {
+        "k_five_valid": {
+          "1": {
+            "mean_month_adjusted_50km_excess": 0.006119439903417152,
+            "n_species": 948
+          },
+          "2": {
+            "mean_month_adjusted_50km_excess": 0.015638228201712852,
+            "n_species": 674
+          },
+          "3": {
+            "mean_month_adjusted_50km_excess": 0.028391193975051455,
+            "n_species": 136
+          },
+          "4": {
+            "mean_month_adjusted_50km_excess": -0.009277880366534397,
+            "n_species": 3
+          }
+        },
+        "k_observed_valid": {
+          "1": {
+            "mean_month_adjusted_50km_excess": 0.0027467484835952093,
+            "n_species": 159
+          },
+          "2": {
+            "mean_month_adjusted_50km_excess": 0.0072677349794508924,
+            "n_species": 763
+          },
+          "3": {
+            "mean_month_adjusted_50km_excess": 0.014760015445695702,
+            "n_species": 588
+          },
+          "4": {
+            "mean_month_adjusted_50km_excess": 0.021967568508444526,
+            "n_species": 251
+          }
+        }
+      },
+      "tests": {
+        "month": [
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.013337806186649509,
+            "mean_null_depletion": 0.0026061211865246745,
+            "mean_raw_depletion": 0.015943927373174183,
+            "n_species": 372,
+            "n_species_swappable_months": 372,
+            "p_upper": 0.005,
+            "radius_km": 5
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.012525764474627143,
+            "mean_null_depletion": 0.002130456498178857,
+            "mean_raw_depletion": 0.014656220972806,
+            "n_species": 1232,
+            "n_species_swappable_months": 1232,
+            "p_upper": 0.005,
+            "radius_km": 25
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.011456424517831527,
+            "mean_null_depletion": 0.0021575279525401494,
+            "mean_raw_depletion": 0.013613952470371676,
+            "n_species": 1761,
+            "n_species_swappable_months": 1761,
+            "p_upper": 0.005,
+            "radius_km": 50
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.009116586447460804,
+            "mean_null_depletion": 0.0018846780889316302,
+            "mean_raw_depletion": 0.011001264536392434,
+            "n_species": 1761,
+            "n_species_swappable_months": 1761,
+            "p_upper": 0.005,
+            "radius_km": 100
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.006334573406129029,
+            "mean_null_depletion": 0.0014340927458870842,
+            "mean_raw_depletion": 0.007768666152016114,
+            "n_species": 1761,
+            "n_species_swappable_months": 1761,
+            "p_upper": 0.005,
+            "radius_km": 250
+          }
+        ],
+        "unrestricted": [
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.01593990264280542,
+            "mean_null_depletion": 0.000004024730368765439,
+            "mean_raw_depletion": 0.015943927373174183,
+            "n_species": 372,
+            "n_species_swappable_months": 372,
+            "p_upper": 0.005,
+            "radius_km": 5
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.01471658401410405,
+            "mean_null_depletion": -0.00006036304129805043,
+            "mean_raw_depletion": 0.014656220972806,
+            "n_species": 1232,
+            "n_species_swappable_months": 1232,
+            "p_upper": 0.005,
+            "radius_km": 25
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.013684416729749444,
+            "mean_null_depletion": -0.0000704642593777684,
+            "mean_raw_depletion": 0.013613952470371676,
+            "n_species": 1761,
+            "n_species_swappable_months": 1761,
+            "p_upper": 0.005,
+            "radius_km": 50
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.011033250750387084,
+            "mean_null_depletion": -0.0000319862139946497,
+            "mean_raw_depletion": 0.011001264536392434,
+            "n_species": 1761,
+            "n_species_swappable_months": 1761,
+            "p_upper": 0.005,
+            "radius_km": 100
+          },
+          {
+            "holm_p_five_radii": 0.025,
+            "mean_excess": 0.007751951678674954,
+            "mean_null_depletion": 0.00001671447334115994,
+            "mean_raw_depletion": 0.007768666152016114,
+            "n_species": 1761,
+            "n_species_swappable_months": 1761,
+            "p_upper": 0.005,
+            "radius_km": 250
+          }
+        ]
+      }
+    }
+  },
+  "same_photo_provider": true,
+  "schema": "fcp_all4475_multiscale_continuous_nine_palette_v1",
+  "source_four_state_classifiable": 227107,
+  "source_original_photos": 447500,
+  "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "execution_receipt": {
+    "run_id": 39918785955,
+    "job_id": 120298821399,
+    "artifact_id": 12485608012,
+    "artifact_zip_sha256": "79515908d7e46f0af4c14f490c1848fee4bed68ea580966fcc42141a78b8d24e",
+    "source_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+    "original_source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "workflow_commit_sha": "3bd8ae8cbc1b189e7d830c0c673f51446da93bc7",
+    "authentic_data_job_success": true,
+    "synthetic_job_success": true,
+    "workflow_url": "https://github.com/zuizui0223/fcp/actions/runs/39918785955",
+    "source_conditional_p_values_posthoc": true
+  }
+}
