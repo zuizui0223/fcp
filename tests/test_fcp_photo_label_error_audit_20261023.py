@@ -70,3 +70,15 @@ def test_original_observer_and_spatial_null_are_not_conflated_with_morph_genetic
     assert "not a prevalence survey" in paper
     assert "No native-range restriction or explicit captive/wild filter" in paper
     assert "genetic" in paper.lower()
+
+def test_new_phytologist_manuscript_preserves_photo_error_caveats():
+    paper=MANUSCRIPT.read_text(encoding="utf-8")
+    methods=paper.split("## Results\n",1)[1].split("## Discussion\n",1)[0]
+    discussion=paper.split("## Discussion\n",1)[1].split("## Acknowledgements\n",1)[0]
+    for token in ("2,400 species","435","19","3,592","+0.015900","813",
+                  "+0.028550","727","+0.026545","FCP_PHOTOGRAPHIC_MULTICOLOUR_ERROR_AUDIT_20261023.md"):
+        assert token in methods, token
+    for token in ("No same-observation repeat-photo", "remains unidentified"):
+        assert token in discussion, token
+    assert "within-population polymorphism" in paper
+    assert "not a prevalence survey" in paper
