@@ -36,7 +36,7 @@ PHOTO_MORPH_PALETTE = {
 }
 ORIG_REQ = ("inat_taxon_id", "species", "fcp_source_cohort", "global_classifiable",
             "morph", "observer_id", "latitude", "longitude", "positional_accuracy_m",
-            "photo_id", *VARS)
+            "photo_id", "observed_on", *VARS)
 SEED = 20261023
 N_NULL = 199
 
@@ -79,6 +79,8 @@ def load_photos(path, *, trusted=False):
         cols = [PALETTE.index(c) for c in ingredients]
         share[mask] = matrix[mask][:, cols].sum(axis=1)
     d["assigned_photo_group_fraction"] = share
+    dates = pd.to_datetime(d.observed_on, errors="coerce")
+    d["year_month"] = (dates.dt.year * 12 + dates.dt.month).fillna(-1).astype("int32")
     check(np.isfinite(share).all() and (share >= 0).all() and (share <= 1 + 1e-8).all(),
           "invalid assigned coarse colour group percentage")
     return d, {int(k): len(v) for k,v in d.groupby("inat_taxon_id",sort=False)}
@@ -130,14 +132,30 @@ def geography_species(g, taxon, *, min_pairs=30):
     rng = np.random.default_rng(SEED + int(taxon))
     null = np.empty(N_NULL, float)
     null_obs = np.empty(N_NULL, float)
+    null_month = np.empty(N_NULL, float)
+    null_month_obs = np.empty(N_NULL, float)
+    date_group = s.year_month.to_numpy(int)
+    blocks = [np.flatnonzero(date_group == month) for month in np.unique(date_group)]
+    month_reassignable = int(sum(len(idx) for idx in blocks
+        if len(idx)>1 and len(np.unique(labels[idx]))>1))
     for k in range(N_NULL):
         perm = labels[rng.permutation(len(labels))]
         null[k] = float(np.mean(perm[a] != perm[b]) -
                         np.mean(perm[local_a] != perm[local_b]))
         null_obs[k] = float(np.mean(perm[all_o_a] != perm[all_o_b]) -
                             np.mean(perm[diff_a] != perm[diff_b]))
+        ym_perm = labels.copy()
+        for idx in blocks:
+            if len(idx)>1:
+                ym_perm[idx] = labels[rng.permutation(idx)]
+        null_month[k] = float(np.mean(ym_perm[a] != ym_perm[b]) -
+                              np.mean(ym_perm[local_a] != ym_perm[local_b]))
+        null_month_obs[k] = float(np.mean(ym_perm[all_o_a] != ym_perm[all_o_b]) -
+                                  np.mean(ym_perm[diff_a] != ym_perm[diff_b]))
     return {"delta": observed, "delta_distinct_observer": observed_obs,
             "null": null, "null_distinct_observer": null_obs,
+            "null_month": null_month, "null_month_distinct_observer": null_month_obs,
+            "n_month_reassignable_photo_labels": month_reassignable,
             "n_local_pairs": len(local_a), "n_diff_obs_local_pairs": len(diff_a)}
 
 
@@ -148,6 +166,8 @@ def aggregate_geo(rows):
     null = np.stack([x["geo"]["null"] for x in rows]).mean(axis=0)
     observed_obs = np.asarray([x["geo"]["delta_distinct_observer"] for x in rows], float)
     null_obs = np.stack([x["geo"]["null_distinct_observer"] for x in rows]).mean(axis=0)
+    month_null = np.stack([x["geo"]["null_month"] for x in rows]).mean(axis=0)
+    month_null_obs = np.stack([x["geo"]["null_month_distinct_observer"] for x in rows]).mean(axis=0)
     return {
         "species": len(rows),
         "mean_source_photo_global_minus_local": float(observed.mean()),
@@ -158,6 +178,14 @@ def aggregate_geo(rows):
         "distinct_observer_pair_null_mean": float(null_obs.mean()),
         "distinct_observer_pair_matched_199_world_upper_p":
             float((1+int(np.sum(null_obs >= observed_obs.mean())))/(N_NULL+1)),
+        "same_year_month_photo_cohort_matched_null_mean": float(month_null.mean()),
+        "same_year_month_199_world_upper_p":
+            float((1+int(np.sum(month_null>=observed.mean())))/(N_NULL+1)),
+        "same_year_month_distinct_observer_matched_null_mean": float(month_null_obs.mean()),
+        "same_year_month_distinct_observer_199_world_upper_p":
+            float((1+int(np.sum(month_null_obs>=observed_obs.mean())))/(N_NULL+1)),
+        "species_with_ge4_reassignable_month_labels":
+            int(sum(x["geo"]["n_month_reassignable_photo_labels"]>=4 for x in rows)),
         "all_frozen_original_geo_and_photo_classes_preserved_outside_QA": True,
         "posthoc_photo_purity_filter_not_biological_morph": True,
     }
@@ -236,7 +264,7 @@ def self_test():
 def run(path, pilot_per_n_groups):
     photos, originals=load_photos(path)
     bypurity = {}
-    subset_for_geo = []
+    subset_for_geo = {"0.65": [], "0.75": []}
     eligible_for_gmm = {2: [], 3: [], 4: []}
     for taxon,g in photos.groupby("inat_taxon_id",sort=True):
         if originals[int(taxon)] < 40:
@@ -245,12 +273,13 @@ def run(path, pilot_per_n_groups):
         for threshold in (.65,.75):
             q,strong,meta = quality_group(g, originals[int(taxon)],threshold)
             stat[str(threshold)] = {"n":len(q),"strong_classes":len(strong)}
-            if threshold == .65 and len(q)>=24 and len(strong)>=2:
-                if len(strong) in eligible_for_gmm:
+            if len(q)>=24 and len(strong)>=2:
+                if threshold == .65 and len(strong) in eligible_for_gmm:
                     eligible_for_gmm[len(strong)].append((int(taxon),q))
                 geo=geography_species(q,taxon)
                 if geo is not None:
-                    subset_for_geo.append({"taxon":int(taxon),"n_classes":len(strong),"geo":geo})
+                    subset_for_geo[str(threshold)].append(
+                        {"taxon":int(taxon),"n_classes":len(strong),"geo":geo})
         bypurity[int(taxon)]=stat
     quality_summary={}
     for t in (.65,.75):
@@ -259,10 +288,14 @@ def run(path, pilot_per_n_groups):
             quality_summary[f"q{int(t*100)}_ge{k}_supported_colour_groups"]=sum(
                 x[key]["n"]>=24 and x[key]["strong_classes"]>=k for x in bypurity.values()
             )
-    groups={"all_supported_two_or_more":aggregate_geo(subset_for_geo)}
+    groups={"all_supported_two_or_more":aggregate_geo(subset_for_geo["0.65"])}
     for k in (2,3,4):
         groups[f"exactly_{k}_supported_classes"]=aggregate_geo(
-            [x for x in subset_for_geo if x["n_classes"]==k])
+            [x for x in subset_for_geo["0.65"] if x["n_classes"]==k])
+    groups["purity75_all_supported_two_or_more"]=aggregate_geo(subset_for_geo["0.75"])
+    for k in (2,3,4):
+        groups[f"purity75_exactly_{k}_supported_classes"]=aggregate_geo(
+            [x for x in subset_for_geo["0.75"] if x["n_classes"]==k])
     mode_records=[]
     for k in (2,3,4):
         eligible=eligible_for_gmm[k]
@@ -303,6 +336,8 @@ def run(path, pilot_per_n_groups):
         "all_effective_null_p_values_posthoc_without_FWER_for_subgroups": True,
         "source_position_and_observer_identifiers_not_exported": True,
         "strict_5km_month_matched_null_was_not_supported_p":.300,
+        "same_year_month_preserving_label_permutation_is_exploratory_not_genetic":True,
+        "quality75_geographic_p_is_a_secondary_photo_purity_sensitivity":True,
     }
 
 
