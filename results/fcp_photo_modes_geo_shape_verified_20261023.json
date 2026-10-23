@@ -1,0 +1,68 @@
+{
+  "schema": "fcp_photo_modes_geo_shape_verified_original_20261023",
+  "source_verified_run": {
+    "id": 39923312111,
+    "job_id": 120313691552,
+    "artifact_id": 12488357488,
+    "artifact_zip_sha256": "2037033722dfce5ac6a4d7952e1d9e105b16f5b26f42d8abfd8d5501d689f917",
+    "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "source_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+    "workflow_url": "https://github.com/zuizui0223/fcp/actions/runs/39923312111",
+    "synthetic_pass": true,
+    "authentic_pass": true
+  },
+  "n_original_photos": 447500,
+  "n_classifiable_photos": 227107,
+  "estimator_notes": [
+    "photo hue density on PC1 only",
+    "GMM BIC vs skewnorm and observer bootstrap; not genetic morph count",
+    "geography signatures from observer- and 3-geographic-block heldout prediction; no phylogenetic causal inference",
+    "selection baseline/source is the strict original 50km P2 gate; not the full 4,475 taxa",
+    "posthoc exploratory"
+  ],
+  "results": {
+    "n_species": 1761,
+    "n_source_registry_species": 4475,
+    "photographic_mode_status": {
+      "not_resolved_as_multimodal": 1691,
+      "unstable_photo_mode_candidate": 43,
+      "recurrent_photographic_mode_candidate": 27
+    },
+    "spatial_signature": {
+      "geography_underidentified": 1312,
+      "no_clear_predictive_geometry": 440,
+      "transferable_broad_cline_candidate": 8,
+      "local_nonlinearity_only_candidate": 1
+    },
+    "n_spatial_block_estimable": 449,
+    "n_observer_estimable": 1566,
+    "cross_tab_modes_by_geography": {
+      "geography_underidentified": {
+        "not_resolved_as_multimodal": 1257,
+        "recurrent_photographic_mode_candidate": 20,
+        "unstable_photo_mode_candidate": 35
+      },
+      "local_nonlinearity_only_candidate": {
+        "not_resolved_as_multimodal": 0,
+        "recurrent_photographic_mode_candidate": 1,
+        "unstable_photo_mode_candidate": 0
+      },
+      "no_clear_predictive_geometry": {
+        "not_resolved_as_multimodal": 428,
+        "recurrent_photographic_mode_candidate": 4,
+        "unstable_photo_mode_candidate": 8
+      },
+      "transferable_broad_cline_candidate": {
+        "not_resolved_as_multimodal": 6,
+        "recurrent_photographic_mode_candidate": 2,
+        "unstable_photo_mode_candidate": 0
+      }
+    },
+    "confirmed_old_p2_strict_n": 1761,
+    "confirmed_old_p2_strict_delta": 0.0176149021685411,
+    "photographic_not_genetic_morphs": true,
+    "cline_and_local_categories_are_cv_signatures_only": true,
+    "not_an_independent_photo_provider": true,
+    "posthoc_exploratory": true
+  }
+}
