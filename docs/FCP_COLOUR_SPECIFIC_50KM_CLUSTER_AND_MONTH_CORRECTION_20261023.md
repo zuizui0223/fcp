@@ -8,7 +8,7 @@
 
 - Exactly **447,500 authenticated source photos**, including **227,107 classified** photos of **4,475 taxa**; all other photos remain unclassified. SHA256 of measured photo archive CSV: `8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6`.
 - For each species-specific colour label: **at least 40 classifiable photos** in the original sample, **30 pairs** of geospatial-valid conspecific photos within 50 km, **at least five geo-valid photos of that colour and five of other colours**.
-- Observed metric: for each species and each colour separately, proportion of all local (<escape><=</escape>50-km) photo pairs in which *both photos* have that colour label.
+- Observed metric: for each species and each colour separately, proportion of all local (at most 50-km) photo pairs in which *both photos* have that colour label.
 - **Null A:** shuffle all four colour labels over fixed original coordinates within each species, preserving species label counts and spatial/photo opportunities (199 permutations).
 - **Null B:** additionally preserve within-species **calendar-month** colour composition; labels shuffle only among photos originally observed in the same calendar month (199 permutations). This controls broad seasonal label composition, not precise year-month, true flower stage or locale/camera differences.
 - **Observer control:** repeat the test after selecting **one photo per observer per species**, using observer/photo IDs only, *not* the photographed colour, and refit the matched nulls rather than extrapolate effect-size changes.
