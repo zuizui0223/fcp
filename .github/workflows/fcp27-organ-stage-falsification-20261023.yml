@@ -1,0 +1,136 @@
+name: FCP27 organ-stage pilot and human-blind adjudication gate
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp27_petal_organ_posthoc_sensitivity_20261023.py
+      - scripts/analysis/fcp27_two_reviewer_petal_adjudication_20261023.py
+      - docs/FCP27_ORGAN_STAGE_VISUAL_PILOT_AND_VALIDATION_20261023.md
+      - .github/workflows/fcp27-organ-stage-falsification-20261023.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic-guards:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Compile and reject missing human annotations
+        run: |
+          python -m py_compile scripts/analysis/fcp27_petal_organ_posthoc_sensitivity_20261023.py
+          python -m py_compile scripts/analysis/fcp27_two_reviewer_petal_adjudication_20261023.py
+          OPENBLAS_NUM_THREADS=1 python scripts/analysis/fcp27_petal_organ_posthoc_sensitivity_20261023.py --self-test
+          OPENBLAS_NUM_THREADS=1 python scripts/analysis/fcp27_two_reviewer_petal_adjudication_20261023.py --self-test
+  source-data-posthoc:
+    needs: synthetic-guards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Fetch exact source-derived species results and verify SHA
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp27organ/{modes,continuous,out}
+          gh run download 39923312111 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-photo-hue-modes-spatial-shape-authentic-20261023 \
+            --dir /tmp/fcp27organ/modes
+          gh run download 39918785955 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-4475-nine-hue-geography-real-original-20261023 \
+            --dir /tmp/fcp27organ/continuous
+          echo 'f799b8b0c0f6a250e5ff0c1ad15bf3150854f3099a6a9c03ad5a26711ba1e7df  /tmp/fcp27organ/modes/per_species_mode_geo_metrics.csv' | sha256sum -c -
+          echo '6dfb1b8ef5b9bf60d8903b97f27257c4b2ddb26e45231b9870032a8b1b5cf528  /tmp/fcp27organ/continuous/original_per_taxon.csv' | sha256sum -c -
+      - name: Calculate source-conditional exploratory organ/stage exclusions
+        run: |
+          python scripts/analysis/fcp27_petal_organ_posthoc_sensitivity_20261023.py \
+            --modes /tmp/fcp27organ/modes/per_species_mode_geo_metrics.csv \
+            --geography /tmp/fcp27organ/continuous/original_per_taxon.csv \
+            --out /tmp/fcp27organ/out
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          x=json.loads(Path('/tmp/fcp27organ/out/source_conditional_organ_stage_sensitivity.json').read_text())
+          assert x['estimates']['all_27_source_modes']['n_mode_candidate']==27
+          assert x['estimates']['excluding_3_pilot_flags']['n_mode_candidate']==24
+          assert x['uninspected_24_not_assumed_valid']
+          print('FCP27_ORGAN_STAGE_ORIGINAL_ARTIFACT_SENSITIVITY_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-posthoc-organ-stage-original-source-sensitivity-20261023
+          path: /tmp/fcp27organ/out/
+          retention-days: 90
+  human-review-pending-guard:
+    needs: synthetic-guards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: GITHUB_TOKEN_EXPR
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Fetch original 589-photo blank-reviewed packet and sealed map
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp27human/{blind,pi,out,forms}
+          gh run download 39931967531 --repo "$GITHUB_REPOSITORY" \
+            --name fcp27-blind-reviewer-packets-20261023 \
+            --dir /tmp/fcp27human/blind
+          gh run download 39931967531 --repo "$GITHUB_REPOSITORY" \
+            --name fcp27-PI-source-mapping-KEEP-SEPARATE-20261023 \
+            --dir /tmp/fcp27human/pi
+          echo '29783713ec9f5eda19bfa6dee43bb8ded15fa6d4112674f76a0ba25d7118d4b8  /tmp/fcp27human/pi/sealed_source_photo_mapping.csv' | sha256sum -c -
+      - name: Supply v2 anonymous organ/pattern review fields and assert no biological result
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          from pathlib import Path
+          root=Path('/tmp/fcp27human')
+          for k in (1,2):
+              d=pd.read_csv(root/'blind'/f'reviewer{k}_blank_annotations.csv',dtype=str,keep_default_na=False)
+              assert len(d)==594 and d.review_id.is_unique
+              d['target_organ']=''
+              d['petal_pattern']=''
+              d.to_csv(root/'forms'/f'reviewer{k}_botanical_v2_blank.csv',index=False)
+          PY
+          python scripts/analysis/fcp27_two_reviewer_petal_adjudication_20261023.py \
+            --reviewer1 /tmp/fcp27human/forms/reviewer1_botanical_v2_blank.csv \
+            --reviewer2 /tmp/fcp27human/forms/reviewer2_botanical_v2_blank.csv \
+            --mapping /tmp/fcp27human/pi/sealed_source_photo_mapping.csv \
+            --out /tmp/fcp27human/out
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('/tmp/fcp27human/out')
+          d=json.loads((r/'human_review_decision.json').read_text())
+          assert d['status']=='human_review_incomplete_not_estimable'
+          assert d['estimates'] is None
+          assert d['reviewer1_n_fully_labelled']==0
+          assert d['reviewer2_n_fully_labelled']==0
+          assert not (r/'per_taxon_human_photo_outcomes.json').exists()
+          print('FCP27_HUMAN_REVIEW_NONE_DO_NOT_INFER_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-botanical-annotation-v2-blank-only
+          path: /tmp/fcp27human/forms/
+          retention-days: 90
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp27-human-review-pending-gate-no-inferred-morphs
+          path: /tmp/fcp27human/out/human_review_decision.json
+          retention-days: 90
