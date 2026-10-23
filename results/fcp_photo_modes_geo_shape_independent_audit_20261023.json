@@ -1,0 +1,221 @@
+{
+  "schema": "fcp_photo_modes_geography_independent_audit_verified_20261023",
+  "upstream": {
+    "original_photo_job_run_id": 39923312111,
+    "original_photo_artifact_id": 12488357488,
+    "original_photo_artifact_digest": "sha256:2037033722dfce5ac6a4d7952e1d9e105b16f5b26f42d8abfd8d5501d689f917",
+    "nine_hue_continuous_job_run_id": 39918785955,
+    "independent_artifact_join_run_id": 39924481803,
+    "independent_artifact_id": 12488767374,
+    "independent_artifact_sha256": "2c4d6f2cafccc7d1d7673187750cd0c0c39fb913fa0478d458151c493e499814",
+    "original_photo_source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6"
+  },
+  "audit": {
+    "geo_block_cline_R2_relative_month": {
+      "fraction_gt_0": 0.10022271714922049,
+      "fraction_gt_0p08": 0.0400890868596882,
+      "mean": -0.62396903697363,
+      "median": -0.1239501360931341,
+      "n": 449,
+      "q025": -0.9276371442484878,
+      "q975": 0.0903224484911263
+    },
+    "mode_by_shape": {
+      "geography_underidentified": {
+        "not_resolved_as_multimodal": 1257,
+        "recurrent_photographic_mode_candidate": 20,
+        "unstable_photo_mode_candidate": 35
+      },
+      "local_nonlinearity_only_candidate": {
+        "not_resolved_as_multimodal": 0,
+        "recurrent_photographic_mode_candidate": 1,
+        "unstable_photo_mode_candidate": 0
+      },
+      "no_clear_predictive_geometry": {
+        "not_resolved_as_multimodal": 428,
+        "recurrent_photographic_mode_candidate": 4,
+        "unstable_photo_mode_candidate": 8
+      },
+      "transferable_broad_cline_candidate": {
+        "not_resolved_as_multimodal": 6,
+        "recurrent_photographic_mode_candidate": 2,
+        "unstable_photo_mode_candidate": 0
+      }
+    },
+    "mode_component_number_in_27": {
+      "2": 23,
+      "3": 4
+    },
+    "mode_counts": {
+      "not_resolved_as_multimodal": 1691,
+      "recurrent_photographic_mode_candidate": 27,
+      "unstable_photo_mode_candidate": 43
+    },
+    "mode_detected_peak_number_in_27": {
+      "2": 27
+    },
+    "mode_groups": {
+      "not_resolved_as_multimodal": {
+        "coarse_P2_mean": 0.016568746947132583,
+        "n": 1691,
+        "observed_colour_classes": {
+          "1": 159,
+          "2": 737,
+          "3": 563,
+          "4": 232
+        },
+        "pc1_median_variance": 0.5309328859676482
+      },
+      "recurrent_photographic_mode_candidate": {
+        "coarse_P2_mean": 0.08374974471054475,
+        "n": 27,
+        "observed_colour_classes": {
+          "2": 9,
+          "3": 12,
+          "4": 6
+        },
+        "pc1_median_variance": 0.676419637573721
+      },
+      "unstable_photo_mode_candidate": {
+        "coarse_P2_mean": 0.017229035442208215,
+        "n": 43,
+        "observed_colour_classes": {
+          "2": 17,
+          "3": 13,
+          "4": 13
+        },
+        "pc1_median_variance": 0.6168397159681666
+      }
+    },
+    "mode_vs_continuous_spatial_adjusted": {
+      "adjustment_main": [
+        "species-wide JSD",
+        "log classified-photo count",
+        "log1p near-pair count"
+      ],
+      "models": {
+        "additional_pc1_variance_and_category_count": {
+          "bootstrap_ci95": [
+            -0.00426296156017345,
+            0.06275716676201464
+          ],
+          "bootstrap_replicates_requested": 499,
+          "bootstrap_replicates_successful": 499,
+          "coefficient_mode_minus_not_detected": 0.02841080258294769
+        },
+        "main": {
+          "bootstrap_ci95": [
+            -0.0003755138827900641,
+            0.06683890923541938
+          ],
+          "bootstrap_replicates_requested": 499,
+          "bootstrap_replicates_successful": 499,
+          "coefficient_mode_minus_not_detected": 0.032633304391544646
+        }
+      },
+      "n_distinct_genera": 821,
+      "n_excluded_unstable_candidates": 43,
+      "n_not_resolved_as_multimodal": 1691,
+      "n_stable_mode": 27,
+      "not_genetic_morphs_or_fitness": true,
+      "posthoc": true,
+      "raw_mean_mode": 0.05987671172768904,
+      "raw_mean_not_detected": 0.010404821540136007,
+      "raw_mode_minus_not_detected": 0.04947189018755303,
+      "schema": "photo-mode_vs_50km_continuous_geography_adjusted_v1",
+      "sensitivity_additions": [
+        "PC1 variance fraction",
+        "coarse category richness"
+      ]
+    },
+    "n_original_classifiable": 227107,
+    "n_original_p2_strict_taxa": 1761,
+    "n_original_source_photo": 447500,
+    "note": "statistical model signatures only: mode K is not genetic morph K, and CV success/failure is not identified geographic population history",
+    "observer_cline_R2_relative_month": {
+      "fraction_gt_0": 0.2905491698595147,
+      "fraction_gt_0p08": 0.034482758620689655,
+      "mean": -0.033069617060778767,
+      "median": -0.020916738531969,
+      "n": 1566,
+      "q025": -0.15759754141991475,
+      "q975": 0.09747827734769307
+    },
+    "observer_nonlin_increment": {
+      "fraction_gt_0": 0.3231162196679438,
+      "fraction_gt_0p08": 0.0006385696040868455,
+      "mean": -0.004151913617504721,
+      "median": -0.004196008804189549,
+      "n": 1566,
+      "q025": -0.03194060833028081,
+      "q975": 0.031154678867848826
+    },
+    "observer_nonlin_increment_in_geo_block_eligible": {
+      "fraction_gt_0": 0.32962138084632514,
+      "fraction_gt_0p08": 0.0022271714922048997,
+      "mean": -0.004877972525282539,
+      "median": -0.0057843702038212,
+      "n": 449,
+      "q025": -0.0364044890343361,
+      "q975": 0.03538282751522688
+    },
+    "schema": "fcp_authenticated_modes_photo_spatial_diagnostic_v1",
+    "shape_counts": {
+      "geography_underidentified": 1312,
+      "local_nonlinearity_only_candidate": 1,
+      "no_clear_predictive_geometry": 440,
+      "transferable_broad_cline_candidate": 8
+    },
+    "shared_three_shape_candidates": [
+      {
+        "mode_status": "recurrent_photographic_mode_candidate",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Delphinium hesperium"
+      },
+      {
+        "mode_status": "not_resolved_as_multimodal",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Eriogonum compositum"
+      },
+      {
+        "mode_status": "recurrent_photographic_mode_candidate",
+        "spatial_signature": "local_nonlinearity_only_candidate",
+        "species": "Lomatium martindalei"
+      },
+      {
+        "mode_status": "not_resolved_as_multimodal",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Palafoxia texana"
+      },
+      {
+        "mode_status": "recurrent_photographic_mode_candidate",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Xyris caroliniana"
+      },
+      {
+        "mode_status": "not_resolved_as_multimodal",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Gompholobium huegelii"
+      },
+      {
+        "mode_status": "not_resolved_as_multimodal",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Sphaerolobium minus"
+      },
+      {
+        "mode_status": "not_resolved_as_multimodal",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Coronidium scorpioides"
+      },
+      {
+        "mode_status": "not_resolved_as_multimodal",
+        "spatial_signature": "transferable_broad_cline_candidate",
+        "species": "Viola calcarata"
+      }
+    ],
+    "source_run_id": 39923312111,
+    "top_mode_taxa": "see top_candidates.csv; requires blind fresh-petal review"
+  },
+  "posthoc": true,
+  "all_organ_and_fitness_mechanisms_unverified": true
+}
