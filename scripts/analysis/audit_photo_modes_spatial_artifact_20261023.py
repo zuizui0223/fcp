@@ -92,6 +92,78 @@ def audit(d):
     return result,ranked
 
 
+
+
+def adjust_mode_vs_spatial(mode_table, continuous_table, reps=499):
+    """Post hoc association: photo-PC1 peaks vs independent continuous JSD P2."""
+    needed = {"taxon_id", "global_jsd", "pairs_50km",
+              "excess_jsd_50km_month", "n_classified_original",
+              "coarse_50km_delta"}
+    assert needed.issubset(continuous_table.columns), sorted(needed-set(continuous_table))
+    assert continuous_table.taxon_id.is_unique and len(continuous_table)==1761
+    keep=continuous_table[list(needed)].copy().rename(columns={"taxon_id":"inat_taxon_id"})
+    d=mode_table.merge(keep,on="inat_taxon_id",how="left",validate="one_to_one",
+                       indicator=True)
+    assert d._merge.eq("both").all() and len(d)==1761
+    assert np.max(np.abs(d.coarse_50km_depletion-d.coarse_50km_delta))<1e-10
+    assert d.global_jsd.notna().all() and d.excess_jsd_50km_month.notna().all()
+    admitted=d.loc[d.mode_status.isin(
+        ["recurrent_photographic_mode_candidate",
+         "not_resolved_as_multimodal"])].copy()
+    assert len(admitted)==1718
+    admitted["stable_mode"]=admitted.mode_status.eq("recurrent_photographic_mode_candidate").astype(int)
+    def vector(sensitive=False):
+        M=[np.ones(len(admitted)),admitted.stable_mode.to_numpy(float),
+           admitted.global_jsd.to_numpy(float),
+           np.log(admitted.n_classified_original.to_numpy(float)),
+           np.log1p(admitted.pairs_50km.to_numpy(float))]
+        if sensitive:
+            M.extend([admitted.photographic_pc1_explained_variance.to_numpy(float),
+                     admitted.photographic_coarse_label_count.to_numpy(float)])
+        return np.column_stack(M)
+    y=admitted.excess_jsd_50km_month.to_numpy(float)
+    names=["main","additional_pc1_variance_and_category_count"]
+    estimates={}
+    genus_ids=admitted.genus.astype(str).to_numpy()
+    units=[np.flatnonzero(genus_ids==g) for g in np.unique(genus_ids)]
+    rng=np.random.default_rng(2026102322)
+    boot_draws=rng.integers(0,len(units),size=(reps,len(units)))
+    for name,sensitive in zip(names,[False,True]):
+        X=vector(sensitive)
+        assert np.linalg.matrix_rank(X)==X.shape[1]
+        coefficient=float(np.linalg.lstsq(X,y,rcond=None)[0][1])
+        vals=[]
+        for draw in boot_draws:
+            idx=np.concatenate([units[k] for k in draw])
+            x=X[idx]
+            if np.linalg.matrix_rank(x)==X.shape[1]:
+                vals.append(float(np.linalg.lstsq(x,y[idx],rcond=None)[0][1]))
+        arr=np.array(vals)
+        estimates[name]={
+            "coefficient_mode_minus_not_detected":coefficient,
+            "bootstrap_ci95":[float(v) for v in np.quantile(arr,[.025,.975])] if len(arr)>=450 else None,
+            "bootstrap_replicates_successful":len(arr),
+            "bootstrap_replicates_requested":reps,
+        }
+    raw=admitted.groupby("stable_mode").excess_jsd_50km_month.mean()
+    return {
+        "schema":"photo-mode_vs_50km_continuous_geography_adjusted_v1",
+        "n_stable_mode":int(admitted.stable_mode.sum()),
+        "n_not_resolved_as_multimodal":int((admitted.stable_mode==0).sum()),
+        "n_excluded_unstable_candidates":43,
+        "n_distinct_genera":len(units),
+        "raw_mean_mode":float(raw[1]),
+        "raw_mean_not_detected":float(raw[0]),
+        "raw_mode_minus_not_detected":float(raw[1]-raw[0]),
+        "models":estimates,
+        "adjustment_main":["species-wide JSD","log classified-photo count",
+                           "log1p near-pair count"],
+        "sensitivity_additions":["PC1 variance fraction","coarse category richness"],
+        "not_genetic_morphs_or_fitness":True,
+        "posthoc":True,
+    }
+
+
 def self_test():
     bad=pd.DataFrame({"inat_taxon_id":[1,1]})
     try:
@@ -106,6 +178,7 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("--artifact",type=Path)
     p.add_argument("--out",type=Path)
+    p.add_argument("--continuous",type=Path)
     p.add_argument("--self-test",action="store_true")
     a=p.parse_args()
     if a.self_test:
@@ -113,6 +186,9 @@ def main():
     assert a.artifact and a.out
     x=pd.read_csv(a.artifact,low_memory=False)
     report,candidates=audit(x)
+    if a.continuous is not None:
+        extra=pd.read_csv(a.continuous,low_memory=False)
+        report["mode_vs_continuous_spatial_adjusted"]=adjust_mode_vs_spatial(x,extra)
     a.out.mkdir(parents=True,exist_ok=True)
     (a.out/"mode_geo_source_audit.json").write_text(json.dumps(
         report,sort_keys=True,indent=2,allow_nan=False)+"\n")
