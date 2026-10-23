@@ -1,0 +1,105 @@
+# Use existing authentic original image measurements. No API/image fetching.
+name: FCP RGFCA real six-ROI repeated photo-label QC ONE SHOT
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-rgfca-six-real-pixel-repeatability-audit-one-shot.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-rgfca-real-552-original-pixels-six-photo-20261016
+  cancel-in-progress: false
+jobs:
+  audit-original-ROI-technical-photo-morph-variation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: "."
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout exact audited technical ROI photo repeatability code
+        uses: actions/checkout@v4
+        with:
+          ref: 8f29a17846d331fd773b674bf3b9e215710691f2
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Authenticate successful 552-original-pixel and genuine original RGFCA 1000-taxon sampling
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38832829706" > "$RUNNER_TEMP/fcp_actual_photo_job.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38828417100" > "$RUNNER_TEMP/fcp_original_source_job.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          temp=Path(os.environ["RUNNER_TEMP"])
+          x=json.loads((temp/"fcp_actual_photo_job.json").read_text())
+          y=json.loads((temp/"fcp_original_source_job.json").read_text())
+          for run, expected_id, expected_sha in (
+              (x,38832829706,"f8dc2160b3e8caabc021c75e5d2014f906cc0794"),
+              (y,38828417100,"9ed71d6a22aef941bdb7f2f947266b7a58ac7741"),
+          ):
+              if (run.get("id")!=expected_id or run.get("head_sha")!=expected_sha
+                  or run.get("run_attempt")!=1 or run.get("conclusion")!="success"
+                  or run.get("status")!="completed"
+                  or run.get("head_branch")!="analysis/fcp-fresh-uncapped-zero-20261015"
+                  or run.get("head_repository",{}).get("full_name")!="zuizui0223/fcp"):
+                  raise SystemExit("Unverified real provider/pixel sampling evidence")
+          print("REAL_SIX_ROI_AND_ORIGINAL_PRECOLOUR_ROSTER_ATTESTED")
+          PY
+      - name: Download original 552 ROI technical photo outcomes and original 1000-taxon RGFCA roster ONLY
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fcp_552_real_photo_pilot" "$RUNNER_TEMP/fcp_rgfca_1000_roster" "$RUNNER_TEMP/fcp_real_photo_pilot_diagnostics"
+          gh run download 38832829706 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
+            --dir "$RUNNER_TEMP/fcp_552_real_photo_pilot"
+          gh run download 38828417100 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
+            --dir "$RUNNER_TEMP/fcp_rgfca_1000_roster"
+      - name: Actually rerandomize 552 measured original photo labels 200 times and quantify structural artefacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_rgfca_real_six_taxa_photo_repeatability_20261016.py \
+            --unpacked-original-pilot "$RUNNER_TEMP/fcp_552_real_photo_pilot" \
+            --rgfca-1000-roster "$RUNNER_TEMP/fcp_rgfca_1000_roster/rgfca_species_1000_original_source_only.csv" \
+            --outdir "$RUNNER_TEMP/fcp_real_photo_pilot_diagnostics"
+          python - <<'PY'
+          import os,csv,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_real_photo_pilot_diagnostics"
+          receipt=json.loads((root/"real_six_taxa_photo_repeatability_TECHNICAL_ONLY.json").read_text())
+          with (root/"real_six_taxa_photo_label_repeatability_TECHNICAL_ONLY.csv").open() as f:
+              records=list(csv.DictReader(f))
+          if (receipt["status"]!="TECHNICAL_PILOT_ONLY_NOT_DATED_SOURCE_PPOLY_OR_CONFIRMED_FCP"
+              or receipt["n_species"]!=6 or len(records)!=6
+              or receipt["n_new_original_ROI_v4_photo_terminals"]!=552
+              or receipt["n_classifiable_flower_ROI"]!=202
+              or receipt["original_RGFCA_200x250_species_REAL_photo_Ppoly_computed"] is not False
+              or receipt["source_20260927_exact_archived_ID_membership_verified"] is not False
+              or receipt["genetic_or_natural_population_FCP_species_confirmed"]!=0
+              or receipt["n_technical_label_cooccurrence_high"]!=1):
+              raise SystemExit("Technical original pixel FCP gate changed")
+          daisy=next((r for r in records if r["species"]=="Matricaria chamomilla"),None)
+          if (daisy is None or int(daisy["pilot_original_flower_ROI_classifiable"])!=64
+              or int(daisy["same_photo_white_and_yellow_both_ge_0_10"])!=58
+              or daisy["photo_colour_structural_confounding_high"]!="True"
+              or daisy["strict_image_FCP_species_confirmed"]!="False"):
+              raise SystemExit("False FCP: white/yellow can be parts of one inflorescence")
+          print("FCP_REAL_552_ORIGINAL_PIXELS_RGFCA_REPETITION_AND_FALSE_POSITIVE_QC_PASSED")
+          PY
+      - name: Preserve real 552 photo diagnostic without labelling species as biologically polymorphic
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-real-552photo-six-taxa-REPEATABILITY-STRUCTURAL-QC-not-FCP
+          retention-days: 90
+          if-no-files-found: error
+          path: ${{ runner.temp }}/fcp_real_photo_pilot_diagnostics/

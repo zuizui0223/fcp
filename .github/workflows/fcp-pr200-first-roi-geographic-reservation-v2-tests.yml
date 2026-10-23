@@ -1,0 +1,31 @@
+name: FCP original monthly geography reservation v2 regression
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-first-roi-geographic-reservation-v2-tests.yml
+
+permissions:
+  contents: read
+
+jobs:
+  test-geo-first-real-original-roi:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test source-genuine geographically distant observer-independent original pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest numpy pandas scipy Pillow scikit-image rasterio
+          python -m pytest \
+            tests/test_run_fcp_rgfca_first_geography_pair_roi.py \
+            tests/test_stratify_fcp_rgfca_geographic_span.py \
+            tests/test_prepare_first_rgfca_original_monthly_roi_unit.py -q
+          echo FCP_GEO_FIRST_ORIGINAL_MONTHLY_ROI_V2_SYNTHETIC_TESTS_NOT_REAL_PHOTOGRAPH_PIXELS

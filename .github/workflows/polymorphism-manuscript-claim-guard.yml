@@ -14,6 +14,96 @@ on:
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
       - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
       - tests/test_polymorphism_manuscript_claims.py
+      - fcp_pipeline/fcp_allphotos.py
+      - fcp_pipeline/fcp_fresh_study.py
+      - fcp_pipeline/fcp_axis_replay.py
+      - fcp_pipeline/fcp_shared_structure.py
+      - fcp_pipeline/fcp_direct_environment.py
+      - fcp_pipeline/fcp_environment_profiles.py
+      - scripts/acquisition/collect_fcp_uncapped_metadata.py
+      - scripts/acquisition/build_fcp_uncapped_blind_batches.py
+      - scripts/acquisition/run_fcp_uncapped_shard.py
+      - scripts/acquisition/run_fcp_fresh_image_partition.py
+      - scripts/acquisition/fcp_fresh_partition_index.py
+      - scripts/acquisition/bootstrap_fcp_original_roi_v4.sh
+      - docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md
+      - docs/FCP_FRESH_EXECUTION_STATUS_20261015.md
+      - tests/test_collect_fcp_uncapped_metadata.py
+      - tests/test_fcp_allphotos.py
+      - tests/test_fcp_axis_replay.py
+      - tests/test_fcp_direct_environment.py
+      - tests/test_fcp_environment_profiles.py
+      - tests/test_fcp_shared_structure.py
+      - tests/test_fcp_uncapped_firewall.py
+      - tests/test_fcp_fresh_study.py
+      - tests/test_fcp_fresh_image_partition.py
+      - tests/test_fcp_fresh_partition_index.py
+      - tests/test_run_fcp_uncapped_shard.py
+      - scripts/acquisition/import_inat_open_data_snapshot.py
+      - scripts/acquisition/emit_fcp_staged_source_shards.py
+      - scripts/acquisition/finalize_fcp_staged_source.py
+      - scripts/acquisition/preflight_inat_open_data_provider.py
+      - scripts/acquisition/audit_inat_open_data_taxonomy.py
+      - tests/test_fcp_open_data_bulk_import.py
+      - tests/test_emit_fcp_staged_source_shards.py
+      - tests/test_finalize_fcp_staged_source.py
+      - scripts/acquisition/pin_inat_open_data_snapshot.py
+      - tests/test_pin_inat_open_data_snapshot.py
+      - scripts/acquisition/execute_fcp_42111_census.py
+      - tests/test_execute_fcp_42111_census.py
+      - scripts/acquisition/plan_fcp_full_measurements.py
+      - tests/test_plan_fcp_full_measurements.py
+      - scripts/acquisition/execute_fcp_full_photo_work_queue.py
+      - scripts/acquisition/collect_fcp_partition_measurements.py
+      - scripts/acquisition/admit_fcp_complete_photo_source.py
+      - tests/test_execute_fcp_full_photo_work_queue.py
+      - tests/test_collect_fcp_partition_measurements.py
+      - tests/test_admit_fcp_complete_photo_source.py
+      - scripts/acquisition/summarize_fcp_real_photo_opportunities.py
+      - tests/test_summarize_fcp_real_photo_opportunities.py
+      - scripts/acquisition/plan_fcp_real_42111_partition_capacity.py
+      - tests/test_plan_fcp_real_42111_partition_capacity.py
+      - scripts/acquisition/verify_fcp_complete_photo_ids_vs_original_counts.py
+      - tests/test_verify_fcp_complete_photo_ids_vs_original_counts.py
+      - scripts/acquisition/run_fcp_durable_source_phases.py
+      - tests/test_run_fcp_durable_source_phases.py
+      - fcp_pipeline/photo_polymorphism_screen.py
+      - tests/test_photo_polymorphism_screen.py
+      - scripts/acquisition/plan_fcp_photo_first_screen.py
+      - tests/test_plan_fcp_photo_first_screen.py
+      - scripts/acquisition/extract_rgfca_1000_original_monthly_photo_ids.py
+      - tests/test_extract_rgfca_1000_original_monthly_photo_ids.py
+      - scripts/acquisition/plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py
+      - scripts/acquisition/stratify_fcp_rgfca_geographic_span.py
+      - scripts/acquisition/run_fcp_rgfca_first_geography_pair_roi.py
+      - tests/test_plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py
+      - tests/test_stratify_fcp_rgfca_geographic_span.py
+      - tests/test_run_fcp_rgfca_first_geography_pair_roi.py
+      - scripts/acquisition/prepare_first_rgfca_original_monthly_roi_unit.py
+      - tests/test_prepare_first_rgfca_original_monthly_roi_unit.py
+      - scripts/acquisition/freeze_fcp_photo_first_blind_workers.py
+      - tests/test_freeze_fcp_photo_first_blind_workers.py
+      - scripts/acquisition/run_fcp_photo_first_roi_work_unit.py
+      - tests/test_run_fcp_photo_first_roi_work_unit.py
+      - scripts/acquisition/reassemble_fcp_photo_first_screen.py
+      - tests/test_reassemble_fcp_photo_first_screen.py
+      - scripts/analysis/freeze_fcp_rgfca_photo_repetition.py
+      - tests/test_freeze_fcp_rgfca_photo_repetition.py
+      - fcp_pipeline/rgfca_photo_repeatability.py
+      - tests/test_rgfca_photo_repeatability.py
+      - scripts/acquisition/run_rgfca_real_1000_enrolled_six_photo_pilot.py
+      - tests/test_run_rgfca_real_1000_enrolled_six_photo_pilot.py
+      - scripts/acquisition/run_rgfca_disjoint_wave2_six_taxa_original_photo_pilot.py
+      - tests/test_run_rgfca_disjoint_wave2_six_taxa_original_photo_pilot.py
+      - scripts/analysis/audit_rgfca_real_photo_observer_geocell_mixture.py
+      - tests/test_audit_rgfca_real_photo_observer_geocell_mixture.py
+      - scripts/analysis/compare_rgfca_two_disjoint_original_photo_roi_waves.py
+      - tests/test_compare_rgfca_two_disjoint_original_photo_roi_waves.py
+      - scripts/analysis/audit_rgfca_real_six_taxa_photo_repeatability_20261016.py
+      - tests/test_audit_rgfca_real_six_taxa_photo_repeatability_20261016.py
+      - scripts/acquisition/run_real_source_roi_pilot.py
+      - scripts/acquisition/repair_real_source_roi_pilot.py
+      - tests/test_fcp_real_photo_pilot_repair.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
     paths:
@@ -24,6 +114,96 @@ on:
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
       - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
       - tests/test_polymorphism_manuscript_claims.py
+      - fcp_pipeline/fcp_allphotos.py
+      - fcp_pipeline/fcp_fresh_study.py
+      - fcp_pipeline/fcp_axis_replay.py
+      - fcp_pipeline/fcp_shared_structure.py
+      - fcp_pipeline/fcp_direct_environment.py
+      - fcp_pipeline/fcp_environment_profiles.py
+      - scripts/acquisition/collect_fcp_uncapped_metadata.py
+      - scripts/acquisition/build_fcp_uncapped_blind_batches.py
+      - scripts/acquisition/run_fcp_uncapped_shard.py
+      - scripts/acquisition/run_fcp_fresh_image_partition.py
+      - scripts/acquisition/fcp_fresh_partition_index.py
+      - scripts/acquisition/bootstrap_fcp_original_roi_v4.sh
+      - docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md
+      - docs/FCP_FRESH_EXECUTION_STATUS_20261015.md
+      - tests/test_collect_fcp_uncapped_metadata.py
+      - tests/test_fcp_allphotos.py
+      - tests/test_fcp_axis_replay.py
+      - tests/test_fcp_direct_environment.py
+      - tests/test_fcp_environment_profiles.py
+      - tests/test_fcp_shared_structure.py
+      - tests/test_fcp_uncapped_firewall.py
+      - tests/test_fcp_fresh_study.py
+      - tests/test_fcp_fresh_image_partition.py
+      - tests/test_fcp_fresh_partition_index.py
+      - tests/test_run_fcp_uncapped_shard.py
+      - scripts/acquisition/import_inat_open_data_snapshot.py
+      - scripts/acquisition/emit_fcp_staged_source_shards.py
+      - scripts/acquisition/finalize_fcp_staged_source.py
+      - scripts/acquisition/preflight_inat_open_data_provider.py
+      - scripts/acquisition/audit_inat_open_data_taxonomy.py
+      - tests/test_fcp_open_data_bulk_import.py
+      - tests/test_emit_fcp_staged_source_shards.py
+      - tests/test_finalize_fcp_staged_source.py
+      - scripts/acquisition/pin_inat_open_data_snapshot.py
+      - tests/test_pin_inat_open_data_snapshot.py
+      - scripts/acquisition/execute_fcp_42111_census.py
+      - tests/test_execute_fcp_42111_census.py
+      - scripts/acquisition/plan_fcp_full_measurements.py
+      - tests/test_plan_fcp_full_measurements.py
+      - scripts/acquisition/execute_fcp_full_photo_work_queue.py
+      - scripts/acquisition/collect_fcp_partition_measurements.py
+      - scripts/acquisition/admit_fcp_complete_photo_source.py
+      - tests/test_execute_fcp_full_photo_work_queue.py
+      - tests/test_collect_fcp_partition_measurements.py
+      - tests/test_admit_fcp_complete_photo_source.py
+      - scripts/acquisition/summarize_fcp_real_photo_opportunities.py
+      - tests/test_summarize_fcp_real_photo_opportunities.py
+      - scripts/acquisition/plan_fcp_real_42111_partition_capacity.py
+      - tests/test_plan_fcp_real_42111_partition_capacity.py
+      - scripts/acquisition/verify_fcp_complete_photo_ids_vs_original_counts.py
+      - tests/test_verify_fcp_complete_photo_ids_vs_original_counts.py
+      - scripts/acquisition/run_fcp_durable_source_phases.py
+      - tests/test_run_fcp_durable_source_phases.py
+      - fcp_pipeline/photo_polymorphism_screen.py
+      - tests/test_photo_polymorphism_screen.py
+      - scripts/acquisition/plan_fcp_photo_first_screen.py
+      - tests/test_plan_fcp_photo_first_screen.py
+      - scripts/acquisition/extract_rgfca_1000_original_monthly_photo_ids.py
+      - tests/test_extract_rgfca_1000_original_monthly_photo_ids.py
+      - scripts/acquisition/plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py
+      - scripts/acquisition/stratify_fcp_rgfca_geographic_span.py
+      - scripts/acquisition/run_fcp_rgfca_first_geography_pair_roi.py
+      - tests/test_plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py
+      - tests/test_stratify_fcp_rgfca_geographic_span.py
+      - tests/test_run_fcp_rgfca_first_geography_pair_roi.py
+      - scripts/acquisition/prepare_first_rgfca_original_monthly_roi_unit.py
+      - tests/test_prepare_first_rgfca_original_monthly_roi_unit.py
+      - scripts/acquisition/freeze_fcp_photo_first_blind_workers.py
+      - tests/test_freeze_fcp_photo_first_blind_workers.py
+      - scripts/acquisition/run_fcp_photo_first_roi_work_unit.py
+      - tests/test_run_fcp_photo_first_roi_work_unit.py
+      - scripts/acquisition/reassemble_fcp_photo_first_screen.py
+      - tests/test_reassemble_fcp_photo_first_screen.py
+      - scripts/analysis/freeze_fcp_rgfca_photo_repetition.py
+      - tests/test_freeze_fcp_rgfca_photo_repetition.py
+      - fcp_pipeline/rgfca_photo_repeatability.py
+      - tests/test_rgfca_photo_repeatability.py
+      - scripts/acquisition/run_rgfca_real_1000_enrolled_six_photo_pilot.py
+      - tests/test_run_rgfca_real_1000_enrolled_six_photo_pilot.py
+      - scripts/acquisition/run_rgfca_disjoint_wave2_six_taxa_original_photo_pilot.py
+      - tests/test_run_rgfca_disjoint_wave2_six_taxa_original_photo_pilot.py
+      - scripts/analysis/audit_rgfca_real_photo_observer_geocell_mixture.py
+      - tests/test_audit_rgfca_real_photo_observer_geocell_mixture.py
+      - scripts/analysis/compare_rgfca_two_disjoint_original_photo_roi_waves.py
+      - tests/test_compare_rgfca_two_disjoint_original_photo_roi_waves.py
+      - scripts/analysis/audit_rgfca_real_six_taxa_photo_repeatability_20261016.py
+      - tests/test_audit_rgfca_real_six_taxa_photo_repeatability_20261016.py
+      - scripts/acquisition/run_real_source_roi_pilot.py
+      - scripts/acquisition/repair_real_source_roi_pilot.py
+      - tests/test_fcp_real_photo_pilot_repair.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
 
@@ -47,3 +227,35 @@ jobs:
 
       - name: Verify manuscript claims against frozen results
         run: python -m pytest tests/test_polymorphism_manuscript_claims.py -q
+
+  fresh-from-zero-regression:
+    # No historical measured photo CSV is ever read by this job.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install FCP fresh-only source/geo and test dependencies
+        run: python -m pip install --upgrade pytest numpy pandas scipy Pillow scikit-image rasterio
+      - name: Check fresh source acquisition / zero-legacy / null-guard contracts
+        run: python -m pytest tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_fcp_fresh_partition_index.py tests/test_run_fcp_uncapped_shard.py tests/test_fcp_open_data_bulk_import.py tests/test_emit_fcp_staged_source_shards.py tests/test_finalize_fcp_staged_source.py tests/test_pin_inat_open_data_snapshot.py tests/test_fcp_real_photo_pilot_repair.py tests/test_execute_fcp_42111_census.py tests/test_plan_fcp_full_measurements.py tests/test_execute_fcp_full_photo_work_queue.py tests/test_collect_fcp_partition_measurements.py tests/test_admit_fcp_complete_photo_source.py tests/test_summarize_fcp_real_photo_opportunities.py tests/test_plan_fcp_real_42111_partition_capacity.py tests/test_verify_fcp_complete_photo_ids_vs_original_counts.py tests/test_run_fcp_durable_source_phases.py tests/test_photo_polymorphism_screen.py tests/test_plan_fcp_photo_first_screen.py tests/test_freeze_fcp_photo_first_blind_workers.py tests/test_run_fcp_photo_first_roi_work_unit.py tests/test_reassemble_fcp_photo_first_screen.py tests/test_freeze_fcp_rgfca_photo_repetition.py tests/test_rgfca_photo_repeatability.py tests/test_run_rgfca_real_1000_enrolled_six_photo_pilot.py tests/test_run_rgfca_disjoint_wave2_six_taxa_original_photo_pilot.py tests/test_audit_rgfca_real_six_taxa_photo_repeatability_20261016.py tests/test_audit_rgfca_real_photo_observer_geocell_mixture.py tests/test_compare_rgfca_two_disjoint_original_photo_roi_waves.py tests/test_extract_rgfca_1000_original_monthly_photo_ids.py tests/test_plan_rgfca_screen_from_targeted_original_monthly_photo_ids.py tests/test_stratify_fcp_rgfca_geographic_span.py tests/test_run_fcp_rgfca_first_geography_pair_roi.py tests/test_prepare_first_rgfca_original_monthly_roi_unit.py -q
+      - name: Verify original method bootstrap script syntax
+        run: bash -n scripts/acquisition/bootstrap_fcp_original_roi_v4.sh
+      - name: Restore and fingerprint original ROI-v4 code without ANY old photo colours
+        run: |
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --code-only
+          python - <<'PY'
+          from pathlib import Path
+          from fcp_pipeline.photo_first_measurement import REFERENCE_RGB
+          from fcp_pipeline.photo_first_atlas_v2 import coarse_morph_from_palette
+          from fcp_pipeline.flower_roi_v4 import validate_roi_v4_contract
+          assert len(REFERENCE_RGB)==12
+          assert Path("scripts/analysis/measure_random_photo_first_blind_partition.py").is_file()
+          print("FCP_FRESH_ORIGINAL_ROI_CODE_PREFLIGHT_PASS")
+          PY

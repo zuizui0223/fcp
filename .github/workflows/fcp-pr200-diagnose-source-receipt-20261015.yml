@@ -1,0 +1,47 @@
+name: FCP PR200 diagnose cancelled source receipt
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-diagnose-source-receipt-20261015.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  source-receipt-only-no-provider-requests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check exact cancelled source receipt, metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/receipt"
+          gh run download 38699975166 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-recovery-20260927-status-and-original-hashes \
+            --dir "$RUNNER_TEMP/receipt"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"receipt"
+          paths=sorted(x for x in p.rglob("*") if x.is_file())
+          print("FCP_DIAGNOSTIC_ARTIFACT_FILES",[(x.name,x.stat().st_size) for x in paths],flush=True)
+          for x in paths:
+              if x.suffix!=".json":continue
+              try: d=json.loads(x.read_text())
+              except (UnicodeError,ValueError) as e:
+                  print("FCP_DIAGNOSTIC_UNREADABLE_JSON",x.name,str(e),flush=True);continue
+              print("FCP_DIAGNOSTIC_JSON",x.name,flush=True)
+              keys=("status","stage","last_completed_stage","complete_metadata_census",
+                    "original_archive_sha256","original_archive_bytes","target_frame_species",
+                    "all_four_extracted_table_sha256","old_measured_flower_colours_used",
+                    "full_bundle_sha256","metadata_files_sha256","source_species",
+                    "provider","snapshot_date","error")
+              print(json.dumps({k:d.get(k,"<absent>") for k in keys},sort_keys=True),flush=True)
+          PY

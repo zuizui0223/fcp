@@ -1,0 +1,30 @@
+name: FCP all-original-month date opportunity census regression
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-all-original-dated-opportunity-tests-20261016.yml
+
+permissions:
+  contents: read
+
+jobs:
+  source-only-exact-observation-date-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check full-source-date opportunities without old photos/colour outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest
+          python -m py_compile scripts/acquisition/audit_fcp_original_rgfca_monthly_photo_opportunities.py
+          python -m pytest \
+            tests/test_audit_fcp_original_rgfca_monthly_photo_opportunities.py -q
+          echo FCP_ALL_ORIGINAL_PHOTO_ID_DATE_CENSUS_CONTRACTS_ONLY_SYNTHETIC_NO_REAL_FLOWERS

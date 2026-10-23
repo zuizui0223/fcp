@@ -1,0 +1,99 @@
+name: FCP exact original exploratory season63 ROI
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - scripts/acquisition/run_fcp_rgfca_season63_pilot.py
+      - tests/test_fcp_rgfca_season63_pilot.py
+      - .github/workflows/fcp-rgfca-season63-exploratory-roi.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-exact-20260927-first-season63-original
+  cancel-in-progress: false
+jobs:
+  genuine-63-pixel-source-season-qc:
+    if: ${{ github.repository == 'zuizui0223/fcp' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+      ROOT: /tmp/fcp-original-season63
+      SAM: /tmp/fcp-original-season63-sam
+      FCP_PROVIDER_GLOBAL_RATE_FILE: /tmp/fcp-original-season63-provider-rate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source-only season63 evidence rules before image access
+        run: |
+          python -m pip install 'numpy<3' 'pandas<3' pytest Pillow scipy ultralytics==8.4.112 onnxruntime==1.23.2 scikit-image==0.25.2
+          python -m pytest tests/test_fcp_rgfca_season63_pilot.py -q
+      - name: Verify exact successful September 2026 source and download only 1000-taxon stage
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/source"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38884223530" > "$ROOT/source_run.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          x=json.loads((Path(os.environ["ROOT"])/"source_run.json").read_text())
+          assert x["id"]==38884223530 and x["run_attempt"]==1
+          assert x["status"]=="completed" and x["conclusion"]=="success"
+          assert x["head_sha"]=="b0656b6a677a8440c188939074a0fe3c8cd4ac16"
+          assert x["head_repository"]["full_name"]=="zuizui0223/fcp"
+          PY
+          gh run download 38884223530 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-1000-EXACT-20260927-original-photo-ID-128-worker-source-NO-PIXELS \
+            --dir "$ROOT/source"
+      - name: Authenticate 63 frozen photo IDs and all 128 blind worker fingerprints
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.run_fcp_rgfca_season63_pilot prepare \
+            --source-root "$ROOT/source" --outdir "$ROOT/prepared"
+      - name: Restore unmodified ROI-v4 YOLO and EfficientSAM
+        run: |
+          set -euo pipefail
+          bash scripts/acquisition/bootstrap_fcp_original_roi_v4.sh --full --sam-dir "$SAM"
+      - name: Actually measure original photo pixels and postblind same-site-year months
+        run: |
+          set -euo pipefail
+          python -m scripts.acquisition.run_fcp_rgfca_season63_pilot measure \
+            --prepared "$ROOT/prepared" --outdir "$ROOT/measured" \
+            --method scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --detector data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --sam "$SAM"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          x=json.loads((Path(os.environ["ROOT"])/"measured/season63_real_roi_receipt.json").read_text())
+          assert x["status"]=="REAL_ORIGINAL_EXPLORATORY_SEASON63_ROI_MEASURED"
+          assert x["n_original_photo_pixels_attempted"]==63 and x["n_taxa"]==6
+          assert x["n_month_groups"]==12 and x["not_Ppoly_climate_soil_or_genetic_FCP"] is True
+          print("REAL_SEASON63_ORIGINAL_PHOTO_ROI",json.dumps(x,sort_keys=True))
+          PY
+      - name: Archive full receipt and 63 original ROI terminal status rows
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-original-season63-exploratory-ROI-not-1000
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-original-season63/source_run.json
+            /tmp/fcp-original-season63/prepared/
+            /tmp/fcp-original-season63/measured/
+      - name: Retain failures without promoting incomplete phenotype data
+        if: ${{ failure() || cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-original-season63-incomplete
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-original-season63/source_run.json
+            /tmp/fcp-original-season63/prepared/precolour_receipt.json
+            /tmp/fcp-original-season63/measured/season63_real_roi_receipt.json

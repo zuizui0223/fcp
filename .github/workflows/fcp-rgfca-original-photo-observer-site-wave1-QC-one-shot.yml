@@ -1,0 +1,102 @@
+# Read-only actual image reanalysis. Existing six photo pilot, no original photo requests.
+name: FCP RGFCA REAL ROI observer-site 200-redraw independent QC wave1
+on:
+  push:
+    branches: [analysis/fcp-fresh-uncapped-zero-20261015]
+    paths:
+      - .github/workflows/fcp-rgfca-original-photo-observer-site-wave1-QC-one-shot.yml
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: fcp-rgfca-552-original-ROI-observer-site-mix-QC-wave1
+  cancel-in-progress: false
+jobs:
+  exact-source-real-pixel-independent-photo-QC:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: "."
+    steps:
+      - name: Checkout exact reviewed observer and floral-organ QC code
+        uses: actions/checkout@v4
+        with:
+          ref: feed51872e10611a7798f3db6c8c86a3b5d53527
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate source real PHOTO-pixel and source-only 1000-taxon RGFCA provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38832829706" > "$RUNNER_TEMP/original_ROI_pilot_run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/38828417100" > "$RUNNER_TEMP/rgfca_enrolment_run.json"
+          python - <<'PY'
+          from pathlib import Path
+          import os,json
+          p=Path(os.environ["RUNNER_TEMP"])
+          for name,ident,sha in [
+              ("original_ROI_pilot_run.json",38832829706,"f8dc2160b3e8caabc021c75e5d2014f906cc0794"),
+              ("rgfca_enrolment_run.json",38828417100,"9ed71d6a22aef941bdb7f2f947266b7a58ac7741"),
+          ]:
+              d=json.loads((p/name).read_text())
+              if (d.get("id")!=ident or d.get("head_sha")!=sha
+                  or d.get("head_branch")!="analysis/fcp-fresh-uncapped-zero-20261015"
+                  or d.get("run_attempt")!=1 or d.get("conclusion")!="success"
+                  or d.get("status")!="completed"):
+                  raise SystemExit("Not the immutable original ROI pilot or source-only RGFCA cohort")
+          PY
+      - name: Download EXACT six original measured ROI pixels and 1000 source-only taxa
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pilot_wave1" "$RUNNER_TEMP/rgfca_1000_roster"
+          gh run download 38832829706 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
+            --dir "$RUNNER_TEMP/pilot_wave1"
+          gh run download 38828417100 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-real-rgfca-photo-1000species-200x250-balanced-no-pixels \
+            --dir "$RUNNER_TEMP/rgfca_1000_roster"
+      - name: Audit 552 real measured flower ROIs, observation and observer source, locality and 200 repetitions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m scripts.analysis.audit_rgfca_real_photo_observer_geocell_mixture \
+            --pilot-root "$RUNNER_TEMP/pilot_wave1" \
+            --original-rgfca-roster "$RUNNER_TEMP/rgfca_1000_roster/rgfca_species_1000_original_source_only.csv" \
+            --outdir "$RUNNER_TEMP/rgfca_wave1_photo_bias_qc"
+          python - <<'PY'
+          import csv,json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"rgfca_wave1_photo_bias_qc"
+          d=json.loads((p/"wave1_original_ROI_observer_geocell_mixed_colour_QC.json").read_text())
+          rows=list(csv.DictReader((p/"wave1_original_ROI_observer_geocell_mixed_colour_QC.csv").open()))
+          if (d["status"]!="TECHNICAL_REAL_ORIGINAL_ROI_ONLY_NOT_POLYMORPHISM_ESTIMATE"
+              or d["n_original_ROI_photos"]!=552
+              or d["n_classifiable_flower_ROIs"]!=202
+              or d["n_taxa"]!=6
+              or d["source_pilot_random_photo_draws_per_taxon"]!=200
+              or d["original_source_date_bulk_archive_membership_verified"] is not False
+              or d["main_1000_RGFCA_P_poly_estimated"] is not False
+              or d["no_genetic_FCP_species_asserted"] is not True):
+              raise SystemExit("Original photo opportunity and biological claim firewall changed")
+          mat=next((r for r in rows if r["species"]=="Matricaria chamomilla"),None)
+          if (mat is None or int(mat["classifiable_ROI"])!=64
+              or int(mat["within_one_ROI_white_and_yellow_both_ge10"])!=58
+              or int(json.loads(mat["per_label_independent_observers"])["yellow_orange"])!=8
+              or int(json.loads(mat["per_label_5degree_cells"])["yellow_orange"])!=7
+              or float(mat["depth_40_conditional_photo_label_detection"])!=0.83
+              or float(mat["depth_48_conditional_photo_label_detection"])!=1.0):
+              raise SystemExit("Observer/geographic independence alone does not remove within-ROI organ composite colour risk")
+          print("FCP_REAL_ORIGINAL_PHOTO_RGFCA_OBSERVER_SPATIAL_ROI_FALSE_POSITIVE_QC_PASSED")
+          PY
+      - name: Retain authentic ROI observer spatial phenotype-bias audit (not dated-source FCP)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-real-rgfca-wave1-552-ROI-observer-geocell-200-redraw-TECHNICAL-QC
+          retention-days: 90
+          if-no-files-found: error
+          path: ${{ runner.temp }}/rgfca_wave1_photo_bias_qc/

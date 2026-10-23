@@ -1,0 +1,96 @@
+# FCP / RGFCA — 広域に観察される同種を主解析として優先
+
+## 2026-10-16 21:44 JST source-only geography and first actual monthly ROI correction
+
+**Genuine monthly 2026-09-27 source provenance:** [source run #38884223530](https://github.com/zuizui0223/fcp/actions/runs/38884223530) completed successfully, artifact `12044928578`, and its original pre-colour 1,000-taxon ledger preserved exactly **3,430,502 unique original photo IDs** and the 128 blind worker partition contracts. It does **not** contain measured floral outcomes.
+
+**Original source geography:** [geo run #38901675312](https://github.com/zuizui0223/fcp/actions/runs/38901675312), artifact `12046895345`, finalized **571 broadly observed taxa, 169 narrowly observed taxa, 259 intermediate/unresolved and 1 insufficient**, with **169 source-depth-matched broad/narrow pairs** (pair CSV SHA256 `74e7ef2b0fdb5678f3b54fe3073c2dd7273d058ff8113b7b26b96e702ecd1ef0`). All of these are **source-photography distributions**, not native species ranges, flowering observations or genetic variants.
+
+**Independent source-only robustness audit:** in an offline re-read of the same immutable 3,430,502-photo-ID CSV, treating missing provider `positional_accuracy_m` as insufficient geographic evidence rather than allowing missing records into supported 5° cells yielded **555 broad, 173 narrow, 271 unresolved/intermediate, 1 insufficient**, and **173 matched pairs**. This is a **stricter sensitivity result, not an official replacement** for the executed geo run. The independent source count was identical to the full original ledger and original pre-colour roster SHA remained `88aba565e1bdeef48ad3dc5eec0121c52448fda434aca849e542bb615f9d547c`. Its source-only matched-pair CSV SHA256 is `3b2353d1ac957d00b3b32f8d0faa6df42357e5850ce94ddba8d63f7e355f36e6`. Geographic uncertainty should be treated explicitly, because **449,443 distinct source observations had unspecified positional accuracy** in this offline scan. No pixels were opened in that sensitivity analysis. The code now excludes missing accuracy in `scripts/acquisition/stratify_fcp_rgfca_geographic_span.py` ([commit 71cfd1a](https://github.com/zuizui0223/fcp/commit/71cfd1a248a748f6bc59f307e15d033df06526a7)).
+
+**Actual original September ROI pixels:** [run #38901816890](https://github.com/zuizui0223/fcp/actions/runs/38901816890) completed successfully, artifact `12047265683`, measuring **64/64 actual original photos**, taxon **436108** (*Cyperus glomeratus*) vs **323321** (*Leptomeria drupacea*), with **27 four-state-classifiable and 37 unclassifiable** (36 ROI/flip issues and 1 ambiguous palette), **0 source acquisition failures**. Broad taxon: 15/32 classifiable; narrow: 12/32. Four photographs showed ≥10% white and ≥10% yellow in the *same* ROI and are structural-mixing QC rather than different individuals' morphs. The new terminal CSV SHA256 is `5877179b7c4b35de94d3ed2c534b4bfeb495a12068326ec846550c8621130ad2`; frozen YOLO detector SHA256 `f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5`. All 64 original photo IDs and source observation/observer identities matched the exact dated source ledger, and the evaluator received only three blinded worker fields.
+
+**Important quality boundary:** **20/64 selected photos** (10 broad, 10 narrow) carried **missing `positional_accuracy_m`** in the original source. The 2 geographically separated broad-source support cells pass the ≥1,000 km + independently supported reporter constraints among *known-precision* source photos, but this is insufficient to claim **all selected photos** satisfy the prespecified <=50km location-accuracy condition. Do not treat this technical first-ROI success as a fully position-qualified geographic causal test, evidence for within-population colour polymorphism, an ROI-based estimate for all 1,000 taxa, W/H2 or seasonal climate selection. The first-unit source selection now excludes *all* unknown/non-finite/>50km positions in **both** broad and narrow candidate pools; it retains all original 3,430,502 IDs in the source denominator ([commit da24354](https://github.com/zuizui0223/fcp/commit/da2435466e2e024994223a04b7d6c60726f0f009)). Synthetic regression/claim CI [#38903830138](https://github.com/zuizui0223/fcp/actions/runs/38903830138) passed after fixture repair; this is a **code test**, not a rerun of source pixels.
+
+The *next* scientifically admissible geo-paired original-photo comparison requires re-admitting the exact same 2026-09-27 source to the **strict location-accuracy geo assessment** and source-blind selected-pixel gate. Do not silently reinterpret the first 64 technical terminals as a strict comparison, and do not redownload the fixed 36GB provider archive or overwrite the already sealed terminals. Observation season/year matching and actual open-flower ROI verification remain separate evidence gates.
+
+## 2026-10-16 現在の結論
+
+すでに花色を見ずに選抜・固定した真正な2026-09-27原本のRGFCA 1,000種は変更しない。原本の観察ID、緯度経度、独立観察者から広域観察種・狭域観察種・中間／証拠不足を事前に区別する。全体の200実現×250種、各種50回の反復割付も改変しない。広域種を優先測定しつつ、同じ写真機会数階層に属する狭域種を比較対照として保存する。
+
+写真枚数が多いだけでは、広域種とはみなさない。地理的広がりは撮影観察された地域であり、その植物の野生・原産分布、移入集団や生態的ニッチの真の広さではない。撮影者、利用可能写真数、季節、都市化、帰化・栽培、分類可能花ROIの率を別々に記録する。
+
+## 色を見る前に確定する具体的判定
+
+- 広域：5度×5度の地域セル2つ以上が、それぞれ独立観察3件以上・観察者2人以上を持つ。各セルの観察位置の球面重心同士が1,000 km以上離れ、両セルの観察者の合併が4人以上。全体に位置情報が許容可能な観察12件以上・観察者6人以上必要。
+- 狭域：同じ独立観察の量的条件を満たし、重心からの球面距離の95パーセンタイルが200 km以下。
+- 中間／未解決：記録はあるが、そのどちらでもない。
+- データ不足：十分な独立観察・観察者・位置情報がない。
+- 位置精度が50 kmを超える記録を距離根拠として除外し、位置精度欠損件数は別途報告。経度±180度の境界は球面大円距離で扱う。
+
+統計的には広域観察サンプリングを優先するだけで、花色多型の有意性や頻度を上げる選択には利用しない。地理的範囲、観察機会数、観察者、調査時期、分類可能写真数は重要な共変量。気候・土壌の不均一性と距離の交絡は別のモデルで検証する。異なる場所の花色の違いだけで遺伝的多型や局所適応を断定しない。
+
+## 写真数で対応付けた狭域対照の追加（実装済み）
+
+広域と狭域で撮影機会が違うだけの現象を避けるため、広域観察種1種に対し、同一の事前固定 source photo opportunity tier から狭域観察種を**1種だけ**対応付ける。近さは `abs(log(n_photo_broad/n_photo_narrow))` で評価し、写真数比が4倍を超える組み合わせは組まない。双方の種は各1回まで使い、対応対が足りなくても1,000種から除外しない。
+
+処理順は**対応した広域→狭域の組を隣接**させ、その後に対照が見つからない広域種、残る中間・狭域・地理証拠不足の種を続ける。最初の少数バッチしか測れない場合でも、広域群だけから見かけ上の多型発見率を報告しない。対応付けは色を見る前に完了させ、花色・気候・土壌・過去の多型ラベルを使わない。対応対の総数は真正な3,430,502件のsource-ID照合が完了した時点で初めて数える。
+
+新しい出力は `rgfca_1000_original_source_broad_narrow_depthmatched_pairs.csv` と、そのハッシュを持つ地理分類receipt。ソース取得run #38847189688 が完全成功した場合のみ main の `fcp-rgfca-real1000-broad-geographic-priority-after-source.yml` が照合を実行する。215件に加えて対応付けの再現性・除外なし・depth-tier外マッチ禁止を検証し、**216件のCIテストが成功**：[Actions #38853740570](https://github.com/zuizui0223/fcp/actions/runs/38853740570)。これはプログラム検証であり、広域種の実数や実画像での生物学的効果ではない。
+
+### 生態学的な主検定を分ける
+
+1. **種内地理構造**：同一種の別地域で独立した個体／観察に記録される色状態の変化を、花器官（ray/diskなど）の構造由来色混在と区別する。
+2. **地理と環境の分離**：気温・水分・日射などの環境差は広域にいるほど大きくなり得る。種内の環境差を地理的距離と時間・撮影者の構造から分け、地理差そのものを温度効果と同一視しない。
+3. **広域対狭域**：同一写真機会数層における観察条件付きの色状態検出率とROI分類可能率を比較し、狭域群での未検出を生物学的単型と判定しない。
+
+## 最初の真正な原写真を広域・狭域の対応ペアから計測する
+
+地理グループ・ペアの本番source provenanceが完成した場合に限り、**対応付け1組（広域種1・狭域種1）**を選んで最初の実際の月次原本画像をROI-v4で処理するよう、`scripts/acquisition/run_fcp_rgfca_first_geography_pair_roi.py` と、mainの自動ジョブ `.github/workflows/fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml` を追加済み。
+
+- 元データは真正な2026-09-27の抽選済み1,000種の写真ID/観察者/位置情報、全128凍結blind workerファイルのSHA、地理ペアCSVのSHAまで相互検証する。
+- 地理的に対応付けした種それぞれについて観察者非重複fold 0 / fold 1から**各4〜16枚**の写真を色を見ずに選ぶ。合計で16〜64枚。対象条件を満たすペアがなければ無理に代用せず停止する。
+- 色評価器に渡すのは以前の1499種研究と同じ**measurement_id、image_filename、photo_licenseの3列だけ**。写真URL、学名、座標、地理グループ・原photoIDを含めない。
+- 独立したURL取得役が実際の原写真を逐次ダウンロードし、提供元へのリクエスト間隔を少なくとも1.1秒に制限する。元ROI-v4 YOLO・EfficientSAMのSHA検証後のみ実測。写真の生画像はテンポラリ領域から削除し、元photo IDとterminal色結果は**測定完了後**にSHA付きで結合する。
+- 最初のペアで出力される結果は`first_geo_pair_real_pixel_receipt.json`・原画像のterminal CSV・地理グループ別の分類可能数であり、観測上の広域性と花色の真の関係を2種で確定する統計検定ではない。W、H2、全1,000種のP_polyは未完了のまま保持する。
+- 起動条件は原本ID抽出run #38847189688 の`success` → 広域/狭域地理監査`success` → 最初の原本ROI計測。原本ID不一致、ペアなし、モデルSHA不一致、ネットワーク障害は測定成功とせず失敗証拠を保存する。
+
+[source-monthly ID → geography → first authentic pixels](https://github.com/zuizui0223/fcp/blob/main/.github/workflows/fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml) の実行待ち。CIは[220件合格](https://github.com/zuizui0223/fcp/actions/runs/38854597692)（合成検証であり元画像の新測定実行ではない）。
+
+### 最初に測る広域種の地域分散も検証（2026-10-16 改訂）
+
+『広域種が複数地域で観察される』ことと『最初にROI測定する写真が複数地域を代表する』ことは別問題。広域種／狭域種の写真IDは先に固定し、**最初に開く元画像**を5°地理セルのラウンドロビンで選ぶ。さらに広域種の実際の選抜画像について、**各セルに2件以上の異なるsource観察と2人以上の独立観察者があり、その2セルの球面重心間が1,000 km以上**あるか、元の2026-09-27月次写真メタデータと照合する。
+
+元の色blind 128枚候補CSVには撮影位置精度が含まれないため、最初のROI単位の開始前に真正な3,430,502件の元source photo ID表を再び読み、**候補photo ID / original observation ID / observer ID / 元座標を照合**して位置精度を回復する。位置精度欠損、50 km超、不正な座標、単発の遠距離写真は、最初の広域分散を成立させる証拠としない。地域分散を満たさない候補ペアは、結果を見てから都合よく入れ替えず、事前定義された次の対照ペアへ進める。妥当な広域ペアが見つからなければ測定単位を開かず停止する。
+
+元の写真観測精度、緯度経度、花色・地理区分等は**測定後の結合用サイドカー**だけに残し、YOLO/EfficientSAM花色評価器は引き続き最小3列のblind workerのみを受け取る。元の花ROI内部に白と黄がそれぞれ10%以上含まれる状態は、個体間多型の根拠ではなく花器官混在の独立QCとして報告する。
+
+追加テストは遠距離の1写真と位置誤差150 kmの偽広域候補を拒否し、正しい元月次photo IDのsource座標を改変したケースも測定前に拒否。[CI #38856359514](https://github.com/zuizui0223/fcp/actions/runs/38856359514) **224 passed**。mainのfirst ROI workflowはSHA固定コミット `2d6b1ac279063fe3692e966b22ffb0ce3a0145f7` で本処理に接続した。全てソース品質・測定コードの検証であり、新規本番の花色効果・生物学的広域多型率ではない。
+### サイト×観察月での花色品質集計（新規追加）
+
+元の月次2026-09-27データの `observed_on` と位置精度を original photo ID/観察IDから SHA 照合して回復し、実際の原画像ROI-v4判定の後でのみ結合する。地理分類や写真の再選択には月・年、花色結果を利用しない。広域／狭域の種全体に加え、元観察の5°地理セル別に、対象写真ID数、独立観察数、独立観察者数、classifiable/unclear、4状態の粗色ラベル、同じROIの白＋黄混色QC、写真観察月リストを集計。これにより『異なる地域の異なる花色が、実は撮影月の違いだった』という交絡を明示する。
+
+成果物：`first_original_geographic_5degree_cell_photo_colour_QC.csv`、写真ごとの観察月を加えた `first_original_geographically_matched_photo_terminal.csv`、両方のSHA256と総数一致を記録した `first_geo_pair_real_pixel_receipt.json`。位置と観察日の列は完全に**ROI画像評価器外**のpost-measurement biology sidecarに保持。ラベルが二つ見つかっても個体間・集団内の遺伝的多型とは判定しない。
+
+[原本と季節の結合テスト成功 #38857830852](https://github.com/zuizui0223/fcp/actions/runs/38857830852)、さらに[地理セル×色状態の回帰テスト成功 #38858188411](https://github.com/zuizui0223/fcp/actions/runs/38858188411)。**225 passed**。mainの新規実測ワークフロー `fcp-rgfca-first-monthly-broad-narrow-original-roi-after-geo.yml` はSHA pinコミット`8b05dafb26efb1ff89f943c46a619a784cb3fe12`で更新済み。実際の広域対狭域の原本画像実測は元1,000種sourceとgeo結果が完全成功するまで未開始のまま。
+## 実装・実行境界
+
+- 原本3,430,502枚のtargeted source metadata CSVを色測定前に検証し、全1,000種を対象とした地理的範囲CSV、広域先行ROI実行順CSV、SHA256付きJSONを出す。
+- 地理判定スクリプト：scripts/acquisition/stratify_fcp_rgfca_geographic_span.py
+- 回帰テスト：tests/test_stratify_fcp_rgfca_geographic_span.py （遠方一枚の外れ値・位置精度・日時変更・日付・撮影者・経度180度の境界・全写真件数を点検）。
+- source ID取得実行：Actions #38847189688。原本2026-09-27の全1,000種source photo ID検証がsuccessでなければ本結果に昇格しない。
+- 自動地理監査ワークフロー（main）：.github/workflows/fcp-rgfca-real1000-broad-geographic-priority-after-source.yml。指定の元runが完全successの場合にだけ動き、既存のsource artifactとRGFCA rosterをダウンロードする。新たな36GBのprovider再取得は行わず、画像pixelsも開かない。
+
+**結果の未完了事項:** 本物の1,000種targeted photo-ID artifactがまだ成功確認できていないため、広域／狭域の種数、実写真の色分類結果、P_poly、W、気候・土壌の関連は未確定。人工データによるプログラムテストは生態学的実データではない。
+
+## 初回ROIにおける遠隔2セルの事前確保（2026-10-16追加）
+
+5°の地理セルが多い広域種について、元の色blind 64+64 photosから単純にラウンドロビンで最初の各fold 4〜16枚を選ぶだけでは、各セルに1枚ずつしか残らず、真に離れた複数個体・観察者を含む種まで「測れない」と誤判定する場合があった。
+
+`scripts/acquisition/run_fcp_rgfca_first_geography_pair_roi.py` は、**四観察者・二遠隔セルを先取り**する。すなわち原本の位置精度50km以内で各5°セルに独立観察2件・観察者2人、両セル間の球面距離1,000km以上、さらに二セルを合わせて**異なる観察者4人以上**という条件を満たす実写真IDを、元の事前固定source candidate photo IDから先に確保する。観察者foldの枚数をそれぞれ4〜16枚に保ち、残りをセルごとに均等に埋める。花色・モデル予測・生態的共変量には依存しない。条件を満たすsource pairがなければ測定せず不成立を残す。
+
+別地域を同じ観察者2人だけが撮った場合は支持セル間の距離を広域証拠として採用しない。画像評価器に渡すblind worker 3列と、元source写真ID・観察者・位置精度の隔離は変更しない。
+
+[Actions #38892400446](https://github.com/zuizui0223/fcp/actions/runs/38892400446) は合成・原本整合の**228件すべて成功**。main の初回実画像測定ジョブは `91d5ed8e5d76326e7122a969da272aece61977fc` でこの実装を固定した。
+
+2026年9月27日月次原本の真の1,000種photo ID選抜では、先行run #38847189688 が357種の有効写真数を過小計上して停止した。修正版run [#38884223530](https://github.com/zuizui0223/fcp/actions/runs/38884223530) は原本と4表のSHAを確認し、写真ID採用条件の照合を実行中。**この原本ID照合が完了しない限り、正式な広域・狭域種数やROI画素色結果は存在しない。**

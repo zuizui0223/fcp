@@ -8,6 +8,12 @@
 
 The current [New Phytologist Full Paper](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md) uses all **4,475 measured species** as the common source registry (unavailable estimands remain **NA**). The older prospective tests and historical preextension manuscript remain frozen separately, including [the canonical historical manuscript](docs/POLYMORPHISM_MANUSCRIPT.md). This is a working paper, **not a submitted or accepted article**.
 
+## Fresh-source FCP comparison — new sampling from zero
+
+[Fresh-study protocol](docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md) | [Execution status, source checkpoints and research gates](docs/FCP_FRESH_EXECUTION_STATUS_20261015.md)
+
+A **separate, unmerged** research branch starts a new photographic census and remeasures every licensed source photo with the original frozen ROI-v4/9-colour/H2 method. There is **no 100 photos/species cap** and **no old measured-photo CSV input**. Each species is a cross-species replicate; the primary response is its *within-species white–chromatic displacement alignment W*, with species-internal climate/soil heterogeneity as proposed explanatory variables. The source census, segmentation and new environmental inference are not yet completed. Previously published H2 numbers are untouched and do not enter new biological estimates.
+
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture
 
 **This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** The historical paper tested observer-disjoint reliability of species-wide diversity `D`, geographically structured local differences and an earlier fixed white–chromatic direction (including an historical 158-species prospective test). The **current hypothesis paper** uses one **4,475-species** source registry to test four observable predictions about phenotype direction, geography, climate and their cross-species relationship. The historical 158-species outcome is *not* the current main denominator. The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.

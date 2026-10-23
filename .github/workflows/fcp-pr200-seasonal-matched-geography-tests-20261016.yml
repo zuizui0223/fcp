@@ -1,0 +1,31 @@
+name: FCP original seasonal geographic matching contracts
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-pr200-seasonal-matched-geography-tests-20261016.yml
+
+permissions:
+  contents: read
+
+jobs:
+  verify-seasonal-pairing-is-source-sha-bound-not-ecological-finding:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify original observation-date seasonal ecological comparability
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install -q pytest
+          python -m py_compile scripts/analysis/fcp_original_dated_flowering_season_qc.py scripts/analysis/fcp_match_original_season_site_year.py
+          python -m pytest \
+            tests/test_fcp_original_dated_flowering_season_qc.py \
+            tests/test_fcp_match_original_season_site_year.py -q
+          echo FCP_POST_ORIGINAL_ROI_MONTH_AND_SPATIAL_SEASON_SOURCE_PARITY_SYNTHETIC_ONLY_NOT_MEASURED_FLOWERS

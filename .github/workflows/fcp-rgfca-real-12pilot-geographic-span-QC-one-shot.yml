@@ -1,0 +1,105 @@
+name: FCP RGFCA real 12 species live-API original photo geography QC one shot
+
+on:
+  push:
+    branches:
+      - analysis/fcp-fresh-uncapped-zero-20261015
+    paths:
+      - .github/workflows/fcp-rgfca-real-12pilot-geographic-span-QC-one-shot.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: fcp-rgfca-technical-real-12-geographic-calibration-once
+  cancel-in-progress: false
+
+jobs:
+  actual-original-photo-geographic-technical-calibration-no-new-download:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ROOT: /tmp/fcp-rgfca-real12-geographic-QC-20261016
+
+    steps:
+      - name: Check out source-only audited 12 real original photo geography/QC implementation
+        uses: actions/checkout@v4
+        with:
+          ref: 86752088504b3a9d27313e4daa5f6448cbe00ee0
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download both SEALED real original ROI-v4 technical waves, NOT new images
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ROOT/wave1" "$ROOT/wave2"
+          gh run download 38832829706 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
+            --dir "$ROOT/wave1"
+          gh run download 38840579008 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-rgfca-disjoint-wave2-six-new-real-original-ROI-v4-liveAPI-TECHNICAL-only \
+            --dir "$ROOT/wave2"
+          echo FCP_ORIGINAL_1034_TECHNICAL_PHOTO_METADATA_RETRIEVED_NO_NEW_S3_CALLS
+
+      - name: Audit source+pixels SHAs and compute actual 12-taxon observed geocell support
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_rgfca_12_original_live_photo_geographic_span.py \
+            --wave1-root "$ROOT/wave1" --wave2-root "$ROOT/wave2" \
+            --outdir "$ROOT/results"
+          python - <<'PY'
+          import os,json,csv
+          from pathlib import Path
+          from scripts.analysis.audit_rgfca_12_original_live_photo_geographic_span import sha
+          root=Path(os.environ['ROOT'])/'results'
+          report=json.loads((root/'rgfca_12_real_photo_geographic_technical_receipt.json').read_text())
+          rows=list(csv.DictReader((root/'rgfca_12_REAL_original_photo_geography_vs_colour_technical.csv').open()))
+          assert report['status']=='VERIFIED_REAL_PIXELS_TECHNICAL_GEOGRAPHIC_SPAN_NOT_MONTHLY_RGFCA_FCP'
+          assert report['n_distinct_real_original_photo_IDs']==1034
+          assert report['n_original_photo_classes_classifiable']==405
+          assert report['n_technically_evaluated_taxa']==12
+          assert len(rows)==12 and len({x['inat_taxon_id'] for x in rows})==12
+          assert report['not_original_20260927_monthly_source_IDs_admitted'] is True
+          assert report['original_positional_accuracy_not_provided'] is True
+          assert report['no_genetic_polymorphism_claims'] is True
+          assert report['no_RGFCA_main_1000_species_Ppoly_W_H2_or_environment_estimated'] is True
+          assert report['original_real_photo_table_sha256']==sha(
+            root/'rgfca_12_REAL_original_photo_geography_vs_colour_technical.csv')
+          assert sum(int(x['technical_original_photo_ids']) for x in rows)==1034
+          assert sum(int(x['technical_classifiable_photo_ROIs']) for x in rows)==405
+          ch=next(x for x in rows if x['species']=='Matricaria chamomilla')
+          assert int(ch['technical_classifiable_photo_ROIs'])==64
+          assert int(ch['classifiable_same_ROI_white_yellow_both_ge10pct'])==58
+          print('FCP_REAL_1034_PHOTO_GEO_SPAN_CONFOUNDER_QC_VERIFIED',json.dumps({
+            'taxa':12,'real_original_ROI_photos':1034,'classifiable':405,
+            'geocell_source_support':report['sample_geographic_categories'],
+            'Matricaria_same_ROI_white_yellow':58,
+            'NOT_fixed_monthly_source_study':True},sort_keys=True))
+          PY
+
+      - name: Publish independent real-pixel-photo sampling-span technical audit
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-real-1034-pixels-12-taxa-observed-geographic-QC-NOT-MONTHLY-FCP
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp-rgfca-real12-geographic-QC-20261016/results/
+
+      - name: Retain diagnostic outputs but never claim scientific ROI success
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-rgfca-real12-geography-audit-FAILURE-NO-BIOLOGICAL-INFERENCE
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            /tmp/fcp-rgfca-real12-geographic-QC-20261016/results/
