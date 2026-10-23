@@ -7,6 +7,7 @@ on:
       - tests/test_fcp_colour_specific_neighbourhood_null_20261023.py
       - .github/workflows/fcp-colour-specific-neighbourhood-null-20261023.yml
       - docs/FCP_COLOUR_SPECIFIC_GEO_CLUSTER_AND_PHOTO_ERROR_20261023.md
+      - results/fcp_colour_specific_neighbourhood_null_20261023/aggregate_results.json
   workflow_dispatch:
 permissions:
   contents: read
@@ -75,6 +76,30 @@ jobs:
               assert q[name]["overall_upper_p_199"] in [k/200 for k in range(1,201)]
           assert abs(q["two_colors_5photos"]["overall_observed_mean_global_minus_local_mismatch"]-.028549525382587742)<1e-10
           assert abs(q["one_photo_per_observer_5photos"]["overall_observed_mean_global_minus_local_mismatch"]-.026544914587817294)<1e-10
+          # Read the frozen compact summary, derived from the original successful
+          # run's signed workflow log; any exact-source numerical drift fails.
+          stored=json.loads(Path(
+            "results/fcp_colour_specific_neighbourhood_null_20261023/aggregate_results.json"
+          ).read_text())
+          assert stored["workflow_run_id"]==39887066119 or stored["workflow_run_id"]==39887066227
+          assert stored["source_photo_sha256"]==a["original_photo_sha256"]
+          import hashlib
+          checksum=hashlib.sha256(Path(
+            "/tmp/fcp-colour-cluster/results/colour_specific_spatial_clusters_20261023.json"
+          ).read_bytes()).hexdigest()
+          assert checksum==stored["archived_detailed_json_sha256"],(
+            "Detailed original-source result changed: "+checksum)
+          for name,expected in stored["cases"].items():
+              got=q[name]
+              assert got["n_species"]==expected["n_species"],name
+              assert abs(got["overall_observed_mean_global_minus_local_mismatch"] -
+                         expected["observed_mean"])<1e-12,name
+              assert got["overall_upper_p_199"]==expected["upper_p_199"],name
+              for color, recorded in expected["per_colour"].items():
+                  gc=got["colour_specific_supported_purity_not_genotype"][color]
+                  assert gc["supported_species"]==recorded["supported_species"],(name,color)
+                  assert abs(gc["observed_minus_matched_null"]-recorded["effect"])<1e-12,(name,color)
+                  assert gc["family4_maxT_upper_p_199"]==recorded["family4_p"],(name,color)
           print("FCP_FOUR_HUE_CLUSTER_REAL_SOURCE_COMPLETE",flush=True)
           PY
       - uses: actions/upload-artifact@v4
