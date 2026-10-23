@@ -56,6 +56,6 @@ Apply Holm over the seven climate axes separately for each combination of (sourc
 ## Reproducibility
 
 - Code: scripts/analysis/fcp4475_nine_colour_seven_climate_covariance_20261024.py
-- CI: .github/workflows/fcp4475-nine-hue-seven-climate-covariance-20261024.yml
+- CI: .github/workflows/fcp-4475-nine-hue-seven-climate-covariance-20261024.yml
 - Output: two all-4,475-species tables (original and one-per-observer, **no exact coordinates/photos/observer IDs**) plus full seven-axis machine summary.
 - All source photos and BIO/SRAD checksum verification, exact covariance synthetic fixtures, no imputed missing hues, source-denominator tests and timestamped GitHub Actions source work must succeed before any numerical result is asserted.

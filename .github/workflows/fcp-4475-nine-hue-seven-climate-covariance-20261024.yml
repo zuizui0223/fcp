@@ -3,7 +3,7 @@ on:
   pull_request:
     paths:
       - scripts/analysis/fcp4475_nine_colour_seven_climate_covariance_20261024.py
-      - .github/workflows/fcp4475-nine-hue-seven-climate-covariance-20261024.yml
+      - .github/workflows/fcp-4475-nine-hue-seven-climate-covariance-20261024.yml
       - docs/FCP_CONTINUOUS_COLOUR_SEVEN_CLIMATE_DECOMPOSITION_20261024.md
       - results/fcp4475_nine_hue_climate_decomposition_verified_20261024.json
   workflow_dispatch:
