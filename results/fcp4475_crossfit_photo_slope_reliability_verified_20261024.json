@@ -1,0 +1,156 @@
+{
+  "genus_cluster_bootstrap_draws": 999,
+  "independent_observer_photo_baseline_vs_heldout_climate": true,
+  "no_independently_verified_real_flower_petals_or_genotype_morphs": true,
+  "original_source_csv_and_result_sha256": {
+    "fcp4475_observer_disjoint_crossfit_white_thermal_results.json": "40b8be90523f876aaf755354fd9527d7429782d8cb42414a69783dedbfa4e4c9",
+    "fcp4475_source_all_taxa_twofold_observer_crossfit_thermal_white.csv": "079241c220a5f5993a17d361a2ea5fc276c7d13e99a168111cc14a3f51ce7253"
+  },
+  "original_source_photos": 447500,
+  "panels": {
+    "all_heldout": {
+      "forward": {
+        "fraction_taxa_positive_heldout_slope": 0.5480649188514357,
+        "genus_bootstrap_marginal95": [
+          0.007330903497825132,
+          0.018742525025406902
+        ],
+        "mean_species_equal_heldout_white_thermal_slope": 0.012878926048522728,
+        "n_genus_clusters": 1036,
+        "n_source_taxa": 2403
+      },
+      "paired": {
+        "baseline_photo_state_agreement": 0.6905322656617994,
+        "baseline_white_group_confusion": {
+          "mixed": {
+            "mixed": 1626,
+            "nearly_all": 249,
+            "none": 26,
+            "rare": 183
+          },
+          "nearly_all": {
+            "mixed": 232,
+            "nearly_all": 741,
+            "none": 0,
+            "rare": 0
+          },
+          "none": {
+            "mixed": 37,
+            "nearly_all": 0,
+            "none": 230,
+            "rare": 188
+          },
+          "rare": {
+            "mixed": 187,
+            "nearly_all": 0,
+            "none": 212,
+            "rare": 335
+          }
+        },
+        "chance_agreement_given_observed_group_marginals": 0.33465327928266525,
+        "cohens_kappa_baseline_photo_state": 0.5348774936403804,
+        "crossfold_thermal_slope_forward_mean_on_same_taxa": 0.010951549719870177,
+        "crossfold_thermal_slope_reverse_mean_on_same_taxa": 0.00491054600200117,
+        "lack_of_stable_slope_may_reflect_18to30_photo_sample_noise": true,
+        "n_baseline_white_photo_state_agree": 2932,
+        "n_genera_for_crossfold_photo_slope_corr": 856,
+        "n_taxa_both_baseline_folds_support": 4246,
+        "n_taxa_both_temperature_slope_folds_estimable": 1919,
+        "observer_folds_are_sensitivity_splits_not_separate_genetic_populations": true,
+        "slope_crossfold_pearson_genus_bootstrap95": [
+          -0.03742309543387656,
+          0.07667096128816085
+        ],
+        "species_photo_thermal_slope_crossfold_pearson": 0.018082560930703307
+      },
+      "reverse": {
+        "fraction_taxa_positive_heldout_slope": 0.5160493827160494,
+        "genus_bootstrap_marginal95": [
+          0.00011842344973079976,
+          0.011283252041111354
+        ],
+        "mean_species_equal_heldout_white_thermal_slope": 0.005747154951835515,
+        "n_genus_clusters": 1032,
+        "n_source_taxa": 2430
+      }
+    },
+    "one_photo_per_observer": {
+      "forward": {
+        "fraction_taxa_positive_heldout_slope": 0.5413080895008606,
+        "genus_bootstrap_marginal95": [
+          0.005585065836313222,
+          0.01673247153716901
+        ],
+        "mean_species_equal_heldout_white_thermal_slope": 0.011010851792911934,
+        "n_genus_clusters": 1008,
+        "n_source_taxa": 2324
+      },
+      "paired": {
+        "baseline_photo_state_agreement": 0.6905322656617994,
+        "baseline_white_group_confusion": {
+          "mixed": {
+            "mixed": 1626,
+            "nearly_all": 249,
+            "none": 26,
+            "rare": 183
+          },
+          "nearly_all": {
+            "mixed": 232,
+            "nearly_all": 741,
+            "none": 0,
+            "rare": 0
+          },
+          "none": {
+            "mixed": 37,
+            "nearly_all": 0,
+            "none": 230,
+            "rare": 188
+          },
+          "rare": {
+            "mixed": 187,
+            "nearly_all": 0,
+            "none": 212,
+            "rare": 335
+          }
+        },
+        "chance_agreement_given_observed_group_marginals": 0.33465327928266525,
+        "cohens_kappa_baseline_photo_state": 0.5348774936403804,
+        "crossfold_thermal_slope_forward_mean_on_same_taxa": 0.00991955328279046,
+        "crossfold_thermal_slope_reverse_mean_on_same_taxa": 0.006192278871073722,
+        "lack_of_stable_slope_may_reflect_18to30_photo_sample_noise": true,
+        "n_baseline_white_photo_state_agree": 2932,
+        "n_genera_for_crossfold_photo_slope_corr": 825,
+        "n_taxa_both_baseline_folds_support": 4246,
+        "n_taxa_both_temperature_slope_folds_estimable": 1843,
+        "observer_folds_are_sensitivity_splits_not_separate_genetic_populations": true,
+        "slope_crossfold_pearson_genus_bootstrap95": [
+          -0.06412886145177422,
+          0.05752347375421802
+        ],
+        "species_photo_thermal_slope_crossfold_pearson": -0.006113480036690145
+      },
+      "reverse": {
+        "fraction_taxa_positive_heldout_slope": 0.5173434856175972,
+        "genus_bootstrap_marginal95": [
+          0.000005930978925437925,
+          0.011839074490361926
+        ],
+        "mean_species_equal_heldout_white_thermal_slope": 0.006158789399551113,
+        "n_genus_clusters": 1002,
+        "n_source_taxa": 2364
+      }
+    }
+  },
+  "photo_climate_slope_photo_state_may_be_noisy_due_to_half_sample": true,
+  "result": "independently source-audited original 2fold photo assignment and taxon diagnostics",
+  "schema": "fcp4475_observer_disjoint_photo_white_climate_source_independent_QA_v1",
+  "source_artifact_id": 12554693263,
+  "source_artifact_sha256": "50d5d15a2d145b0db7a176f945435701251768ba614f659d9dac496011b33177",
+  "source_classified_nine_hue_photos": 227107,
+  "source_photo_run_id": 40080001765,
+  "source_taxa": 4475,
+  "independent_actions_run_id": 40080546906,
+  "independent_artifact_id": 12554872061,
+  "independent_artifact_sha256": "6d5ac8f8c9c8395d7190a4f13785561c36feccd6e0002f2b47149017330ca548",
+  "original_source_replayed_from_exact_SHA_pinned_artifact": true
+}
