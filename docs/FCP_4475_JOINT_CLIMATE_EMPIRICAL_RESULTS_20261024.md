@@ -46,7 +46,7 @@ Use only original species with at least two original photographic colour classes
 | Total photo-white conditional slope | +0.013719 | +0.013407 |
 | **Between original coarse PHOTO labels** | +0.010560 | +0.010545 |
 | **Within original coarse PHOTO labels** | +0.003159 | +0.002862 |
-| **Between percentage of signed mean covariance** | **77.0%** | **78.7%** |
+| **Between percentage of the signed mean partial-slope-like association** | **77.0%** | **78.7%** |
 | 999 genus bootstrap 95% for that algebraic ratio | [65.2%,88.3%] | [66.1%,90.6%] |
 
 These three components must be compared **on the same original species**. Comparing between-label on 1,543 species with total on 3,210 species would be statistically invalid. The ratio is an algebraic source-PHOTO-class composition measure, **not** the fraction of genotypically discrete colour morphs or genetically inherited pigmentation changes. Within-class photo hue includes lighting, aging and organ/ROI uncertainties, not just biological continuous expressivity.
