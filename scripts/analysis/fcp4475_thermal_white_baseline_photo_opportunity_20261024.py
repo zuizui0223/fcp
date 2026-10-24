@@ -292,7 +292,11 @@ def adjusted_photo_group_effect(frame,seed=SEED):
     np.add.at(count,(np.repeat(np.arange(BOOT),G),draw.ravel()),1)
     gram=np.einsum("bg,gij->bij",count,XX)
     target=count@Xy
-    bootstrap=np.linalg.solve(gram,target)
+    # NumPy 2.x requires an explicit (..., p, 1) RHS to distinguish a
+    # batch of vector solutions from a batch of square matrix RHS.
+    require(gram.shape==(BOOT,p,p) and target.shape==(BOOT,p),
+            "genus bootstrap covariance equation tensor dimensions drift")
+    bootstrap=np.linalg.solve(gram,target[...,None])[...,0]
     ci=np.quantile(bootstrap,[.025,.975],axis=0).T
     return {
         "n_original_species":int(len(d)),
@@ -373,6 +377,14 @@ def synthetic_test():
     result=genus_bootstrap_grouptable(geom,["one","two"])
     require(len(result)==2 and all(x["n_taxa"]>0 for x in result),
             "source descriptive genus bootstrap fixture failed")
+    # Regression batch-size != model dimension: this caught a real CI
+    # failure under NumPy 2.x's stricter batched solve RHS rules.
+    mats=np.tile(np.diag(np.arange(1.,13))[None,:,:],(7,1,1))
+    rhs=np.ones((7,12))
+    solved=np.linalg.solve(mats,rhs[...,None])[...,0]
+    require(solved.shape==(7,12) and
+            np.allclose(solved,1/np.arange(1.,13)[None,:]),
+            "NumPy batched genus covariance equation fixture failed")
     print("FCP4475_THERMAL_WHITE_SOURCE_MODIFIER_SYNTHETIC_PASS")
 
 
