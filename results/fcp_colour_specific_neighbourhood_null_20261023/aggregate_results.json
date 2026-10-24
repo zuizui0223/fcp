@@ -1,0 +1,236 @@
+{
+  "schema": "fcp_verified_original_photo_four_hue_50km_cluster_compact_receipt_v1",
+  "analysis_date": "2026-10-23",
+  "source_repo": "zuizui0223/fcp",
+  "workflow_run_id": 39887066227,
+  "workflow_job_id": 120197605174,
+  "artifact_id": 12473127210,
+  "archived_detailed_json_sha256": "b53de01d630d565325757064ba4c913fc45048cabe0c082069a7c4e2d88d5336",
+  "artifact_zip_sha256": "8fa69b3faa469caf418eb09c56e1385cb449b613324142b3b3c5736e1c5e52a7",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "species_ledger_sha256": "23d3daadc9799c2e7b5867d54ccc1ed98369ba79a81b72dc7f831e5197e63c49",
+  "original_photo_rows": 447500,
+  "original_photo_four_state_classifiable": 227107,
+  "original_taxa": 4475,
+  "test_design": {
+    "geographic_radius_km": 50,
+    "species_pre_gates": "at least 40 classified photos, at least 30 within-50km pairs, at least two coarse colours each with >=5 or >=10 photos",
+    "hue_unit": "photographic coarse colour label, not a confirmed biological morph",
+    "per_colour_statistic": "local same-hue photo-pair probability minus exact species-wide same-hue probability under fixed counts",
+    "permutation_worlds": 199,
+    "familywise_correction": "maxT studentised simultaneous four-label upper-tail, 199 shared within-species label shuffles",
+    "month_control": "shuffle labels inside same species and calendar month, across years",
+    "observer_control": "one colour-blind photo per original observer",
+    "composition_screen": "primary colour >=65% of ROI nine-palette pixels, >=20 percentage point margin; uncalibrated",
+    "tests_are_posthoc": true
+  },
+  "richness_among_eligible_base_species": {
+    "two_colours_each_ge5": 674,
+    "three_colours_each_ge5": 136,
+    "four_colours_each_ge5": 3
+  },
+  "month_conditioned_matched_null_mean_global_minus_local": 0.00434925157141624,
+  "cases": {
+    "dominant_pixel_fraction65_5photos": {
+      "n_species": 183,
+      "observed_mean": 0.049403215322509395,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.01548406584522854,
+          "family4_p": 0.02,
+          "supported_species": 113
+        },
+        "red_pink": {
+          "effect": 0.015459112312086376,
+          "family4_p": 0.105,
+          "supported_species": 49
+        },
+        "white": {
+          "effect": 0.022984242400498796,
+          "family4_p": 0.005,
+          "supported_species": 168
+        },
+        "yellow_orange": {
+          "effect": 0.055151994473321836,
+          "family4_p": 0.005,
+          "supported_species": 49
+        }
+      },
+      "upper_p_199": 0.005
+    },
+    "one_observer_dominant_fraction65_5photos": {
+      "n_species": 154,
+      "observed_mean": 0.05200786129544771,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.019923501654284553,
+          "family4_p": 0.005,
+          "supported_species": 95
+        },
+        "red_pink": {
+          "effect": 0.02190013150630187,
+          "family4_p": 0.065,
+          "supported_species": 39
+        },
+        "white": {
+          "effect": 0.020010612943694727,
+          "family4_p": 0.005,
+          "supported_species": 141
+        },
+        "yellow_orange": {
+          "effect": 0.06163750129298467,
+          "family4_p": 0.005,
+          "supported_species": 41
+        }
+      },
+      "upper_p_199": 0.005
+    },
+    "one_photo_per_observer_10photos": {
+      "n_species": 406,
+      "observed_mean": 0.03631926946352644,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.012718759135905209,
+          "family4_p": 0.02,
+          "supported_species": 190
+        },
+        "red_pink": {
+          "effect": 0.02069146757617989,
+          "family4_p": 0.005,
+          "supported_species": 169
+        },
+        "white": {
+          "effect": 0.0174057655434501,
+          "family4_p": 0.005,
+          "supported_species": 340
+        },
+        "yellow_orange": {
+          "effect": 0.02184155266203107,
+          "family4_p": 0.005,
+          "supported_species": 135
+        }
+      },
+      "upper_p_199": 0.005
+    },
+    "one_photo_per_observer_5photos": {
+      "n_species": 727,
+      "observed_mean": 0.026544914587817277,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.011729344857988287,
+          "family4_p": 0.005,
+          "supported_species": 332
+        },
+        "red_pink": {
+          "effect": 0.017855650782282188,
+          "family4_p": 0.005,
+          "supported_species": 261
+        },
+        "white": {
+          "effect": 0.011605911275784314,
+          "family4_p": 0.005,
+          "supported_species": 653
+        },
+        "yellow_orange": {
+          "effect": 0.008936351997975309,
+          "family4_p": 0.005,
+          "supported_species": 334
+        }
+      },
+      "upper_p_199": 0.005
+    },
+    "two_colors_10photos": {
+      "n_species": 462,
+      "observed_mean": 0.03743967347859276,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.014817283274531306,
+          "family4_p": 0.005,
+          "supported_species": 214
+        },
+        "red_pink": {
+          "effect": 0.01592553620628069,
+          "family4_p": 0.005,
+          "supported_species": 186
+        },
+        "white": {
+          "effect": 0.019705477096623725,
+          "family4_p": 0.005,
+          "supported_species": 392
+        },
+        "yellow_orange": {
+          "effect": 0.02222561321812928,
+          "family4_p": 0.005,
+          "supported_species": 160
+        }
+      },
+      "upper_p_199": 0.005
+    },
+    "two_colors_5photos": {
+      "n_species": 813,
+      "observed_mean": 0.028549525382587766,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.013534570439618325,
+          "family4_p": 0.005,
+          "supported_species": 359
+        },
+        "red_pink": {
+          "effect": 0.014296423800822406,
+          "family4_p": 0.005,
+          "supported_species": 290
+        },
+        "white": {
+          "effect": 0.01363704136585907,
+          "family4_p": 0.005,
+          "supported_species": 734
+        },
+        "yellow_orange": {
+          "effect": 0.01074737669643408,
+          "family4_p": 0.005,
+          "supported_species": 385
+        }
+      },
+      "upper_p_199": 0.005
+    },
+    "two_colors_5photos_month_preserving_null": {
+      "n_species": 813,
+      "observed_mean": 0.028549525382587766,
+      "per_colour": {
+        "blue_purple": {
+          "effect": 0.011966173707445299,
+          "family4_p": 0.005,
+          "supported_species": 359
+        },
+        "red_pink": {
+          "effect": 0.010881486356716541,
+          "family4_p": 0.005,
+          "supported_species": 290
+        },
+        "white": {
+          "effect": 0.012141492666183225,
+          "family4_p": 0.005,
+          "supported_species": 734
+        },
+        "yellow_orange": {
+          "effect": 0.008520967576949862,
+          "family4_p": 0.005,
+          "supported_species": 385
+        }
+      },
+      "upper_p_199": 0.005
+    }
+  },
+  "conclusions": {
+    "broad_colour_specific_photo_geography": "positive at all four nominal coarse hues; hue-family maxT P=0.005 for each in main and calendar-month / observer controls",
+    "stronger_photo_primary_colour_control": "red_pink positive point effect but not familywise-supported under primary pixel fraction >=0.65 at 49 taxa (p=0.105), or same plus observer thinning at 39 taxa (p=0.065)",
+    "not_supported": "inherited 2/3/4 true morph populations, genotype-specific spatial clusters, local coexistence, selection, camera-independent colour validation, biosynthetic cost",
+    "caveats": "source provider and observer/flower stage/camera artifacts can correlate geographically; nulls condition on recorded photo-label values, not on their botanical truth; 199-world p minimum 0.005; per-hue taxa vary"
+  },
+  "privacy": {
+    "source_photo_ids_exported": false,
+    "coordinates_exported": false,
+    "observer_ids_exported": false,
+    "row_level_photo_data_exported": false
+  }
+}
