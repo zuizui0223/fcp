@@ -152,10 +152,19 @@ def one_taxon(original,one_observer,width,seed=SEED,perms=PERMS):
     sd=Z.std(axis=0)
     climatic=sd>np.maximum(1e-7,2e-10*np.maximum(np.abs(means),1))
     Z=(Z-means)/np.where(climatic,sd,1)
-    R=residualize_fixed_blocks_month(Z,block,mon)
-    ratio=np.mean(R**2,axis=0)/np.maximum(np.mean(Z**2,axis=0),1e-14)
     groups=permutable_groups(g,block,mon)
     info,groupcounts=informative_support(Z,coords,groups)
+    if not np.any(climatic
+                  &(info>=MIN_INFORMATIVE_PHOTOS)
+                  &(groupcounts>=MIN_INFORMATIVE_STRATA)):
+        row["n_source_photo_strata"]=int(len(groups))
+        row["n_swappable_photos"]=int(sum(len(a) for a in groups if len(a)>1))
+        row["n_informative_BIO5_photos"]=int(info[2])
+        row["n_informative_BIO5_strata"]=int(groupcounts[2])
+        row["status"]="no_informative_climate_contrasts_inside_block_month"
+        return row,None,None,None
+    R=residualize_fixed_blocks_month(Z,block,mon)
+    ratio=np.mean(R**2,axis=0)/np.maximum(np.mean(Z**2,axis=0),1e-14)
     row["n_source_photo_strata"]=int(len(groups))
     row["n_swappable_photos"]=int(sum(len(a) for a in groups if len(a)>1))
     row["n_informative_BIO5_photos"]=int(info[2])
@@ -165,6 +174,9 @@ def one_taxon(original,one_observer,width,seed=SEED,perms=PERMS):
                &(ratio>=MIN_CLIMATE_RESID_FRAC)
                &(info>=MIN_INFORMATIVE_PHOTOS)
                &(groupcounts>=MIN_INFORMATIVE_STRATA))
+    if not available.any():
+        row["status"]="region_month_fixed_effect_absorbs_remaining_climate"
+        return row,None,None,None
     photo=pd.Categorical(g.morph,categories=PHOTO_LABELS).codes
     check(np.all(photo>=0),"unrecognized original original-photo category")
     counts=np.bincount(photo,minlength=4)
