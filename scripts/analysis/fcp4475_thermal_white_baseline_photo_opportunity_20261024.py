@@ -105,7 +105,8 @@ def source_measures(photo_csv,worldclim):
     base["n_original_colour_classes_with_five_each"]=(colour>=5).sum(axis=1).astype(int)
     with np.errstate(divide="ignore",invalid="ignore"):
         freq=colour.to_numpy(float)/np.maximum(1,p[:,None])
-        base["original_four_photo_class_simpson"]=1-np.sum(freq**2,axis=1)
+        base["original_four_photo_class_simpson"]=np.where(
+            p>0,1-np.sum(freq**2,axis=1),np.nan)
 
     whitefraction=d.palette_norm9.map(lambda a:float(a[0]))
     q=d[["inat_taxon_id"]].copy()
@@ -350,7 +351,7 @@ def one_panel(frame,mode):
 
 
 def synthetic_test():
-    labels=np.array([0,0,2,2,4,10])
+    labels=np.array([0,0,2,2,5,10])
     others=np.array([10,2,12,1,6,0])
     categories=np.array([
          "no_white_label" if w==0 else
