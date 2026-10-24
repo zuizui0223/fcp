@@ -1,0 +1,40 @@
+# FCP: independent-observer cross-fitting of photo-white state versus temperature–hue response
+
+**24 October 2026. Stacked after FCP PR #270.**
+
+## The outstanding inference threat
+
+An earlier FCP analysis, using the original 447,500 measured photo source (4,475 named species, exactly 227,107 nine-palette-classifiable source photos), found a higher photographed shared-temperature/white fraction slope in species with multiple white and nonwhite original photos than in photo species with no white label. **Crucially, the photographic white baseline and photo-climate slope were calculated from the *same* original photographs.** Thus a positive association might reflect mathematically bounded colours, regression to the mean, source photo exposure and source-classification selection, rather than more responsive biologically variable plant populations.
+
+The next *independent-observation* test separates photos **by original observer**, fits baseline photographed white/nonwhite status on the first set, and computes the white/temperature source-photo association using only the **other, nonoverlapping observers' measured original photographs**, then swaps baseline and response photo roles.
+
+This does **not** make the measurements spectrally botanical or genetically independent. It merely removes one clearly identified double-use of identical photographs and observers in the exposure/outcome association.
+
+## Original authentic source, four complete analysis panels
+
+1. Source original release contains exactly 447,500 unique photo IDs, 100 original photos in every one of 4,475 taxa. Exactly 227,107 have the original frozen four-state classifier status and normalised nine-hue measured flower-ROI photo fractions. Source SHA is fixed and checked before analysis, as are the original WorldClim 2.1 BIO and monthly mean SRAD archives.
+2. For each species, assign **every original identifiable observer** to one of two folds, using SHA256 of source taxon ID, observer ID and fixed study seed. The ranking/alternation is *photo-colour-blind*, calculated from the entire original 100-photo ledger before colour eligibility or climate sampling. Every photo by the same observer in the same species stays in the **same** fold. Photographs without an identifiable observer cannot prove independent observers and are excluded from this specific test rather than reassigned.
+3. On baseline fold A, classify the original source PHOTO label white/nwhite frequency only. Four categories: no white label; rare white (1–2 photos); repeated white and nonwhite (>=3 each); almost/all white (>=3 white and <3 nonwhite). Repeat sensitivity requiring >=5 photos of both labels. Require at least 10 original classifiable baseline source photos and eight independent observers.
+4. On heldout fold B, compute an entirely fresh **photo nine-hue white-fraction conditional thermal response**, NOT the slope from the full-source FCP PR #269. Require >=18 classifiable original heldout photos with valid original geometry, observed month, and complete seven-climate archive values; >=10 heldout observers and >=3 sampled WorldClim 10-arcminute raster cells. Use the identical 5 fixed climate domains from #269, the thermal domain (species-zBIO1+species-zBIO5)/2 conditioned on the other four macroclimate domains, and broad XYZ+photo calendar-month projection **within heldout photos only**. Require original climate variance left after geographic/calendar control and four other macro axes >=5% and sufficient residual degrees of freedom.
+5. The test's signed white-palette partial-slope-like coefficient uses exact observed covariance minus **the analytical same-photo-calendar-month permutation expectation** (equivalently, within-month-centering of the uniquely residualized temperature) divided by remaining temperature variance. For a second assessment, permute heldout photo-white ROI values within the same photo-month groups 199 times, separately for each species, while holding photo baseline group, photo observer split, climate normals and month/source opportunity fixed. This tests photography-climate association against a same-month null, not real-life experimental thermal exposure.
+6. Swap fold roles B baseline/A temperature response, and separately run each test set with **one original photo per observer** using colour-blind photo_id ordering. There are four complete panels: forward/reverse × heldout all-source/heldout one-photo-per-observer, each retaining all 4,475 taxa as rows including those that are not estimable.
+7. Compare original photographed white-status group means, medians and fraction of source taxa with a positive heldout warmth/white coefficient. Whole genus 999-iteration bootstrap captures within-genus pseudo-replication and supplies exploratory marginal 95% CIs. Define a fully adjusted photographic model with baseline group, baseline/heldout photo-classification effort, measured heldout raster-cell count, BIO5 climate q90–q10 geographical sampling breadth, uniquely identifiable thermal climate variance, and original five species-disjoint sampling cohort fixed effects; bootstrap genus-level OLS and calculate two-sided source-month photo null p for the photographic group coefficient.
+8. Repeat the explanatory colour label cutoff from >=3/3 to >=5/5 original baseline images as a support sensitivity. Report *both*, not just the favourable threshold.
+
+## Interpretation rules
+
+- If the original mixed photographic group remains elevated in both independent-observer directions after photo-effort controls and month-conditioned source nulls, then the relationship is **not solely a result of reusing the identical original photographs to define baseline and response**. It still does **not** prove independent genetic white flower morphs, local fitness, anthocyanin cost or adaptive temperature selection.
+- If the adjusted crossfit group contrast weakens, reverses, or becomes unidentifiable, the earlier same-photograph subgroup correlation from PR #270 must remain described as exploratory **photographic baseline/temperature covariance**, with the independent-observer result prominently reported as a limitation. Never convert source inability to estimate into biological absence.
+- The two fold directions **reuse a single source photo resource** with swapped roles, so are paired sensitivity checks, not independent random field experiments. Source classification depends on flower stage, petal vs bud/fruit/sepals, camera/illumination, horticultural context and image segmentation, still not independently validated for the full sample.
+- Earlier source-disjoint flower-minus-background BIO5 photo test was non-supportive (rho −0.00328, p=.82). This crossfit cannot substitute for petal-specific reflectance or neutral-genotype validation.
+- Species-wide photo classification missingness (~49.25%) can distort subgroup opportunities in both source halves. Results are conditional on classification and qualifying climate/observer support, not necessarily representative of all wild populations and their natural flower-colour morphs.
+
+## Exact reproducibility
+
+- New script: scripts/analysis/fcp4475_crossfitted_observer_independent_thermal_white_20261024.py.
+- Source-authenticating workflow: .github/workflows/fcp-4475-crossfit-observer-thermal-white-20261024.yml.
+- Original source-photo compressed CSV SHA256: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6.
+- Original WorldClim 2.1 BIO raster archive SHA256: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf; solar raster archive SHA256 c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026.
+- Final results: source original 4,475 species × 2 observer crossfit directions × 2 heldout photo modes taxon-level aggregate CSV without individual photo IDs/locations/observer IDs, and a complete machine-readable analytic JSON with all four paired group estimates, controls, month-null p values and provenance.
+
+This changes neither original FCP photo measurements, other model PRs, source study results, nor any prior biological inference.
