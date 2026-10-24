@@ -386,6 +386,10 @@ def synthetic():
     rest[:,AXES.index("BIO5")]=temp
     rest[:,AXES.index("BIO12")]=precip
     rest[:,AXES.index("SRADmean")]=solar
+    # The real photo-climate analysis centres every source climate axis and
+    # removes an intercept (along with geography and calendar month) before
+    # this partial-regression step. Match that real preprocessing exactly.
+    rest-=rest.mean(axis=0,keepdims=True)
     index=[AXES.index(a) for a in MODEL_AXES["thermal_moisture_solar_core"]]
     residual,variance=residualize_against_others(rest,index)
     resid_temp=residual[:,AXES.index("BIO5")]
@@ -395,7 +399,7 @@ def synthetic():
     hue2=0.25+0.08*temp
     check(float(np.dot(resid_temp,hue2)/n)>1e-4,
           "true unique BIO5 colour covariance must survive BIO12 adjustment")
-    check(np.dot(resid_temp,precip)/n<1e-11,
+    check(abs(float(np.dot(resid_temp,precip)/n))<1e-11,
           "conditional source temperature still correlated with precipitation")
     # The compositional white axis projection and chromatic-only residual
     # must partition EVERY nine-hue covariance vector exactly.
