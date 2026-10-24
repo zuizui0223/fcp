@@ -70,6 +70,26 @@ After one source photo per observer, exactly 1,299 taxa remain:
 
 **This 66–68% is NOT the percentage of genetic morph frequency shifts, heritable color polymorphism, or selection/cost explained.** The categories are camera/photo ROI-derived and may mix petal colour, nectar-guide-like patterns, flower stage, fruit/sepals, cultivation status and measurement conditions. Both components are descriptive photo-state covariance terms.
 
+## Result D: the shared warmth PHOTO-colour association is not driven by any one source acquisition cohort
+
+The independently source-artifact-SHA-verified five-cohort deletion audit re-computed the **same source species-equal thermal-white partial slope** after excluding **each complete source species cohort in turn**, with 999 whole-genus bootstrap resamples. Both original and colour-blind one-photo-per-observer data were evaluated.
+
+| Omitted entire original source cohort | Source taxa remaining | Mean original-photo thermal white coefficient | 999 whole-genus bootstrap marginal 95% |
+|---|---:|---:|---:|
+| Discovery | 2,506 | +0.007633 | [+0.004204,+0.010980] |
+| Validation | 2,514 | +0.007595 | [+0.004458,+0.011004] |
+| Prospective | 2,515 | +0.008258 | [+0.004987,+0.011567] |
+| Fourth cohort | 2,540 | +0.008753 | [+0.005163,+0.012122] |
+| **Fifth / largest cohort new_U100** | **1,273** | **+0.009373** | **[+0.004232,+0.014099]** |
+
+All five whole-cohort deletion intervals exclude zero, as do the **five corresponding whole-cohort-deletion observer-thinned** intervals. This provides an additional useful internal robustness check: no one source wave (including the fifth 2,478-species original collection wave) alone generated the aggregated mean association. It is **not independent photo-provider replication**, because all five source cohorts used the same iNaturalist platform and image-processing assay.
+
+On exactly **2,762 original taxa** identifiable before and after thinning, the original minus one-observer-photo temperature/white coefficient was **−0.000501**, 999-genus bootstrap marginal 95% **[−0.001099,+0.000123]**. The original-photo and observer-thinned estimators therefore do not show a reliably different species-equal mean in this specific matched-taxon sensitivity. The two photo panels partly overlap and are **not independent experimental replicates**.
+
+An equal-cohort-weight (rather than equal-species-weight) arithmetic comparison of the **five positive cohort means** is also positive, **+0.008841** original and **+0.008243** observer-thinned. This is a descriptive reweighting to guard against an overly influential large fifth cohort, not a substitute for genuine independent data or multilevel selection inference.
+
+Source-locked provenance: scripts/analysis/audit_fcp4475_shared_thermal_cohort_holdout_20261024.py, https://github.com/zuizui0223/fcp/actions/runs/40066704796 (PASSED), machine result results/fcp4475_shared_thermal_cohort_audit_verified_20261024.json.
+
 ## Limitations and value for the manuscript
 
 - The strongest supported result is a **repeated, small PHOTO-colour geometric pattern** shared by many taxa, with the shared warmth domain pointing disproportionately along the photographed white-versus-other axis. This does not establish whether individual species' *real petals* are genetically polymorphic.
