@@ -1,0 +1,1661 @@
+{
+  "all_4475_source_taxa_present_in_each_of_four_panels": true,
+  "baseline_and_heldout_photo_observers_strictly_disjoint": true,
+  "baseline_min_classified_photos": 10,
+  "baseline_min_independent_observers": 8,
+  "both_photo_halves_same_platform_not_independent_colour_assay": true,
+  "date_jst": "2026-10-24",
+  "fold_direction": "forward baseline0 -> heldout1; reverse baseline1 -> heldout0",
+  "folds_allow_original_same_species_multiple_photos_per_observer_only_inside_one_fold": true,
+  "genus_bootstrap_repetitions": 999,
+  "heldout_min_climate_photo": 18,
+  "heldout_min_distinct_source_worldclim_cells": 3,
+  "heldout_min_observers": 10,
+  "heldout_min_unabsorbed_temperature_residual_fraction": 0.05,
+  "heldout_original_photo_temperature_slope": "nine-palette white versus heldout uniquely residualized standardized macrotemperature after exact month-conditional null; observational conditional regression, not temperature causality",
+  "heldout_test_climate_model": "same five fixed source climate domains as preceding original analysis: shared BIO1/BIO5 thermal z, BIO12/BIO14 shared precip, BIO4, BIO15 and solar; heldout-only climatological normalization and broad XYZ+calendar month climate adjustment",
+  "month_matched_photographic_null_per_taxon": 199,
+  "original_BIO_worldclim_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "original_SRAD_worldclim_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "original_photo_group_thresholds": [
+    3,
+    5
+  ],
+  "panels": {
+    "forward__all_heldout": {
+      "five_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.00825737409067942,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.010107373356623216,
+                0.027822034034999683
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.33
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": -0.007393238298645833,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.021856230352513998,
+                0.0065773502035641924
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.335
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": 0.00016730525042252817,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.013927576169905656,
+                0.01500501536034548
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.975
+            },
+            "intercept": {
+              "coefficient": 0.012019475187983152,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0071433110482377275,
+                0.030490346528443655
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.195
+            },
+            "source_cohort_new_U100": {
+              "coefficient": 0.0013753261754414386,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.017009583959769616,
+                0.020141005380416584
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.895
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.006767894766167071,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015135020797016317,
+                0.03008884057861209
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.55
+            },
+            "source_cohort_validation": {
+              "coefficient": 0.0013622245458442428,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.024740951068516724,
+                0.02629397229875603
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.945
+            },
+            "source_cohort_wave4": {
+              "coefficient": -0.007359971630436703,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.029639128466046168,
+                0.018828478579966713
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.595
+            },
+            "z_baseline_n_classified": {
+              "coefficient": -0.0034763672013428952,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01223691198228936,
+                0.005899141898231118
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.41
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": -0.0006996194098770951,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.007117825074576494,
+                0.005921766133522658
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.89
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.007789204818168517,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.020069647019302816,
+                0.003501650907290778
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.16
+            },
+            "z_heldout_n_complete": {
+              "coefficient": 0.0022811828339434396,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.010576123586765889,
+                0.016256012474103947
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.645
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.0023674832488336265,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.002972625303993629,
+                0.007822916435405705
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.4
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1036,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2403,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.5501474926253688,
+            "genus_bootstrap_marginal95": [
+              0.009339970839372012,
+              0.03698050430044813
+            ],
+            "mean": 0.02341111041950907,
+            "median": 0.020889042014469963,
+            "n_genera": 397,
+            "n_taxa": 678,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5287356321839081,
+            "genus_bootstrap_marginal95": [
+              -0.0048478181260312656,
+              0.013515960882198868
+            ],
+            "mean": 0.00466391104799723,
+            "median": 0.004637937873405393,
+            "n_genera": 450,
+            "n_taxa": 783,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5659722222222222,
+            "genus_bootstrap_marginal95": [
+              0.0008614281508436621,
+              0.019590054724366077
+            ],
+            "mean": 0.009954170887341815,
+            "median": 0.0054664901614518546,
+            "n_genera": 200,
+            "n_taxa": 288,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5611620795107034,
+            "genus_bootstrap_marginal95": [
+              0.0034313660296587355,
+              0.0228368645173037
+            ],
+            "mean": 0.013083612941969636,
+            "median": 0.008190123334891126,
+            "n_genera": 368,
+            "n_taxa": 654,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      },
+      "independent_baseline_white_fraction_quartiles": {
+        "bounds": [
+          0.0033598690145260706,
+          0.12055976772394301,
+          0.41180205938315706,
+          0.7853433781062178,
+          0.9848233347860145
+        ],
+        "means": [
+          {
+            "group": "Q1",
+            "mean_heldout_white_warmth_slope": 0.004287567113424382,
+            "n_taxa": 601
+          },
+          {
+            "group": "Q2",
+            "mean_heldout_white_warmth_slope": 0.017097642684094524,
+            "n_taxa": 601
+          },
+          {
+            "group": "Q3",
+            "mean_heldout_white_warmth_slope": 0.027936662724127488,
+            "n_taxa": 600
+          },
+          {
+            "group": "Q4",
+            "mean_heldout_white_warmth_slope": 0.002218886142805673,
+            "n_taxa": 601
+          }
+        ],
+        "n_taxa": 2403
+      },
+      "n_heldout_thermal_estimable": 2403,
+      "n_independent_baseline_supported": 4323,
+      "n_original_source_species": 4475,
+      "n_valid_both3": 1062,
+      "status_counts": {
+        "baseline_photo_opportunity_insufficient": 152,
+        "collinear_temperature_after_heldout_controls": 1123,
+        "crossfitted_heldout_thermal_white_estimable": 2403,
+        "insufficient_degrees_after_geo_month": 47,
+        "insufficient_heldout_photo_or_observers": 750
+      },
+      "three_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.01050411885381062,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.004635195401978233,
+                0.02613962192451304
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.18
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": -0.011104044420879172,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.024961800467253013,
+                0.0018118659600962561
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.125
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": -0.007286528339995104,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.021359954459116075,
+                0.006511920771153089
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.26
+            },
+            "intercept": {
+              "coefficient": 0.011453988697243678,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.007954346094654903,
+                0.030579136279394875
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.23
+            },
+            "source_cohort_new_U100": {
+              "coefficient": 0.001714060977979813,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.016381216407940498,
+                0.021433043969866863
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.875
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.0063971857812134365,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01659698428511724,
+                0.028179532172255165
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.57
+            },
+            "source_cohort_validation": {
+              "coefficient": 0.0006571972036848393,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.024356787034165012,
+                0.0252065205593909
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.96
+            },
+            "source_cohort_wave4": {
+              "coefficient": -0.007598527024941027,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.033922927955149604,
+                0.017583589586636337
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.575
+            },
+            "z_baseline_n_classified": {
+              "coefficient": -0.002986461047794466,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0122686824374694,
+                0.004887063812790468
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.5
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": -0.0010378308629497572,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.00751904260066525,
+                0.0053012123974394195
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.805
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.007814074562860457,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.019801553559252266,
+                0.003949268973383039
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.17
+            },
+            "z_heldout_n_complete": {
+              "coefficient": 0.0029456416741173042,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.00997090448170487,
+                0.017199355869186698
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.575
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.0021167372678248925,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.003005819670159959,
+                0.007206103602082062
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.44
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1036,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2403,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.568738229755179,
+            "genus_bootstrap_marginal95": [
+              0.012746338432057776,
+              0.035684399506357496
+            ],
+            "mean": 0.02446078531974042,
+            "median": 0.021138671962744326,
+            "n_genera": 564,
+            "n_taxa": 1062,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5132890365448505,
+            "genus_bootstrap_marginal95": [
+              -0.009089703521097385,
+              0.008810632126566407
+            ],
+            "mean": -0.00007376721033452126,
+            "median": 0.00203194353718678,
+            "n_genera": 363,
+            "n_taxa": 602,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5659722222222222,
+            "genus_bootstrap_marginal95": [
+              0.0003132529074646851,
+              0.019974880910810018
+            ],
+            "mean": 0.009954170887341815,
+            "median": 0.0054664901614518546,
+            "n_genera": 200,
+            "n_taxa": 288,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5343680709534369,
+            "genus_bootstrap_marginal95": [
+              -0.0054945416362617,
+              0.014940586810951926
+            ],
+            "mean": 0.004763441086727658,
+            "median": 0.003997143352997871,
+            "n_genera": 287,
+            "n_taxa": 451,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      }
+    },
+    "forward__one_photo_per_observer": {
+      "five_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.0025889244261695444,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015597671699193731,
+                0.021555922169130406
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.81
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": -0.008449195597268595,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.022013592338896187,
+                0.00649137523539335
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.265
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": 0.0006509052845219245,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.012018320809446984,
+                0.014298659433757889
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.9
+            },
+            "intercept": {
+              "coefficient": 0.013734723351970454,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0064618446097230355,
+                0.033505341342974095
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.22
+            },
+            "source_cohort_new_U100": {
+              "coefficient": -0.0009401629206943702,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.020363573602553385,
+                0.018712871534856377
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.94
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.006454632427855542,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.016972421284265987,
+                0.02922137315371518
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.595
+            },
+            "source_cohort_validation": {
+              "coefficient": -0.003936775948501592,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.029216202109064494,
+                0.021192667116780847
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.755
+            },
+            "source_cohort_wave4": {
+              "coefficient": -0.005938212522823849,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.029809333601333237,
+                0.021152087508187475
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.63
+            },
+            "z_baseline_n_classified": {
+              "coefficient": -0.003001514488914442,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.012181102510452532,
+                0.006364880638887465
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.505
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": 0.0007693708750438535,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.005407730114462482,
+                0.007700285066841037
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.845
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.00016698775957704517,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015570767657697967,
+                0.014397245606142113
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.97
+            },
+            "z_heldout_n_complete": {
+              "coefficient": -0.004335276378641845,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.019214986669006204,
+                0.012291933095437746
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.545
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.002667037739897601,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.002775347659786677,
+                0.0076499305560578665
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.34
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1008,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2324,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.5344563552833078,
+            "genus_bootstrap_marginal95": [
+              0.0036048218145297906,
+              0.03310001729728152
+            ],
+            "mean": 0.018012092224350063,
+            "median": 0.01860359664114986,
+            "n_genera": 381,
+            "n_taxa": 653,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5137254901960784,
+            "genus_bootstrap_marginal95": [
+              -0.0055621246889886004,
+              0.012710524875352526
+            ],
+            "mean": 0.0036299765167814284,
+            "median": 0.0028182865294197955,
+            "n_genera": 438,
+            "n_taxa": 765,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5863309352517986,
+            "genus_bootstrap_marginal95": [
+              0.0005548274480836901,
+              0.018451687282171652
+            ],
+            "mean": 0.009490753499355497,
+            "median": 0.006577285356536674,
+            "n_genera": 194,
+            "n_taxa": 278,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5621019108280255,
+            "genus_bootstrap_marginal95": [
+              0.003426058427450441,
+              0.023378503097660767
+            ],
+            "mean": 0.013394843688005725,
+            "median": 0.009708380068777056,
+            "n_genera": 353,
+            "n_taxa": 628,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      },
+      "independent_baseline_white_fraction_quartiles": {
+        "bounds": [
+          0.0033598690145260706,
+          0.1201689892250689,
+          0.4138553891042426,
+          0.7872474979534773,
+          0.9848233347860145
+        ],
+        "means": [
+          {
+            "group": "Q1",
+            "mean_heldout_white_warmth_slope": 0.003578852749194937,
+            "n_taxa": 581
+          },
+          {
+            "group": "Q2",
+            "mean_heldout_white_warmth_slope": 0.015281226913388174,
+            "n_taxa": 581
+          },
+          {
+            "group": "Q3",
+            "mean_heldout_white_warmth_slope": 0.025047409764513005,
+            "n_taxa": 581
+          },
+          {
+            "group": "Q4",
+            "mean_heldout_white_warmth_slope": 0.00013591774455071906,
+            "n_taxa": 581
+          }
+        ],
+        "n_taxa": 2324
+      },
+      "n_heldout_thermal_estimable": 2324,
+      "n_independent_baseline_supported": 4323,
+      "n_original_source_species": 4475,
+      "n_valid_both3": 1023,
+      "status_counts": {
+        "baseline_photo_opportunity_insufficient": 152,
+        "collinear_temperature_after_heldout_controls": 1141,
+        "crossfitted_heldout_thermal_white_estimable": 2324,
+        "insufficient_degrees_after_geo_month": 54,
+        "insufficient_heldout_photo_or_observers": 804
+      },
+      "three_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.006300572767880669,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009971377989077853,
+                0.02273292305215054
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.455
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": -0.01278219250165844,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02650158632111889,
+                0.0008996402055198843
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.095
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": -0.004875827214842499,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.019018665764958503,
+                0.010491414840253732
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.485
+            },
+            "intercept": {
+              "coefficient": 0.013039781260561833,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.006318018709360333,
+                0.03157683657890782
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.25
+            },
+            "source_cohort_new_U100": {
+              "coefficient": -0.00047638593421485685,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.018252316483514785,
+                0.019884837134274108
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.97
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.006249133790998015,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015096920419265152,
+                0.028619268420382784
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.605
+            },
+            "source_cohort_validation": {
+              "coefficient": -0.004285082480076837,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.028364430983750282,
+                0.019749910147204165
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.715
+            },
+            "source_cohort_wave4": {
+              "coefficient": -0.005900158669471769,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.03165011969974667,
+                0.019700925226670253
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.625
+            },
+            "z_baseline_n_classified": {
+              "coefficient": -0.002519003522930917,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.012189638362322432,
+                0.0065510779397288995
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.57
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": 0.00044195905028621146,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.006253145372046776,
+                0.0070621895521007436
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.915
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.000009629895551478195,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01376048514958183,
+                0.014491737837693981
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 1
+            },
+            "z_heldout_n_complete": {
+              "coefficient": -0.003822645382900239,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.019754142891583774,
+                0.011358354780513176
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.615
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.0023976326149354713,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0030057849048453775,
+                0.007846760288072059
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.39
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1008,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2324,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.5571847507331378,
+            "genus_bootstrap_marginal95": [
+              0.01020431517343502,
+              0.03186986932039103
+            ],
+            "mean": 0.02056007264344773,
+            "median": 0.019450770345762713,
+            "n_genera": 544,
+            "n_taxa": 1023,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.49575551782682514,
+            "genus_bootstrap_marginal95": [
+              -0.011507403403451107,
+              0.007930291590617347
+            ],
+            "mean": -0.001604829789769371,
+            "median": -0.0011861948751159257,
+            "n_genera": 351,
+            "n_taxa": 589,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5863309352517986,
+            "genus_bootstrap_marginal95": [
+              -0.000009432185641535839,
+              0.018274097888492616
+            ],
+            "mean": 0.009490753499355497,
+            "median": 0.006577285356536674,
+            "n_genera": 194,
+            "n_taxa": 278,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5368663594470046,
+            "genus_bootstrap_marginal95": [
+              -0.003937346120095223,
+              0.017999254695933248
+            ],
+            "mean": 0.0065969597369426565,
+            "median": 0.005859451307524838,
+            "n_genera": 278,
+            "n_taxa": 434,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      }
+    },
+    "reverse__all_heldout": {
+      "five_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.006068048148623331,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01283070770438012,
+                0.02591080623199783
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.455
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": 0.010830982865371798,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0018338967325635567,
+                0.025510622020958024
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.09
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": -0.0024490807199273727,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.017601040850444557,
+                0.01352922252000313
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.735
+            },
+            "intercept": {
+              "coefficient": 0.001250942146320212,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.022266302811509514,
+                0.020699178766015815
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.9
+            },
+            "source_cohort_new_U100": {
+              "coefficient": -0.003435806969015715,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02338976765101271,
+                0.018513321534254838
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.72
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.012832584834815822,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.010773882672970862,
+                0.03876977855094828
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.285
+            },
+            "source_cohort_validation": {
+              "coefficient": 0.0022564074438880624,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.021978814787492675,
+                0.027320490009274865
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.87
+            },
+            "source_cohort_wave4": {
+              "coefficient": 0.0008438637736033137,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0271800257701965,
+                0.027805426376131374
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.95
+            },
+            "z_baseline_n_classified": {
+              "coefficient": 0.001900783231768327,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.006396967506264096,
+                0.01004361991914784
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.66
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": -0.002261206231418204,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009349067699564015,
+                0.004509225405925145
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.51
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.004676062942233444,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.014434679016877719,
+                0.0049517394710273934
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.375
+            },
+            "z_heldout_n_complete": {
+              "coefficient": 0.0021613401735971795,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.008283389689672729,
+                0.01292558690501889
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.705
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.0018442381158003975,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0028492912300306906,
+                0.006822787191268072
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.51
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1032,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2430,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.49700598802395207,
+            "genus_bootstrap_marginal95": [
+              -0.006994899669659788,
+              0.02162381531098718
+            ],
+            "mean": 0.007391010638561881,
+            "median": -0.0018008524939546557,
+            "n_genera": 380,
+            "n_taxa": 668,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5344827586206896,
+            "genus_bootstrap_marginal95": [
+              0.002696955354380879,
+              0.0204166290647425
+            ],
+            "mean": 0.011749086150579674,
+            "median": 0.004653030400427201,
+            "n_genera": 451,
+            "n_taxa": 812,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5460526315789473,
+            "genus_bootstrap_marginal95": [
+              -0.009256285801768929,
+              0.011935547009795659
+            ],
+            "mean": 0.0014096427008742144,
+            "median": 0.0048230636497802685,
+            "n_genera": 210,
+            "n_taxa": 304,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.4984520123839009,
+            "genus_bootstrap_marginal95": [
+              -0.011094935697566638,
+              0.008763932910079618
+            ],
+            "mean": -0.0014557243172101829,
+            "median": -0.00026330496866753124,
+            "n_genera": 380,
+            "n_taxa": 646,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      },
+      "independent_baseline_white_fraction_quartiles": {
+        "bounds": [
+          0.006342713156149678,
+          0.12318694975450027,
+          0.40957981980817393,
+          0.7898130287257955,
+          0.9857356145183361
+        ],
+        "means": [
+          {
+            "group": "Q1",
+            "mean_heldout_white_warmth_slope": 0.0022022118110113583,
+            "n_taxa": 608
+          },
+          {
+            "group": "Q2",
+            "mean_heldout_white_warmth_slope": -0.0036687799822083767,
+            "n_taxa": 607
+          },
+          {
+            "group": "Q3",
+            "mean_heldout_white_warmth_slope": 0.015795289028574876,
+            "n_taxa": 607
+          },
+          {
+            "group": "Q4",
+            "mean_heldout_white_warmth_slope": 0.008660938751214878,
+            "n_taxa": 608
+          }
+        ],
+        "n_taxa": 2430
+      },
+      "n_heldout_thermal_estimable": 2430,
+      "n_independent_baseline_supported": 4325,
+      "n_original_source_species": 4475,
+      "n_valid_both3": 1071,
+      "status_counts": {
+        "baseline_photo_opportunity_insufficient": 150,
+        "collinear_temperature_after_heldout_controls": 1106,
+        "crossfitted_heldout_thermal_white_estimable": 2430,
+        "insufficient_degrees_after_geo_month": 51,
+        "insufficient_heldout_photo_or_observers": 738
+      },
+      "three_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.005819296311134593,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009494598003018342,
+                0.02198957242233597
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.41
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": 0.008781395068573021,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.004854148785895874,
+                0.023198348354223044
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.175
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": -0.0002370756425602253,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01604455604875739,
+                0.01666536037306456
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.985
+            },
+            "intercept": {
+              "coefficient": 0.0011878154154196473,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01984090712903437,
+                0.02126149419608548
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.91
+            },
+            "source_cohort_new_U100": {
+              "coefficient": -0.0033688523857270673,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02574717491796192,
+                0.01834459124358875
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.725
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.012771818686329867,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.011618972832701137,
+                0.03900592491524228
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.285
+            },
+            "source_cohort_validation": {
+              "coefficient": 0.0021472270765195735,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02147163575422371,
+                0.02695359157276409
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.875
+            },
+            "source_cohort_wave4": {
+              "coefficient": 0.0007329272202106298,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02515528202691274,
+                0.02691907026343785
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.96
+            },
+            "z_baseline_n_classified": {
+              "coefficient": 0.001958265093369833,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.006192603459854314,
+                0.010236389010884259
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.66
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": -0.0023864944714682345,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009261635500425375,
+                0.004753678314112495
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.5
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.004492584934841485,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.014315911263535324,
+                0.004677025297603317
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.395
+            },
+            "z_heldout_n_complete": {
+              "coefficient": 0.0021031981048989213,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.00876769786401903,
+                0.013262791788437565
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.715
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.001821761154804161,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.002958273703662611,
+                0.0064754572418839265
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.51
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1032,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2430,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.49859943977591037,
+            "genus_bootstrap_marginal95": [
+              -0.0033358058170007976,
+              0.018255593822475373
+            ],
+            "mean": 0.006950382591212028,
+            "median": -0.0005477237797143695,
+            "n_genera": 565,
+            "n_taxa": 1071,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5440931780366056,
+            "genus_bootstrap_marginal95": [
+              0.0011590535303514697,
+              0.01822480411281145
+            ],
+            "mean": 0.00969791307167146,
+            "median": 0.005258174161955225,
+            "n_genera": 358,
+            "n_taxa": 601,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5460526315789473,
+            "genus_bootstrap_marginal95": [
+              -0.009131086361595682,
+              0.012186225840698475
+            ],
+            "mean": 0.0014096427008742144,
+            "median": 0.0048230636497802685,
+            "n_genera": 210,
+            "n_taxa": 304,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5,
+            "genus_bootstrap_marginal95": [
+              -0.009376377195587711,
+              0.010433787445342572
+            ],
+            "mean": 0.0005831489882150375,
+            "median": 0.0000573792093313008,
+            "n_genera": 290,
+            "n_taxa": 454,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      }
+    },
+    "reverse__one_photo_per_observer": {
+      "five_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.0038545913559084326,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015181569173346302,
+                0.023531503826657973
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.69
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": 0.010040530407525202,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.004329026555898371,
+                0.024521462288108024
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.18
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": -0.0026309622552309194,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.020345528463808264,
+                0.012395764889017679
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.745
+            },
+            "intercept": {
+              "coefficient": 0.005626026456099669,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.016053979893514373,
+                0.027742398239533363
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.585
+            },
+            "source_cohort_new_U100": {
+              "coefficient": -0.006618195444660945,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.028253052862021198,
+                0.01563549615916355
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.505
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.010203180103272504,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.014600503898589861,
+                0.03486889810628325
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.405
+            },
+            "source_cohort_validation": {
+              "coefficient": -0.002263341051391251,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02767962959968759,
+                0.025376336661424883
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.885
+            },
+            "source_cohort_wave4": {
+              "coefficient": -0.0036185544847658715,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.03135459326904907,
+                0.02290348397942626
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.8
+            },
+            "z_baseline_n_classified": {
+              "coefficient": 0.004666620710424367,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.003945762359644751,
+                0.012418248677101638
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.305
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": -0.0020939446841334755,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009212970801230087,
+                0.005216637627936632
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.565
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.002811513297411733,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.013697377774719086,
+                0.007576412924480375
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.68
+            },
+            "z_heldout_n_complete": {
+              "coefficient": -0.004121075220316703,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015600337601013632,
+                0.006928888729982061
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.565
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.0021709963655721274,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.002737101854638081,
+                0.007479942935742315
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.465
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1002,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2364,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.4945736434108527,
+            "genus_bootstrap_marginal95": [
+              -0.00684987490157925,
+              0.022427485038103892
+            ],
+            "mean": 0.007579058108909192,
+            "median": -0.0019968405648456192,
+            "n_genera": 367,
+            "n_taxa": 645,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5335018963337548,
+            "genus_bootstrap_marginal95": [
+              0.003492938399621369,
+              0.020812991908368376
+            ],
+            "mean": 0.011969740630973103,
+            "median": 0.006816730064999861,
+            "n_genera": 442,
+            "n_taxa": 791,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5457627118644067,
+            "genus_bootstrap_marginal95": [
+              -0.00871431474861304,
+              0.012221818533648945
+            ],
+            "mean": 0.0016029738484194139,
+            "median": 0.0048349422136564285,
+            "n_genera": 204,
+            "n_taxa": 295,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5071090047393365,
+            "genus_bootstrap_marginal95": [
+              -0.010771159450954824,
+              0.009705668999321184
+            ],
+            "mean": -0.0004266294851155827,
+            "median": 0.00034319629179539626,
+            "n_genera": 372,
+            "n_taxa": 633,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      },
+      "independent_baseline_white_fraction_quartiles": {
+        "bounds": [
+          0.006342713156149678,
+          0.12246213589080088,
+          0.4092524217526129,
+          0.7910908850755685,
+          0.9857356145183361
+        ],
+        "means": [
+          {
+            "group": "Q1",
+            "mean_heldout_white_warmth_slope": 0.002568628233322446,
+            "n_taxa": 591
+          },
+          {
+            "group": "Q2",
+            "mean_heldout_white_warmth_slope": -0.0017488451900905787,
+            "n_taxa": 591
+          },
+          {
+            "group": "Q3",
+            "mean_heldout_white_warmth_slope": 0.016624814757768554,
+            "n_taxa": 591
+          },
+          {
+            "group": "Q4",
+            "mean_heldout_white_warmth_slope": 0.007190559797225833,
+            "n_taxa": 591
+          }
+        ],
+        "n_taxa": 2364
+      },
+      "n_heldout_thermal_estimable": 2364,
+      "n_independent_baseline_supported": 4325,
+      "n_original_source_species": 4475,
+      "n_valid_both3": 1032,
+      "status_counts": {
+        "baseline_photo_opportunity_insufficient": 150,
+        "collinear_temperature_after_heldout_controls": 1113,
+        "crossfitted_heldout_thermal_white_estimable": 2364,
+        "insufficient_degrees_after_geo_month": 58,
+        "insufficient_heldout_photo_or_observers": 790
+      },
+      "three_image_baseline_group": {
+        "regression": {
+          "baseline_category": "no independent baseline photo labelled white",
+          "coef": {
+            "crossfit_mixed_vs_none": {
+              "coefficient": 0.006086242013561586,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009771926808468851,
+                0.02327090508476632
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.445
+            },
+            "crossfit_nearly_all_vs_none": {
+              "coefficient": 0.005354141425617613,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.00841613259907282,
+                0.020879493588696726
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.445
+            },
+            "crossfit_rare_vs_none": {
+              "coefficient": -0.0000728149724615137,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.015967672252158824,
+                0.01681294337238611
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.985
+            },
+            "intercept": {
+              "coefficient": 0.005156460891073121,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.017038031040705167,
+                0.027021142567634136
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.63
+            },
+            "source_cohort_new_U100": {
+              "coefficient": -0.006325110332771501,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.02803642162973066,
+                0.016367281008424876
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.525
+            },
+            "source_cohort_prospective": {
+              "coefficient": 0.010157282712808345,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.013322214134234952,
+                0.03226848310812529
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.405
+            },
+            "source_cohort_validation": {
+              "coefficient": -0.002053578450755419,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.028993382504887817,
+                0.02442758631486447
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.89
+            },
+            "source_cohort_wave4": {
+              "coefficient": -0.003512660883882408,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.030423202548124896,
+                0.02359594070859582
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.81
+            },
+            "z_baseline_n_classified": {
+              "coefficient": 0.004769295171609756,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.0033344618332009136,
+                0.013329803481811106
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.285
+            },
+            "z_heldout_BIO5_q90_q10_C": {
+              "coefficient": -0.0024188763520084883,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.009715150332207878,
+                0.0049381728167780005
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.51
+            },
+            "z_heldout_n_cells": {
+              "coefficient": -0.0025290832542565127,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.013312495326316242,
+                0.007632116353201782
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.715
+            },
+            "z_heldout_n_complete": {
+              "coefficient": -0.0038149471638406034,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.01590447870200262,
+                0.007857813494749774
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.575
+            },
+            "z_thermal_unique_var_frac": {
+              "coefficient": 0.002100153728572074,
+              "genus95_excludes_zero": false,
+              "genus_bootstrap95": [
+                -0.003027847530361833,
+                0.007030423244743423
+              ],
+              "two_sided_month_matched_original_source_null_p_199": 0.46
+            }
+          },
+          "genus_bootstrap_draws": 999,
+          "n_genera": 1002,
+          "n_monthly_photo_null_replicates": 199,
+          "n_taxa": 2364,
+          "scope": "noncausal original nine-hue PHOTO and thermal climate relation, same source platform",
+          "status": "observer_disjoint_source_photo_regression"
+        },
+        "results": {
+          "mixed": {
+            "fraction_positive": 0.5048449612403101,
+            "genus_bootstrap_marginal95": [
+              -0.0010132774981203663,
+              0.02127757857190236
+            ],
+            "mean": 0.00900327344799397,
+            "median": 0.0005773510478709066,
+            "n_genera": 545,
+            "n_taxa": 1032,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "nearly_all": {
+            "fraction_positive": 0.5320945945945946,
+            "genus_bootstrap_marginal95": [
+              -0.0016186271087545087,
+              0.016404705454578127
+            ],
+            "mean": 0.006978096631214265,
+            "median": 0.0059473581011624845,
+            "n_genera": 354,
+            "n_taxa": 592,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "none": {
+            "fraction_positive": 0.5457627118644067,
+            "genus_bootstrap_marginal95": [
+              -0.00951418412094609,
+              0.012960224864247206
+            ],
+            "mean": 0.0016029738484194139,
+            "median": 0.0048349422136564285,
+            "n_genera": 204,
+            "n_taxa": 295,
+            "status": "source_observer_disjoint_crossfit"
+          },
+          "rare": {
+            "fraction_positive": 0.5078651685393258,
+            "genus_bootstrap_marginal95": [
+              -0.009566776892931303,
+              0.012682554768469958
+            ],
+            "mean": 0.001492335845526676,
+            "median": 0.00034319629179539626,
+            "n_genera": 284,
+            "n_taxa": 445,
+            "status": "source_observer_disjoint_crossfit"
+          }
+        }
+      }
+    }
+  },
+  "photo_background_and_flower_organs_not_independently_validated": true,
+  "photo_fold_assignment": "SHA256 taxon_id|observer_id|seed ranking on ALL ORIGINAL photos before photo-colour or climate eligibility filters, alternating original observers",
+  "photographed_white_baseline_not_a_genetic_morph": true,
+  "schema": "fcp447500_observer_disjoint_crossfit_white_baseline_thermal_slope_v1",
+  "source_biological_conclusions_deliberately_bounded": true,
+  "source_classified_nine_photo_hue": 227107,
+  "source_original_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_original_photos": 447500,
+  "source_photo_colour_unclassified": 220393,
+  "source_taxa": 4475,
+  "genuine_original_photo_source_actions_run_id": 40080001765,
+  "genuine_original_source_artifact_id": 12554693263,
+  "genuine_original_source_artifact_sha256": "50d5d15a2d145b0db7a176f945435701251768ba614f659d9dac496011b33177",
+  "original_worldclim_source_SHA_verified": true,
+  "result_machine_receipt_frozen_after_successful_real_data_CI": true
+}
