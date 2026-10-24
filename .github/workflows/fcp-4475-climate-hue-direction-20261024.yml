@@ -1,0 +1,116 @@
+name: FCP 4475 seven-climate nine-hue direction and chromatic residual
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_nine_hue_climate_direction_20261024.py
+      - .github/workflows/fcp-4475-climate-hue-direction-20261024.yml
+      - docs/FCP_4475_CLIMATE_HUE_DIRECTION_20261024.md
+      - results/fcp4475_climate_nine_hue_direction_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  exact-source-math-fixture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Compile and check full exact permuted-month expectation and orthogonal colour axes
+        run: |
+          python -m py_compile scripts/analysis/fcp4475_nine_hue_climate_direction_20261024.py
+          OPENBLAS_NUM_THREADS=1 python scripts/analysis/fcp4475_nine_hue_climate_direction_20261024.py --self-test
+  source-447500-seven-climate-direction:
+    needs: exact-source-math-fixture
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      BIO_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+      SRAD_SHA: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Source-authenticate 447500 actual original measured photos and two WorldClim archives
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp4475-hue/{release,measured,climate,results}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_FILE" --dir /tmp/fcp4475-hue/release
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp4475-hue/release/$SOURCE_FILE" | sha256sum -c -
+          tar -xzf /tmp/fcp4475-hue/release/$SOURCE_FILE -C /tmp/fcp4475-hue \
+            measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA  /tmp/fcp4475-hue/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern wc2.1_10m_bio.zip --pattern wc2.1_10m_srad.zip \
+            --dir /tmp/fcp4475-hue/climate
+          echo "$BIO_SHA  /tmp/fcp4475-hue/climate/wc2.1_10m_bio.zip" | sha256sum -c -
+          echo "$SRAD_SHA  /tmp/fcp4475-hue/climate/wc2.1_10m_srad.zip" | sha256sum -c -
+      - name: Test white-direction versus chromatic-only hue associations for all original source taxa
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp4475_nine_hue_climate_direction_20261024.py \
+            --photos /tmp/fcp4475-hue/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-bio /tmp/fcp4475-hue/climate/wc2.1_10m_bio.zip \
+            --worldclim-srad /tmp/fcp4475-hue/climate/wc2.1_10m_srad.zip \
+            --out /tmp/fcp4475-hue/results
+          python - <<'PY'
+          import json, pandas as pd, numpy as np
+          from pathlib import Path
+          p=Path('/tmp/fcp4475-hue/results')
+          d=json.loads((p/'seven_climate_nine_hue_source_signatures.json').read_text())
+          assert d['source_n_original_photos']==447500 and d['source_n_classified_photo']==227107
+          assert d['source_n_original_taxa']==4475 and len(d['climate_axes'])==7
+          assert len(d['source_nine_hues'])==9
+          for mode in ('original','observer_thinned'):
+              m=d['results'][mode]
+              assert m['n_taxa_in_original_roster']==4475
+              assert len(m['source_cohort_sign_replication'])==5
+              assert len(m['component_results'])==3
+              x=m['component_results']['total']['axes']['BIO5']
+              assert x['n_species']>=1000
+              assert len(x['photographed_nine_hue_components'])==9
+              vec=np.array([v['estimated_signed_photo_palette_covariance']
+                            for v in x['photographed_nine_hue_components'].values()])
+              assert abs(vec.sum())<1e-10
+              for file in (
+                  f'original4475_{mode}_photo_climate_colour_direction_denominators.csv',
+                  f'original4475_{mode}_per_taxon_seven_climate_nine_hue.csv'):
+                  t=pd.read_csv(p/file,low_memory=False)
+                  assert len(t)==4475 and t.inat_taxon_id.is_unique
+              check=pd.read_csv(p/f'original4475_{mode}_photo_climate_colour_direction_denominators.csv')
+              assert int(check.n_original_classified.sum())==227107
+          print('FCP4475_NINE_COLOUR_CLIMATE_ORIGINAL_SOURCE_SHA_TEST_PASS')
+          print('FCP4475_NINE_COLOUR_CLIMATE_SOURCE_SUMMARY',json.dumps({
+              mode:{
+                'n_species':v['n_taxa_with_any_identifiable_seven_climate'],
+                'BIO5':{
+                    'white':v['component_results']['total']['axes']['BIO5']['white_mean_species_covariance'],
+                    'white7CI':v['component_results']['total']['axes']['BIO5']['white_projection_genus_simultaneous_7_95'],
+                    'positive_species_fraction':v['component_results']['total']['axes']['BIO5']['white_positive_fraction_species'],
+                    'white_energy':v['component_results']['total']['axes']['BIO5']['white_axis_energy_fraction_of_mean_vector'],
+                    'hues':{c:round(vv['estimated_signed_photo_palette_covariance'],9)
+                        for c,vv in v['component_results']['total']['axes']['BIO5']['photographed_nine_hue_components'].items()},
+                },
+                'cohortBIO5':{c:z['by_climate']['BIO5'] for c,z in v['source_cohort_sign_replication'].items()},
+              } for mode,v in d['results'].items()},sort_keys=True,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-seven-climate-full-nine-photo-hue-direction-20261024
+          path: /tmp/fcp4475-hue/results/
+          retention-days: 90
