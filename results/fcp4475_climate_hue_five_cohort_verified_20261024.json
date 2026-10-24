@@ -1,0 +1,990 @@
+{
+  "chromatic_only_nonwhite_hue": "original photo hue coefficient plus the photo white component divided by eight, exactly removing pre-fixed white-vs-chromatic projection",
+  "direction_targets_selected_posthoc_after_full_family56_original_results": true,
+  "five_species_disjoint_source_cohorts": [
+    "discovery",
+    "validation",
+    "prospective",
+    "wave4",
+    "new_U100"
+  ],
+  "hue_geometry_temperature_vs_precipitation_same_taxa": {
+    "observer_thinned": {
+      "BIO12_white_axis_energy_of_mean_photo_colour_climate_vector": 0.2296672024468735,
+      "BIO12_white_axis_genus95": [
+        0.001832081120013965,
+        0.5922186477404453
+      ],
+      "BIO5_minus_BIO12_genus95": [
+        0.32452842156075723,
+        0.9134575695853906
+      ],
+      "BIO5_minus_BIO12_white_axis_energy": 0.6944985762310512,
+      "BIO5_white_axis_energy_of_mean_photo_colour_climate_vector": 0.9241657786779247,
+      "BIO5_white_axis_genus95": [
+        0.8331834138040424,
+        0.9569180741772141
+      ],
+      "difference_marginal95_excludes_zero": true,
+      "genus_bootstrap_repetitions": 1999,
+      "n_genus_clusters": 1189,
+      "n_matched_original_source_species": 3178,
+      "not_fraction_of_heritable_flower_colour_variance": true,
+      "targets_chosen_exploratory_after_original_nine_hue_matrix": true
+    },
+    "original": {
+      "BIO12_white_axis_energy_of_mean_photo_colour_climate_vector": 0.18149120771313518,
+      "BIO12_white_axis_genus95": [
+        0.0008685546018799239,
+        0.5532639305919
+      ],
+      "BIO5_minus_BIO12_genus95": [
+        0.3693116632019006,
+        0.924871270055902
+      ],
+      "BIO5_minus_BIO12_white_axis_energy": 0.7479197379487283,
+      "BIO5_white_axis_energy_of_mean_photo_colour_climate_vector": 0.9294109456618636,
+      "BIO5_white_axis_genus95": [
+        0.8504979649624943,
+        0.9601088805121202
+      ],
+      "difference_marginal95_excludes_zero": true,
+      "genus_bootstrap_repetitions": 1999,
+      "n_genus_clusters": 1210,
+      "n_matched_original_source_species": 3245,
+      "not_fraction_of_heritable_flower_colour_variance": true,
+      "targets_chosen_exploratory_after_original_nine_hue_matrix": true
+    }
+  },
+  "not_an_independent_source_or_genetic_morph_replication": true,
+  "not_flower_background_or_causal_climate_control": true,
+  "original_artifact_id": 12547087651,
+  "original_source_photo_run": 40060153598,
+  "original_zip_sha256": "c23f0c7452019940bdbcca88b249be854c3f236e39ce189aa8c77119f021f778",
+  "parent_source_sha256": {
+    "observer_thinned": "078db22924156cfa9509769ea9896dd00e639c93ee96bc29d6b26c341755fba6",
+    "original": "207c08ec0575f308e865c93fc349ff1ed89faf5483a016333e66b07bb65b6f38",
+    "source_result": "fc30eaa9e1cdec57f66fb29ce0be71a010c14a709f6f99f48068d7072b19671a"
+  },
+  "photos_original_n": 447500,
+  "results": {
+    "observer_thinned": {
+      "BIO12 bronze, total-photo palette": {
+        "cohort_mean_signs": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.0016138644937302613,
+              0.0005484853810034301
+            ],
+            "fraction_of_source_taxa_positive": 0.4613259668508287,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0005745100114345888,
+            "median_per_taxon": -0.0007130801668781251,
+            "n_genera": 257,
+            "n_taxa": 362,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.0012861638965566316,
+              0.001171612680726141
+            ],
+            "fraction_of_source_taxa_positive": 0.4899135446685879,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.00007867140435117387,
+            "median_per_taxon": -0.00009636815550500004,
+            "n_genera": 260,
+            "n_taxa": 347,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.0016486844434926986,
+              0.0005859636792703683
+            ],
+            "fraction_of_source_taxa_positive": 0.4712328767123288,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0005800692713248887,
+            "median_per_taxon": -0.00042737972464249995,
+            "n_genera": 270,
+            "n_taxa": 365,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              -0.00209678699044856,
+              0.000328991426624033
+            ],
+            "fraction_of_source_taxa_positive": 0.4629080118694362,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0008810282739023223,
+            "median_per_taxon": -0.0006238793783565,
+            "n_genera": 254,
+            "n_taxa": 337,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              -0.0013532564200004335,
+              -0.0002990132078974942
+            ],
+            "fraction_of_source_taxa_positive": 0.4673001676914477,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": -0.0008244902066380819,
+            "median_per_taxon": -0.00057253760825425,
+            "n_genera": 873,
+            "n_taxa": 1789,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3200,
+        "global_species_equal_mean": -0.0006934113729573044,
+        "n_cohorts_with_negative_mean": 5,
+        "n_cohorts_with_positive_mean": 0,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO12 bronze, within original photo label": {
+        "cohort_mean_signs": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.0012307865836800685,
+              0.0005248916586434176
+            ],
+            "fraction_of_source_taxa_positive": 0.494475138121547,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.00032827276012255605,
+            "median_per_taxon": -0.00007087373957862504,
+            "n_genera": 257,
+            "n_taxa": 362,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.0014893253378964262,
+              0.00031398942825104707
+            ],
+            "fraction_of_source_taxa_positive": 0.4438040345821326,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0005582110591409763,
+            "median_per_taxon": -0.00052263745924825,
+            "n_genera": 260,
+            "n_taxa": 347,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.00181480957635924,
+              0.00023383450746671233
+            ],
+            "fraction_of_source_taxa_positive": 0.4273972602739726,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.000817007439658763,
+            "median_per_taxon": -0.0006516918403512499,
+            "n_genera": 270,
+            "n_taxa": 365,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              -0.0019526366928364748,
+              -0.00005651405422381473
+            ],
+            "fraction_of_source_taxa_positive": 0.47477744807121663,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": -0.0010051451070753196,
+            "median_per_taxon": -0.0005053084363305,
+            "n_genera": 254,
+            "n_taxa": 337,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              -0.0012155093029800144,
+              -0.00037176792251262554
+            ],
+            "fraction_of_source_taxa_positive": 0.4605925097820011,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": -0.0007675637999183381,
+            "median_per_taxon": -0.00042815961192425,
+            "n_genera": 873,
+            "n_taxa": 1789,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3200,
+        "global_species_equal_mean": -0.0007258272597812569,
+        "n_cohorts_with_negative_mean": 5,
+        "n_cohorts_with_positive_mean": 0,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO12 yellow, total-photo palette": {
+        "cohort_mean_signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.0013488579355313548,
+              0.0015449741373798707
+            ],
+            "fraction_of_source_taxa_positive": 0.5,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.00011104102967287867,
+            "median_per_taxon": 0.000022170564331249983,
+            "n_genera": 257,
+            "n_taxa": 362,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.00013837955308671933,
+              0.003047320413254634
+            ],
+            "fraction_of_source_taxa_positive": 0.5360230547550432,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0014234605917940756,
+            "median_per_taxon": 0.00048280571832625,
+            "n_genera": 260,
+            "n_taxa": 347,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.0000642829900931266,
+              0.0024054381506986157
+            ],
+            "fraction_of_source_taxa_positive": 0.5232876712328767,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.001156576215016135,
+            "median_per_taxon": 0.00024735944539224994,
+            "n_genera": 270,
+            "n_taxa": 365,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              0.0000022605965077343947,
+              0.0029623618659424525
+            ],
+            "fraction_of_source_taxa_positive": 0.5252225519287834,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0014626942724444607,
+            "median_per_taxon": 0.000396478596847,
+            "n_genera": 254,
+            "n_taxa": 337,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              0.000206765298115238,
+              0.0014405069614283155
+            ],
+            "fraction_of_source_taxa_positive": 0.5013974287311347,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0008216380448699172,
+            "median_per_taxon": 0.000019250408034250004,
+            "n_genera": 873,
+            "n_taxa": 1789,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3200,
+        "global_species_equal_mean": 0.0009122270089565876,
+        "n_cohorts_with_negative_mean": 0,
+        "n_cohorts_with_positive_mean": 5,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO12 yellow, within original photo label": {
+        "cohort_mean_signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.00029128064528723883,
+              0.0016765317667264503
+            ],
+            "fraction_of_source_taxa_positive": 0.5138121546961326,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0006329321035477424,
+            "median_per_taxon": 0.00010800646519962509,
+            "n_genera": 257,
+            "n_taxa": 362,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.0009252612273027711,
+              0.001218509964159218
+            ],
+            "fraction_of_source_taxa_positive": 0.4783861671469741,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.00011437569528958593,
+            "median_per_taxon": -0.00030559425240499997,
+            "n_genera": 260,
+            "n_taxa": 347,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.00017824702973266848,
+              0.0021026987285025145
+            ],
+            "fraction_of_source_taxa_positive": 0.4849315068493151,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0009177636824222375,
+            "median_per_taxon": -0.00013813109078450003,
+            "n_genera": 270,
+            "n_taxa": 365,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              0.00014475210686046823,
+              0.0022964845455251217
+            ],
+            "fraction_of_source_taxa_positive": 0.543026706231454,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0012101918218425124,
+            "median_per_taxon": 0.0003930190592937,
+            "n_genera": 254,
+            "n_taxa": 337,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              0.0001437200083213844,
+              0.0011423896090636309
+            ],
+            "fraction_of_source_taxa_positive": 0.5114589155953047,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0006202963670560789,
+            "median_per_taxon": 0.00006349420647474999,
+            "n_genera": 873,
+            "n_taxa": 1789,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3200,
+        "global_species_equal_mean": 0.0006629182426431679,
+        "n_cohorts_with_negative_mean": 0,
+        "n_cohorts_with_positive_mean": 5,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO5 white, total-photo palette": {
+        "cohort_mean_signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              0.0016243760951067728,
+              0.006245097101190689
+            ],
+            "fraction_of_source_taxa_positive": 0.554945054945055,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.003875909148725565,
+            "median_per_taxon": 0.0015023238864700001,
+            "n_genera": 258,
+            "n_taxa": 364,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              0.002024261173549727,
+              0.006449216035586155
+            ],
+            "fraction_of_source_taxa_positive": 0.5739130434782609,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.004194093141066075,
+            "median_per_taxon": 0.0020806307813,
+            "n_genera": 258,
+            "n_taxa": 345,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              0.0008801796039915372,
+              0.005456166018965393
+            ],
+            "fraction_of_source_taxa_positive": 0.5718157181571816,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0031976637457306572,
+            "median_per_taxon": 0.00179250534983,
+            "n_genera": 274,
+            "n_taxa": 369,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              -0.0007350464064268052,
+              0.00371608935389682
+            ],
+            "fraction_of_source_taxa_positive": 0.5345345345345346,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0015138099145943099,
+            "median_per_taxon": 0.000839958884486,
+            "n_genera": 252,
+            "n_taxa": 333,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              0.002819265248017276,
+              0.004835969246023946
+            ],
+            "fraction_of_source_taxa_positive": 0.5786830357142857,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0038108637630300734,
+            "median_per_taxon": 0.0024395882943649997,
+            "n_genera": 873,
+            "n_taxa": 1792,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3203,
+        "global_species_equal_mean": 0.0035500772871958504,
+        "n_cohorts_with_negative_mean": 0,
+        "n_cohorts_with_positive_mean": 5,
+        "no_prospective_confirmation_claim": true
+      }
+    },
+    "original": {
+      "BIO12 bronze, total-photo palette": {
+        "cohort_mean_signs": [
+          -1,
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.0017502574789722183,
+              0.00036398523151724135
+            ],
+            "fraction_of_source_taxa_positive": 0.4562841530054645,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0006667954133024083,
+            "median_per_taxon": -0.000817208709835625,
+            "n_genera": 259,
+            "n_taxa": 366,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.0010663937148372824,
+              0.0013292121935713755
+            ],
+            "fraction_of_source_taxa_positive": 0.49303621169916434,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.00010161036570129157,
+            "median_per_taxon": -0.00007064600841499998,
+            "n_genera": 269,
+            "n_taxa": 359,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.0014037969933421769,
+              0.0007572074241416779
+            ],
+            "fraction_of_source_taxa_positive": 0.49595687331536387,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0002774954494953278,
+            "median_per_taxon": -0.000027860862708750135,
+            "n_genera": 275,
+            "n_taxa": 371,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              -0.002264849285317566,
+              0.00009317110129338716
+            ],
+            "fraction_of_source_taxa_positive": 0.4314868804664723,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.001040314329521886,
+            "median_per_taxon": -0.0009637000524125001,
+            "n_genera": 257,
+            "n_taxa": 343,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              -0.0013647355213711823,
+              -0.00032168756432783297
+            ],
+            "fraction_of_source_taxa_positive": 0.4570333880678708,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": -0.0008428222985032716,
+            "median_per_taxon": -0.0006763634572500002,
+            "n_genera": 888,
+            "n_taxa": 1827,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3266,
+        "global_species_equal_mean": -0.0006758064807520418,
+        "n_cohorts_with_negative_mean": 4,
+        "n_cohorts_with_positive_mean": 1,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO12 bronze, within original photo label": {
+        "cohort_mean_signs": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.001292202408994422,
+              0.00044709679593103724
+            ],
+            "fraction_of_source_taxa_positive": 0.4890710382513661,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0004106774973557953,
+            "median_per_taxon": -0.00007973034530062498,
+            "n_genera": 259,
+            "n_taxa": 366,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.001366847170531704,
+              0.0003639300355658497
+            ],
+            "fraction_of_source_taxa_positive": 0.45403899721448465,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.0004990741903037829,
+            "median_per_taxon": -0.0004332396584865,
+            "n_genera": 269,
+            "n_taxa": 359,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.001299394127369553,
+              0.0007098072113925367
+            ],
+            "fraction_of_source_taxa_positive": 0.4582210242587601,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": -0.00034846634528386646,
+            "median_per_taxon": -0.00043440244784750004,
+            "n_genera": 275,
+            "n_taxa": 371,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              -0.002159898887901267,
+              -0.00029307390138156875
+            ],
+            "fraction_of_source_taxa_positive": 0.4489795918367347,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": -0.0012111600712627207,
+            "median_per_taxon": -0.0005396305541077501,
+            "n_genera": 257,
+            "n_taxa": 343,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              -0.0012285881613298597,
+              -0.0003680511877419132
+            ],
+            "fraction_of_source_taxa_positive": 0.45429666119321294,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": -0.0008017652887454165,
+            "median_per_taxon": -0.00044724808475425,
+            "n_genera": 888,
+            "n_taxa": 1827,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3266,
+        "global_species_equal_mean": -0.0007161695344251632,
+        "n_cohorts_with_negative_mean": 5,
+        "n_cohorts_with_positive_mean": 0,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO12 yellow, total-photo palette": {
+        "cohort_mean_signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.0012691820221269264,
+              0.0017815214416847193
+            ],
+            "fraction_of_source_taxa_positive": 0.4781420765027322,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.00021743134194513147,
+            "median_per_taxon": -0.00024151394944624998,
+            "n_genera": 259,
+            "n_taxa": 366,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              0.00005500584615703557,
+              0.003049644821175154
+            ],
+            "fraction_of_source_taxa_positive": 0.5431754874651811,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0016236969848254874,
+            "median_per_taxon": 0.0008226515605755001,
+            "n_genera": 269,
+            "n_taxa": 359,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.0007109518225098001,
+              0.0018472543672981288
+            ],
+            "fraction_of_source_taxa_positive": 0.5040431266846361,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0005940507923548992,
+            "median_per_taxon": 0.00007423309998749999,
+            "n_genera": 275,
+            "n_taxa": 371,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              0.00030962413586766444,
+              0.0032540697689874927
+            ],
+            "fraction_of_source_taxa_positive": 0.5481049562682215,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0018167009023173169,
+            "median_per_taxon": 0.000598208866295,
+            "n_genera": 257,
+            "n_taxa": 343,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              0.00029850730869197584,
+              0.0015049352469093892
+            ],
+            "fraction_of_source_taxa_positive": 0.5095785440613027,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0008821061630526999,
+            "median_per_taxon": 0.00008490423663500002,
+            "n_genera": 888,
+            "n_taxa": 1827,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3266,
+        "global_species_equal_mean": 0.0009545671469871583,
+        "n_cohorts_with_negative_mean": 0,
+        "n_cohorts_with_positive_mean": 5,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO12 yellow, within original photo label": {
+        "cohort_mean_signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              -0.000327489440731336,
+              0.0016491630509661956
+            ],
+            "fraction_of_source_taxa_positive": 0.49453551912568305,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0006843703960308919,
+            "median_per_taxon": -0.00007440032147087495,
+            "n_genera": 259,
+            "n_taxa": 366,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              -0.000843398621743056,
+              0.0012986384407319652
+            ],
+            "fraction_of_source_taxa_positive": 0.4763231197771588,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0001997926652764587,
+            "median_per_taxon": -0.00030559425240499997,
+            "n_genera": 269,
+            "n_taxa": 359,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              -0.0005419651496651619,
+              0.0017375870309409758
+            ],
+            "fraction_of_source_taxa_positive": 0.48517520215633425,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0005932627086278398,
+            "median_per_taxon": -0.00009999288260150005,
+            "n_genera": 275,
+            "n_taxa": 371,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              0.00024853554355947204,
+              0.002391242665695209
+            ],
+            "fraction_of_source_taxa_positive": 0.5364431486880467,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.001291066894701982,
+            "median_per_taxon": 0.0003699091606306,
+            "n_genera": 257,
+            "n_taxa": 343,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              0.00014617837465021678,
+              0.0011363175804267546
+            ],
+            "fraction_of_source_taxa_positive": 0.5134099616858238,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0006398311825455466,
+            "median_per_taxon": 0.0001081072782655,
+            "n_genera": 888,
+            "n_taxa": 1827,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3266,
+        "global_species_equal_mean": 0.0006595569847140162,
+        "n_cohorts_with_negative_mean": 0,
+        "n_cohorts_with_positive_mean": 5,
+        "no_prospective_confirmation_claim": true
+      },
+      "BIO5 white, total-photo palette": {
+        "cohort_mean_signs": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cohorts": [
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "discovery",
+            "exploratory_genus_marginal95": [
+              0.0017552342271871862,
+              0.0061348317182517605
+            ],
+            "fraction_of_source_taxa_positive": 0.5489130434782609,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0039021638868099394,
+            "median_per_taxon": 0.001417366041425,
+            "n_genera": 260,
+            "n_taxa": 368,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "validation",
+            "exploratory_genus_marginal95": [
+              0.002692976464939693,
+              0.0069764017702071204
+            ],
+            "fraction_of_source_taxa_positive": 0.5770308123249299,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.004745536021614667,
+            "median_per_taxon": 0.00233410525443,
+            "n_genera": 267,
+            "n_taxa": 357,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "prospective",
+            "exploratory_genus_marginal95": [
+              0.0009702833127848424,
+              0.00545609421444119
+            ],
+            "fraction_of_source_taxa_positive": 0.5638297872340425,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0030801200737717895,
+            "median_per_taxon": 0.0016549018372000002,
+            "n_genera": 280,
+            "n_taxa": 376,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "wave4",
+            "exploratory_genus_marginal95": [
+              -0.00017866487927414311,
+              0.00394139242183404
+            ],
+            "fraction_of_source_taxa_positive": 0.5470588235294118,
+            "marginal95_excludes_zero": false,
+            "mean_signed_original_photo_hue_covariance": 0.0018854699141049596,
+            "median_per_taxon": 0.0011121418837850001,
+            "n_genera": 255,
+            "n_taxa": 340,
+            "status": "species_equal_genus_cluster_bootstrap"
+          },
+          {
+            "bootstrap_repetitions": 1999,
+            "cohort": "new_U100",
+            "exploratory_genus_marginal95": [
+              0.0028646948182818746,
+              0.0048362173923202694
+            ],
+            "fraction_of_source_taxa_positive": 0.5832878208629164,
+            "marginal95_excludes_zero": true,
+            "mean_signed_original_photo_hue_covariance": 0.0038609672579180947,
+            "median_per_taxon": 0.00242650377522,
+            "n_genera": 888,
+            "n_taxa": 1831,
+            "status": "species_equal_genus_cluster_bootstrap"
+          }
+        ],
+        "global_n_eligible_species": 3272,
+        "global_species_equal_mean": 0.0036671053294145485,
+        "n_cohorts_with_negative_mean": 0,
+        "n_cohorts_with_positive_mean": 5,
+        "no_prospective_confirmation_claim": true
+      }
+    }
+  },
+  "schema": "fcp4475_nine_hue_climate_original_five_cohort_source_audit_v1",
+  "source_classifiable_photo_n": 227107,
+  "species_equal_and_whole_genus_bootstrap": 1999,
+  "species_original_n": 4475
+}
