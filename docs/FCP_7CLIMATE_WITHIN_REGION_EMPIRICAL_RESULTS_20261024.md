@@ -1,4 +1,4 @@
-# FCP: within-region falsification of seven-climate continuous nine-hue association
+# FCP: continuous nine-hue colour and climate — regional-scale sensitivity results
 
 **Original-data analysis and independent paired-species audit PASSED, 24 October 2026.** This is a *source-photography observational test*, not confirmation of stable heritable flower morphs, flower-specific climatic response, adaptive benefits or genetic population-level environmental sorting.
 
@@ -6,7 +6,7 @@
 
 The upstream [seven-climate full-photo analysis, PR #265](https://github.com/zuizui0223/fcp/pull/265) found a small positive signed covariance between the photographic white-palette fraction of flowers and long-term maximum temperature of the warmest month (BIO5) after a **global 3D linear spatial coordinate and month adjustment**. Among 1,578 taxa with at least two well-supported original 4-state photographic categories, +0.005278 signed mean photo-BIO5 covariance exceeded species-month-matched null; 75.8% of that mean signed covariance came from the original photo-category-between term, not a genetic morph frequency.
 
-The scientifically consequential remaining threat was **regional geographic structure that is not adequately absorbed by global XYZ**. This new analysis tests climate vs the continuous nine-palette at **fixed 5° and 1° geographical blocks** and calendar month in the same actual source. It does not overwrite any upstream analysis.
+To evaluate the geographic scale of the observed photo-colour association, this additional analysis compares the continuous nine-palette with climate **inside sampled 5° and 1° geographic blocks**, controlling for calendar month. These analyses are **supplementary scale-sensitivity tests**, not a new universal pass/fail condition on the main continuous-colour result. The upstream data and conclusions remain unchanged.
 
 ## Authenticated source and model
 
@@ -29,7 +29,7 @@ Then 199 spatial-block × calendar-month permutations exchange original climate 
 
 The reduction from 5° to 1° partly reflects sampled region/month/climate-cell opportunity; the less informative source taxa remain in all four 4,475-row ledgers, not converted to zero temperature responses.
 
-## Result A: signed BIO5/white-photograph association weakens under finer region matching
+## Result A: positive BIO5–photo-white association at the 5° regional scale
 
 Original source regional permutation results:
 
@@ -40,11 +40,11 @@ Original source regional permutation results:
 | 1° all photos | 1,377 | +0.00096935 | 0.035 |
 | **1° one per observer** | **1,303** | **+0.00069396** | **0.120** |
 
-The latter is **not supported after the seven-variable correction**. This test cannot justify a universal within-locality tendency for warmer climates to produce more photographic white hue, much less white genetic flower morphs. The 1° sample and its climatic variance differ from the 5° sample.
+**Primary observational result:** at 5° the temperature–photo-white association is positive both with all eligible observations and after one-photo-per-observer thinning (Holm-adjusted p=0.035). The narrower 1° comparisons are additional sensitivity analyses with fewer identifiable species and less residual climate variation; their numerical results are shown above without treating the strictest combination as the defining criterion for the overall association.
 
 Within the 1° observer-thinned sample, the **9D photo hue-vector norm** nevertheless shows a tiny excess +0.00105560 over matched null, Holm7 p=0.035. This is not a signed shift toward white; it may represent other hue directions, crop/camera variation or non-homologous floral organs. Its original-photo-label **within** component in 1°-thin has 9D norm excess +0.00050774, Holm7 p=0.035, but signed-white within effect +0.00010790, Holm7 p=1.000. The original-photo-label **between** component at 1°-thin was not supported in signed white (n=454, Holm7 p=0.680) or 9D norm (Holm7 p=0.825).
 
-Thus an apparent positive unsigned hue-distance association does **not** rescue a robust common direction of white enrichment within small geographical regions.
+This illustrates why the **magnitude of nine-hue change** and its **signed direction toward white** must be interpreted as distinct photographic quantities. Both remain observational measures, not verified genetic or physiologically calibrated flower-colour responses.
 
 ## Result B: control for the changing species and residual climate variance
 
@@ -69,13 +69,13 @@ where each species' original climate was scaled by its observed SD before region
 
 The *median retained climate variance fractions*, in exactly those two matched BIO5 species sets, fell from **0.565 to 0.178** in the original photos and **0.562 to 0.174** after observer thinning.
 
-**Conclusion of the paired audit:** estimates are numerically larger at 5° than 1°, but the paired *difference* does **not** exclude zero under seven-climate simultaneous uncertainty. A drop in raw covariance does not itself prove the biological temperature slope weakened, and a positive fine-regional estimate with an interval spanning zero does not prove absence of any true biological effect.
+**Conclusion of the paired audit:** estimates are numerically larger at 5° than 1°, but the paired *difference* does **not** exclude zero under seven-climate simultaneous uncertainty. Narrower blocks retain less climate variation, so smaller raw covariances must not automatically be interpreted as a weaker biological temperature slope.
 
-For seven-climate simultaneous 1° slopes, **BIO5 does not exclude zero in either photo panel**. Other axes must not be cherry-picked from these exploratory families as a universal climatic adaptation law.
+**Supplementary inferential detail:** 1° BIO5 variance-normalized confidence intervals include zero in both photo panels, and the 1° observer-thinned signed-white permutation result has Holm-adjusted p=0.120. This is retained for reproducibility and to bound the strength of the claim; it is **not promoted to the main paper's universal inclusion/exclusion gate**. Other climate axes must not be cherry-picked as a general adaptation law.
 
 ## Interpretation ceiling and previous contrary evidence
 
-1. **Primary observational positive:** species' photographic colour contains a small 5° regional BIO5 signal above region/month-matched null; the fine 1° signed-white effect fails observer-thinned seven-predictor correction.
+1. **Primary observational positive:** the photographed continuous white-palette component has a small positive BIO5 association in both original and observer-thinned 5° regional analyses. Fine-scale analyses measure scale sensitivity and photographic sampling opportunity rather than defining the study's central claim.
 2. **Repeated weak photographic colour geometry:** fine 1° residual 9D hue norms remain small positive but are not same as more white pigment absence or genetic morph frequency. 
 3. **No robust photo colour-morph inference:** the source photo palette can include senescent flowers, buds, fruit/sepals, petal guide blotches, camera/background variation and cultivated plants; 220,393 source photos were unclassifiable. Even a conditional positive is not causation by temperature or a per-anthesis exposure experiment.
 4. **Earlier independent technical negative remains:** flower-minus-background validation on a separate species-disjoint cohort was unsupported (rho −0.00328, p=0.82); strict ≤5km same-year/month distinct-observer photographic null was also unsupported. This new test does not replace those limits.
@@ -91,4 +91,4 @@ For seven-climate simultaneous 1° slopes, **BIO5 does not exclude zero in eithe
 - Original photo/raster source zip SHA and artifacts are immutable, separately recorded in the full machine receipts under results/fcp4475_climate_within_region_verified_20261024.json and results/fcp4475_climate_paired_region_scale_verified_20261024.json.
 - Source run artifact ID 12545591935; independent audit artifact 12545748040. Original photo IDs/coordinates/observer identities are not uploaded in these derived per-species ledgers.
 
-**Manuscript-level wording:** Within-species nine-hue photographic compositions exhibit a small temperature-related signal across coarse local regions, but the specific directional signal toward the photographic white palette is not robust to simultaneous 1° block, month, independent-observer and multiple-predictor scrutiny. This supports caution about treating the global spatial temperature gradient as a general climate-maintained genetic flower-colour polymorphism. Independent floral organ and genotype/fitness validation remains necessary.
+**Manuscript-level wording:** Across multiple sampled species, continuous photographic nine-hue composition covaries weakly with climate, and the BIO5-related white component remains positive within 5° regional blocks after calendar-month and observer checks. The magnitude and direction of this photo-colour relationship vary with spatial scale and estimable climate opportunity. These observational associations do not establish heritable colour-morph frequencies, causal climatic selection or pigmentation cost–benefit mechanisms; independent floral-organ and genetic/fitness evidence remains necessary.
