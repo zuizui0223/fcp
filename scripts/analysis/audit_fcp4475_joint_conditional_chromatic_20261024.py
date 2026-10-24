@@ -122,6 +122,51 @@ def analyse_component(mean,denom,boot,comp):
     }
 
 
+def common_species_photo_label_partition(taxa,photo_slopes,axis,seed=SEED):
+    """Three photo-label components evaluated on *identical* source taxa.
+
+    Marginal genus intervals for total, photographic-label between and within
+    conditional signed WHITE fraction slopes. These are photo-label components
+    and do not identify genetic morph frequency. The ratio may be negative
+    or exceed 100 percent if components oppose each other.
+    """
+    j=CLIM.index(axis)
+    values=photo_slopes[:,j,:,0]
+    good=np.isfinite(values).all(axis=1)
+    subset=values[good]
+    genera,allg=pd.factorize(taxa.loc[good,"genus"],sort=True)
+    G=len(allg)
+    if len(subset)<20:
+        return {"status":"insufficient_original_photo_class_overlap","n_species":int(len(subset))}
+    check(np.max(np.abs(subset[:,0]-subset[:,1]-subset[:,2]))<1e-9,
+          "exact photo category covariance identity failed on shared source")
+    gS=np.zeros((G,3),float)
+    count=np.bincount(genera,minlength=G)
+    np.add.at(gS,genera,subset)
+    draw=np.random.default_rng(seed).integers(G,size=(REPS,G))
+    bootstrap=gS[draw].sum(axis=1)/count[draw].sum(axis=1)[:,None]
+    mean=subset.mean(axis=0)
+    ci=np.quantile(bootstrap,[.025,.975],axis=0).T
+    ratio=float(mean[1]/mean[0]) if abs(mean[0])>1e-8 else None
+    ratios=bootstrap[:,1]/bootstrap[:,0]
+    ratios=ratios[np.isfinite(ratios)]
+    return {
+        "status":"same_species_three_photo_category_covariance_components",
+        "source_taxa_with_two_photo_colour_labels":int(len(subset)),
+        "source_genera":int(G),
+        "mean_signed_white_conditional_slope":{
+            comp:{
+                "point":float(mean[i]),
+                "genus_bootstrap_marginal95":[float(x) for x in ci[i]],
+            }
+            for i,comp in enumerate(COMP)},
+        "photo_label_between_share_of_signed_mean_if_defined":ratio,
+        "genus_bootstrap_ratio95":[float(x) for x in np.quantile(ratios,[.025,.975])],
+        "fraction_algebraic_not_heritability":True,
+        "same_taxon_subset_required":True,
+    }
+
+
 def audit(root):
     sp=root/"joint_climate_conditional_hue_summary.json"
     check(sha(sp)==SOURCE_SHA["summary"],"source result JSON SHA changed")
@@ -154,10 +199,16 @@ def audit(root):
             full={}
             for j,comp in enumerate(COMP):
                 full[comp]=analyse_component(mean,n,bootstrap,j)
+            partition={
+                axis:common_species_photo_label_partition(
+                    frame,coef,axis,seed=SEED+idx*503+len(mdl)*17+CLIM.index(axis))
+                for axis in ("BIO5","BIO12")
+            }
             results[key]={
                 "n_genus_source_clusters":int(G),
                 "source_n_taxa":4475,
                 "n_with_any_joint_climate":int(frame.status.eq("source_joint_climate_identifiable").sum()),
+                "same_source_taxa_photo_label_partition":partition,
                 "chromatic_by_original_photo_component":full
             }
     return {
@@ -188,6 +239,9 @@ def selftest():
     residual=example-projection*Q
     check(abs(residual[0])<1e-12,
           "a purely chromatic source photo contrast retains white")
+    v=np.array([[.04,.03,.01],[.02,.005,.015]])
+    check(np.max(np.abs(v[:,0]-v[:,1]-v[:,2]))<1e-12,
+          "photo component arithmetic selftest failed")
     print("FCP4475_JOINT_CHROMATIC_INDEPENDENT_SELFTEST_PASS")
 
 
