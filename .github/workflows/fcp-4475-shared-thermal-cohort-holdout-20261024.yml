@@ -1,0 +1,65 @@
+name: FCP 4475 shared thermal hue five-source-cohort leave-one-out audit
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_fcp4475_shared_thermal_cohort_holdout_20261024.py
+      - .github/workflows/fcp-4475-shared-thermal-cohort-holdout-20261024.yml
+      - docs/FCP_SHARED_THERMAL_MOISTURE_RESULTS_20261024.md
+      - results/fcp4475_shared_thermal_cohort_audit_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-artifact-cohort-falsification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Compile independent provenance and genus-bootstrap no-source-imputation fixture
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp4475_shared_thermal_cohort_holdout_20261024.py
+          python scripts/analysis/audit_fcp4475_shared_thermal_cohort_holdout_20261024.py --self-test
+      - name: Fetch immutable original 447500-photo source-derived 4475-taxon data and verify artifact digest
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-shared-audit/{source,out}
+          SOURCE_DIGEST="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12549840336" --jq '.digest')"
+          test "$SOURCE_DIGEST" = "sha256:3f290b8028bbfcdb6fa2d1a4ae85f3155b21786d7c8d48175af4805c78c099a0"
+          gh run download 40066224301 --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-shared-thermal-moisture-source-photo-hues-20261024 \
+            --dir /tmp/fcp-shared-audit/source
+      - name: Independently test genotype-free photo thermal climate direction across 5 source cohorts and observer thinning
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp4475_shared_thermal_cohort_holdout_20261024.py \
+            --source /tmp/fcp-shared-audit/source --out /tmp/fcp-shared-audit/out
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=Path('/tmp/fcp-shared-audit/out/five_cohort_thermal_leave_one_out_original_source.json')
+          data=json.loads(q.read_text())
+          assert (data['source_original_photos'],data['source_original_taxa'],
+                  data['source_original_nine_hue_classifiable'])==(447500,4475,227107)
+          for panel,group in data['five_cohort_original_photo_thermal_consistency'].items():
+              assert len(group['source_cohort_exclusion_thermal_photo_hue'])==5
+              assert len(group['five_cohort_mean_signs'])==5
+              assert all(x==1 for x in group['five_cohort_mean_signs'])
+              assert group['cohort_equal_weight_mean_of_five_photo_hue_slopes']>0
+              assert all(v['n_species']>500 for v in group['source_cohort_exclusion_thermal_photo_hue'].values())
+          assert data['one_photo_per_observer_matched_taxa_difference']['n_source_eligible_matched_taxa']>1000
+          print('FCP4475_THERMAL_MACRO_SOURCE_COHORT_ALL_DATA_PASS')
+          print('FCP4475_THERMAL_MACRO_COHORT_FULL_JSON',json.dumps(data,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-shared-thermal-original-photo-cohort-audit-20261024
+          path: /tmp/fcp-shared-audit/out/
+          retention-days: 90
