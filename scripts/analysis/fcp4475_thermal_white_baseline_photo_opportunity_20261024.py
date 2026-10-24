@@ -329,7 +329,7 @@ def quartile_summary(frame,column,title,seed=SEED):
 
 def one_panel(frame,mode):
     d=frame.loc[frame.thermal_photo_white_slope.notna()].copy()
-    check(len(d)>2400,"unexpectedly few original thermal-model taxa")
+    require(len(d)>2400,"unexpectedly few original thermal-model taxa")
     d["_group"]=d.original_photo_white_presence_stratum.astype(str)
     groups=genus_bootstrap_grouptable(d,STRATA,SEED+int(mode=="observer_thinned")*400)
     quart={}
