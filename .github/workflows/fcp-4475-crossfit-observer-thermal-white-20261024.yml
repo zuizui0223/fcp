@@ -1,0 +1,98 @@
+name: FCP 4475 independent observer crossfit of photo-white thermal association
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_crossfitted_observer_independent_thermal_white_20261024.py
+      - .github/workflows/fcp-4475-crossfit-observer-thermal-white-20261024.yml
+      - docs/FCP_4475_OBSERVER_CROSSFIT_THERMAL_WHITE_20261024.md
+      - docs/FCP_4475_OBSERVER_CROSSFIT_RESULTS_20261024.md
+      - results/fcp4475_observer_disjoint_thermal_white_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Verify no shared observer photos and exact within-month photographic null
+        run: |
+          python -m py_compile scripts/analysis/fcp4475_crossfitted_observer_independent_thermal_white_20261024.py
+          OPENBLAS_NUM_THREADS=1 python scripts/analysis/fcp4475_crossfitted_observer_independent_thermal_white_20261024.py --self-test
+  original-source-crossfit:
+    needs: synthetic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      BIO_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+      SRAD_SHA: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Authenticate the unmodified 447500 measured photo records and source BIO/solar rasters
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-crossfit/{release,measured,climate,out}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_FILE" --dir /tmp/fcp-crossfit/release
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp-crossfit/release/$SOURCE_FILE" | sha256sum -c -
+          tar -xzf /tmp/fcp-crossfit/release/$SOURCE_FILE -C /tmp/fcp-crossfit \
+            measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA  /tmp/fcp-crossfit/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern wc2.1_10m_bio.zip --pattern wc2.1_10m_srad.zip \
+            --dir /tmp/fcp-crossfit/climate
+          echo "$BIO_SHA  /tmp/fcp-crossfit/climate/wc2.1_10m_bio.zip" | sha256sum -c -
+          echo "$SRAD_SHA  /tmp/fcp-crossfit/climate/wc2.1_10m_srad.zip" | sha256sum -c -
+      - name: Original 4475 taxa cross-fitted photo-white baseline and independent observers' thermal slopes
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp4475_crossfitted_observer_independent_thermal_white_20261024.py \
+            --photos /tmp/fcp-crossfit/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-bio /tmp/fcp-crossfit/climate/wc2.1_10m_bio.zip \
+            --worldclim-srad /tmp/fcp-crossfit/climate/wc2.1_10m_srad.zip \
+            --out /tmp/fcp-crossfit/out
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          root=Path('/tmp/fcp-crossfit/out')
+          z=json.loads((root/'fcp4475_observer_disjoint_crossfit_white_thermal_results.json').read_text())
+          assert (z['source_original_photos'],z['source_taxa'],
+                  z['source_classified_nine_photo_hue'])==(447500,4475,227107)
+          assert z['baseline_and_heldout_photo_observers_strictly_disjoint']
+          assert len(z['panels'])==4
+          d=pd.read_csv(root/'fcp4475_source_all_taxa_twofold_observer_crossfit_thermal_white.csv')
+          assert len(d)==4475*4
+          assert d.groupby(['direction','test_photo_mode']).size().eq(4475).all()
+          assert not d.duplicated(['inat_taxon_id','direction','test_photo_mode']).any()
+          for name,panel in z['panels'].items():
+              assert 0<=panel['n_heldout_thermal_estimable']<=4475
+              assert len(panel['three_image_baseline_group']['results'])==4
+              assert len(panel['five_image_baseline_group']['results'])==4
+              assert panel['n_original_source_species']==4475
+          print('FCP4475_CROSSFITTED_ORIGINAL_SOURCE_QA_PASS')
+          print('FCP4475_CROSSFIT_SOURCE_FULL_JSON',json.dumps(z,separators=(',',':'),sort_keys=True,allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-source-photo-observer-disjoint-white-thermal-crossfit-20261024
+          path: /tmp/fcp-crossfit/out/
+          retention-days: 90
