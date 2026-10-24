@@ -1,0 +1,84 @@
+name: FCP 4475 climate hue source cohort and full-result audit
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_fcp4475_five_cohort_climate_hue_direction_20261024.py
+      - .github/workflows/fcp-4475-climate-hue-cohort-audit-20261024.yml
+      - docs/FCP_4475_CLIMATE_HUE_DIRECTION_RESULTS_20261024.md
+      - results/fcp4475_climate_nine_hue_direction_verified_20261024.json
+      - results/fcp4475_climate_hue_five_cohort_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  five-cohort-full-source-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Assert chromatic subspace formula and compile independent source audit
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp4475_five_cohort_climate_hue_direction_20261024.py
+          python scripts/analysis/audit_fcp4475_five_cohort_climate_hue_direction_20261024.py --self-test
+      - name: Download exact original 447500-source nine-colour seven-climate artifact
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp4475-hue-cohort/{source,results}
+          gh run download 40060153598 --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-seven-climate-full-nine-photo-hue-direction-20261024 \
+            --dir /tmp/fcp4475-hue-cohort/source
+          echo '207c08ec0575f308e865c93fc349ff1ed89faf5483a016333e66b07bb65b6f38  /tmp/fcp4475-hue-cohort/source/original4475_original_per_taxon_seven_climate_nine_hue.csv' | sha256sum -c -
+          echo '078db22924156cfa9509769ea9896dd00e639c93ee96bc29d6b26c341755fba6  /tmp/fcp4475-hue-cohort/source/original4475_observer_thinned_per_taxon_seven_climate_nine_hue.csv' | sha256sum -c -
+          echo 'fc30eaa9e1cdec57f66fb29ce0be71a010c14a709f6f99f48068d7072b19671a  /tmp/fcp4475-hue-cohort/source/seven_climate_nine_hue_source_signatures.json' | sha256sum -c -
+      - name: Recompute five cohort genus intervals and exact hue-white orthogonalization
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp4475_five_cohort_climate_hue_direction_20261024.py \
+            --original /tmp/fcp4475-hue-cohort/source/original4475_original_per_taxon_seven_climate_nine_hue.csv \
+            --observer-thinned /tmp/fcp4475-hue-cohort/source/original4475_observer_thinned_per_taxon_seven_climate_nine_hue.csv \
+            --source-result /tmp/fcp4475-hue-cohort/source/seven_climate_nine_hue_source_signatures.json \
+            --out /tmp/fcp4475-hue-cohort/results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          src=Path('/tmp/fcp4475-hue-cohort/source/seven_climate_nine_hue_source_signatures.json')
+          audit=Path('/tmp/fcp4475-hue-cohort/results/five_cohort_climate_colour_signature_audit.json')
+          s=json.loads(src.read_text())
+          a=json.loads(audit.read_text())
+          assert s['source_n_original_photos']==447500
+          assert s['source_n_original_taxa']==4475
+          assert s['source_n_classified_photo']==227107
+          assert a['photos_original_n']==447500
+          assert len(a['five_species_disjoint_source_cohorts'])==5
+          for panel in ('original','observer_thinned'):
+              white=s['results'][panel]['component_results']['total']['axes']['BIO5']
+              assert white['white_mean_species_covariance']>0
+              assert white['white_axis_energy_fraction_of_mean_vector']>.5
+              assert len(s['results'][panel]['source_cohort_sign_replication'])==5
+              for target,val in a['results'][panel].items():
+                  assert len(val['cohorts'])==5
+                  assert sum(x['n_taxa'] for x in val['cohorts'])==val['global_n_eligible_species']
+          # Chunks are written to GitHub Actions source logs to allow the
+          # exact validated JSON outputs to be committed into the PR via
+          # a connector, without publishing private source photo coordinates.
+          for token,path in (('SOURCE',src),('FIVE_COHORT',audit)):
+              data=json.dumps(json.loads(path.read_text()),separators=(',',':'),sort_keys=True,allow_nan=False)
+              chunks=[data[i:i+12000] for i in range(0,len(data),12000)]
+              print('FCP4475_FULL_'+token+'_PARTS',len(chunks),flush=True)
+              for i,ch in enumerate(chunks):
+                  print('FCP4475_FULL_'+token+'_PIECE',i,len(chunks),ch,flush=True)
+          print('FCP4475_FIVE_COHORT_SOURCE_AUTHENTICATED_ALL_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-nine-photo-hue-climate-five-cohort-audit-20261024
+          path: /tmp/fcp4475-hue-cohort/results/
+          retention-days: 90
