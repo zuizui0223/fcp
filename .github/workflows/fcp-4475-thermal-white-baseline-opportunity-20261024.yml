@@ -63,29 +63,25 @@ jobs:
           gh run download "$UPSTREAM_RUN" --repo "$GITHUB_REPOSITORY" \
             --name fcp4475-shared-thermal-moisture-source-photo-hues-20261024 \
             --dir /tmp/fcp-white-baseline/upstream
+          SOURCE_PROVIDER_DIGEST="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12549840336" --jq '.digest')"
+          test "$SOURCE_PROVIDER_DIGEST" = "sha256:$UPSTREAM_SOURCE_DIGEST"
           cd /tmp/fcp-white-baseline/upstream
-          zip -q -X -r /tmp/fcp-white-baseline/source_deterministic_repack.zip .
-          # Source archive zip binary digest is separately pinned in the
-          # analysis script. Here verify EACH upstream file to avoid a
-          # non-deterministic re-zipping byte mismatch.
+          # Provider ZIP digest AND every extracted numeric source file are
+          # verified. Repacking would not preserve original artifact bytes.
           echo '67a91c94a807e184178937d8e683467e5534b5c49ddfa24d83937a02eb5610ec  shared_thermal_moisture_nine_hue_source_result.json' | sha256sum -c -
           echo 'c3b50053b7cbbd10c90958690fa6b855f4f8ff8cdc414c3140e45cd3463cbea1  fcp4475_original_thermal_moisture_support.csv' | sha256sum -c -
           echo '77eca75f7909bcee53ec3d24766d6d6db1140d654b86b26fae81bb3bbcd15378  fcp4475_original_thermal_moisture_nine_hue_coefficients.npz' | sha256sum -c -
           echo '00ae2d01d372d56a7399c6ab12ecd755cef0dda827207d4f6209edcf19becb4d  fcp4475_observer_thinned_thermal_moisture_support.csv' | sha256sum -c -
           echo '6a80cd28488af3fcb02ca305f5efc25ed19cb76f257fd18bd1802c7773bb86fc  fcp4475_observer_thinned_thermal_moisture_nine_hue_coefficients.npz' | sha256sum -c -
-          # Retain original GitHub Action artifact ZIP bytes; downloading
-          # a run's named artifact through gh run download *extracts* files,
-          # and does not guarantee a byte-identical reconstructed ZIP.
       - name: Compute photo-white visibility, source classification and BIO5 width on exact source
         run: |
           set -euo pipefail
-          # The original named ZIP is reconstructed with normalized file
-          # metadata to pass the member-SHA-locked parser, but not falsely
-          # claimed to match GitHub's ZIP digest.
+          # Directly read authenticated extracted source files whose bytes
+          # match the previous source CI's immutable SHA256 manifest.
           python scripts/analysis/fcp4475_thermal_white_baseline_photo_opportunity_20261024.py \
             --source-photos /tmp/fcp-white-baseline/measured/fcp_all4730_original_method_measured_photos.csv.gz \
             --worldclim-bio /tmp/fcp-white-baseline/climate/wc2.1_10m_bio.zip \
-            --thermal-artifact /tmp/fcp-white-baseline/source_deterministic_repack.zip \
+            --thermal-artifact /tmp/fcp-white-baseline/upstream \
             --out /tmp/fcp-white-baseline/results
           python - <<'PY'
           from pathlib import Path
