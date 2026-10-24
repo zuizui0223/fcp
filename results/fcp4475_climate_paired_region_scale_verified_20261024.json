@@ -1,0 +1,1259 @@
+{
+  "bootstrap_family7_controls_each_metric_family_not_all_12_panels_jointly": true,
+  "frozen_source_CSV_SHA256": {
+    "observer_thinned_1": "27911db48c260a39a091741a766163691e008b609841de35114faf1e9c1c180d",
+    "observer_thinned_5": "d7a9ea1a86bcf788c099d7deee6492cb0dc56be1c1201c655d53399c4e84e27f",
+    "original_1": "31ad317ff735b2300123149ff60f0307b6cc3c9dadff2e8b59efe63e5116283e",
+    "original_5": "828a9a8810cf3a2fed00075c21b544add2c24f2ae7a08794331f8364f850fc91",
+    "summary": "9239086c2141fca8d63b94bca149c296a57e863e7ee5d8a2c0491e5ac12a7c00"
+  },
+  "geographic_region_fixed_effects_are_not_genomic_controls": true,
+  "n_genus_bootstrap_replicates": 1999,
+  "no_background_organ_genotype_fitness_controls": true,
+  "one_degree_missing_or_no_contrast_species_never_imputed": true,
+  "original_climate_SD_normalisation": "worldclim sampled photo climate SD within each taxon, prior to region+month residualisation",
+  "paired_scales_require_identical_original_photo_ids_and_eligible_taxa": true,
+  "photo_labels_are_not_genetic_morphs": true,
+  "results": {
+    "observer_thinned": {
+      "n_genera_total_original_taxa": 1634,
+      "per_axis_common_support": {
+        "BIO1": {
+          "fraction_species_positive_1degree_signed_white": 0.5191793041926851,
+          "median_climate_residual_fraction_1degree": 0.167577274223,
+          "median_climate_residual_fraction_5degree": 0.509288453985,
+          "n_genera": 566,
+          "n_shared_source_species": 1121,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00021427772445413773,
+                0.0014589474555338803
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00046317271403927105,
+                0.001739031296519339
+              ],
+              "mean": 0.000637929291240034,
+              "n_identical_taxa": 1121
+            },
+            "cov5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.0006426870867672828,
+                0.0036699358013892527
+              ],
+              "genus_family7_simultaneous95": [
+                0.00007750884440552901,
+                0.00420402035126336
+              ],
+              "mean": 0.002140764597834444,
+              "n_identical_taxa": 1121
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0003740618249478217,
+                0.002701890451778551
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00007104436377858574,
+                0.0030767149769674058
+              ],
+              "mean": 0.00150283530659441,
+              "n_identical_taxa": 1121
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0024370997543374587,
+                0.005277697842612502
+              ],
+              "genus_family7_simultaneous95": [
+                -0.003735444734261784,
+                0.00680651983679326
+              ],
+              "mean": 0.0015355375512657384,
+              "n_identical_taxa": 1121
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0008817230781408,
+                0.006460337563532073
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00012923196556418898,
+                0.007423847105829328
+              ],
+              "mean": 0.0036473075701325694,
+              "n_identical_taxa": 1121
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.000832815560208978,
+                0.005374290082927878
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002138024681354502,
+                0.006361564719088153
+              ],
+              "mean": 0.0021117700188668254,
+              "n_identical_taxa": 1121
+            }
+          }
+        },
+        "BIO12": {
+          "fraction_species_positive_1degree_signed_white": 0.4886052871467639,
+          "median_climate_residual_fraction_1degree": 0.164458974468,
+          "median_climate_residual_fraction_5degree": 0.560716128457,
+          "n_genera": 553,
+          "n_shared_source_species": 1097,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0011538114657706209,
+                0.0002762945050946828
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0013738223574782879,
+                0.0005248157086125097
+              ],
+              "mean": -0.0004245033244328891,
+              "n_identical_taxa": 1097
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0025541463037692122,
+                0.000005448395782385564
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002924912210120429,
+                0.0005111588968141594
+              ],
+              "mean": -0.0012068766566531346,
+              "n_identical_taxa": 1097
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0019337854021447274,
+                0.0003333665805401163
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0023190343986586232,
+                0.0007542877342181334
+              ],
+              "mean": -0.000782373332220245,
+              "n_identical_taxa": 1097
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004964825743592831,
+                0.0026362082978714668
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00634484947863617,
+                0.003852718482629591
+              ],
+              "mean": -0.0012460654980032894,
+              "n_identical_taxa": 1097
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004534258286793994,
+                0.0003108629307732162
+              ],
+              "genus_family7_simultaneous95": [
+                -0.005279324887669525,
+                0.0012819050383012574
+              ],
+              "mean": -0.0019987099246841335,
+              "n_identical_taxa": 1097
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00422296691710793,
+                0.002719533896317051
+              ],
+              "genus_family7_simultaneous95": [
+                -0.005585673301671903,
+                0.004080384448310214
+              ],
+              "mean": -0.0007526444266808442,
+              "n_identical_taxa": 1097
+            }
+          }
+        },
+        "BIO14": {
+          "fraction_species_positive_1degree_signed_white": 0.47419354838709676,
+          "median_climate_residual_fraction_1degree": 0.14297805891249998,
+          "median_climate_residual_fraction_5degree": 0.533881440851,
+          "n_genera": 491,
+          "n_shared_source_species": 930,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0014532407490670531,
+                -0.000019532967863854473
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0016944021836858515,
+                0.00020045660852572103
+              ],
+              "mean": -0.0007469727875800652,
+              "n_identical_taxa": 930
+            },
+            "cov5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                -0.0035737573630943136,
+                -0.0006518176042519095
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0040139702100742,
+                -0.0001656273371388882
+              ],
+              "mean": -0.0020897987736065438,
+              "n_identical_taxa": 930
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0025315392536729175,
+                -0.00017003691228410336
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00298972263729658,
+                0.0003040706652436241
+              ],
+              "mean": -0.0013428259860264779,
+              "n_identical_taxa": 930
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.006278970315805257,
+                0.0016586788565854658
+              ],
+              "genus_family7_simultaneous95": [
+                -0.007692887772154664,
+                0.0030204271443298996
+              ],
+              "mean": -0.002336230313912382,
+              "n_identical_taxa": 930
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.006281763249720052,
+                -0.0007690110886636993
+              ],
+              "genus_family7_simultaneous95": [
+                -0.007091668070043862,
+                0.00012488790695763547
+              ],
+              "mean": -0.0034833900815431132,
+              "n_identical_taxa": 930
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004519701107460827,
+                0.002290528572489892
+              ],
+              "genus_family7_simultaneous95": [
+                -0.005843625708268868,
+                0.0035493061730073995
+              ],
+              "mean": -0.0011471597676307342,
+              "n_identical_taxa": 930
+            }
+          }
+        },
+        "BIO15": {
+          "fraction_species_positive_1degree_signed_white": 0.5128939828080229,
+          "median_climate_residual_fraction_1degree": 0.118374292401,
+          "median_climate_residual_fraction_5degree": 0.557910713217,
+          "n_genera": 385,
+          "n_shared_source_species": 698,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0008348560693484774,
+                0.000968285161904858
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0011482449313451094,
+                0.001315270803663483
+              ],
+              "mean": 0.00008351293615918679,
+              "n_identical_taxa": 698
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.001631166633269759,
+                0.0018080745903086034
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0023604807125122917,
+                0.002346623958137776
+              ],
+              "mean": -0.000006928377187257947,
+              "n_identical_taxa": 698
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0015314244506439705,
+                0.0014780744086071297
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0021470926422443868,
+                0.001966210015551496
+              ],
+              "mean": -0.0000904413133464454,
+              "n_identical_taxa": 698
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.005260745516547397,
+                0.0075306373758719965
+              ],
+              "genus_family7_simultaneous95": [
+                -0.007362824297502954,
+                0.00948965226480131
+              ],
+              "mean": 0.0010634139836491778,
+              "n_identical_taxa": 698
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0023008464602812923,
+                0.004614798754223105
+              ],
+              "genus_family7_simultaneous95": [
+                -0.003721117520661391,
+                0.005702102918530788
+              ],
+              "mean": 0.000990492698934698,
+              "n_identical_taxa": 698
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004919486482200368,
+                0.005264795898663494
+              ],
+              "genus_family7_simultaneous95": [
+                -0.006914948570368335,
+                0.006769106000939381
+              ],
+              "mean": -0.00007292128471447728,
+              "n_identical_taxa": 698
+            }
+          }
+        },
+        "BIO4": {
+          "fraction_species_positive_1degree_signed_white": 0.5304948216340621,
+          "median_climate_residual_fraction_1degree": 0.144638952822,
+          "median_climate_residual_fraction_5degree": 0.570390175363,
+          "n_genera": 453,
+          "n_shared_source_species": 869,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00011429458693239823,
+                0.0013109994600701991
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0003702905449026804,
+                0.0015566726287144304
+              ],
+              "mean": 0.000593191041905875,
+              "n_identical_taxa": 869
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.00027098420894840935,
+                0.00349829328642041
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00024162601198848116,
+                0.003940766262868396
+              ],
+              "mean": 0.0018495701254399577,
+              "n_identical_taxa": 869
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0001393908261126528,
+                0.0026731135150466607
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0006578989881087483,
+                0.003170657155176908
+              ],
+              "mean": 0.0012563790835340798,
+              "n_identical_taxa": 869
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00012467619345839681,
+                0.009017712647200669
+              ],
+              "genus_family7_simultaneous95": [
+                -0.001914580720250584,
+                0.010475790090011863
+              ],
+              "mean": 0.0042806046848806395,
+              "n_identical_taxa": 869
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.00024140051027023892,
+                0.006015289992401387
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0007185890340156219,
+                0.007011061457454925
+              ],
+              "mean": 0.0031462362117196515,
+              "n_identical_taxa": 869
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0054232660228586095,
+                0.003018543049013995
+              ],
+              "genus_family7_simultaneous95": [
+                -0.006971906626960891,
+                0.0047031696806389325
+              ],
+              "mean": -0.0011343684731609791,
+              "n_identical_taxa": 869
+            }
+          }
+        },
+        "BIO5": {
+          "fraction_species_positive_1degree_signed_white": 0.5379892555640828,
+          "median_climate_residual_fraction_1degree": 0.173722069665,
+          "median_climate_residual_fraction_5degree": 0.5617138744,
+          "n_genera": 652,
+          "n_shared_source_species": 1303,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00001543612388483821,
+                0.0013952693858503217
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00024239313257556395,
+                0.0016303086780054678
+              ],
+              "mean": 0.000693957772714952,
+              "n_identical_taxa": 1303
+            },
+            "cov5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.0017540796292492625,
+                0.00418265114884736
+              ],
+              "genus_family7_simultaneous95": [
+                0.0013350106071853105,
+                0.004566055094604284
+              ],
+              "mean": 0.0029505328508947974,
+              "n_identical_taxa": 1303
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.0012925902734061522,
+                0.003257180789953623
+              ],
+              "genus_family7_simultaneous95": [
+                0.0008926633633653854,
+                0.0036204867929943083
+              ],
+              "mean": 0.002256575078179847,
+              "n_identical_taxa": 1303
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0011343886501071043,
+                0.0058518168644957815
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002378931394872418,
+                0.007112797754258743
+              ],
+              "mean": 0.0023669331796931626,
+              "n_identical_taxa": 1303
+            },
+            "slope5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.003328827656855385,
+                0.007952064600235457
+              ],
+              "genus_family7_simultaneous95": [
+                0.002503574804900772,
+                0.008636664862447484
+              ],
+              "mean": 0.005570119833674128,
+              "n_identical_taxa": 1303
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.00024499128720538324,
+                0.006236974195290446
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0009663510476031821,
+                0.00737272435556509
+              ],
+              "mean": 0.0032031866539809543,
+              "n_identical_taxa": 1303
+            }
+          }
+        },
+        "SRADmean": {
+          "fraction_species_positive_1degree_signed_white": 0.556390977443609,
+          "median_climate_residual_fraction_1degree": 0.118819696091,
+          "median_climate_residual_fraction_5degree": 0.606332013051,
+          "n_genera": 260,
+          "n_shared_source_species": 399,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.00046644439394450716,
+                0.00256198340482232
+              ],
+              "genus_family7_simultaneous95": [
+                0.00012337461474266702,
+                0.002888172761166384
+              ],
+              "mean": 0.0015057736879545253,
+              "n_identical_taxa": 399
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00124450166132766,
+                0.003638754696166078
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002026637578513913,
+                0.004575011415455566
+              ],
+              "mean": 0.0012741869184708268,
+              "n_identical_taxa": 399
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0024202772304670597,
+                0.0019276085201144382
+              ],
+              "genus_family7_simultaneous95": [
+                -0.003209174921561019,
+                0.002746001382593623
+              ],
+              "mean": -0.0002315867694836978,
+              "n_identical_taxa": 399
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0010421418497971356,
+                0.015719399556168495
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0017279457133827156,
+                0.018169936457727957
+              ],
+              "mean": 0.008220995372172621,
+              "n_identical_taxa": 399
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.000980696651100186,
+                0.007583336638250431
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0026068990144823374,
+                0.009082351043592243
+              ],
+              "mean": 0.0032377260145549534,
+              "n_identical_taxa": 399
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.011819220457660855,
+                0.0016271619435418575
+              ],
+              "genus_family7_simultaneous95": [
+                -0.014288239463051505,
+                0.004321700747816167
+              ],
+              "mean": -0.004983269357617669,
+              "n_identical_taxa": 399
+            }
+          }
+        }
+      }
+    },
+    "original": {
+      "n_genera_total_original_taxa": 1634,
+      "per_axis_common_support": {
+        "BIO1": {
+          "fraction_species_positive_1degree_signed_white": 0.5198983911939035,
+          "median_climate_residual_fraction_1degree": 0.169728712888,
+          "median_climate_residual_fraction_5degree": 0.505525119282,
+          "n_genera": 596,
+          "n_shared_source_species": 1181,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00011965792349192991,
+                0.001589507530776815
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00044028575406521804,
+                0.0018421475298444753
+              ],
+              "mean": 0.0007009308878896287,
+              "n_identical_taxa": 1181
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0006751328029184857,
+                0.0038458487504420768
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00001058527398234508,
+                0.004348523894907737
+              ],
+              "mean": 0.002168969310462696,
+              "n_identical_taxa": 1181
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0002951648758335401,
+                0.0025988802743196764
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0001013750726014482,
+                0.003037451917747585
+              ],
+              "mean": 0.0014680384225730684,
+              "n_identical_taxa": 1181
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0013195738106039595,
+                0.006087552214829628
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0026756023193358538,
+                0.007640431881588784
+              ],
+              "mean": 0.0024824147811264652,
+              "n_identical_taxa": 1181
+            },
+            "slope5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.0011948405574712848,
+                0.0068044731397792725
+              ],
+              "genus_family7_simultaneous95": [
+                0.00008483187901324072,
+                0.00772794780204346
+              ],
+              "mean": 0.003906389840528351,
+              "n_identical_taxa": 1181
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0014108549036921313,
+                0.004373298746535173
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002452225643444329,
+                0.005300175762248095
+              ],
+              "mean": 0.001423975059401883,
+              "n_identical_taxa": 1181
+            }
+          }
+        },
+        "BIO12": {
+          "fraction_species_positive_1degree_signed_white": 0.4944110060189166,
+          "median_climate_residual_fraction_1degree": 0.16514368811,
+          "median_climate_residual_fraction_5degree": 0.557283883738,
+          "n_genera": 584,
+          "n_shared_source_species": 1163,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0012282569041854902,
+                0.0004998946010328864
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0015099483638091964,
+                0.0008245700489915935
+              ],
+              "mean": -0.0003426891574088015,
+              "n_identical_taxa": 1163
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.002382580316624723,
+                0.00029725198322628674
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0028856242964716465,
+                0.0007601893328488469
+              ],
+              "mean": -0.0010627174818113997,
+              "n_identical_taxa": 1163
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0018035799277707114,
+                0.0003600955888700268
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002188838672443557,
+                0.0007487820236383596
+              ],
+              "mean": -0.0007200283244025987,
+              "n_identical_taxa": 1163
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004921312348476408,
+                0.003185587093915348
+              ],
+              "genus_family7_simultaneous95": [
+                -0.006446567993538078,
+                0.004708386271684209
+              ],
+              "mean": -0.0008690908609269341,
+              "n_identical_taxa": 1163
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004397655301946615,
+                0.0003767407165981239
+              ],
+              "genus_family7_simultaneous95": [
+                -0.005208097898655267,
+                0.0012898289537562834
+              ],
+              "mean": -0.001959134472449492,
+              "n_identical_taxa": 1163
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0047736164174199585,
+                0.0023467008616037876
+              ],
+              "genus_family7_simultaneous95": [
+                -0.005752816248136696,
+                0.0035727290250915796
+              ],
+              "mean": -0.0010900436115225585,
+              "n_identical_taxa": 1163
+            }
+          }
+        },
+        "BIO14": {
+          "fraction_species_positive_1degree_signed_white": 0.47530864197530864,
+          "median_climate_residual_fraction_1degree": 0.147018067676,
+          "median_climate_residual_fraction_5degree": 0.5333665974745,
+          "n_genera": 504,
+          "n_shared_source_species": 972,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0015823233501612475,
+                0.000056220353086853735
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0018517245236494857,
+                0.0003790757653781519
+              ],
+              "mean": -0.0007363243791356669,
+              "n_identical_taxa": 972
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.003260936171267774,
+                -0.00013935394504180045
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0038047587920886587,
+                0.00044701550176135343
+              ],
+              "mean": -0.0016788716451636525,
+              "n_identical_taxa": 972
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00211230265669793,
+                0.00022328498097277737
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0025755819990295006,
+                0.0006904874669735273
+              ],
+              "mean": -0.0009425472660279866,
+              "n_identical_taxa": 972
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00716121232365167,
+                0.001095180486023206
+              ],
+              "genus_family7_simultaneous95": [
+                -0.008610516766407228,
+                0.002884714992000743
+              ],
+              "mean": -0.002862900887203243,
+              "n_identical_taxa": 972
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.005507484012776574,
+                0.00008910784698347486
+              ],
+              "genus_family7_simultaneous95": [
+                -0.006499487529108599,
+                0.0011831549909854066
+              ],
+              "mean": -0.0026581662690615964,
+              "n_identical_taxa": 972
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.003104193183517776,
+                0.003549720234861426
+              ],
+              "genus_family7_simultaneous95": [
+                -0.004315600926761856,
+                0.004725070163045152
+              ],
+              "mean": 0.00020473461814164798,
+              "n_identical_taxa": 972
+            }
+          }
+        },
+        "BIO15": {
+          "fraction_species_positive_1degree_signed_white": 0.5262449528936743,
+          "median_climate_residual_fraction_1degree": 0.116886168699,
+          "median_climate_residual_fraction_5degree": 0.552257364368,
+          "n_genera": 403,
+          "n_shared_source_species": 743,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.000595716205338912,
+                0.0013354428701835071
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0009780121314633828,
+                0.0015980276975717928
+              ],
+              "mean": 0.0003100077830542049,
+              "n_identical_taxa": 743
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0011455036325019891,
+                0.00270097681859496
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0019176691357768655,
+                0.0033265589659305043
+              ],
+              "mean": 0.0007044449150768195,
+              "n_identical_taxa": 743
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.001289222170279002,
+                0.0020451061291998493
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0018576778334188973,
+                0.0026465520974641265
+              ],
+              "mean": 0.00039443713202261455,
+              "n_identical_taxa": 743
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.001499656510451399,
+                0.009123311047960322
+              ],
+              "genus_family7_simultaneous95": [
+                -0.004201019963876777,
+                0.010945988579346966
+              ],
+              "mean": 0.003372484307735095,
+              "n_identical_taxa": 743
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0013657850632466364,
+                0.00549451401237283
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002611724757207314,
+                0.006683901621825868
+              ],
+              "mean": 0.0020360884323092766,
+              "n_identical_taxa": 743
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.006522089971863391,
+                0.003367895040758245
+              ],
+              "genus_family7_simultaneous95": [
+                -0.007904516589613322,
+                0.005231724838761689
+              ],
+              "mean": -0.0013363958754258162,
+              "n_identical_taxa": 743
+            }
+          }
+        },
+        "BIO4": {
+          "fraction_species_positive_1degree_signed_white": 0.5264864864864864,
+          "median_climate_residual_fraction_1degree": 0.141301509674,
+          "median_climate_residual_fraction_5degree": 0.568716220525,
+          "n_genera": 478,
+          "n_shared_source_species": 925,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.000037304455309061626,
+                0.0015115538797061522
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00021445991181719398,
+                0.0017288283622117265
+              ],
+              "mean": 0.0007571842251972663,
+              "n_identical_taxa": 925
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0004927715648013609,
+                0.003667277849282308
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00009085645179720148,
+                0.004104303887001337
+              ],
+              "mean": 0.002006723717602068,
+              "n_identical_taxa": 925
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.00006377671005370781,
+                0.0026343474658353455
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0006078117206553628,
+                0.003106890705464969
+              ],
+              "mean": 0.0012495394924048032,
+              "n_identical_taxa": 925
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0010302514825727967,
+                0.008573371228429619
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002988236771987663,
+                0.01012782156826186
+              ],
+              "mean": 0.0035697923981370984,
+              "n_identical_taxa": 925
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.0006806431764557322,
+                0.006511592782378038
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00041096800284575255,
+                0.007300202011071409
+              ],
+              "mean": 0.003444617004112828,
+              "n_identical_taxa": 925
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.004383214053401445,
+                0.004455278201044711
+              ],
+              "genus_family7_simultaneous95": [
+                -0.005962955868472175,
+                0.00571260508042363
+              ],
+              "mean": -0.00012517539402427208,
+              "n_identical_taxa": 925
+            }
+          }
+        },
+        "BIO5": {
+          "fraction_species_positive_1degree_signed_white": 0.5432098765432098,
+          "median_climate_residual_fraction_1degree": 0.177743945437,
+          "median_climate_residual_fraction_5degree": 0.564592929605,
+          "n_genera": 679,
+          "n_shared_source_species": 1377,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.00024202483314640514,
+                0.0016893695384807724
+              ],
+              "genus_family7_simultaneous95": [
+                -0.000004175304698976045,
+                0.0019428850628037601
+              ],
+              "mean": 0.000969354879052392,
+              "n_identical_taxa": 1377
+            },
+            "cov5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.0020412816579554755,
+                0.004525050894782999
+              ],
+              "genus_family7_simultaneous95": [
+                0.0015950347812696965,
+                0.004948300458291782
+              ],
+              "mean": 0.003271667619780739,
+              "n_identical_taxa": 1377
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.0013039861778735738,
+                0.003310471729270512
+              ],
+              "genus_family7_simultaneous95": [
+                0.0009303431750678768,
+                0.0036742823063888206
+              ],
+              "mean": 0.002302312740728349,
+              "n_identical_taxa": 1377
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.00023062717274834253,
+                0.007149860112972837
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0009663017818137311,
+                0.008623276760039017
+              ],
+              "mean": 0.003828487489112643,
+              "n_identical_taxa": 1377
+            },
+            "slope5": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.004223248706008611,
+                0.008871193616858248
+              ],
+              "genus_family7_simultaneous95": [
+                0.003374936733835327,
+                0.00959462794969915
+              ],
+              "mean": 0.006484782341767238,
+              "n_identical_taxa": 1377
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.000213389121793192,
+                0.0058285709027284735
+              ],
+              "genus_family7_simultaneous95": [
+                -0.001330483078538557,
+                0.00664307278384775
+              ],
+              "mean": 0.0026562948526545963,
+              "n_identical_taxa": 1377
+            }
+          }
+        },
+        "SRADmean": {
+          "fraction_species_positive_1degree_signed_white": 0.5539906103286385,
+          "median_climate_residual_fraction_1degree": 0.12171300266849999,
+          "median_climate_residual_fraction_5degree": 0.601823031635,
+          "n_genera": 272,
+          "n_shared_source_species": 426,
+          "same_source_covariance_and_variance_normalized": {
+            "cov1": {
+              "family7_excludes_zero": true,
+              "genus_bootstrap_marginal95": [
+                0.00038393840790912413,
+                0.0026415360513081664
+              ],
+              "genus_family7_simultaneous95": [
+                0.00005613772765544951,
+                0.0030119314094745574
+              ],
+              "mean": 0.0015340345685650035,
+              "n_identical_taxa": 426
+            },
+            "cov5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0018622761579719514,
+                0.0033550875568129626
+              ],
+              "genus_family7_simultaneous95": [
+                -0.00295099724794448,
+                0.0042298827154784455
+              ],
+              "mean": 0.0006394427337669829,
+              "n_identical_taxa": 426
+            },
+            "cov5_minus_cov1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.0032272420738749604,
+                0.001536802943935301
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0042015604808571866,
+                0.002412376811261146
+              ],
+              "mean": -0.0008945918347980201,
+              "n_identical_taxa": 426
+            },
+            "slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                0.00027422440593999976,
+                0.015326066007202706
+              ],
+              "genus_family7_simultaneous95": [
+                -0.002275158807293955,
+                0.01837418429987074
+              ],
+              "mean": 0.008049512746288392,
+              "n_identical_taxa": 426
+            },
+            "slope5": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.002038546095870937,
+                0.006841985474007954
+              ],
+              "genus_family7_simultaneous95": [
+                -0.0037780968786104386,
+                0.008412259387052753
+              ],
+              "mean": 0.0023170812542211566,
+              "n_identical_taxa": 426
+            },
+            "slope5_minus_slope1": {
+              "family7_excludes_zero": false,
+              "genus_bootstrap_marginal95": [
+                -0.012844446352085481,
+                0.001423298164220066
+              ],
+              "genus_family7_simultaneous95": [
+                -0.015556828742282825,
+                0.0040919657581483405
+              ],
+              "mean": -0.0057324314920672425,
+              "n_identical_taxa": 426
+            }
+          }
+        }
+      }
+    }
+  },
+  "schema": "fcp4475_region5_vs_region1_same_species_seven_climate_signed_hue_v1",
+  "slope_metric": "per-species month-region permutation-null-centered signed white-palette covariance divided by residual within-source-species standardized climate variance, not causal slope",
+  "source_classifiable": 227107,
+  "source_original_photos": 447500,
+  "source_run": 40056835373,
+  "source_species": 4475,
+  "source_summary_artifact_id": 12545591935,
+  "paired_original_source_run_id": 40056835373,
+  "paired_independent_workflow_run_id": 40057276809,
+  "paired_artifact_id": 12545748040,
+  "paired_artifact_zip_sha256": "e3b5bd51dfdd6ea8298c465b0238d37cdb94aaddace056715885ef3997fcda4f",
+  "interpretation": "variance-normalized photographic conditional association; not a biologically calibrated per-degree effect"
+}

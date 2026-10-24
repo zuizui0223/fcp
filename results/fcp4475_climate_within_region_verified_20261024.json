@@ -1,0 +1,2429 @@
+{
+  "bootstrap_genera_draws": 499,
+  "conditional_on_observed_uneven_sampling_not_randomized_climate_or_photography": true,
+  "controls": "separate within-species region fixed effects and month fixed effects; permute original photo climate residual within fixed region × calendar month; preserve category labels; 1 photo per observer separate",
+  "earlier_strict_5km_same_year_month_photographic_null_remains_unsupported": true,
+  "eligible_min_10arcmin_raster_cells": 5,
+  "eligible_min_observers": 20,
+  "eligible_min_original_photos": 40,
+  "ineligible_are_not_zeros": true,
+  "minimum_informative_photos": 12,
+  "minimum_informative_region_month_groups": 2,
+  "minimum_within_region_climate_residual_variance_fraction": 0.05,
+  "month_region_null_draws": 199,
+  "no_causal_temperature_or_genetic_FCP_adaptation_inference": true,
+  "original_photo_labels_need_two_labels_each_five_for_between_and_two_each_locally": true,
+  "photo_months_pooled_across_years": true,
+  "photographic_negative_background_not_independently_controlled": true,
+  "region_coordinates": "fixed latitude/longitude degree grids, not equal-area; geolocation precision <=5 km",
+  "region_width_degrees": [
+    5,
+    1
+  ],
+  "results": {
+    "1degree_observer_thinned": {
+      "failure_status_counts": {
+        "fewer_than_40_classified": 1178,
+        "fewer_than_40_complete_or_20_observers": 69,
+        "fewer_than_5_original_climate_grid_cells": 1,
+        "no_informative_climate_contrasts_inside_block_month": 1480,
+        "region_month_fixed_effect_absorbs_remaining_climate": 298,
+        "regional_within_block_test_run": 1449
+      },
+      "n_BIO5_informative": 1303,
+      "n_BIO5_mixed_photo_label": 454,
+      "n_genera_bootstrap": 1634,
+      "n_original_species_in_ledger": 4475,
+      "n_taxa_having_any_regional_test": 1449,
+      "seven_abiotic_axes": {
+        "BIO1": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005788281708746477,
+              "n_species": 399,
+              "norm_upper_p_199": 0.165,
+              "norm_upper_p_199_holm7": 0.8250000000000001,
+              "null_white_covariance": 0.00045632363474847764,
+              "observed_white_covariance": 0.001359355901309139,
+              "signed_two_sided_p_199": 0.22,
+              "signed_two_sided_p_199_holm7": 0.68,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0009030322665606612
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.000823575524752259,
+              "n_species": 1121,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00044692590723115276,
+              "observed_white_covariance": 0.001084855198471346,
+              "signed_two_sided_p_199": 0.06,
+              "signed_two_sided_p_199_holm7": 0.24,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0006379292912401932
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00036585371461272075,
+              "n_species": 1121,
+              "norm_upper_p_199": 0.04,
+              "norm_upper_p_199_holm7": 0.08,
+              "null_white_covariance": 0.00010607551814323387,
+              "observed_white_covariance": 0.00021702467190661733,
+              "signed_two_sided_p_199": 0.445,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00011094915376338345
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00040775560236993354,
+                0.0017785736622804057
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0007084355391074677,
+                0.0025500742719251905
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00025069526021864334,
+                0.0014364504782673599
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00018949833820680994,
+                0.0015018133492443542
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000035453439555743875,
+                0.0007724529152472472
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00018165526269066723,
+                0.0003833631962106553
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 399,
+          "n_total_support": 1121
+        },
+        "BIO12": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00032343852043525273,
+              "n_species": 397,
+              "norm_upper_p_199": 0.265,
+              "norm_upper_p_199_holm7": 0.8250000000000001,
+              "null_white_covariance": -0.000665648184284796,
+              "observed_white_covariance": -0.0021886692269127593,
+              "signed_two_sided_p_199": 0.045,
+              "signed_two_sided_p_199_holm7": 0.27,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0015230210426279633
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007392125991079815,
+              "n_species": 1097,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00036327473650316745,
+              "observed_white_covariance": -0.0007877780609360974,
+              "signed_two_sided_p_199": 0.24,
+              "signed_two_sided_p_199_holm7": 0.48,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0004245033244329299
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0004714209730153681,
+              "n_species": 1097,
+              "norm_upper_p_199": 0.02,
+              "norm_upper_p_199_holm7": 0.06,
+              "null_white_covariance": -0.000015009024713035463,
+              "observed_white_covariance": -0.000033312750080724084,
+              "signed_two_sided_p_199": 0.935,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": -0.00001830372536768862
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0008585518573511995,
+                0.0014649454193291435
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0029855358919715575,
+                -0.00021859247921679327
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00009862851258987489,
+                0.0013212227636366664
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0011083212131354479,
+                0.00023189797682214472
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000047754144288993714,
+                0.0008734050120955108
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00032172012817583204,
+                0.00030450491592965025
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 397,
+          "n_total_support": 1097
+        },
+        "BIO14": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006086796590663857,
+              "n_species": 347,
+              "norm_upper_p_199": 0.165,
+              "norm_upper_p_199_holm7": 0.8250000000000001,
+              "null_white_covariance": -0.0005390429327189449,
+              "observed_white_covariance": -0.002367246229371632,
+              "signed_two_sided_p_199": 0.02,
+              "signed_two_sided_p_199_holm7": 0.14,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0018282032966526868
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006796796645427115,
+              "n_species": 930,
+              "norm_upper_p_199": 0.025,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.0003340030629490891,
+              "observed_white_covariance": -0.0010809758505294683,
+              "signed_two_sided_p_199": 0.035,
+              "signed_two_sided_p_199_holm7": 0.17500000000000002,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0007469727875803792
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005021509489894216,
+              "n_species": 930,
+              "norm_upper_p_199": 0.01,
+              "norm_upper_p_199_holm7": 0.04,
+              "null_white_covariance": -0.0001102943509241906,
+              "observed_white_covariance": -0.0003141070798915536,
+              "signed_two_sided_p_199": 0.225,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": -0.000203812728967363
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0004975246833484524,
+                0.0017820069749456323
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.003193293060762615,
+                -0.00048360846012057105
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                4.5058659613457284e-7,
+                0.0013649544001188758
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0013877550847158156,
+                -0.00008978531594052946
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00010275388047060629,
+                0.0009312417162818151
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000522720237064541,
+                0.00015932532688539441
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 347,
+          "n_total_support": 930
+        },
+        "BIO15": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00034143427172792645,
+              "n_species": 255,
+              "norm_upper_p_199": 0.31,
+              "norm_upper_p_199_holm7": 0.8250000000000001,
+              "null_white_covariance": -0.00006680818248329172,
+              "observed_white_covariance": -0.000147015322620505,
+              "signed_two_sided_p_199": 0.94,
+              "signed_two_sided_p_199_holm7": 0.94,
+              "signed_white_covariance_excess_vs_block_month_null": -0.00008020714013721329
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.001004673110849591,
+              "n_species": 698,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00003162872066924771,
+              "observed_white_covariance": 0.00011514165682869235,
+              "signed_two_sided_p_199": 0.825,
+              "signed_two_sided_p_199_holm7": 0.825,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00008351293615944464
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006779576279749237,
+              "n_species": 698,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00010374640007187546,
+              "observed_white_covariance": 0.00032902462339599685,
+              "signed_two_sided_p_199": 0.23,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00022527822332412138
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000945874600000967,
+                0.001654241434072005
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0017432017182042838,
+                0.001782338671248214
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0003148847996349607,
+                0.0015982084226087742
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0007464151077203883,
+                0.0010050247074125979
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00017369634102892243,
+                0.0011556794367892434
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00016697781389022218,
+                0.0006061159493074432
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 255,
+          "n_total_support": 698
+        },
+        "BIO4": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0009251932975164745,
+              "n_species": 347,
+              "norm_upper_p_199": 0.03,
+              "norm_upper_p_199_holm7": 0.21,
+              "null_white_covariance": 0.00020059160044052173,
+              "observed_white_covariance": 0.0008850766646362516,
+              "signed_two_sided_p_199": 0.36,
+              "signed_two_sided_p_199_holm7": 0.72,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0006844850641957299
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0012813546977975473,
+              "n_species": 869,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00002788204721731788,
+              "observed_white_covariance": 0.0005653089946886803,
+              "signed_two_sided_p_199": 0.07,
+              "signed_two_sided_p_199_holm7": 0.24,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0005931910419059982
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007187040178960099,
+              "n_species": 869,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.0001297310715454656,
+              "observed_white_covariance": 0.00001812376921813858,
+              "signed_two_sided_p_199": 0.375,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0001478548407636042
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000118147133750632,
+                0.002085984824228934
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0006579317952179269,
+                0.0019517992008596778
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0006657296254960134,
+                0.0018899021338047931
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00018005089473735047,
+                0.0013072890308594425
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0002352437041637538,
+                0.001160844507409092
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00017885746353231205,
+                0.0005175037922984332
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 347,
+          "n_total_support": 869
+        },
+        "BIO5": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00039722737354857054,
+              "n_species": 454,
+              "norm_upper_p_199": 0.215,
+              "norm_upper_p_199_holm7": 0.8250000000000001,
+              "null_white_covariance": 0.00027772952984835643,
+              "observed_white_covariance": 0.0011338962638352493,
+              "signed_two_sided_p_199": 0.17,
+              "signed_two_sided_p_199_holm7": 0.68,
+              "signed_white_covariance_excess_vs_block_month_null": 0.000856166733986893
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0010556012186481376,
+              "n_species": 1303,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0004038799379453489,
+              "observed_white_covariance": 0.0010978377106602565,
+              "signed_two_sided_p_199": 0.02,
+              "signed_two_sided_p_199_holm7": 0.12,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0006939577727149076
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005077406169485231,
+              "n_species": 1303,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0001539798305527993,
+              "observed_white_covariance": 0.0002618779854646066,
+              "signed_two_sided_p_199": 0.47,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0001078981549118073
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0005832740294720727,
+                0.001403531768104445
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0005219424746100843,
+                0.002041308204884197
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005737060373141363,
+                0.0014879361926331432
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000008200235316142214,
+                0.0014445293817623602
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0001337106583170598,
+                0.0008787604947978546
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00017404235454821404,
+                0.00037901762658169933
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 454,
+          "n_total_support": 1303
+        },
+        "SRADmean": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0009181008102122582,
+              "n_species": 176,
+              "norm_upper_p_199": 0.11,
+              "norm_upper_p_199_holm7": 0.66,
+              "null_white_covariance": -0.00026459912491001106,
+              "observed_white_covariance": 0.0014910590104253677,
+              "signed_two_sided_p_199": 0.045,
+              "signed_two_sided_p_199_holm7": 0.27,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0017556581353353788
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0013474406516201,
+              "n_species": 399,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00020449559566663322,
+              "observed_white_covariance": 0.001710269283621097,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0015057736879544638
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0004116858361855498,
+              "n_species": 399,
+              "norm_upper_p_199": 0.075,
+              "norm_upper_p_199_holm7": 0.08,
+              "null_white_covariance": 0.00011470047563807302,
+              "observed_white_covariance": 0.0003165734836347536,
+              "signed_two_sided_p_199": 0.47,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0002018730079966806
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0003606988960388251,
+                0.002341528491321651
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00022864519388120921,
+                0.0034088244031047765
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00044541026363556827,
+                0.002288196816102246
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005748660448680191,
+                0.0024929324266899024
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0003455706963327245,
+                0.0010199942871018102
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00028121883018428575,
+                0.0007436181335157292
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 176,
+          "n_total_support": 399
+        }
+      }
+    },
+    "1degree_original": {
+      "failure_status_counts": {
+        "fewer_than_40_classified": 1178,
+        "fewer_than_5_original_climate_grid_cells": 1,
+        "no_informative_climate_contrasts_inside_block_month": 1430,
+        "region_month_fixed_effect_absorbs_remaining_climate": 326,
+        "regional_within_block_test_run": 1540
+      },
+      "n_BIO5_informative": 1377,
+      "n_BIO5_mixed_photo_label": 497,
+      "n_genera_bootstrap": 1634,
+      "n_original_species_in_ledger": 4475,
+      "n_taxa_having_any_regional_test": 1540,
+      "seven_abiotic_axes": {
+        "BIO1": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007560256093898134,
+              "n_species": 436,
+              "norm_upper_p_199": 0.065,
+              "norm_upper_p_199_holm7": 0.165,
+              "null_white_covariance": 0.0003030073139715103,
+              "observed_white_covariance": 0.0014255928414405447,
+              "signed_two_sided_p_199": 0.05,
+              "signed_two_sided_p_199_holm7": 0.2,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0011225855274690343
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0008887714980414588,
+              "n_species": 1181,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00035270895648109607,
+              "observed_white_covariance": 0.0010536398443709164,
+              "signed_two_sided_p_199": 0.025,
+              "signed_two_sided_p_199_holm7": 0.125,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0007009308878898203
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00042600239652757117,
+              "n_species": 1181,
+              "norm_upper_p_199": 0.015,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00011475029222044712,
+              "observed_white_covariance": 0.0003058705428555221,
+              "signed_two_sided_p_199": 0.23,
+              "signed_two_sided_p_199_holm7": 0.95,
+              "signed_white_covariance_excess_vs_block_month_null": 0.000191120250635075
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00033479170329272817,
+                0.0017643541301436395
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00038153293402273526,
+                0.0027604285093060653
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00028217024579133487,
+                0.0015460122471103394
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00009707307988766142,
+                0.0016975582008430298
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000006184324189714727,
+                0.0008191470361941935
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00011907133522221774,
+                0.0005374875720126096
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 436,
+          "n_total_support": 1181
+        },
+        "BIO12": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0011365816870054883,
+              "n_species": 433,
+              "norm_upper_p_199": 0.01,
+              "norm_upper_p_199_holm7": 0.06,
+              "null_white_covariance": -0.0005808299945435574,
+              "observed_white_covariance": -0.0015952853069951518,
+              "signed_two_sided_p_199": 0.13,
+              "signed_two_sided_p_199_holm7": 0.39,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0010144553124515946
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0009918509489135682,
+              "n_species": 1163,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00024463103580976193,
+              "observed_white_covariance": -0.0005873201932183959,
+              "signed_two_sided_p_199": 0.3,
+              "signed_two_sided_p_199_holm7": 0.6,
+              "signed_white_covariance_excess_vs_block_month_null": -0.000342689157408634
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005288431515125206,
+              "n_species": 1163,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.000042026708144984465,
+              "observed_white_covariance": -0.00003228084323370922,
+              "signed_two_sided_p_199": 0.65,
+              "signed_two_sided_p_199_holm7": 0.95,
+              "signed_white_covariance_excess_vs_block_month_null": -0.00007430755137869368
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00023712156290554736,
+                0.002499875162324877
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0027805510724132863,
+                0.0007631104126303691
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00035513261899423247,
+                0.001647779503654915
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.001270876485833914,
+                0.0005048215762585892
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00013656476055852557,
+                0.0009131394967527914
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00040546358899674526,
+                0.00026845767005221325
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 433,
+          "n_total_support": 1163
+        },
+        "BIO14": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0013907023998766185,
+              "n_species": 375,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00047346401392501435,
+              "observed_white_covariance": -0.0019197667457314727,
+              "signed_two_sided_p_199": 0.03,
+              "signed_two_sided_p_199_holm7": 0.18,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0014463027318064583
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007345729056148324,
+              "n_species": 972,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00019845473316910408,
+              "observed_white_covariance": -0.0009347791123045662,
+              "signed_two_sided_p_199": 0.045,
+              "signed_two_sided_p_199_holm7": 0.135,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0007363243791354622
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005800877593588067,
+              "n_species": 972,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00009897597198080756,
+              "observed_white_covariance": -0.0003696475667325162,
+              "signed_two_sided_p_199": 0.15,
+              "signed_two_sided_p_199_holm7": 0.8999999999999999,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0002706715947517086
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00024102800359326464,
+                0.0027395147831238875
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0030228978709486523,
+                0.00011387088497309979
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000013234901649742294,
+                0.001504625114887033
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0016329351909710702,
+                0.00008391135900331913
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00016815436948631817,
+                0.0010160126985029208
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0006383150906928632,
+                0.00012466983648647036
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 375,
+          "n_total_support": 972
+        },
+        "BIO15": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.000449691207538315,
+              "n_species": 282,
+              "norm_upper_p_199": 0.2,
+              "norm_upper_p_199_holm7": 0.2,
+              "null_white_covariance": -0.00022373802249912606,
+              "observed_white_covariance": 0.00025433384203243405,
+              "signed_two_sided_p_199": 0.53,
+              "signed_two_sided_p_199_holm7": 0.63,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0004780718645315601
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0012222330903372321,
+              "n_species": 743,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00008686303629835378,
+              "observed_white_covariance": 0.00022314474675627053,
+              "signed_two_sided_p_199": 0.415,
+              "signed_two_sided_p_199_holm7": 0.6,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0003100077830546243
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0008130921126731361,
+              "n_species": 743,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00008145843315006519,
+              "observed_white_covariance": 0.0003518972339912794,
+              "signed_two_sided_p_199": 0.1,
+              "signed_two_sided_p_199_holm7": 0.7000000000000001,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0002704388008412142
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0008096367145997009,
+                0.0017897981387910774
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0012088435550240896,
+                0.002150910293749727
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004922236762813434,
+                0.001893632964693973
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0006197441104772046,
+                0.0012998360601496062
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00034867108370955036,
+                0.0013328298070198977
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00008494979885119025,
+                0.0006654192694009946
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 282,
+          "n_total_support": 743
+        },
+        "BIO4": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0013614827731414508,
+              "n_species": 383,
+              "norm_upper_p_199": 0.015,
+              "norm_upper_p_199_holm7": 0.075,
+              "null_white_covariance": 0.00025280414054101397,
+              "observed_white_covariance": 0.0009490737013212939,
+              "signed_two_sided_p_199": 0.315,
+              "signed_two_sided_p_199_holm7": 0.63,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00069626956078028
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0013378133256752543,
+              "n_species": 925,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.000026123997572088822,
+              "observed_white_covariance": 0.0007310602276251441,
+              "signed_two_sided_p_199": 0.025,
+              "signed_two_sided_p_199_holm7": 0.125,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0007571842251972329
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006610350491138561,
+              "n_species": 925,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00011704736038296866,
+              "observed_white_covariance": 0.00006095784231431363,
+              "signed_two_sided_p_199": 0.28,
+              "signed_two_sided_p_199_holm7": 0.95,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00017800520269728229
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0003180982079724954,
+                0.002546971751718652
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0005752942073498013,
+                0.002062866282206759
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000720307465892283,
+                0.0020705365851033785
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000035462623309726655,
+                0.0014704673576797678
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00020235932349532885,
+                0.001103009616362443
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00014904501003478392,
+                0.0005183367653037509
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 383,
+          "n_total_support": 925
+        },
+        "BIO5": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0008602853046268226,
+              "n_species": 497,
+              "norm_upper_p_199": 0.055,
+              "norm_upper_p_199_holm7": 0.165,
+              "null_white_covariance": 0.0002814821378549542,
+              "observed_white_covariance": 0.001585860766478262,
+              "signed_two_sided_p_199": 0.03,
+              "signed_two_sided_p_199_holm7": 0.18,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0013043786286233078
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00105038968683804,
+              "n_species": 1377,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0003518828889283887,
+              "observed_white_covariance": 0.0013212377679812448,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0009693548790528561
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00042711378102442375,
+              "n_species": 1377,
+              "norm_upper_p_199": 0.01,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0001593127907022644,
+              "observed_white_covariance": 0.0003245224218813765,
+              "signed_two_sided_p_199": 0.25,
+              "signed_two_sided_p_199_holm7": 0.95,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0001652096311791121
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0000988376543107874,
+                0.0019293544564780326
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0000878223352386306,
+                0.002802274863049281
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005316934848486043,
+                0.0016198177346903474
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0002581798968230038,
+                0.0018495435893255926
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00005871440818757147,
+                0.0008022678770471739
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00012443945983654648,
+                0.0004900379657417725
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 497,
+          "n_total_support": 1377
+        },
+        "SRADmean": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0012986581912371817,
+              "n_species": 193,
+              "norm_upper_p_199": 0.035,
+              "norm_upper_p_199_holm7": 0.14,
+              "null_white_covariance": -0.0003928540946657872,
+              "observed_white_covariance": 0.0015364195003268555,
+              "signed_two_sided_p_199": 0.015,
+              "signed_two_sided_p_199_holm7": 0.105,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0019292735949926426
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0014747627407801708,
+              "n_species": 426,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00030689670867402677,
+              "observed_white_covariance": 0.0018409312772381596,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.001534034568564133
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005289147392161936,
+              "n_species": 426,
+              "norm_upper_p_199": 0.045,
+              "norm_upper_p_199_holm7": 0.045,
+              "null_white_covariance": 0.0002207808575448004,
+              "observed_white_covariance": 0.0005640781445373429,
+              "signed_two_sided_p_199": 0.19,
+              "signed_two_sided_p_199_holm7": 0.95,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00034329728699254247
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00015813627316341354,
+                0.0024495462294198953
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0003031541857227927,
+                0.0032443737684099768
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0006016732326073004,
+                0.00239775012912566
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004593274682588939,
+                0.0024891168618204496
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00011969144533809046,
+                0.0012040058714721945
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00019181268378876817,
+                0.0008055804795629346
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 193,
+          "n_total_support": 426
+        }
+      }
+    },
+    "5degree_observer_thinned": {
+      "failure_status_counts": {
+        "fewer_than_40_classified": 1178,
+        "fewer_than_40_complete_or_20_observers": 69,
+        "fewer_than_5_original_climate_grid_cells": 1,
+        "no_informative_climate_contrasts_inside_block_month": 215,
+        "region_month_fixed_effect_absorbs_remaining_climate": 28,
+        "regional_within_block_test_run": 2984
+      },
+      "n_BIO5_informative": 2846,
+      "n_BIO5_mixed_photo_label": 1152,
+      "n_genera_bootstrap": 1634,
+      "n_original_species_in_ledger": 4475,
+      "n_taxa_having_any_regional_test": 2984,
+      "seven_abiotic_axes": {
+        "BIO1": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0015433094588673743,
+              "n_species": 1105,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.000689821979471095,
+              "observed_white_covariance": 0.0019230503312491097,
+              "signed_two_sided_p_199": 0.025,
+              "signed_two_sided_p_199_holm7": 0.08,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0012332283517780145
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0014254772015776414,
+              "n_species": 2708,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.000428585202197728,
+              "observed_white_covariance": 0.00178866549731248,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0013600802951147521
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006323466799161466,
+              "n_species": 2708,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00008893680815842892,
+              "observed_white_covariance": 0.0006409206135700375,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0005519838054116085
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0006506197727524144,
+                0.002540402616528805
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00001752767418733537,
+                0.0027244073896782787
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008995356389687913,
+                0.0020149672611071414
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0006758328367559328,
+                0.002269013911490408
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0002900253141398605,
+                0.0009293525093847368
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0002597887043172724,
+                0.0008867703167740306
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1105,
+          "n_total_support": 2708
+        },
+        "BIO12": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0020519693660317057,
+              "n_species": 1153,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00023152253807084958,
+              "observed_white_covariance": -0.0018063433979357514,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0015748208598649017
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0013516338293134249,
+              "n_species": 2841,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00019460688955514843,
+              "observed_white_covariance": -0.0009621269590099478,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0007675200694547994
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006352860935177184,
+              "n_species": 2841,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00006546105800613789,
+              "observed_white_covariance": -0.0001689668178151392,
+              "signed_two_sided_p_199": 0.515,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": -0.00010350575980900131
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0011356308629327557,
+                0.0032664780686846636
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0028249102939566827,
+                -0.0004130164122368543
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008293294414143975,
+                0.002008959406814992
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.001342682773977365,
+                -0.0001854957040777227
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0003089947877700067,
+                0.0009351421453731485
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00039012753574918594,
+                0.00018077072275630984
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1153,
+          "n_total_support": 2841
+        },
+        "BIO14": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.001782101093252185,
+              "n_species": 1093,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00022461939754559815,
+              "observed_white_covariance": -0.0019102335984956002,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.001685614200950002
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.001217443504610699,
+              "n_species": 2724,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00027666449677222143,
+              "observed_white_covariance": -0.0010223749930083667,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0007457104962361452
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0005115652999598298,
+              "n_species": 2724,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.0000950953581580174,
+              "observed_white_covariance": -0.00011129972436670878,
+              "signed_two_sided_p_199": 0.92,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": -0.00001620436620869138
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0009131156034302867,
+                0.0027594358446803415
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.002789798994253228,
+                -0.0006097354565353754
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0007524401437227638,
+                0.0017984574514486572
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.001414126959899382,
+                -0.00009710505484324587
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00022257672666202853,
+                0.0008588946098695621
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00028835108008924524,
+                0.0002837530341696019
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1093,
+          "n_total_support": 2724
+        },
+        "BIO15": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0017346336755351376,
+              "n_species": 1025,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00016834559279996792,
+              "observed_white_covariance": 0.0002787648367793717,
+              "signed_two_sided_p_199": 0.835,
+              "signed_two_sided_p_199_holm7": 0.835,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00011041924397940377
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0014417634638560634,
+              "n_species": 2489,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00029200375848447547,
+              "observed_white_covariance": 0.00038576730827886334,
+              "signed_two_sided_p_199": 0.77,
+              "signed_two_sided_p_199_holm7": 0.77,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00009376354979438788
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.000812829440206303,
+              "n_species": 2489,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00011758207326993608,
+              "observed_white_covariance": 0.00013621294098224777,
+              "signed_two_sided_p_199": 0.885,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.000018630867712311687
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008345636067253567,
+                0.002909814459697799
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0009554547043602304,
+                0.0013720314418805427
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008444598493040984,
+                0.0020995394011966337
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0005740536216643182,
+                0.0008153567024423185
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00044906407564673806,
+                0.0011652834068887024
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0002759509135554499,
+                0.0003555873101774343
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1025,
+          "n_total_support": 2489
+        },
+        "BIO4": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.003493287111160901,
+              "n_species": 968,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 4.203462443031275e-7,
+              "observed_white_covariance": 0.001596603121804708,
+              "signed_two_sided_p_199": 0.02,
+              "signed_two_sided_p_199_holm7": 0.08,
+              "signed_white_covariance_excess_vs_block_month_null": 0.001596182775560405
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0024874217836191245,
+              "n_species": 2296,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00017669710723155528,
+              "observed_white_covariance": 0.0012538732784593992,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.001077176171227844
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0009021530866620119,
+              "n_species": 2296,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.000049498858046296795,
+              "observed_white_covariance": 0.0003555560801460421,
+              "signed_two_sided_p_199": 0.02,
+              "signed_two_sided_p_199_holm7": 0.1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00030605722209974527
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0021453958853670497,
+                0.005064280360931124
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00011931106655778485,
+                0.00301526120612532
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0017385446340165275,
+                0.0032913292207630584
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000337881172460346,
+                0.0017509159282037027
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004534035380915294,
+                0.001305322955826808
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000026725630013985967,
+                0.0006561573658835405
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 968,
+          "n_total_support": 2296
+        },
+        "BIO5": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.002156317282913031,
+              "n_species": 1152,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0006949330441748493,
+              "observed_white_covariance": 0.0030012919325294496,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0023063588883546005
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0020362802292522193,
+              "n_species": 2846,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0005750594241395185,
+              "observed_white_covariance": 0.002636379891906972,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.002061320467767454
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007522050734779448,
+              "n_species": 2846,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0001245661334544952,
+              "observed_white_covariance": 0.0008687379017088645,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0007441717682543694
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0013260391483358338,
+                0.0032200634743314678
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0011086439518564622,
+                0.0035410065804210747
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0014471687579242357,
+                0.0026696318504069484
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0014282320568089865,
+                0.00280413134965679
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0003711973862941625,
+                0.0010921843510143196
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004600880342495562,
+                0.001034258377396297
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1152,
+          "n_total_support": 2846
+        },
+        "SRADmean": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0014876724102281906,
+              "n_species": 886,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00021987626427617918,
+              "observed_white_covariance": 0.0005907060345424815,
+              "signed_two_sided_p_199": 0.12,
+              "signed_two_sided_p_199_holm7": 0.24,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0008105822988186607
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00148503506898158,
+              "n_species": 2094,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.0000950344971218504,
+              "observed_white_covariance": 0.0005900926490097979,
+              "signed_two_sided_p_199": 0.03,
+              "signed_two_sided_p_199_holm7": 0.06,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0006851271461316483
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007037201385779093,
+              "n_species": 2094,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.000022521091867829475,
+              "observed_white_covariance": 0.0002274943430522102,
+              "signed_two_sided_p_199": 0.06,
+              "signed_two_sided_p_199_holm7": 0.24,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0002500154349200397
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005390028094881937,
+                0.0025246398003625054
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0003803980268534509,
+                0.002107453557479443
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0010149526586576661,
+                0.002026395527128705
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00004394742942760429,
+                0.0013013700908555323
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00039794118591058333,
+                0.0010291625005405362
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000032266687461033404,
+                0.0005486319306136057
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 886,
+          "n_total_support": 2094
+        }
+      }
+    },
+    "5degree_original": {
+      "failure_status_counts": {
+        "fewer_than_40_classified": 1178,
+        "fewer_than_5_original_climate_grid_cells": 1,
+        "no_informative_climate_contrasts_inside_block_month": 209,
+        "region_month_fixed_effect_absorbs_remaining_climate": 30,
+        "regional_within_block_test_run": 3057
+      },
+      "n_BIO5_informative": 2925,
+      "n_BIO5_mixed_photo_label": 1238,
+      "n_genera_bootstrap": 1634,
+      "n_original_species_in_ledger": 4475,
+      "n_taxa_having_any_regional_test": 3057,
+      "seven_abiotic_axes": {
+        "BIO1": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.001786129990530641,
+              "n_species": 1187,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0008031619359359658,
+              "observed_white_covariance": 0.0019327590948213604,
+              "signed_two_sided_p_199": 0.02,
+              "signed_two_sided_p_199_holm7": 0.06,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0011295971588853946
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0016312981682118227,
+              "n_species": 2795,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00044629490323870363,
+              "observed_white_covariance": 0.0017963374160708814,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0013500425128321778
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007653082211433616,
+              "n_species": 2795,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00008094005943045803,
+              "observed_white_covariance": 0.0006645914185355135,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0005836513591050555
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008374782777575648,
+                0.002776796444391035
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00012250185758290103,
+                0.0024428941833471844
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0010923017238806151,
+                0.0022041180496084876
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000650139559163026,
+                0.0021332658125448427
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004158013142196901,
+                0.0010843846478450468
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0002923487351363796,
+                0.0009032317488106294
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1187,
+          "n_total_support": 2795
+        },
+        "BIO12": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0022610146034079334,
+              "n_species": 1231,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.0002300599135843751,
+              "observed_white_covariance": -0.0015461798061368085,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0013161198925524334
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.001632349465267708,
+              "n_species": 2913,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00019012701327216598,
+              "observed_white_covariance": -0.0008802619019419311,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0006901348886697652
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006972382799560455,
+              "n_species": 2913,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.000025484138774914176,
+              "observed_white_covariance": -0.00011863620829535657,
+              "signed_two_sided_p_199": 0.46,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0000931520695204424
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0012539353008670833,
+                0.0034491125752370193
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.002490463868661478,
+                -0.00022613615456923075
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0010166837755316203,
+                0.002265498603336976
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0013200870910195688,
+                -0.00007054145099202868
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.00036428597743378793,
+                0.0010430287619739938
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000385972784323005,
+                0.0001862877635675022
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1231,
+          "n_total_support": 2913
+        },
+        "BIO14": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0018945370901679998,
+              "n_species": 1172,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00021651121089373538,
+              "observed_white_covariance": -0.0017131351978068733,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": -0.001496623986913138
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0014376118895664987,
+              "n_species": 2804,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.0002720653128455455,
+              "observed_white_covariance": -0.000935062437591054,
+              "signed_two_sided_p_199": 0.025,
+              "signed_two_sided_p_199_holm7": 0.07500000000000001,
+              "signed_white_covariance_excess_vs_block_month_null": -0.0006629971247455084
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0006236151420178897,
+              "n_species": 2804,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00009310952304010795,
+              "observed_white_covariance": -0.00012733024390326777,
+              "signed_two_sided_p_199": 0.805,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": -0.00003422072086315982
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008901137400395705,
+                0.0029631375770054393
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0027253995732387025,
+                -0.0003884501597293321
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0008205294895485389,
+                0.0021138861394296702
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0013761192104124896,
+                4.0042684651348047e-7
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0003207247287417998,
+                0.0009505933508179466
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00033191343007961784,
+                0.0002602157414231197
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1172,
+          "n_total_support": 2804
+        },
+        "BIO15": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.001888809259948783,
+              "n_species": 1097,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00013917512246657508,
+              "observed_white_covariance": 0.000620836822928646,
+              "signed_two_sided_p_199": 0.41,
+              "signed_two_sided_p_199_holm7": 0.62,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00048166170046207087
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0016865043856807704,
+              "n_species": 2557,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00022743643184980987,
+              "observed_white_covariance": 0.0005285694832814661,
+              "signed_two_sided_p_199": 0.295,
+              "signed_two_sided_p_199_holm7": 0.295,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0003011330514316562
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.00086665269135827,
+              "n_species": 2557,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00007958237643410776,
+              "observed_white_covariance": 0.00016824393962746172,
+              "signed_two_sided_p_199": 0.49,
+              "signed_two_sided_p_199_holm7": 1,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00008866156319335396
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000841937458899454,
+                0.003017632953682218
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0005760576486125469,
+                0.0016603972941203388
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0010558185524687826,
+                0.002330376723399086
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.000381127730691551,
+                0.0010255930664381573
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005150210510962561,
+                0.0012573746277584272
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.00022409496356304206,
+                0.0004244395384413842
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1097,
+          "n_total_support": 2557
+        },
+        "BIO4": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.003597743428250748,
+              "n_species": 1038,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00009379494808984219,
+              "observed_white_covariance": 0.0017843192907607674,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0016905243426709252
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0026818258590874527,
+              "n_species": 2358,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00022860185239568403,
+              "observed_white_covariance": 0.001464434042497894,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00123583219010221
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0009597260313495663,
+              "n_species": 2358,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.000053286891745655363,
+              "observed_white_covariance": 0.00041989802633724986,
+              "signed_two_sided_p_199": 0.045,
+              "signed_two_sided_p_199_holm7": 0.18,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00036661113459159447
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.002179300754147516,
+                0.005064203223970663
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004282256615606497,
+                0.0029657149145296906
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0018784928924476508,
+                0.0035256377283123504
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005260555553033706,
+                0.0019748710640094297
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005481215533492404,
+                0.0013637121995377218
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000027912232211654588,
+                0.0006874584960333261
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1038,
+          "n_total_support": 2358
+        },
+        "BIO5": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.002192944964362571,
+              "n_species": 1238,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0008946484199261063,
+              "observed_white_covariance": 0.0032593819957287677,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0023647335758026616
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0021338630695765387,
+              "n_species": 2925,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.0006476352640924398,
+              "observed_white_covariance": 0.002800139263554989,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0021525039994625492
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0007397676288953478,
+              "n_species": 2925,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": 0.00011949151211789274,
+              "observed_white_covariance": 0.0009182494096576882,
+              "signed_two_sided_p_199": 0.005,
+              "signed_two_sided_p_199_holm7": 0.035,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0007987578975397955
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.001184085553244338,
+                0.003360741167825416
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0011755518161710359,
+                0.0035432338968741884
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.001533397408829883,
+                0.002820261251301403
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.001566505512528207,
+                0.002845427672102055
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004121295133415343,
+                0.0010907848694538314
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0004999680998856707,
+                0.001090367176932386
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 1238,
+          "n_total_support": 2925
+        },
+        "SRADmean": {
+          "components": {
+            "between_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0016501656161614503,
+              "n_species": 950,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00034117372460085025,
+              "observed_white_covariance": 0.00021981747272238302,
+              "signed_two_sided_p_199": 0.31,
+              "signed_two_sided_p_199_holm7": 0.62,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0005609911973232333
+            },
+            "total": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0016635579638018781,
+              "n_species": 2158,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.000154338139443427,
+              "observed_white_covariance": 0.00043249134764817676,
+              "signed_two_sided_p_199": 0.065,
+              "signed_two_sided_p_199_holm7": 0.13,
+              "signed_white_covariance_excess_vs_block_month_null": 0.0005868294870916038
+            },
+            "within_original_photo_labels": {
+              "hue_vector_covariance_norm_excess_vs_block_month_null": 0.0008373458132317317,
+              "n_species": 2158,
+              "norm_upper_p_199": 0.005,
+              "norm_upper_p_199_holm7": 0.035,
+              "null_white_covariance": -0.00005184451717001953,
+              "observed_white_covariance": 0.0002540028228618812,
+              "signed_two_sided_p_199": 0.025,
+              "signed_two_sided_p_199_holm7": 0.125,
+              "signed_white_covariance_excess_vs_block_month_null": 0.00030584734003190074
+            }
+          },
+          "genus_intervals": {
+            "between_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0006960490856653606,
+                0.0026914855522992723
+              ]
+            },
+            "between_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0006728777103741487,
+                0.0018405628831783302
+              ]
+            },
+            "total_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.001105269440234245,
+                0.0023180821107048628
+              ]
+            },
+            "total_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                -0.0000813763124504992,
+                0.0012551808582628727
+              ]
+            },
+            "within_original_photo_labels_hue_vector_norm": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.0005273707642997475,
+                0.0012119930195004197
+              ]
+            },
+            "within_original_photo_labels_signed_white": {
+              "genus_bootstrap_draws": 499,
+              "marginal_genus95": [
+                0.000009852308966479854,
+                0.0006356274507461229
+              ]
+            }
+          },
+          "n_between_label_mixed_within_blocks": 950,
+          "n_total_support": 2158
+        }
+      }
+    }
+  },
+  "schema": "fcp4475_original_source_photo9_climate7_region_month_fixed_falsification_v1",
+  "seven_axis_holm_within_each_exploratory_endpoint_only": true,
+  "source_n_4state_classified": 227107,
+  "source_n_photos": 447500,
+  "source_n_species": 4475,
+  "source_original_447500_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_photo_colour_bins_are_not_genetic_morphs": true,
+  "taxa_weights_equal_not_photo_pair_pseudoreplication": true,
+  "worldclim_bio_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "worldclim_srad_archive_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "source_job_authenticated_run_id": 40056835373,
+  "source_artifact_id": 12545591935,
+  "source_artifact_zip_sha256": "37260911874eed392410054575a005026f475ef2f8d586f6671c42a1cc8d20e5",
+  "interpretation": "source-only post hoc photographed palettes, no genetic flower morph or causal climate inference"
+}
