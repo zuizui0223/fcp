@@ -1,0 +1,79 @@
+name: FCP species photo-climate slope reliability versus sampling opportunity
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_fcp4475_photo_slope_repeatability_by_climate_opportunity_20261024.py
+      - .github/workflows/fcp-4475-thermal-fold-reliability-opportunity-20261024.yml
+      - docs/FCP_4475_THERMAL_FOLD_RELIABILITY_OPPORTUNITY_20261024.md
+      - docs/FCP_4475_THERMAL_FOLD_RELIABILITY_RESULTS_20261024.md
+      - results/fcp4475_thermal_fold_reliability_opportunity_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-paired-reliability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Check paired photo-climate sufficient statistic and deterministic sampling quartiles
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/audit_fcp4475_photo_slope_repeatability_by_climate_opportunity_20261024.py
+          python scripts/analysis/audit_fcp4475_photo_slope_repeatability_by_climate_opportunity_20261024.py --self-test
+      - name: Retrieve exact original 447500-photo observer-disjoint source artifact
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-photo-reliability/{source,out}
+          PROVIDER_DIGEST="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12554693263" --jq '.digest')"
+          test "$PROVIDER_DIGEST" = "sha256:50d5d15a2d145b0db7a176f945435701251768ba614f659d9dac496011b33177"
+          gh run download 40080001765 --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-source-photo-observer-disjoint-white-thermal-crossfit-20261024 \
+            --dir /tmp/fcp-photo-reliability/source
+          echo '40b8be90523f876aaf755354fd9527d7429782d8cb42414a69783dedbfa4e4c9  /tmp/fcp-photo-reliability/source/fcp4475_observer_disjoint_crossfit_white_thermal_results.json' | sha256sum -c -
+          echo '079241c220a5f5993a17d361a2ea5fc276c7d13e99a168111cc14a3f51ce7253  /tmp/fcp-photo-reliability/source/fcp4475_source_all_taxa_twofold_observer_crossfit_thermal_white.csv' | sha256sum -c -
+      - name: Reanalyse source taxon-specific photo thermal coefficient reliability in information-blind quartiles
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp4475_photo_slope_repeatability_by_climate_opportunity_20261024.py \
+            --source /tmp/fcp-photo-reliability/source \
+            --out /tmp/fcp-photo-reliability/out
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('/tmp/fcp-photo-reliability/out')
+          data=json.loads((root/'observer_twofold_thermal_photo_slope_climate_opportunity_results.json').read_text())
+          assert (data['original_photos'],data['original_taxa'],
+                  data['original_nine_hue_classifiable_photos'])==(447500,4475,227107)
+          assert set(data['panels'])=={'all_heldout','one_photo_per_observer'}
+          for mode,expected in (('all_heldout',1919),('one_photo_per_observer',1843)):
+              v=data['panels'][mode]
+              assert v['n_original_source_taxa']==4475
+              assert v['n_both_photo_slopes']==expected
+              assert len(v['all_and_opportunity_quartiles'])==5
+              assert len(v['quartile_edges_min_n_times_residual_climate_fraction'])==5
+              assert sum(v['all_and_opportunity_quartiles'][k]['n_source_taxa'] for k in ('Q1','Q2','Q3','Q4'))==expected
+              p=root/f'fcp4475_{mode}_all4475_information_and_twofold_reliability.csv'
+              t=pd.read_csv(p)
+              assert len(t)==4475 and t.inat_taxon_id.is_unique
+              assert t.both_folds_estimable.sum()==expected
+              o=v['all_and_opportunity_quartiles']['ALL']['metrics']['corr']['point']
+              want=.018082560930703307 if mode=='all_heldout' else -.006113480036690145
+              assert abs(o-want)<1e-10
+          print('FCP4475_AUTHENTIC_PHOTO_FOLD_RELIABILITY_SOURCE_PASS')
+          print('FCP4475_AUTHENTIC_PHOTO_FOLD_RELIABILITY_FULL_JSON',json.dumps(data,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-thermal-photo-fold-reliability-and-climate-opportunity-20261024
+          path: /tmp/fcp-photo-reliability/out/
+          retention-days: 90
