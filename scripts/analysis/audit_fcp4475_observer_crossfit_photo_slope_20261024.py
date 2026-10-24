@@ -205,7 +205,7 @@ def main():
     a.add_argument("--out",type=Path)
     a.add_argument("--self-test",action="store_true")
     opt=a.parse_args()
-    fake=np.array([[2,2.,3.,4.,6.,5.],[3,5.,7.,16.,25.,35.]])
+    fake=np.array([[3,3.,7.,5.,21.,10.],[4,10.,8.,30.,22.,25.]])
     check(np.all(np.isfinite(correlation_moments(fake))),"paired-photo correlation fixture broken")
     print("FCP_CROSSFIT_SOURCE_INDEPENDENT_AUDIT_SYNTHETIC_PASS")
     if opt.self_test:return
