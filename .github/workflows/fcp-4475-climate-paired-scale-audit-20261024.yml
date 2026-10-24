@@ -1,0 +1,73 @@
+name: FCP seven-climate same-taxon 5 vs 1 degree audit
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_climate_region5_vs_region1_paired_audit_20261024.py
+      - .github/workflows/fcp-4475-climate-paired-scale-audit-20261024.yml
+      - docs/FCP_7CLIMATE_WITHIN_REGION_EMPIRICAL_RESULTS_20261024.md
+      - results/fcp4475_region_climate_paired_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  same-source-paired-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Compile exact same-taxon design and synthetic slope fixture
+        run: |
+          python -m py_compile scripts/analysis/fcp4475_climate_region5_vs_region1_paired_audit_20261024.py
+          python scripts/analysis/fcp4475_climate_region5_vs_region1_paired_audit_20261024.py --self-test
+      - name: Authenticate four original-photo source tables from exact completed run
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcpregion-paired/{source,result}
+          gh run download 40056835373 --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-seven-climate-within-region-original-20261024 \
+            --dir /tmp/fcpregion-paired/source
+          echo '828a9a8810cf3a2fed00075c21b544add2c24f2ae7a08794331f8364f850fc91  /tmp/fcpregion-paired/source/original_all4475_original_5degree_regional_photo9_climate7.csv' | sha256sum -c -
+          echo '31ad317ff735b2300123149ff60f0307b6cc3c9dadff2e8b59efe63e5116283e  /tmp/fcpregion-paired/source/original_all4475_original_1degree_regional_photo9_climate7.csv' | sha256sum -c -
+          echo 'd7a9ea1a86bcf788c099d7deee6492cb0dc56be1c1201c655d53399c4e84e27f  /tmp/fcpregion-paired/source/original_all4475_observer_thinned_5degree_regional_photo9_climate7.csv' | sha256sum -c -
+          echo '27911db48c260a39a091741a766163691e008b609841de35114faf1e9c1c180d  /tmp/fcpregion-paired/source/original_all4475_observer_thinned_1degree_regional_photo9_climate7.csv' | sha256sum -c -
+          echo '9239086c2141fca8d63b94bca149c296a57e863e7ee5d8a2c0491e5ac12a7c00  /tmp/fcpregion-paired/source/region_month_climate_falsification_summary.json' | sha256sum -c -
+      - name: Compute identical-taxa regional covariance and residual-variance-normalized association
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp4475_climate_region5_vs_region1_paired_audit_20261024.py \
+            --original-5 /tmp/fcpregion-paired/source/original_all4475_original_5degree_regional_photo9_climate7.csv \
+            --original-1 /tmp/fcpregion-paired/source/original_all4475_original_1degree_regional_photo9_climate7.csv \
+            --observer-thinned-5 /tmp/fcpregion-paired/source/original_all4475_observer_thinned_5degree_regional_photo9_climate7.csv \
+            --observer-thinned-1 /tmp/fcpregion-paired/source/original_all4475_observer_thinned_1degree_regional_photo9_climate7.csv \
+            --summary /tmp/fcpregion-paired/source/region_month_climate_falsification_summary.json \
+            --out /tmp/fcpregion-paired/result
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path('/tmp/fcpregion-paired/result/paired_5vs1_seven_climate_original_hues.json')
+          x=json.loads(p.read_text())
+          assert x['source_original_photos']==447500 and x['source_classifiable']==227107
+          assert len(x['results'])==2
+          assert x['results']['original']['per_axis_common_support']['BIO5']['n_shared_source_species']==1377
+          assert x['results']['observer_thinned']['per_axis_common_support']['BIO5']['n_shared_source_species']==1303
+          for mode in x['results']:
+              for axis in x['results'][mode]['per_axis_common_support']:
+                  z=x['results'][mode]['per_axis_common_support'][axis]
+                  assert z['same_source_covariance_and_variance_normalized']['cov5']['n_identical_taxa']==z['n_shared_source_species']
+                  assert z['median_climate_residual_fraction_5degree']>0.05
+                  assert z['median_climate_residual_fraction_1degree']>0.05
+          print('FCP_REGION_CLIMATE_PAIRED_BIO5_EXACT_SOURCE_SUCCESS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-regional-BIO5-paired-same-source-seven-climate-20261024
+          path: /tmp/fcpregion-paired/result/
+          retention-days: 90
