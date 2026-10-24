@@ -1,0 +1,90 @@
+name: FCP original-photo palette modes and purity-adjusted geography QA
+
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_photo_mode_geo_quality_20261023.py
+      - .github/workflows/fcp-original-photo-mode-and-purity-geography-20261023.yml
+      - scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py
+      - tests/test_fcp_observed_colour_cluster_qa_20261023.py
+  push:
+    branches: [analysis/fcp-cluster-error-audit-20261023, main]
+    paths:
+      - scripts/analysis/fcp_photo_mode_geo_quality_20261023.py
+      - .github/workflows/fcp-original-photo-mode-and-purity-geography-20261023.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-palette-modes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PHOTO_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      PHOTO_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      PHOTO_TAR_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned quantitative runtime
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.15.2 scikit-learn==1.6.1
+      - name: Run independent synthetic mixture and source-cluster checks
+        run: |
+          python -m py_compile scripts/analysis/fcp_photo_mode_geo_quality_20261023.py
+          python scripts/analysis/fcp_photo_mode_geo_quality_20261023.py --self-test
+          python scripts/analysis/fcp_observed_colour_cluster_qa_20261023.py --self-test
+      - name: Recover authentic original measured-photo release (no alternative photo source)
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/fcp_palette_cluster"
+          mkdir -p "$root/archive" "$root/source" "$root/out"
+          gh release download "$PHOTO_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PHOTO_FILE" --dir "$root/archive"
+          echo "$PHOTO_TAR_SHA  $root/archive/$PHOTO_FILE" | sha256sum -c -
+          tar -xzf "$root/archive/$PHOTO_FILE" -C "$root/source"
+          test -s "$root/source/measured/fcp_all4730_original_method_measured_photos.csv.gz"
+          echo '8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6  '"$root"'/source/measured/fcp_all4730_original_method_measured_photos.csv.gz' | sha256sum -c -
+      - name: Evaluate source-authentic nine-palette modes and photo-purity geography nulls
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/fcp_palette_cluster"
+          python scripts/analysis/fcp_photo_mode_geo_quality_20261023.py \
+            --photos "$root/source/measured/fcp_all4730_original_method_measured_photos.csv.gz" \
+            --pilot-per-group 80 \
+            --out "$root/out/fcp_original_photo_palette_mode_geography_QA_20261023.json"
+      - name: Verify negative-control boundaries and add bounded job summary
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"fcp_palette_cluster/out/fcp_original_photo_palette_mode_geography_QA_20261023.json"
+          q=json.loads(p.read_text())
+          assert q["n_original_photos"]==447500
+          assert q["n_classifiable_photos"]==227107
+          assert q["n_source_species"]==4475
+          assert q["not_determining_true_number_of_heritable_morphs"] is True
+          assert q["source_position_and_observer_identifiers_not_exported"] is True
+          assert q["not_frozen_50km_primary_P2_replacement"] is True
+          assert q["strict_5km_month_matched_null_was_not_supported_p"]==0.3
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as f:
+              f.write("## Exploratory photographic-mode and purity sensitivity\n")
+              f.write("**This neither identifies genetic morphs nor redefines the frozen P2 null.**\n\n")
+              for n,v in q["source_quality_species"].items():
+                  f.write(f"- {n}: {v} source taxa with >=24 quality photos and >=k colour groups having >=5 photos/3 observers\n")
+              f.write("\n| Support stratum | Photo taxa | 50-km delta | Matched P | Different-observer P |\n|---|---:|---:|---:|---:|\n")
+              for n,v in q["geographic_50km_within_species_matched_null_on_purity_passing_photos"].items():
+                  f.write(f"| {n} | {v['species']} | {v.get('mean_source_photo_global_minus_local')} | {v.get('matched_199_world_upper_p')} | {v.get('distinct_observer_pair_matched_199_world_upper_p')} |\n")
+              pp=q["within_pilot"]
+              f.write(f"\nPilot photographic GMM: {pp['n_species_tested']} measured species; observer-stable candidate count {pp['n_species_with_photo_mixture_candidate_and_observer_stability']} (NOT morphs).\n")
+          print("FCP_ORIGINAL_PHOTO_PALETTE_AND_GEO_AUDIT_SOURCE_VERIFIED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-photo-palette-mode-and-purity-geography-20261023
+          path: ${{ runner.temp }}/fcp_palette_cluster/out/fcp_original_photo_palette_mode_geography_QA_20261023.json
+          retention-days: 90
