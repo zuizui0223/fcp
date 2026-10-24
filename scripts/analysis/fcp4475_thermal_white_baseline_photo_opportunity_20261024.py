@@ -234,7 +234,7 @@ def genus_bootstrap_grouptable(frame,labels,seed=SEED,rep=BOOT):
 
 def standardized(array):
     y=np.asarray(array,float)
-    check(np.isfinite(y).all(),"model covariates not fully measured")
+    require(np.isfinite(y).all(),"model covariates not fully measured")
     sd=float(y.std(ddof=0))
     return (y-y.mean())/max(sd,1e-10)
 
@@ -254,7 +254,7 @@ def adjusted_photo_group_effect(frame,seed=SEED):
                 "BIO5_sampled_original_q90_minus_q10_C",
                 "thermal_level_unique_variance_fraction"):
         d=d.loc[np.isfinite(pd.to_numeric(d[col],errors="coerce"))].copy()
-    check(len(d)>1200,"no original climate/photo opportunity after covariate audit")
+    require(len(d)>1200,"no original climate/photo opportunity after covariate audit")
     one=pd.get_dummies(d.original_photo_white_presence_stratum,
                        dtype=float).reindex(columns=list(STRATA)[1:],fill_value=0.)
     cohort=pd.get_dummies(d.source_cohort,
@@ -275,7 +275,7 @@ def adjusted_photo_group_effect(frame,seed=SEED):
               "z_log_BIO5_photo_q90_q10_breadth",
               "z_thermal_macro_unique_variance_fraction",
               *["cohort_"+c for c in list(COHORTS)[1:]]]
-    check(x.shape[1]==len(colnames)
+    require(x.shape[1]==len(colnames)
           and np.linalg.matrix_rank(x)==x.shape[1],
           "photo opportunity regression terms are not full rank")
     y=d.thermal_photo_white_slope.to_numpy(float)
