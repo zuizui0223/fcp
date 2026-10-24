@@ -1,0 +1,166 @@
+name: FCP positive synthesis manuscript DOCX export
+on:
+  pull_request:
+    paths:
+      - manuscripts/FCP_NEW_PHYTOLOGIST_INTEGRATED_POSITIVE_RESULTS_20261024.md
+      - manuscripts/FCP_NP_INTEGRATED_POSITIVE_EVIDENCE_MAP_20261024.md
+      - .github/workflows/fcp-positive-manuscript-docx-export-20261024.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render-original-source-paper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install editorial manuscript tools
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc >/dev/null
+          python -m pip install python-docx==1.2.0 matplotlib==3.10.1 cairosvg==2.7.1
+      - name: Convert integrated IMRAD to editable Word without changing content
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-manuscript/figures /tmp/fcp-manuscript/output
+          pandoc manuscripts/FCP_NEW_PHYTOLOGIST_INTEGRATED_POSITIVE_RESULTS_20261024.md \
+            --from=gfm --to=docx --standalone \
+            --output=/tmp/fcp-manuscript/output/FCP_New_Phytologist_Integrated_Full_Paper_20261024.docx
+          python - <<'PY'
+          from docx import Document
+          from docx.shared import Inches,Pt,RGBColor
+          from docx.enum.text import WD_ALIGN_PARAGRAPH
+          from docx.enum.table import WD_TABLE_ALIGNMENT
+          from pathlib import Path
+          import numpy as np
+          import matplotlib
+          matplotlib.use('Agg')
+          import matplotlib.pyplot as plt
+          import cairosvg
+          root=Path('/tmp/fcp-manuscript')
+          figures=root/'figures'
+          for i,source in enumerate((
+              'docs/figures/fcp_np_all4475_white_axis_five_cohorts_20261021.svg',
+              'docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg'
+          ),1):
+              assert Path(source).is_file()
+              cairosvg.svg2png(url=source,write_to=str(figures/f'figure{i}.png'),
+                                output_width=1500)
+
+          # Figure 3: directly frozen n-matched thermal versus precipitation.
+          fig,ax=plt.subplots(figsize=(9.5,4.0))
+          places=np.arange(2)
+          thermal=[83.7,84.8]
+          precip=[24.3,12.7]
+          ax.bar(places-.19,thermal,.38,label='Shared temperature',color='#3D6880')
+          ax.bar(places+.19,precip,.38,label='Shared precipitation',color='#C4A168')
+          for x,v in zip(places-.19,thermal):
+              ax.text(x,v+2.1,f'{v:.1f}%',ha='center',fontsize=11)
+          for x,v in zip(places+.19,precip):
+              ax.text(x,v+2.1,f'{v:.1f}%',ha='center',fontsize=11)
+          ax.set_ylim(0,108)
+          ax.set_ylabel('White-axis alignment of mean hue vector (%)')
+          ax.set_xticks(places,['Original (2,689 species)','One photo/observer (2,625 species)'])
+          ax.legend(loc='upper right',frameon=False)
+          ax.spines[['top','right']].set_visible(False)
+          fig.tight_layout()
+          fig.savefig(figures/'figure3.png',dpi=200)
+          plt.close(fig)
+
+          # Figure 4: source-correct between/within and genuinely disjoint observers.
+          fig,axes=plt.subplots(1,2,figsize=(10.6,4.0))
+          axes[0].bar([0],[.008431],label='Between photographic categories',color='#3D6880')
+          axes[0].bar([0],[.003997],bottom=[.008431],
+                      label='Within categories',color='#C4A168')
+          axes[0].set_xticks([0],['Original photo classes\n(1,376 species)'])
+          axes[0].set_ylim(0,.017)
+          axes[0].set_ylabel('Mean white/shared-temperature partial slope')
+          axes[0].legend(loc='upper left',frameon=False,fontsize=8)
+          vals=[.012879,.005747,.011011,.006159]
+          ci=[(.007331,.018743),(.000118,.011283),
+              (.005585,.016732),(.000006,.011839)]
+          xx=np.arange(4)
+          axes[1].errorbar(xx,vals,
+            yerr=[[v-l for v,(l,h) in zip(vals,ci)],
+                  [h-v for v,(l,h) in zip(vals,ci)]],
+            fmt='o',markersize=6,color='#3D6880',capsize=4,linewidth=1.2)
+          axes[1].axhline(0,color='#666666',linewidth=.8)
+          axes[1].set_xticks(xx,['A → B','B → A','A → B\n1/observer','B → A\n1/observer'])
+          axes[1].set_ylim(-.004,.023)
+          axes[1].set_ylabel('Heldout observer white/thermal slope')
+          for ax in axes: ax.spines[['top','right']].set_visible(False)
+          fig.tight_layout()
+          fig.savefig(figures/'figure4.png',dpi=200)
+          plt.close(fig)
+
+          file=root/'output/FCP_New_Phytologist_Integrated_Full_Paper_20261024.docx'
+          doc=Document(file)
+          doc.core_properties.title='Recurrent floral colour directions, geographic assembly and climatic associations across 4,475 angiosperm species'
+          doc.core_properties.subject='New Phytologist Full Paper - source-verified 447,500-photo FCP evidence'
+          doc.core_properties.author='FCP research team'
+          for sec in doc.sections:
+              sec.top_margin=Inches(.82);sec.bottom_margin=Inches(.8)
+              sec.left_margin=Inches(.91);sec.right_margin=Inches(.91)
+          styles=doc.styles
+          normal=styles['Normal']
+          normal.font.name='Cambria';normal.font.size=Pt(10.5)
+          normal.paragraph_format.space_after=Pt(5.4)
+          normal.paragraph_format.line_spacing=1.16
+          from docx.enum.style import WD_STYLE_TYPE
+          for name,pt in (('Title',17.5),('Heading 1',13.0),('Heading 2',11.3),('Heading 3',10.5),('Caption',9.5)):
+              try:
+                  style=styles[name]
+              except KeyError:
+                  # Pandoc's minimal DOCX template may omit a normal Word
+                  # heading/caption style. Create it rather than failing.
+                  style=styles.add_style(name,WD_STYLE_TYPE.PARAGRAPH)
+              style.font.name='Cambria';style.font.size=Pt(pt)
+              style.font.color.rgb=RGBColor(35,55,69)
+              style.paragraph_format.space_before=Pt(11)
+              style.paragraph_format.space_after=Pt(5)
+              style.paragraph_format.keep_with_next=True
+          for i,p in enumerate(doc.paragraphs):
+              if i==0:
+                  p.alignment=WD_ALIGN_PARAGRAPH.LEFT
+                  p.paragraph_format.keep_with_next=True
+          for table in doc.tables:
+              table.alignment=WD_TABLE_ALIGNMENT.CENTER
+              for row in table.rows:
+                  for cell in row.cells:
+                      for p in cell.paragraphs:
+                          p.paragraph_format.space_after=Pt(2)
+                          for run in p.runs:run.font.size=Pt(8.5)
+          doc.add_page_break()
+          doc.add_heading('Verified source figures',level=1)
+          captions=[
+            'Figure 1. Recurrent photographic white–chromatic direction across 4,475 species. Original source W = 0.47887 versus source-matched null median 0.43204 (P = 0.005).',
+            'Figure 2. Geographic organization of four-colour photographic appearance. The mean species-equal 50-km range-wide minus local mismatch is positive (+0.01612, 3,600 species; P = 0.005).',
+            'Figure 3. Thermal versus precipitation directions of continuous nine-hue variation. Alignments are computed on the same 2,689 original, or 2,625 observer-thinned, species. They describe the squared axis projection of the mean photographic hue response, not variance explained in genetic morphs.',
+            'Figure 4. Observational thermal–white decomposition (left; same 1,376 source taxa) and observer-disjoint crossfit mean coefficients with 999-genus bootstrap 95% intervals (right). Photographic category components are algebraic; heldout folds do not share original photographers.'
+          ]
+          for i,caption in enumerate(captions,1):
+              p=doc.add_paragraph()
+              p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+              p.add_run().add_picture(str(figures/f'figure{i}.png'),width=Inches(6.55))
+              p=doc.add_paragraph(caption,style='Caption')
+              p.paragraph_format.space_after=Pt(13)
+          doc.save(file)
+          # Text + table and source figure smoke checks.
+          final=Document(file)
+          assert len(final.paragraphs)>70
+          assert len(final.tables)>=2
+          assert len(final.inline_shapes)>=4
+          all_text='\n'.join(p.text for p in final.paragraphs)
+          for token in ('447,500','4,475','0.47887','0.01612','0.00821','Conclusions'):
+              assert token in all_text,token
+          print('FCP_POSITIVE_MANUSCRIPT_DOCX_SAVED_AND_FIGURE_TABLE_AUDITED',file)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-positive-integrated-full-paper-docx-20261024
+          path: /tmp/fcp-manuscript/output/FCP_New_Phytologist_Integrated_Full_Paper_20261024.docx
+          retention-days: 90
