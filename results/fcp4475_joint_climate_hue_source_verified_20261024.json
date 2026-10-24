@@ -1,0 +1,4112 @@
+{
+  "all_original_taxa_retained_even_when_climate_collinear": true,
+  "background_phenology_cultivation_camera_not_disambiguated": true,
+  "conditional_association": "species-standardized original climate residual after broad XYZ and calendar month projection, additionally conditioned on other two (BIO5,BIO12,SRAD) or all six other original seven climate axes",
+  "extra_strict_variance_gate_reported": 0.1,
+  "genus_cluster_resamples": 999,
+  "models": {
+    "seven_climates_joint_conditional": [
+      "BIO1",
+      "BIO4",
+      "BIO5",
+      "BIO12",
+      "BIO14",
+      "BIO15",
+      "SRADmean"
+    ],
+    "thermal_moisture_solar_core": [
+      "BIO5",
+      "BIO12",
+      "SRADmean"
+    ]
+  },
+  "no_genetic_colour_morph_local_adaptation_or_pigment_cost_claim": true,
+  "original_photo_classified_count": 227107,
+  "original_photo_count": 447500,
+  "original_source_photo_classes_are_not_heritable_morphs": true,
+  "original_taxon_count": 4475,
+  "posthoc_exploratory_two_models_and_original_vs_thinned": true,
+  "results": {
+    "observer_thinned__seven_climates_joint_conditional": {
+      "matched_temperature_vs_precipitation_photo_hue_geometry": {
+        "difference_first_minus_second": -0.15564474542578463,
+        "difference_genus_bootstrap95": [
+          -0.6699239412516084,
+          0.6362768736388363
+        ],
+        "first_axis_alignment": 0.24311720944222623,
+        "first_predictor": "BIO5",
+        "genus_bootstrap_marginal95_per_alignment": [
+          [
+            0.0003941861000249534,
+            0.7754529167983057
+          ],
+          [
+            0.001252628452549877,
+            0.791001180281167
+          ]
+        ],
+        "n_genera": 341,
+        "n_matched_taxa": 486,
+        "not_share_of_heritable_colour_variance": true,
+        "posthoc_axis_comparison_not_preregistered": true,
+        "second_axis_alignment": 0.39876195486801086,
+        "second_predictor": "BIO12",
+        "status": "same_taxa_same_photos_within_species_conditional_climate"
+      },
+      "n_bootstrap_genera": 1634,
+      "n_original_source_species_in_ledger": 4475,
+      "n_source_taxa_identifiable_any_axis": 2962,
+      "n_source_taxa_with_two_photo_colours_ge5": 1387,
+      "per_source_cohort": {
+        "discovery": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.48046875,
+              "mean_white_conditional_slope": 0.0008532168028522634,
+              "n_species": 256
+            },
+            "BIO5": {
+              "fraction_positive": 0.4626865671641791,
+              "mean_white_conditional_slope": 0.0025084347844033677,
+              "n_species": 67
+            }
+          },
+          "n_source_species": 500
+        },
+        "new_U100": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.47784045124899277,
+              "mean_white_conditional_slope": -0.004986755070793402,
+              "n_species": 1241
+            },
+            "BIO5": {
+              "fraction_positive": 0.5277777777777778,
+              "mean_white_conditional_slope": 0.009334124800483621,
+              "n_species": 324
+            }
+          },
+          "n_source_species": 2478
+        },
+        "prospective": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.504,
+              "mean_white_conditional_slope": 0.0009406494920707762,
+              "n_species": 250
+            },
+            "BIO5": {
+              "fraction_positive": 0.5211267605633803,
+              "mean_white_conditional_slope": 0.007430068378248906,
+              "n_species": 71
+            }
+          },
+          "n_source_species": 499
+        },
+        "validation": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.515748031496063,
+              "mean_white_conditional_slope": -0.0015719007280241236,
+              "n_species": 254
+            },
+            "BIO5": {
+              "fraction_positive": 0.49382716049382713,
+              "mean_white_conditional_slope": -0.0013299816081654894,
+              "n_species": 81
+            }
+          },
+          "n_source_species": 500
+        },
+        "wave4": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.4864864864864865,
+              "mean_white_conditional_slope": 0.0004215965840091064,
+              "n_species": 222
+            },
+            "BIO5": {
+              "fraction_positive": 0.42857142857142855,
+              "mean_white_conditional_slope": -0.004546665153035345,
+              "n_species": 63
+            }
+          },
+          "n_source_species": 498
+        }
+      },
+      "photographic_photo_category_components": {
+        "between_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "fixed_q_white_chromatic_conditional_slope": 0.009885358878336255,
+              "fraction_species_white_conditional_slope_positive": 0.5282392026578073,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0015500402739727934,
+                  "mean_photo_palette_conditional_slope": -0.0027150409901951617
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0029296519690536777,
+                  "mean_photo_palette_conditional_slope": 0.0017646512528313094
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0015971852820587313,
+                  "mean_photo_palette_conditional_slope": -0.0027621859982810996
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0010201187430702453,
+                  "mean_photo_palette_conditional_slope": -0.00014488197315212296
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0022472487050256926,
+                  "mean_photo_palette_conditional_slope": -0.0034122494212480608
+                },
+                "purple": {
+                  "chromatic_only_component": 0.000015489431758623903,
+                  "mean_photo_palette_conditional_slope": -0.0011495112844637444
+                },
+                "red": {
+                  "chromatic_only_component": 0.0006536716847208223,
+                  "mean_photo_palette_conditional_slope": -0.000511329031501546
+                },
+                "white": {
+                  "chromatic_only_component": -3.469446951953614e-18,
+                  "mean_photo_palette_conditional_slope": 0.009320005729778943
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0007755424324538482,
+                  "mean_photo_palette_conditional_slope": -0.00038945828376852015
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.009320005729778943,
+              "median_white_photo_fraction_conditional_slope": 0.00815754289848983,
+              "n_genera": 213,
+              "n_species": 301,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.006008924588660147,
+                0.02479825912070512
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.01168623915135299,
+                0.031456956908025496
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.8255039125467833
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": -0.003937520173503016,
+              "fraction_species_white_conditional_slope_positive": 0.4787234042553192,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.00020685032203358053,
+                  "mean_photo_palette_conditional_slope": 0.00025719088059022175
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0005546760273598574,
+                  "mean_photo_palette_conditional_slope": -0.00009063482473605511
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00039562362728050727,
+                  "mean_photo_palette_conditional_slope": 0.0008596648299043096
+                },
+                "orange": {
+                  "chromatic_only_component": -0.000934360843654231,
+                  "mean_photo_palette_conditional_slope": -0.0004703196410304287
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0014151476463316486,
+                  "mean_photo_palette_conditional_slope": 0.0018791888489554508
+                },
+                "purple": {
+                  "chromatic_only_component": -0.00204231392842973,
+                  "mean_photo_palette_conditional_slope": -0.0015782727258059274
+                },
+                "red": {
+                  "chromatic_only_component": 0.001028880081003115,
+                  "mean_photo_palette_conditional_slope": 0.0014929212836269174
+                },
+                "white": {
+                  "chromatic_only_component": 0,
+                  "mean_photo_palette_conditional_slope": -0.0037123296209904183
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0008985497668621273,
+                  "mean_photo_palette_conditional_slope": 0.0013625909694859296
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0037123296209904183,
+              "median_white_photo_fraction_conditional_slope": -0.0044491318373424205,
+              "n_genera": 546,
+              "n_species": 1034,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.011411540339981993,
+                0.0028085019480385597
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.013857532311665187,
+                0.005982491964659156
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.6220601155418082
+            },
+            "BIO14": {
+              "fixed_q_white_chromatic_conditional_slope": 0.004765095092381204,
+              "fraction_species_white_conditional_slope_positive": 0.5162659123055162,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.003153157617890407,
+                  "mean_photo_palette_conditional_slope": 0.0025915857757534922
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.000747402462052343,
+                  "mean_photo_palette_conditional_slope": -0.0013089743041892576
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0013642389511900354,
+                  "mean_photo_palette_conditional_slope": -0.0019258107933269502
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0001680493779103255,
+                  "mean_photo_palette_conditional_slope": -0.0003935224642265891
+                },
+                "pink": {
+                  "chromatic_only_component": -0.004066904320369689,
+                  "mean_photo_palette_conditional_slope": -0.004628476162506603
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0004916990842904109,
+                  "mean_photo_palette_conditional_slope": -0.0000698727578465038
+                },
+                "red": {
+                  "chromatic_only_component": 0.00010406752989409638,
+                  "mean_photo_palette_conditional_slope": -0.00045750431224281826
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.004492574737095316
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.002261572123626826,
+                  "mean_photo_palette_conditional_slope": 0.0017000002814899114
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.004492574737095316,
+              "median_white_photo_fraction_conditional_slope": 0.0034110493039333097,
+              "n_genera": 425,
+              "n_species": 707,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.003514236732960822,
+                0.014241913418895934
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.007611205509372382,
+                0.017141395694134788
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.3983283685756634
+            },
+            "BIO15": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0024613869525135098,
+              "fraction_species_white_conditional_slope_positive": 0.5009842519685039,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.001066283977557452,
+                  "mean_photo_palette_conditional_slope": 0.0013563612117651843
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.00013487246733585788,
+                  "mean_photo_palette_conditional_slope": 0.0001552047668718744
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0003854394098385956,
+                  "mean_photo_palette_conditional_slope": -0.00009536217563086327
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0002051826503506442,
+                  "mean_photo_palette_conditional_slope": 0.00008489458385708809
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0008943177437620857,
+                  "mean_photo_palette_conditional_slope": -0.0006042405095543534
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0019337206200184197,
+                  "mean_photo_palette_conditional_slope": 0.002223797854226152
+                },
+                "red": {
+                  "chromatic_only_component": -0.0018854835096090115,
+                  "mean_photo_palette_conditional_slope": -0.0015954062754012792
+                },
+                "white": {
+                  "chromatic_only_component": 1.734723475976807e-18,
+                  "mean_photo_palette_conditional_slope": -0.0023206178736618565
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0005052911833203296,
+                  "mean_photo_palette_conditional_slope": 0.0007953684175280618
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0023206178736618565,
+              "median_white_photo_fraction_conditional_slope": 0.00015661346290454214,
+              "n_genera": 520,
+              "n_species": 1016,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.009732421875746848,
+                0.004667406855980827
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.012023885868547753,
+                0.007101111963520732
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.3845718953625103
+            },
+            "BIO4": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0003265888347764798,
+              "fraction_species_white_conditional_slope_positive": 0.47513812154696133,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0025528297946993983,
+                  "mean_photo_palette_conditional_slope": 0.0025913186579877754
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0019178214509894354,
+                  "mean_photo_palette_conditional_slope": 0.0019563103142778123
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0005127626289387491,
+                  "mean_photo_palette_conditional_slope": -0.0004742737656503721
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0011990146046283998,
+                  "mean_photo_palette_conditional_slope": 0.0012375034679167768
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0020100186397088936,
+                  "mean_photo_palette_conditional_slope": -0.0019715297764205165
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0014441631226021418,
+                  "mean_photo_palette_conditional_slope": -0.0014056742593137649
+                },
+                "red": {
+                  "chromatic_only_component": -0.002763963138850121,
+                  "mean_photo_palette_conditional_slope": -0.002725474275561744
+                },
+                "white": {
+                  "chromatic_only_component": -5.421010862427522e-20,
+                  "mean_photo_palette_conditional_slope": -0.00030791090630701587
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0010612416797826712,
+                  "mean_photo_palette_conditional_slope": 0.0010997305430710481
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.00030791090630701587,
+              "median_white_photo_fraction_conditional_slope": -0.0049441261017384025,
+              "n_genera": 252,
+              "n_species": 362,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.014327125379755848,
+                0.014854832601062243
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.01998851456075338,
+                0.01933533689120042
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.003965993188514353
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0018403387718880883,
+              "fraction_species_white_conditional_slope_positive": 0.5156794425087108,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.002132341952132064,
+                  "mean_photo_palette_conditional_slope": 0.002349227956345829
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0010492948427807678,
+                  "mean_photo_palette_conditional_slope": 0.0012661808469945329
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00029514690466855164,
+                  "mean_photo_palette_conditional_slope": 0.0005120329088823167
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0013424485618184479,
+                  "mean_photo_palette_conditional_slope": -0.0011255625576046828
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0010855640834507908,
+                  "mean_photo_palette_conditional_slope": -0.0008686780792370257
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0005523313625883402,
+                  "mean_photo_palette_conditional_slope": -0.00033544535837457516
+                },
+                "red": {
+                  "chromatic_only_component": -0.0003808462461727099,
+                  "mean_photo_palette_conditional_slope": -0.00016396024195894485
+                },
+                "white": {
+                  "chromatic_only_component": 1.0842021724855044e-18,
+                  "mean_photo_palette_conditional_slope": -0.0017350880337101192
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00011559344555109087,
+                  "mean_photo_palette_conditional_slope": 0.00010129255866267416
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0017350880337101192,
+              "median_white_photo_fraction_conditional_slope": 0.0046937707192716465,
+              "n_genera": 203,
+              "n_species": 287,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.016928074482095844,
+                0.01292071659272733
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.02221382704535566,
+                0.01853314950157948
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.26952565037504345
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.002670955370258122,
+              "fraction_species_white_conditional_slope_positive": 0.5192926045016077,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.002672578551512487,
+                  "mean_photo_palette_conditional_slope": 0.002357803442419796
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0013742861346286973,
+                  "mean_photo_palette_conditional_slope": -0.0016890612437213879
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0006608022341208397,
+                  "mean_photo_palette_conditional_slope": -0.0009755773432135303
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0008775155273060028,
+                  "mean_photo_palette_conditional_slope": -0.0011922906363986934
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0006804797824062781,
+                  "mean_photo_palette_conditional_slope": 0.00036570467331358746
+                },
+                "purple": {
+                  "chromatic_only_component": -0.001491007830247512,
+                  "mean_photo_palette_conditional_slope": -0.0018057829393402025
+                },
+                "red": {
+                  "chromatic_only_component": 0.0012237001271534435,
+                  "mean_photo_palette_conditional_slope": 0.0009089250180607529
+                },
+                "white": {
+                  "chromatic_only_component": -4.336808689942018e-19,
+                  "mean_photo_palette_conditional_slope": 0.002518200872741525
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00017314673476915508,
+                  "mean_photo_palette_conditional_slope": -0.00048792184386184574
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.002518200872741525,
+              "median_white_photo_fraction_conditional_slope": 0.004282017728541388,
+              "n_genera": 380,
+              "n_species": 622,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.007267098754542864,
+                0.012207372082150834
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.010776816132506275,
+                0.01611872687302252
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.3304980299622484
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 7
+        },
+        "total": {
+          "per_climate": {
+            "BIO1": {
+              "fixed_q_white_chromatic_conditional_slope": 0.004684485690957619,
+              "fraction_species_white_conditional_slope_positive": 0.48635634028892455,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0006575188040086868,
+                  "mean_photo_palette_conditional_slope": -0.0012095907370832672
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.00011723362542287165,
+                  "mean_photo_palette_conditional_slope": -0.00043483830765170874
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.001528613498946016,
+                  "mean_photo_palette_conditional_slope": -0.0020806854320205965
+                },
+                "orange": {
+                  "chromatic_only_component": -0.000984863845779862,
+                  "mean_photo_palette_conditional_slope": -0.0015369357788544424
+                },
+                "pink": {
+                  "chromatic_only_component": -0.00042470860959017455,
+                  "mean_photo_palette_conditional_slope": -0.000976780542664755
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0008848819695441105,
+                  "mean_photo_palette_conditional_slope": 0.00033281003646953015
+                },
+                "red": {
+                  "chromatic_only_component": -0.0006334206309469295,
+                  "mean_photo_palette_conditional_slope": -0.0011854925640215098
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.004416575464596642
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0032270097943046918,
+                  "mean_photo_palette_conditional_slope": 0.0026749378612301116
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.004416575464596642,
+              "median_white_photo_fraction_conditional_slope": -0.0018587677692733031,
+              "n_genera": 403,
+              "n_species": 623,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004439727398611805,
+                0.013633424041898108
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.00811418500254913,
+                0.01748315638446437
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.585569792809033
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": -0.002882173686895177,
+              "fraction_species_white_conditional_slope_positive": 0.48627980206927574,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.000161760934789484,
+                  "mean_photo_palette_conditional_slope": 0.00017790649163735152
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0030584794997999716,
+                  "mean_photo_palette_conditional_slope": -0.0027188120733731363
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00010254246338561477,
+                  "mean_photo_palette_conditional_slope": 0.0004422098898124503
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0012591150221602143,
+                  "mean_photo_palette_conditional_slope": -0.0009194475957333787
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0016377389984413941,
+                  "mean_photo_palette_conditional_slope": 0.0019774064248682297
+                },
+                "purple": {
+                  "chromatic_only_component": -0.00035806838054703227,
+                  "mean_photo_palette_conditional_slope": -0.000018400954120196767
+                },
+                "red": {
+                  "chromatic_only_component": 0.00009488476764190398,
+                  "mean_photo_palette_conditional_slope": 0.0004345521940687395
+                },
+                "white": {
+                  "chromatic_only_component": 1.734723475976807e-18,
+                  "mean_photo_palette_conditional_slope": -0.0027173394114146823
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0030022576078277963,
+                  "mean_photo_palette_conditional_slope": 0.0033419250342546316
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0027173394114146823,
+              "median_white_photo_fraction_conditional_slope": -0.0021383436421835195,
+              "n_genera": 972,
+              "n_species": 2223,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0070536633766528885,
+                0.0013087661071845417
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.008561668437690066,
+                0.0027973210638997112
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.2669643830439495
+            },
+            "BIO14": {
+              "fixed_q_white_chromatic_conditional_slope": 0.003357137842726375,
+              "fraction_species_white_conditional_slope_positive": 0.5108834827144686,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0020448918677600453,
+                  "mean_photo_palette_conditional_slope": 0.0016492493787650792
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.002564082775361742,
+                  "mean_photo_palette_conditional_slope": 0.0021684402863667756
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0007972793698673788,
+                  "mean_photo_palette_conditional_slope": -0.001192921858862345
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0007155858122987184,
+                  "mean_photo_palette_conditional_slope": 0.0003199433233037523
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0016385672671949496,
+                  "mean_photo_palette_conditional_slope": -0.0020342097561899157
+                },
+                "purple": {
+                  "chromatic_only_component": -0.000618981242114659,
+                  "mean_photo_palette_conditional_slope": -0.0010146237311096252
+                },
+                "red": {
+                  "chromatic_only_component": 0.0002455029856034169,
+                  "mean_photo_palette_conditional_slope": -0.00015013950339154932
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.0031651399119597286
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0025152355618469407,
+                  "mean_photo_palette_conditional_slope": -0.002910878050841907
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0031651399119597286,
+              "median_white_photo_fraction_conditional_slope": 0.001613645794550945,
+              "n_genera": 782,
+              "n_species": 1562,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.001710750794782432,
+                0.008751701878951227
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0038782518836375786,
+                0.010592527569090328
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.3454106183057378
+            },
+            "BIO15": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0006101198100052764,
+              "fraction_species_white_conditional_slope_positive": 0.5063063063063064,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00019060388834942084,
+                  "mean_photo_palette_conditional_slope": 0.000262507197514584
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0018123995701416378,
+                  "mean_photo_palette_conditional_slope": 0.001884302879306801
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0007677249400000122,
+                  "mean_photo_palette_conditional_slope": 0.0008396282491651754
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0008527859621407601,
+                  "mean_photo_palette_conditional_slope": 0.0009246892713059233
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0014783647812020007,
+                  "mean_photo_palette_conditional_slope": -0.0014064614720368375
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0002616891873877509,
+                  "mean_photo_palette_conditional_slope": -0.0001897858782225877
+                },
+                "red": {
+                  "chromatic_only_component": -0.001094185578909605,
+                  "mean_photo_palette_conditional_slope": -0.0010222822697444419
+                },
+                "white": {
+                  "chromatic_only_component": 3.2526065174565133e-19,
+                  "mean_photo_palette_conditional_slope": -0.000575226473321305
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.000789274813132473,
+                  "mean_photo_palette_conditional_slope": -0.0007173715039673098
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.000575226473321305,
+              "median_white_photo_fraction_conditional_slope": 0.0009171702098824089,
+              "n_genera": 944,
+              "n_species": 2220,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004928849513711846,
+                0.0030443708114756183
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.006228219723203518,
+                0.005007980103192965
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.04097707696635279
+            },
+            "BIO4": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0022857326772853814,
+              "fraction_species_white_conditional_slope_positive": 0.5038461538461538,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0022786844040240243,
+                  "mean_photo_palette_conditional_slope": 0.002548060583372054
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0004920221227802724,
+                  "mean_photo_palette_conditional_slope": -0.00022264594343224318
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.001036893514708665,
+                  "mean_photo_palette_conditional_slope": 0.0013062696940566942
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0010789487948257034,
+                  "mean_photo_palette_conditional_slope": -0.0008095726154776742
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0002233311828032405,
+                  "mean_photo_palette_conditional_slope": 0.000046044996544788836
+                },
+                "purple": {
+                  "chromatic_only_component": -0.001013134928743846,
+                  "mean_photo_palette_conditional_slope": -0.0007437587493958168
+                },
+                "red": {
+                  "chromatic_only_component": -0.0030492685632264676,
+                  "mean_photo_palette_conditional_slope": -0.002779892383878438
+                },
+                "white": {
+                  "chromatic_only_component": 8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": -0.0021550094347842336
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0025411276736468404,
+                  "mean_photo_palette_conditional_slope": 0.00281050385299487
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0021550094347842336,
+              "median_white_photo_fraction_conditional_slope": 0.001497355414855492,
+              "n_genera": 478,
+              "n_species": 780,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.010367984012458593,
+                0.00696156614073018
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.01393277182964482,
+                0.009361306475074058
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.17573389912375822
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.005820833022420147,
+              "fraction_species_white_conditional_slope_positive": 0.504950495049505,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0015459152863256428,
+                  "mean_photo_palette_conditional_slope": 0.0008599235359409972
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0011857220507912234,
+                  "mean_photo_palette_conditional_slope": 0.0004997303004065779
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0004622719215315956,
+                  "mean_photo_palette_conditional_slope": -0.0011482636719162412
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0007155312724921202,
+                  "mean_photo_palette_conditional_slope": 0.000029539522107474516
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0008463406805371925,
+                  "mean_photo_palette_conditional_slope": -0.001532332430921838
+                },
+                "purple": {
+                  "chromatic_only_component": -0.001221603876779629,
+                  "mean_photo_palette_conditional_slope": -0.0019075956271642747
+                },
+                "red": {
+                  "chromatic_only_component": 0.0024531135811007385,
+                  "mean_photo_palette_conditional_slope": 0.0017671218307160927
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.005487934003077164
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0033700657118613,
+                  "mean_photo_palette_conditional_slope": -0.004056057462245946
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.005487934003077164,
+              "median_white_photo_fraction_conditional_slope": 0.001074629526549025,
+              "n_genera": 405,
+              "n_species": 606,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0034822916288242173,
+                0.014807845140470604
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.006453012087853376,
+                0.01809467813269367
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.5843021707267693
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0013165300374723358,
+              "fraction_species_white_conditional_slope_positive": 0.5086661642803316,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.001993581004928234,
+                  "mean_photo_palette_conditional_slope": 0.0018384264520728225
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0013371209001883442,
+                  "mean_photo_palette_conditional_slope": -0.0014922754530437557
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0005549538083583676,
+                  "mean_photo_palette_conditional_slope": 0.0003997992555029563
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0009377817288027904,
+                  "mean_photo_palette_conditional_slope": -0.0010929362816582018
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0009267994812363683,
+                  "mean_photo_palette_conditional_slope": 0.000771644928380957
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0001147729752282055,
+                  "mean_photo_palette_conditional_slope": -0.00004038157762720586
+                },
+                "red": {
+                  "chromatic_only_component": 0.0004955686605994858,
+                  "mean_photo_palette_conditional_slope": 0.0003404141077440744
+                },
+                "white": {
+                  "chromatic_only_component": 4.336808689942018e-19,
+                  "mean_photo_palette_conditional_slope": 0.0012412364228432914
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0018107733013595219,
+                  "mean_photo_palette_conditional_slope": -0.0019659278542149333
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0012412364228432914,
+              "median_white_photo_fraction_conditional_slope": 0.0015208003539494241,
+              "n_genera": 698,
+              "n_species": 1327,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.00420479666208951,
+                0.006976480898131554
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.006419215205038164,
+                0.009052275279982836
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.1325162759954141
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 7
+        },
+        "within_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0018851455786566653,
+              "fraction_species_white_conditional_slope_positive": 0.5104333868378812,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0001719369136375015,
+                  "mean_photo_palette_conditional_slope": -0.0003941034506694959
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0013621905536106928,
+                  "mean_photo_palette_conditional_slope": -0.0015843570906426871
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0006295058761064471,
+                  "mean_photo_palette_conditional_slope": -0.0008516724131384415
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0015254174420217253,
+                  "mean_photo_palette_conditional_slope": -0.0017475839790537196
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0009729030955751495,
+                  "mean_photo_palette_conditional_slope": 0.0007507365585431551
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0017849030257110182,
+                  "mean_photo_palette_conditional_slope": 0.0015627364886790238
+                },
+                "red": {
+                  "chromatic_only_component": -0.0004453791069694576,
+                  "mean_photo_palette_conditional_slope": -0.000667545644001452
+                },
+                "white": {
+                  "chromatic_only_component": 2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": 0.0017773322962559553
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0013766237710596614,
+                  "mean_photo_palette_conditional_slope": 0.001154457234027667
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0017773322962559553,
+              "median_white_photo_fraction_conditional_slope": 0.0010503695740430293,
+              "n_genera": 403,
+              "n_species": 623,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.002296237572103401,
+                0.005846446974774686
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.003419365977544871,
+                0.007189657134858202
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.24699653758030662
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0020350477981650023,
+              "fraction_species_white_conditional_slope_positive": 0.47638326585695007,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0005250774388196396,
+                  "mean_photo_palette_conditional_slope": -0.0002852447557994352
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0022791037496590768,
+                  "mean_photo_palette_conditional_slope": -0.0020392710666388724
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0004436261194940707,
+                  "mean_photo_palette_conditional_slope": -0.00020379343647386637
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0009172009394061295,
+                  "mean_photo_palette_conditional_slope": -0.0006773682563859252
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0004955961193752407,
+                  "mean_photo_palette_conditional_slope": 0.000735428802395445
+                },
+                "purple": {
+                  "chromatic_only_component": 0.000846068512308901,
+                  "mean_photo_palette_conditional_slope": 0.0010859011953291053
+                },
+                "red": {
+                  "chromatic_only_component": -0.0004742965649150118,
+                  "mean_photo_palette_conditional_slope": -0.0002344638818948075
+                },
+                "white": {
+                  "chromatic_only_component": 8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": -0.0019186614641616335
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0032976401806097924,
+                  "mean_photo_palette_conditional_slope": 0.0035374728636299968
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0019186614641616335,
+              "median_white_photo_fraction_conditional_slope": -0.0020224350067722537,
+              "n_genera": 972,
+              "n_species": 2223,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.003948247093530586,
+                -0.00011421244692193705
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.004631258189424131,
+                0.0005611625930941264
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.18235834901617692
+            },
+            "BIO14": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0013372497888871804,
+              "fraction_species_white_conditional_slope_positive": 0.5275288092189501,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0009824125298178014,
+                  "mean_photo_palette_conditional_slope": 0.000824816130840734
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.002325968218106236,
+                  "mean_photo_palette_conditional_slope": 0.0021683718191291687
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00006482321673594787,
+                  "mean_photo_palette_conditional_slope": -0.00009277318224111952
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0006611592639517436,
+                  "mean_photo_palette_conditional_slope": 0.0005035628649746762
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0007060207150851221,
+                  "mean_photo_palette_conditional_slope": 0.0005484243161080547
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0011658498602613915,
+                  "mean_photo_palette_conditional_slope": -0.0013234462592384589
+                },
+                "red": {
+                  "chromatic_only_component": 0.00032045874194941914,
+                  "mean_photo_palette_conditional_slope": 0.00016286234297235172
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.0012607711918165383
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.003894992825384884,
+                  "mean_photo_palette_conditional_slope": -0.004052589224361951
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0012607711918165383,
+              "median_white_photo_fraction_conditional_slope": 0.002377471177986372,
+              "n_genera": 782,
+              "n_species": 1562,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0010728738909816873,
+                0.0036893516839054306
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0018800705663005982,
+                0.004554570144074959
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.0694834231980174
+            },
+            "BIO15": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0010590098085032614,
+              "fraction_species_white_conditional_slope_positive": 0.5193693693693694,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00038628559496234913,
+                  "mean_photo_palette_conditional_slope": 0.0002614800921397286
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0011996885341442613,
+                  "mean_photo_palette_conditional_slope": 0.0010748830313216408
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.001114657587329168,
+                  "mean_photo_palette_conditional_slope": 0.0009898520845065474
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0010517333073133386,
+                  "mean_photo_palette_conditional_slope": 0.000926927804490718
+                },
+                "pink": {
+                  "chromatic_only_component": -0.000765340499948573,
+                  "mean_photo_palette_conditional_slope": -0.0008901460027711935
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0009265843245175333,
+                  "mean_photo_palette_conditional_slope": -0.0010513898273401539
+                },
+                "red": {
+                  "chromatic_only_component": -0.000049103843901146955,
+                  "mean_photo_palette_conditional_slope": -0.0001739093467237675
+                },
+                "white": {
+                  "chromatic_only_component": 2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": 0.0009984440225809647
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00201133635538186,
+                  "mean_photo_palette_conditional_slope": -0.002136141858204481
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0009984440225809647,
+              "median_white_photo_fraction_conditional_slope": 0.001460922329976461,
+              "n_genera": 944,
+              "n_species": 2220,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0008801357371116056,
+                0.002799274976327636
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.001478005711324695,
+                0.0035960253283312178
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.10629577688018917
+            },
+            "BIO4": {
+              "fixed_q_white_chromatic_conditional_slope": -0.00036213635152189286,
+              "fraction_species_white_conditional_slope_positive": 0.5,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0007291370325735627,
+                  "mean_photo_palette_conditional_slope": 0.0007718152108861104
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0012611890769299366,
+                  "mean_photo_palette_conditional_slope": -0.001218510898617389
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0012981141403185206,
+                  "mean_photo_palette_conditional_slope": 0.0013407923186310683
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0014219852875348774,
+                  "mean_photo_palette_conditional_slope": -0.0013793071092223297
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0011694544174499842,
+                  "mean_photo_palette_conditional_slope": 0.0012121325957625319
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0004149139755520898,
+                  "mean_photo_palette_conditional_slope": 0.0004575921538646374
+                },
+                "red": {
+                  "chromatic_only_component": -0.0016077234372304295,
+                  "mean_photo_palette_conditional_slope": -0.0015650452589178819
+                },
+                "white": {
+                  "chromatic_only_component": -5.421010862427522e-20,
+                  "mean_photo_palette_conditional_slope": -0.0003414254265003811
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0006792782358010851,
+                  "mean_photo_palette_conditional_slope": 0.0007219564141136328
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0003414254265003811,
+              "median_white_photo_fraction_conditional_slope": 0.00012855187201054425,
+              "n_genera": 478,
+              "n_species": 780,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004362616889215015,
+                0.0038732049807778503
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.005843337622934238,
+                0.0051190649198904516
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.01243472266832708
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0041222517579391,
+              "fraction_species_white_conditional_slope_positive": 0.5082508250825083,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0012338351956845879,
+                  "mean_photo_palette_conditional_slope": 0.0007480231670517704
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0011900036671813937,
+                  "mean_photo_palette_conditional_slope": 0.0007041916385485764
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0007779366148485808,
+                  "mean_photo_palette_conditional_slope": -0.0012637486434813982
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0012665529295313913,
+                  "mean_photo_palette_conditional_slope": 0.000780740900898574
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0012124179976758397,
+                  "mean_photo_palette_conditional_slope": -0.001698230026308657
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0014291473203996324,
+                  "mean_photo_palette_conditional_slope": -0.0019149593490324498
+                },
+                "red": {
+                  "chromatic_only_component": 0.0018522552733094082,
+                  "mean_photo_palette_conditional_slope": 0.0013664432446765908
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.003886496229062538
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0021231451327827283,
+                  "mean_photo_palette_conditional_slope": -0.0026089571614155457
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.003886496229062538,
+              "median_white_photo_fraction_conditional_slope": 0.0006809020142718727,
+              "n_genera": 405,
+              "n_species": 606,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                0.00028369984089441724,
+                0.008438327227667892
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0013313235591477825,
+                0.009575827075025982
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.5058666970928222
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00022673315082504306,
+              "fraction_species_white_conditional_slope_positive": 0.49434815373021856,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.000092564374831992,
+                  "mean_photo_palette_conditional_slope": 0.00006584361675396196
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.00020994163107619946,
+                  "mean_photo_palette_conditional_slope": -0.0002366623891542295
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.000662982234808722,
+                  "mean_photo_palette_conditional_slope": 0.0006362614767306919
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0004786566058514765,
+                  "mean_photo_palette_conditional_slope": -0.0005053773639295065
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0006040212363020443,
+                  "mean_photo_palette_conditional_slope": 0.0005773004782240142
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0009215524698766697,
+                  "mean_photo_palette_conditional_slope": 0.0008948317117986396
+                },
+                "red": {
+                  "chromatic_only_component": -0.0003241097204819803,
+                  "mean_photo_palette_conditional_slope": -0.0003508304785600103
+                },
+                "white": {
+                  "chromatic_only_component": 2.710505431213761e-19,
+                  "mean_photo_palette_conditional_slope": 0.00021376606462424056
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.001268412358409769,
+                  "mean_photo_palette_conditional_slope": -0.0012951331164877992
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.00021376606462424056,
+              "median_white_photo_fraction_conditional_slope": -0.0003560749719976219,
+              "n_genera": 698,
+              "n_species": 1327,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0021876700710417654,
+                0.002884032640399553
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.00319209746243238,
+                0.0036455637640824662
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.013891304206620513
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 7
+        }
+      },
+      "unidentified_status_counts": {
+        "fewer_than_40_original_classified_photo": 1178,
+        "fewer_than_40_original_photo_or_20_observers": 69,
+        "fewer_than_5_worldclim_cells": 1,
+        "no_independent_climate_variance_after_adjustment": 265,
+        "source_joint_climate_identifiable": 2962
+      }
+    },
+    "observer_thinned__thermal_moisture_solar_core": {
+      "matched_temperature_vs_precipitation_photo_hue_geometry": {
+        "difference_first_minus_second": 0.7578092431097926,
+        "difference_genus_bootstrap95": [
+          0.26308704282925144,
+          0.9490629452888869
+        ],
+        "first_axis_alignment": 0.9546835268888134,
+        "first_predictor": "BIO5",
+        "genus_bootstrap_marginal95_per_alignment": [
+          [
+            0.8415956495204259,
+            0.9718150431578116
+          ],
+          [
+            0.0003376700012236973,
+            0.6692710667190273
+          ]
+        ],
+        "n_genera": 1156,
+        "n_matched_taxa": 3053,
+        "not_share_of_heritable_colour_variance": true,
+        "posthoc_axis_comparison_not_preregistered": true,
+        "second_axis_alignment": 0.1968742837790208,
+        "second_predictor": "BIO12",
+        "status": "same_taxa_same_photos_within_species_conditional_climate"
+      },
+      "n_bootstrap_genera": 1634,
+      "n_original_source_species_in_ledger": 4475,
+      "n_source_taxa_identifiable_any_axis": 3212,
+      "n_source_taxa_with_two_photo_colours_ge5": 1499,
+      "per_source_cohort": {
+        "discovery": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5378151260504201,
+              "mean_white_conditional_slope": 0.005501309366234066,
+              "n_species": 357
+            },
+            "BIO5": {
+              "fraction_positive": 0.5365168539325843,
+              "mean_white_conditional_slope": 0.007044257920650475,
+              "n_species": 356
+            }
+          },
+          "n_source_species": 500
+        },
+        "new_U100": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.49855907780979825,
+              "mean_white_conditional_slope": -0.00027094475279055365,
+              "n_species": 1735
+            },
+            "BIO5": {
+              "fraction_positive": 0.5668571428571428,
+              "mean_white_conditional_slope": 0.00878431852270343,
+              "n_species": 1750
+            }
+          },
+          "n_source_species": 2478
+        },
+        "prospective": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5127478753541076,
+              "mean_white_conditional_slope": 0.005211145370715501,
+              "n_species": 353
+            },
+            "BIO5": {
+              "fraction_positive": 0.5722222222222222,
+              "mean_white_conditional_slope": 0.013181413508843895,
+              "n_species": 360
+            }
+          },
+          "n_source_species": 499
+        },
+        "validation": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5131964809384164,
+              "mean_white_conditional_slope": 0.0012728771033814039,
+              "n_species": 341
+            },
+            "BIO5": {
+              "fraction_positive": 0.5436046511627907,
+              "mean_white_conditional_slope": 0.009878918182667838,
+              "n_species": 344
+            }
+          },
+          "n_source_species": 500
+        },
+        "wave4": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5321100917431193,
+              "mean_white_conditional_slope": 0.005020008966234497,
+              "n_species": 327
+            },
+            "BIO5": {
+              "fraction_positive": 0.5015290519877675,
+              "mean_white_conditional_slope": 0.00561294923430559,
+              "n_species": 327
+            }
+          },
+          "n_source_species": 498
+        }
+      },
+      "photographic_photo_category_components": {
+        "between_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0010244056435908826,
+              "fraction_species_white_conditional_slope_positive": 0.4941580756013746,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.00022897179188050888,
+                  "mean_photo_palette_conditional_slope": -0.000349699154758656
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.00015778338861158724,
+                  "mean_photo_palette_conditional_slope": 0.00003705602573344013
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0008352804341243327,
+                  "mean_photo_palette_conditional_slope": 0.0007145530712461856
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0003882400909348875,
+                  "mean_photo_palette_conditional_slope": -0.0005089674538130346
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0005680969502865104,
+                  "mean_photo_palette_conditional_slope": 0.0004473695874083633
+                },
+                "purple": {
+                  "chromatic_only_component": -0.002151529076049903,
+                  "mean_photo_palette_conditional_slope": -0.00227225643892805
+                },
+                "red": {
+                  "chromatic_only_component": 0.000797025161563526,
+                  "mean_photo_palette_conditional_slope": 0.000676297798685379
+                },
+                "white": {
+                  "chromatic_only_component": 0,
+                  "mean_photo_palette_conditional_slope": 0.0009658189030251769
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0004105550242793449,
+                  "mean_photo_palette_conditional_slope": 0.0002898276614011978
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0009658189030251769,
+              "median_white_photo_fraction_conditional_slope": -0.00036513077445910055,
+              "n_genera": 675,
+              "n_species": 1455,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0026836844542824983,
+                0.005035114857871695
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.00392474837190976,
+                0.005973559659091526
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.1357441581673738
+            },
+            "BIO14": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO15": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO4": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.01118459683306038,
+              "fraction_species_white_conditional_slope_positive": 0.5403556771545828,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0010190963971114415,
+                  "mean_photo_palette_conditional_slope": -0.0023372137746938714
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.000933528474979036,
+                  "mean_photo_palette_conditional_slope": -0.00038458890260339393
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00034348516119195153,
+                  "mean_photo_palette_conditional_slope": -0.0009746322163904784
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0008591480759556525,
+                  "mean_photo_palette_conditional_slope": -0.00045896930162677736
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0018713079254990932,
+                  "mean_photo_palette_conditional_slope": -0.003189425303081523
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0008881095755675292,
+                  "mean_photo_palette_conditional_slope": -0.002206226953149959
+                },
+                "red": {
+                  "chromatic_only_component": 0.0017630198664177815,
+                  "mean_photo_palette_conditional_slope": 0.0004449024888353517
+                },
+                "white": {
+                  "chromatic_only_component": -5.204170427930421e-18,
+                  "mean_photo_palette_conditional_slope": 0.010544939020659434
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00012066768036635904,
+                  "mean_photo_palette_conditional_slope": -0.001438785057948789
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.010544939020659434,
+              "median_white_photo_fraction_conditional_slope": 0.006398731956058565,
+              "n_genera": 671,
+              "n_species": 1462,
+              "q_white_axis_genus_family7_excludes_zero": true,
+              "q_white_axis_marginal95": [
+                0.006767910507929741,
+                0.015441968935036448
+              ],
+              "q_white_axis_simultaneous7_95": [
+                0.0058090860344106226,
+                0.016560107631710137
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.9247495434419444
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.005348133138302813,
+              "fraction_species_white_conditional_slope_positive": 0.49838187702265374,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0006568296906448451,
+                  "mean_photo_palette_conditional_slope": 0.000026546155847776443
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.001153478078025827,
+                  "mean_photo_palette_conditional_slope": -0.0017837616128228958
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0008453894649534296,
+                  "mean_photo_palette_conditional_slope": 0.00021510593015636095
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00048823675517982586,
+                  "mean_photo_palette_conditional_slope": -0.0011185202899768945
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0011935823887659317,
+                  "mean_photo_palette_conditional_slope": 0.0005632988539688629
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0012536752533477344,
+                  "mean_photo_palette_conditional_slope": 0.0006233917185506658
+                },
+                "red": {
+                  "chromatic_only_component": 0.0015862967033237897,
+                  "mean_photo_palette_conditional_slope": 0.000956013168526721
+                },
+                "white": {
+                  "chromatic_only_component": -1.734723475976807e-18,
+                  "mean_photo_palette_conditional_slope": 0.005042268278376547
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0038940586678300796,
+                  "mean_photo_palette_conditional_slope": -0.004524342202627148
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.005042268278376547,
+              "median_white_photo_fraction_conditional_slope": -0.0004880171741680907,
+              "n_genera": 505,
+              "n_species": 927,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0019401687791765392,
+                0.012216489157584887
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.003727320022531169,
+                0.014423586299136796
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.5501132109314577
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 3
+        },
+        "total": {
+          "per_climate": {
+            "BIO1": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0018429546770096549,
+              "fraction_species_white_conditional_slope_positive": 0.5097976228718278,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0003370025599159964,
+                  "mean_photo_palette_conditional_slope": 0.00011980826832716465
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0017684153954707273,
+                  "mean_photo_palette_conditional_slope": -0.001985609687059559
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.000657350962160254,
+                  "mean_photo_palette_conditional_slope": 0.0004401566705714223
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00054857729938416,
+                  "mean_photo_palette_conditional_slope": -0.0007657715909729917
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0009031677112165965,
+                  "mean_photo_palette_conditional_slope": 0.0006859734196277648
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0010775217751661714,
+                  "mean_photo_palette_conditional_slope": -0.0012947160667550032
+                },
+                "red": {
+                  "chromatic_only_component": 0.0004333470021905817,
+                  "mean_photo_palette_conditional_slope": 0.00021615271060174994
+                },
+                "white": {
+                  "chromatic_only_component": -2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": 0.0017375543327106538
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.001063646234537633,
+                  "mean_photo_palette_conditional_slope": 0.0008464519429488011
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0017375543327106538,
+              "median_white_photo_fraction_conditional_slope": 0.0009506182937962631,
+              "n_genera": 1175,
+              "n_species": 3113,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.000610713075512654,
+                0.0042718852152214245
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.001099270209101153,
+                0.004785179563120462
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.3184313954055473
+            },
+            "BIO14": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO15": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO4": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.009419624037553483,
+              "fraction_species_white_conditional_slope_positive": 0.5546700669429391,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0007223188325266085,
+                  "mean_photo_palette_conditional_slope": -0.0003877945063370372
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0006482191168210353,
+                  "mean_photo_palette_conditional_slope": -0.001758332455684681
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0003920445363971262,
+                  "mean_photo_palette_conditional_slope": -0.0007180688024665195
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0004622660358965995,
+                  "mean_photo_palette_conditional_slope": -0.0006478473029670462
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0005179793012902545,
+                  "mean_photo_palette_conditional_slope": -0.0016280926401539002
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0013759796774104206,
+                  "mean_photo_palette_conditional_slope": -0.0024860930162740663
+                },
+                "red": {
+                  "chromatic_only_component": 0.0010642004224355902,
+                  "mean_photo_palette_conditional_slope": -0.00004591291642805549
+                },
+                "white": {
+                  "chromatic_only_component": -1.734723475976807e-18,
+                  "mean_photo_palette_conditional_slope": 0.008880906710909164
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00009865173173420963,
+                  "mean_photo_palette_conditional_slope": -0.0012087650705978554
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.008880906710909164,
+              "median_white_photo_fraction_conditional_slope": 0.005901285676980138,
+              "n_genera": 1182,
+              "n_species": 3137,
+              "q_white_axis_genus_family7_excludes_zero": true,
+              "q_white_axis_marginal95": [
+                0.006786494063502611,
+                0.012102800691403761
+              ],
+              "q_white_axis_simultaneous7_95": [
+                0.006248610060521098,
+                0.012590638014585868
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.9505777337879958
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0004252569284800544,
+              "fraction_species_white_conditional_slope_positive": 0.4952189229994967,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0004967028542600892,
+                  "mean_photo_palette_conditional_slope": 0.0005468198639058908
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0009403400706874376,
+                  "mean_photo_palette_conditional_slope": 0.0009904570803332391
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.00027353544962524295,
+                  "mean_photo_palette_conditional_slope": -0.00022341843997944144
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0008219769131458668,
+                  "mean_photo_palette_conditional_slope": -0.0007718599035000653
+                },
+                "pink": {
+                  "chromatic_only_component": 0.00046606501472257905,
+                  "mean_photo_palette_conditional_slope": 0.0005161820243683806
+                },
+                "purple": {
+                  "chromatic_only_component": 0.00175258314476934,
+                  "mean_photo_palette_conditional_slope": 0.0018027001544151414
+                },
+                "red": {
+                  "chromatic_only_component": 0.0007853531501873678,
+                  "mean_photo_palette_conditional_slope": 0.0008354701598331693
+                },
+                "white": {
+                  "chromatic_only_component": 0,
+                  "mean_photo_palette_conditional_slope": -0.0004009360771664122
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.003345531871855705,
+                  "mean_photo_palette_conditional_slope": -0.0032954148622099033
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0004009360771664122,
+              "median_white_photo_fraction_conditional_slope": -0.000677902339891042,
+              "n_genera": 927,
+              "n_species": 1987,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004601043246910013,
+                0.0037122509208624174
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.005545120975586523,
+                0.004694607118626413
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.010538422356110345
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 3
+        },
+        "within_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00019751121371830026,
+              "fraction_species_white_conditional_slope_positive": 0.5056215868936716,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.000045454093263998726,
+                  "mean_photo_palette_conditional_slope": -0.00006873101302743132
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0015654486982016992,
+                  "mean_photo_palette_conditional_slope": -0.0015887256179651318
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00029255520922241793,
+                  "mean_photo_palette_conditional_slope": 0.00026927828945898534
+                },
+                "orange": {
+                  "chromatic_only_component": -0.000429287975537433,
+                  "mean_photo_palette_conditional_slope": -0.0004525648953008656
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0006588055846394288,
+                  "mean_photo_palette_conditional_slope": 0.0006355286648759962
+                },
+                "purple": {
+                  "chromatic_only_component": -0.00004424174790836767,
+                  "mean_photo_palette_conditional_slope": -0.00006751866767180027
+                },
+                "red": {
+                  "chromatic_only_component": -0.000055666583885455914,
+                  "mean_photo_palette_conditional_slope": -0.00007894350364888851
+                },
+                "white": {
+                  "chromatic_only_component": 5.421010862427522e-20,
+                  "mean_photo_palette_conditional_slope": 0.00018621535810746083
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0011887383049351086,
+                  "mean_photo_palette_conditional_slope": 0.001165461385171676
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.00018621535810746083,
+              "median_white_photo_fraction_conditional_slope": 0.00037071625239758145,
+              "n_genera": 1175,
+              "n_species": 3113,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0009618819696732003,
+                0.0012508404647372522
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0011640438575355636,
+                0.0015590662849721641
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.00845528511636602
+            },
+            "BIO14": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO15": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO4": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.003189476841864155,
+              "fraction_species_white_conditional_slope_positive": 0.551163532036978,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0011758998127531111,
+                  "mean_photo_palette_conditional_slope": 0.0008000163621998448
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.001062740202721314,
+                  "mean_photo_palette_conditional_slope": -0.0014386236532745805
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00011785440138694308,
+                  "mean_photo_palette_conditional_slope": -0.00025802904916632325
+                },
+                "orange": {
+                  "chromatic_only_component": 0.000030818506110909044,
+                  "mean_photo_palette_conditional_slope": -0.0003450649444423573
+                },
+                "pink": {
+                  "chromatic_only_component": 0.00023100702465406056,
+                  "mean_photo_palette_conditional_slope": -0.00014487642589920577
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0009088923092978433,
+                  "mean_photo_palette_conditional_slope": -0.0012847757598511097
+                },
+                "red": {
+                  "chromatic_only_component": 0.00012943049662076858,
+                  "mean_photo_palette_conditional_slope": -0.00024645295393249775
+                },
+                "white": {
+                  "chromatic_only_component": -1.3010426069826053e-18,
+                  "mean_photo_palette_conditional_slope": 0.0030070676044261294
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.00028662227049336446,
+                  "mean_photo_palette_conditional_slope": -0.00008926118005990186
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0030070676044261294,
+              "median_white_photo_fraction_conditional_slope": 0.0028282224150597626,
+              "n_genera": 1182,
+              "n_species": 3137,
+              "q_white_axis_genus_family7_excludes_zero": true,
+              "q_white_axis_marginal95": [
+                0.0020734527809059132,
+                0.004300877207029291
+              ],
+              "q_white_axis_simultaneous7_95": [
+                0.0018212728685225866,
+                0.004557680815205723
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.7437255730872252
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": -0.001676187843989269,
+              "fraction_species_white_conditional_slope_positive": 0.49270256668344237,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.000049299127571352506,
+                  "mean_photo_palette_conditional_slope": 0.00024683975940923103
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.001476462598679269,
+                  "mean_photo_palette_conditional_slope": 0.0016740032305171476
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0006745834286155407,
+                  "mean_photo_palette_conditional_slope": -0.00047704279677766224
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0003810011099668941,
+                  "mean_photo_palette_conditional_slope": -0.00018346047812901558
+                },
+                "pink": {
+                  "chromatic_only_component": -0.00024526786134036635,
+                  "mean_photo_palette_conditional_slope": -0.00004772722950248784
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0011531230677181482,
+                  "mean_photo_palette_conditional_slope": 0.0013506636995560266
+                },
+                "red": {
+                  "chromatic_only_component": 0.00007448884865973287,
+                  "mean_photo_palette_conditional_slope": 0.0002720294804976114
+                },
+                "white": {
+                  "chromatic_only_component": 8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": -0.0015803250547030273
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0014525212427056989,
+                  "mean_photo_palette_conditional_slope": -0.0012549806108678205
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0015803250547030273,
+              "median_white_photo_fraction_conditional_slope": -0.0006927478100628587,
+              "n_genera": 927,
+              "n_species": 1987,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.003612872012356393,
+                0.0002472380369384201
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.004059311972478816,
+                0.000706936284500278
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.3088354979395082
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 3
+        }
+      },
+      "unidentified_status_counts": {
+        "fewer_than_40_original_classified_photo": 1178,
+        "fewer_than_40_original_photo_or_20_observers": 69,
+        "fewer_than_5_worldclim_cells": 1,
+        "no_independent_climate_variance_after_adjustment": 15,
+        "source_joint_climate_identifiable": 3212
+      }
+    },
+    "original__seven_climates_joint_conditional": {
+      "matched_temperature_vs_precipitation_photo_hue_geometry": {
+        "difference_first_minus_second": -0.08820848342538623,
+        "difference_genus_bootstrap95": [
+          -0.6819891628782347,
+          0.5950982922580896
+        ],
+        "first_axis_alignment": 0.3870526202186846,
+        "first_predictor": "BIO5",
+        "genus_bootstrap_marginal95_per_alignment": [
+          [
+            0.0010004563217898502,
+            0.788335192169994
+          ],
+          [
+            0.0031561899466319176,
+            0.8094534143473348
+          ]
+        ],
+        "n_genera": 353,
+        "n_matched_taxa": 504,
+        "not_share_of_heritable_colour_variance": true,
+        "posthoc_axis_comparison_not_preregistered": true,
+        "second_axis_alignment": 0.4752611036440708,
+        "second_predictor": "BIO12",
+        "status": "same_taxa_same_photos_within_species_conditional_climate"
+      },
+      "n_bootstrap_genera": 1634,
+      "n_original_source_species_in_ledger": 4475,
+      "n_source_taxa_identifiable_any_axis": 3028,
+      "n_source_taxa_with_two_photo_colours_ge5": 1458,
+      "per_source_cohort": {
+        "discovery": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.4846153846153846,
+              "mean_white_conditional_slope": 0.0005921249790138423,
+              "n_species": 260
+            },
+            "BIO5": {
+              "fraction_positive": 0.43478260869565216,
+              "mean_white_conditional_slope": -0.008388732283358723,
+              "n_species": 69
+            }
+          },
+          "n_source_species": 500
+        },
+        "new_U100": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.4831372549019608,
+              "mean_white_conditional_slope": -0.004114949850913499,
+              "n_species": 1275
+            },
+            "BIO5": {
+              "fraction_positive": 0.5294117647058824,
+              "mean_white_conditional_slope": 0.006104964570381755,
+              "n_species": 340
+            }
+          },
+          "n_source_species": 2478
+        },
+        "prospective": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5038759689922481,
+              "mean_white_conditional_slope": 0.0022531925602756906,
+              "n_species": 258
+            },
+            "BIO5": {
+              "fraction_positive": 0.5373134328358209,
+              "mean_white_conditional_slope": 0.003599540839394375,
+              "n_species": 67
+            }
+          },
+          "n_source_species": 499
+        },
+        "validation": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5131086142322098,
+              "mean_white_conditional_slope": -0.002685895348337545,
+              "n_species": 267
+            },
+            "BIO5": {
+              "fraction_positive": 0.5555555555555556,
+              "mean_white_conditional_slope": 0.008974622894031633,
+              "n_species": 81
+            }
+          },
+          "n_source_species": 500
+        },
+        "wave4": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.49130434782608695,
+              "mean_white_conditional_slope": 0.0006432730374272321,
+              "n_species": 230
+            },
+            "BIO5": {
+              "fraction_positive": 0.4461538461538462,
+              "mean_white_conditional_slope": 0.00041264620562917847,
+              "n_species": 65
+            }
+          },
+          "n_source_species": 498
+        }
+      },
+      "photographic_photo_category_components": {
+        "between_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00970668061024077,
+              "fraction_species_white_conditional_slope_positive": 0.52,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0015560957757528235,
+                  "mean_photo_palette_conditional_slope": -0.002700039056138361
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0026491990833572626,
+                  "mean_photo_palette_conditional_slope": 0.001505255802971725
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.002135200461882328,
+                  "mean_photo_palette_conditional_slope": -0.003279143742267865
+                },
+                "orange": {
+                  "chromatic_only_component": 0.001167419313347602,
+                  "mean_photo_palette_conditional_slope": 0.000023476032962064573
+                },
+                "pink": {
+                  "chromatic_only_component": -0.002750344806755513,
+                  "mean_photo_palette_conditional_slope": -0.0038942880871410505
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0002101244847264414,
+                  "mean_photo_palette_conditional_slope": -0.000933818795659096
+                },
+                "red": {
+                  "chromatic_only_component": 0.0005537081161182404,
+                  "mean_photo_palette_conditional_slope": -0.000590235164267297
+                },
+                "white": {
+                  "chromatic_only_component": -1.734723475976807e-18,
+                  "mean_photo_palette_conditional_slope": 0.009151546243084297
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0018611900468411195,
+                  "mean_photo_palette_conditional_slope": 0.000717246766455582
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.009151546243084297,
+              "median_white_photo_fraction_conditional_slope": 0.0023439365543282383,
+              "n_genera": 226,
+              "n_species": 325,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0054400582870398825,
+                0.024869927091178457
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.011016481188001786,
+                0.030429842408483326
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.7789293354567732
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0030236997250322707,
+              "fraction_species_white_conditional_slope_positive": 0.4765409383624655,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0008074131356082628,
+                  "mean_photo_palette_conditional_slope": -0.0004510667056345598
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.00008057801770754359,
+                  "mean_photo_palette_conditional_slope": 0.0002757684122661594
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00036125074192069857,
+                  "mean_photo_palette_conditional_slope": 0.0007175971718944015
+                },
+                "orange": {
+                  "chromatic_only_component": -0.000776479788741965,
+                  "mean_photo_palette_conditional_slope": -0.0004201333587682621
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0012183064458808966,
+                  "mean_photo_palette_conditional_slope": 0.0015746528758545995
+                },
+                "purple": {
+                  "chromatic_only_component": -0.002456866167273587,
+                  "mean_photo_palette_conditional_slope": -0.0021005197372998843
+                },
+                "red": {
+                  "chromatic_only_component": 0.0009621570020269775,
+                  "mean_photo_palette_conditional_slope": 0.0013185034320006804
+                },
+                "white": {
+                  "chromatic_only_component": 1.3010426069826053e-18,
+                  "mean_photo_palette_conditional_slope": -0.0028507714397896225
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.001579622919502789,
+                  "mean_photo_palette_conditional_slope": 0.0019359693494764919
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0028507714397896225,
+              "median_white_photo_fraction_conditional_slope": -0.003832190290649782,
+              "n_genera": 566,
+              "n_species": 1087,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.010225253068434336,
+                0.003784003266903064
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.012691708612268322,
+                0.00664430916220378
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.4257197080812391
+            },
+            "BIO14": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0034970884408191518,
+              "fraction_species_white_conditional_slope_positive": 0.496,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.004010312892067265,
+                  "mean_photo_palette_conditional_slope": 0.003598177066915213
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0015590406785101914,
+                  "mean_photo_palette_conditional_slope": -0.0019711765036622437
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0008910642710453235,
+                  "mean_photo_palette_conditional_slope": -0.0013032000961973756
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00015948161211602838,
+                  "mean_photo_palette_conditional_slope": -0.0005716174372680805
+                },
+                "pink": {
+                  "chromatic_only_component": -0.003900979083808449,
+                  "mean_photo_palette_conditional_slope": -0.004313114908960501
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0011816438452202627,
+                  "mean_photo_palette_conditional_slope": 0.0007695080200682107
+                },
+                "red": {
+                  "chromatic_only_component": -0.00022774958818707453,
+                  "mean_photo_palette_conditional_slope": -0.0006398854133391267
+                },
+                "white": {
+                  "chromatic_only_component": -1.3010426069826053e-18,
+                  "mean_photo_palette_conditional_slope": 0.003297086601216416
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0015463584963795354,
+                  "mean_photo_palette_conditional_slope": 0.0011342226712274832
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.003297086601216416,
+              "median_white_photo_fraction_conditional_slope": -0.0009674203532098535,
+              "n_genera": 448,
+              "n_species": 750,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.00504283922266642,
+                0.012353760523306756
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.008189503750017594,
+                0.015183680631655896
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.24160014369831379
+            },
+            "BIO15": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0029688092813324697,
+              "fraction_species_white_conditional_slope_positive": 0.49672591206735267,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.000597499233809287,
+                  "mean_photo_palette_conditional_slope": 0.000947376762955912
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0002879096739054738,
+                  "mean_photo_palette_conditional_slope": 0.0006377872030520988
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0000037897456199857574,
+                  "mean_photo_palette_conditional_slope": 0.0003536672747666108
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00022475653303541122,
+                  "mean_photo_palette_conditional_slope": 0.0001251209961112138
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0009564217142605024,
+                  "mean_photo_palette_conditional_slope": -0.0006065441851138773
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0012507702983433856,
+                  "mean_photo_palette_conditional_slope": 0.0016006478274900105
+                },
+                "red": {
+                  "chromatic_only_component": -0.0019027914172594588,
+                  "mean_photo_palette_conditional_slope": -0.0015529138881128339
+                },
+                "white": {
+                  "chromatic_only_component": 4.336808689942018e-19,
+                  "mean_photo_palette_conditional_slope": -0.0027990202331729997
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.000944000712877241,
+                  "mean_photo_palette_conditional_slope": 0.001293878242023866
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0027990202331729997,
+              "median_white_photo_fraction_conditional_slope": -0.0005625125854787724,
+              "n_genera": 541,
+              "n_species": 1069,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0101743909580882,
+                0.004193804091033302
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.012843676172065183,
+                0.006906057609400245
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.5408857175298211
+            },
+            "BIO4": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0000610560795139896,
+              "fraction_species_white_conditional_slope_positive": 0.4738219895287958,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.002699659687914484,
+                  "mean_photo_palette_conditional_slope": 0.0026924641599383164
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0011085305903715122,
+                  "mean_photo_palette_conditional_slope": 0.0011013350623953445
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0014219537444117413,
+                  "mean_photo_palette_conditional_slope": -0.001429149272387909
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0010959138257157343,
+                  "mean_photo_palette_conditional_slope": 0.0010887182977395665
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0029365345076869326,
+                  "mean_photo_palette_conditional_slope": -0.0029437300356631004
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0013484715127884128,
+                  "mean_photo_palette_conditional_slope": 0.001341275984812245
+                },
+                "red": {
+                  "chromatic_only_component": -0.0021141306713801074,
+                  "mean_photo_palette_conditional_slope": -0.002121326199356275
+                },
+                "white": {
+                  "chromatic_only_component": 1.5585406229479126e-19,
+                  "mean_photo_palette_conditional_slope": 0.000057564223809342946
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0002200433066886384,
+                  "mean_photo_palette_conditional_slope": 0.00021284777871247054
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.000057564223809342946,
+              "median_white_photo_fraction_conditional_slope": -0.0030250012457526034,
+              "n_genera": 262,
+              "n_species": 382,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.012524872881011007,
+                0.012711047136768547
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.017106116107899916,
+                0.017228228266927895
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.0001396024667009099
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": -0.003685168724892664,
+              "fraction_species_white_conditional_slope_positive": 0.531986531986532,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.003399737817827881,
+                  "mean_photo_palette_conditional_slope": 0.0038340391170259116
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0002516924809727575,
+                  "mean_photo_palette_conditional_slope": 0.0006859937801707884
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0006501314520795919,
+                  "mean_photo_palette_conditional_slope": -0.000215830152881561
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0018747656373867625,
+                  "mean_photo_palette_conditional_slope": -0.0014404643381887316
+                },
+                "pink": {
+                  "chromatic_only_component": -0.002668853484401724,
+                  "mean_photo_palette_conditional_slope": -0.0022345521852036934
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0017511377067376112,
+                  "mean_photo_palette_conditional_slope": 0.002185439005935642
+                },
+                "red": {
+                  "chromatic_only_component": -0.0003329651190741344,
+                  "mean_photo_palette_conditional_slope": 0.00010133618012389652
+                },
+                "white": {
+                  "chromatic_only_component": 8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": -0.0034744103935842466
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.00012414768740396504,
+                  "mean_photo_palette_conditional_slope": 0.000558448986601996
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0034744103935842466,
+              "median_white_photo_fraction_conditional_slope": 0.006384120939443532,
+              "n_genera": 210,
+              "n_species": 297,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.017738636992670215,
+                0.011072851923181611
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.023403152780935424,
+                0.0160328153311501
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.34420152292443895
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0006271498961812173,
+              "fraction_species_white_conditional_slope_positive": 0.522273425499232,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.002354666637048811,
+                  "mean_photo_palette_conditional_slope": 0.002280756312980448
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0018345663564317185,
+                  "mean_photo_palette_conditional_slope": -0.0019084766805000815
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0008936596834317937,
+                  "mean_photo_palette_conditional_slope": -0.0009675700075001567
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0008380374844071556,
+                  "mean_photo_palette_conditional_slope": -0.0009119478084755186
+                },
+                "pink": {
+                  "chromatic_only_component": 0.00007805669503233145,
+                  "mean_photo_palette_conditional_slope": 0.000004146370963968448
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0011249790860497952,
+                  "mean_photo_palette_conditional_slope": -0.0011988894101181583
+                },
+                "red": {
+                  "chromatic_only_component": 0.0009515430145169284,
+                  "mean_photo_palette_conditional_slope": 0.0008776326904485653
+                },
+                "white": {
+                  "chromatic_only_component": -2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": 0.0005912825925469038
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0013069762637223916,
+                  "mean_photo_palette_conditional_slope": 0.0012330659396540286
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0005912825925469038,
+              "median_white_photo_fraction_conditional_slope": 0.005484328824418834,
+              "n_genera": 393,
+              "n_species": 651,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.008609992568574983,
+                0.009616889831339162
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.011777063564245474,
+                0.013031363356607907
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.026775142669922296
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 7
+        },
+        "total": {
+          "per_climate": {
+            "BIO1": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00437467925556234,
+              "fraction_species_white_conditional_slope_positive": 0.47772657450076805,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.00021838274496499782,
+                  "mean_photo_palette_conditional_slope": -0.0007339436394857058
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.00023539408525110272,
+                  "mean_photo_palette_conditional_slope": -0.0002801668092696053
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0018770172669565744,
+                  "mean_photo_palette_conditional_slope": -0.0023925781614772823
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0011280572254689465,
+                  "mean_photo_palette_conditional_slope": -0.0016436181199896546
+                },
+                "pink": {
+                  "chromatic_only_component": -0.000362451855677037,
+                  "mean_photo_palette_conditional_slope": -0.000878012750197745
+                },
+                "purple": {
+                  "chromatic_only_component": 0.000453432125267468,
+                  "mean_photo_palette_conditional_slope": -0.00006212876925324006
+                },
+                "red": {
+                  "chromatic_only_component": -0.0008764400357360182,
+                  "mean_photo_palette_conditional_slope": -0.0013920009302567263
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.004124487156165663
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0037735229182850054,
+                  "mean_photo_palette_conditional_slope": 0.0032579620237642975
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.004124487156165663,
+              "median_white_photo_fraction_conditional_slope": -0.003581600344105,
+              "n_genera": 414,
+              "n_species": 651,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004375300541379755,
+                0.013900403749472098
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.008481587791035045,
+                0.017230946302159725
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.4859630543645283
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0023531214380994184,
+              "fraction_species_white_conditional_slope_positive": 0.48995633187772925,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.00036982213253050747,
+                  "mean_photo_palette_conditional_slope": -0.00009250411155791752
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.002939708880768727,
+                  "mean_photo_palette_conditional_slope": -0.0026623908597961372
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00038345211765236105,
+                  "mean_photo_palette_conditional_slope": 0.000660770138624951
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0010350971862321306,
+                  "mean_photo_palette_conditional_slope": -0.0007577791652595407
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0011848393355647637,
+                  "mean_photo_palette_conditional_slope": 0.0014621573565373536
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0009910386177196123,
+                  "mean_photo_palette_conditional_slope": -0.0007137205967470224
+                },
+                "red": {
+                  "chromatic_only_component": 0.0003140004601348204,
+                  "mean_photo_palette_conditional_slope": 0.0005913184811074104
+                },
+                "white": {
+                  "chromatic_only_component": 8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": -0.002218544167780719
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.003453374903899033,
+                  "mean_photo_palette_conditional_slope": 0.0037306929248716227
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.002218544167780719,
+              "median_white_photo_fraction_conditional_slope": -0.0018901873869707308,
+              "n_genera": 996,
+              "n_species": 2290,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.006630951802723846,
+                0.0015875317195128136
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.008063637082056586,
+                0.0033573942058577498
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.18491357012628334
+            },
+            "BIO14": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0025704558751351524,
+              "fraction_species_white_conditional_slope_positive": 0.5053091817613992,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0027419538350194495,
+                  "mean_photo_palette_conditional_slope": 0.002439022705011305
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0019675185900529303,
+                  "mean_photo_palette_conditional_slope": 0.0016645874600447856
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0005177004790498627,
+                  "mean_photo_palette_conditional_slope": -0.0008206316090580073
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0005442481770718074,
+                  "mean_photo_palette_conditional_slope": 0.00024131704706366273
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0023292864436424794,
+                  "mean_photo_palette_conditional_slope": -0.002632217573650624
+                },
+                "purple": {
+                  "chromatic_only_component": 0.00017481749076686304,
+                  "mean_photo_palette_conditional_slope": -0.0001281136392412816
+                },
+                "red": {
+                  "chromatic_only_component": 0.00026108807235227747,
+                  "mean_photo_palette_conditional_slope": -0.0000418430576558672
+                },
+                "white": {
+                  "chromatic_only_component": -4.336808689942018e-19,
+                  "mean_photo_palette_conditional_slope": 0.0024234490400651568
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0028426392425709877,
+                  "mean_photo_palette_conditional_slope": -0.0031455703725791324
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0024234490400651568,
+              "median_white_photo_fraction_conditional_slope": 0.00048001060057387476,
+              "n_genera": 798,
+              "n_species": 1601,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.002340313650935687,
+                0.007599022354762837
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0043571345953615954,
+                0.009498046345631901
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.20541203425160373
+            },
+            "BIO15": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0007550402747922258,
+              "fraction_species_white_conditional_slope_positive": 0.49624724061810155,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0006034683397435343,
+                  "mean_photo_palette_conditional_slope": 0.0006924506894726239
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0015857103180316411,
+                  "mean_photo_palette_conditional_slope": 0.0016746926677607306
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0005779157478097792,
+                  "mean_photo_palette_conditional_slope": 0.0006668980975388687
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0009665419326405579,
+                  "mean_photo_palette_conditional_slope": 0.0010555242823696474
+                },
+                "pink": {
+                  "chromatic_only_component": -0.001460709528123452,
+                  "mean_photo_palette_conditional_slope": -0.0013717271783943625
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0007207810850719477,
+                  "mean_photo_palette_conditional_slope": -0.0006317987353428581
+                },
+                "red": {
+                  "chromatic_only_component": -0.0011657642360457744,
+                  "mean_photo_palette_conditional_slope": -0.001076781886316685
+                },
+                "white": {
+                  "chromatic_only_component": 3.2526065174565133e-19,
+                  "mean_photo_palette_conditional_slope": -0.0007118587978327159
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00038638148898433717,
+                  "mean_photo_palette_conditional_slope": -0.00029739913925524764
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0007118587978327159,
+              "median_white_photo_fraction_conditional_slope": -0.0006759454931608425,
+              "n_genera": 961,
+              "n_species": 2265,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.005118253002615019,
+                0.003394383971632482
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.006636074641253677,
+                0.005125994091669226
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.0642102664991843
+            },
+            "BIO4": {
+              "fixed_q_white_chromatic_conditional_slope": -0.001049871082733458,
+              "fraction_species_white_conditional_slope_positive": 0.5067985166872683,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0031289141644217384,
+                  "mean_photo_palette_conditional_slope": 0.00325264265808382
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.00033654604108429874,
+                  "mean_photo_palette_conditional_slope": -0.00021281754742221687
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0006392300434751136,
+                  "mean_photo_palette_conditional_slope": 0.0007629585371371954
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0008513999480899018,
+                  "mean_photo_palette_conditional_slope": -0.00072767145442782
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0005491832412454117,
+                  "mean_photo_palette_conditional_slope": -0.00042545474758332985
+                },
+                "purple": {
+                  "chromatic_only_component": -0.00046487348815212417,
+                  "mean_photo_palette_conditional_slope": -0.0003411449944900423
+                },
+                "red": {
+                  "chromatic_only_component": -0.002431722002509283,
+                  "mean_photo_palette_conditional_slope": -0.0023079935088472013
+                },
+                "white": {
+                  "chromatic_only_component": -2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": -0.0009898279492966552
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0008655805131841645,
+                  "mean_photo_palette_conditional_slope": 0.0009893090068462463
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0009898279492966552,
+              "median_white_photo_fraction_conditional_slope": 0.0019244119547739149,
+              "n_genera": 493,
+              "n_species": 809,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0089300679270138,
+                0.006842866704958899
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.011891969274817954,
+                0.009792227109351037
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.057053259625451665
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.004249122515119836,
+              "fraction_species_white_conditional_slope_positive": 0.5144694533762058,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0013585890981181903,
+                  "mean_photo_palette_conditional_slope": 0.000857825207362578
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.000004549656534713381,
+                  "mean_photo_palette_conditional_slope": -0.000496214234220899
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0007381791739197655,
+                  "mean_photo_palette_conditional_slope": -0.0012389430646753778
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0009254216215449946,
+                  "mean_photo_palette_conditional_slope": 0.0004246577307893822
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0015902671363402614,
+                  "mean_photo_palette_conditional_slope": -0.002091031027095874
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0001357534688310191,
+                  "mean_photo_palette_conditional_slope": -0.0006365173595866315
+                },
+                "red": {
+                  "chromatic_only_component": 0.002566268609787782,
+                  "mean_photo_palette_conditional_slope": 0.0020655047190321694
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.004006111126044898
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.002390629206894638,
+                  "mean_photo_palette_conditional_slope": -0.0028913930976502506
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.004006111126044898,
+              "median_white_photo_fraction_conditional_slope": 0.0028042281138337447,
+              "n_genera": 413,
+              "n_species": 622,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004007042116768889,
+                0.013491229018151066
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.00770824235557352,
+                0.016206487385813192
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.49944291414718534
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": -0.000491936235737969,
+              "fraction_species_white_conditional_slope_positive": 0.493009565857248,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.001571574287329064,
+                  "mean_photo_palette_conditional_slope": 0.0016295495286960144
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.00087051648731075,
+                  "mean_photo_palette_conditional_slope": -0.0008125412459437997
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00034464859750187087,
+                  "mean_photo_palette_conditional_slope": 0.0004026238388688212
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0009546545681208158,
+                  "mean_photo_palette_conditional_slope": -0.0008966793267538654
+                },
+                "pink": {
+                  "chromatic_only_component": 0.00033252634113573195,
+                  "mean_photo_palette_conditional_slope": 0.0003905015825026823
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0004226436198732441,
+                  "mean_photo_palette_conditional_slope": 0.00048061886124019443
+                },
+                "red": {
+                  "chromatic_only_component": 0.0003429504026075093,
+                  "mean_photo_palette_conditional_slope": 0.00040092564397445964
+                },
+                "white": {
+                  "chromatic_only_component": 1.6263032587282567e-19,
+                  "mean_photo_palette_conditional_slope": -0.0004638019309356024
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0011891721930158544,
+                  "mean_photo_palette_conditional_slope": -0.001131196951648904
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0004638019309356024,
+              "median_white_photo_fraction_conditional_slope": -0.0009242922556894877,
+              "n_genera": 714,
+              "n_species": 1359,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.00603233436571191,
+                0.0048592488799248405
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.007915293427818102,
+                0.006931420956342165
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.03828685059557212
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 7
+        },
+        "within_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0005881540647284821,
+              "fraction_species_white_conditional_slope_positive": 0.4807987711213518,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00021006194503406174,
+                  "mean_photo_palette_conditional_slope": 0.00014074732377540483
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0011917220390190468,
+                  "mean_photo_palette_conditional_slope": -0.0012610366602777037
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0008641601161671704,
+                  "mean_photo_palette_conditional_slope": -0.0009334747374258273
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0017843070963748982,
+                  "mean_photo_palette_conditional_slope": -0.0018536217176335552
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0012321595634210026,
+                  "mean_photo_palette_conditional_slope": 0.0011628449421623457
+                },
+                "purple": {
+                  "chromatic_only_component": 0.001027882782406943,
+                  "mean_photo_palette_conditional_slope": 0.0009585681611482862
+                },
+                "red": {
+                  "chromatic_only_component": -0.0006088422675917092,
+                  "mean_photo_palette_conditional_slope": -0.0006781568888503661
+                },
+                "white": {
+                  "chromatic_only_component": -5.421010862427522e-19,
+                  "mean_photo_palette_conditional_slope": 0.0005545169700692546
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.001978927228290814,
+                  "mean_photo_palette_conditional_slope": 0.0019096126070321572
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0005545169700692546,
+              "median_white_photo_fraction_conditional_slope": -0.0019458450869331797,
+              "n_genera": 414,
+              "n_species": 651,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0033651172450327254,
+                0.004557152210421472
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.00472437298904075,
+                0.005900681118497715
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.027449198045534015
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": -0.00177197279327798,
+              "fraction_species_white_conditional_slope_positive": 0.47729257641921397,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0004047791527039227,
+                  "mean_photo_palette_conditional_slope": -0.0001959501563364347
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.002424253057908856,
+                  "mean_photo_palette_conditional_slope": -0.002215424061541368
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.00010951042103063776,
+                  "mean_photo_palette_conditional_slope": 0.00009931857533685025
+                },
+                "orange": {
+                  "chromatic_only_component": -0.000737001105846509,
+                  "mean_photo_palette_conditional_slope": -0.0005281721094790209
+                },
+                "pink": {
+                  "chromatic_only_component": 0.00028724395410620313,
+                  "mean_photo_palette_conditional_slope": 0.0004960729504736911
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0005584352340801547,
+                  "mean_photo_palette_conditional_slope": 0.0007672642304476428
+                },
+                "red": {
+                  "chromatic_only_component": -0.0002734076820004416,
+                  "mean_photo_palette_conditional_slope": -0.00006457868563295357
+                },
+                "white": {
+                  "chromatic_only_component": 2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": -0.001670631970939904
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0031032722313040096,
+                  "mean_photo_palette_conditional_slope": 0.0033121012276714976
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.001670631970939904,
+              "median_white_photo_fraction_conditional_slope": -0.001968515062003882,
+              "n_genera": 996,
+              "n_species": 2290,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.003778269278472745,
+                0.00005645675003198
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.004352272129376473,
+                0.0008083265428205132
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.15829789013976678
+            },
+            "BIO14": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00046026706656132876,
+              "fraction_species_white_conditional_slope_positive": 0.5165521549031855,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0009724388578398178,
+                  "mean_photo_palette_conditional_slope": 0.0009181958638527585
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0021886950754711034,
+                  "mean_photo_palette_conditional_slope": 0.002134452081484044
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00009100551185196015,
+                  "mean_photo_palette_conditional_slope": 0.000036762517864900876
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0005438746981105827,
+                  "mean_photo_palette_conditional_slope": 0.0004896317041235234
+                },
+                "pink": {
+                  "chromatic_only_component": 0.00000544924906960606,
+                  "mean_photo_palette_conditional_slope": -0.000048793744917453214
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0008821935805411593,
+                  "mean_photo_palette_conditional_slope": -0.0009364365745282185
+                },
+                "red": {
+                  "chromatic_only_component": 0.0003811461522418942,
+                  "mean_photo_palette_conditional_slope": 0.0003269031582548349
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.0004339439518964733
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.003300415964043811,
+                  "mean_photo_palette_conditional_slope": -0.0033546589580308703
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0004339439518964733,
+              "median_white_photo_fraction_conditional_slope": 0.0021510787062603083,
+              "n_genera": 798,
+              "n_species": 1601,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.001781386228169658,
+                0.0029054071687861283
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0026993237223563284,
+                0.003619857855478986
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.011724744105968864
+            },
+            "BIO15": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0007590183096521264,
+              "fraction_species_white_conditional_slope_positive": 0.5112582781456954,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0008646631897893029,
+                  "mean_photo_palette_conditional_slope": 0.000775212024156008
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0008998364191862614,
+                  "mean_photo_palette_conditional_slope": 0.0008103852535529665
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0007351990902556935,
+                  "mean_photo_palette_conditional_slope": 0.0006457479246223986
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0010930799562842391,
+                  "mean_photo_palette_conditional_slope": 0.0010036287906509441
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0007311031614379796,
+                  "mean_photo_palette_conditional_slope": -0.0008205543270712745
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0011613510208899856,
+                  "mean_photo_palette_conditional_slope": -0.0012508021865232804
+                },
+                "red": {
+                  "chromatic_only_component": -0.00011255317297562367,
+                  "mean_photo_palette_conditional_slope": -0.00020200433860891856
+                },
+                "white": {
+                  "chromatic_only_component": 1.0842021724855044e-19,
+                  "mean_photo_palette_conditional_slope": 0.0007156093250663592
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0015877713002119065,
+                  "mean_photo_palette_conditional_slope": -0.0016772224658452015
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0007156093250663592,
+              "median_white_photo_fraction_conditional_slope": 0.0007042807564623179,
+              "n_genera": 961,
+              "n_species": 2265,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0011485279559674203,
+                0.00267631617669616
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0019210755176512892,
+                0.0034391121369555418
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.0695302210253389
+            },
+            "BIO4": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00036834342600469374,
+              "fraction_species_white_conditional_slope_positive": 0.5129789864029666,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0012855237318289087,
+                  "mean_photo_palette_conditional_slope": 0.0012421140427733414
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.000685152410248572,
+                  "mean_photo_palette_conditional_slope": -0.0007285620993041393
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0012989273157033776,
+                  "mean_photo_palette_conditional_slope": 0.0012555176266478103
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0011632783470878582,
+                  "mean_photo_palette_conditional_slope": -0.0012066880361434255
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0010988741007725447,
+                  "mean_photo_palette_conditional_slope": 0.0010554644117169774
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0005448319924237772,
+                  "mean_photo_palette_conditional_slope": -0.0005882416814793446
+                },
+                "red": {
+                  "chromatic_only_component": -0.0012552981740528621,
+                  "mean_photo_palette_conditional_slope": -0.0012987078631084294
+                },
+                "white": {
+                  "chromatic_only_component": -1.0842021724855044e-19,
+                  "mean_photo_palette_conditional_slope": 0.0003472775124445389
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00003476422449176181,
+                  "mean_photo_palette_conditional_slope": -0.00007817391354732919
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0003472775124445389,
+              "median_white_photo_fraction_conditional_slope": 0.001152050390416186,
+              "n_genera": 493,
+              "n_species": 809,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.003521063833068543,
+                0.004139787856992084
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.004840413233068319,
+                0.005577100085077706
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.016191603908012307
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.004265791107842229,
+              "fraction_species_white_conditional_slope_positive": 0.5144694533762058,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0005111877781303717,
+                  "mean_photo_palette_conditional_slope": 0.000008459474883619122
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0004836151725528719,
+                  "mean_photo_palette_conditional_slope": -0.000019113130693880727
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.00042895933396082625,
+                  "mean_photo_palette_conditional_slope": -0.0009316876372075789
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0016932168291271747,
+                  "mean_photo_palette_conditional_slope": 0.001190488525880422
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0009549234947382641,
+                  "mean_photo_palette_conditional_slope": -0.0014576517979850167
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0012265338368683033,
+                  "mean_photo_palette_conditional_slope": -0.001729262140115056
+                },
+                "red": {
+                  "chromatic_only_component": 0.002058348672196973,
+                  "mean_photo_palette_conditional_slope": 0.0015556203689502206
+                },
+                "white": {
+                  "chromatic_only_component": 0,
+                  "mean_photo_palette_conditional_slope": 0.004021826425974021
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0021359517864399857,
+                  "mean_photo_palette_conditional_slope": -0.0026386800896867385
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.004021826425974021,
+              "median_white_photo_fraction_conditional_slope": 0.0012338553201714391,
+              "n_genera": 413,
+              "n_species": 622,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                0.0005739628039370009,
+                0.00823541459113397
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0009596553651906722,
+                0.009491237580875129
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.552117557895319
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.00024733461376375666,
+              "fraction_species_white_conditional_slope_positive": 0.4974245768947756,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.00003929494688020301,
+                  "mean_photo_palette_conditional_slope": -0.00006844361064928767
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0001444181531471761,
+                  "mean_photo_palette_conditional_slope": 0.00011526948937809145
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0006445445907339556,
+                  "mean_photo_palette_conditional_slope": 0.000615395926964871
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00043624685926933054,
+                  "mean_photo_palette_conditional_slope": -0.0004653955230384152
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0002186905052964894,
+                  "mean_photo_palette_conditional_slope": 0.00018954184152740475
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0011282225089713313,
+                  "mean_photo_palette_conditional_slope": 0.0010990738452022466
+                },
+                "red": {
+                  "chromatic_only_component": -0.00028615542604402744,
+                  "mean_photo_palette_conditional_slope": -0.0003153040898131121
+                },
+                "white": {
+                  "chromatic_only_component": -4.336808689942018e-19,
+                  "mean_photo_palette_conditional_slope": 0.00023318931015267684
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0013741785259553942,
+                  "mean_photo_palette_conditional_slope": -0.001403327189724479
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.00023318931015267684,
+              "median_white_photo_fraction_conditional_slope": -0.0002577660348286453,
+              "n_genera": 714,
+              "n_species": 1359,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0021571645533737,
+                0.00270898385119475
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0030775358845622574,
+                0.0035722051120897704
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.015369345714524807
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 7
+        }
+      },
+      "unidentified_status_counts": {
+        "fewer_than_40_original_classified_photo": 1178,
+        "fewer_than_5_worldclim_cells": 1,
+        "no_independent_climate_variance_after_adjustment": 268,
+        "source_joint_climate_identifiable": 3028
+      }
+    },
+    "original__thermal_moisture_solar_core": {
+      "matched_temperature_vs_precipitation_photo_hue_geometry": {
+        "difference_first_minus_second": 0.7486459689572237,
+        "difference_genus_bootstrap95": [
+          0.2325134869435099,
+          0.9474468355002267
+        ],
+        "first_axis_alignment": 0.9493171393662351,
+        "first_predictor": "BIO5",
+        "genus_bootstrap_marginal95_per_alignment": [
+          [
+            0.8515461942103407,
+            0.9693244914560728
+          ],
+          [
+            0.0005021576204602758,
+            0.6901589530537737
+          ]
+        ],
+        "n_genera": 1179,
+        "n_matched_taxa": 3123,
+        "not_share_of_heritable_colour_variance": true,
+        "posthoc_axis_comparison_not_preregistered": true,
+        "second_axis_alignment": 0.20067117040901142,
+        "second_predictor": "BIO12",
+        "status": "same_taxa_same_photos_within_species_conditional_climate"
+      },
+      "n_bootstrap_genera": 1634,
+      "n_original_source_species_in_ledger": 4475,
+      "n_source_taxa_identifiable_any_axis": 3280,
+      "n_source_taxa_with_two_photo_colours_ge5": 1582,
+      "per_source_cohort": {
+        "discovery": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5235457063711911,
+              "mean_white_conditional_slope": 0.00466942892384232,
+              "n_species": 361
+            },
+            "BIO5": {
+              "fraction_positive": 0.5416666666666666,
+              "mean_white_conditional_slope": 0.006451668690726439,
+              "n_species": 360
+            }
+          },
+          "n_source_species": 500
+        },
+        "new_U100": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.4932356257046223,
+              "mean_white_conditional_slope": -0.00014169986454117505,
+              "n_species": 1774
+            },
+            "BIO5": {
+              "fraction_positive": 0.5652173913043478,
+              "mean_white_conditional_slope": 0.008965078183614075,
+              "n_species": 1794
+            }
+          },
+          "n_source_species": 2478
+        },
+        "prospective": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5166666666666667,
+              "mean_white_conditional_slope": 0.003624970340765699,
+              "n_species": 360
+            },
+            "BIO5": {
+              "fraction_positive": 0.5667574931880109,
+              "mean_white_conditional_slope": 0.011744964574478897,
+              "n_species": 367
+            }
+          },
+          "n_source_species": 499
+        },
+        "validation": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5212464589235127,
+              "mean_white_conditional_slope": 0.0034999687513896085,
+              "n_species": 353
+            },
+            "BIO5": {
+              "fraction_positive": 0.571830985915493,
+              "mean_white_conditional_slope": 0.011492492660997907,
+              "n_species": 355
+            }
+          },
+          "n_source_species": 500
+        },
+        "wave4": {
+          "focus_climates": {
+            "BIO12": {
+              "fraction_positive": 0.5301204819277109,
+              "mean_white_conditional_slope": 0.004364680332167807,
+              "n_species": 332
+            },
+            "BIO5": {
+              "fraction_positive": 0.5059880239520959,
+              "mean_white_conditional_slope": 0.007327456230819431,
+              "n_species": 334
+            }
+          },
+          "n_source_species": 498
+        }
+      },
+      "photographic_photo_category_components": {
+        "between_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": 0.001011546925673921,
+              "fraction_species_white_conditional_slope_positive": 0.4944625407166124,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.00043970572559219004,
+                  "mean_photo_palette_conditional_slope": -0.0005589176740309291
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.00042581760089620936,
+                  "mean_photo_palette_conditional_slope": 0.0003066056524574703
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0008341083401957819,
+                  "mean_photo_palette_conditional_slope": 0.0007148963917570428
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00034683976879043424,
+                  "mean_photo_palette_conditional_slope": -0.0004660517172291733
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0007684654451339197,
+                  "mean_photo_palette_conditional_slope": 0.0006492534966951807
+                },
+                "purple": {
+                  "chromatic_only_component": -0.002702121378448928,
+                  "mean_photo_palette_conditional_slope": -0.002821333326887667
+                },
+                "red": {
+                  "chromatic_only_component": 0.0006786774443870475,
+                  "mean_photo_palette_conditional_slope": 0.0005594654959483084
+                },
+                "white": {
+                  "chromatic_only_component": 1.0842021724855044e-19,
+                  "mean_photo_palette_conditional_slope": 0.0009536955875099124
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0007815980422185948,
+                  "mean_photo_palette_conditional_slope": 0.0006623860937798558
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0009536955875099124,
+              "median_white_photo_fraction_conditional_slope": -0.0007899546163117174,
+              "n_genera": 702,
+              "n_species": 1535,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0028237590691270412,
+                0.005048835926118327
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0040371360254969225,
+                0.006060229876844764
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.09154412003936314
+            },
+            "BIO14": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO15": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO4": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.011201099298769359,
+              "fraction_species_white_conditional_slope_positive": 0.5450421257290992,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0009998420041537393,
+                  "mean_photo_palette_conditional_slope": -0.002319904215971022
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0008199331357830293,
+                  "mean_photo_palette_conditional_slope": -0.0005001290760342535
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0005504107067133889,
+                  "mean_photo_palette_conditional_slope": -0.0007696515051038939
+                },
+                "orange": {
+                  "chromatic_only_component": 0.0007788858812628197,
+                  "mean_photo_palette_conditional_slope": -0.0005411763305544631
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0013998844327293794,
+                  "mean_photo_palette_conditional_slope": -0.002719946644546662
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0010837319526633906,
+                  "mean_photo_palette_conditional_slope": -0.0024037941644806733
+                },
+                "red": {
+                  "chromatic_only_component": 0.001933356063612926,
+                  "mean_photo_palette_conditional_slope": 0.000613293851795643
+                },
+                "white": {
+                  "chromatic_only_component": -1.734723475976807e-18,
+                  "mean_photo_palette_conditional_slope": 0.01056049769453826
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.000599127397825651,
+                  "mean_photo_palette_conditional_slope": -0.0019191896096429338
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.01056049769453826,
+              "median_white_photo_fraction_conditional_slope": 0.0063074540434322444,
+              "n_genera": 699,
+              "n_species": 1543,
+              "q_white_axis_genus_family7_excludes_zero": true,
+              "q_white_axis_marginal95": [
+                0.007397772381687887,
+                0.015234824266867125
+              ],
+              "q_white_axis_simultaneous7_95": [
+                0.006254268911269202,
+                0.016147929686269515
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.9274633030842179
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": 0.002472961551239931,
+              "fraction_species_white_conditional_slope_positive": 0.49079754601226994,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00044420161587212774,
+                  "mean_photo_palette_conditional_slope": 0.00015276030212290118
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0014198808668404253,
+                  "mean_photo_palette_conditional_slope": -0.0017113221805896519
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0006382999702378978,
+                  "mean_photo_palette_conditional_slope": 0.0003468586564886712
+                },
+                "orange": {
+                  "chromatic_only_component": -0.000732465517067822,
+                  "mean_photo_palette_conditional_slope": -0.0010239068308170486
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0012825470282230573,
+                  "mean_photo_palette_conditional_slope": 0.0009911057144738307
+                },
+                "purple": {
+                  "chromatic_only_component": 0.001702332192340942,
+                  "mean_photo_palette_conditional_slope": 0.0014108908785917154
+                },
+                "red": {
+                  "chromatic_only_component": 0.0010240337383697977,
+                  "mean_photo_palette_conditional_slope": 0.0007325924246205712
+                },
+                "white": {
+                  "chromatic_only_component": 0,
+                  "mean_photo_palette_conditional_slope": 0.0023315305099938124
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0029390681611355723,
+                  "mean_photo_palette_conditional_slope": -0.003230509474884799
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0023315305099938124,
+              "median_white_photo_fraction_conditional_slope": -0.0014047830519912097,
+              "n_genera": 525,
+              "n_species": 978,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.004176497503779745,
+                0.009531251527530175
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.006180927989231174,
+                0.011126851091711036
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.2602082713562461
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 3
+        },
+        "total": {
+          "per_climate": {
+            "BIO1": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0018090728103920526,
+              "fraction_species_white_conditional_slope_positive": 0.5062893081761006,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00023258462326807128,
+                  "mean_photo_palette_conditional_slope": 0.00001938334795333363
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0015183955663349597,
+                  "mean_photo_palette_conditional_slope": -0.0017315968416496974
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.0006299193660826178,
+                  "mean_photo_palette_conditional_slope": 0.0004167180907678802
+                },
+                "orange": {
+                  "chromatic_only_component": -0.00047276146894782836,
+                  "mean_photo_palette_conditional_slope": -0.000685962744262566
+                },
+                "pink": {
+                  "chromatic_only_component": 0.000984937796020891,
+                  "mean_photo_palette_conditional_slope": 0.0007717365207061535
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0013367495461642453,
+                  "mean_photo_palette_conditional_slope": -0.001549950821478983
+                },
+                "red": {
+                  "chromatic_only_component": 0.0003485922466146658,
+                  "mean_photo_palette_conditional_slope": 0.00013539097129992817
+                },
+                "white": {
+                  "chromatic_only_component": -2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": 0.0017056102025179009
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.001131872549460787,
+                  "mean_photo_palette_conditional_slope": 0.0009186712741460493
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.0017056102025179009,
+              "median_white_photo_fraction_conditional_slope": 0.0007717329704785242,
+              "n_genera": 1196,
+              "n_species": 3180,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0006350486827338594,
+                0.004342856774458038
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.001270229842131362,
+                0.004888375462915467
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.31431459912836496
+            },
+            "BIO14": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO15": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO4": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.009662765586427912,
+              "fraction_species_white_conditional_slope_positive": 0.5573208722741433,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0006622061622312296,
+                  "mean_photo_palette_conditional_slope": -0.00047656168296530103
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0008061940416574057,
+                  "mean_photo_palette_conditional_slope": -0.0019449618868539363
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.000602648813529308,
+                  "mean_photo_palette_conditional_slope": -0.0005361190316672225
+                },
+                "orange": {
+                  "chromatic_only_component": 0.00045804729791639766,
+                  "mean_photo_palette_conditional_slope": -0.0006807205472801329
+                },
+                "pink": {
+                  "chromatic_only_component": -0.0006312572228159463,
+                  "mean_photo_palette_conditional_slope": -0.0017700250680124769
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0013782012830295702,
+                  "mean_photo_palette_conditional_slope": -0.0025169691282261007
+                },
+                "red": {
+                  "chromatic_only_component": 0.0012442747923671954,
+                  "mean_photo_palette_conditional_slope": 0.00010550694717066491
+                },
+                "white": {
+                  "chromatic_only_component": 0,
+                  "mean_photo_palette_conditional_slope": 0.009110142761572244
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.00015152451854119576,
+                  "mean_photo_palette_conditional_slope": -0.0012902923637377263
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.009110142761572244,
+              "median_white_photo_fraction_conditional_slope": 0.005535853895142188,
+              "n_genera": 1205,
+              "n_species": 3210,
+              "q_white_axis_genus_family7_excludes_zero": true,
+              "q_white_axis_marginal95": [
+                0.006969488964353995,
+                0.01232854844386541
+              ],
+              "q_white_axis_simultaneous7_95": [
+                0.006465777354003999,
+                0.012859753818851825
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.9440790198308464
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": -0.0015852304450882685,
+              "fraction_species_white_conditional_slope_positive": 0.49483521888834237,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00012627297002965835,
+                  "mean_photo_palette_conditional_slope": 0.00031309416960720565
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0011470311000456152,
+                  "mean_photo_palette_conditional_slope": 0.0013338522996231626
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.00013912188810332336,
+                  "mean_photo_palette_conditional_slope": 0.000047699311474223934
+                },
+                "orange": {
+                  "chromatic_only_component": -0.001210218055460243,
+                  "mean_photo_palette_conditional_slope": -0.0010233968558826956
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0006699093410332746,
+                  "mean_photo_palette_conditional_slope": 0.0008567305406108219
+                },
+                "purple": {
+                  "chromatic_only_component": 0.002262624498528744,
+                  "mean_photo_palette_conditional_slope": 0.0024494456981062913
+                },
+                "red": {
+                  "chromatic_only_component": 0.0005247310947058229,
+                  "mean_photo_palette_conditional_slope": 0.0007115522942833702
+                },
+                "white": {
+                  "chromatic_only_component": 2.168404344971009e-19,
+                  "mean_photo_palette_conditional_slope": -0.0014945695966203782
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0033812290607795497,
+                  "mean_photo_palette_conditional_slope": -0.0031944078612020023
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0014945695966203782,
+              "median_white_photo_fraction_conditional_slope": -0.0006796158226368742,
+              "n_genera": 944,
+              "n_species": 2033,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.005490232324096327,
+                0.0026366047509150045
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.006600342069219016,
+                0.0034298811790424797
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.11116879699210454
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 3
+        },
+        "within_original_photo_labels": {
+          "per_climate": {
+            "BIO1": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO12": {
+              "fixed_q_white_chromatic_conditional_slope": 0.0002454151586814639,
+              "fraction_species_white_conditional_slope_positive": 0.5031446540880503,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.00007998962416697435,
+                  "mean_photo_palette_conditional_slope": 0.000051067170348701735
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0014290603407484202,
+                  "mean_photo_palette_conditional_slope": -0.0014579827945666929
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00023748317049607378,
+                  "mean_photo_palette_conditional_slope": 0.00020856071667780117
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0003689935380814962,
+                  "mean_photo_palette_conditional_slope": -0.00039791599189976885
+                },
+                "pink": {
+                  "chromatic_only_component": 0.0005613136555851695,
+                  "mean_photo_palette_conditional_slope": 0.0005323912017668969
+                },
+                "purple": {
+                  "chromatic_only_component": -0.000020303242896420075,
+                  "mean_photo_palette_conditional_slope": -0.0000492256967146927
+                },
+                "red": {
+                  "chromatic_only_component": -0.00009926147301811372,
+                  "mean_photo_palette_conditional_slope": -0.00012818392683638634
+                },
+                "white": {
+                  "chromatic_only_component": 8.131516293641283e-20,
+                  "mean_photo_palette_conditional_slope": 0.00023137963054618106
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.001038832144496233,
+                  "mean_photo_palette_conditional_slope": 0.0010099096906779604
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.00023137963054618106,
+              "median_white_photo_fraction_conditional_slope": 0.00022213675903601067,
+              "n_genera": 1196,
+              "n_species": 3180,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.0009300739136958734,
+                0.0013800760464353532
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0011056698812081734,
+                0.0015965001985711012
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.016252061778475473
+            },
+            "BIO14": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO15": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO4": {
+              "n_species": 0,
+              "status": "climate_axis_not_identifiable"
+            },
+            "BIO5": {
+              "fixed_q_white_chromatic_conditional_slope": 0.003361155340209629,
+              "fraction_species_white_conditional_slope_positive": 0.549221183800623,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": 0.0011635734002289194,
+                  "mean_photo_palette_conditional_slope": 0.0007674574446149852
+                },
+                "bronze": {
+                  "chromatic_only_component": -0.0011011282558835605,
+                  "mean_photo_palette_conditional_slope": -0.0014972442114974949
+                },
+                "magenta": {
+                  "chromatic_only_component": 0.00026391710634781257,
+                  "mean_photo_palette_conditional_slope": -0.00013219884926612177
+                },
+                "orange": {
+                  "chromatic_only_component": 0.00003987093554713505,
+                  "mean_photo_palette_conditional_slope": -0.0003562450200667993
+                },
+                "pink": {
+                  "chromatic_only_component": -0.00014951226507958548,
+                  "mean_photo_palette_conditional_slope": -0.0005456282206935198
+                },
+                "purple": {
+                  "chromatic_only_component": -0.0008096062082729825,
+                  "mean_photo_palette_conditional_slope": -0.0012057221638869168
+                },
+                "red": {
+                  "chromatic_only_component": 0.00023486299732608908,
+                  "mean_photo_palette_conditional_slope": -0.00016125295828784526
+                },
+                "white": {
+                  "chromatic_only_component": -8.673617379884035e-19,
+                  "mean_photo_palette_conditional_slope": 0.003168927644911474
+                },
+                "yellow": {
+                  "chromatic_only_component": 0.0003580222897861703,
+                  "mean_photo_palette_conditional_slope": -0.000038093665827764013
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": 0.003168927644911474,
+              "median_white_photo_fraction_conditional_slope": 0.002823051338854134,
+              "n_genera": 1205,
+              "n_species": 3210,
+              "q_white_axis_genus_family7_excludes_zero": true,
+              "q_white_axis_marginal95": [
+                0.0022056440556066956,
+                0.00442714484899242
+              ],
+              "q_white_axis_simultaneous7_95": [
+                0.002009171026553407,
+                0.00471313965386585
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.7635340912467546
+            },
+            "SRADmean": {
+              "fixed_q_white_chromatic_conditional_slope": -0.001521260521653413,
+              "fraction_species_white_conditional_slope_positive": 0.49483521888834237,
+              "mean_conditional_nine_hue_vector": {
+                "blue": {
+                  "chromatic_only_component": -0.0001816891615166865,
+                  "mean_photo_palette_conditional_slope": -0.000002406889714600977
+                },
+                "bronze": {
+                  "chromatic_only_component": 0.0018504099746935588,
+                  "mean_photo_palette_conditional_slope": 0.0020296922464956442
+                },
+                "magenta": {
+                  "chromatic_only_component": -0.0004810014728531204,
+                  "mean_photo_palette_conditional_slope": -0.0003017192010510349
+                },
+                "orange": {
+                  "chromatic_only_component": -0.0006855570267675759,
+                  "mean_photo_palette_conditional_slope": -0.0005062747549654904
+                },
+                "pink": {
+                  "chromatic_only_component": -0.00021906900440029947,
+                  "mean_photo_palette_conditional_slope": -0.00003978673259821395
+                },
+                "purple": {
+                  "chromatic_only_component": 0.0014154436517103469,
+                  "mean_photo_palette_conditional_slope": 0.0015947259235124323
+                },
+                "red": {
+                  "chromatic_only_component": 0.000057437052489449554,
+                  "mean_photo_palette_conditional_slope": 0.00023671932429153507
+                },
+                "white": {
+                  "chromatic_only_component": 6.505213034913027e-19,
+                  "mean_photo_palette_conditional_slope": -0.0014342581744166835
+                },
+                "yellow": {
+                  "chromatic_only_component": -0.0017559740133556686,
+                  "mean_photo_palette_conditional_slope": -0.0015766917415535832
+                }
+              },
+              "mean_white_photo_fraction_conditional_slope": -0.0014342581744166835,
+              "median_white_photo_fraction_conditional_slope": -0.0005278310465764715,
+              "n_genera": 944,
+              "n_species": 2033,
+              "q_white_axis_genus_family7_excludes_zero": false,
+              "q_white_axis_marginal95": [
+                -0.003416980139280442,
+                0.00039900672156536847
+              ],
+              "q_white_axis_simultaneous7_95": [
+                -0.0037716640477810665,
+                0.0007291430044742404
+              ],
+              "status": "source_photo_conditional_colour_climate_estimable",
+              "white_axis_alignment_of_mean_photo_hue_vector": 0.19931683958107987
+            }
+          },
+          "simultaneous_family7_white_direction_effects_with_variance": 3
+        }
+      },
+      "unidentified_status_counts": {
+        "fewer_than_40_original_classified_photo": 1178,
+        "fewer_than_5_worldclim_cells": 1,
+        "no_independent_climate_variance_after_adjustment": 16,
+        "source_joint_climate_identifiable": 3280
+      }
+    }
+  },
+  "schema": "fcp4475_photo_nine_hue_seven_joint_conditional_worldclim_v1",
+  "slope_not_causal_or_individual_biological_response": true,
+  "source_WorldClim_BIO_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "source_WorldClim_SRAD_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "source_missing_photographs_not_imputed": true,
+  "source_original_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_photo_coarse_label_freq_requires_two_photo_classes_at_least_five_each": true,
+  "tested_original_climate_axes": [
+    "BIO1",
+    "BIO4",
+    "BIO5",
+    "BIO12",
+    "BIO14",
+    "BIO15",
+    "SRADmean"
+  ],
+  "tested_original_photo_hues": [
+    "white",
+    "yellow",
+    "orange",
+    "red",
+    "pink",
+    "magenta",
+    "purple",
+    "blue",
+    "bronze"
+  ],
+  "unique_variance_gate": 0.05,
+  "within_source_species_observer_thinning_colour_blind": true,
+  "source_github_actions_run_id": 40061576683,
+  "source_github_actions_artifact_id": 12547264579,
+  "source_artifact_zip_sha256": "ce145c38144d833be48b1a00a21414f6fb9e6d234e7101c5183e0f5d9e5dede9",
+  "verified_original_photo_and_worldclim_sha256_check": true,
+  "original_source_binary_photo_ids_coordinates_not_in_these_derived_outputs": true,
+  "source_result_frozen_after_authentic_ci_run": true
+}
