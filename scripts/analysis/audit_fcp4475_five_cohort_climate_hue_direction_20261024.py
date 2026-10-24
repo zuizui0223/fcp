@@ -76,6 +76,58 @@ def cohort_bootstrap(d,target,rep=B,seed=SEED):
     }
 
 
+HUES=("white","yellow","orange","red","pink","magenta","purple","blue","bronze")
+Q=np.array([8.]+[-1.]*8)/np.sqrt(72.)
+
+
+def paired_temperature_precipitation_hue_geometry(df,rep=B,seed=SEED):
+    """Cluster-bootstrap white-axis dominance in BIO5 vs BIO12 on SAME taxa.
+
+    It measures the direction of a *cross-species mean photo palette-climate
+    covariance vector*, NOT proportion of morphs, causal variance or genes.
+    The resulting energy fraction can be sensitive to mean cancellation.
+    """
+    matrices=[]
+    for axis in ("BIO5","BIO12"):
+        cols=[f"{axis}_total_{h}_signed_covariance_month_null_excess" for h in HUES]
+        chk(set(cols).issubset(df.columns),"full original nine-colour source missing")
+        matrices.append(df[list(cols)].to_numpy(float))
+    pair=np.stack(matrices,axis=1)
+    valid=np.isfinite(pair).all(axis=(1,2))
+    same=df.loc[valid]
+    value=pair[valid]
+    chk(len(same)>1000,"not enough identical photographed taxa for full-hue climate pair")
+    codes,genus=pd.factorize(same.species.str.split().str[0],sort=True)
+    G=len(genus)
+    sums=np.zeros((G,2,9),float)
+    cnt=np.bincount(codes,minlength=G)
+    np.add.at(sums,codes,value)
+    mean=sums.sum(axis=0)/cnt.sum()
+    draw=np.random.default_rng(seed).integers(G,size=(rep,G))
+    boot=sums[draw].sum(axis=1)/cnt[draw].sum(axis=1)[:,None,None]
+
+    def energy(v):
+        return np.sum(v*Q,axis=-1)**2/np.maximum(np.sum(v*v,axis=-1),1e-18)
+    point=energy(mean)
+    distribution=energy(boot)
+    diff=distribution[:,0]-distribution[:,1]
+    interval=[float(v) for v in np.quantile(diff,[.025,.975])]
+    return {
+        "n_matched_original_source_species":int(len(same)),
+        "n_genus_clusters":int(G),
+        "BIO5_white_axis_energy_of_mean_photo_colour_climate_vector":float(point[0]),
+        "BIO12_white_axis_energy_of_mean_photo_colour_climate_vector":float(point[1]),
+        "BIO5_white_axis_genus95":[float(v) for v in np.quantile(distribution[:,0],[.025,.975])],
+        "BIO12_white_axis_genus95":[float(v) for v in np.quantile(distribution[:,1],[.025,.975])],
+        "BIO5_minus_BIO12_white_axis_energy":float(point[0]-point[1]),
+        "BIO5_minus_BIO12_genus95":interval,
+        "difference_marginal95_excludes_zero":bool(interval[0]>0 or interval[1]<0),
+        "genus_bootstrap_repetitions":rep,
+        "targets_chosen_exploratory_after_original_nine_hue_matrix":True,
+        "not_fraction_of_heritable_flower_colour_variance":True,
+    }
+
+
 def calc(paths):
     for key,p in paths.items():
         chk(sha(p)==SHA[key],"expected immutable original-source "+key+" bytes differ")
@@ -85,6 +137,7 @@ def calc(paths):
         and source["source_n_classified_photo"]==227107,
         "source photo denominator drift")
     results={}
+    geometry={}
     for m,mode in enumerate(("original","observer_thinned")):
         df=pd.read_csv(paths[mode],low_memory=False)
         chk(len(df)==4475 and df.inat_taxon_id.is_unique,
@@ -92,6 +145,8 @@ def calc(paths):
         chk(set(df.source_cohort)==set(FIVE),
             "not exactly five original species-disjoint cohorts")
         df["genus"]=df.species.str.split().str[0]
+        geometry[mode]=paired_temperature_precipitation_hue_geometry(
+            df,seed=SEED+799*m)
         output={}
         for i,(title,key,white) in enumerate(TARGETS):
             chk(key in df.columns and (white is None or white in df.columns),
@@ -149,6 +204,7 @@ def calc(paths):
       "direction_targets_selected_posthoc_after_full_family56_original_results":True,
       "not_an_independent_source_or_genetic_morph_replication":True,
       "not_flower_background_or_causal_climate_control":True,
+      "hue_geometry_temperature_vs_precipitation_same_taxa":geometry,
       "results":results
     }
 
