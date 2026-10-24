@@ -84,6 +84,22 @@ def residualize_against_others(R,axis_indices):
     return output,var
 
 
+def one_axis_month_null(x,basis,month):
+    """Exact source-calendar-month permutation expectation for ONE climate axis.
+
+    Equivalent to the original verified 7-axis analytic_month_null restricted
+    to the named axis, but with one scalar residual vector. No Monte Carlo.
+    """
+    n=len(x)
+    check(basis.shape==(n,3*NH) and len(month)==n,
+          "one-dimensional original source month null shape mismatch")
+    null=np.zeros((3*NH,),float)
+    for m in np.unique(month):
+        idx=np.flatnonzero(month==m)
+        null+=(float(np.sum(x[idx]))/n)*basis[idx].mean(axis=0)
+    return null.reshape(NCOMP,NH)
+
+
 def source_species(g,observer_thinned,model):
     taxon=int(g.inat_taxon_id.iloc[0])
     label=str(g.species.iloc[0])
@@ -176,7 +192,7 @@ def source_species(g,observer_thinned,model):
         # Complete source climate residual exchange, within the same
         # species and calendar month. Its expectation is analytic.
         observed=(x@basis/n).reshape(NCOMP,NH)
-        null=analytic_month_null(x[:,None],basis,month)[0]
+        null=one_axis_month_null(x,basis,month)
         difference=observed-null
         check(np.allclose(difference[0],difference[1]+difference[2],atol=1e-11),
               "continuous 9-hue covariance is not between+within original photo bins")
@@ -413,6 +429,14 @@ def synthetic():
     basis=fixed_colour_component_basis(y,labels)
     chk=rest[:,index[0]]@basis/n
     check(np.isfinite(chk).all(),"original categorical photograph basis unstable")
+    # Reconcile the new one-axis helper with the prior source-verified
+    # seven-axis analytic permutation expectation for identical samples.
+    months=np.array([3]*40+[4]*40+[5]*40+[6]*40)
+    x=rest[:,index[0]]
+    expected=analytic_month_null(np.column_stack([x]*NAX),basis,months)[0]
+    actual=one_axis_month_null(x,basis,months)
+    check(np.allclose(actual,expected,atol=1e-13),
+          "single-source climate permutation expectation differs from frozen algorithm")
     print("FCP4475_INDEPENDENT_CLIMATE_HUE_SYNTHETIC_PASS")
 
 
