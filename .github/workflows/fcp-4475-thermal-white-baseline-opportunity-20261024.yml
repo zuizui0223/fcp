@@ -1,0 +1,113 @@
+name: FCP 4475 photographed-white baseline and climate opportunity modifiers
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_thermal_white_baseline_photo_opportunity_20261024.py
+      - .github/workflows/fcp-4475-thermal-white-baseline-opportunity-20261024.yml
+      - docs/FCP_THERMAL_PHOTO_WHITE_BASELINE_HETEROGENEITY_20261024.md
+      - docs/FCP_THERMAL_PHOTO_WHITE_BASELINE_RESULTS_20261024.md
+      - results/fcp4475_thermal_photo_white_baseline_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic-source-guard:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Check source taxon cohort/group design before original photo processing
+        run: |
+          python -m py_compile scripts/analysis/fcp4475_thermal_white_baseline_photo_opportunity_20261024.py
+          OPENBLAS_NUM_THREADS=1 python scripts/analysis/fcp4475_thermal_white_baseline_photo_opportunity_20261024.py --self-test
+  original-447500-photo-baseline:
+    needs: synthetic-source-guard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      BIO_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+      UPSTREAM_RUN: '40066224301'
+      UPSTREAM_SOURCE_DIGEST: 3f290b8028bbfcdb6fa2d1a4ae85f3155b21786d7c8d48175af4805c78c099a0
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Fetch the SAME original 447500 source photos, BIO climate and authenticated 4475 species thermal model
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-white-baseline/{release,measured,climate,upstream,results}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_FILE" --dir /tmp/fcp-white-baseline/release
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp-white-baseline/release/$SOURCE_FILE" | sha256sum -c -
+          tar -xzf /tmp/fcp-white-baseline/release/$SOURCE_FILE \
+            -C /tmp/fcp-white-baseline measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA  /tmp/fcp-white-baseline/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern wc2.1_10m_bio.zip --dir /tmp/fcp-white-baseline/climate
+          echo "$BIO_SHA  /tmp/fcp-white-baseline/climate/wc2.1_10m_bio.zip" | sha256sum -c -
+          gh run download "$UPSTREAM_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-shared-thermal-moisture-source-photo-hues-20261024 \
+            --dir /tmp/fcp-white-baseline/upstream
+          SOURCE_PROVIDER_DIGEST="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12549840336" --jq '.digest')"
+          test "$SOURCE_PROVIDER_DIGEST" = "sha256:$UPSTREAM_SOURCE_DIGEST"
+          cd /tmp/fcp-white-baseline/upstream
+          # Provider ZIP digest AND every extracted numeric source file are
+          # verified. Repacking would not preserve original artifact bytes.
+          echo '67a91c94a807e184178937d8e683467e5534b5c49ddfa24d83937a02eb5610ec  shared_thermal_moisture_nine_hue_source_result.json' | sha256sum -c -
+          echo 'c3b50053b7cbbd10c90958690fa6b855f4f8ff8cdc414c3140e45cd3463cbea1  fcp4475_original_thermal_moisture_support.csv' | sha256sum -c -
+          echo '77eca75f7909bcee53ec3d24766d6d6db1140d654b86b26fae81bb3bbcd15378  fcp4475_original_thermal_moisture_nine_hue_coefficients.npz' | sha256sum -c -
+          echo '00ae2d01d372d56a7399c6ab12ecd755cef0dda827207d4f6209edcf19becb4d  fcp4475_observer_thinned_thermal_moisture_support.csv' | sha256sum -c -
+          echo '6a80cd28488af3fcb02ca305f5efc25ed19cb76f257fd18bd1802c7773bb86fc  fcp4475_observer_thinned_thermal_moisture_nine_hue_coefficients.npz' | sha256sum -c -
+      - name: Compute photo-white visibility, source classification and BIO5 width on exact source
+        run: |
+          set -euo pipefail
+          # Directly read authenticated extracted source files whose bytes
+          # match the previous source CI's immutable SHA256 manifest.
+          python scripts/analysis/fcp4475_thermal_white_baseline_photo_opportunity_20261024.py \
+            --source-photos /tmp/fcp-white-baseline/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-bio /tmp/fcp-white-baseline/climate/wc2.1_10m_bio.zip \
+            --thermal-artifact /tmp/fcp-white-baseline/upstream \
+            --out /tmp/fcp-white-baseline/results
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import pandas as pd
+          root=Path('/tmp/fcp-white-baseline/results')
+          result=json.loads((root/'thermal_white_photo_baseline_heterogeneity.json').read_text())
+          assert result['source_original_photos']==447500
+          assert result['source_species']==4475
+          assert result['source_classifiable_photos']==227107
+          for panel in ('original','observer_thinned'):
+              x=result['results'][panel]
+              assert x['n_species_thermal_white_estimated']>=2600
+              assert len(x['original_photo_white_label_presence_subgroups'])==4
+              t=pd.read_csv(root/f'fcp4475_{panel}_thermal_white_original_photo_trait_opportunity.csv')
+              assert len(t)==4475 and t.inat_taxon_id.is_unique
+              assert t.n_classified_photo.sum()==227107
+              assert t.n_original_classifiable.sum()==227107
+              assert t.photo_classifiable_rate.between(0,1).all()
+              assert x['adjusted_white_label_modifier_and_photo_climate_opportunity']['n_original_species']>2500
+          print('FCP4475_WHITE_SOURCE_PHOTO_BASELINE_REAL_DATA_PASS')
+          print('FCP4475_WHITE_SOURCE_PHOTO_BASELINE_FULL_JSON',
+                json.dumps(result,sort_keys=True,separators=(',',':'),allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-source-photo-white-state-temperature-slope-20261024
+          path: /tmp/fcp-white-baseline/results/
+          retention-days: 90

@@ -1,0 +1,1143 @@
+{
+  "classifiability_missingness_not_missing_at_random_verified": false,
+  "genus_cluster_bootstrap_repetitions": 999,
+  "no_native_status_photo_stage_or_background_fully_controlled": true,
+  "observed_worldclim_BIO5_breadth_from_classified_valid_original_geophotos": true,
+  "original_all_4475_species_retained_in_source_data": true,
+  "photo_model_source_inner_file_SHA256": {
+    "fcp4475_observer_thinned_thermal_moisture_nine_hue_coefficients.npz": "6a80cd28488af3fcb02ca305f5efc25ed19cb76f257fd18bd1802c7773bb86fc",
+    "fcp4475_observer_thinned_thermal_moisture_support.csv": "00ae2d01d372d56a7399c6ab12ecd755cef0dda827207d4f6209edcf19becb4d",
+    "fcp4475_original_thermal_moisture_nine_hue_coefficients.npz": "77eca75f7909bcee53ec3d24766d6d6db1140d654b86b26fae81bb3bbcd15378",
+    "fcp4475_original_thermal_moisture_support.csv": "c3b50053b7cbbd10c90958690fa6b855f4f8ff8cdc414c3140e45cd3463cbea1",
+    "shared_thermal_moisture_nine_hue_source_result.json": "67a91c94a807e184178937d8e683467e5534b5c49ddfa24d83937a02eb5610ec"
+  },
+  "results": {
+    "observer_thinned": {
+      "adjusted_white_label_modifier_and_photo_climate_opportunity": {
+        "base_category": "no original source photo classified as white",
+        "covariates": {
+          "both_white_and_nonwhite_ge5_v_no_white": {
+            "genus_bootstrap_marginal95": [
+              -0.00020277397782125743,
+              0.015630640394462703
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.008030195849809345
+          },
+          "cohort_new_U100": {
+            "genus_bootstrap_marginal95": [
+              -0.017384531715475042,
+              0.006597819360628171
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.0058397329617293605
+          },
+          "cohort_prospective": {
+            "genus_bootstrap_marginal95": [
+              -0.0199424079003865,
+              0.00961490232621181
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.004902694370833786
+          },
+          "cohort_validation": {
+            "genus_bootstrap_marginal95": [
+              -0.016631479220335768,
+              0.010337054299286271
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.00328332087068008
+          },
+          "cohort_wave4": {
+            "genus_bootstrap_marginal95": [
+              -0.02717745315588837,
+              0.0015914546274378926
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.012601899539825058
+          },
+          "intercept": {
+            "genus_bootstrap_marginal95": [
+              -0.0022519154377640864,
+              0.020967347478732346
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.010114540725379883
+          },
+          "near_all_white_v_no_white": {
+            "genus_bootstrap_marginal95": [
+              -0.005673756202125892,
+              0.007196354867964631
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.0006281811879623071
+          },
+          "rare_white_v_no_white": {
+            "genus_bootstrap_marginal95": [
+              -0.009085266316848301,
+              0.004485660466193144
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.0023886853345154607
+          },
+          "z_classifiable_photo_effort": {
+            "genus_bootstrap_marginal95": [
+              -0.006011763568249154,
+              0.0024342021705146535
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.0017000798788427882
+          },
+          "z_log_BIO5_photo_q90_q10_breadth": {
+            "genus_bootstrap_marginal95": [
+              -0.006737101522279094,
+              0.0017179491651779176
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.002464464889503836
+          },
+          "z_log_raster_cells": {
+            "genus_bootstrap_marginal95": [
+              -0.005269907228999811,
+              0.0030508114443352804
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.0009107074214047951
+          },
+          "z_thermal_macro_unique_variance_fraction": {
+            "genus_bootstrap_marginal95": [
+              -0.001076258140469454,
+              0.005481684792573578
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.0021277372429505926
+          }
+        },
+        "genus_bootstrap_reps": 999,
+        "n_genus_clusters": 1112,
+        "n_original_species": 2771,
+        "not_independent_genetic_white_morphs": true,
+        "photographic_trait_and_response_derived_from_same_source_photo": true,
+        "regression_type": "descriptive OLS of per-species estimated white photo–thermal partial slope; original source photos also define group"
+      },
+      "continuous_baseline_and_photo_opportunity_quartiles": {
+        "BIO5_sampled_original_q90_minus_q10_C": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5584415584415584,
+              "genus_bootstrap_marginal95": [
+                0.004104148584450792,
+                0.01974732528132505
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.011826619515211068,
+              "median_thermal_photo_white_slope": 0.008012646320875484,
+              "n_genera": 451,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.010393523278151299
+            },
+            {
+              "fraction_species_positive": 0.5310245310245311,
+              "genus_bootstrap_marginal95": [
+                -0.0012277516703509917,
+                0.011908510351789523
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.005387813589794833,
+              "median_thermal_photo_white_slope": 0.004772741360037795,
+              "n_genera": 450,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005019569376073346
+            },
+            {
+              "fraction_species_positive": 0.5606936416184971,
+              "genus_bootstrap_marginal95": [
+                0.0032755304213626926,
+                0.017381104817554192
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.01056124195281766,
+              "median_thermal_photo_white_slope": 0.008006798411865666,
+              "n_genera": 424,
+              "n_taxa": 692,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.009523337320655238
+            },
+            {
+              "fraction_species_positive": 0.5108225108225108,
+              "genus_bootstrap_marginal95": [
+                -0.001813109458862303,
+                0.010321862802729462
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.0042359335124790235,
+              "median_thermal_photo_white_slope": 0.001784641278929311,
+              "n_genera": 408,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.0029108051797706526
+            }
+          ],
+          "n_original_taxa": 2771,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.7587554931640597,
+            4.945727729797362,
+            6.655450057983398,
+            8.297330856323246,
+            15.595749664306641
+          ],
+          "source_value": "BIO5_sampled_original_q90_minus_q10_C",
+          "title": "Within-source-photo BIO5 sampled climate breadth (°C)"
+        },
+        "n_original_raster_cells": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5259067357512953,
+              "genus_bootstrap_marginal95": [
+                0.0032067678930592296,
+                0.017755899645160576
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.010347955086202268,
+              "median_thermal_photo_white_slope": 0.005062754888779347,
+              "n_genera": 472,
+              "n_taxa": 772,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.008044841621097091
+            },
+            {
+              "fraction_species_positive": 0.5683890577507599,
+              "genus_bootstrap_marginal95": [
+                0.003987276760171953,
+                0.01887476378145784
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.011544003576632766,
+              "median_thermal_photo_white_slope": 0.01097280861342329,
+              "n_genera": 414,
+              "n_taxa": 658,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.010927454102210953
+            },
+            {
+              "fraction_species_positive": 0.5381165919282511,
+              "genus_bootstrap_marginal95": [
+                0.0004053860308504906,
+                0.011357992129934326
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.005816339540148269,
+              "median_thermal_photo_white_slope": 0.0059724277815818615,
+              "n_genera": 404,
+              "n_taxa": 669,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005392516146060158
+            },
+            {
+              "fraction_species_positive": 0.53125,
+              "genus_bootstrap_marginal95": [
+                -0.0005615092729569376,
+                0.008651442595639412
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.004014548608534483,
+              "median_thermal_photo_white_slope": 0.002841048786206528,
+              "n_genera": 383,
+              "n_taxa": 672,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.004078354758434098
+            }
+          ],
+          "n_original_taxa": 2771,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            7,
+            43,
+            51,
+            60,
+            89
+          ],
+          "source_value": "n_original_raster_cells",
+          "title": "Number of distinct source georeferenced climate raster cells"
+        },
+        "original_photo_ROI_mean_white_fraction": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5310245310245311,
+              "genus_bootstrap_marginal95": [
+                -0.0009204883810406643,
+                0.0066496844815669325
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.002823422068440764,
+              "median_thermal_photo_white_slope": 0.002087852106955092,
+              "n_genera": 361,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.00314593378610053
+            },
+            {
+              "fraction_species_positive": 0.5353535353535354,
+              "genus_bootstrap_marginal95": [
+                -0.0013585029770704353,
+                0.012767803074849399
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.005630443242627394,
+              "median_thermal_photo_white_slope": 0.009311420857929997,
+              "n_genera": 376,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005389781078564649
+            },
+            {
+              "fraction_species_positive": 0.5621387283236994,
+              "genus_bootstrap_marginal95": [
+                0.008298682753291204,
+                0.026412108175175968
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.01770345706993469,
+              "median_thermal_photo_white_slope": 0.016862950382580434,
+              "n_genera": 409,
+              "n_taxa": 692,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.01654908575918635
+            },
+            {
+              "fraction_species_positive": 0.5324675324675324,
+              "genus_bootstrap_marginal95": [
+                0.00035923741852114454,
+                0.011696725746277834
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.005864592416019969,
+              "median_thermal_photo_white_slope": 0.003296330890401794,
+              "n_genera": 396,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.0055511540475060295
+            }
+          ],
+          "n_original_taxa": 2771,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.008643957345025197,
+            0.11723732636288126,
+            0.39310167916414956,
+            0.787206039734627,
+            0.9771321976989729
+          ],
+          "source_value": "original_photo_ROI_mean_white_fraction",
+          "title": "Photographed baseline continuous white hue share"
+        },
+        "photo_classifiable_rate": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5210312075983717,
+              "genus_bootstrap_marginal95": [
+                -0.0005212290940929538,
+                0.015895000120151485
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.007893716333170531,
+              "median_thermal_photo_white_slope": 0.005876099576159196,
+              "n_genera": 457,
+              "n_taxa": 737,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005671219048369287
+            },
+            {
+              "fraction_species_positive": 0.5820029027576198,
+              "genus_bootstrap_marginal95": [
+                0.009433693458396319,
+                0.02272413370814649
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.015744482668659555,
+              "median_thermal_photo_white_slope": 0.014182183071280078,
+              "n_genera": 415,
+              "n_taxa": 689,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.013775023689624714
+            },
+            {
+              "fraction_species_positive": 0.5361271676300579,
+              "genus_bootstrap_marginal95": [
+                0.0005549685868917049,
+                0.011036577362847633
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.005809953906495967,
+              "median_thermal_photo_white_slope": 0.00413608931649947,
+              "n_genera": 416,
+              "n_taxa": 692,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005915791751522575
+            },
+            {
+              "fraction_species_positive": 0.5222052067381318,
+              "genus_bootstrap_marginal95": [
+                -0.0021378168686334003,
+                0.006479815494110763
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.0022777609459702147,
+              "median_thermal_photo_white_slope": 0.0021877288599668147,
+              "n_genera": 382,
+              "n_taxa": 653,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.0028659511951657805
+            }
+          ],
+          "n_original_taxa": 2771,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.4,
+            0.5,
+            0.58,
+            0.67,
+            0.92
+          ],
+          "source_value": "photo_classifiable_rate",
+          "title": "Photo-classifiability rate among original 100"
+        },
+        "thermal_level_unique_variance_fraction": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5064935064935064,
+              "genus_bootstrap_marginal95": [
+                -0.007792586911074298,
+                0.011184989706112343
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.0015324183679296685,
+              "median_thermal_photo_white_slope": 0.0015423470701616605,
+              "n_genera": 455,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.0006764301341865855
+            },
+            {
+              "fraction_species_positive": 0.5324675324675324,
+              "genus_bootstrap_marginal95": [
+                0.0014444209723362587,
+                0.016024551316578376
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.008778627678335362,
+              "median_thermal_photo_white_slope": 0.006373214139480069,
+              "n_genera": 447,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.007315943517484733
+            },
+            {
+              "fraction_species_positive": 0.5505780346820809,
+              "genus_bootstrap_marginal95": [
+                0.007653983508980755,
+                0.01860056070656932
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.013005516911219797,
+              "median_thermal_photo_white_slope": 0.00649580320778332,
+              "n_genera": 440,
+              "n_taxa": 692,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.009866212136435931
+            },
+            {
+              "fraction_species_positive": 0.5714285714285714,
+              "genus_bootstrap_marginal95": [
+                0.0047473269701492505,
+                0.012484958805451139
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.008698572705109821,
+              "median_thermal_photo_white_slope": 0.007016937233270953,
+              "n_genera": 413,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.00711907010755348
+            }
+          ],
+          "n_original_taxa": 2771,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.0500199619089,
+            0.1056763048175,
+            0.178414236156,
+            0.28489994193949997,
+            0.772592372735
+          ],
+          "source_value": "thermal_level_unique_variance_fraction",
+          "title": "Fraction independently identifiable shared thermal climatic variance"
+        }
+      },
+      "mean_positive_fraction_species": 0.5402381811620354,
+      "mean_thermal_photo_white_slope_all": 0.008001978887501577,
+      "n_source_species_both_white_nonwhite_ge5": 1309,
+      "n_source_species_with_no_original_white_label": 171,
+      "n_species_thermal_white_estimated": 2771,
+      "original_photo_white_label_presence_subgroups": [
+        {
+          "fraction_species_positive": 0.5380116959064327,
+          "genus_bootstrap_marginal95": [
+            -0.0010403546650220397,
+            0.007024712330813731
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "no_white_label",
+          "mean_thermal_photo_white_slope": 0.0030591536188249086,
+          "median_thermal_photo_white_slope": 0.0019598253851341296,
+          "n_genera": 127,
+          "n_taxa": 171,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.0029627888962709043
+        },
+        {
+          "fraction_species_positive": 0.5226586102719033,
+          "genus_bootstrap_marginal95": [
+            -0.0025254350412516387,
+            0.006386763202704662
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "rare_white_label_1to4",
+          "mean_thermal_photo_white_slope": 0.0019713589823476285,
+          "median_thermal_photo_white_slope": 0.0018503560413739226,
+          "n_genera": 364,
+          "n_taxa": 662,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.0021154186837026084
+        },
+        {
+          "fraction_species_positive": 0.5561497326203209,
+          "genus_bootstrap_marginal95": [
+            0.00696653095892261,
+            0.0192615136533464
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "both_white_and_nonwhite_ge5",
+          "mean_thermal_photo_white_slope": 0.013242686664672142,
+          "median_thermal_photo_white_slope": 0.013614565923991769,
+          "n_genera": 649,
+          "n_taxa": 1309,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.012827341663516581
+        },
+        {
+          "fraction_species_positive": 0.5262321144674086,
+          "genus_bootstrap_marginal95": [
+            0.00009313557329054848,
+            0.009850686747978687
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "nearly_all_white_label",
+          "mean_thermal_photo_white_slope": 0.0047864097584703474,
+          "median_thermal_photo_white_slope": 0.0024333792159452537,
+          "n_genera": 360,
+          "n_taxa": 629,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.00461822504350419
+        }
+      ],
+      "source_original_n_taxa": 4475,
+      "source_photo_coarse_label_stratum_not_genetic_morphs": true
+    },
+    "original": {
+      "adjusted_white_label_modifier_and_photo_climate_opportunity": {
+        "base_category": "no original source photo classified as white",
+        "covariates": {
+          "both_white_and_nonwhite_ge5_v_no_white": {
+            "genus_bootstrap_marginal95": [
+              0.0006147671460887151,
+              0.015922869629192735
+            ],
+            "marginal95_excludes_zero": true,
+            "point": 0.008141481835052745
+          },
+          "cohort_new_U100": {
+            "genus_bootstrap_marginal95": [
+              -0.01722803473322704,
+              0.006102965579552687
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.005178766485455753
+          },
+          "cohort_prospective": {
+            "genus_bootstrap_marginal95": [
+              -0.01900267622520203,
+              0.00888644080211554
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.00468268190074209
+          },
+          "cohort_validation": {
+            "genus_bootstrap_marginal95": [
+              -0.01326639852647607,
+              0.015247278759344883
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.0004409774950660712
+          },
+          "cohort_wave4": {
+            "genus_bootstrap_marginal95": [
+              -0.02409511249440064,
+              0.0028494119483588346
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.009657825724472454
+          },
+          "intercept": {
+            "genus_bootstrap_marginal95": [
+              -0.0014473658811932535,
+              0.020390725018309554
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.00889838490942746
+          },
+          "near_all_white_v_no_white": {
+            "genus_bootstrap_marginal95": [
+              -0.004621595582441727,
+              0.008187722172703431
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.0015440491627272221
+          },
+          "rare_white_v_no_white": {
+            "genus_bootstrap_marginal95": [
+              -0.008690419638886771,
+              0.003810081713275884
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.002487891114972952
+          },
+          "z_classifiable_photo_effort": {
+            "genus_bootstrap_marginal95": [
+              -0.00699326976685555,
+              0.001178199868440619
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.0030474354924704843
+          },
+          "z_log_BIO5_photo_q90_q10_breadth": {
+            "genus_bootstrap_marginal95": [
+              -0.006287426332230628,
+              0.0017302650154617416
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.002175206703793107
+          },
+          "z_log_raster_cells": {
+            "genus_bootstrap_marginal95": [
+              -0.004333034481560123,
+              0.004280730197544905
+            ],
+            "marginal95_excludes_zero": false,
+            "point": -0.000037749292423033935
+          },
+          "z_thermal_macro_unique_variance_fraction": {
+            "genus_bootstrap_marginal95": [
+              -0.0012913600906828695,
+              0.00511966003048058
+            ],
+            "marginal95_excludes_zero": false,
+            "point": 0.001936654339615325
+          }
+        },
+        "genus_bootstrap_reps": 999,
+        "n_genus_clusters": 1135,
+        "n_original_species": 2837,
+        "not_independent_genetic_white_morphs": true,
+        "photographic_trait_and_response_derived_from_same_source_photo": true,
+        "regression_type": "descriptive OLS of per-species estimated white photo–thermal partial slope; original source photos also define group"
+      },
+      "continuous_baseline_and_photo_opportunity_quartiles": {
+        "BIO5_sampled_original_q90_minus_q10_C": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5633802816901409,
+              "genus_bootstrap_marginal95": [
+                0.0044433573613461555,
+                0.020650731823371356
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.012320772222587085,
+              "median_thermal_photo_white_slope": 0.008288073328376649,
+              "n_genera": 461,
+              "n_taxa": 710,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.010992960360873834
+            },
+            {
+              "fraction_species_positive": 0.5275035260930888,
+              "genus_bootstrap_marginal95": [
+                -0.001801620278791907,
+                0.010610898270788838
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.004079388108402599,
+              "median_thermal_photo_white_slope": 0.004193022775123997,
+              "n_genera": 461,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.004332212141560634
+            },
+            {
+              "fraction_species_positive": 0.5585331452750353,
+              "genus_bootstrap_marginal95": [
+                0.0035759868446956014,
+                0.01711173291209384
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.010198951164617122,
+              "median_thermal_photo_white_slope": 0.007517378838676507,
+              "n_genera": 436,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.008856292900001082
+            },
+            {
+              "fraction_species_positive": 0.5204513399153737,
+              "genus_bootstrap_marginal95": [
+                -0.0004109575627925272,
+                0.01229899670184124
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.006231498287758428,
+              "median_thermal_photo_white_slope": 0.0030639620621855336,
+              "n_genera": 415,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.004790685439846831
+            }
+          ],
+          "n_original_taxa": 2837,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.6060028076171875,
+            4.930000305175781,
+            6.612646102905273,
+            8.279899978637697,
+            15.595749664306641
+          ],
+          "source_value": "BIO5_sampled_original_q90_minus_q10_C",
+          "title": "Within-source-photo BIO5 sampled climate breadth (°C)"
+        },
+        "n_original_raster_cells": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5316804407713499,
+              "genus_bootstrap_marginal95": [
+                0.003099858543142539,
+                0.017689578698859797
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.010621358677339807,
+              "median_thermal_photo_white_slope": 0.006934227264978,
+              "n_genera": 460,
+              "n_taxa": 726,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.00832401021679909
+            },
+            {
+              "fraction_species_positive": 0.5551181102362205,
+              "genus_bootstrap_marginal95": [
+                0.004559868600196962,
+                0.018267175869463227
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.011662747607422249,
+              "median_thermal_photo_white_slope": 0.010592226203815551,
+              "n_genera": 457,
+              "n_taxa": 762,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.010606960543185481
+            },
+            {
+              "fraction_species_positive": 0.5512265512265512,
+              "genus_bootstrap_marginal95": [
+                0.0014394763028803105,
+                0.012003579908164983
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.00668456673085089,
+              "median_thermal_photo_white_slope": 0.007122826466489838,
+              "n_genera": 415,
+              "n_taxa": 693,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.007104846244248339
+            },
+            {
+              "fraction_species_positive": 0.5304878048780488,
+              "genus_bootstrap_marginal95": [
+                -0.0012742545066548201,
+                0.007717049134778711
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.003138259584671366,
+              "median_thermal_photo_white_slope": 0.00237639293233463,
+              "n_genera": 376,
+              "n_taxa": 656,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.0032058196768851334
+            }
+          ],
+          "n_original_taxa": 2837,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            8,
+            43,
+            52,
+            62,
+            92
+          ],
+          "source_value": "n_original_raster_cells",
+          "title": "Number of distinct source georeferenced climate raster cells"
+        },
+        "original_photo_ROI_mean_white_fraction": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5211267605633803,
+              "genus_bootstrap_marginal95": [
+                -0.0016187192335688169,
+                0.005949419549469137
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.0020992895878335425,
+              "median_thermal_photo_white_slope": 0.0015015942622771715,
+              "n_genera": 372,
+              "n_taxa": 710,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.002233273957372814
+            },
+            {
+              "fraction_species_positive": 0.538787023977433,
+              "genus_bootstrap_marginal95": [
+                -0.001737749534913486,
+                0.012835111236212992
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.0055549047725651545,
+              "median_thermal_photo_white_slope": 0.009511117353948164,
+              "n_genera": 387,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005814278927819963
+            },
+            {
+              "fraction_species_positive": 0.5754583921015515,
+              "genus_bootstrap_marginal95": [
+                0.011050612256173176,
+                0.027674637662651283
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.01908114479099451,
+              "median_thermal_photo_white_slope": 0.017739538981640587,
+              "n_genera": 418,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.018167789012200303
+            },
+            {
+              "fraction_species_positive": 0.5345557122708039,
+              "genus_bootstrap_marginal95": [
+                0.0008525063130150104,
+                0.011094707040578774
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.006109687391682533,
+              "median_thermal_photo_white_slope": 0.005003649961127079,
+              "n_genera": 405,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.00563487336853509
+            }
+          ],
+          "n_original_taxa": 2837,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.008643957345025197,
+            0.1188445237408278,
+            0.3955090227606255,
+            0.7844807382581582,
+            0.9771321976989729
+          ],
+          "source_value": "original_photo_ROI_mean_white_fraction",
+          "title": "Photographed baseline continuous white hue share"
+        },
+        "photo_classifiable_rate": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5309859154929577,
+              "genus_bootstrap_marginal95": [
+                0.0011553066145271432,
+                0.0178943321941435
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.009739870135820816,
+              "median_thermal_photo_white_slope": 0.008442276718330907,
+              "n_genera": 451,
+              "n_taxa": 710,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.00824944434762437
+            },
+            {
+              "fraction_species_positive": 0.5802310654685494,
+              "genus_bootstrap_marginal95": [
+                0.008911319498228201,
+                0.02135572644469526
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.014917409575321918,
+              "median_thermal_photo_white_slope": 0.0135422062945366,
+              "n_genera": 455,
+              "n_taxa": 779,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.012980542168156703
+            },
+            {
+              "fraction_species_positive": 0.539568345323741,
+              "genus_bootstrap_marginal95": [
+                -0.00036946818274868296,
+                0.010509079897615238
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.005232759829463789,
+              "median_thermal_photo_white_slope": 0.005071500265274202,
+              "n_genera": 415,
+              "n_taxa": 695,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.005758001530199914
+            },
+            {
+              "fraction_species_positive": 0.5130168453292496,
+              "genus_bootstrap_marginal95": [
+                -0.0029991145565446274,
+                0.006272034235141764
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.0017097782106319287,
+              "median_thermal_photo_white_slope": 0.0014422580853064172,
+              "n_genera": 382,
+              "n_taxa": 653,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.0022198006499784617
+            }
+          ],
+          "n_original_taxa": 2837,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.4,
+            0.49,
+            0.58,
+            0.67,
+            0.92
+          ],
+          "source_value": "photo_classifiable_rate",
+          "title": "Photo-classifiability rate among original 100"
+        },
+        "thermal_level_unique_variance_fraction": {
+          "descriptive_by_quantile": [
+            {
+              "fraction_species_positive": 0.5126760563380282,
+              "genus_bootstrap_marginal95": [
+                -0.006896824272177299,
+                0.011725429544911174
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q1",
+              "mean_thermal_photo_white_slope": 0.002460973949222143,
+              "median_thermal_photo_white_slope": 0.0020630090713604065,
+              "n_genera": 459,
+              "n_taxa": 710,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.002141517605900521
+            },
+            {
+              "fraction_species_positive": 0.538787023977433,
+              "genus_bootstrap_marginal95": [
+                0.0020658908160252876,
+                0.015735603770381735
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q2",
+              "mean_thermal_photo_white_slope": 0.008826309673409851,
+              "median_thermal_photo_white_slope": 0.007361921102445934,
+              "n_genera": 458,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.007474564129653951
+            },
+            {
+              "fraction_species_positive": 0.5416078984485191,
+              "genus_bootstrap_marginal95": [
+                0.006703004994446171,
+                0.018310943799839444
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q3",
+              "mean_thermal_photo_white_slope": 0.012621414286926692,
+              "median_thermal_photo_white_slope": 0.005934364984594138,
+              "n_genera": 457,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.009405408907018534
+            },
+            {
+              "fraction_species_positive": 0.5768688293370945,
+              "genus_bootstrap_marginal95": [
+                0.004817516513444003,
+                0.012688536343765374
+              ],
+              "genus_bootstrap_reps": 999,
+              "label": "Q4",
+              "mean_thermal_photo_white_slope": 0.008935818500426242,
+              "median_thermal_photo_white_slope": 0.007161567348255713,
+              "n_genera": 423,
+              "n_taxa": 709,
+              "status": "photographic_source_descriptive",
+              "trimmed_mean_10pct": 0.007589363510546475
+            }
+          ],
+          "n_original_taxa": 2837,
+          "posthoc_effect_modifier_not_causal": true,
+          "quantiles_edges": [
+            0.0501606671728,
+            0.106393459052,
+            0.179522193219,
+            0.287189525827,
+            0.76250138561
+          ],
+          "source_value": "thermal_level_unique_variance_fraction",
+          "title": "Fraction independently identifiable shared thermal climatic variance"
+        }
+      },
+      "mean_positive_fraction_species": 0.5424744448360944,
+      "mean_thermal_photo_white_slope_all": 0.008209102258945554,
+      "n_source_species_both_white_nonwhite_ge5": 1359,
+      "n_source_species_with_no_original_white_label": 173,
+      "n_species_thermal_white_estimated": 2837,
+      "original_photo_white_label_presence_subgroups": [
+        {
+          "fraction_species_positive": 0.5375722543352601,
+          "genus_bootstrap_marginal95": [
+            -0.0014763068318219502,
+            0.006182936481912849
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "no_white_label",
+          "mean_thermal_photo_white_slope": 0.002239423036541778,
+          "median_thermal_photo_white_slope": 0.002196677121864923,
+          "n_genera": 128,
+          "n_taxa": 173,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.0021253785646422256
+        },
+        {
+          "fraction_species_positive": 0.5134328358208955,
+          "genus_bootstrap_marginal95": [
+            -0.0033822124562531333,
+            0.006242155806293382
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "rare_white_label_1to4",
+          "mean_thermal_photo_white_slope": 0.001475081801576424,
+          "median_thermal_photo_white_slope": 0.0015645904703021083,
+          "n_genera": 369,
+          "n_taxa": 670,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.0015850114744655525
+        },
+        {
+          "fraction_species_positive": 0.5636497424576895,
+          "genus_bootstrap_marginal95": [
+            0.007757258348353862,
+            0.019205603733565557
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "both_white_and_nonwhite_ge5",
+          "mean_thermal_photo_white_slope": 0.013605910465174809,
+          "median_thermal_photo_white_slope": 0.014628381206963385,
+          "n_genera": 672,
+          "n_taxa": 1359,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.013396606874211759
+        },
+        {
+          "fraction_species_positive": 0.5291338582677165,
+          "genus_bootstrap_marginal95": [
+            0.0008671866325068877,
+            0.010420543102390841
+          ],
+          "genus_bootstrap_reps": 999,
+          "label": "nearly_all_white_label",
+          "mean_thermal_photo_white_slope": 0.005390654793823688,
+          "median_thermal_photo_white_slope": 0.004490056640373813,
+          "n_genera": 363,
+          "n_taxa": 635,
+          "status": "photographic_source_descriptive",
+          "trimmed_mean_10pct": 0.004965948028752455
+        }
+      ],
+      "source_original_n_taxa": 4475,
+      "source_photo_coarse_label_stratum_not_genetic_morphs": true
+    }
+  },
+  "same_photo_trait_baseline_and_thermal_response_not_independent": true,
+  "schema": "fcp4475_photo_white_climate_slope_baseline_phenotype_and_opportunity_v1",
+  "scope": "photographic 9-hue ROI and photographic white label; apparent within-species climate-associated photo colour slope, not genetic flower-colour morph",
+  "site_weather_not_measured_at_flower_anthesis": true,
+  "source_classifiable_photos": 227107,
+  "source_original_BIO_climate_SHA256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "source_original_photo_SHA256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_original_photos": 447500,
+  "source_species": 4475,
+  "source_thermal_source_artifact_zip_sha256": "3f290b8028bbfcdb6fa2d1a4ae85f3155b21786d7c8d48175af4805c78c099a0",
+  "verified_source_actions_run_id": 40068289947,
+  "verified_source_original_photo_result_artifact_id": 12550670522,
+  "verified_artifact_zip_sha256": "2470ca68868f70bbd2658106d075e11da9b23e56d47e152b1b421f304fdd3f42",
+  "source_release_genuine_original_447500_SHA_checked": true,
+  "source_climate_BIO_original_worldclim_SHA_checked": true,
+  "original_source_model_each_derived_file_SHA_checked": true,
+  "source_genus_bootstrap_succeeded": true
+}
