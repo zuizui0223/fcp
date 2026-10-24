@@ -1,0 +1,76 @@
+name: FCP conditional seven-climate chromatic-only original-photo audit
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/audit_fcp4475_joint_conditional_chromatic_20261024.py
+      - .github/workflows/fcp-4475-joint-chromatic-audit-20261024.yml
+      - docs/FCP_4475_JOINT_CLIMATE_EMPIRICAL_RESULTS_20261024.md
+      - results/fcp4475_joint_climate_chromatic_audit_verified_20261024.json
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-four-panel-chromatic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Compile and verify zero-white chromatic contrast basis
+        run: |
+          python -m py_compile scripts/analysis/audit_fcp4475_joint_conditional_chromatic_20261024.py
+          python scripts/analysis/audit_fcp4475_joint_conditional_chromatic_20261024.py --self-test
+      - name: Download exact earlier source-run nine-palette and joint-climate arrays
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-chromatic/{source,result}
+          gh run download 40061576683 --repo "$GITHUB_REPOSITORY" \
+            --name fcp4475-photo-climate-seven-joint-conditional-20261024 \
+            --dir /tmp/fcp-chromatic/source
+          echo 'cd29072f6d9f31966cc8fc7696866822000f1987d753704b7d34fad059306174  /tmp/fcp-chromatic/source/joint_climate_conditional_hue_summary.json' | sha256sum -c -
+          echo '6fb31a6ea0369f773af2f9ecf52341d28a4cffa8887a7a269229d13a75217baf  /tmp/fcp-chromatic/source/original4475_original__thermal_moisture_solar_core_nine_hue_conditional_source.npz' | sha256sum -c -
+          echo '971434a797933cfadfd035a9337c85e1c6ddc139e6b365aa5c223404c187dd44  /tmp/fcp-chromatic/source/original4475_original__seven_climates_joint_conditional_nine_hue_conditional_source.npz' | sha256sum -c -
+          echo 'fb6d64447191a8d1fefdb6035d44da6a3bc1253f1cd1ec206078defeaf8f89db  /tmp/fcp-chromatic/source/original4475_observer_thinned__thermal_moisture_solar_core_nine_hue_conditional_source.npz' | sha256sum -c -
+          echo 'ffa2de03dc70e2b65147cb5d3f9efbda100fb46b741ee3ca13f473c80ba29aee  /tmp/fcp-chromatic/source/original4475_observer_thinned__seven_climates_joint_conditional_nine_hue_conditional_source.npz' | sha256sum -c -
+      - name: Independently evaluate source 8-hue chromatic contrasts under 3 or 7 climate controls
+        run: |
+          set -euo pipefail
+          python scripts/analysis/audit_fcp4475_joint_conditional_chromatic_20261024.py \
+            --source /tmp/fcp-chromatic/source --out /tmp/fcp-chromatic/result
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp-chromatic/result/joint_conditional_chromatic_56hue_genus_audit.json')
+          x=json.loads(p.read_text())
+          assert (x['n_original_source_photos'],x['n_original_taxa'],
+                  x['n_source_classifiable_photos'])==(447500,4475,227107)
+          assert len(x['results'])==4
+          for name,panel in x['results'].items():
+              assert panel['source_n_taxa']==4475
+              assert len(panel['chromatic_by_original_photo_component'])==3
+              for c,part in panel['chromatic_by_original_photo_component'].items():
+                  assert part['chromatic_evaluable_8hue_tests'] in (0,24,56)
+                  for a,rec in part['per_axis'].items():
+                      assert rec['n_evaluable_chromatic_components']==8
+                      for h,ci in rec['chromatic_photo_hue_components'].items():
+                          assert len(ci['simultaneous95_chromatic_climate_family'])==2
+          print('FCP4475_JOINT_CHROMATIC_SOURCE_FULL_AUDIT_PASS')
+          data=json.dumps(x,separators=(',',':'),sort_keys=True,allow_nan=False)
+          n=(len(data)+11999)//12000
+          print('FCP4475_JOINT_CHROMATIC_JSON_PART_COUNT',n)
+          for i in range(n):
+              print('FCP4475_JOINT_CHROMATIC_JSON_PART',i,n,
+                    data[12000*i:12000*(i+1)],flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-original-joint-climate-chromatic-audit-20261024
+          path: /tmp/fcp-chromatic/result/
+          retention-days: 90
