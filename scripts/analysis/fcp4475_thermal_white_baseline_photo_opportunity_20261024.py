@@ -135,25 +135,33 @@ def source_measures(photo_csv,worldclim):
 
 
 def source_model_archive(path):
-    require(sha(path)==ARCHIVE_SHA,"shared thermal model archive digest drift")
+    # GitHub's `gh run download` extracts a source ZIP rather than returning
+    # the original zip bytes. Authenticate the provider digest through the
+    # workflow and verify all five immutable INNER files' SHA256 here.
+    if path.is_file():
+        require(sha(path)==ARCHIVE_SHA,"shared thermal original archive zip SHA drift")
+        with zipfile.ZipFile(path) as z:
+            blobs={name:z.read(name) for name in SOURCE_MEMBER_SHA}
+    else:
+        require(path.is_dir(),"original source model artifact must be a zip or extracted directory")
+        blobs={name:(path/name).read_bytes() for name in SOURCE_MEMBER_SHA}
     ret={}
-    with zipfile.ZipFile(path) as z:
-        for name,expect in SOURCE_MEMBER_SHA.items():
-            data=z.read(name)
-            require(hashlib.sha256(data).hexdigest()==expect,
-                    "original derived source SHA mismatch "+name)
-            if name.endswith(".json"):
-                ret["receipt"]=json.loads(data)
-            elif name.endswith(".csv"):
-                panel="observer_thinned" if "observer_thinned" in name else "original"
-                ret.setdefault(panel,{})["support"]=pd.read_csv(io.BytesIO(data),low_memory=False)
-            elif name.endswith(".npz"):
-                panel="observer_thinned" if "observer_thinned" in name else "original"
-                with np.load(io.BytesIO(data),allow_pickle=False) as npz:
-                    ret.setdefault(panel,{})["ids"]=npz["inat_taxon_id"].copy()
-                    ret[panel]["source_thermal_white_slope"]=npz["conditional_slope"][:,0,0,0].copy()
-                    ret[panel]["source_photo_label_between_slope"]=npz["conditional_slope"][:,0,1,0].copy()
-                    ret[panel]["source_photo_label_within_slope"]=npz["conditional_slope"][:,0,2,0].copy()
+    for name,expect in SOURCE_MEMBER_SHA.items():
+        data=blobs[name]
+        require(hashlib.sha256(data).hexdigest()==expect,
+                "original derived source SHA mismatch "+name)
+        if name.endswith(".json"):
+            ret["receipt"]=json.loads(data)
+        elif name.endswith(".csv"):
+            panel="observer_thinned" if "observer_thinned" in name else "original"
+            ret.setdefault(panel,{})["support"]=pd.read_csv(io.BytesIO(data),low_memory=False)
+        elif name.endswith(".npz"):
+            panel="observer_thinned" if "observer_thinned" in name else "original"
+            with np.load(io.BytesIO(data),allow_pickle=False) as npz:
+                ret.setdefault(panel,{})["ids"]=npz["inat_taxon_id"].copy()
+                ret[panel]["source_thermal_white_slope"]=npz["conditional_slope"][:,0,0,0].copy()
+                ret[panel]["source_photo_label_between_slope"]=npz["conditional_slope"][:,0,1,0].copy()
+                ret[panel]["source_photo_label_within_slope"]=npz["conditional_slope"][:,0,2,0].copy()
     x=ret["receipt"]
     require(x["original_photos"]==TOTAL_ROWS and x["original_species"]==TOTAL_TAXA
             and x["source_classifiable_photos"]==CLASSIFIABLE_ROWS,
