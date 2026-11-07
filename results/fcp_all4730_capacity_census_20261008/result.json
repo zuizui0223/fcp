@@ -1,0 +1,46 @@
+{
+  "schema": "fcp_all4730_species_metadata_census_v1",
+  "status": "HISTORICAL_U100_FULL_SPECIES_UNIVERSE_VERIFIED_NO_NEW_COLOUR",
+  "original_metadata_discovery_species": 42111,
+  "u100_original_capacity_species": 4730,
+  "group_counts": {
+    "historical_discovery_reserve": 1000,
+    "historical_p500": 500,
+    "historical_third": 500,
+    "new_primary": 2000,
+    "new_replication": 730
+  },
+  "historical_exposed_or_selected_species": 2000,
+  "all_new_unallocated_species_planned_for_acquisition": 2730,
+  "prospective_primary_species": 2000,
+  "prospective_separate_replication_species": 730,
+  "complete_taxon_id_and_name_uniqueness": true,
+  "new_photo_pixels_opened": false,
+  "new_biological_confirmation_result_available": false,
+  "capacity_scan_not_new_image_measurement": true,
+  "source_sha256": {
+    "species": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+    "capacity": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8",
+    "p100": "1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c",
+    "p500": "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4",
+    "third": "16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59",
+    "primary": "e1301095533dfa755c1588cc550522bf31aabaef632083e265a138f0e3af6d2a",
+    "replication": "dbfaf954c1b82c569e9495006105639ad1d27b356a20b0ee3cfb5b4e240c00e8"
+  },
+  "result_ledger_sha256": "f5dfaf638df27e373abe3c4bb3ad77863bd87e42fe96022e845a9426e5161670",
+  "opportunity_definition": "historical iNaturalist metadata eligible photos after observer cap >=100",
+  "outcome_firewall": {
+    "all_photo_pixels_unopened_by_this_script": true,
+    "new_colour_morph_measurement_performed": false,
+    "previous_colour_outcome_used_in_selection": false,
+    "environment_or_latitude_used_in_selection": false,
+    "historical_p500_and_third_failures_reclassified_as_confirmation": false
+  },
+  "inference_boundaries": [
+    "4730 is metadata capacity, not 4730 species actually photographed now",
+    "historical P500 and third each included a species short of 100 fresh image records",
+    "only the 2730 unexposed candidate species are prospective new photo sources",
+    "reproductive fitness, gene variants, and biochemical white state not measured"
+  ],
+  "confirmatory_decisions_changed": false
+}

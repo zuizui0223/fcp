@@ -1,0 +1,110 @@
+name: Verify complete FCP 4730 historical capacity universe
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/FCP_ALL4730_FULL_UNIVERSE_AMENDMENT_20261008.md
+      - scripts/analysis/rebuild_fcp_all4730_species_census_20261008.py
+      - tests/test_fcp_all4730_species_census_20261008.py
+      - .github/workflows/fcp-all4730-full-capacity-census-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-full-u100-capacity-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CAPACITY_HISTORICAL_SHA: '7665d1fe38d7146925b8f3450ed3cb5c2736195a'
+  THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  PARENT_RUN: '34708044962'
+  PARENT_ARTIFACT: 'polymorphism-h2-prospective-u100-selection-20260913'
+  SPECIES_HASH: '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc'
+  CAPACITY_HASH: '12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8'
+
+jobs:
+  whole-universe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install source-validation runtime and exercise complete-colour-blind census tests
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m pytest tests/test_fcp_all4730_species_census_20261008.py -q
+      - name: Recover exact original 42111 species and photo-opportunity audit
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/all4730_original
+          git fetch --no-tags --depth=1 origin "$CAPACITY_HISTORICAL_SHA" "$THIRD_SHA"
+          git show "$CAPACITY_HISTORICAL_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > /tmp/all4730_original/42111_species.csv
+          git show "$CAPACITY_HISTORICAL_SHA:data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv" > /tmp/all4730_original/42111_capacity.csv
+          echo "$SPECIES_HASH  /tmp/all4730_original/42111_species.csv" | sha256sum -c -
+          echo "$CAPACITY_HASH  /tmp/all4730_original/42111_capacity.csv" | sha256sum -c -
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv" > /tmp/all4730_original/third.tsv
+      - name: Recover immutable original P100 and P500 allocations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$PARENT_RUN" --repo "$GITHUB_REPOSITORY" --name "$PARENT_ARTIFACT" --dir /tmp/all4730_original
+      - name: Reconstruct ALL 4730 unique species with explicit original/new study roles
+        run: |
+          python scripts/analysis/rebuild_fcp_all4730_species_census_20261008.py \
+            --species /tmp/all4730_original/42111_species.csv \
+            --capacity /tmp/all4730_original/42111_capacity.csv \
+            --p100 /tmp/all4730_original/p100_outcome_blind_pool.csv \
+            --p500 /tmp/all4730_original/p500_frozen_selection.csv \
+            --third /tmp/all4730_original/third.tsv \
+            --primary results/fcp_next2000_prospective_preopening_20261008/prospective_selected_2000_species.tsv \
+            --replication results/fcp_next2000_prospective_preopening_20261008/prospective_reserve_730_species.tsv \
+            --outdir /tmp/fcp_full4730_census
+      - name: Inspect total scope with no new floral data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp_full4730_census/result.json')
+          q=json.loads(p.read_text())
+          assert q['schema']=='fcp_all4730_species_metadata_census_v1'
+          assert q['u100_original_capacity_species']==4730
+          assert q['group_counts']=={'historical_discovery_reserve':1000,'historical_p500':500,'historical_third':500,'new_primary':2000,'new_replication':730}
+          assert q['complete_taxon_id_and_name_uniqueness']
+          assert q['all_new_unallocated_species_planned_for_acquisition']==2730
+          assert q['new_photo_pixels_opened'] is False
+          assert not q['new_biological_confirmation_result_available']
+          assert q['confirmatory_decisions_changed'] is False
+          print('ALL_4730_SOURCE_CAPACITY_SPECIES_ACCOUNTED_FOR_BUT_NO_NEW_PHOTOS_OPENED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-universe-ledger-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_full4730_census/
+      - name: Preserve historical full-universe census on current analysis branch
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-next2000-prospective-preopening-20261008'
+          dest='results/fcp_all4730_capacity_census_20261008'
+          mkdir -p "$dest"
+          cp /tmp/fcp_full4730_census/* "$dest/"
+          git add "$dest"
+          if git diff --cached --quiet; then echo 'No byte changes'; else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal historical U100 full 4730 identity/assignment manifest without photo colours'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi

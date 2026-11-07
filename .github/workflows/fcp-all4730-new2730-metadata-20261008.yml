@@ -1,0 +1,189 @@
+name: Acquire all 2730 unused FCP species metadata for the complete 4730 census
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/FCP_ALL4730_FULL_UNIVERSE_AMENDMENT_20261008.md
+      - scripts/acquisition/fcp_all4730_new2730_metadata_shard_20261008.py
+      - scripts/analysis/seal_fcp_all4730_new2730_metadata_20261008.py
+      - tests/test_fcp_all4730_new2730_metadata_20261008.py
+      - .github/workflows/fcp-all4730-new2730-metadata-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-all4730-first-id-metadata-draw-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  ORIGINAL_CAPACITY_RECEIPT: 'results/fcp_all4730_capacity_census_20261008/result.json'
+  EXPECTED_ALL4730_LEDGER_SHA: 'f5dfaf638df27e373abe3c4bb3ad77863bd87e42fe96022e845a9426e5161670'
+
+jobs:
+  metadata-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Prohibit any second metadata draw or colour opening
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          test "$GITHUB_EVENT_NAME" = 'pull_request'
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/fcp_all4730_capacity_census_20261008/result.json')
+          assert p.exists(), 'the complete 4730 taxon census must be frozen first'
+          d=json.loads(p.read_text())
+          assert d['u100_original_capacity_species']==4730
+          assert d['group_counts']=={'historical_discovery_reserve':1000,'historical_p500':500,'historical_third':500,'new_primary':2000,'new_replication':730}
+          assert d['complete_taxon_id_and_name_uniqueness']
+          assert d['result_ledger_sha256']=='f5dfaf638df27e373abe3c4bb3ad77863bd87e42fe96022e845a9426e5161670'
+          assert d['new_photo_pixels_opened'] is False
+          assert not Path('results/fcp_all4730_new2730_metadata_20261008/result.json').exists(), 'metadata has already been frozen: no rerun'
+          PY
+      - name: Install frozen metadata source and test all 2730 candidate shards
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          # The checked-out repository already owns package fcp_pipeline;
+          # materialize the historical modules IN that package on this
+          # ephemeral Actions runner, not in a second PYTHONPATH directory.
+          mkdir -p fcp_pipeline
+          for src in random_photo_h9_pool.py random_photo_pool.py shared_transition_surface.py; do
+            git show "$THIRD_SHA:fcp_pipeline/$src" > "fcp_pipeline/$src"
+          done
+          python -m pytest tests/test_fcp_all4730_new2730_metadata_20261008.py -q
+
+  metadata-shard:
+    needs: metadata-preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install original iNaturalist metadata-only runtime
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          # The checked-out repository already owns package fcp_pipeline;
+          # materialize the historical modules IN that package on this
+          # ephemeral Actions runner, not in a second PYTHONPATH directory.
+          mkdir -p fcp_pipeline
+          for src in random_photo_h9_pool.py random_photo_pool.py shared_transition_surface.py; do
+            git show "$THIRD_SHA:fcp_pipeline/$src" > "fcp_pipeline/$src"
+          done
+      - name: Restore ALL original photograph ID exclusions (without photo pixels)
+        run: |
+          set -euo pipefail
+          d='/tmp/fcp_all4730_old_id_exclusions'
+          mkdir -p "$d"
+          git show "$THIRD_SHA:data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv" > "$d/random_photo_first_h9_exclusion_ledger_v1.csv"
+          git show "$THIRD_SHA:data/frozen/random_photo_first_h9_fresh_metadata_v1.csv" > "$d/random_photo_first_h9_fresh_metadata_v1.csv"
+          git show "$THIRD_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > "$d/rgfca_42111_species_breadth_measured.csv.gz"
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz" > "$d/polymorphism_h2_p500_candidate_metadata_v1.csv.gz"
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz" > "$d/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz"
+      - name: FIRST AND ONLY public metadata fetch for this fixed species shard
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/acquisition/fcp_all4730_new2730_metadata_shard_20261008.py \
+            --primary results/fcp_next2000_prospective_preopening_20261008/prospective_selected_2000_species.tsv \
+            --replication results/fcp_next2000_prospective_preopening_20261008/prospective_reserve_730_species.tsv \
+            --exclusion-dir /tmp/fcp_all4730_old_id_exclusions \
+            --shard-index '${{ matrix.shard }}' \
+            --shard-count 20 \
+            --outdir /tmp/fcp_new2730_metadata
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-firstdraw-meta-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp_new2730_metadata/
+
+  seal-first-draw:
+    needs: metadata-shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install statistics/CSV seal runtime
+        run: python -m pip install -r requirements-np-bio5-replay-20260928.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: fcp-all4730-firstdraw-meta-*
+          merge-multiple: true
+          path: /tmp/fcp_all4730_firstdraw_shards
+      - name: Seal ALL 2730 source-photo metadata and honest capacity failures
+        run: |
+          python scripts/analysis/seal_fcp_all4730_new2730_metadata_20261008.py \
+            --shard-root /tmp/fcp_all4730_firstdraw_shards \
+            --outdir /tmp/fcp_all4730_firstdraw_sealed
+      - name: Audit every original candidate and all stored photo IDs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/fcp_all4730_firstdraw_sealed/result.json').read_text())
+          assert x['schema']=='fcp_all4730_new2730_metadata_durable_denominator_v1'
+          assert x['historical_u100_species']==4730
+          assert x['n_species_attempted']==2730
+          assert x['n_primary_attempted']==2000
+          assert x['n_replication_attempted']==730
+          assert x['shards']==20
+          assert x['biological_outcome_opened'] is False
+          assert x['confirmatory_decisions_changed'] is False
+          print('EXACT_ALL4730_SCOPE_AND_2730_NEW_SPECIES_FIRST_METADATA_DRAW_SEALED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all4730-new2730-metadata-sealed-20261008
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp_all4730_firstdraw_sealed/
+      - name: Durable Git freeze of original non-image observation IDs and source URLs
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-next2000-prospective-preopening-20261008'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder='results/fcp_all4730_new2730_metadata_20261008'
+          mkdir -p "$folder"
+          cp /tmp/fcp_all4730_firstdraw_sealed/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal one-shot metadata for all 2730 new FCP taxa without opening image colours'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi

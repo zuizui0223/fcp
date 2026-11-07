@@ -1,0 +1,46 @@
+{
+  "all_checks": {
+    "observer_disjoint_policy_blocks_single_photographer": true,
+    "pure_season_switch_is_not_false_geography": true,
+    "synthetic_spatial_clustering_all": true,
+    "synthetic_spatial_clustering_different_observer": true
+  },
+  "artifact_reopened_and_validated": true,
+  "biological_pixel_opening_authorized_by_this_receipt": false,
+  "confirmatory_decisions_changed": false,
+  "date_jst": "2026-10-08",
+  "engine_bootstrap": 1999,
+  "engine_permutations": 199,
+  "frozen_historical_engine_commit": "969c67d274868b5dc4e8c2c8c9fa5d1f1beb5527",
+  "frozen_historical_engine_git_blob_sha": "c7b277c249fc6121302b35ce2960e2003cfd0930",
+  "metadata_acquisition_authorized_by_this_receipt": false,
+  "n_synthetic_photo_records": 960,
+  "n_synthetic_species": 12,
+  "outcome_firewall": {
+    "historical_posthoc_result_used_to_select_species": false,
+    "new_image_pixels_opened": false,
+    "new_photo_urls_fetched": false,
+    "new_prospective_confirmatory_verdict_computed": false,
+    "new_species_flower_colour_photos_classified": false,
+    "real_new_colour_morph_outcome_used": false
+  },
+  "prospective_species_manifest_sha256": "e1301095533dfa755c1588cc550522bf31aabaef632083e265a138f0e3af6d2a",
+  "qualification_type": "SYNTHETIC_ONLY_NO_NEW_PHOTO_PIXEL_OPENING",
+  "schema": "fcp_next2000_synthetic_end_to_end_qualification_v1",
+  "selected_species_count": 2000,
+  "synthetic_artifact_zip_sha256": "48167ca1f72c875894beb2f899ca2f9a6483d8214a0991a8aa4a88b33114dbba",
+  "synthetic_primary_effects": {
+    "all": {
+      "mean_excess": 0.506068805566293,
+      "n_species": 12,
+      "result_is_biological_evidence": false
+    },
+    "different_observer": {
+      "mean_excess": 0.5062244090824493,
+      "n_species": 12,
+      "result_is_biological_evidence": false
+    }
+  },
+  "technical_qualification_result": "PASS_SYNTHETIC_SERIALIZATION_AND_ARTIFACT_PACKAGING",
+  "terminal_json_sha256": "7726af9c939e47abdc5073c10c3021c8248604426ae7fdb902f765131536beef"
+}
