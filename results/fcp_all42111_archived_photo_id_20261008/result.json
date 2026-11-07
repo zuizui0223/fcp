@@ -1,0 +1,33 @@
+{
+  "schema": "fcp_all42111_preexisting_archived_single_photo_id_manifest_v1",
+  "status": "ORIGINAL_HISTORICAL_SOURCE_ID_42111_COMPLETE_NO_COLOUR_PIXELS",
+  "date_jst": "2026-10-08",
+  "selection_method": "one source photo ID per taxon; historical archived observation indexes, source-photo identity SHA, rarest-source-first deterministic collision handling",
+  "source_sha256": {
+    "species": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+    "capacity": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8",
+    "discovery_v1": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e",
+    "discovery_v2": "d7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a"
+  },
+  "species_counts": {
+    "n_all_world_species": 42111,
+    "n_still_no_eligible_photo_by_later_capacity_scan": 789,
+    "n_original_archived_photo_ids_even_when_later_capacity_zero": 789,
+    "n_distinct_archived_photo_IDs": 42111,
+    "n_distinct_original_observation_IDs": 42111,
+    "n_with_exact_discovery_species_name": 42111,
+    "n_original_name_mismatch_flagged": 0,
+    "n_v1_selected": 20130,
+    "n_v2_selected": 21981,
+    "n_historic_taxa_with_many_photo_candidates": 25581,
+    "max_original_unique_photo_candidates_one_taxon": 5450
+  },
+  "archived_source_photo_id_manifest_sha256": "aa179ac271be2731cf1fdd00f305999b765cd7680b358554b75fd9d9372091ba",
+  "fresh_independent_new_photo_source": false,
+  "new_image_pixels_opened": false,
+  "photo_urls_retrieved": false,
+  "colour_labels_or_pigment_processed": false,
+  "historical_one-photo_not_fitness_or_ITV": "One candidate photo for a species does not demonstrate genetic colour polymorphism, its absence, or native site pigment frequency",
+  "conclusion": "Complete original photo identity availability across all 42111 historically discovered species; previous 789 zeros denote later capped/exclusion stage, not total original photo absence",
+  "confirmatory_decisions_changed": false
+}

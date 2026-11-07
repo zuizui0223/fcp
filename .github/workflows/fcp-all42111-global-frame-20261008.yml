@@ -1,0 +1,146 @@
+name: FCP full 42111-species world opportunity atlas (metadata-only)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/build_fcp_all42111_nested_species_atlas_20261008.py
+      - scripts/analysis/freeze_fcp_all42111_one_archived_photo_id_20261008.py
+      - tests/test_fcp_all42111_nested_species_atlas_20261008.py
+      - tests/test_fcp_all42111_one_archived_photo_id_20261008.py
+      - docs/FCP_ALL42111_WHOLE_GLOBAL_FRAME_PROTOCOL_20261008.md
+      - .github/workflows/fcp-all42111-global-frame-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fcp-all42111-global-metadata-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FROZEN_CAPACITY_SHA: '7665d1fe38d7146925b8f3450ed3cb5c2736195a'
+  SPECIES_SHA256: '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc'
+  CAPACITY_SHA256: '12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8'
+  V1_LINK_SHA256: 'b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e'
+  V2_LINK_SHA256: 'd7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a'
+
+jobs:
+  all-world-species:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install existing source-verified analysis runtime and test missingness guards
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/build_fcp_all42111_nested_species_atlas_20261008.py scripts/analysis/freeze_fcp_all42111_one_archived_photo_id_20261008.py
+          python -m pytest tests/test_fcp_all42111_nested_species_atlas_20261008.py tests/test_fcp_all42111_one_archived_photo_id_20261008.py -q
+      - name: Retrieve EXACT original 42111 taxa, all source capacity, 162-cell observation indices
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$FROZEN_CAPACITY_SHA"
+          mkdir -p /tmp/fcp_all42111_source
+          git show "$FROZEN_CAPACITY_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" \
+            > /tmp/fcp_all42111_source/42111_species.csv
+          git show "$FROZEN_CAPACITY_SHA:data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv" \
+            > /tmp/fcp_all42111_source/42111_photo_capacity.csv
+          git show "$FROZEN_CAPACITY_SHA:data/frozen/global_monte_carlo_species_discovery_observation_index_v1.csv.gz" \
+            > /tmp/fcp_all42111_source/discovery_v1_cells.csv.gz
+          git show "$FROZEN_CAPACITY_SHA:data/frozen/global_monte_carlo_species_discovery_v2_observation_index_v1.csv.gz" \
+            > /tmp/fcp_all42111_source/discovery_v2_cells.csv.gz
+          echo "$SPECIES_SHA256  /tmp/fcp_all42111_source/42111_species.csv" | sha256sum -c -
+          echo "$CAPACITY_SHA256  /tmp/fcp_all42111_source/42111_photo_capacity.csv" | sha256sum -c -
+          echo "$V1_LINK_SHA256  /tmp/fcp_all42111_source/discovery_v1_cells.csv.gz" | sha256sum -c -
+          echo "$V2_LINK_SHA256  /tmp/fcp_all42111_source/discovery_v2_cells.csv.gz" | sha256sum -c -
+      - name: Build whole-universe metadata photo-depth and geography atlas
+        run: |
+          python scripts/analysis/build_fcp_all42111_nested_species_atlas_20261008.py \
+            --species /tmp/fcp_all42111_source/42111_species.csv \
+            --capacity /tmp/fcp_all42111_source/42111_photo_capacity.csv \
+            --links-v1 /tmp/fcp_all42111_source/discovery_v1_cells.csv.gz \
+            --links-v2 /tmp/fcp_all42111_source/discovery_v2_cells.csv.gz \
+            --outdir /tmp/fcp_all42111_world
+      - name: Select one existing archived photo identity per each of all 42111 species
+        run: |
+          python scripts/analysis/freeze_fcp_all42111_one_archived_photo_id_20261008.py \
+            --species /tmp/fcp_all42111_source/42111_species.csv \
+            --capacity /tmp/fcp_all42111_source/42111_photo_capacity.csv \
+            --links-v1 /tmp/fcp_all42111_source/discovery_v1_cells.csv.gz \
+            --links-v2 /tmp/fcp_all42111_source/discovery_v2_cells.csv.gz \
+            --outdir /tmp/fcp_all42111_archived_photo_id
+
+      - name: Verify whole denominator and block fictional measured morphology
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('/tmp/fcp_all42111_world')
+          r=json.loads((root/'result.json').read_text())
+          assert r['schema']=='fcp_complete_42111_photo_opportunity_nested_inference_v1'
+          assert r['full_species_discovery_frame']==42111
+          assert r['status']=='COMPLETE_WORLD_SPECIES_FRAME_METADATA_ONLY_NO_IMAGE_PIXELS'
+          assert r['nested_photo_depth_opportunity']['source_taxa_with_no_current_eligible_photo']==789
+          assert r['nested_photo_depth_opportunity']['photo_depth_threshold_counts']['100']==4730
+          assert r['nested_photo_depth_opportunity']['photo_depth_threshold_counts']['40']==8753
+          assert r['nested_photo_depth_opportunity']['photo_depth_threshold_counts']['20']==12985
+          assert r['nested_photo_depth_opportunity']['photo_depth_threshold_counts']['1']==41322
+          assert r['photo_measurement_started_by_this_workflow'] is False
+          assert r['colour_and_fitness_outcome_opened'] is False
+          assert not r['confirmed_global_photo_colour_prevalence_estimable_now']
+          table=pd.read_csv(root/'fcp_all42111_species_opportunity_ledger.csv.gz',low_memory=False)
+          assert len(table)==42111 and table.inat_taxon_id.nunique()==42111
+          assert table.atlas_label_status.eq('NOT_MEASURED_FROM_THIS_METADATA').all()
+          assert not table.genetic_FCP_polymorphism_validated.any()
+          archived=Path('/tmp/fcp_all42111_archived_photo_id')
+          id_report=json.loads((archived/'result.json').read_text())
+          assert id_report['schema']=='fcp_all42111_preexisting_archived_single_photo_id_manifest_v1'
+          assert id_report['species_counts']['n_all_world_species']==42111
+          assert id_report['species_counts']['n_distinct_archived_photo_IDs']==42111
+          assert id_report['species_counts']['n_original_archived_photo_ids_even_when_later_capacity_zero']==789
+          assert id_report['new_image_pixels_opened'] is False
+          assert id_report['colour_labels_or_pigment_processed'] is False
+          photos=pd.read_csv(archived/'one_source_photo_id_per_each_42111_species.csv.gz')
+          assert len(photos)==42111 and photos.photo_id.nunique()==42111
+          assert photos.inat_taxon_id.nunique()==42111
+          print('ALL_42111_SPECIES_GEOGRAPHY_AND_ONE_ORIGINAL_PHOTO_ID_AUDITED_NO_PIXELS_OPENED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all42111-global-opportunity-20261008
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            /tmp/fcp_all42111_world/
+            /tmp/fcp_all42111_archived_photo_id/
+      - name: Preserve source-backed global 42111 species ledger on branch
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-all42111-global-coverage-20261008'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          output='results/fcp_all42111_world_species_opportunity_20261008'
+          mkdir -p "$output"
+          cp /tmp/fcp_all42111_world/* "$output/"
+          archived="results/fcp_all42111_archived_photo_id_20261008"
+          mkdir -p "$archived"
+          cp /tmp/fcp_all42111_archived_photo_id/* "$archived/"
+          git add "$output" "$archived"
+          if git diff --cached --quiet; then
+            echo 'Already frozen exactly identical full species atlas'
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal complete 42111-species world photo-opportunity and zero-photo coverage ledger'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
