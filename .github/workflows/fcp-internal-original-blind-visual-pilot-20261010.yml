@@ -1,0 +1,60 @@
+name: FCP internal blinded 24-source-photo visual pilot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - data/audit/fcp_blinded_source_photo_pilot_24_20261010.csv
+      - scripts/analysis/create_blind_original_image_pilot_20261010.py
+      - tests/test_create_blind_original_image_pilot_20261010.py
+      - docs/POLYMORPHISM_ORIGINAL_VISUAL_PILOT_PROTOCOL_20261010.md
+      - .github/workflows/fcp-internal-original-blind-visual-pilot-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-internal-visual-original-photo-pilot
+  cancel-in-progress: true
+
+jobs:
+  blind-review-panel-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install image-only dependencies
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 pillow==11.3.0 pytest==8.4.2
+      - name: Verify synthetic image SHA and reviewer-blinding guards
+        run: python -m pytest tests/test_create_blind_original_image_pilot_20261010.py -q
+      - name: Materialize only internal temporary 24 source-byte matched thumbnails
+        run: |
+          python scripts/analysis/create_blind_original_image_pilot_20261010.py \
+            --manifest data/audit/fcp_blinded_source_photo_pilot_24_20261010.csv \
+            --outdir /tmp/fcp_internal_blind_visual_pilot
+      - name: Verify images are exact previous original source bytes and no fake ratings
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("/tmp/fcp_internal_blind_visual_pilot")
+          d=json.loads((p/"result.json").read_text())
+          assert d["schema"]=="fcp_original24_internal_blind_visual_audit_v1"
+          assert d["n_expected_photo_cases"]==24
+          assert d["n_original_source_byte_identical_visual_cases"]==24
+          assert d["all_original_machine_colour_labels_and_species_sealed"] is True
+          assert d["human_expert_reviews_completed"]==0
+          assert d["automatic_colour_classifications_completed"]==0
+          assert len(list(p.glob("REVIEW_INTERNAL_blind_source_photos_*.png")))==2
+          print("PASS: 24 source byte-matched colour-blinded internal review images only")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-24-INTERNAL-original-blinded-review-panels
+          if-no-files-found: error
+          retention-days: 1
+          path: /tmp/fcp_internal_blind_visual_pilot/
