@@ -1,0 +1,1359 @@
+{
+  "schema": "fcp_actual_447500_global_pattern_quality_and_grid_null_20261020",
+  "source_original_photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_original_photo_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25",
+  "actual_successful_ci_run": "https://github.com/zuizui0223/fcp/actions/runs/39412659475",
+  "branch": "analysis/fcp-global-pattern-20261020",
+  "independent_data_source_replication": false,
+  "exploratory_posthoc": true,
+  "coordinates_or_original_photo_ids_exported": false,
+  "same_taxa_cells_purity_matched": true,
+  "world_photo_atlas": {
+    "absolute_latitude_bands": [
+      {
+        "abs_lat_band": "0-15",
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.300208029933867,
+          0.3686483026801882
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3314863490696881,
+        "mean_p_white_species_equal": 0.4642998891710324,
+        "mean_white_share_of_different_colour_pairs": 0.8447836257231541,
+        "n_photographs_in_eligible_taxon_units": 2908,
+        "n_species_eligible": 146,
+        "species_with_at_least_two_photo_labels": 128
+      },
+      {
+        "abs_lat_band": "15-30",
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2751989434453115,
+          0.304994255735292
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2901061615952086,
+        "mean_p_white_species_equal": 0.4526037104654387,
+        "mean_white_share_of_different_colour_pairs": 0.8366294797835527,
+        "n_photographs_in_eligible_taxon_units": 24462,
+        "n_species_eligible": 806,
+        "species_with_at_least_two_photo_labels": 666
+      },
+      {
+        "abs_lat_band": "30-45",
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.27483187219331506,
+          0.28937948388346
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.28245977737330386,
+        "mean_p_white_species_equal": 0.4843863291927934,
+        "mean_white_share_of_different_colour_pairs": 0.8482977870497787,
+        "n_photographs_in_eligible_taxon_units": 135071,
+        "n_species_eligible": 3588,
+        "species_with_at_least_two_photo_labels": 3165
+      },
+      {
+        "abs_lat_band": "45-60",
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.24963962873729673,
+          0.27132648801863646
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.26012482245707924,
+        "mean_p_white_species_equal": 0.4976572004998647,
+        "mean_white_share_of_different_colour_pairs": 0.8663867794028437,
+        "n_photographs_in_eligible_taxon_units": 51467,
+        "n_species_eligible": 1608,
+        "species_with_at_least_two_photo_labels": 1340
+      },
+      {
+        "abs_lat_band": "60-90",
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.20063653851264415,
+          0.2894034371296552
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.24377968539028522,
+        "mean_p_white_species_equal": 0.4756384525207723,
+        "mean_white_share_of_different_colour_pairs": 0.8361135788798157,
+        "n_photographs_in_eligible_taxon_units": 2016,
+        "n_species_eligible": 98,
+        "species_with_at_least_two_photo_labels": 70
+      }
+    ],
+    "colour_counts_classifiable_photos": {
+      "blue_purple": 25109,
+      "red_pink": 23908,
+      "white": 107956,
+      "yellow_orange": 70134
+    },
+    "geo_accurate_le5000m_classifiable_rows": 227107,
+    "global_D_evaluable_species_min40photos_3observers": 3297,
+    "global_D_mean_species_equal": 0.23751411581645468,
+    "global_mean_p_white_species_equal": 0.4699982130850285,
+    "global_mean_white_contribution_to_discordant_pairs": 0.8554972273708022,
+    "global_species_with_2plus_detected_photo_colour_labels": 3029,
+    "global_species_with_both_white_and_nonwhite_labels": 2963,
+    "historical_vs_current_environment_attribution": "NOT IDENTIFIABLE without independent history/genetics and site-time environment data",
+    "mean_species_equal_between_cell_total_variation": 0.11011734702951795,
+    "mean_species_equal_between_cell_white_delta": 0.08682966473660822,
+    "n_cells_with_eligible_taxon_units": 65,
+    "n_occupied_cells_by_classifiable_photos": 96,
+    "n_species_eligible_any_cell": 4112,
+    "n_species_spanning_2plus_eligible_cells": 2118,
+    "n_taxon_cell_units_eligible_10photos_3observers": 6704,
+    "original_classifiable_four_state_rows": 227107,
+    "original_measured_rows": 447500,
+    "original_measured_species": 4475,
+    "paired_trop_extratrop_same_species": {
+      "CI95_species_bootstrap": [
+        -0.00583053994796772,
+        0.029812348487302312
+      ],
+      "mean_tropical_minus_extratropical_D_within_same_species": 0.012133786206381501,
+      "n_spanning_both_zones": 246,
+      "status": "descriptive_only"
+    },
+    "quality_sensitivity": {
+      "definition": "primary coarse colour ROI fraction >=0.65; every competing coarse group <=0.20; not a biological morph-validation score",
+      "equal_area_taxon_cell_units_min10": 4909,
+      "global_D_mean_species_equal": 0.06468278904699315,
+      "global_species_min40": 1813,
+      "n_species_any_eligible_pure_cell": 3426,
+      "photos": 162003
+    },
+    "schema": "fcp_original_measured_global_photo_pattern_exploratory_v1",
+    "scope": "post hoc world-pattern exploration from already-measured original-method photographs; distinct from pre-frozen W test",
+    "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "still_unverified": [
+      "native/wild status",
+      "flower age/part identity",
+      "true same-individual morphs",
+      "independent camera/source replication",
+      "genetic IBD",
+      "genetic IBE",
+      "phenotype fitness"
+    ],
+    "strongest_allowed_claim": "observed photographic flower-colour contrast across sampled taxa/regions with equal taxon weight; NOT real local genetic FCP or unbiased global prevalence",
+    "tropical_extratropical_opportunities": [
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2821206527227266,
+          0.29475190810365026
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2886134753182797,
+        "mean_p_white_species_equal": 0.48832488932902246,
+        "mean_white_share_of_different_colour_pairs": 0.8540422813594125,
+        "n_photographs_in_eligible_taxon_units": 213841,
+        "n_species_eligible": 4325,
+        "species_with_at_least_two_photo_labels": 4024,
+        "zone": "extratropical"
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.3089518807490204,
+          0.3532278904123589
+        ],
+        "bootstrap_available": true,
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3327526603722677,
+        "mean_p_white_species_equal": 0.4154210091673611,
+        "mean_white_share_of_different_colour_pairs": 0.8110300245824436,
+        "n_photographs_in_eligible_taxon_units": 11444,
+        "n_species_eligible": 389,
+        "species_with_at_least_two_photo_labels": 340,
+        "zone": "tropical"
+      }
+    ],
+    "equal_area_grid_cells": [
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA00_05",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.19030782848151062,
+        "mean_p_white_species_equal": 0.897484756097561,
+        "mean_white_share_of_different_colour_pairs": 0.9723942903312686,
+        "n_photographs_in_eligible_taxon_units": 73,
+        "n_species_eligible": 2,
+        "species_with_at_least_two_photo_labels": 2
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.18288882933764192,
+          0.3330770607073633
+        ],
+        "bootstrap_available": true,
+        "cell": "EA01_05",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2556174207889985,
+        "mean_p_white_species_equal": 0.4126148138265145,
+        "mean_white_share_of_different_colour_pairs": 0.6795979193892079,
+        "n_photographs_in_eligible_taxon_units": 529,
+        "n_species_eligible": 29,
+        "species_with_at_least_two_photo_labels": 22
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA01_06",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.22536305420014052,
+        "mean_p_white_species_equal": 0.5578884711779448,
+        "mean_white_share_of_different_colour_pairs": 0.9493789045100801,
+        "n_photographs_in_eligible_taxon_units": 287,
+        "n_species_eligible": 14,
+        "species_with_at_least_two_photo_labels": 10
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.32847184701727794,
+          0.44712229031238426
+        ],
+        "bootstrap_available": true,
+        "cell": "EA01_09",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.381772915442698,
+        "mean_p_white_species_equal": 0.4783041093790127,
+        "mean_white_share_of_different_colour_pairs": 0.8356486310371004,
+        "n_photographs_in_eligible_taxon_units": 1340,
+        "n_species_eligible": 50,
+        "species_with_at_least_two_photo_labels": 47
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.30518568607175417,
+          0.47850750300835104
+        ],
+        "bootstrap_available": true,
+        "cell": "EA01_10",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.39324603259022434,
+        "mean_p_white_species_equal": 0.4248542568542568,
+        "mean_white_share_of_different_colour_pairs": 0.8324923329584576,
+        "n_photographs_in_eligible_taxon_units": 397,
+        "n_species_eligible": 25,
+        "species_with_at_least_two_photo_labels": 22
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA01_14",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3150174004816532,
+        "mean_p_white_species_equal": 0.3922768322351753,
+        "mean_white_share_of_different_colour_pairs": 0.7109712207241744,
+        "n_photographs_in_eligible_taxon_units": 503,
+        "n_species_eligible": 19,
+        "species_with_at_least_two_photo_labels": 18
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.1870019412624422,
+          0.34215880318882114
+        ],
+        "bootstrap_available": true,
+        "cell": "EA01_15",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.26344763409444993,
+        "mean_p_white_species_equal": 0.3210429441192163,
+        "mean_white_share_of_different_colour_pairs": 0.7437570604937227,
+        "n_photographs_in_eligible_taxon_units": 609,
+        "n_species_eligible": 34,
+        "species_with_at_least_two_photo_labels": 23
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.22612484219390935,
+          0.27552901597014523
+        ],
+        "bootstrap_available": true,
+        "cell": "EA01_16",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.24921781777742713,
+        "mean_p_white_species_equal": 0.43212068074731147,
+        "mean_white_share_of_different_colour_pairs": 0.8383122707467862,
+        "n_photographs_in_eligible_taxon_units": 7396,
+        "n_species_eligible": 256,
+        "species_with_at_least_two_photo_labels": 214
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2364843637005881,
+          0.29920449709836366
+        ],
+        "bootstrap_available": true,
+        "cell": "EA01_17",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.26784971301288996,
+        "mean_p_white_species_equal": 0.5582184868081653,
+        "mean_white_share_of_different_colour_pairs": 0.8776164600620486,
+        "n_photographs_in_eligible_taxon_units": 5855,
+        "n_species_eligible": 200,
+        "species_with_at_least_two_photo_labels": 166
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2403608884636598,
+          0.3786945820649346
+        ],
+        "bootstrap_available": true,
+        "cell": "EA02_05",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3175076181811242,
+        "mean_p_white_species_equal": 0.3957125196813567,
+        "mean_white_share_of_different_colour_pairs": 0.8110194597715903,
+        "n_photographs_in_eligible_taxon_units": 960,
+        "n_species_eligible": 34,
+        "species_with_at_least_two_photo_labels": 30
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.24836518095175217,
+          0.3801878843356397
+        ],
+        "bootstrap_available": true,
+        "cell": "EA02_06",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.31482179572040253,
+        "mean_p_white_species_equal": 0.45438872612556824,
+        "mean_white_share_of_different_colour_pairs": 0.844583150357752,
+        "n_photographs_in_eligible_taxon_units": 528,
+        "n_species_eligible": 30,
+        "species_with_at_least_two_photo_labels": 28
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA02_09",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.34398850632160066,
+        "mean_p_white_species_equal": 0.36627229542276624,
+        "mean_white_share_of_different_colour_pairs": 0.7776887261723764,
+        "n_photographs_in_eligible_taxon_units": 241,
+        "n_species_eligible": 14,
+        "species_with_at_least_two_photo_labels": 11
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.3041631717559203,
+          0.40110147286454445
+        ],
+        "bootstrap_available": true,
+        "cell": "EA02_10",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3528559043120327,
+        "mean_p_white_species_equal": 0.3924764986226039,
+        "mean_white_share_of_different_colour_pairs": 0.7217222045277732,
+        "n_photographs_in_eligible_taxon_units": 1850,
+        "n_species_eligible": 77,
+        "species_with_at_least_two_photo_labels": 70
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA02_11",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0,
+        "mean_p_white_species_equal": 1,
+        "mean_white_share_of_different_colour_pairs": null,
+        "n_photographs_in_eligible_taxon_units": 10,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 0
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.24244759951135916,
+          0.352834283278257
+        ],
+        "bootstrap_available": true,
+        "cell": "EA02_14",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.29394439520653926,
+        "mean_p_white_species_equal": 0.37928915343925806,
+        "mean_white_share_of_different_colour_pairs": 0.7807334532570387,
+        "n_photographs_in_eligible_taxon_units": 1385,
+        "n_species_eligible": 49,
+        "species_with_at_least_two_photo_labels": 44
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA02_15",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.1508428300094967,
+        "mean_p_white_species_equal": 0.5753858024691358,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 105,
+        "n_species_eligible": 6,
+        "species_with_at_least_two_photo_labels": 3
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2230738875987439,
+          0.2910221817504887
+        ],
+        "bootstrap_available": true,
+        "cell": "EA02_16",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2555003887865712,
+        "mean_p_white_species_equal": 0.4588222037612795,
+        "mean_white_share_of_different_colour_pairs": 0.8340324481936243,
+        "n_photographs_in_eligible_taxon_units": 4132,
+        "n_species_eligible": 167,
+        "species_with_at_least_two_photo_labels": 127
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA03_05",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.31451612903225806,
+        "mean_p_white_species_equal": 0.8125,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 32,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA03_06",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.2727272727272727,
+        "mean_p_white_species_equal": 0.75,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 24,
+        "n_species_eligible": 2,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA04_04",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.13976240391334732,
+        "mean_p_white_species_equal": 0.07407407407407407,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 54,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA04_05",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.33571649225673994,
+        "mean_p_white_species_equal": 0.30767605743596144,
+        "mean_white_share_of_different_colour_pairs": 0.7892046054934696,
+        "n_photographs_in_eligible_taxon_units": 338,
+        "n_species_eligible": 14,
+        "species_with_at_least_two_photo_labels": 13
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA04_07",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.5555555555555556,
+        "mean_p_white_species_equal": 0.5,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 10,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA04_10",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.5606060606060606,
+        "mean_p_white_species_equal": 0.6666666666666666,
+        "mean_white_share_of_different_colour_pairs": 0.8648648648648649,
+        "n_photographs_in_eligible_taxon_units": 12,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA04_14",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0,
+        "mean_p_white_species_equal": 0.5,
+        "mean_white_share_of_different_colour_pairs": null,
+        "n_photographs_in_eligible_taxon_units": 27,
+        "n_species_eligible": 2,
+        "species_with_at_least_two_photo_labels": 0
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA05_01",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.5818181818181818,
+        "mean_p_white_species_equal": 0.18181818181818182,
+        "mean_white_share_of_different_colour_pairs": 0.5625,
+        "n_photographs_in_eligible_taxon_units": 11,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA05_03",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.6181818181818182,
+        "mean_p_white_species_equal": 0.5454545454545454,
+        "mean_white_share_of_different_colour_pairs": 0.8823529411764706,
+        "n_photographs_in_eligible_taxon_units": 11,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.24888852590463884,
+          0.3593108185886184
+        ],
+        "bootstrap_available": true,
+        "cell": "EA05_04",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.30454908274420917,
+        "mean_p_white_species_equal": 0.3191745238439632,
+        "mean_white_share_of_different_colour_pairs": 0.7616987670176238,
+        "n_photographs_in_eligible_taxon_units": 1658,
+        "n_species_eligible": 85,
+        "species_with_at_least_two_photo_labels": 65
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA05_05",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3601284336578454,
+        "mean_p_white_species_equal": 0.3421774304127245,
+        "mean_white_share_of_different_colour_pairs": 0.8250174703004891,
+        "n_photographs_in_eligible_taxon_units": 87,
+        "n_species_eligible": 6,
+        "species_with_at_least_two_photo_labels": 5
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA05_12",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.35335081585081585,
+        "mean_p_white_species_equal": 0.5245483682983683,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 59,
+        "n_species_eligible": 4,
+        "species_with_at_least_two_photo_labels": 4
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA06_01",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.6758893280632411,
+        "mean_p_white_species_equal": 0.391304347826087,
+        "mean_white_share_of_different_colour_pairs": 0.7368421052631579,
+        "n_photographs_in_eligible_taxon_units": 23,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.22567920510498718,
+          0.2626636303449242
+        ],
+        "bootstrap_available": true,
+        "cell": "EA06_03",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.24541237108702327,
+        "mean_p_white_species_equal": 0.3935260990944456,
+        "mean_white_share_of_different_colour_pairs": 0.8239949041034448,
+        "n_photographs_in_eligible_taxon_units": 10608,
+        "n_species_eligible": 435,
+        "species_with_at_least_two_photo_labels": 345
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.23473592126322707,
+          0.27064576651548256
+        ],
+        "bootstrap_available": true,
+        "cell": "EA06_04",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2522172305633098,
+        "mean_p_white_species_equal": 0.5052154624681383,
+        "mean_white_share_of_different_colour_pairs": 0.8593903536823403,
+        "n_photographs_in_eligible_taxon_units": 17354,
+        "n_species_eligible": 576,
+        "species_with_at_least_two_photo_labels": 445
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA06_08",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.28446681864235057,
+        "mean_p_white_species_equal": 0.4822916666666667,
+        "mean_white_share_of_different_colour_pairs": 0.8303518667741069,
+        "n_photographs_in_eligible_taxon_units": 85,
+        "n_species_eligible": 4,
+        "species_with_at_least_two_photo_labels": 3
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA06_10",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2350671959423753,
+        "mean_p_white_species_equal": 0.03145756947765556,
+        "mean_white_share_of_different_colour_pairs": 0.3578918322295806,
+        "n_photographs_in_eligible_taxon_units": 117,
+        "n_species_eligible": 5,
+        "species_with_at_least_two_photo_labels": 4
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA06_12",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.47058823529411764,
+        "mean_p_white_species_equal": 0.3333333333333333,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 18,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA06_14",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.12212017138125511,
+        "mean_p_white_species_equal": 0.9094599525634007,
+        "mean_white_share_of_different_colour_pairs": 0.9733208372383629,
+        "n_photographs_in_eligible_taxon_units": 150,
+        "n_species_eligible": 7,
+        "species_with_at_least_two_photo_labels": 3
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.21652026921531406,
+          0.3308734471460471
+        ],
+        "bootstrap_available": true,
+        "cell": "EA06_15",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2732012359099925,
+        "mean_p_white_species_equal": 0.6846463236532535,
+        "mean_white_share_of_different_colour_pairs": 0.9375149656737284,
+        "n_photographs_in_eligible_taxon_units": 1491,
+        "n_species_eligible": 57,
+        "species_with_at_least_two_photo_labels": 48
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.24730720914254778,
+          0.27802747442801207
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_02",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2636128188302903,
+        "mean_p_white_species_equal": 0.46482237204570526,
+        "mean_white_share_of_different_colour_pairs": 0.8446846818248325,
+        "n_photographs_in_eligible_taxon_units": 21045,
+        "n_species_eligible": 624,
+        "species_with_at_least_two_photo_labels": 523
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.22866176318562553,
+          0.2602501587040499
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_03",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.24363645807283144,
+        "mean_p_white_species_equal": 0.44758760153310795,
+        "mean_white_share_of_different_colour_pairs": 0.817191683374464,
+        "n_photographs_in_eligible_taxon_units": 19695,
+        "n_species_eligible": 668,
+        "species_with_at_least_two_photo_labels": 534
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.22120680875947432,
+          0.2523476266366502
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_04",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2372699730556655,
+        "mean_p_white_species_equal": 0.5540167010375209,
+        "mean_white_share_of_different_colour_pairs": 0.8956568450312324,
+        "n_photographs_in_eligible_taxon_units": 18909,
+        "n_species_eligible": 756,
+        "species_with_at_least_two_photo_labels": 569
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.20784008256000622,
+          0.23939674530402058
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_05",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.22390928105959243,
+        "mean_p_white_species_equal": 0.5726831911126884,
+        "mean_white_share_of_different_colour_pairs": 0.8971681616701445,
+        "n_photographs_in_eligible_taxon_units": 14012,
+        "n_species_eligible": 634,
+        "species_with_at_least_two_photo_labels": 460
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA07_06",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.3283882783882784,
+        "mean_p_white_species_equal": 0.4897435897435897,
+        "mean_white_share_of_different_colour_pairs": 0.8203661327231122,
+        "n_photographs_in_eligible_taxon_units": 28,
+        "n_species_eligible": 2,
+        "species_with_at_least_two_photo_labels": 2
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2684923587521729,
+          0.32488076344594635
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_08",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.29476484727912633,
+        "mean_p_white_species_equal": 0.4436108620974891,
+        "mean_white_share_of_different_colour_pairs": 0.8279713717236389,
+        "n_photographs_in_eligible_taxon_units": 6308,
+        "n_species_eligible": 279,
+        "species_with_at_least_two_photo_labels": 219
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.2620358671285621,
+          0.291670892177765
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_09",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.27749198315031864,
+        "mean_p_white_species_equal": 0.44347781227538197,
+        "mean_white_share_of_different_colour_pairs": 0.8217208622916418,
+        "n_photographs_in_eligible_taxon_units": 23234,
+        "n_species_eligible": 880,
+        "species_with_at_least_two_photo_labels": 705
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.23373117286418033,
+          0.30514358337187086
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_10",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.27397448629128535,
+        "mean_p_white_species_equal": 0.43502377380233076,
+        "mean_white_share_of_different_colour_pairs": 0.831888410158447,
+        "n_photographs_in_eligible_taxon_units": 1987,
+        "n_species_eligible": 122,
+        "species_with_at_least_two_photo_labels": 94
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA07_11",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.37222222222222223,
+        "mean_p_white_species_equal": 0.4125,
+        "mean_white_share_of_different_colour_pairs": 0.9565217391304348,
+        "n_photographs_in_eligible_taxon_units": 26,
+        "n_species_eligible": 2,
+        "species_with_at_least_two_photo_labels": 2
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA07_12",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.5667502787068004,
+        "mean_p_white_species_equal": 0.45535714285714285,
+        "mean_white_share_of_different_colour_pairs": 0.8291708291708292,
+        "n_photographs_in_eligible_taxon_units": 38,
+        "n_species_eligible": 2,
+        "species_with_at_least_two_photo_labels": 2
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA07_13",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.42,
+        "mean_p_white_species_equal": 0.28,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 25,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA07_14",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.24972413207707328,
+        "mean_p_white_species_equal": 0.49908266336837764,
+        "mean_white_share_of_different_colour_pairs": 0.8719326137282793,
+        "n_photographs_in_eligible_taxon_units": 131,
+        "n_species_eligible": 7,
+        "species_with_at_least_two_photo_labels": 5
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.16505428288222196,
+          0.32822818030571466
+        ],
+        "bootstrap_available": true,
+        "cell": "EA07_15",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2426926011534854,
+        "mean_p_white_species_equal": 0.5113567028865832,
+        "mean_white_share_of_different_colour_pairs": 0.811000109451385,
+        "n_photographs_in_eligible_taxon_units": 521,
+        "n_species_eligible": 26,
+        "species_with_at_least_two_photo_labels": 18
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_01",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.3799501152442329,
+        "mean_p_white_species_equal": 0.3730880230880231,
+        "mean_white_share_of_different_colour_pairs": 0.6803085653892106,
+        "n_photographs_in_eligible_taxon_units": 141,
+        "n_species_eligible": 9,
+        "species_with_at_least_two_photo_labels": 9
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_02",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2434342282093148,
+        "mean_p_white_species_equal": 0.5184854937450093,
+        "mean_white_share_of_different_colour_pairs": 0.8275892905048915,
+        "n_photographs_in_eligible_taxon_units": 245,
+        "n_species_eligible": 17,
+        "species_with_at_least_two_photo_labels": 13
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.14414219190762845,
+          0.24980483242412183
+        ],
+        "bootstrap_available": true,
+        "cell": "EA08_03",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.19410789310765605,
+        "mean_p_white_species_equal": 0.5065996090599499,
+        "mean_white_share_of_different_colour_pairs": 0.8616451208321517,
+        "n_photographs_in_eligible_taxon_units": 844,
+        "n_species_eligible": 54,
+        "species_with_at_least_two_photo_labels": 34
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_04",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.24761904761904763,
+        "mean_p_white_species_equal": 0.8666666666666667,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 15,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_05",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2081818181818182,
+        "mean_p_white_species_equal": 0.7436363636363635,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 84,
+        "n_species_eligible": 5,
+        "species_with_at_least_two_photo_labels": 4
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_06",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.15831743076325122,
+        "mean_p_white_species_equal": 0.6523816740535007,
+        "mean_white_share_of_different_colour_pairs": 0.9383333333333334,
+        "n_photographs_in_eligible_taxon_units": 208,
+        "n_species_eligible": 11,
+        "species_with_at_least_two_photo_labels": 8
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_07",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2861316640348898,
+        "mean_p_white_species_equal": 0.1784965034965035,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 84,
+        "n_species_eligible": 5,
+        "species_with_at_least_two_photo_labels": 4
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.17369870317547584,
+          0.2869396640911997
+        ],
+        "bootstrap_available": true,
+        "cell": "EA08_08",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.23320350272474252,
+        "mean_p_white_species_equal": 0.47343751604505535,
+        "mean_white_share_of_different_colour_pairs": 0.8344034373191619,
+        "n_photographs_in_eligible_taxon_units": 951,
+        "n_species_eligible": 58,
+        "species_with_at_least_two_photo_labels": 38
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.14766135966038196,
+          0.2228990492787136
+        ],
+        "bootstrap_available": true,
+        "cell": "EA08_09",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.18805820797347605,
+        "mean_p_white_species_equal": 0.495491806005086,
+        "mean_white_share_of_different_colour_pairs": 0.8916360511335275,
+        "n_photographs_in_eligible_taxon_units": 1316,
+        "n_species_eligible": 95,
+        "species_with_at_least_two_photo_labels": 60
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.1586340348379027,
+          0.2190125558968826
+        ],
+        "bootstrap_available": true,
+        "cell": "EA08_10",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.18809655040214926,
+        "mean_p_white_species_equal": 0.46978450311655523,
+        "mean_white_share_of_different_colour_pairs": 0.8671622854871971,
+        "n_photographs_in_eligible_taxon_units": 2340,
+        "n_species_eligible": 156,
+        "species_with_at_least_two_photo_labels": 92
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          0.17030161015455134,
+          0.28700451809971933
+        ],
+        "bootstrap_available": true,
+        "cell": "EA08_11",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.22477352540820034,
+        "mean_p_white_species_equal": 0.45606603664653195,
+        "mean_white_share_of_different_colour_pairs": 0.8739111780353968,
+        "n_photographs_in_eligible_taxon_units": 734,
+        "n_species_eligible": 57,
+        "species_with_at_least_two_photo_labels": 37
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_12",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2786173422537059,
+        "mean_p_white_species_equal": 0.3400720491629583,
+        "mean_white_share_of_different_colour_pairs": 0.9362980769230769,
+        "n_photographs_in_eligible_taxon_units": 137,
+        "n_species_eligible": 11,
+        "species_with_at_least_two_photo_labels": 8
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_13",
+        "descriptive_map_min_5_taxa": true,
+        "mean_D_pair_species_equal": 0.2339337648935172,
+        "mean_p_white_species_equal": 0.5098484848484848,
+        "mean_white_share_of_different_colour_pairs": 0.9912280701754387,
+        "n_photographs_in_eligible_taxon_units": 108,
+        "n_species_eligible": 8,
+        "species_with_at_least_two_photo_labels": 6
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_14",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.2,
+        "mean_p_white_species_equal": 0.9,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 10,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      },
+      {
+        "bootstrap_D_pair_CI95_species_resampling": [
+          null,
+          null
+        ],
+        "bootstrap_available": false,
+        "cell": "EA08_16",
+        "descriptive_map_min_5_taxa": false,
+        "mean_D_pair_species_equal": 0.43956043956043955,
+        "mean_p_white_species_equal": 0.7142857142857143,
+        "mean_white_share_of_different_colour_pairs": 1,
+        "n_photographs_in_eligible_taxon_units": 14,
+        "n_species_eligible": 1,
+        "species_with_at_least_two_photo_labels": 1
+      }
+    ]
+  },
+  "same_species_photo_purity": {
+    "all_classifiable_photos": 227107,
+    "high_purity_filter_cannot_independently_validate_true_genetic_flower_morph": true,
+    "high_purity_photos": 162003,
+    "needs_independent_flowers_or_spectral_pigment_validation": true,
+    "original_source_authenticated_by_upstream_reader": true,
+    "quality_rule": "primary assigned-group ROI fraction >=0.65; all competing groups <=0.20; arbitrary diagnostic, not botanical validation",
+    "same_species_and_lat_band_paired_min10_3observers": {
+      "0-15": {
+        "mean_all_D_on_exact_pure_eligible_taxa": 0.2540800259219715,
+        "mean_photo_white_fraction_all": 0.4772718949050502,
+        "mean_photo_white_fraction_pure": 0.4948850334875842,
+        "mean_pure_D_on_same_taxa": 0.19389601352844404,
+        "mean_white_discordance_fraction_all": 0.892915518795529,
+        "mean_white_discordance_fraction_pure": 0.9267751762773804,
+        "n_paired_units": 95,
+        "pure_minus_all_D_mean": -0.060184012393527504,
+        "pure_minus_all_D_species_unit_bootstrap_CI95": [
+          -0.07606169043375992,
+          -0.044436751630456885
+        ],
+        "pure_minus_all_white_fraction": 0.017613138582534,
+        "species_with_two_plus_photo_colour_labels_all": 79,
+        "species_with_two_plus_photo_colour_labels_pure": 62,
+        "white_discordance_fraction_n_matched_nonzero": 62
+      },
+      "15-30": {
+        "mean_all_D_on_exact_pure_eligible_taxa": 0.25832146362566655,
+        "mean_photo_white_fraction_all": 0.47531983922032667,
+        "mean_photo_white_fraction_pure": 0.5055699782510199,
+        "mean_pure_D_on_same_taxa": 0.1904664321476067,
+        "mean_white_discordance_fraction_all": 0.8430426414041172,
+        "mean_white_discordance_fraction_pure": 0.8668203358184008,
+        "n_paired_units": 657,
+        "pure_minus_all_D_mean": -0.06785503147805981,
+        "pure_minus_all_D_species_unit_bootstrap_CI95": [
+          -0.07540210597090187,
+          -0.060690703265610484
+        ],
+        "pure_minus_all_white_fraction": 0.030250139030693256,
+        "species_with_two_plus_photo_colour_labels_all": 531,
+        "species_with_two_plus_photo_colour_labels_pure": 415,
+        "white_discordance_fraction_n_matched_nonzero": 415
+      },
+      "30-45": {
+        "mean_all_D_on_exact_pure_eligible_taxa": 0.25640778469908393,
+        "mean_photo_white_fraction_all": 0.49383770168171814,
+        "mean_photo_white_fraction_pure": 0.5350275149688887,
+        "mean_pure_D_on_same_taxa": 0.1845792074578106,
+        "mean_white_discordance_fraction_all": 0.8386680439544482,
+        "mean_white_discordance_fraction_pure": 0.8737997364468482,
+        "n_paired_units": 3119,
+        "pure_minus_all_D_mean": -0.07182857724127337,
+        "pure_minus_all_D_species_unit_bootstrap_CI95": [
+          -0.07538122786885951,
+          -0.06833949333216173
+        ],
+        "pure_minus_all_white_fraction": 0.04118981328717065,
+        "species_with_two_plus_photo_colour_labels_all": 2723,
+        "species_with_two_plus_photo_colour_labels_pure": 2116,
+        "white_discordance_fraction_n_matched_nonzero": 2116
+      },
+      "45-60": {
+        "mean_all_D_on_exact_pure_eligible_taxa": 0.23027460432722005,
+        "mean_photo_white_fraction_all": 0.5144614494434164,
+        "mean_photo_white_fraction_pure": 0.5448259500916748,
+        "mean_pure_D_on_same_taxa": 0.1625380938416265,
+        "mean_white_discordance_fraction_all": 0.8490016625828694,
+        "mean_white_discordance_fraction_pure": 0.870863991403076,
+        "n_paired_units": 1364,
+        "pure_minus_all_D_mean": -0.06773651048559357,
+        "pure_minus_all_D_species_unit_bootstrap_CI95": [
+          -0.07279624460132016,
+          -0.06311006508728087
+        ],
+        "pure_minus_all_white_fraction": 0.030364500648258293,
+        "species_with_two_plus_photo_colour_labels_all": 1115,
+        "species_with_two_plus_photo_colour_labels_pure": 798,
+        "white_discordance_fraction_n_matched_nonzero": 798
+      },
+      "60-90": {
+        "mean_all_D_on_exact_pure_eligible_taxa": 0.16182118792281094,
+        "mean_photo_white_fraction_all": 0.5167859732860692,
+        "mean_photo_white_fraction_pure": 0.5359130008400345,
+        "mean_pure_D_on_same_taxa": 0.08428061726941398,
+        "mean_white_discordance_fraction_all": 0.7484525460192584,
+        "mean_white_discordance_fraction_pure": 0.7979928315412187,
+        "n_paired_units": 63,
+        "pure_minus_all_D_mean": -0.07754057065339694,
+        "pure_minus_all_D_species_unit_bootstrap_CI95": [
+          -0.09995281438864011,
+          -0.05388403261988449
+        ],
+        "pure_minus_all_white_fraction": 0.01912702755396541,
+        "species_with_two_plus_photo_colour_labels_all": 41,
+        "species_with_two_plus_photo_colour_labels_pure": 20,
+        "white_discordance_fraction_n_matched_nonzero": 20
+      }
+    },
+    "same_species_paired_min40_classifiable_3observers": {
+      "mean_all_D_on_exact_pure_eligible_taxa": 0.11543980302332585,
+      "mean_photo_white_fraction_all": 0.5287012718862535,
+      "mean_photo_white_fraction_pure": 0.5445504406132159,
+      "mean_pure_D_on_same_taxa": 0.06468278904699315,
+      "mean_white_discordance_fraction_all": 0.8977688112505577,
+      "mean_white_discordance_fraction_pure": 0.9102420276561686,
+      "n_paired_units": 1813,
+      "pure_minus_all_D_mean": -0.050757013976332685,
+      "pure_minus_all_D_species_unit_bootstrap_CI95": [
+        -0.05338968863471881,
+        -0.048213316195459675
+      ],
+      "pure_minus_all_white_fraction": 0.015849168726962338,
+      "species_with_two_plus_photo_colour_labels_all": 1557,
+      "species_with_two_plus_photo_colour_labels_pure": 1054,
+      "white_discordance_fraction_n_matched_nonzero": 1054
+    },
+    "schema": "fcp_real_original_photo_purity_same_taxa_matched_v1",
+    "species_bootstrap_is_descriptive_not_photo_level_independent": true,
+    "state_specific_quality_retention": {
+      "blue_purple": {
+        "pure": 14549,
+        "raw": 25109,
+        "retention_fraction": 0.579433669202278
+      },
+      "red_pink": {
+        "pure": 14418,
+        "raw": 23908,
+        "retention_fraction": 0.6030617366571859
+      },
+      "white": {
+        "pure": 86764,
+        "raw": 107956,
+        "retention_fraction": 0.8036978028085516
+      },
+      "yellow_orange": {
+        "pure": 46272,
+        "raw": 70134,
+        "retention_fraction": 0.6597655915818291
+      }
+    }
+  },
+  "equal_area_photo_morph_permutation": {
+    "all_classifiable_species_grid": {
+      "fixed_original_taxon_cell_photo_opportunities": true,
+      "mean_excess_tv": 0.01367612161461948,
+      "mean_excess_white_delta": 0.01183273148304545,
+      "mean_null_tv": 0.09644122541489847,
+      "mean_null_white_delta": 0.07499693325356277,
+      "mean_observed_between_cell_tv": 0.11011734702951795,
+      "mean_observed_white_delta": 0.08682966473660822,
+      "n_eligible_cell_pairs_not_independent": 3127,
+      "n_species": 2118,
+      "posthoc_not_prospective": true,
+      "repetitions": 199,
+      "species_equal_not_photo_pair_equal": true,
+      "vertex_permutation_upper_p_tv_exploratory": 0.005,
+      "vertex_permutation_upper_p_white_exploratory": 0.005
+    },
+    "inference_ceiling": "geographic sorting of photographed colour labels only; not genetic population structure or dispersal history",
+    "matched_same_species_same_cells_all_classifiable": {
+      "fixed_original_taxon_cell_photo_opportunities": true,
+      "mean_excess_tv": 0.008387091393462803,
+      "mean_excess_white_delta": 0.006307703447536055,
+      "mean_null_tv": 0.06639749696225473,
+      "mean_null_white_delta": 0.054720068102798725,
+      "mean_observed_between_cell_tv": 0.07478458835571754,
+      "mean_observed_white_delta": 0.06102777155033478,
+      "n_eligible_cell_pairs_not_independent": 1711,
+      "n_species": 1282,
+      "posthoc_not_prospective": true,
+      "repetitions": 199,
+      "species_equal_not_photo_pair_equal": true,
+      "vertex_permutation_upper_p_tv_exploratory": 0.005,
+      "vertex_permutation_upper_p_white_exploratory": 0.005
+    },
+    "matched_same_species_same_cells_high_purity": {
+      "fixed_original_taxon_cell_photo_opportunities": true,
+      "mean_excess_tv": 0.007273339432097736,
+      "mean_excess_white_delta": 0.006506747201902759,
+      "mean_null_tv": 0.048408826975035145,
+      "mean_null_white_delta": 0.0406490563778186,
+      "mean_observed_between_cell_tv": 0.05568216640713288,
+      "mean_observed_white_delta": 0.04715580357972136,
+      "n_eligible_cell_pairs_not_independent": 1711,
+      "n_species": 1282,
+      "posthoc_not_prospective": true,
+      "repetitions": 199,
+      "species_equal_not_photo_pair_equal": true,
+      "vertex_permutation_upper_p_tv_exploratory": 0.005,
+      "vertex_permutation_upper_p_white_exploratory": 0.005
+    },
+    "n_total_original_classifiable": 227107,
+    "n_total_pure_colour_roi": 162003,
+    "quality_rule": "assigned ROI >=65%, all competing coarse groups <=20%; not morph validation",
+    "schema": "fcp_actual_447500_species_grid_vertex_null_v1"
+  },
+  "warnings": [
+    "observational iNaturalist photographs not genetically verified polymorphism",
+    "five-cohort same source; no independent provider replication",
+    "whiteness pair share is composition-dependent and not W or a global species prevalence",
+    "photographic geometric colour differences may include bicoloured flowers and exposure",
+    "sampling opportunity and wild/native occupancy remain nonrepresentative",
+    "geography does not identify neutral phylogeographic history, and no causal IBE or genetic IBH inferred",
+    "photographic quality gate is a posthoc color-content screen not biological validation"
+  ]
+}
