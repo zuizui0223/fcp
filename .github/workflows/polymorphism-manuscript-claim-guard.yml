@@ -14,6 +14,40 @@ on:
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
       - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
       - tests/test_polymorphism_manuscript_claims.py
+      - tests/test_u100_comparison.py
+      - fcp_pipeline/u100_comparison.py
+      - fcp_pipeline/u100_frozen_w_export.py
+      - fcp_pipeline/u100_frozen_spatial_export.py
+      - fcp_pipeline/u100_frozen_environment_bridge.py
+      - tests/test_u100_frozen_environment_bridge.py
+      - data/frozen/polymorphism_white_environment_species_deltas_original_20260925.csv
+      - tests/test_u100_frozen_spatial_export.py
+      - tests/test_u100_frozen_w_export.py
+      - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
+      - fcp_pipeline/fcp_allphotos.py
+      - fcp_pipeline/fcp_shared_structure.py
+      - fcp_pipeline/fcp_direct_environment.py
+      - fcp_pipeline/fcp_environment_profiles.py
+      - fcp_pipeline/fcp_axis_replay.py
+      - scripts/acquisition/collect_fcp_uncapped_metadata.py
+      - scripts/acquisition/build_fcp_uncapped_blind_batches.py
+      - docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md
+      - tests/test_collect_fcp_uncapped_metadata.py
+      - tests/test_fcp_allphotos.py
+      - tests/test_fcp_axis_replay.py
+      - tests/test_fcp_direct_environment.py
+      - tests/test_fcp_environment_profiles.py
+      - tests/test_fcp_shared_structure.py
+      - tests/test_fcp_uncapped_firewall.py
+      - tests/test_fcp_fresh_study.py
+      - tests/test_fcp_fresh_image_partition.py
+      - tests/test_run_fcp_uncapped_shard.py
+      - fcp_pipeline/fcp_fresh_study.py
+      - scripts/acquisition/run_fcp_uncapped_shard.py
+      - scripts/acquisition/run_fcp_fresh_image_partition.py
+      - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
+      - scripts/analysis/u100_multiclimate_20261014.py
+      - tests/test_u100_multiclimate_20261014.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   pull_request:
     paths:
@@ -24,6 +58,40 @@ on:
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
       - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
       - tests/test_polymorphism_manuscript_claims.py
+      - tests/test_u100_comparison.py
+      - fcp_pipeline/u100_comparison.py
+      - fcp_pipeline/u100_frozen_w_export.py
+      - fcp_pipeline/u100_frozen_spatial_export.py
+      - fcp_pipeline/u100_frozen_environment_bridge.py
+      - tests/test_u100_frozen_environment_bridge.py
+      - data/frozen/polymorphism_white_environment_species_deltas_original_20260925.csv
+      - tests/test_u100_frozen_spatial_export.py
+      - tests/test_u100_frozen_w_export.py
+      - docs/FCP_U100_4730_COMPARATIVE_EXTENSION_20261014.md
+      - fcp_pipeline/fcp_allphotos.py
+      - fcp_pipeline/fcp_shared_structure.py
+      - fcp_pipeline/fcp_direct_environment.py
+      - fcp_pipeline/fcp_environment_profiles.py
+      - fcp_pipeline/fcp_axis_replay.py
+      - scripts/acquisition/collect_fcp_uncapped_metadata.py
+      - scripts/acquisition/build_fcp_uncapped_blind_batches.py
+      - docs/FCP_ALL_PHOTOS_SHARED_WITHINSPECIES_PROTOCOL_20261014.md
+      - tests/test_collect_fcp_uncapped_metadata.py
+      - tests/test_fcp_allphotos.py
+      - tests/test_fcp_axis_replay.py
+      - tests/test_fcp_direct_environment.py
+      - tests/test_fcp_environment_profiles.py
+      - tests/test_fcp_shared_structure.py
+      - tests/test_fcp_uncapped_firewall.py
+      - tests/test_fcp_fresh_study.py
+      - tests/test_fcp_fresh_image_partition.py
+      - tests/test_run_fcp_uncapped_shard.py
+      - fcp_pipeline/fcp_fresh_study.py
+      - scripts/acquisition/run_fcp_uncapped_shard.py
+      - scripts/acquisition/run_fcp_fresh_image_partition.py
+      - docs/FCP_MULTICLIMATE_10VAR_EXPLORATORY_20261014.md
+      - scripts/analysis/u100_multiclimate_20261014.py
+      - tests/test_u100_multiclimate_20261014.py
       - .github/workflows/polymorphism-manuscript-claim-guard.yml
   workflow_dispatch:
 
@@ -43,7 +111,545 @@ jobs:
           python-version: "3.12"
 
       - name: Install test dependency
-        run: python -m pip install --upgrade pytest
+        run: python -m pip install --upgrade pytest numpy pandas scipy rasterio Pillow
 
       - name: Verify manuscript claims against frozen results
-        run: python -m pytest tests/test_polymorphism_manuscript_claims.py -q
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py tests/test_u100_comparison.py tests/test_u100_frozen_w_export.py tests/test_u100_frozen_spatial_export.py tests/test_u100_frozen_environment_bridge.py tests/test_u100_multiclimate_20261014.py tests/test_collect_fcp_uncapped_metadata.py tests/test_fcp_allphotos.py tests/test_fcp_axis_replay.py tests/test_fcp_direct_environment.py tests/test_fcp_environment_profiles.py tests/test_fcp_shared_structure.py tests/test_fcp_uncapped_firewall.py tests/test_fcp_fresh_study.py tests/test_fcp_fresh_image_partition.py tests/test_run_fcp_uncapped_shard.py -q
+
+
+  u100-real-frozen-data-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      LEGACY_SHA: 5142f7951af0dde5364bb047a566d67e8c479e51
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install frozen-input bridge dependencies
+        run: python -m pip install numpy pandas scipy
+
+      - name: Recover checksum-frozen original photo tables and U100 selection
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          mkdir -p "$work/source" "$work/output"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv" \
+            > "$work/source/u100_species.csv"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" \
+            > "$work/source/prospective.csv"
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" \
+            > "$work/source/discovery.csv"
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" \
+            > "$work/source/validation.csv"
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  '"$work"'/source/discovery.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  '"$work"'/source/validation.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/source/prospective.csv' | sha256sum -c -
+          echo 'FROZEN_U100_FILE_SHA256:' && sha256sum "$work/source/u100_species.csv"
+
+      - name: Export per-species W from official frozen prospective delta vectors
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_frozen_w_export \
+            --u100 "$work/source/u100_species.csv" \
+            --vectors results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/primary_0_10_delta_vectors.csv \
+            --out "$work/source/w_prospective.csv"
+
+      - name: Reproduce observed 50 km spatial metrics against frozen study receipt
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_frozen_spatial_export \
+            --u100 "$work/source/u100_species.csv" \
+            --measured "discovery=$work/source/discovery.csv" \
+            --measured "validation=$work/source/validation.csv" \
+            --measured "prospective=$work/source/prospective.csv" \
+            --reference results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json \
+            --out "$work/source/spatial_50km.csv"
+
+      - name: Run the U100 bridge on real frozen cohorts
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_comparison \
+            --u100 "$work/source/u100_species.csv" \
+            --measured "discovery=$work/source/discovery.csv" \
+            --measured "validation=$work/source/validation.csv" \
+            --measured "prospective=$work/source/prospective.csv" \
+            --w-metrics "$work/source/w_prospective.csv" \
+            --spatial-metrics "$work/source/spatial_50km.csv" \
+            --expected-u100 4730 --shards 24 --outdir "$work/output"
+
+      - name: Compare frozen species-level environment contrasts to D, W and 50-km sorting
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_smoke"
+          python -m fcp_pipeline.u100_frozen_environment_bridge \
+            --source data/frozen/polymorphism_white_environment_species_deltas_original_20260925.csv \
+            --reference results/polymorphism_white_environment_mechanism_20260925/result.json \
+            --registry "$work/output/u100_species_registry.csv" \
+            --outdir "$work/output/environment_screen"
+
+      - name: Verify frozen cohort coverage and publish receipt to log
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          out = Path(os.environ["RUNNER_TEMP"]) / "fcp_u100_smoke/output"
+          receipt = json.loads((out / "comparison_summary.json").read_text())
+          assert receipt["n_u100"] == 4730, receipt
+          assert receipt["n_measured"] == 1499, receipt
+          assert receipt["n_D_evaluable"] == 1109, receipt
+          assert receipt["measurement_status"].get("not_measured") == 3231, receipt
+          assert receipt["measurement_status"].get("D_evaluable") == 1109, receipt
+          assert receipt["confirmatory_decisions_changed"] is False
+          observed_w = receipt["cohorts"]["prospective"]["W_alignment_squared"]
+          assert observed_w["n"] == 158, observed_w
+          assert abs(observed_w["mean"] - 0.5172457461053418) < 1e-12, observed_w
+          print("U100_FROZEN_PROSPECTIVE_W", json.dumps(observed_w, sort_keys=True))
+          print("U100_EXPLORATORY_W_SPATIAL_CORRELATION", json.dumps(
+              receipt["correlations"]["w_alignment_sq_vs_depletion_50km"], sort_keys=True))
+          print("U100_EXPLORATORY_D_SPATIAL_CORRELATION", json.dumps(
+              receipt["correlations"]["D_vs_depletion_50km"], sort_keys=True))
+          environment_receipt = json.loads((out / "environment_screen/frozen_environment_screen_receipt.json").read_text())
+          assert environment_receipt["num_comparisons"] == 18, environment_receipt
+          assert environment_receipt["source_environment_species"] == 281, environment_receipt
+          assert environment_receipt["original_H2_or_spatial_decisions_changed"] is False
+          print("U100_EXPLORATORY_ENVIRONMENT_SCREEN", json.dumps({
+              "compared": environment_receipt["num_comparisons"],
+              "holm_supported": environment_receipt["holm_18_supported_count"],
+              "min_holm_p": environment_receipt["min_holm_18_p"],
+              "confirmatory": environment_receipt["prespecified_as_confirmatory"],
+          }, sort_keys=True))
+          print("U100_EXPLORATORY_D_W_CORRELATION", json.dumps(
+              receipt["correlations"]["D_vs_w_alignment_sq"], sort_keys=True))
+          print("U100_EMPIRICAL_SMOKE_PASS", json.dumps({
+              "u100": receipt["n_u100"],
+              "measured": receipt["n_measured"],
+              "D_evaluable": receipt["n_D_evaluable"],
+              "measurement_status": receipt["measurement_status"],
+              "source_sha256": receipt["input_sha256"],
+              "frozen_H2_recomputed": False,
+          }, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-u100-frozen-smoke-audit
+          path: |
+            ${{ runner.temp }}/fcp_u100_smoke/output/comparison_summary.json
+            ${{ runner.temp }}/fcp_u100_smoke/output/u100_species_registry.csv
+            ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.csv
+            ${{ runner.temp }}/fcp_u100_smoke/source/w_prospective.audit.json
+            ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.csv
+            ${{ runner.temp }}/fcp_u100_smoke/source/spatial_50km.audit.json
+            ${{ runner.temp }}/fcp_u100_smoke/output/environment_screen/**
+          retention-days: 30
+
+  u100-multiclimate-exploratory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      WORLDCLIM_RELEASE: fcp-worldclim-2.1-10m-20260925
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+
+      - name: Install frozen environmental analysis runtime
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest
+          python -m pytest tests/test_u100_multiclimate_20261014.py -q
+
+      - name: Restore immutable prospective photographs and technical clipping seal
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_multiclimate"
+          mkdir -p "$work/input" "$work/bio" "$work/srad" "$work/releases"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$work/input/measured.csv"
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/input/measured.csv' | sha256sum -c -
+          tech=archive/fcp_submission_20260925/highlight
+          test "$(git hash-object "$tech/technical_table.csv.gz")" = "484193b8313ba3dc3523408e1a3f96fcbaaf7dda"
+          test "$(git hash-object "$tech/sealed_join_key.csv")" = "09c781113f0ed809eda158a7b0b6c7f3ea810506"
+          test "$(git hash-object "$tech/high_clip_ids.csv")" = "3f6eb5732a64a7e6ae5c99d40c7595bfc3f4890f"
+
+      - name: Restore checksum-pinned WorldClim 2.1 climate fields
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_multiclimate"
+          gh release download "$WORLDCLIM_RELEASE" --repo zuizui0223/fcp             --pattern 'wc2.1_10m_bio.zip' --pattern 'wc2.1_10m_srad.zip' --dir "$work/releases"
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  '"$work"'/releases/wc2.1_10m_bio.zip' | sha256sum -c -
+          echo 'c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  '"$work"'/releases/wc2.1_10m_srad.zip' | sha256sum -c -
+          unzip -q "$work/releases/wc2.1_10m_bio.zip" -d "$work/bio"
+          unzip -q "$work/releases/wc2.1_10m_srad.zip" -d "$work/srad"
+          test -f "$work/bio/wc2.1_10m_bio_17.tif"
+          test -f "$work/srad/wc2.1_10m_srad_12.tif"
+
+      - name: Reproduce three frozen covariates before opening ten-variable exploratory results
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_u100_multiclimate"
+          tech=archive/fcp_submission_20260925/highlight
+          python scripts/analysis/u100_multiclimate_20261014.py             --measured "$work/input/measured.csv"             --technical "$tech/technical_table.csv.gz"             --join-key "$tech/sealed_join_key.csv"             --high-ids "$tech/high_clip_ids.csv"             --bio-dir "$work/bio" --srad-dir "$work/srad"             --frozen results/polymorphism_white_environment_mechanism_20260925/result.json             --outdir results/u100_multiclimate_exploratory_20261014
+          python - <<'PY'
+          from pathlib import Path
+          import json, pandas as pd
+          root=Path('results/u100_multiclimate_exploratory_20261014')
+          receipt=json.loads((root/'multi_climate_receipt.json').read_text())
+          rows=pd.read_json(root/'multi_climate_summary.json')
+          assert receipt['status']=='EXPLORATORY_10VARIABLE_SCREEN'
+          assert receipt['eligible_species']==281
+          assert receipt['after_high_clip_rows']==12583
+          assert set(receipt['frozen_3var_reproduced'])=={'bio5','bio14','srad_mean'}
+          assert len(rows)==10 and rows.variable.nunique()==10
+          assert all(rows['n']>=0)
+          print('FCP_U100_MULTICLIMATE_VERIFIED',rows[
+              ['variable','family','n','median','p_wilcoxon_two_sided','holm_10_p',
+               'holm_10_supported']].to_json(orient='records'))
+          print('FCP_U100_MULTICLIMATE_IDENTIFICATION',rows[
+              ['variable','observer_balanced','within_observer_paired',
+               'within_1degree_mixed_grid_cells']].to_json(orient='records'))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-u100-multiclimate-exploratory-20261014
+          if-no-files-found: error
+          retention-days: 30
+          path: results/u100_multiclimate_exploratory_20261014/
+
+  fcp-allphoto-original-method-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      LEGACY_SHA: 5142f7951af0dde5364bb047a566d67e8c479e51
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.14"
+
+      - name: Install original H2 numerical runtime
+        run: python -m pip install -r requirements-np-replay-20260928.txt
+
+      - name: Restore source-locked 42,111-species frame and 49,900 real photographs
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_allphoto_original"
+          mkdir -p "$work/input" "$work/output" "$work/code"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$work/input/full_frame.csv"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$work/input/prospective.csv"
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > "$work/input/discovery.csv"
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > "$work/input/validation.csv"
+          git show "$THIRD_SHA:scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py" > "$work/code/frozen_h2.py"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$work"'/input/full_frame.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/input/prospective.csv' | sha256sum -c -
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  '"$work"'/input/discovery.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  '"$work"'/input/validation.csv' | sha256sum -c -
+          test "$(git hash-object "$work/code/frozen_h2.py")" = "6bec7ee121170195f8795238f797ee7167406b48"
+
+      - name: Analyze all source photographs without a 4,730-species or 100-photo cap
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_allphoto_original"
+          python -m fcp_pipeline.fcp_allphotos \
+            --opportunity "$work/input/full_frame.csv" \
+            --measured "discovery=$work/input/discovery.csv" \
+            --measured "validation=$work/input/validation.csv" \
+            --measured "prospective=$work/input/prospective.csv" \
+            --outdir "$work/output/inventory"
+          for cohort in discovery validation prospective; do
+            python -m fcp_pipeline.fcp_axis_replay \
+              --measured "$work/input/${cohort}.csv" \
+              --opportunity "$work/input/full_frame.csv" \
+              --frozen-h2-source "$work/code/frozen_h2.py" \
+              --cohort "$cohort" --outdir "$work/output/W_${cohort}"
+          done
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_allphoto_original/output"
+          t=pd.concat((pd.read_csv(root/f"W_{c}/species_W_fixed_axis.csv")
+                     for c in ("discovery","validation","prospective")),ignore_index=True)
+          assert len(t)==439 and t.inat_taxon_id.is_unique
+          t.to_csv(root/"all_439_species_W.csv",index=False,float_format="%.17g")
+          PY
+          python -m fcp_pipeline.fcp_shared_structure \
+            --ledger "$work/output/inventory/all_photo_FCP_species_ledger.csv" \
+            --w "$work/output/all_439_species_W.csv" \
+            --outdir "$work/output/shared"
+
+      - name: Assert all 149,900 old photos and 439 original W species
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_allphoto_original/output"
+          census=json.loads((root/"inventory/all_photo_FCP_receipt.json").read_text())
+          w={c:json.loads((root/f"W_{c}/W_axis_receipt.json").read_text())
+             for c in ("discovery","validation","prospective")}
+          shared=json.loads((root/"shared/fcp_commonality_receipt.json").read_text())
+          assert census["n_source_species"]==42111, census
+          assert census["n_unique_measured_photo_ids"]==149900, census
+          assert census["n_D_evaluable_species"]==1109, census
+          assert w["discovery"]["n_eligible_W_species"]==152
+          assert w["validation"]["n_eligible_W_species"]==129
+          assert w["prospective"]["n_eligible_W_species"]==158
+          assert abs(w["discovery"]["mean_species_equal_W"]-0.5146245742375285)<1e-12
+          assert abs(w["validation"]["mean_species_equal_W"]-0.5145857778624214)<1e-12
+          assert abs(w["prospective"]["mean_species_equal_W"]-0.5172457461053418)<1e-12
+          assert shared["species_equal_descriptive_summaries"]["within_species_W_direction"]["n_species"]==439
+          assert shared["W_environment_frozen_construction_null_completed"] is False
+          print("FCP_UNCAPPED_ORIGINAL_H2_REPLAY_PASS",json.dumps({
+            "candidate_species":census["n_source_species"],
+            "measured_photos":census["n_unique_measured_photo_ids"],
+            "D_evaluable":census["n_D_evaluable_species"],
+            "W_eligible":439,
+            "W_by_cohort":{cohort:part["mean_species_equal_W"] for cohort,part in w.items()},
+            "new_environment_mechanism_inferred":False
+          },sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-allphotos-frozen1499-originalH2-smoke
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/fcp_allphoto_original/output/inventory/all_photo_FCP_receipt.json
+            ${{ runner.temp }}/fcp_allphoto_original/output/inventory/all_photo_FCP_species_ledger.csv
+            ${{ runner.temp }}/fcp_allphoto_original/output/all_439_species_W.csv
+            ${{ runner.temp }}/fcp_allphoto_original/output/W_*/W_axis_receipt.json
+            ${{ runner.temp }}/fcp_allphoto_original/output/shared/fcp_commonality_receipt.json
+
+
+  fcp-original1499-W-vs-siteclimate:
+    needs: fcp-allphoto-original-method-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    env:
+      LEGACY_SHA: 5142f7951af0dde5364bb047a566d67e8c479e51
+      THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install pinned BIO/soil coordinate-sampler dependencies
+        run: python -m pip install -r requirements-np-bio5-replay-20260928.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp-allphotos-frozen1499-originalH2-smoke
+          path: /tmp/fcp_frozen_baseline
+      - name: Restore source-locked photos and WorldClim 2.1 rasters
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_original_climate"
+          mkdir -p "$work/input" "$work/bio" "$work/srad" "$work/zip" "$work/output"
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > "$work/input/discovery.csv"
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > "$work/input/validation.csv"
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$work/input/prospective.csv"
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  '"$work"'/input/discovery.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  '"$work"'/input/validation.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$work"'/input/prospective.csv' | sha256sum -c -
+          gh release download fcp-worldclim-2.1-10m-20260925 --repo zuizui0223/fcp \
+            --pattern wc2.1_10m_bio.zip --pattern wc2.1_10m_srad.zip --dir "$work/zip"
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  '"$work"'/zip/wc2.1_10m_bio.zip' | sha256sum -c -
+          echo 'c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  '"$work"'/zip/wc2.1_10m_srad.zip' | sha256sum -c -
+          unzip -q "$work/zip/wc2.1_10m_bio.zip" -d "$work/bio"
+          unzip -q "$work/zip/wc2.1_10m_srad.zip" -d "$work/srad"
+      - name: Build source-hashed ten-variable *partial* mois-aligned raster manifest
+        run: |
+          python - <<'PY'
+          import os,json,hashlib
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate"
+          def rec(name,files,reducer="identity"):
+              return {"unit":"original_worldclim2.1_raster_units",
+                      "source":"WorldClim 2.1 10-arc-minute checksum-locked FCP release",
+                      "reducer":reducer,
+                      "rasters":[{"path":str(path),"sha256":hashlib.sha256(path.read_bytes()).hexdigest()} for path in files]}
+          b=(1,4,5,6,7,12,14,15,17)
+          features={f"wc_bio{k}":rec(f"wc_bio{k}",[root/"bio"/f"wc2.1_10m_bio_{k}.tif"]) for k in b}
+          features["wc_srad_annual_mean"]=rec("wc_srad_annual_mean",
+              [root/"srad"/f"wc2.1_10m_srad_{m:02d}.tif" for m in range(1,13)],"monthly_mean")
+          manifest={"schema":"fcp_mois36_direct_photo_raster_manifest_v1","features":features}
+          (root/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n")
+          assert len(features)==10 and not any(key.startswith("soil_") for key in features)
+          PY
+      - name: Directly sample every old FCP photograph and calculate within-species climate heterogeneity
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_original_climate"
+          python -m fcp_pipeline.fcp_direct_environment \
+            --measured "$work/input/discovery.csv" \
+            --measured "$work/input/validation.csv" \
+            --measured "$work/input/prospective.csv" \
+            --manifest "$work/manifest.json" \
+            --out "$work/output/photo_site_climate.csv"
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate"
+          a=pd.concat((pd.read_csv(root/f"input/{c}.csv",low_memory=False)
+                    for c in ("discovery","validation","prospective")),ignore_index=True)
+          assert len(a)==149900 and a.photo_id.nunique()==149900
+          a.to_csv(root/"output/measured_photo_union.csv",index=False)
+          PY
+          python -m fcp_pipeline.fcp_environment_profiles \
+            --measured-complete-species-partition "$work/output/measured_photo_union.csv" \
+            --environment "$work/output/photo_site_climate.csv" \
+            --outdir "$work/output/all_sites"
+      - name: Recompute strict <=1-km source-position sensitivity and cross-species white-axis comparison
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fcp_original_climate"
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate"
+          e=pd.read_csv(root/"output/photo_site_climate.csv",low_memory=False)
+          keep=e["accuracy_le1000m"].fillna(False).astype(bool)
+          vars=[x for x in e if x.startswith("wc_")]
+          e.loc[~keep,vars]=float("nan")
+          e.to_csv(root/"output/photo_site_climate_accuracy1000m.csv",index=False)
+          PY
+          python -m fcp_pipeline.fcp_environment_profiles \
+            --measured-complete-species-partition "$work/output/measured_photo_union.csv" \
+            --environment "$work/output/photo_site_climate_accuracy1000m.csv" \
+            --outdir "$work/output/accuracy1000m"
+          python - <<'PY'
+          from pathlib import Path
+          from fcp_pipeline.fcp_shared_structure import baseline,join_metric,with_environment_heterogeneity,inspect_commonality
+          import json,os,pandas as pd
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_original_climate/output"
+          baseline_dir=Path("/tmp/fcp_frozen_baseline")
+          led=baseline(baseline_dir/"inventory/all_photo_FCP_species_ledger.csv")
+          led=join_metric(led,baseline_dir/"all_439_species_W.csv","W")
+          for name in ("all_sites","accuracy1000m"):
+              src,p=with_environment_heterogeneity(led,root/name/"species_environment_heterogeneity.csv")
+              report,_=inspect_commonality(src,environmental_spread=p)
+              metrics=report["W_vs_withinspecies_environmental_heterogeneity"]
+              assert len(metrics)==10
+              assert report["W_environment_frozen_construction_null_completed"] is False
+              (root/name/"W_environment_commonality.json").write_text(json.dumps(report,indent=2)+"\n")
+              pd.DataFrame(metrics).to_csv(root/name/"W_environment_commonality.csv",index=False)
+              print("FCP_1499_PHOTO_W_ENVIRONMENT_HETEROGENEITY",name,json.dumps(metrics))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-allphotos-frozen1499-W-environment10-descriptive
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/fcp_original_climate/manifest.json
+            ${{ runner.temp }}/fcp_original_climate/output/all_sites/species_environment_heterogeneity.csv
+            ${{ runner.temp }}/fcp_original_climate/output/all_sites/species_white_nonwhite_environment_sorting.csv
+            ${{ runner.temp }}/fcp_original_climate/output/all_sites/W_environment_commonality.*
+            ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/species_environment_heterogeneity.csv
+            ${{ runner.temp }}/fcp_original_climate/output/accuracy1000m/W_environment_commonality.*
+            ${{ runner.temp }}/fcp_original_climate/output/photo_site_climate.receipt.json
+
+  fcp-fresh-one-species-source-pilot:
+    # Actual *metadata* source acquisition; no old photo measurements, no
+    # image pixels, no result that could be mistaken for a complete census.
+    # A single page and single species prevent an unthrottled provider crawl.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SOURCE_FRAME_COMMIT: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+      CUTOFF_DATE: "2026-10-14"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install fresh metadata dependencies only
+        run: python -m pip install pandas numpy
+
+      - name: Restore historically defined outcome-blind species opportunity
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/fcp_fresh_pilot"
+          mkdir -p "$root/source" "$root/metadata"
+          git fetch --no-tags --depth=1 origin "$SOURCE_FRAME_COMMIT"
+          git show "$SOURCE_FRAME_COMMIT:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" > "$root/source/42111_taxa.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$root"'/source/42111_taxa.csv' | sha256sum -c -
+
+      - name: Acquire a bounded REAL provider-page batch for one source species, no image access
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/fcp_fresh_pilot"
+          PYTHONPATH=. python scripts/acquisition/run_fcp_uncapped_shard.py \
+            --frame "$root/source/42111_taxa.csv" \
+            --output-root "$root/metadata" \
+            --shards 1 --shard 0 --created-before "$CUTOFF_DATE" \
+            --pages-per-species-per-run 10 --species-per-run 1
+
+      - name: Validate non-completion and photo/measurement isolation
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"fcp_fresh_pilot/metadata/shard_000_of_001"
+          a=json.loads((root/"shard_progress.json").read_text())
+          assert a["expected_source_species"]==42111
+          assert a["n_source_species_in_shard"]==42111
+          assert a["photo_cap"] is None and a["outcome_blind"] is True
+          assert a["new_species_worked_this_invocation"]==1
+          assert a["completed_species"]+a["partial_species"]==1
+          assert a["not_started_species"]==42110
+          assert a["status"]=="in_progress"
+          assert a["pixels_opened"] is False and a["FCP_outcomes_measured"] is False
+          assert a["all_available_photo_ids_confirmed"] is False
+          print("FCP_FRESH_REAL_METADATA_ONE_SPECIES_BATCH",json.dumps({
+              "species_started":1,"source_species":42111,
+              "discovered_licensed_photo_manifest_rows":a["photo_manifest_rows_including_retry_duplicates"],
+              "study_fully_enumerated":False,"new_biological_colours":0,
+              "historical_photo_colours_reused":False,
+          },sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-fresh-one-species-real-metadata-batch
+          if-no-files-found: error
+          retention-days: 30
+          path: ${{ runner.temp }}/fcp_fresh_pilot/metadata/shard_000_of_001/
