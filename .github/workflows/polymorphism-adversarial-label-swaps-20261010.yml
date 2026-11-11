@@ -1,0 +1,101 @@
+name: FCP adversarial composition-preserving colour-label sensitivity
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_polymorphism_adversarial_label_swaps_20261010.py
+      - tests/test_polymorphism_adversarial_label_swaps_20261010.py
+      - docs/POLYMORPHISM_ADVERSARIAL_LABEL_SWAPS_PROTOCOL_20261010.md
+      - .github/workflows/polymorphism-adversarial-label-swaps-20261010.yml
+      - scripts/analysis/build_polymorphism_blinded_photo_audit_queue_20261010.py
+      - tests/test_polymorphism_blinded_photo_queue_20261010.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-adversarial-photo-colour-sensitivity
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  adversarial-sensitivity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install pinned numerical runtime
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 scipy==1.17.1 pytest==8.4.2
+      - name: Execute five synthetic tests before photo-data opening
+        run: python -m pytest tests/test_polymorphism_adversarial_label_swaps_20261010.py -q
+      - name: Validate blind photo audit queue with synthetic controls
+        run: python -m pytest tests/test_polymorphism_blinded_photo_queue_20261010.py -q
+      - name: Recover immutable original high-depth measured photographs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+      - name: Execute independent constructive worst-case colour swaps
+        run: |
+          python scripts/analysis/audit_polymorphism_adversarial_label_swaps_20261010.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --outdir /tmp/fcp_adversarial_swap
+      - name: Construct source-ID-verified blinded botanical photo review panel
+        run: |
+          python scripts/analysis/build_polymorphism_blinded_photo_audit_queue_20261010.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --constructed-swaps /tmp/fcp_adversarial_swap/constructed_label_swaps.csv \
+            --outdir /tmp/fcp_adversarial_swap/photo_review
+      - name: Validate source, direction and inference firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/fcp_adversarial_swap/result.json").read_text())
+          assert d["schema"]=="fcp_adversarial_morph_labels_20261010_v1"
+          assert d["confirmatory_decisions_changed"] is False
+          expected={"discovery":(166,0.020529254583812922),
+                    "validation":(181,0.018672971642749295),
+                    "third":(204,0.01468491968437185)}
+          for cohort,(n,delta) in expected.items():
+              x=d[cohort]
+              assert x["n_species"]==n
+              assert abs(x["original_depletion"]-delta)<1e-10
+              assert x["last_evaluated"]["mean_depletion"]<=delta+1e-12
+              assert x["species_wide_four_colour_frequencies_preserved_exactly"] is True
+              assert x["last_evaluated"]["fraction_edited_pct"]<=10.+1e-12
+          from pathlib import Path
+          q=json.loads(Path("/tmp/fcp_adversarial_swap/photo_review/queue_result.json").read_text())
+          assert q["n_high_leverage_photo_cases"]==140
+          assert q["n_random_source_controls"]==140
+          assert q["n_total_unique_review_photo_ids"]>=280
+          assert q["status"]=="UNREVIEWED_PHOTO_IDS_ONLY"
+          print("PASS exact original source baselines, adversarial scope and blinded photo-ID queue")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-adversarial-composition-preserving-photo-colour-20261010
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_adversarial_swap/

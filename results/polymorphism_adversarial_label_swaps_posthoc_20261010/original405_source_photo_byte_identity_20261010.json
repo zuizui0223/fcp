@@ -1,0 +1,42 @@
+{
+  "schema": "fcp_original_405_blinded_openphoto_provenance_v1",
+  "date_jst": "2026-10-10",
+  "role": "source_original_byte_identity_and_photo_access_only",
+  "n_original_blinded_photo_ids": 405,
+  "n_exact_historical_image_bytes": 405,
+  "n_retrieved_original_photo_id_but_different_bytes": 0,
+  "n_unavailable_on_open_data_host": 0,
+  "public_open_data_photo_format_counts": {
+    "large.jpg": 244,
+    "large.jpeg": 160,
+    "large.png": 1
+  },
+  "original_blind_source_sha256": "8cc44a71dfb64601e23f68b68c25e8cbc534a332e0a17ff51a51bd8737a35c27",
+  "original_sealed_key_sha256": "ef0275fedf7ab4e3e0aa5309fd80c9a9aee97de733b79a93bc2137a04f6f4b5c",
+  "analysis_stages_validated": [
+    "five synthetic 24-photo provenance tests",
+    "four full-405 blinded source semantic tests",
+    "three historical cohort original CSV SHA256 checks",
+    "adversarial photo-ID recomputation",
+    "reconstructed blind review queue SHA256 equality",
+    "archived exact original sealed 405-photo key SHA256 equality",
+    "all photo IDs and historical SHA256 exact semantic equality",
+    "405 per-photo original byte-level SHA256 comparisons"
+  ],
+  "status": "SOURCE_IMAGE_BYTES_RECOVERABLE_AND_IDENTICAL_ALL_405",
+  "original_images_redistributed": false,
+  "source_original_colour_labels_exposed_to_photo_fetcher": false,
+  "floral_colour_human_readjudication_completed": false,
+  "image_quality_metrics_scope": "only full image, not botanical flower segmentation",
+  "citation_run": "https://github.com/zuizui0223/fcp/actions/runs/38028308416",
+  "artifact_id": 11660679434,
+  "artifact_sha256_zip": "13738f04f40e5b9a9bdd6ba1ffaaf72d748cca5302843f5248826b055413c4ec",
+  "source_checksum_verification_context": "The regenerated blind reviewer CSV was byte-identical; the separately archived original sealed key was byte-identical to its frozen SHA256 and all source identifiers, original image hashes and labels agreed semantically with current reconstructed data. Use original archived key as authority.",
+  "hard_nonclaims": [
+    "Not a measurement of machine flower-colour classification accuracy or colour morph mislabelling.",
+    "Not a field colour standard, allele/genotype, pollinator fitness or local-adaptation test.",
+    "Whole photo exposure summaries do not establish flower ROI colour correctness.",
+    "The 405 outcomes were selected after examining the geographic response, so the sample does not estimate all-plant photo misclassification prevalence.",
+    "Photo availability/licence status can change after this date; image use requires current licence and author attribution."
+  ]
+}
