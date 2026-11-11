@@ -19,19 +19,8 @@ This file provides exact links from each numerical assertion in the manuscript t
 | Independent observer-fold source climate mean | Forward n2403 +.012879 genus95 [.007331,.018743]; reverse n2430 +.005747 genus95 [.000118,.011283]; one PHOTO per observer likewise positive | Refit thermal/photo slope on heldout observers without reusing baseline observers | [Observer-disjoint result](../results/fcp4475_observer_disjoint_thermal_white_verified_20261024.json), [CI](https://github.com/zuizui0223/fcp/actions/runs/40080001765) |
 | Separability of colour geometry and geography | W vs geographic mismatch depletion r≈+.03375 n3600; W vs BIO5 Firth slope r≈−.00927 n4112 | Source-photo nuisance-controlled partial species rank associations | [New Phytologist P4](../docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md) |
 
-## Primary figure assets already available
+## Figures and supporting data
 
-Existing verified SVGs can be reused in a journal-preparation layout without refitting or claiming new effects:
-- [Full 4,475 white-axis W](../docs/figures/fcp_np_all4475_white_axis_five_cohorts_20261021.svg).
-- [Geographic 50-km mismatch](../docs/figures/fcp_np_all4475_figure2_geo_50km_20261021.svg).
-- [Geometric vs ecological organization](../docs/figures/fcp_np_all4475_geometry_vs_fate_20261021.svg).
-- [Seven climatic location contrasts](../docs/figures/fcp_np_all4475_seven_abiotic_axes_20261021.svg).
-- [Original source sampling opportunity](../docs/figures/fcp_global_photographic_colour_opportunity_20261020.svg).
-
-## Explicit conclusion vocabulary
-
-Write **within-species photographic colour variation**, **white–chromatic hue direction**, **nonrandom geographic assembly**, and **shared thermal photo-colour association** for supported direct observables. Use population-level heritable flower-colour polymorphism, causal temperature selection, pigment maintenance cost, metabolic rewiring, genetic architecture and local balancing selection as evolutionary hypotheses rather than already observed outcomes. The old independent flower-minus-background BIO5 photo test was not positive (rho≈−.00328, p=.82), and photo-classification failure was 220,393/447,500; a short, accurate source-scope paragraph belongs in the manuscript.
-
-## Editorial state
-
-Full English IMRAD manuscript exists in [integrated positive results paper](FCP_NEW_PHYTOLOGIST_INTEGRATED_POSITIVE_RESULTS_20261024.md). Scientific results, sign conventions and source denominators have been reconciled against existing machine receipts. Author list, affiliations, funding, conflict declarations and journal-specific figure typography remain author-approved editorial fields—not reasons to run more ecological analyses.
+- Fig. 1 links four licensed photo records to their archived measurements in [Table S1](climate_colour/Table_S1_photographs.csv).
+- Fig. 2 shows both nine-component means and their white-axis alignment for the same 2,689 species. Fig. 3 shows the complete temperature distribution and paired observer estimates. [Table S2](climate_colour/Table_S2_species_coefficients.csv.gz) retains all 4,475 taxa, including missing coefficients.
+- [Supporting Information](climate_colour/Supporting_Information.md) provides image provenance, estimands, sensitivity results and the original geometry and geography figures. The contrast between temperature and precipitation is retrospective. The species-level fold correlation is +0.018. Atlas-wide organ-specific accuracy has not been established.
