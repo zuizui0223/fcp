@@ -1,0 +1,184 @@
+{
+  "schema": "fcp_source_photo_mixed_white_nonwhite_site_temporal_field_candidates_v1",
+  "date_jst": "2026-10-10",
+  "role": "Retrospective true-field-candidate feasibility; NOT expert-verified sympatric biological morphs",
+  "n_source_species": 1109,
+  "cohorts": {
+    "discovery": {
+      "n_source_high_depth_species": 369,
+      "n_mixed_original_classified_white_nonwhite": 339,
+      "n_at_least_five_white_and_five_nonwhite": 184,
+      "n_original_photo_rows": 21424
+    },
+    "validation": {
+      "n_source_high_depth_species": 363,
+      "n_mixed_original_classified_white_nonwhite": 326,
+      "n_at_least_five_white_and_five_nonwhite": 167,
+      "n_original_photo_rows": 20903
+    },
+    "third": {
+      "n_source_high_depth_species": 377,
+      "n_mixed_original_classified_white_nonwhite": 341,
+      "n_at_least_five_white_and_five_nonwhite": 196,
+      "n_original_photo_rows": 22144
+    }
+  },
+  "photo_site_diameters_km": [
+    10,
+    25,
+    50
+  ],
+  "time_windows": [
+    "same_month_year",
+    "same_calendar_month_across_years"
+  ],
+  "source_photo_pair_requirement": "one automated-photo-white and one automated-photo-nonwhite, two different nonmissing observers",
+  "conservative_four_photo_requirement": "two automatically photo-white and two photo-nonwhite, four different original photographer IDs, all photos within one anchor of <=diameter/2",
+  "all_photo_witnesses_selected_from_original_labels_and_coordinates_only": true,
+  "no_actual_biological_morph_confirmed": true,
+  "no_actual_fitness_or_genetic_data": true,
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "summary": {
+    "10km": {
+      "same_month_year": {
+        "n_species_distinct_observer_mixed_source_photo_pair": 116,
+        "n_species_four_photo_two_each_four_observers_conservative_anchor": 4,
+        "n_genera_four_photo": 4,
+        "per_cohort": {
+          "discovery": {
+            "n_pair": 35,
+            "n_four": 1
+          },
+          "validation": {
+            "n_pair": 35,
+            "n_four": 1
+          },
+          "third": {
+            "n_pair": 46,
+            "n_four": 2
+          }
+        }
+      },
+      "same_calendar_month": {
+        "n_species_distinct_observer_mixed_source_photo_pair": 235,
+        "n_species_four_photo_two_each_four_observers_conservative_anchor": 16,
+        "n_genera_four_photo": 15,
+        "per_cohort": {
+          "discovery": {
+            "n_pair": 65,
+            "n_four": 3
+          },
+          "validation": {
+            "n_pair": 73,
+            "n_four": 4
+          },
+          "third": {
+            "n_pair": 97,
+            "n_four": 9
+          }
+        }
+      }
+    },
+    "25km": {
+      "same_month_year": {
+        "n_species_distinct_observer_mixed_source_photo_pair": 207,
+        "n_species_four_photo_two_each_four_observers_conservative_anchor": 6,
+        "n_genera_four_photo": 6,
+        "per_cohort": {
+          "discovery": {
+            "n_pair": 58,
+            "n_four": 1
+          },
+          "validation": {
+            "n_pair": 66,
+            "n_four": 1
+          },
+          "third": {
+            "n_pair": 83,
+            "n_four": 4
+          }
+        }
+      },
+      "same_calendar_month": {
+        "n_species_distinct_observer_mixed_source_photo_pair": 384,
+        "n_species_four_photo_two_each_four_observers_conservative_anchor": 36,
+        "n_genera_four_photo": 34,
+        "per_cohort": {
+          "discovery": {
+            "n_pair": 107,
+            "n_four": 9
+          },
+          "validation": {
+            "n_pair": 120,
+            "n_four": 10
+          },
+          "third": {
+            "n_pair": 157,
+            "n_four": 17
+          }
+        }
+      }
+    },
+    "50km": {
+      "same_month_year": {
+        "n_species_distinct_observer_mixed_source_photo_pair": 309,
+        "n_species_four_photo_two_each_four_observers_conservative_anchor": 9,
+        "n_genera_four_photo": 9,
+        "per_cohort": {
+          "discovery": {
+            "n_pair": 88,
+            "n_four": 2
+          },
+          "validation": {
+            "n_pair": 96,
+            "n_four": 1
+          },
+          "third": {
+            "n_pair": 125,
+            "n_four": 6
+          }
+        }
+      },
+      "same_calendar_month": {
+        "n_species_distinct_observer_mixed_source_photo_pair": 513,
+        "n_species_four_photo_two_each_four_observers_conservative_anchor": 79,
+        "n_genera_four_photo": 70,
+        "per_cohort": {
+          "discovery": {
+            "n_pair": 146,
+            "n_four": 20
+          },
+          "validation": {
+            "n_pair": 164,
+            "n_four": 25
+          },
+          "third": {
+            "n_pair": 203,
+            "n_four": 34
+          }
+        }
+      }
+    }
+  },
+  "hard_nonclaims": [
+    "A same-month-year photo witness does not prove two colour morphs coexist as independent reproductive genets.",
+    "Original photographed white/nonwhite machine classes are NOT chemically/genetically authenticated.",
+    "A conservative anchored four-photo witness misses some legitimate full-diameter groups: negative means no witness found with this method, not physical impossibility.",
+    "Photos may be of different species or different floral organs; botanical 405 photo review is separate.",
+    "Photo records clustered in a 10km region are not guaranteed one freely interbreeding natural population.",
+    "Same calendar month across different years does NOT establish same-generation sympatric polymorphism.",
+    "Ranking among source machine-classified pictures is not an unbiased estimate of polymorphism prevalence.",
+    "Main 1499-source New Phytologist H1/H2, 405 human review status and untouched future source taxa are unchanged."
+  ],
+  "source_reproducibility": {
+    "green_run_id": 38052275942,
+    "job_id": 114213628625,
+    "artifact_id": 11669559719,
+    "source_archive_digest": "sha256:950642c3517513f6ea6ca7ffaa1fc4370708b121284a4b9f0312dbcca39de3f2",
+    "synthetic_tests_passed": 7
+  }
+}

@@ -1,0 +1,94 @@
+name: FCP same-month same-place two-colour field candidates
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_fcp_white_colour_contemporaneous_photo_candidates_20261010.py
+      - tests/test_audit_fcp_white_colour_contemporaneous_photo_candidates_20261010.py
+      - docs/FCP_SAME_YEAR_WHITE_COLOUR_PHOTO_FIELD_CANDIDATES_PROTOCOL_20261010.md
+      - .github/workflows/fcp-field-photo-mixed-white-colour-20261010.yml
+      - docs/FCP_FIELD_MIXED_WHITE_COLOUR_BOTANICAL_TRIAGE_20261010.md
+      - results/fcp_photo_field_mixed_white_colour_candidates_20261010/result.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-photo-field-candidate-preflight
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  field-candidate-opportunity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install source-replay numerical requirements
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 scipy==1.17.1 pytest==8.4.2
+      - name: Verify month, geography, photo observer and source SHA guards
+        run: python -m pytest tests/test_audit_fcp_white_colour_contemporaneous_photo_candidates_20261010.py -q
+      - name: Retrieve exact original three original FCP high-depth photographed cohorts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+      - name: Screen original photo-colour pairs and four-independent-observer morphology field candidates
+        run: |
+          python scripts/analysis/audit_fcp_white_colour_contemporaneous_photo_candidates_20261010.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --outdir /tmp/fcp_original_field_candidates
+      - name: Verify original species denominators and selected witness hierarchy
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_original_field_candidates/result.json").read_text())
+          assert r["schema"]=="fcp_source_photo_mixed_white_nonwhite_site_temporal_field_candidates_v1"
+          assert r["n_source_species"]==1109
+          assert r["no_actual_biological_morph_confirmed"] is True
+          assert r["no_actual_fitness_or_genetic_data"] is True
+          assert [r["cohorts"][x]["n_source_high_depth_species"] for x in ["discovery","validation","third"]]==[369,363,377]
+          for diameter,scales in r["summary"].items():
+              for mode,checks in scales.items():
+                  assert checks["n_species_four_photo_two_each_four_observers_conservative_anchor"]<=checks["n_species_distinct_observer_mixed_source_photo_pair"]
+                  assert sum(x["n_pair"] for x in checks["per_cohort"].values())==checks["n_species_distinct_observer_mixed_source_photo_pair"]
+                  assert sum(x["n_four"] for x in checks["per_cohort"].values())==checks["n_species_four_photo_two_each_four_observers_conservative_anchor"]
+          primary=r["summary"]["10km"]["same_month_year"]
+          assert primary["n_species_distinct_observer_mixed_source_photo_pair"]==116
+          assert primary["n_species_four_photo_two_each_four_observers_conservative_anchor"]==4
+          assert primary["n_genera_four_photo"]==4
+          assert sum(r["cohorts"][c]["n_original_photo_rows"] for c in r["cohorts"])==64471
+          tracked=json.loads(Path("results/fcp_photo_field_mixed_white_colour_candidates_20261010/result.json").read_text())
+          assert tracked["n_source_species"]==r["n_source_species"]
+          assert tracked["source_sha256"]==r["source_sha256"]
+          assert tracked["summary"]==r["summary"]
+          assert tracked["cohorts"]==r["cohorts"]
+          assert tracked["no_actual_biological_morph_confirmed"] is True
+          print("PASS original field-photo opportunity replay reproduces permanently recorded 116/4 source results")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-source-temporal-mixed-colour-field-candidates-20261010
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_original_field_candidates/
