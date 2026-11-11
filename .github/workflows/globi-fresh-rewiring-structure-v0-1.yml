@@ -1,0 +1,50 @@
+name: GloBI fresh rewiring structure v0.1
+on:
+  pull_request:
+    paths:
+      - 'data/globi_fresh_rewiring_structure_design_v0_1.json'
+      - 'scripts/analysis/audit_globi_fresh_rewiring_structure_v0_1.py'
+      - '.github/workflows/globi-fresh-rewiring-structure-v0-1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch pinned source bytes
+        run: |
+          set -euo pipefail
+          git init -q /tmp/carni
+          git -C /tmp/carni remote add origin https://github.com/globalbioticinteractions/CarniDIET-Database.git
+          git -C /tmp/carni fetch -q --depth=1 origin ddafdc8caeca3ab1a09a30774ef4afaf4acf8fd0
+          git -C /tmp/carni checkout -q FETCH_HEAD
+          test "$(git -C /tmp/carni hash-object 'Version 1.0/CarniDIET 1.0.csv')" = "9d80fdb42d50d07260dda9b13a7bf9d0b9cd0dac"
+          git init -q /tmp/croppol
+          git -C /tmp/croppol remote add origin https://github.com/globalbioticinteractions/OBservData.git
+          git -C /tmp/croppol fetch -q --depth=1 origin ebc9ae9f7fb6de2b05a9f408769e5f1e8982ca22
+          git -C /tmp/croppol checkout -q FETCH_HEAD
+          test "$(git -C /tmp/croppol hash-object 'Final_Data/CropPol_field_level_data.csv')" = "cd19a354741ac40428e6b94aa1ec2ee596ff0547"
+      - name: Run focal-structure audit
+        run: |
+          mkdir -p build/globi_fresh_rewiring_structure_v0_1
+          python scripts/analysis/audit_globi_fresh_rewiring_structure_v0_1.py \
+            --design data/globi_fresh_rewiring_structure_design_v0_1.json \
+            --carni '/tmp/carni/Version 1.0/CarniDIET 1.0.csv' \
+            --croppol-field '/tmp/croppol/Final_Data/CropPol_field_level_data.csv' \
+            --out build/globi_fresh_rewiring_structure_v0_1/result.json
+      - name: Validate no partner opening
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_fresh_rewiring_structure_v0_1/result.json'))
+          assert x['partner_columns_used'] is False
+          assert x['interaction_weights_used'] is False
+          assert x['turnover_outcomes_computed'] is False
+          assert x['status'] in {'PASS_GLOBI_FRESH_REWIRING_FOCAL_STRUCTURE','HOLD_GLOBI_FRESH_REWIRING_STRUCTURALLY_UNIDENTIFIABLE'}
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-fresh-rewiring-structure-v0-1
+          path: build/globi_fresh_rewiring_structure_v0_1/

@@ -1,0 +1,45 @@
+name: GloBI original-source schema census v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_original_source_schema_census_design_v0_1.json'
+      - 'scripts/analysis/audit_globi_original_source_schema_census_v0_1.py'
+      - '.github/workflows/globi-original-source-schema-census-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run schema-only GloBI source census
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p build/globi_schema_census_v0_1
+          python scripts/analysis/audit_globi_original_source_schema_census_v0_1.py \
+            --design data/globi_original_source_schema_census_design_v0_1.json \
+            --out build/globi_schema_census_v0_1/result.json
+      - name: Validate firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_schema_census_v0_1/result.json'))
+          f=x['firewall']
+          assert f['globi_json_opened'] is True
+          for k in ['readmes_opened','source_data_rows_opened','interaction_rows_opened','taxon_values_opened','coordinate_values_opened','date_values_opened','biological_outcome_computed']:
+              assert f[k] is False, (k,f[k])
+          assert x['status'] in {'PASS_GLOBI_ORIGINAL_SOURCE_SCHEMA_CANDIDATES','HOLD_NO_GLOBI_ORIGINAL_SOURCE_SCHEMA_CANDIDATES'}
+          assert x['selected_candidate_count'] <= 12
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-original-source-schema-census-v0-1
+          path: build/globi_schema_census_v0_1/

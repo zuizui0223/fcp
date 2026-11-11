@@ -1,0 +1,38 @@
+name: Spatiotemporal predictor and turnover guard v0.2
+
+on:
+  pull_request:
+    paths:
+      - 'data/spatiotemporal_memory_turnover_predictor_matrix_v0_2.csv'
+      - 'data/spatiotemporal_memory_turnover_eligibility_matrix_v0_2.csv'
+      - 'data/spatiotemporal_predictor_independence_contract_v0_3.json'
+      - 'data/globi_current_stable_identity_v0_2.json'
+      - 'data/globi_spatiotemporal_metadata_preflight_design_v0_1.json'
+      - 'results/globi_spatiotemporal_metadata_preflight_v0_1/result.json'
+      - 'packages/disttrait/src/disttrait/turnover.py'
+      - 'packages/disttrait/src/disttrait/__init__.py'
+      - 'packages/disttrait/tests/test_turnover.py'
+      - 'tests/test_spatiotemporal_predictor_globi_v0_2.py'
+      - '.github/workflows/spatiotemporal-predictor-globi-v0-2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package test runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+          python -m pip install pytest
+      - name: Test generic turnover primitives
+        run: python -m pytest packages/disttrait/tests/test_turnover.py -q
+      - name: Test predictor and GloBI firewalls
+        run: python -m pytest tests/test_spatiotemporal_predictor_globi_v0_2.py -q

@@ -1,0 +1,39 @@
+{
+  "version": "v0.2",
+  "status": "GLOBI_CURRENT_STABLE_IDENTITY_PINNED_PREOUTCOME",
+  "checked_on": "2026-09-30",
+  "concept_doi": "10.5281/zenodo.3950589",
+  "official_data_page": "https://www.globalbioticinteractions.org/data",
+  "latest_stable_integrated_record": {
+    "zenodo_record": 22761701,
+    "version": "v13",
+    "published": "2026-09-15",
+    "resource_type": "Dataset",
+    "primary_file": "globi_assoc.tar.gz",
+    "file_size_reported": "889.1 MB",
+    "file_md5": "de999239cdbc5ba5eb756064c4f3339a"
+  },
+  "namespace_discovery_snapshot": {
+    "zenodo_record": 22691479,
+    "version": "0.11",
+    "published": "2026-09-10",
+    "file": "datasets.tsv",
+    "sha256": "6b5191180e9bbfdb7867ff2fdef3e2e305f78cfe6f6405209e455497a06e30c4",
+    "role": "schema-only namespace discovery used by v0.1 preflight; not the canonical interaction-response byte source"
+  },
+  "current_source_rule": {
+    "biological_interaction_rows_must_be_pinned_to": "latest_stable_integrated_record or an original versioned dataset selected under the source gate",
+    "api_or_live_snapshot_for_primary_outcomes": false,
+    "original_dataset_preferred_when_sampling_semantics_are_available": true,
+    "source_citations_required": true
+  },
+  "outcome_firewall": {
+    "interaction_rows_opened": false,
+    "interaction_weights_opened": false,
+    "generalized_turnover_outcomes_opened": false
+  },
+  "science_changes": {
+    "current_fcp_manuscript": false,
+    "chun_el_v0_3": false
+  }
+}

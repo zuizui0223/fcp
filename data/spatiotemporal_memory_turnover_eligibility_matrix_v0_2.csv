@@ -1,0 +1,13 @@
+response_id,response_label,predictor_id,predictor_label,analysis_role,expected_direction,required_predictor_source,forbidden_leakage,current_status
+"TT","trait temporal turnover","CH","context heterogeneity","PRIMARY_COMMON_DRIVER","positive","external abiotic/opportunity source","same response trait/interaction outcome prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"TS","trait spatial turnover","CH","context heterogeneity","PRIMARY_COMMON_DRIVER","positive","external abiotic/opportunity source","same response trait/interaction outcome prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"IT","interaction temporal turnover","CH","context heterogeneity","PRIMARY_COMMON_DRIVER","positive","external abiotic/co-opportunity source","realized focal interaction edges prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"IS","interaction spatial rewiring","CH","context heterogeneity","PRIMARY_COMMON_DRIVER","positive","external abiotic/co-opportunity source","realized focal interaction edges prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"TT","trait temporal turnover","ES","ecological specialization","PRIMARY_DECOUPLER","negative","external breadth/independent baseline","response-derived breadth prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"TS","trait spatial turnover","ES","ecological specialization","PRIMARY_DECOUPLER","positive","external breadth/independent baseline","response-derived breadth prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"IT","interaction temporal turnover","ES","ecological specialization","PRIMARY_DECOUPLER","negative","external partner breadth or disjoint baseline","same-edge partner entropy/degree prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"IS","interaction spatial rewiring","ES","ecological specialization","PRIMARY_DECOUPLER","positive","external partner breadth or disjoint baseline","same-edge partner entropy/degree prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"TT","trait temporal turnover","DM","dispersal mobility","SECONDARY_DECOUPLER","no_directional_primary","external mobility trait","response-derived range size prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"TS","trait spatial turnover","DM","dispersal mobility","SECONDARY_DECOUPLER","negative","external mobility trait","response-derived range size prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"IT","interaction temporal turnover","DM","dispersal mobility","SECONDARY_DECOUPLER","no_directional_primary","external mobility trait","response-derived range size prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"
+"IS","interaction spatial rewiring","DM","dispersal mobility","SECONDARY_DECOUPLER","negative","external mobility trait","response-derived range size prohibited","PREDICTOR_SOURCE_NOT_YET_QUALIFIED"

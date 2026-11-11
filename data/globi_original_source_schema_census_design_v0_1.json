@@ -1,0 +1,45 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_GITHUB_SCHEMA_CENSUS",
+  "frozen_on": "2026-09-30",
+  "source_family": "GLOBI_STABLE_ZENODO",
+  "parent_identity": "data/globi_current_stable_identity_v0_2.json",
+  "source_org": "globalbioticinteractions",
+  "purpose": "Bounded original-source schema qualification after the stable GloBI dataset index proved too thin for geometry/time screening.",
+  "allowed_opening": {
+    "github_repo_metadata": true,
+    "globi_json_only": true,
+    "readme": false,
+    "source_data_files": false,
+    "interaction_rows": false,
+    "taxon_values": false,
+    "coordinates_values": false,
+    "dates_values": false
+  },
+  "schema_requirements": {
+    "taxon_pair": "explicit sourceTaxon and targetTaxon mapped fields in globi.json",
+    "geography": "explicit latitude and longitude mapped fields",
+    "replication_context": "at least one explicit date/time or site/location/study/plot/sample field",
+    "interaction_semantics": "interaction type field or fixed interaction type in globi.json"
+  },
+  "ranking": {
+    "max_candidates": 12,
+    "order": [
+      "complete taxon pair + lat/lon + temporal/context + interaction type",
+      "more safe schema dimensions",
+      "repository full name ascending"
+    ],
+    "outcome_independent": true
+  },
+  "pass_rule": {
+    "minimum_schema_candidates": 1,
+    "no_candidate_relaxation_after_run": true
+  },
+  "next_gate_if_pass": "Inspect only source citation/README and sampling-design metadata for the frozen schema candidates; interaction rows remain sealed.",
+  "next_gate_if_hold": "Stop GloBI primary paired time-space route under the current finite source family.",
+  "governance": {
+    "generalized_turnover_outcomes_opened": false,
+    "current_fcp_manuscript_changed": false,
+    "chun_el_v0_3_changed": false
+  }
+}
