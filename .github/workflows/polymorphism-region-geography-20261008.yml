@@ -1,0 +1,107 @@
+name: FCP region-conditional flower-colour geography
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_region_spatial_depletion_20261008.py
+      - tests/test_polymorphism_region_spatial_depletion_20261008.py
+      - docs/POLYMORPHISM_REGIONAL_GEOGRAPHIC_ITV_PROTOCOL_20261008.md
+      - .github/workflows/polymorphism-region-geography-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-region-geography-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: '5142f7951af0dde5364bb047a566d67e8c479e51'
+  THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  DISC_SHA256: 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4'
+  VAL_SHA256: '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6'
+  THIRD_SHA256: '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186'
+
+jobs:
+  regional-geo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+
+      - name: Install reproducible analysis runtime and test regional nulls
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/run_polymorphism_region_spatial_depletion_20261008.py
+          python -m pytest tests/test_polymorphism_region_spatial_depletion_20261008.py -q
+
+      - name: Retrieve and byte-verify all three measured photo cohorts
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_region_d.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_region_v.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_region_t.csv
+          echo "$DISC_SHA256  /tmp/fcp_region_d.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_region_v.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_region_t.csv" | sha256sum -c -
+
+      - name: Quantify region-specific conspecific local colour depletion
+        run: |
+          python scripts/analysis/run_polymorphism_region_spatial_depletion_20261008.py \
+            --discovery /tmp/fcp_region_d.csv \
+            --validation /tmp/fcp_region_v.csv \
+            --third /tmp/fcp_region_t.csv \
+            --outdir /tmp/fcp_region_geography
+
+      - name: Gate regional generality on true geographic and calendar opportunity
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/fcp_region_geography/result.json').read_text())
+          assert r['schema']=='fcp_latitudinal_region_spatial_depletion_posthoc_v1'
+          assert r['status']=='complete_source_verified'
+          assert r['confirmatory_decisions_changed'] is False
+          assert r['species_disjoint_across_three_cohorts']
+          assert set(r['cohorts'])=={'discovery','validation','third'}
+          for c in ('discovery','validation','third'):
+              assert r['source_coverage'][c]['n_species_classifiable_40']>0
+              for scheme,regions in r['cohorts'][c]['schemes'].items():
+                  assert len(regions['regions'])==3
+                  for name,d in regions['regions'].items():
+                      op=d['opportunity']
+                      assert op['n_species_with_at_least_20_dated_region_photos']<=op['n_species_with_any_region_photos']
+                      for policy in ('all','different_observer'):
+                          for mode in ('month','year_month'):
+                              s=d['scenarios'][f'{mode}__{policy}']
+                              assert s['n_calendar_identifiable_species']<=s['n_geographically_evaluable_species']
+                              assert s['n_calendar_identifiable_species']+s['n_nonidentifiable_kept']==s['n_geographically_evaluable_species']
+                              if s['estimable']:
+                                  assert 0<=s['permutation_upper_p_unadjusted']<=1
+                                  assert len(s['species_bootstrap_95CI'])==2
+                                  assert s['coverage_pass']==(s['n_geographically_evaluable_species']>=30 and s['n_calendar_identifiable_species']>=25)
+                              if mode=='month':
+                                  assert 0<=s['holm_p_across_3regions_x_2observers']<=1
+          for scheme,regions in r['cross_cohort'].items():
+              assert len(regions)==3
+              for name,rec in regions.items():
+                  assert len(rec['cohort_geographic_photo_species'])==3
+                  assert len(rec['cohort_calendar_identifiable_species'])==3
+                  if rec['month_conditioned_positive_replication_supported']:
+                      assert rec['all_cohorts_minimum_30geo_25identified']
+          print('REGIONAL_PHOTO_GEOGRAPHY_SOURCE_REPLICATION_AUDITED_NO_HISTORIC_CLAIMS_CHANGED')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-region-spatial-generalization-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_region_geography/
