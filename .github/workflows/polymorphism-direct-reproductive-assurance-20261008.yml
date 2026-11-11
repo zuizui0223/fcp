@@ -1,0 +1,103 @@
+name: FCP direct reproductive evidence coverage
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_direct_reproductive_assurance_overlap_20261008.py
+      - tests/test_polymorphism_direct_reproductive_assurance_overlap_20261008.py
+      - docs/FCP_DIRECT_REPRODUCTIVE_ASSURANCE_SOURCE_FEASIBILITY_PROTOCOL_20261008.md
+      - .github/workflows/polymorphism-direct-reproductive-assurance-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-direct-reproductive-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FCP_LEGACY_SHA: '5142f7951af0dde5364bb047a566d67e8c479e51'
+  FCP_THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  ISLAND_SHA: '92f007797fbbcb3c6743a4ffb2628fa609329499'
+  DISC_SHA256: 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4'
+  VAL_SHA256: '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6'
+  THIRD_SHA256: '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186'
+  RODGER_SHA256: 'fa745c578f3537933fafedc1d36b4ea266348cd83d7f6cbb231c253b0f348d3f'
+
+jobs:
+  independent-direct-trait-coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install existing analysis requirements and execute fail-closed synthetic tests
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/run_polymorphism_direct_reproductive_assurance_overlap_20261008.py
+          python -m pytest tests/test_polymorphism_direct_reproductive_assurance_overlap_20261008.py -q
+
+      - name: Recover all three SHA-pinned original FCP photo cohorts
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$FCP_LEGACY_SHA" "$FCP_THIRD_SHA"
+          git show "$FCP_LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_reprod_d.csv
+          git show "$FCP_LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_reprod_v.csv
+          git show "$FCP_THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_reprod_t.csv
+          echo "$DISC_SHA256  /tmp/fcp_reprod_d.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_reprod_v.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_reprod_t.csv" | sha256sum -c -
+
+      - name: Fetch pinned public island biological reproductive source tables
+        run: |
+          set -euo pipefail
+          ROOT="https://raw.githubusercontent.com/zuizui0223/island/${ISLAND_SHA}/data/v2/external/traits"
+          curl --fail -L --retry 3 "$ROOT/goodwillie_2005/mixed_mating_outcrossing_rate_database_normalized.csv" -o /tmp/fcp_goodwillie.csv
+          curl --fail -L --retry 3 "$ROOT/razanajatovo_2016/Razanajatovo_etal_data.csv" -o /tmp/fcp_razanajatovo.csv
+          curl --fail -L --retry 3 "$ROOT/rodger_2021_pollinator_contribution/rodger_2021_pollinator_contribution_snapshot.csv.gz" -o /tmp/fcp_rodger.csv.gz
+          echo "$RODGER_SHA256  /tmp/fcp_rodger.csv.gz" | sha256sum -c -
+          test $(wc -c </tmp/fcp_goodwillie.csv) -gt 100000
+          test $(wc -c </tmp/fcp_razanajatovo.csv) -gt 100000
+          gzip -t /tmp/fcp_rodger.csv.gz
+
+      - name: Count real direct reproductive trait overlap without constructing fake fitness
+        run: |
+          python scripts/analysis/run_polymorphism_direct_reproductive_assurance_overlap_20261008.py \
+            --discovery /tmp/fcp_reprod_d.csv \
+            --validation /tmp/fcp_reprod_v.csv \
+            --third /tmp/fcp_reprod_t.csv \
+            --goodwillie /tmp/fcp_goodwillie.csv \
+            --razanajatovo /tmp/fcp_razanajatovo.csv \
+            --rodger /tmp/fcp_rodger.csv.gz \
+            --outdir /tmp/fcp_reprod_overlap
+
+      - name: Validate source independence, denominators, and no unjustified selection claim
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          j=json.loads(Path('/tmp/fcp_reprod_overlap/result.json').read_text())
+          assert j['schema']=='fcp_direct_reproductive_assurance_trait_overlap_v1'
+          assert j['confirmatory_decisions_changed'] is False
+          assert set(j['source_trait_panels'])=={'rodger','goodwillie','razanajatovo'}
+          assert set(j['source_photo_species_by_cohort'])=={'discovery','validation','third'}
+          assert j['source_photo_species_total']==sum(j['source_photo_species_by_cohort'].values())
+          for p in j['source_trait_panels'].values():
+              assert p['n_fcp_species_measured_trait_overlap']<=p['n_fcp_species_any_named_source_overlap']
+              assert p['n_fcp_white_chromatic_photo_species_measured_trait_overlap']<=p['n_fcp_species_measured_trait_overlap']
+              assert sum(p['n_measured_overlap_by_cohort'].values())==p['n_fcp_species_measured_trait_overlap']
+              assert sum(p['n_measured_white_chromatic_overlap_by_cohort'].values())==p['n_fcp_white_chromatic_photo_species_measured_trait_overlap']
+          print('DIRECT_REPRODUCTIVE_ASSURANCE_FCP_SOURCE_COVERAGE_AUDITED_NO_SURROGATE_TRAITS')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-reproductive-direct-source-overlap-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_reprod_overlap/
