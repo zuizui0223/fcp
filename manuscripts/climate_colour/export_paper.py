@@ -10,6 +10,7 @@ import cairosvg
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
 
 assets = Path(__file__).resolve().parent
 output = Path(sys.argv[1]).resolve()
@@ -42,13 +43,27 @@ for source, name, count in sources:
         for index, paragraph in enumerate(doc.paragraphs):
             if paragraph._p.xpath('.//w:drawing'):
                 paragraph.alignment=WD_ALIGN_PARAGRAPH.CENTER
-                paragraph.paragraph_format.page_break_before=True
+                paragraph.paragraph_format.page_break_before=(name=='FCP_Manuscript')
                 paragraph.paragraph_format.keep_with_next=True
             if paragraph.text.startswith(('Figure ','Figure S')):
                 paragraph.paragraph_format.keep_together=True
             if paragraph.text=='Figures':
                 # Use the first caption as the figure section opener.
                 paragraph._p.getparent().remove(paragraph._p)
+        for table in doc.tables:
+            widths = [0.45, 2.1, 1.5, 0.65, 0.65, 0.65] if len(table.columns)==6 else [2.6, 0.8, 2.6]
+            table.autofit=False
+            for col, width in zip(table.columns,widths):
+                col.width=Inches(width)
+                for cell in col.cells:
+                    cell.width=Inches(width)
+            for row in table.rows:
+                row._tr.get_or_add_trPr().append(OxmlElement('w:cantSplit'))
+                for cell in row.cells:
+                    for para in cell.paragraphs:
+                        para.paragraph_format.space_after=Pt(2)
+                        for run in para.runs:
+                            run.font.size=Pt(9)
         doc.styles['Normal'].font.size=Pt(11)
         doc.save(file)
         assert len(Document(file).inline_shapes)==count
