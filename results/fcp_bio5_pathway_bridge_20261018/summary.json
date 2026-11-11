@@ -1,0 +1,34 @@
+{
+  "schema": "fcp_pal_wal_five_cohort_mechanism_bridge_audit_v1",
+  "date": "2026-10-18",
+  "photo_csv_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_frequency_registry_csv_sha256": "3a19d4717cefbc69b13022982dff9e354b155a898316d84c11016129ed6dbb22",
+  "source_registry_artifact_id": 10855596712,
+  "original_measured_zip_artifact_id": 12106604882,
+  "alias_policy": "reuse only four aliases audited in the repository on 2026-09-28; no fuzzy matching and no new taxonomic revision",
+  "candidate_frame": 4730,
+  "genuinely_measured_species": 4475,
+  "photo_rows": 447500,
+  "classifiable_photo_rows": 227107,
+  "species_with_40_classifiable": 3297,
+  "registry_rows": 26,
+  "registry_unique_source_species": 25,
+  "by_phenotype": {
+    "PAL": {"natural_source_rows": 13, "rows_in_measured_species": 9, "rows_meeting_D_ge40": 7},
+    "WAL": {"natural_source_rows": 12, "rows_in_measured_species": 10, "rows_meeting_D_ge40": 8}
+  },
+  "matched_natural_D_ge40_species": {
+    "PAL": ["Cirsium palustre", "Cosmos bipinnatus", "Gymnadenia rhellicani", "Ipomoea purpurea", "Phlox pilosa", "Silene gallica", "Silybum marianum"],
+    "WAL": ["Delphinium nuttallianum", "Digitalis purpurea", "Echium plantagineum", "Erythranthe lewisii", "Ipomoea purpurea", "Medicago sativa", "Phlox drummondii", "Silene dioica"]
+  },
+  "phenotype_classes_are_not_disjoint_species_traits": ["Ipomoea purpurea"],
+  "natural_unique_measured_taxa": 18,
+  "natural_unique_D_ge40_taxa": 14,
+  "prior_natural_D_overlap_species": 4,
+  "greenhouse_only_D_match_species": ["Erythranthe guttata"],
+  "anchor_species_absent_under_this_alias_policy": ["Parrya nudicaulis", "Silene littorea"],
+  "joint_BIO5_by_molecular_route_effect_estimated": false,
+  "molecular_status_of_individual_photo_records_verified": false,
+  "inferential_PAL_vs_WAL_test_performed": false,
+  "raw_RNA_reanalysis_performed": false
+}
