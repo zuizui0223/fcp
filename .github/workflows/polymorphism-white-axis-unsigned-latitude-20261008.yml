@@ -1,0 +1,96 @@
+name: FCP white versus nonwhite geography opportunity-matched audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_white_axis_unsigned_latitude_sorting_20261008.py
+      - tests/test_polymorphism_white_axis_unsigned_latitude_sorting_20261008.py
+      - docs/POLYMORPHISM_WHITE_AXIS_UNSIGNED_LATITUDE_SORTING_PROTOCOL_20261008.md
+      - .github/workflows/polymorphism-white-axis-unsigned-latitude-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-white-axis-geography-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: '5142f7951af0dde5364bb047a566d67e8c479e51'
+  THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  DISC_SHA256: 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4'
+  VAL_SHA256: '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6'
+  THIRD_SHA256: '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186'
+
+jobs:
+  white-axis-compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+
+      - name: Install pinned analysis dependencies and run mechanism-discriminator synthetic tests
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/run_polymorphism_white_axis_unsigned_latitude_sorting_20261008.py
+          python -m pytest tests/test_polymorphism_white_axis_unsigned_latitude_sorting_20261008.py -q
+
+      - name: Retrieve and SHA-verify original photo cohorts
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_waxis_d.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_waxis_v.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_waxis_t.csv
+          echo "$DISC_SHA256  /tmp/fcp_waxis_d.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_waxis_v.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_waxis_t.csv" | sha256sum -c -
+
+      - name: Evaluate direction-free latitude assortment of white vs coloured hues
+        run: |
+          python scripts/analysis/run_polymorphism_white_axis_unsigned_latitude_sorting_20261008.py \
+            --discovery /tmp/fcp_waxis_d.csv \
+            --validation /tmp/fcp_waxis_v.csv \
+            --third /tmp/fcp_waxis_t.csv \
+            --outdir /tmp/fcp_white_axis_unsigned_geo
+
+      - name: Validate and fail closed for per-colour photographic opportunity
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/fcp_white_axis_unsigned_geo/result.json').read_text())
+          assert r['schema']=='fcp_white_vs_nonwhite_hue_unsigned_latitude_sorting_posthoc_v1'
+          assert r['confirmatory_decisions_changed'] is False
+          assert r['no_signed_global_cline_imposed'] is True
+          assert set(r['cohorts'])=={'discovery','validation','third'}
+          status=[]
+          for name,c in r['cohorts'].items():
+              assert c['n_with_intraspecific_latitude_span']<=c['source_coverage']['n_40_classifiable_species']
+              for label,x in c['axis'].items():
+                  assert x['n_conditional_identifiable']<=x['n_geographically_evaluable']
+                  assert x['n_nonidentifiable_kept_as_zero']+x['n_conditional_identifiable']==x['n_geographically_evaluable']
+                  if x['n_geographically_evaluable']:
+                      assert len(x['species_bootstrap_CI_excess_V2'])==2
+              x=c['paired_white_specific_comparison']
+              assert x['n_matched_species']<=c['axis']['W_lead']['n_conditional_identifiable']
+              assert x['n_matched_species']<=c['axis']['hue_lead_next']['n_conditional_identifiable']
+              if x['n_matched_species']:
+                  assert len(x['species_bootstrap_95CI'])==2
+                  assert 0<=x['paired_signflip_two_sided_p']<=1
+              status.append(x)
+          print('WHITE_AXIS_PHOTO_LATITUDE_COMPARISONS_VERIFIED_HISTORICAL_CLAIMS_UNCHANGED')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-white-axis-unsigned-latitude-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_white_axis_unsigned_geo/

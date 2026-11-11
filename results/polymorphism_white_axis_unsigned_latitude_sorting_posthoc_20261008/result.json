@@ -1,0 +1,269 @@
+{
+  "schema": "fcp_white_vs_nonwhite_hue_unsigned_latitude_sorting_posthoc_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete",
+  "confirmatory_decisions_changed": false,
+  "role": "retrospective_morph_axis_specific_geographical_sorting_not_benefit_cost_selection",
+  "source_measured_SHA256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "n_perm_fixed_per_species": 199,
+  "n_species_bootstrap": 1999,
+  "n_paired_signflip": 9999,
+  "latitude_bins": "within-species absolute-latitude tertiles, tied latitudes never rank-split",
+  "minimum_abs_lat_span_degrees": 1,
+  "minimum_photos_per_individual_morph": 5,
+  "white_chromatic_axis": "white vs three coarse nonwhite photographic states pooled",
+  "paired_axis": "white vs most abundant coloured category; most abundant vs second most abundant coloured category, same species",
+  "no_signed_global_cline_imposed": true,
+  "cross_cohort_strict_paired_white_specific_gate": false,
+  "hard_nonclaims": [
+    "photographic white is light/exposure coupled and not anthocyanin loss validated",
+    "no genetic polymorphism or metabolite cost/benefit measured",
+    "latitude sorting under a month-preserving null is also compatible with neutral dispersal/history and observer/site bias",
+    "white/colour and nonwhite/nonwhite have different photo opportunity, despite null SD standardization",
+    "within-species 1-degree span/photo-terciles do not represent natural population boundaries",
+    "selected >40-classifiable photo species not a random sampling frame for world flower diversity",
+    "the prior photo H2 axis is conditional on classification and not evidence white mutations are cheaper",
+    "this post-outcome ecological screen cannot upgrade historical manuscript H1/H2 claims"
+  ],
+  "cohorts": {
+    "discovery": {
+      "source_coverage": {
+        "n_pre_40_species": 500,
+        "n_40_classifiable_species": 369,
+        "n_40_classifiable_rows": 21424,
+        "n_rows_with_valid_1990_2026_date": 21400,
+        "n_species_with_at_least_40_valid_dates": 368
+      },
+      "n_with_intraspecific_latitude_span": 366,
+      "axis": {
+        "W_all": {
+          "n_geographically_evaluable": 182,
+          "n_conditional_identifiable": 181,
+          "n_genera": 141,
+          "n_nonidentifiable_kept_as_zero": 1,
+          "mean_excess_Cramer_V2": 0.0030058599757141397,
+          "mean_standardized_null_SD_excess": 0.07184683131614775,
+          "genus_balanced_mean_excess_V2": 0.003703169907654262,
+          "fraction_species_positive": 0.4175824175824176,
+          "species_bootstrap_CI_excess_V2": [
+            -0.00314858149532745,
+            0.009336669075414012
+          ],
+          "status": "EXPLORATORY_POPULATION_COVERAGE"
+        },
+        "W_lead": {
+          "n_geographically_evaluable": 170,
+          "n_conditional_identifiable": 168,
+          "n_genera": 132,
+          "n_nonidentifiable_kept_as_zero": 2,
+          "mean_excess_Cramer_V2": 0.00767176249028362,
+          "mean_standardized_null_SD_excess": 0.1923061160247469,
+          "genus_balanced_mean_excess_V2": 0.007710762938450108,
+          "fraction_species_positive": 0.4588235294117647,
+          "species_bootstrap_CI_excess_V2": [
+            0.00011112426740131576,
+            0.01636794689168535
+          ],
+          "status": "EXPLORATORY_POPULATION_COVERAGE"
+        },
+        "hue_lead_next": {
+          "n_geographically_evaluable": 53,
+          "n_conditional_identifiable": 52,
+          "n_genera": 46,
+          "n_nonidentifiable_kept_as_zero": 1,
+          "mean_excess_Cramer_V2": 0.0162810277380609,
+          "mean_standardized_null_SD_excess": 0.38877876456731364,
+          "genus_balanced_mean_excess_V2": 0.018207269168429824,
+          "fraction_species_positive": 0.4528301886792453,
+          "species_bootstrap_CI_excess_V2": [
+            -0.0034520427147605656,
+            0.040877970354231956
+          ],
+          "status": "HOLD_SPARSE_GEOGRAPHY_OR_CALENDAR"
+        }
+      },
+      "paired_white_specific_comparison": {
+        "n_matched_species": 32,
+        "n_genera": 30,
+        "mean_standardized_white_minus_nonwhite_axis": -0.2612988874244532,
+        "median_standardized_axis_difference": -0.1816435296651838,
+        "species_bootstrap_95CI": [
+          -1.1586594458422663,
+          0.3976468460737006
+        ],
+        "paired_signflip_two_sided_p": 0.6322,
+        "genus_balanced_axis_difference": -0.3068815887601456,
+        "positive_species_fraction": 0.4375,
+        "n_minimum_25_matched": true,
+        "status": "EXPLORATORY_COMPARISON_ELIGIBLE",
+        "null_model": "both pairs each have their own composition/month preserving geography shuffle; effect normalized by pair-specific null SD",
+        "claim_boundary": "relative photographic latitude sorting, not white-pigment fitness cost; exposure and demography can confound"
+      }
+    },
+    "validation": {
+      "source_coverage": {
+        "n_pre_40_species": 500,
+        "n_40_classifiable_species": 363,
+        "n_40_classifiable_rows": 20903,
+        "n_rows_with_valid_1990_2026_date": 20879,
+        "n_species_with_at_least_40_valid_dates": 363
+      },
+      "n_with_intraspecific_latitude_span": 362,
+      "axis": {
+        "W_all": {
+          "n_geographically_evaluable": 166,
+          "n_conditional_identifiable": 165,
+          "n_genera": 136,
+          "n_nonidentifiable_kept_as_zero": 1,
+          "mean_excess_Cramer_V2": 0.008951415698134527,
+          "mean_standardized_null_SD_excess": 0.22004633733263948,
+          "genus_balanced_mean_excess_V2": 0.008532789871952337,
+          "fraction_species_positive": 0.42771084337349397,
+          "species_bootstrap_CI_excess_V2": [
+            0.0003405999472069486,
+            0.01887480996166544
+          ],
+          "status": "EXPLORATORY_POPULATION_COVERAGE"
+        },
+        "W_lead": {
+          "n_geographically_evaluable": 159,
+          "n_conditional_identifiable": 158,
+          "n_genera": 132,
+          "n_nonidentifiable_kept_as_zero": 1,
+          "mean_excess_Cramer_V2": 0.012200546788293878,
+          "mean_standardized_null_SD_excess": 0.2650669093346679,
+          "genus_balanced_mean_excess_V2": 0.011711618699723012,
+          "fraction_species_positive": 0.4339622641509434,
+          "species_bootstrap_CI_excess_V2": [
+            0.0023974777047519953,
+            0.022874911999102406
+          ],
+          "status": "EXPLORATORY_POPULATION_COVERAGE"
+        },
+        "hue_lead_next": {
+          "n_geographically_evaluable": 51,
+          "n_conditional_identifiable": 49,
+          "n_genera": 48,
+          "n_nonidentifiable_kept_as_zero": 2,
+          "mean_excess_Cramer_V2": 0.004610891306796037,
+          "mean_standardized_null_SD_excess": 0.017273645622534056,
+          "genus_balanced_mean_excess_V2": 0.0038133070970994202,
+          "fraction_species_positive": 0.43137254901960786,
+          "species_bootstrap_CI_excess_V2": [
+            -0.012476502849048212,
+            0.02546843674048148
+          ],
+          "status": "HOLD_SPARSE_GEOGRAPHY_OR_CALENDAR"
+        }
+      },
+      "paired_white_specific_comparison": {
+        "n_matched_species": 34,
+        "n_genera": 33,
+        "mean_standardized_white_minus_nonwhite_axis": 0.11021749919827392,
+        "median_standardized_axis_difference": -0.21984571438554812,
+        "species_bootstrap_95CI": [
+          -0.4343454869210016,
+          0.7197805588471878
+        ],
+        "paired_signflip_two_sided_p": 0.7184,
+        "genus_balanced_axis_difference": 0.13689900906780197,
+        "positive_species_fraction": 0.4411764705882353,
+        "n_minimum_25_matched": true,
+        "status": "EXPLORATORY_COMPARISON_ELIGIBLE",
+        "null_model": "both pairs each have their own composition/month preserving geography shuffle; effect normalized by pair-specific null SD",
+        "claim_boundary": "relative photographic latitude sorting, not white-pigment fitness cost; exposure and demography can confound"
+      }
+    },
+    "third": {
+      "source_coverage": {
+        "n_pre_40_species": 499,
+        "n_40_classifiable_species": 377,
+        "n_40_classifiable_rows": 22144,
+        "n_rows_with_valid_1990_2026_date": 22120,
+        "n_species_with_at_least_40_valid_dates": 376
+      },
+      "n_with_intraspecific_latitude_span": 373,
+      "axis": {
+        "W_all": {
+          "n_geographically_evaluable": 193,
+          "n_conditional_identifiable": 193,
+          "n_genera": 151,
+          "n_nonidentifiable_kept_as_zero": 0,
+          "mean_excess_Cramer_V2": 0.006156873727446034,
+          "mean_standardized_null_SD_excess": 0.16126366312668208,
+          "genus_balanced_mean_excess_V2": 0.007837455859454678,
+          "fraction_species_positive": 0.43005181347150256,
+          "species_bootstrap_CI_excess_V2": [
+            0.000049902125651802864,
+            0.01360088464359661
+          ],
+          "status": "EXPLORATORY_POPULATION_COVERAGE"
+        },
+        "W_lead": {
+          "n_geographically_evaluable": 182,
+          "n_conditional_identifiable": 182,
+          "n_genera": 145,
+          "n_nonidentifiable_kept_as_zero": 0,
+          "mean_excess_Cramer_V2": 0.007038885177911343,
+          "mean_standardized_null_SD_excess": 0.19910399024131456,
+          "genus_balanced_mean_excess_V2": 0.009180865789757678,
+          "fraction_species_positive": 0.4230769230769231,
+          "species_bootstrap_CI_excess_V2": [
+            -0.00013271440534912298,
+            0.015017728482418268
+          ],
+          "status": "EXPLORATORY_POPULATION_COVERAGE"
+        },
+        "hue_lead_next": {
+          "n_geographically_evaluable": 60,
+          "n_conditional_identifiable": 60,
+          "n_genera": 52,
+          "n_nonidentifiable_kept_as_zero": 0,
+          "mean_excess_Cramer_V2": 0.021099136945517898,
+          "mean_standardized_null_SD_excess": 0.37313677321382155,
+          "genus_balanced_mean_excess_V2": 0.017176712813272828,
+          "fraction_species_positive": 0.5333333333333333,
+          "species_bootstrap_CI_excess_V2": [
+            0.001455865634952222,
+            0.04309389869635958
+          ],
+          "status": "HOLD_SPARSE_GEOGRAPHY_OR_CALENDAR"
+        }
+      },
+      "paired_white_specific_comparison": {
+        "n_matched_species": 41,
+        "n_genera": 38,
+        "mean_standardized_white_minus_nonwhite_axis": -0.10615021328167605,
+        "median_standardized_axis_difference": -0.1281388907242853,
+        "species_bootstrap_95CI": [
+          -0.42179440623848835,
+          0.20722676271363022
+        ],
+        "paired_signflip_two_sided_p": 0.518,
+        "genus_balanced_axis_difference": -0.09757640312897145,
+        "positive_species_fraction": 0.43902439024390244,
+        "n_minimum_25_matched": true,
+        "status": "EXPLORATORY_COMPARISON_ELIGIBLE",
+        "null_model": "both pairs each have their own composition/month preserving geography shuffle; effect normalized by pair-specific null SD",
+        "claim_boundary": "relative photographic latitude sorting, not white-pigment fitness cost; exposure and demography can confound"
+      }
+    }
+  },
+  "execution_receipt": {
+    "run_id": 37745935495,
+    "job_id": 113207307797,
+    "evaluated_commit": "685c6feb5bac4f9ab1aef7e26ea7e549d315032a",
+    "artifact_id": 11534829997,
+    "artifact_digest": "sha256:4c5f05f7d79ebeab5771314a6647ce19ee3a72bfb976af2b89592698a68ab5f8",
+    "synthetic_test_status": [
+      "7 passed in 0.56s"
+    ],
+    "source_status": "recovered complete JSON from green GitHub Actions stdout",
+    "artifact_includes": "species_latitude_sorting_axis_metrics.csv and result.json",
+    "frozen_manuscript_claims_changed": false
+  }
+}
