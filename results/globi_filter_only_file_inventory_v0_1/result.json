@@ -1,0 +1,25 @@
+{
+  "version": "v0.1",
+  "status": "PASS_GLOBI_FILE_INVENTORY_INTERACTION_TABLE_PINNED",
+  "zenodo_record": 22691479,
+  "record_version": "0.11",
+  "published": "2026-09-10",
+  "file_count": 20,
+  "selection_priority": [
+    "interactions.parquet",
+    "interactions.tsv.gz",
+    "interactions.tsv"
+  ],
+  "selected_interaction_table": {
+    "key": "interactions.parquet",
+    "size": 2375721521,
+    "checksum": "md5:8212776b7ba0c4fa8de26a00b5ce8595",
+    "content": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+  },
+  "biological_rows_opened": false,
+  "taxon_identities_opened": false,
+  "specialization_values_computed": false,
+  "workflow_run": 36623793952,
+  "workflow_job": 109595508382,
+  "next_gate": "Schema-only Parquet footer audit. Open no data rows."
+}

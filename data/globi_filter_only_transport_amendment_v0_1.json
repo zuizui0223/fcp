@@ -1,0 +1,28 @@
+{
+  "version": "v0.1",
+  "status": "TRANSPORT_AMENDMENT_FROZEN_AFTER_HTTP_429_BEFORE_SUCCESSFUL_ROW_SCAN",
+  "parent_design": "data/globi_filter_only_row_support_design_v0_1.json",
+  "failed_run": 36624446549,
+  "failure": "Zenodo HTTP 429 during DuckDB remote range scan",
+  "scientific_or_filter_rule_changed": false,
+  "source_changed": false,
+  "exact_source": {
+    "file": "interactions.parquet",
+    "bytes": 2375721521,
+    "md5": "8212776b7ba0c4fa8de26a00b5ce8595"
+  },
+  "amended_transport": {
+    "method": "single full-byte local download with retries, then MD5 verification, then identical frozen projection/filter audit on local parquet",
+    "download_url": "https://zenodo.org/records/22691479/files/interactions.parquet?download=1",
+    "semantic_opening_rule": "Downloading bytes does not authorize reading non-projected columns; the row-audit code remains restricted to the 10 frozen fields.",
+    "retry_only": true
+  },
+  "prohibited_changes": [
+    "no source substitution",
+    "no switch to verbatim interaction table",
+    "no exclusion-rule change",
+    "no support-threshold change",
+    "no specialization calculation",
+    "no geographic/time field opening"
+  ]
+}

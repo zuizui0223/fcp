@@ -1,0 +1,86 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_INTERACTION_ROW_OPENING",
+  "frozen_on": "2026-09-30",
+  "parent_predictor_result": "results/spatiotemporal_predictor_eligibility_v0_1/result.json",
+  "purpose": "Qualify a response-independent GloBI specialization predictor by proving row-level source exclusion and remaining taxonomic support without computing specialization, partner entropy, or any turnover response.",
+  "source": {
+    "zenodo_record": 22691479,
+    "expected_version": "0.11",
+    "record_metadata_url": "https://zenodo.org/api/records/22691479",
+    "stable_archive_family_doi": "10.5281/zenodo.3950589"
+  },
+  "stage_A_file_inventory": {
+    "allowed": true,
+    "allowed_content": "Zenodo record metadata and file-level metadata only: filename, size, checksum, file links, publication/version metadata.",
+    "biological_rows_allowed": false,
+    "pass_rule": [
+      "identify exactly one current integrated interaction table suitable for filter-only row support audit",
+      "record exact file name, bytes, checksum and content link",
+      "interaction table must expose a stable downloadable object"
+    ],
+    "hold_rule": "If no exact integrated interaction table is identified from record metadata, terminate HOLD without opening biological rows."
+  },
+  "stage_B_filter_only": {
+    "authorized_only_after_stage_A_pass": true,
+    "allowed_fields": [
+      "dataset/source namespace or equivalent dataset identifier",
+      "source citation/reference DOI or equivalent source identifier",
+      "source taxon name/id needed only for focal-support counts",
+      "target taxon name/id needed only for partner-support counts",
+      "interaction type/class needed only to stratify support"
+    ],
+    "forbidden_fields": [
+      "latitude",
+      "longitude",
+      "event date/time",
+      "interaction strength/count",
+      "environmental values",
+      "trait values",
+      "phylogenetic distances",
+      "fields not required for source exclusion or support counts"
+    ],
+    "exclusion_rule": {
+      "namespace_exact": "globalbioticinteractions/mangal",
+      "response_source_dois": [
+        "10.1126/science.257.5073.1107",
+        "10.1086/674445",
+        "10.1007/s10641-010-9606-0"
+      ],
+      "combine": "exclude if namespace match OR source/citation DOI match",
+      "freeze_note": "This rule is fixed before interaction rows are opened."
+    },
+    "outputs_allowed": [
+      "total rows scanned",
+      "rows excluded by namespace",
+      "rows excluded by DOI family",
+      "rows excluded by either rule",
+      "rows remaining",
+      "distinct focal taxa and partner taxa remaining by source-native interaction type",
+      "number of focal taxa meeting >=10 retained records and >=2 distinct retained partners"
+    ],
+    "outputs_forbidden": [
+      "normalized Shannon entropy",
+      "specialization score",
+      "partner profile dissimilarity",
+      "interaction temporal turnover",
+      "interaction spatial rewiring",
+      "time-space coupling statistic"
+    ]
+  },
+  "support_gate": {
+    "minimum_eligible_focal_taxa_total": 20,
+    "minimum_records_per_focal_taxon": 10,
+    "minimum_distinct_partners_per_focal_taxon": 2,
+    "decision_if_pass": "FILTER_ONLY_SUPPORT_PASS_SPECIALIZATION_COMPUTATION_STILL_NOT_AUTHORIZED",
+    "decision_if_fail": "HOLD_INSUFFICIENT_INDEPENDENT_GLOBI_PARTNER_SUPPORT"
+  },
+  "governance": {
+    "generalized_turnover_outcomes_opened": false,
+    "specialization_values_computed": false,
+    "no_posthoc_source_exclusion_changes": true,
+    "no_mobility_proxy_rescue": true,
+    "current_fcp_manuscript_changed": false,
+    "chun_science_changed": false
+  }
+}

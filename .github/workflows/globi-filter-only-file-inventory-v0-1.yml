@@ -1,0 +1,51 @@
+name: GloBI filter-only file inventory v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_filter_only_support_design_v0_1.json'
+      - 'scripts/analysis/audit_globi_filter_only_file_inventory_v0_1.py'
+      - '.github/workflows/globi-filter-only-file-inventory-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download Zenodo record metadata only
+        run: |
+          set -euo pipefail
+          mkdir -p build/globi_filter_only_inventory_v0_1
+          curl --fail --location --retry 4 --retry-delay 2 \
+            'https://zenodo.org/api/records/22691479' \
+            -o build/globi_filter_only_inventory_v0_1/record.json
+      - name: Freeze current file inventory
+        run: |
+          python scripts/analysis/audit_globi_filter_only_file_inventory_v0_1.py \
+            --record-json build/globi_filter_only_inventory_v0_1/record.json \
+            --out build/globi_filter_only_inventory_v0_1/result.json
+      - name: Validate metadata firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_filter_only_inventory_v0_1/result.json'))
+          assert x['biological_rows_opened'] is False
+          assert x['taxon_identities_opened'] is False
+          assert x['specialization_values_computed'] is False
+          assert x['zenodo_record']==22691479
+          assert x['status'] in {
+            'PASS_GLOBI_FILE_INVENTORY_INTERACTION_TABLE_PINNED',
+            'HOLD_GLOBI_FILE_INVENTORY_NO_INTERACTION_TABLE'
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-filter-only-file-inventory-v0-1
+          path: build/globi_filter_only_inventory_v0_1/result.json

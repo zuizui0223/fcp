@@ -1,0 +1,53 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_PARQUET_SCHEMA_OPENING",
+  "parent_inventory": "results/globi_filter_only_file_inventory_v0_1/result.json",
+  "source": {
+    "zenodo_record": 22691479,
+    "version": "0.11",
+    "file": "interactions.parquet",
+    "bytes": 2375721521,
+    "md5": "8212776b7ba0c4fa8de26a00b5ce8595",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+  },
+  "allowed_operation": "Read Parquet metadata/footer/schema only using HTTP range access; no row projection, no count aggregation over biological values.",
+  "required_semantic_roles": {
+    "dataset_identity": [
+      "dataset",
+      "namespace",
+      "datasetID",
+      "datasetId"
+    ],
+    "source_citation": [
+      "referenceCitation",
+      "sourceCitation",
+      "referenceDoi",
+      "sourceDoi",
+      "referenceURL",
+      "sourceURL"
+    ],
+    "focal_taxon": [
+      "sourceTaxonName",
+      "sourceTaxonId",
+      "sourceTaxonExternalId"
+    ],
+    "partner_taxon": [
+      "targetTaxonName",
+      "targetTaxonId",
+      "targetTaxonExternalId"
+    ],
+    "interaction_type": [
+      "interactionTypeName",
+      "interactionTypeId"
+    ]
+  },
+  "pass_rule": "Every required semantic role must have at least one plausible schema field. Exact selected fields must be frozen in a subsequent amendment before any row is scanned.",
+  "hold_rule": "If any semantic role is absent, terminate HOLD; do not fall back to full row opening or another file after seeing schema.",
+  "firewalls": {
+    "rows_opened": false,
+    "taxa_opened": false,
+    "interaction_values_opened": false,
+    "specialization_computed": false,
+    "turnover_computed": false
+  }
+}
