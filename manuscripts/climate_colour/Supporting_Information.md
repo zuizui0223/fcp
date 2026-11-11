@@ -1,6 +1,6 @@
 # Supporting Information
 
-**Temperature and precipitation differ in their associations with within-species floral colour across angiosperms**
+**Mean within-species photographic flower colour shifts align more closely with white along temperature than precipitation gradients**
 
 ## Methods S1. Photographs, measurement and eligibility
 
@@ -35,11 +35,29 @@ Each species contributed one nine-component coefficient vector per estimable dom
 | Forward / reverse observer folds | 2,403 / 2,430 | Means on each eligible fold |
 | Both observer folds | 1,919 | Correlation of paired species coefficients |
 
-## Results S3. Sensitivity, geographic structure and category decomposition
+## Results S3. Paired climate contrasts and supporting sensitivity analyses
 
-The temperature-eligible original panel gave mean white coefficient +0.008209; the simultaneous five-domain interval for its scaled white-axis projection was +0.004237 to +0.013177. For one photograph per observer the mean white coefficient was +0.008002 (2,771 species) and squared mean alignment was 87.1%. Each acquisition-cohort omission retained a positive mean and a positive lower genus-bootstrap limit. Removal of the largest cohort left 1,273 species (mean +0.009373; 95% interval +0.004232 to +0.014099). A separate categorical analysis using BIO5 alone gave +0.02189 log odds of white per °C across 4,112 species (genus 95% interval +0.00846 to +0.03489). This estimator differs in both outcome and units from the continuous shared-temperature coefficient.
+The complete and observer-thinned comparisons use the original 999 genus-bootstrap draws. For each new omission comparison we retained the original paired species outside the omitted cohort and drew whole genera with replacement 4,000 times (NumPy default random generator, seed 20261111 for each panel). Both domains shared each draw. Dividing the summed coefficient vectors by the number of species in each resample retained equal species weights. We computed the difference of the two squared alignments in each draw and used its 2.5th and 97.5th percentiles. These exploratory intervals apply to each retained panel separately.
+
+**Table S3. Difference in white-axis alignment of the mean temperature and precipitation vectors.** Within each row, both mean vectors use identical species. Alignment is a percentage; differences and percentile intervals are in percentage points. The largest cohort is the additional acquisition wave (source label `new_U100`). Counts are retained species.
+
+| Analysis panel | Species | Temperature (%) | Precipitation (%) | Difference (95% interval) |
+|---|---:|---:|---:|---:|
+| All matched species | 2,689 | 83.7 | 24.3 | 59.4 (6.0 to 86.8) |
+| One photo per observer | 2,625 | 84.8 | 12.7 | 72.0 (10.0 to 88.3) |
+| Omit Discovery | 2,376 | 82.0 | 8.0 | 74.0 (7.1 to 87.1) |
+| Omit Validation | 2,383 | 80.7 | 10.9 | 69.8 (1.9 to 86.2) |
+| Omit Prospective | 2,384 | 85.1 | 11.1 | 74.0 (13.6 to 88.0) |
+| Omit Fourth wave | 2,404 | 87.1 | 27.0 | 60.1 (7.3 to 88.6) |
+| Omit Largest cohort | 1,209 | 74.8 | 69.1 | 5.7 (−30.1 to 65.2) |
+
+The largest deletion removes 1,480 of the 2,689 matched species. The temperature alignment remains high, while the precipitation alignment rises and the interval for the difference spans zero. To summarize species-level ordering, we applied the same squared-projection formula to each of the two nonzero vectors within each species before counting the larger alignment. Temperature had greater estimated alignment in 1,345 species (50.0%). The average of individual alignments was 36.9% for temperature and 36.2% for precipitation. These descriptive estimates include species with weak vectors whose directions are imprecise.
+
+The temperature-eligible original panel gave mean white coefficient +0.008209; the simultaneous five-domain interval for its scaled white-axis projection was +0.004237 to +0.013177. For one photograph per observer the mean white coefficient was +0.008002 (2,771 species) and squared mean alignment was 87.1%. For this separate temperature-only summary, each acquisition-cohort omission retained a positive mean and a positive lower genus-bootstrap limit. Removal of the largest cohort left 1,273 species (mean +0.009373; 95% interval +0.004232 to +0.014099). A separate categorical analysis using BIO5 alone gave +0.02189 log odds of white per °C across 4,112 species (genus 95% interval +0.00846 to +0.03489). This estimator differs in both outcome and units from the continuous shared-temperature coefficient.
 
 For the 1,376 species with at least five photos in each of at least two categories and estimable decomposition, the between-category term comprised 67.8% of the signed mean thermal–white coefficient (genus 95% interval 44.2–85.4%). The corresponding observer-thinned panel gave 66.1% (1,299 species; 39.2–84.3%). Since the labels derive from the photographic palette, this algebraic split does not identify inherited or developmental components.
+
+The range-wide category counts use the [unified species ledger](https://github.com/zuizui0223/fcp/blob/d0745596609784f316bae03f24527d8eaf6d7bbb/results/fcp_np_all4475_unified_species_ledger_20261021.csv). For each taxon we counted how many of the four columns beginning `miss_coarse_photo_` reached one photograph or five photographs. The number of taxa with at least two qualifying categories was 4,189 or 2,400, respectively, from the full register of 4,475. Each photo contributes a categorical observation; these thresholds impose no requirement for distinct individuals or a common breeding site.
 
 The complete-register white-axis score exceeded its null median by 0.04683. Each of 199 random worlds retained coarse colour counts and source cohort structure. The smallest attainable plus-one probability was 0.005. For the 50-km comparison, the strict categorical panel required at least 40 classified photographs and 30 local pairs; its mean mismatch depletion was 0.01761 (1,761 species). With the broader pair eligibility and one photo per observer, depletion was 0.01590 (3,592 species). The continuous distance test permuted complete nine-colour vectors within species and calendar month. Earlier discovery and validation panels also yielded modest positive adjusted rank associations between photo diversity and spatial organization (+0.12664, 369 species, P = 0.007; +0.09929, 363 species, P = 0.025). These were separate cohorts and estimands.
 
@@ -56,4 +74,4 @@ The complete-register white-axis score exceeded its null median by 0.04683. Each
 - [Original measured-photo archive](https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017). The compressed measured-photo CSV has SHA256 `8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6`. [Licensed image packet](https://github.com/zuizui0223/fcp/actions/runs/39931967531) and [organ/stage pilot](https://github.com/zuizui0223/fcp/pull/264).
 - [Climate coefficient archive](https://github.com/zuizui0223/fcp/actions/runs/40066224301). Table S2 uses the original NPZ `conditional_slope` array, component `total`, joined by `inat_taxon_id`. Original NPZ SHA256 `77eca75f7909bcee53ec3d24766d6d6db1140d654b86b26fae81bb3bbcd15378`. [Cohort omission analysis](https://github.com/zuizui0223/fcp/actions/runs/40066704796).
 - [Observer-fold archive](https://github.com/zuizui0223/fcp/actions/runs/40080001765). For Table S2, select `test_photo_mode=all_heldout`, pivot `heldout_thermal_white_slope` by `direction` and join by taxon ID. Original CSV SHA256 `079241c220a5f5993a17d361a2ea5fc276c7d13e99a168111cc14a3f51ce7253`.
-- Figures 1–3 can be rebuilt with `python render_figures.py` in the companion directory using NumPy, pandas, Matplotlib and Pillow. This reads the two accompanying tables and the four source photographs. The plots summarize existing fitted coefficients; no climate models are refitted.
+- Table S3 can be rebuilt with `python cohort_contrast.py` from Table S2 and the archived original and observer-thinned contrasts. Figures 1–3 can be rebuilt with `python render_figures.py` in the companion directory using NumPy, pandas, Matplotlib and Pillow. This reads the two accompanying tables and the four source photographs. The plots summarize existing fitted coefficients; no climate models are refitted.

@@ -23,6 +23,8 @@ jobs:
           python -m pip install numpy pandas matplotlib pillow cairosvg python-docx
       - name: Validate source tables and export paper and supplement
         run: |
+          python manuscripts/climate_colour/cohort_contrast.py
+          git diff --exit-code -- manuscripts/climate_colour/Table_S3_cohort_contrasts.csv
           python manuscripts/climate_colour/render_figures.py
           python manuscripts/climate_colour/export_paper.py /tmp/fcp-paper
           libreoffice --headless --convert-to pdf --outdir /tmp/fcp-paper /tmp/fcp-paper/*.docx

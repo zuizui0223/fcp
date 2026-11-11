@@ -51,7 +51,7 @@ for source, name, count in sources:
                 # Use the first caption as the figure section opener.
                 paragraph._p.getparent().remove(paragraph._p)
         for table in doc.tables:
-            widths = [0.45, 2.1, 1.5, 0.65, 0.65, 0.65] if len(table.columns)==6 else [2.6, 0.8, 2.6]
+            widths = [0.45, 2.1, 1.5, 0.65, 0.65, 0.65] if len(table.columns)==6 else ([1.55, .6, 1.08, 1.1, 1.67] if len(table.columns)==5 else [2.6, 0.8, 2.6])
             table.autofit=False
             for col, width in zip(table.columns,widths):
                 col.width=Inches(width)
@@ -67,5 +67,5 @@ for source, name, count in sources:
         doc.styles['Normal'].font.size=Pt(11)
         doc.save(file)
         assert len(Document(file).inline_shapes)==count
-for filename in ['Table_S1_photographs.csv','Table_S2_species_coefficients.csv.gz']:
+for filename in ['Table_S1_photographs.csv','Table_S2_species_coefficients.csv.gz','Table_S3_cohort_contrasts.csv']:
     shutil.copyfile(assets/filename,output/filename)
