@@ -1,0 +1,94 @@
+{
+  "schema": "fcp_moricandia_seasonal_positive_control_posthoc_v1",
+  "target_taxon_id": 165527,
+  "taxon": "Moricandia arvensis",
+  "result_status": "not_estimable_positive_control",
+  "role": "literature_defined_seasonal_plasticity_analogue_not_new_evolutionary_mechanism",
+  "source_validation_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+  "n_classifiable_target_photos": 53,
+  "n_northern_hemisphere_georeferenced": 53,
+  "n_southern_or_invalid_coordinate": 0,
+  "season_definitions": {
+    "spring_months": [
+      3,
+      4,
+      5
+    ],
+    "summer_months": [
+      6,
+      7,
+      8
+    ],
+    "minimum_photos_in_both_seasons": 5,
+    "minimum_visible_white_and_nonwhite_in_seasonal_set": 3
+  },
+  "seasonal_counts_northern_hemisphere": {
+    "spring": {
+      "n_photos": 30,
+      "n_visible_white": 20,
+      "n_visible_nonwhite": 10,
+      "n_distinct_years": 8,
+      "n_known_observers": 30
+    },
+    "summer": {
+      "n_photos": 3,
+      "n_visible_white": 3,
+      "n_visible_nonwhite": 0,
+      "n_distinct_years": 3,
+      "n_known_observers": 3
+    },
+    "other": {
+      "n_photos": 20,
+      "n_visible_white": 13,
+      "n_visible_nonwhite": 7,
+      "n_distinct_years": 6,
+      "n_known_observers": 19
+    },
+    "unknown": {
+      "n_photos": 0,
+      "n_visible_white": 0,
+      "n_visible_nonwhite": 0,
+      "n_distinct_years": 0,
+      "n_known_observers": 0
+    }
+  },
+  "colour_season_test": {
+    "estimable": false
+  },
+  "site_opportunity_northern_hemisphere": {
+    "n_anchors_with_both_seasons": 0,
+    "n_anchors_with_expected_colour_season_pair": 0,
+    "n_expected_pair_anchors_with_at_least_two_observers_total": 0,
+    "n_expected_pair_anchors_spanning_two_observation_years": 0,
+    "note": "Overlapping anchors not independent biological populations or hypothesis tests."
+  },
+  "literature_control": [
+    {
+      "doi": "10.1038/s41467-020-17875-1",
+      "claim": "individual spring-lilac to summer-white floral plasticity"
+    },
+    {
+      "doi": "10.1093/evlett/qrae017",
+      "claim": "floral plasticity maladaptive; indirectly maintained by selection for summer flowering"
+    }
+  ],
+  "hard_nonclaims": [
+    "target is post hoc selected after inspecting FCP local-photo candidate names",
+    "Moricandia floral plasticity mechanism is established prior art, not discovered by this test",
+    "coarse photographic white may be exposure dependent, including seasonally",
+    "photographed plants may not all be wild or from native-range populations",
+    "photo-level Fisher independence is limited; p is exploratory not fitness selection inference",
+    "a null may arise from missing seasonal photos and does not overturn field experiments",
+    "no direct genotypes, same-plant changes, pigment chemistry or pollinator selection measured"
+  ],
+  "confirmatory_decisions_changed": false,
+  "execution_receipt": {
+    "workflow_run_id": 37725061101,
+    "job_id": 113141237232,
+    "code_commit": "aebbaf29ab2dcae51616ef93216bca224487e6d5",
+    "artifact_id": 11526794627,
+    "artifact_digest": "sha256:c4e26f6e4769926d13b44d330bc68767c372859cc52f469ae5f0d15271e3d407",
+    "status": "successful_execution_positive_control_not_estimable",
+    "frozen_historical_claims_unchanged": true
+  }
+}
