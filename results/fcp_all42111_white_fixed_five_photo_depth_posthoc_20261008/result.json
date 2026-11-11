@@ -1,0 +1,274 @@
+{
+  "schema": "fcp_all42111_white_50_50_fixed_photo_depth_sensitivity_v1",
+  "date_jst": "2026-10-08",
+  "status": "RETROSPECTIVE_EQUAL_FIVE_PHOTO_DETECTION_OPPORTUNITY_DIAGNOSTIC",
+  "source_species_region_table_sha256": "52d732b9bbd7e9c2292232e1328b48dca175dd34ca71e901d04b9e3d9fcc7fee",
+  "source_global_species_frame": 42111,
+  "photographic_measurement_frame": 85337,
+  "standardized_photo_depth": 5,
+  "results": [
+    {
+      "region": "ALL_GLOBAL",
+      "minimum_classifiable_cell_photos": 5,
+      "n_species": 1165,
+      "n_classifiable_original_taxon_cell_photos": 10706,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.582832618025751,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.4678714521554004,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.44553130567789545,
+        0.49266448251419964
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.11496116587035066,
+      "exact_number_with_both_observed_states": 679,
+      "fraction_species_with_all_observed_labels_white": 0.1982832618025751,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.21888412017167383,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 1165,
+        "mean_white_fraction_photo_weighted": 0.47431346908275734,
+        "mean_white_fraction_species_equal": 0.4833569770767254,
+        "uncorrected_between_species_share_photo_weighted": 0.6146191509374402,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.5655722807122331,
+        "uncorrected_between_species_share_species_equal": 0.6121423473686594,
+        "finite_photo_corrected_between_species_share_species_equal": 0.5499649287283235,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "ALL_GLOBAL",
+      "minimum_classifiable_cell_photos": 10,
+      "n_species": 366,
+      "n_classifiable_original_taxon_cell_photos": 5624,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.6857923497267759,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.4316799041957502,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.397710846145442,
+        0.4662449754048277
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.25411244553102574,
+      "exact_number_with_both_observed_states": 251,
+      "fraction_species_with_all_observed_labels_white": 0.1284153005464481,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.18579234972677597,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 366,
+        "mean_white_fraction_photo_weighted": 0.45092460881934565,
+        "mean_white_fraction_species_equal": 0.45179917306558487,
+        "uncorrected_between_species_share_photo_weighted": 0.6194750972523303,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.5926903655752479,
+        "uncorrected_between_species_share_species_equal": 0.618480194635502,
+        "finite_photo_corrected_between_species_share_species_equal": 0.5885639654843117,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "low_0_30",
+      "minimum_classifiable_cell_photos": 5,
+      "n_species": 486,
+      "n_classifiable_original_taxon_cell_photos": 4481,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.6337448559670782,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.5204271605002098,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.47951458297391475,
+        0.5588996558579155
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.11331769546686843,
+      "exact_number_with_both_observed_states": 308,
+      "fraction_species_with_all_observed_labels_white": 0.18518518518518517,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.18106995884773663,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 486,
+        "mean_white_fraction_photo_weighted": 0.4831510823476903,
+        "mean_white_fraction_species_equal": 0.48634284311216014,
+        "uncorrected_between_species_share_photo_weighted": 0.559483028785698,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.5044188583093047,
+        "uncorrected_between_species_share_species_equal": 0.5616596862383171,
+        "finite_photo_corrected_between_species_share_species_equal": 0.4924971671812328,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "low_0_30",
+      "minimum_classifiable_cell_photos": 10,
+      "n_species": 157,
+      "n_classifiable_original_taxon_cell_photos": 2382,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.7197452229299363,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.4836026488924699,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.4304865258665396,
+        0.538649871371308
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.23614257403746636,
+      "exact_number_with_both_observed_states": 113,
+      "fraction_species_with_all_observed_labels_white": 0.1337579617834395,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.1464968152866242,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 157,
+        "mean_white_fraction_photo_weighted": 0.47019311502938704,
+        "mean_white_fraction_species_equal": 0.4675179628357212,
+        "uncorrected_between_species_share_photo_weighted": 0.5644461099019735,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.5338572896604908,
+        "uncorrected_between_species_share_species_equal": 0.5692272280982411,
+        "finite_photo_corrected_between_species_share_species_equal": 0.5355965561247521,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "middle_30_60",
+      "minimum_classifiable_cell_photos": 5,
+      "n_species": 254,
+      "n_classifiable_original_taxon_cell_photos": 1752,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.4763779527559055,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.4072822682566777,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.3508248955222381,
+        0.45988520583746956
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.06909568449922782,
+      "exact_number_with_both_observed_states": 121,
+      "fraction_species_with_all_observed_labels_white": 0.2204724409448819,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.3031496062992126,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 254,
+        "mean_white_fraction_photo_weighted": 0.4337899543378995,
+        "mean_white_fraction_species_equal": 0.4493818790570759,
+        "uncorrected_between_species_share_photo_weighted": 0.6770657586347578,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.6211516590723934,
+        "uncorrected_between_species_share_species_equal": 0.6777969476716411,
+        "finite_photo_corrected_between_species_share_species_equal": 0.6171640391300774,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "middle_30_60",
+      "minimum_classifiable_cell_photos": 10,
+      "n_species": 33,
+      "n_classifiable_original_taxon_cell_photos": 380,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.48484848484848486,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.3130499550954096,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.18781842105705746,
+        0.43122513008876645
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.17179852975307525,
+      "exact_number_with_both_observed_states": 16,
+      "fraction_species_with_all_observed_labels_white": 0.15151515151515152,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.36363636363636365,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 33,
+        "mean_white_fraction_photo_weighted": 0.35,
+        "mean_white_fraction_species_equal": 0.345362591953501,
+        "uncorrected_between_species_share_photo_weighted": 0.7086229271018165,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.681129486797503,
+        "uncorrected_between_species_share_species_equal": 0.7092038865793571,
+        "finite_photo_corrected_between_species_share_species_equal": 0.6814306192285325,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "high_60_90",
+      "minimum_classifiable_cell_photos": 5,
+      "n_species": 205,
+      "n_classifiable_original_taxon_cell_photos": 1362,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.44390243902439025,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.38298341225170496,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.3237747178295959,
+        0.4448847493969445
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.06091902677268529,
+      "exact_number_with_both_observed_states": 91,
+      "fraction_species_with_all_observed_labels_white": 0.2975609756097561,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.25853658536585367,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 205,
+        "mean_white_fraction_photo_weighted": 0.5102790014684288,
+        "mean_white_fraction_species_equal": 0.5135924238363263,
+        "uncorrected_between_species_share_photo_weighted": 0.724116960414567,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.6720381638574341,
+        "uncorrected_between_species_share_species_equal": 0.7114012088558529,
+        "finite_photo_corrected_between_species_share_species_equal": 0.6538840045107571,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    },
+    {
+      "region": "high_60_90",
+      "minimum_classifiable_cell_photos": 10,
+      "n_species": 19,
+      "n_classifiable_original_taxon_cell_photos": 222,
+      "observed_fraction_species_with_both_colours_at_all_available_depth": 0.3157894736842105,
+      "expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos": 0.18252361673414305,
+      "photo_standardized_expected_mixed_fraction_species_bootstrap_95CI": [
+        0.048245614035087724,
+        0.3246120107962213
+      ],
+      "observed_vs_standardized_mix_detection_difference": 0.13326585695006746,
+      "exact_number_with_both_observed_states": 6,
+      "fraction_species_with_all_observed_labels_white": 0.3157894736842105,
+      "fraction_species_with_all_observed_labels_nonwhite": 0.3684210526315789,
+      "photo_variance_partition_finite_depth_sensitivity": {
+        "estimable": true,
+        "n_species": 19,
+        "mean_white_fraction_photo_weighted": 0.44594594594594594,
+        "mean_white_fraction_species_equal": 0.4312415654520917,
+        "uncorrected_between_species_share_photo_weighted": 0.8564652150018003,
+        "finite_photo_corrected_between_species_share_photo_weighted": 0.8419972078508664,
+        "uncorrected_between_species_share_species_equal": 0.8455814868529435,
+        "finite_photo_corrected_between_species_share_species_equal": 0.8297081038391517,
+        "assumption": "finite-photo sensitivity assumes species-conditional photo observations approximately exchangeable independent labels; violates if locality/genotype/photo-error clustered",
+        "not_fitness_population_variance": true
+      },
+      "status": "EXPLORATORY_FIXED_OBSERVED_PHOTO_LABELS_DEPTH_DIAGNOSTIC",
+      "inference_boundary": "5-photo hypergeometric draws sample only already observed photo labels from these same taxa and cells; not hypothetical natural allele frequency or an independently evaluated population sample"
+    }
+  ],
+  "hard_nonclaims": [
+    "five-photo standardized mixture probability measures subsampling of ALREADY OBSERVED visible photo colours, not probability of genetic FCP",
+    "no extra original images were accessed, species photo IDs were not changed",
+    "all-zero or all-white photo categories are not proven genetic monomorphisms",
+    "finite photo correction assumes approximate independent conditional photographs; geographical clustering and image colour error can violate it",
+    "sampling-depth thresholds select different subsets of plant species; differences are not direct longitudinal changes in the same samples",
+    "the global 50:50 white/coloured photo share does not imply balanced lifetime reproduction or pollen/herbivore cost equilibrium"
+  ],
+  "confirmatory_decisions_changed": false,
+  "execution_receipt": {
+    "green_workflow_run_id": 37779828642,
+    "job_id": 113319827641,
+    "evaluated_code_commit": "d2c31759290ce20a444c7c648350c02d543939e5",
+    "source_sha_verified": true,
+    "tests": [
+      "32 passed in 1.04s"
+    ],
+    "artifact_id": 11551234460,
+    "artifact_digest": "sha256:4fdeed707465c42cdf2c9669b4cc9c67b23019c2b6c856e14e690f93076b90fd",
+    "output_source": "Successful GitHub Actions full unmodified console result from SHA-matched source species-region summary",
+    "biological_fitness_measured": false,
+    "manuscript_conclusions_changed": false
+  }
+}
