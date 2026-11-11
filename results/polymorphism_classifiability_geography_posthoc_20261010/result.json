@@ -1,0 +1,89 @@
+{
+  "schema": "fcp_classifiability_geography_posthoc_v1",
+  "date_jst": "2026-10-10",
+  "radius_km": 50,
+  "permutations": 199,
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "confirmatory_decisions_changed": false,
+  "nonclaims": [
+    "Technical classifiability is not a validated biological negative control.",
+    "Spatial classifiability alone does not explain colour-specific clustering.",
+    "Unmeasured morph-dependent missingness, site-specific photo conditions and phenotype plasticity remain.",
+    "No genetic morph, fitness, selection or local adaptation identification."
+  ],
+  "discovery": {
+    "n_high_depth_eligible_species": 369,
+    "n_technical_evaluable_species": 212,
+    "n_colour_evaluable_species": 166,
+    "mean_technical_depletion": 0.001249505279720178,
+    "mean_technical_global_discordance": 0.4643205641318848,
+    "mean_technical_local_discordance": 0.46307105885216476,
+    "species_bootstrap_ci_95": [
+      -0.004966875467310749,
+      0.006349205146980257
+    ],
+    "unconditional_null_mean": 0.00040703384904796903,
+    "unconditional_p_upper": 0.375,
+    "month_null_mean": 0.000617426945486996,
+    "month_p_upper": 0.42,
+    "n_matched_technical_colour_species": 166,
+    "technical_vs_colour_depletion_spearman_rho_descriptive": 0.010273688671067083,
+    "status": "POSTHOC_OBSERVATION_PROCESS_DIAGNOSTIC"
+  },
+  "validation": {
+    "n_high_depth_eligible_species": 363,
+    "n_technical_evaluable_species": 231,
+    "n_colour_evaluable_species": 181,
+    "mean_technical_depletion": 0.0034152558560810085,
+    "mean_technical_global_discordance": 0.4683256810529538,
+    "mean_technical_local_discordance": 0.46491042519687287,
+    "species_bootstrap_ci_95": [
+      -0.002646695269633108,
+      0.009234027194879958
+    ],
+    "unconditional_null_mean": 0.00027961792382782936,
+    "unconditional_p_upper": 0.13,
+    "month_null_mean": -0.00003827430561338784,
+    "month_p_upper": 0.11,
+    "n_matched_technical_colour_species": 181,
+    "technical_vs_colour_depletion_spearman_rho_descriptive": 0.036812216303804095,
+    "status": "POSTHOC_OBSERVATION_PROCESS_DIAGNOSTIC"
+  },
+  "third": {
+    "n_high_depth_eligible_species": 377,
+    "n_technical_evaluable_species": 271,
+    "n_colour_evaluable_species": 204,
+    "mean_technical_depletion": 0.005950173970084995,
+    "mean_technical_global_discordance": 0.46224831339222483,
+    "mean_technical_local_discordance": 0.45629813942213987,
+    "species_bootstrap_ci_95": [
+      0.00013294655089923148,
+      0.012113858134214065
+    ],
+    "unconditional_null_mean": -0.00011836409224565862,
+    "unconditional_p_upper": 0.02,
+    "month_null_mean": 0.0008633437924432588,
+    "month_p_upper": 0.025,
+    "n_matched_technical_colour_species": 204,
+    "technical_vs_colour_depletion_spearman_rho_descriptive": 0.0646601175086058,
+    "status": "POSTHOC_OBSERVATION_PROCESS_DIAGNOSTIC"
+  },
+  "verification": {
+    "source": "parsed_exact_stdout_from_completed_original_sha_verified_actions_job",
+    "workflow_run_id": 38027017443,
+    "workflow_job_id": 114139895570,
+    "artifact_id": 11660376926,
+    "artifact_zip_sha256": "24f42b11c6e654a3dbddff60950645eb5ff37207992bbf6375c6a5d37c0ad58d",
+    "source_frozen_high_depth_species_denominators": [
+      369,
+      363,
+      377
+    ],
+    "verified_workflow_conclusion": "success",
+    "note": "Numeric cohort entries exactly recovered from source-green job stdout; verification metadata appended."
+  }
+}
