@@ -1,0 +1,57 @@
+{
+  "cohorts": {
+    "discovery": {
+      "already_complete": 10,
+      "goal_theoretically_reachable_from_gap1_only": true,
+      "minimum_hypothetical_new_observer_photo_slots_to_goal": 20,
+      "one_slot_species_available_to_check": 37,
+      "original_anchored_source_species": 369,
+      "required_fraction_of_gap1_candidates_successful_if_gap2_unused": 0.5405405405405406,
+      "two_slot_species_available_to_check": 49
+    },
+    "third": {
+      "already_complete": 20,
+      "goal_theoretically_reachable_from_gap1_only": true,
+      "minimum_hypothetical_new_observer_photo_slots_to_goal": 10,
+      "one_slot_species_available_to_check": 33,
+      "original_anchored_source_species": 377,
+      "required_fraction_of_gap1_candidates_successful_if_gap2_unused": 0.30303030303030304,
+      "two_slot_species_available_to_check": 62
+    },
+    "validation": {
+      "already_complete": 10,
+      "goal_theoretically_reachable_from_gap1_only": true,
+      "minimum_hypothetical_new_observer_photo_slots_to_goal": 20,
+      "one_slot_species_available_to_check": 22,
+      "original_anchored_source_species": 363,
+      "required_fraction_of_gap1_candidates_successful_if_gap2_unused": 0.9090909090909091,
+      "two_slot_species_available_to_check": 60
+    }
+  },
+  "confirmatory_decisions_changed": false,
+  "minimum_hypothetical_new_photo_slots_for_all_three_cohorts": 50,
+  "n_gap1_species": 92,
+  "n_gap2_species": 171,
+  "nonclaims": [
+    "Queue rows describe necessary photo and independent observer metadata, not images found",
+    "Original gap0 10km source eligibility HOLD is unchanged",
+    "No new photo ID, live API response, pixel, pigment, climate anomaly or fitness was opened",
+    "The sample is from historically outcome-exposed species and is not the frozen 2000+730 independent confirmation",
+    "Any eventual photo must be verified for exact species identity, observer separation, date, distance, licence and true flower visibility before analysis"
+  ],
+  "original_hold_unchanged": true,
+  "request_selection": "all historical gap1 and gap2 taxa, sorted without outcomes, source-photo anchor/matched source-year/month only",
+  "schema": "fcp_replenishment_metadata_check_queue_v1",
+  "status": "HISTORIC_PHOTO_METADATA_CHECK_QUEUE_ONLY_NO_API_REQUESTS",
+  "total_required_observer_photo_slots_queued": 434,
+  "execution_provenance": {
+    "source_commit": "7d637500aa352774e0aac06addb6e45f0f424f88",
+    "github_actions_run": 37796870655,
+    "job_id": 113378503406,
+    "artifact_id": 11558712889,
+    "artifact_digest": "sha256:eec8bf47a60e037c8c5d6dc5bec29c0d64f123dd373b469faff0fe6604b3a00b",
+    "queue_csv_sha256": "a69df5ad49cc8cabde2217fdd7e792b57e9ce972abebefd37b044b3fd5e60bb0",
+    "status": "PASS",
+    "tests_passed": 29
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "cohorts": {
+    "discovery": {
+      "minimal_additional_observer_photo_slots_histogram": {
+        "0": 10,
+        "1": 37,
+        "2": 49,
+        "3": 0,
+        "4": 0
+      },
+      "n_geographically_year_month_repeatable": 96,
+      "n_no_repeated_year_month_anchored_candidate": 273,
+      "n_original_photo_anchor_eligible_gap0": 10,
+      "n_rows_source_classified": 21424,
+      "n_rows_valid_date": 21400,
+      "n_species_any_valid_date": 369,
+      "n_species_source_classifiable_40": 369,
+      "n_with_gap_at_most_2_including_existing": 96,
+      "n_with_nonzero_gap_at_most_1": 37,
+      "n_with_nonzero_gap_at_most_2": 86,
+      "original_10km_30species_gate_pass": false,
+      "source_species": 369
+    },
+    "third": {
+      "minimal_additional_observer_photo_slots_histogram": {
+        "0": 20,
+        "1": 33,
+        "2": 62,
+        "3": 0,
+        "4": 0
+      },
+      "n_geographically_year_month_repeatable": 115,
+      "n_no_repeated_year_month_anchored_candidate": 262,
+      "n_original_photo_anchor_eligible_gap0": 20,
+      "n_rows_source_classified": 22144,
+      "n_rows_valid_date": 22120,
+      "n_species_any_valid_date": 377,
+      "n_species_source_classifiable_40": 377,
+      "n_with_gap_at_most_2_including_existing": 115,
+      "n_with_nonzero_gap_at_most_1": 33,
+      "n_with_nonzero_gap_at_most_2": 95,
+      "original_10km_30species_gate_pass": false,
+      "source_species": 377
+    },
+    "validation": {
+      "minimal_additional_observer_photo_slots_histogram": {
+        "0": 10,
+        "1": 22,
+        "2": 60,
+        "3": 0,
+        "4": 0
+      },
+      "n_geographically_year_month_repeatable": 92,
+      "n_no_repeated_year_month_anchored_candidate": 271,
+      "n_original_photo_anchor_eligible_gap0": 10,
+      "n_rows_source_classified": 20903,
+      "n_rows_valid_date": 20879,
+      "n_species_any_valid_date": 363,
+      "n_species_source_classifiable_40": 363,
+      "n_with_gap_at_most_2_including_existing": 92,
+      "n_with_nonzero_gap_at_most_1": 22,
+      "n_with_nonzero_gap_at_most_2": 82,
+      "original_10km_30species_gate_pass": false,
+      "source_species": 363
+    }
+  },
+  "confirmatory_decisions_changed": false,
+  "date_jst": "2026-10-08",
+  "gap_definition": "min across pre-existing year pairs and source-photo-anchored 5km half-radius localities of sum(max(0,2-n_distinct_observers))",
+  "hard_nonclaims": [
+    "a zero gap is not a biological genetic polymorphism estimate",
+    "year/month presence in the selected source does not imply unused photos are available",
+    "a missing observer-photo slot cannot be manufactured or relabeled",
+    "a photo anchor only selects a geographic neighbourhood, not identical individual plants",
+    "sample is conditioned on historical photographic colour classifiability and observational effort",
+    "this is a conservative anchored geometry sensitivity and is NOT exact unconstrained 10km diameter feasibility",
+    "old and new photo classes cannot serve as a new independent species-disjoint confirmation",
+    "no year-specific climate or flower-colour mechanism analysed"
+  ],
+  "original_10km_eligibility_hold_unchanged": true,
+  "original_all_cohorts_gate_hold": true,
+  "original_minimal_four_photo_yearmonth_condition": "two photographs from distinct identified observers in each of two different years, same month and anchored <=10km diameter",
+  "role": "post_outcome_label_blind_observation_metadata_sufficiency_only",
+  "schema": "fcp_same_siteyear_same_month_replenishment_gap_v1",
+  "source_group": "historical_highdepth_three_cohorts_only",
+  "status": "NO_NEW_PHOTOS_NO_ENVIRONMENTAL_RESPONSE",
+  "execution_provenance": {
+    "workflow_run_id": 37793952964,
+    "job_id": 113368392355,
+    "source_commit": "fc36facfddf02b75184588f21ce7c5412efab7b7",
+    "artifact_id": 11558485103,
+    "artifact_digest": "sha256:d2a2627d92243350bdc11cce8afc034d5bd77aeac7de2b332d89767a087898ee",
+    "tests": "8 + 7 + 8 passed",
+    "status": "SUCCESS",
+    "source": "source-SHA verified Github Actions run stdout"
+  },
+  "cross_cohort_summary": {
+    "source_species": 1109,
+    "candidate_repeat_species": 303,
+    "fully_qualified": 40,
+    "missing_one": 92,
+    "missing_two": 171,
+    "no_existing_repeat": 806
+  }
+}

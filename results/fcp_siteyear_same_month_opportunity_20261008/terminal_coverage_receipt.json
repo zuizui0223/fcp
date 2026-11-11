@@ -1,0 +1,153 @@
+{
+  "cohorts": {
+    "discovery": {
+      "n_rows_source_classified": 21424,
+      "n_rows_valid_date": 21400,
+      "n_species_any_valid_date": 369,
+      "n_species_source_classifiable_40": 369,
+      "n_species_with_valid_dates": 369,
+      "radii": {
+        "r10": {
+          "fraction_of_original_highdepth_species": 0.02710027100271003,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": false,
+          "n_species_eligible": 10,
+          "n_species_not_eligible_or_unobserved": 359,
+          "radius_km": 10
+        },
+        "r25": {
+          "fraction_of_original_highdepth_species": 0.11653116531165311,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": true,
+          "n_species_eligible": 43,
+          "n_species_not_eligible_or_unobserved": 326,
+          "radius_km": 25
+        },
+        "r50": {
+          "fraction_of_original_highdepth_species": 0.17886178861788618,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": true,
+          "n_species_eligible": 66,
+          "n_species_not_eligible_or_unobserved": 303,
+          "radius_km": 50
+        }
+      },
+      "source_species": 369
+    },
+    "third": {
+      "n_rows_source_classified": 22144,
+      "n_rows_valid_date": 22120,
+      "n_species_any_valid_date": 377,
+      "n_species_source_classifiable_40": 377,
+      "n_species_with_valid_dates": 377,
+      "radii": {
+        "r10": {
+          "fraction_of_original_highdepth_species": 0.05305039787798409,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": false,
+          "n_species_eligible": 20,
+          "n_species_not_eligible_or_unobserved": 357,
+          "radius_km": 10
+        },
+        "r25": {
+          "fraction_of_original_highdepth_species": 0.10610079575596817,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": true,
+          "n_species_eligible": 40,
+          "n_species_not_eligible_or_unobserved": 337,
+          "radius_km": 25
+        },
+        "r50": {
+          "fraction_of_original_highdepth_species": 0.21485411140583555,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": true,
+          "n_species_eligible": 81,
+          "n_species_not_eligible_or_unobserved": 296,
+          "radius_km": 50
+        }
+      },
+      "source_species": 377
+    },
+    "validation": {
+      "n_rows_source_classified": 20903,
+      "n_rows_valid_date": 20879,
+      "n_species_any_valid_date": 363,
+      "n_species_source_classifiable_40": 363,
+      "n_species_with_valid_dates": 363,
+      "radii": {
+        "r10": {
+          "fraction_of_original_highdepth_species": 0.027548209366391185,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": false,
+          "n_species_eligible": 10,
+          "n_species_not_eligible_or_unobserved": 353,
+          "radius_km": 10
+        },
+        "r25": {
+          "fraction_of_original_highdepth_species": 0.06060606060606061,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": false,
+          "n_species_eligible": 22,
+          "n_species_not_eligible_or_unobserved": 341,
+          "radius_km": 25
+        },
+        "r50": {
+          "fraction_of_original_highdepth_species": 0.13774104683195593,
+          "interpretation": "photo calendar/site opportunity only; no flower-colour environment association",
+          "minimum_30_species_feasibility_gate_pass": true,
+          "n_species_eligible": 50,
+          "n_species_not_eligible_or_unobserved": 313,
+          "radius_km": 50
+        }
+      },
+      "source_species": 363
+    }
+  },
+  "confirmatory_decisions_changed": false,
+  "date_jst": "2026-10-08",
+  "hard_nonclaims": [
+    "classifiability selection itself may depend on flower phenotype and imaging",
+    "dates are dates of photographs, not within-plant phenotype change",
+    "each selected site is photographic proximity, not a genetically connected population",
+    "observer-disjoint photographs within each year are not confirmed distinct plants",
+    "enlarging radius after a 10-km HOLD cannot rescue the primary estimand",
+    "no year-specific climate was attached or downloaded",
+    "no causal temporal selection, phenotypic plasticity, genotype or fitness inferred"
+  ],
+  "maximum_anchor_to_site_photo_km": "one-half of nominal site diameter",
+  "minimum_matched_calendar_years": 2,
+  "minimum_source_classifiable_photos": 40,
+  "minimum_species_per_cohort_feasibility_gate": 30,
+  "minimum_year_month_distinct_observers": 2,
+  "minimum_year_month_photos": 2,
+  "next_action": "HOLD_10KM_REPEATED_SITE_YEAR_MONTH_PHOTO_OPPORTUNITY",
+  "primary_10km_all_cohort_feasibility_pass": false,
+  "primary_radius_km": 10,
+  "role": "posthoc_same_source_observation_feasibility_gate",
+  "schema": "fcp_siteyear_same_month_photo_opportunity_v1",
+  "sensitivity_radii_km": [
+    25,
+    50
+  ],
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "status": "coverage_only_no_climate_outcomes",
+  "execution_provenance": {
+    "workflow_run_id": 37787901739,
+    "job_id": 113347305008,
+    "artifact_id": 11556301126,
+    "artifact_digest": "sha256:c959bc3ced3921a8a9d63289cb190523b8bf5aa777b31c1827f13cb868d35e8a",
+    "head_sha": "25d37f604afe46fafaeb4847d9f0a87c9aed25e0",
+    "source": "validated GitHub Actions stdout result.json",
+    "tests": "8 passed",
+    "status": "success"
+  },
+  "audit_conclusion": "HOLD_10KM_REPEATED_SITE_YEAR_MONTH_PHOTO_OPPORTUNITY",
+  "notes": [
+    "Eligibility is conservative: only circles centered on sampled photo points with radius half of nominal diameter were searched.",
+    "The 10km HOLD does not establish zero available biological repeat sites. An exact diameter-constrained feasibility sensitivity may identify sites missed by the conservative anchor."
+  ]
+}

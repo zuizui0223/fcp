@@ -1,0 +1,114 @@
+name: FCP 115-photo frozen Validation quality-review ledger (no images)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/build_fcp_validation_photo_quality_queue_20261009.py
+      - tests/test_fcp_validation_photo_quality_queue_20261009.py
+      - docs/FCP_VALIDATION_PHOTO_QUALITY_QUEUE_20261009.md
+      - .github/workflows/fcp-validation-photo-quality-queue-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-photo-quality-queue-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-ledger:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Retrieve only two previously validated metadata artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_quality_gap1 /tmp/fcp_quality_gap2 /tmp/fcp_quality_source
+          gh run download 37798611129 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-siteyear-same-month-opportunity-20261008 \
+            --dir /tmp/fcp_quality_gap1
+          gh run download 37801452055 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-siteyear-same-month-opportunity-20261008 \
+            --dir /tmp/fcp_quality_gap2
+          cp /tmp/fcp_quality_gap1/fcp_validation_gapone_live_metadata/public_metadata_candidates.json /tmp/fcp_quality_source/gap1.json
+          cp /tmp/fcp_quality_gap2/fcp_validation_gaptwo_live_metadata/year_metadata_candidates.json /tmp/fcp_quality_source/gap2.json
+          cp /tmp/fcp_quality_gap2/fcp_validation_gaptwo_live_metadata/species_metadata_status.json /tmp/fcp_quality_source/gap2_status.json
+          cp /tmp/fcp_quality_gap2/fcp_replenishment_queue/source_only_observer_photo_query_queue.csv /tmp/fcp_quality_source/queue.csv
+          echo 'a64959733c77e5c6775f2e6a6568f24a543d7a74bf413d12f924d149e4ed653e  /tmp/fcp_quality_source/gap1.json' | sha256sum -c -
+          echo '7ecb805d5fa7066d12f9f2964aa9acf72ede90d4a58fa1fdfdb3e0902f65390d  /tmp/fcp_quality_source/gap2.json' | sha256sum -c -
+          echo 'b808db25310a74da5968e19d19a2ef44db9005426dd2302536cfca27c75b6371  /tmp/fcp_quality_source/gap2_status.json' | sha256sum -c -
+          echo 'a69df5ad49cc8cabde2217fdd7e792b57e9ce972abebefd37b044b3fd5e60bb0  /tmp/fcp_quality_source/queue.csv' | sha256sum -c -
+      - name: Test complete source reconstruction and failure-mode tampering
+        env:
+          FCP_QUALITY_SOURCE_ROOT: /tmp/fcp_quality_source
+        run: |
+          python -m unittest discover -s tests -p 'test_fcp_validation_photo_quality_queue_20261009.py' -v
+          python -m py_compile scripts/analysis/build_fcp_validation_photo_quality_queue_20261009.py
+      - name: Build original-ID frozen review ledger without photo pixels
+        run: |
+          python scripts/analysis/build_fcp_validation_photo_quality_queue_20261009.py \
+            --gap1 /tmp/fcp_quality_source/gap1.json \
+            --gap2 /tmp/fcp_quality_source/gap2.json \
+            --status /tmp/fcp_quality_source/gap2_status.json \
+            --queue /tmp/fcp_quality_source/queue.csv \
+            --outdir /tmp/fcp_validation_quality
+      - name: Enforce 25 species 115 distinct photo IDs and original HOLD
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp_validation_quality/result.json').read_text())
+          assert d['schema']=='fcp_validation_frozen_image_quality_queue_v1'
+          assert d['status']=='UNREVIEWED_METADATA_NO_PIXELS'
+          assert d['n_candidate_species']==25 and d['n_photo_ids']==115
+          assert d['gap_one_photo_ids']==39 and d['gap_two_photo_ids']==76
+          assert d['original_10km_gate']=='HOLD_UNCHANGED'
+          assert d['n_images_inspected']==0 and d['n_colour_labels_measured']==0
+          assert d['n_candidate_species_required_to_pass_for_gate']==20
+          assert d['n_species_with_no_spare_photo_in_one_or_more_required_years']==10
+          assert d['n_species_with_spare_photo_in_every_required_year']==15
+          species=list(csv.DictReader(open('/tmp/fcp_validation_quality/candidate_species_quality_review.csv')))
+          assert len(species)==25 and all(v['species_quality_review_status']=='UNREVIEWED' for v in species)
+          assert sum(int(v['min_spare_metadata_photos_any_year'])==0 for v in species)==10
+          photos=list(csv.DictReader(open('/tmp/fcp_validation_quality/candidate_photo_quality_review.csv')))
+          assert len(photos)==115 and len({p['photo_id'] for p in photos})==115
+          assert len({p['observation_id'] for p in photos})==115
+          assert all(p['quality_review_status']=='UNREVIEWED' for p in photos)
+          print('QUALIFIED_METADATA_25_SPECIES_115_PHOTO_REVIEW_PENDING_ORIGINAL_HOLD')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-validation-photo-quality-review-queue-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_validation_quality/
+      - name: Preserve exact checked ledger on PR branch (no image opening)
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-siteyear-anomaly-opportunity-20261008'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder='results/fcp_validation_photo_quality_queue_20261009'
+          mkdir -p "$folder"
+          cp /tmp/fcp_validation_quality/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal Validation 25-species 115-image metadata quality queue with zero pixels opened'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
