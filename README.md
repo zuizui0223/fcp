@@ -8,6 +8,13 @@
 
 The current [New Phytologist Full Paper](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md) uses all **4,475 measured species** as the common source registry (unavailable estimands remain **NA**). The older prospective tests and historical preextension manuscript remain frozen separately, including [the canonical historical manuscript](docs/POLYMORPHISM_MANUSCRIPT.md). This is a working paper, **not a submitted or accepted article**.
 
+## New within-species New Phytologist editorial candidate (14 October 2026)
+
+The proposed ONE-paper editorial version is [**Recurrent achromatic–chromatic variation and geographic allocation of flower colours within species**](docs/POLYMORPHISM_MANUSCRIPT_NP_INTRASPECIFIC_20261014.md). It follows **distributional measurement → recurrent within-species visible-colour pattern → geographic ecology and untested pigment/fitness mechanisms**. The colour-space result is supported by an untouched prospective test among **158** eligible species; **439** eligible species across three cohorts are a descriptive support count, not a new pooled test. The 149,900 high-depth photographs from 1,499 named species are separate from the **global between-species** moisture analyses in `zuizui0223/mois`.
+
+Read the [within-species evidence/figure plan](docs/POLYMORPHISM_NP_INTRA_PAPER_AND_EVIDENCE_20261014.md) and [single-paper cover-letter draft](docs/POLYMORPHISM_NP_INTRA_COVER_LETTER_20261014.md). The existing original manuscript, frozen H1/H2 outcome receipts and main-branch paper remain scientifically authoritative until authors approve the editorial candidate. This is NOT a return to the superseded combined interspecific PR #196.
+
+
 ## Repository split: fcp = within-species variation; mois = global interspecific moisture
 
 **This repository (`fcp`) is the active research home for within-species photographic flower-colour variation.** The historical paper tested observer-disjoint reliability of species-wide diversity `D`, geographically structured local differences and an earlier fixed white–chromatic direction (including an historical 158-species prospective test). The **current hypothesis paper** uses one **4,475-species** source registry to test four observable predictions about phenotype direction, geography, climate and their cross-species relationship. The historical 158-species outcome is *not* the current main denominator. The 42,111-species discovery frame describes sampling opportunity, **not** genetically verified natural-population polymorphism prevalence.
