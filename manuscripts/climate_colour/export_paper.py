@@ -15,7 +15,7 @@ from docx.oxml import OxmlElement
 assets = Path(__file__).resolve().parent
 output = Path(sys.argv[1]).resolve()
 output.mkdir(parents=True, exist_ok=True)
-sources = [(assets.parent/'FCP_NEW_PHYTOLOGIST_INTEGRATED_POSITIVE_RESULTS_20261024.md', 'FCP_Manuscript', 3),
+sources = [(assets.parent/'FCP_NEW_PHYTOLOGIST_INTEGRATED_POSITIVE_RESULTS_20261024.md', 'FCP_Manuscript', 4),
            (assets/'Supporting_Information.md', 'FCP_Supporting_Information', 2)]
 for source, name, count in sources:
     with TemporaryDirectory() as folder:

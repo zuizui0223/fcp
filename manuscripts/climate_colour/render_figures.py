@@ -10,6 +10,36 @@ hues = 'white yellow orange red pink magenta purple blue bronze'.split()
 colours = ['#f8f8f5','#eac52f','#ef8c2e','#b32f32','#ef9fbc','#ac418e','#7355a4','#4a78b0','#94653e']
 thermal, rain = '#a44730', '#267479'
 plt.rcParams.update({'font.size':10, 'axes.spines.right':False, 'axes.spines.top':False})
+ledger = pd.read_csv(root.parents[1]/'results/fcp_np_all4475_unified_species_ledger_20261021.csv')
+category_counts = ledger.filter(regex='^miss_coarse_photo_')
+repeated = category_counts.ge(5).sum(axis=1) >= 2
+local_pairs = ledger.n_local5km_same_year_month_diff_observer_pairs
+different_pairs = ledger.n_local5km_same_year_month_diff_colour_photo_pairs
+local_eligible = local_pairs > 0
+local_contrast = different_pairs > 0
+assert category_counts.shape[1] == 4 and ledger.inat_taxon_id.is_unique
+assert (different_pairs <= local_pairs).all()
+assert (len(ledger), repeated.sum(), local_eligible.sum(), local_contrast.sum()) == (4475, 2400, 840, 325)
+assert (repeated & local_contrast).sum() == 228
+panels = [
+    ('A   Across photographed ranges', repeated.sum(), len(ledger),
+     'All registered species', 'At least two colours, each recorded in ≥5 photographs'),
+    ('B   Among nearby observations', local_contrast.sum(), local_eligible.sum(),
+     'Species with a local pair from different observers', 'At least one contrasting pair within 5 km, in the same month and year'),
+]
+fig, axes = plt.subplots(2, 1, figsize=(7.1, 4.0), layout='constrained')
+for ax, (heading, count, total, population, outcome) in zip(axes, panels):
+    ax.axis('off')
+    ax.set(xlim=(0, 1), ylim=(0, 1))
+    ax.text(0, .96, heading, va='top', fontsize=13, weight='bold')
+    ax.text(0, .69, f'{int(count):,} / {int(total):,}', va='top', fontsize=17, color='#215b5f')
+    ax.text(.40, .65, population, va='top', fontsize=10)
+    ax.barh(.36, 1, height=.15, color='#dce3e5')
+    ax.barh(.36, count/total, height=.15, color='#297578')
+    ax.text(0, .18, outcome, va='top', fontsize=10)
+fig.savefig(root/'Figure_1_range_local.png', dpi=225)
+plt.close(fig)
+
 photos = pd.read_csv(root/'Table_S1_photographs.csv')
 fig, axes = plt.subplots(2,2,figsize=(7.6,7.6),layout='constrained')
 for ax, row, letter, note in zip(axes.flat, photos.itertuples(), 'ABCD',
@@ -36,7 +66,7 @@ from matplotlib.patches import Patch
 fig.legend(handles=[Patch(facecolor=c,edgecolor='#999',label=h) for h,c in zip(hues,colours)],
            loc='lower center',ncol=5,frameon=False,fontsize=9,bbox_to_anchor=(.5,.003))
 fig.get_layout_engine().set(rect=(0,.10,1,.90),h_pad=.20)
-fig.savefig(root/'Figure_1_measurement.png',dpi=225,bbox_inches='tight')
+fig.savefig(root/'Figure_2_measurement.png',dpi=225,bbox_inches='tight')
 plt.close(fig)
 
 s=pd.read_csv(root/'Table_S2_species_coefficients.csv.gz')
@@ -74,7 +104,7 @@ ax[2].invert_yaxis()
 ax[2].set_xlim(-40, 100)
 ax[2].set_xlabel('Temperature minus precipitation alignment (percentage points, 95% interval)')
 ax[2].set_title('C   Difference in alignment after averaging species vectors', loc='left')
-fig.savefig(root/'Figure_2_climate.png',dpi=225)
+fig.savefig(root/'Figure_3_climate.png',dpi=225)
 plt.close(fig)
 
 fig,ax=plt.subplots(1,2,figsize=(8,4),layout='constrained')
@@ -95,5 +125,5 @@ lim=np.ceil(f.abs().max().max()/10)*10
 ax[1].set(xlim=(-lim,lim),ylim=(-lim,lim),aspect='equal',xlabel='Forward fold (percentage points)',ylabel='Reverse fold (percentage points)')
 ax[1].set_title('B   Paired observer estimates',loc='left')
 ax[1].text(.04,.97,'1,919 species\nr = 0.018',va='top',transform=ax[1].transAxes)
-fig.savefig(root/'Figure_3_species.png',dpi=225)
+fig.savefig(root/'Figure_4_species.png',dpi=225)
 plt.close(fig)

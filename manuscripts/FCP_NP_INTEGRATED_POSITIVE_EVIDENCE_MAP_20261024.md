@@ -21,8 +21,10 @@ This file provides exact links from each numerical assertion in the manuscript t
 
 ## Figures and supporting data
 
-- Fig. 1 links four licensed photo records to their archived measurements in [Table S1](climate_colour/Table_S1_photographs.csv).
-- Fig. 2 shows both nine-component means and their white-axis alignment for the same 2,689 species. Fig. 3 shows the complete temperature distribution and paired observer estimates. [Table S2](climate_colour/Table_S2_species_coefficients.csv.gz) retains all 4,475 taxa, including missing coefficients.
+- Fig. 1 compares the two photographic screens from the [species ledger](../results/fcp_np_all4475_unified_species_ledger_20261021.csv): 2,400/4,475 across ranges and 325/840 locally.
+
+- Fig. 2 links four licensed photo records to their archived measurements in [Table S1](climate_colour/Table_S1_photographs.csv).
+- Fig. 3 shows both nine-component means and their white-axis alignment for the same 2,689 species. Fig. 4 shows the complete temperature distribution and paired observer estimates. [Table S2](climate_colour/Table_S2_species_coefficients.csv.gz) retains all 4,475 taxa, including missing coefficients.
 - [Supporting Information](climate_colour/Supporting_Information.md) provides image provenance, estimands, sensitivity results and the original geometry and geography figures. The contrast between temperature and precipitation is retrospective. The species-level fold correlation is +0.018. Atlas-wide organ-specific accuracy has not been established.
 
-[Paired cohort sensitivity (Table S3)](climate_colour/Table_S3_cohort_contrasts.csv) supplies Fig. 2c. Omitting the largest wave leaves 1,209 species and a difference of 5.7 points (95% interval −30.1 to 65.2). Within individual species, 1,345 of 2,689 temperature vectors have the greater white-axis alignment.
+[Paired cohort sensitivity (Table S3)](climate_colour/Table_S3_cohort_contrasts.csv) supplies Fig. 3c. Omitting the largest wave leaves 1,209 species and a difference of 5.7 points (95% interval −30.1 to 65.2). Within individual species, 1,345 of 2,689 temperature vectors have the greater white-axis alignment.
