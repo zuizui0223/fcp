@@ -1,0 +1,52 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_HADFIELD_EXACT_SOURCE_RECOVERY",
+  "frozen_on": "2026-09-29",
+  "parent_programme": "data/spatiotemporal_memory_turnover_design_v0_1.json",
+  "role": "retrospective interaction time-space estimator calibration only; never counted as fresh generalized evidence",
+  "source": {
+    "article_doi": "10.1086/674445",
+    "dryad_doi": "10.5061/dryad.jf3tj",
+    "required_files": [
+      {
+        "file_id": 28091,
+        "path": "DoublePhyloData.csv",
+        "role": "51-region host-flea counts"
+      },
+      {
+        "file_id": 28092,
+        "path": "HostTree.tre",
+        "role": "host phylogeny"
+      },
+      {
+        "file_id": 28093,
+        "path": "FleaTree.tre",
+        "role": "flea phylogeny"
+      }
+    ]
+  },
+  "allowed_recovery_routes": [
+    "Dryad public file metadata GET /api/v2/files/{id}",
+    "Dryad public file download GET /api/v2/files/{id}/download",
+    "Dryad landing-page file_stream route for the same exact file_id only",
+    "Dryad full-dataset download for doi:10.5061/dryad.jf3tj only"
+  ],
+  "forbidden_recovery_routes": [
+    "substitute phylogeny",
+    "reconstructed count table",
+    "different version of the source dataset",
+    "third-party mirror not byte-verified against authoritative Dryad metadata",
+    "Mangal interaction edges as a replacement for DoublePhyloData.csv"
+  ],
+  "recovery_decision": {
+    "pass": "all three required authoritative bytes are recovered and SHA256 plus size are frozen",
+    "hold": "any required byte remains inaccessible",
+    "no_posthoc_source_substitution": true
+  },
+  "outcome_opening": {
+    "calibration_outcome_authorized": false,
+    "note": "Even if source bytes recover, the calibration estimator must be frozen in a separate descendant commit before biological values are analyzed."
+  },
+  "current_fcp_manuscript_changed": false,
+  "chun_el_v0_3_changed": false
+}
