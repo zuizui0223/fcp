@@ -157,3 +157,18 @@ ax[1].set(xlabel='Within-species change in white fraction (percentage points per
 ax[1].set_title('B   Estimates are positive in 54.2% of species', loc='left')
 fig.savefig(root/'Figure_2_temperature.png', dpi=225)
 plt.close(fig)
+
+freq = pd.read_csv(root/'Table_S6_white_frequencies.csv.gz')
+repeat = freq[freq.repeated]
+binary = repeat[(repeat.white >= 5) & ((repeat.n-repeat.white) >= 5)]
+fig, axes = plt.subplots(2, 1, figsize=(7.0, 4.9), sharex=True, layout='constrained')
+for ax, panel, label in zip(axes, [repeat, binary], ['A   Repeated colour categories', 'B   Repeated white and nonwhite']):
+    share = panel.white / panel.n
+    ax.hist(100*share, bins=np.arange(0, 101, 5), color='#537d84', edgecolor='white', linewidth=.5)
+    for x in [40, 60]:
+        ax.axvline(x, color='#9a4633', ls='--', lw=1)
+    ax.set_ylabel('Species')
+    ax.set_title(f'{label} ({len(panel):,} species)', loc='left')
+axes[1].set_xlabel('White-labelled photographs among classified photographs (%)')
+fig.savefig(root/'Figure_S5_white_frequencies.png', dpi=225)
+plt.close(fig)
