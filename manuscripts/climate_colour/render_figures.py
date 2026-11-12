@@ -27,7 +27,7 @@ panels = [
     ('B   Among nearby observations', local_contrast.sum(), local_eligible.sum(),
      'Species with a local pair from different observers', 'At least one contrasting pair within 5 km, in the same month and year'),
 ]
-fig, axes = plt.subplots(2, 1, figsize=(7.1, 4.0), layout='constrained')
+fig, axes = plt.subplots(3, 1, figsize=(7.1, 5.35), layout='constrained', height_ratios=[1,1,.7])
 for ax, (heading, count, total, population, outcome) in zip(axes, panels):
     ax.axis('off')
     ax.set(xlim=(0, 1), ylim=(0, 1))
@@ -37,6 +37,10 @@ for ax, (heading, count, total, population, outcome) in zip(axes, panels):
     ax.barh(.36, 1, height=.15, color='#dce3e5')
     ax.barh(.36, count/total, height=.15, color='#297578')
     ax.text(0, .18, outcome, va='top', fontsize=10)
+axes[2].axis('off')
+axes[2].text(0, .94, 'C   Geographic structure within species', va='top', fontsize=13, weight='bold')
+axes[2].text(0, .58, '1.61 percentage points fewer colour mismatches within 50 km', va='top', color='#215b5f', fontsize=13)
+axes[2].text(0, .21, 'Mean paired difference from range-wide comparisons in 3,600 species', va='top')
 fig.savefig(root/'Figure_1_range_local.png', dpi=225)
 plt.close(fig)
 
@@ -66,7 +70,7 @@ from matplotlib.patches import Patch
 fig.legend(handles=[Patch(facecolor=c,edgecolor='#999',label=h) for h,c in zip(hues,colours)],
            loc='lower center',ncol=5,frameon=False,fontsize=9,bbox_to_anchor=(.5,.003))
 fig.get_layout_engine().set(rect=(0,.10,1,.90),h_pad=.20)
-fig.savefig(root/'Figure_2_measurement.png',dpi=225,bbox_inches='tight')
+fig.savefig(root/'Figure_3_measurement.png',dpi=225,bbox_inches='tight')
 plt.close(fig)
 
 s=pd.read_csv(root/'Table_S2_species_coefficients.csv.gz')
@@ -104,7 +108,7 @@ ax[2].invert_yaxis()
 ax[2].set_xlim(-40, 100)
 ax[2].set_xlabel('Temperature minus precipitation alignment (percentage points, 95% interval)')
 ax[2].set_title('C   Difference in alignment after averaging species vectors', loc='left')
-fig.savefig(root/'Figure_3_climate.png',dpi=225)
+fig.savefig(root/'Figure_S3_climate.png',dpi=225)
 plt.close(fig)
 
 fig,ax=plt.subplots(1,2,figsize=(8,4),layout='constrained')
@@ -125,5 +129,31 @@ lim=np.ceil(f.abs().max().max()/10)*10
 ax[1].set(xlim=(-lim,lim),ylim=(-lim,lim),aspect='equal',xlabel='Forward fold (percentage points)',ylabel='Reverse fold (percentage points)')
 ax[1].set_title('B   Paired observer estimates',loc='left')
 ax[1].text(.04,.97,'1,919 species\nr = 0.018',va='top',transform=ax[1].transAxes)
-fig.savefig(root/'Figure_4_species.png',dpi=225)
+fig.savefig(root/'Figure_S4_species.png',dpi=225)
+plt.close(fig)
+
+# Show all species on the signed scale alongside the observer replication.
+assert len(b) == 2837 and np.isclose(b.mean(), .821, atol=.001)
+fig, ax = plt.subplots(2, 1, figsize=(7.1, 6.2), layout='constrained')
+means = [b.mean(), 1.288, .575]
+ax[0].scatter(means, [2, 1, 0], color=thermal, zorder=3)
+genus = s.dropna(subset=['thermal_level_white']).groupby('genus').thermal_level_white.agg(['sum','count'])
+rng = np.random.default_rng(273)
+draws = rng.integers(len(genus), size=(4000,len(genus)))
+bound = np.percentile(100*genus['sum'].to_numpy()[draws].sum(1)/genus['count'].to_numpy()[draws].sum(1), [2.5,97.5])
+ax[0].hlines(2, *bound, color=thermal, lw=2)
+ax[0].hlines([1, 0], [.733, .012], [1.874, 1.128], color=thermal, lw=2)
+ax[0].set_yticks([2, 1, 0], ['All species (2,837)', 'Observer set A (2,403)', 'Observer set B (2,430)'])
+ax[0].set_ylim(-.55, 2.55)
+ax[0].axvline(0, color='0.45', ls=':')
+ax[0].set_xlim(-.15, 2.2)
+ax[0].set_xlabel('Mean change in white fraction (percentage points per thermal-index unit)')
+ax[0].set_title('A   Warmer sites have a higher white fraction on average', loc='left')
+ax[1].hist(b, bins=65, color='#667f8b')
+ax[1].axvline(0, color='black', ls=':', label='Zero')
+ax[1].axvline(b.mean(), color=thermal, label='Species mean (+0.82)')
+ax[1].legend(frameon=False, loc='upper right')
+ax[1].set(xlabel='Within-species change in white fraction (percentage points per index unit)', ylabel='Number of species')
+ax[1].set_title('B   Estimates are positive in 54.2% of species', loc='left')
+fig.savefig(root/'Figure_2_temperature.png', dpi=225)
 plt.close(fig)

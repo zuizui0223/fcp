@@ -31,7 +31,8 @@ jobs:
           for f in /tmp/fcp-paper/*.pdf; do
             pdftotext -layout "$f" "${f%.pdf}.txt"
           done
-          grep -q '83.7%' /tmp/fcp-paper/FCP_Manuscript.txt
+          grep -q '54.2%' /tmp/fcp-paper/FCP_Manuscript.txt
+          grep -q '83.7%' /tmp/fcp-paper/FCP_Supporting_Information.txt
           grep -q 'Argemone' /tmp/fcp-paper/FCP_Manuscript.txt
           grep -q '1,919' /tmp/fcp-paper/FCP_Supporting_Information.txt
           rm /tmp/fcp-paper/*.txt
