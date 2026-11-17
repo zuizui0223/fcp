@@ -67,5 +67,5 @@ for source, name, count in sources:
         doc.styles['Normal'].font.size=Pt(11)
         doc.save(file)
         assert len(Document(file).inline_shapes)==count
-for filename in ['Table_S1_photographs.csv','Table_S2_species_coefficients.csv.gz','Table_S3_cohort_contrasts.csv','Table_S4_environment.csv','Table_S5_climate_adjusted_soil.csv','Table_S6_white_frequencies.csv.gz']:
+for filename in ['Table_S1_photographs.csv','Table_S2_species_coefficients.csv.gz','Table_S3_cohort_contrasts.csv','Table_S4_environment.csv','Table_S5_climate_adjusted_soil.csv','Table_S6_white_frequencies.csv.gz','Table_S7_classification.csv.gz','Table_S8_revisits.csv']:
     shutil.copyfile(assets/filename,output/filename)
