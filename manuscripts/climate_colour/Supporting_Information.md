@@ -1,6 +1,6 @@
 # Supporting Information
 
-**Temperature and geographic structure of within-species flower colour variation in angiosperms**
+**Geographic structure and thermal variation in flower colour within angiosperm species**
 
 ## Methods S1. Photographs, measurement and eligibility
 

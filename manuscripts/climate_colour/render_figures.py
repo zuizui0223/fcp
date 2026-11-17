@@ -21,26 +21,48 @@ assert category_counts.shape[1] == 4 and ledger.inat_taxon_id.is_unique
 assert (different_pairs <= local_pairs).all()
 assert (len(ledger), repeated.sum(), local_eligible.sum(), local_contrast.sum()) == (4475, 2400, 840, 325)
 assert (repeated & local_contrast).sum() == 228
-panels = [
-    ('A   Across photographed ranges', repeated.sum(), len(ledger),
-     'All registered species', 'At least two colours, each recorded in ≥5 photographs'),
-    ('B   Among nearby observations', local_contrast.sum(), local_eligible.sum(),
-     'Species with a local pair from different observers', 'At least one contrasting pair within 5 km, in the same month and year'),
-]
-fig, axes = plt.subplots(3, 1, figsize=(7.1, 5.35), layout='constrained', height_ratios=[1,1,.7])
-for ax, (heading, count, total, population, outcome) in zip(axes, panels):
-    ax.axis('off')
-    ax.set(xlim=(0, 1), ylim=(0, 1))
-    ax.text(0, .96, heading, va='top', fontsize=13, weight='bold')
-    ax.text(0, .69, f'{int(count):,} / {int(total):,}', va='top', fontsize=17, color='#215b5f')
-    ax.text(.40, .65, population, va='top', fontsize=10)
-    ax.barh(.36, 1, height=.15, color='#dce3e5')
-    ax.barh(.36, count/total, height=.15, color='#297578')
-    ax.text(0, .18, outcome, va='top', fontsize=10)
-axes[2].axis('off')
-axes[2].text(0, .94, 'C   Geographic structure within species', va='top', fontsize=13, weight='bold')
-axes[2].text(0, .58, '1.61 percentage points fewer colour mismatches within 50 km', va='top', color='#215b5f', fontsize=13)
-axes[2].text(0, .21, 'Mean paired difference from range-wide comparisons in 3,600 species', va='top')
+register = pd.read_csv(root/'Table_S10_common_species.csv.gz')
+common = register.loc[register.common]
+assert set(common.inat_taxon_id) == set(register.loc[
+    register.repeated & register.geo.notna() & register.thermal.notna(), 'inat_taxon_id'])
+assert len(common) == 1070
+fig = plt.figure(figsize=(7.45, 5.95))
+tree = fig.add_axes([.045, .39, .92, .59])
+tree.set(xlim=(0, 1), ylim=(0, 1))
+tree.axis('off')
+tree.text(0, .98, 'A   Two screens of the same photographic register', weight='bold', va='top', fontsize=13)
+tree.text(.50, .79, f'{len(register):,} species selected by photographic coverage', ha='center',
+          weight='bold', fontsize=12, bbox=dict(boxstyle='round,pad=.45', fc='#e8eff0', ec='none'))
+tree.plot([.50,.50], [.74,.68], color='#567074')
+tree.plot([.24,.76], [.68,.68], color='#567074')
+for x in [.24,.76]:
+    tree.annotate('', xy=(x,.575), xytext=(x,.68), arrowprops=dict(arrowstyle='->',color='#567074'))
+tree.text(.24,.52,'Range-wide colour recurrence', ha='center', weight='bold')
+tree.text(.76,.52,'Local sampling opportunity', ha='center', weight='bold')
+tree.text(.24,.44,f'{repeated.sum():,} of {len(register):,} species', ha='center',color='#215b5f',fontsize=13)
+tree.text(.76,.44,f'{local_eligible.sum():,} of {len(register):,} species', ha='center',color='#215b5f',fontsize=13)
+tree.text(.24,.38,'≥5 photos in each of ≥2 colour groups', ha='center',va='top',fontsize=9)
+tree.text(.76,.38,'Different observers within 5 km,\nsame month and year',ha='center',va='top',fontsize=9)
+tree.text(.24,.19,f'{len(common):,} of {repeated.sum():,} supported both tests below',ha='center',fontsize=9,weight='bold')
+tree.text(.76,.19,f'{local_contrast.sum():,} of {local_eligible.sum():,} had a pair with different labels',ha='center',fontsize=9,weight='bold')
+tree.text(.76,.115,'Candidate sites for checking floral morphs',ha='center',fontsize=9)
+fig.text(.045,.399,'B   Two estimates for the same 1,070 species',weight='bold',fontsize=13)
+for i,(field,label,unit,colour,limit) in enumerate([
+        ('geo','Range-wide minus nearby mismatch','Percentage points',rain,4.2),
+        ('thermal','White fraction at warmer sites','Percentage points per thermal-index unit',thermal,2.2)]):
+    group = common.groupby('genus')[field].agg(['sum','count']).to_numpy()
+    rng = np.random.default_rng(273)
+    draws = group[rng.integers(len(group), size=(5000,len(group)))].sum(axis=1)
+    low,high = 100*np.percentile(draws[:,0]/draws[:,1],[2.5,97.5])
+    mean = 100*common[field].mean()
+    ax = fig.add_axes([.07+.505*i,.143,.38,.145])
+    ax.axvline(0,color='#777',ls=':',lw=1)
+    ax.errorbar(mean,.5,xerr=[[mean-low],[high-mean]],fmt='o',color=colour,capsize=4)
+    ax.set(xlim=(-.1,limit),ylim=(0,1),yticks=[],xlabel=unit)
+    ax.xaxis.label.set_size(9)
+    ax.spines['left'].set_visible(False)
+    ax.set_title(label,fontsize=10,loc='left')
+    ax.text(mean,.72,f'+{mean:.2f}  [{low:.2f}, {high:.2f}]',ha='center',fontsize=9)
 fig.savefig(root/'Figure_1_range_local.png', dpi=225)
 plt.close(fig)
 
