@@ -43,7 +43,7 @@ tree.text(.24,.44,f'{repeated.sum():,} of {len(register):,} species', ha='center
 tree.text(.76,.44,f'{local_eligible.sum():,} of {len(register):,} species', ha='center',color='#215b5f',fontsize=13)
 tree.text(.24,.38,'≥5 photos in each of ≥2 colour groups', ha='center',va='top',fontsize=9)
 tree.text(.76,.38,'Different observers within 5 km,\nsame month and year',ha='center',va='top',fontsize=9)
-tree.text(.24,.19,f'{len(common):,} of {repeated.sum():,} supported both tests below',ha='center',fontsize=9,weight='bold')
+tree.text(.24,.19,f'{len(common):,} of {repeated.sum():,} had both estimates below',ha='center',fontsize=9,weight='bold')
 tree.text(.76,.19,f'{local_contrast.sum():,} of {local_eligible.sum():,} had a pair with different labels',ha='center',fontsize=9,weight='bold')
 tree.text(.76,.115,'Candidate sites for checking floral morphs',ha='center',fontsize=9)
 fig.text(.045,.399,'B   Two estimates for the same 1,070 species',weight='bold',fontsize=13)
