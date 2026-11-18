@@ -1,0 +1,43 @@
+name: FCP positive synthesis manuscript DOCX export
+on:
+  pull_request:
+    paths:
+      - manuscripts/**
+      - .github/workflows/fcp-positive-manuscript-docx-export-20261024.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render-original-source-paper:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install document and figure tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc libreoffice-writer poppler-utils >/dev/null
+          python -m pip install numpy pandas matplotlib pillow cairosvg python-docx
+      - name: Validate source tables and export paper and supplement
+        run: |
+          python manuscripts/climate_colour/cohort_contrast.py
+          git diff --exit-code -- manuscripts/climate_colour/Table_S3_cohort_contrasts.csv
+          python manuscripts/climate_colour/render_figures.py
+          python manuscripts/climate_colour/export_paper.py /tmp/fcp-paper
+          libreoffice --headless --convert-to pdf --outdir /tmp/fcp-paper /tmp/fcp-paper/*.docx
+          for f in /tmp/fcp-paper/*.pdf; do
+            pdftotext -layout "$f" "${f%.pdf}.txt"
+          done
+          grep -q '54.2%' /tmp/fcp-paper/FCP_Manuscript.txt
+          grep -q '83.7%' /tmp/fcp-paper/FCP_Supporting_Information.txt
+          grep -q 'Argemone' /tmp/fcp-paper/FCP_Manuscript.txt
+          grep -q '1,919' /tmp/fcp-paper/FCP_Supporting_Information.txt
+          rm /tmp/fcp-paper/*.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-positive-integrated-full-paper-docx-20261024
+          path: /tmp/fcp-paper/
+          retention-days: 90

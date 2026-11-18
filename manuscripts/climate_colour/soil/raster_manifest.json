@@ -1,0 +1,44 @@
+[
+  {
+    "property": "phh2o",
+    "file": "phh2o_5-15cm_mean_1000.tif",
+    "url": "https://files.isric.org/soilgrids/latest/data_aggregated/1000m/phh2o/phh2o_5-15cm_mean_1000.tif",
+    "sha256": "dde2006490fad24deb8f4c5727d78066bea6042615dd5943503aa31012115896",
+    "source_checksum_url": "https://files.isric.org/soilgrids/latest/data_aggregated/1000m/phh2o/checksum.sha256.txt",
+    "depth_cm": [
+      5,
+      15
+    ],
+    "resolution_m": 1000,
+    "product": "official_aggregated_mean",
+    "uncertainty": "no aggregate prediction intervals supplied; not field measurements"
+  },
+  {
+    "property": "clay",
+    "file": "clay_5-15cm_mean_1000.tif",
+    "url": "https://files.isric.org/soilgrids/latest/data_aggregated/1000m/clay/clay_5-15cm_mean_1000.tif",
+    "sha256": "4164a3176651927fd503e313a22da2d8862a5817bdcade8096a475d0540e5f17",
+    "source_checksum_url": "https://files.isric.org/soilgrids/latest/data_aggregated/1000m/clay/checksum.sha256.txt",
+    "depth_cm": [
+      5,
+      15
+    ],
+    "resolution_m": 1000,
+    "product": "official_aggregated_mean",
+    "uncertainty": "no aggregate prediction intervals supplied; not field measurements"
+  },
+  {
+    "property": "nitrogen",
+    "file": "nitrogen_5-15cm_mean_1000.tif",
+    "url": "https://files.isric.org/soilgrids/latest/data_aggregated/1000m/nitrogen/nitrogen_5-15cm_mean_1000.tif",
+    "sha256": "8c23b59bfb03fde8ce59535129ccb614ed3edd7b1fbb9abb58c8a35e4dc8a944",
+    "source_checksum_url": "https://files.isric.org/soilgrids/latest/data_aggregated/1000m/nitrogen/checksum.sha256.txt",
+    "depth_cm": [
+      5,
+      15
+    ],
+    "resolution_m": 1000,
+    "product": "official_aggregated_mean",
+    "uncertainty": "no aggregate prediction intervals supplied; not field measurements"
+  }
+]
