@@ -282,7 +282,7 @@ def by_cohort(d):
         c = f[f.C]
         values.append({
             "cohort": key, "n_registry": len(f), "n_geo": int(f.G.sum()),
-            "n_thermal": int(f.T.sum()), "n_repeated": int(f.R.sum()),
+            "n_thermal": int(f['T'].sum()), "n_repeated": int(f.R.sum()),
             "n_common": len(c), "geo_common_mean": float(c.geo.mean()),
             "thermal_common_mean": float(c.thermal.mean()),
         })
