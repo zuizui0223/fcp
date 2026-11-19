@@ -77,13 +77,13 @@ def score_data():
     d["G"] = d.geo.notna()
     d["T"] = d.thermal.notna()
     d["C"] = d.common.astype(bool)
-    check(((d.R & d.G & d.T) == d.C).all(), "common equals explicit intersection")
-    check((int(d.R.sum()), int(d.G.sum()), int(d.T.sum()), int(d.C.sum())) ==
+    check(((d.R & d.G & d["T"]) == d.C).all(), "common equals explicit intersection")
+    check((int(d.R.sum()), int(d.G.sum()), int(d["T"].sum()), int(d.C.sum())) ==
           (2400, 3600, 2837, 1070), "denominator drift")
     check((d.n_local50km_colour_photo_pairs.gt(0) == d.G).all(),
           "geographic coefficient unexpectedly absent when 50km pair exists")
     d["G_R"] = d.G & d.R
-    d["T_R"] = d.T & d.R
+    d["T_R"] = d["T"] & d.R
     # Hard eligibility for geo-to-thermal selection, outcome-blind opportunity only.
     d["G_H"] = d.G_R & d.n_classified_photo.ge(40) & d.n_distinct_observers_source.ge(20)
     check((d.C <= d.G_H).all(), "common taxa outside hard geographic support")
@@ -94,7 +94,7 @@ def score_data():
 
 def summary(d):
     out = {
-        "registry": len(d), "G": int(d.G.sum()), "T": int(d.T.sum()),
+        "registry": len(d), "G": int(d.G.sum()), "T": int(d["T"].sum()),
         "R": int(d.R.sum()), "G_R": int(d.G_R.sum()),
         "T_R": int(d.T_R.sum()), "C": int(d.C.sum()),
         "G_H": int(d.G_H.sum()), "T_near": int(d.T_near.sum()),
@@ -108,14 +108,14 @@ def summary(d):
         "geography_repeated": d.loc[d.G_R, "geo"],
         "geography_hard_opportunity": d.loc[d.G_H, "geo"],
         "geography_paired": d.loc[d.C, "geo"],
-        "thermal_natural": d.loc[d.T, "thermal"],
+        "thermal_natural": d.loc[d["T"], "thermal"],
         "thermal_repeated": d.loc[d.T_R, "thermal"],
         "thermal_paired": d.loc[d.C, "thermal"],
     }
     out["means"] = {k: float(s.mean()) for k, s in dsets.items()}
     out["source_selection_coverage"] = {
         "geography_paired_fraction_of_natural": float(d.C.sum() / d.G.sum()),
-        "thermal_paired_fraction_of_natural": float(d.C.sum() / d.T.sum()),
+        "thermal_paired_fraction_of_natural": float(d.C.sum() / d["T"].sum()),
         "geography_common_fraction_after_hard_gate": float(d.C.sum() / d.G_H.sum()),
         "thermal_no_pair_fraction_of_repeated": float((d.T_R & ~d.T_near).sum() / d.T_R.sum()),
     }
