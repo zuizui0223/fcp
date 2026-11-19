@@ -1,0 +1,39 @@
+name: FCP 4475 eligibility and paired-genus bootstrap audit
+on:
+  push:
+    branches:
+      - analysis/fcp-estimand-eligibility-unified-story-20261119
+    paths:
+      - scripts/analysis/fcp4475_eligibility_matched_audit_20261119.py
+      - results/fcp4475_matched_eligibility_effect_audit_20261119.json
+      - .github/workflows/fcp-4475-eligibility-matched-audit-20261119.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_eligibility_matched_audit_20261119.py
+      - results/fcp4475_matched_eligibility_effect_audit_20261119.json
+      - .github/workflows/fcp-4475-eligibility-matched-audit-20261119.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-frozen-species-selection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile reproducibility source
+        run: python -m py_compile scripts/analysis/fcp4475_eligibility_matched_audit_20261119.py
+      - name: Join all 4475 source species and verify paired genus bootstrap against archive
+        run: |
+          python scripts/analysis/fcp4475_eligibility_matched_audit_20261119.py \
+            --out-dir /tmp/fcp4475-selection-audit --check-archive
+      - name: Publish transparent per-species eligibility ledger and numerical receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-eligibility-paired-genus-audit-20261119
+          path: /tmp/fcp4475-selection-audit/
+          retention-days: 90
+          if-no-files-found: error
