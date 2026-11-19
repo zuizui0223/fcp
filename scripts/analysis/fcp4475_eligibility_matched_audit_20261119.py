@@ -168,7 +168,7 @@ def main(out_dir: Path, check_archive: bool) -> None:
         reason_t = ("eligible" if warm is not None else
                     "less_than_40_classifiable" if classified < 40 else
                     t["status"] if t["status"] != "source_photo_macroclimate_estimable"
-                    else "white_thermal_coefficient_unavailable")
+                    else "thermal_domain_unidentifiable_after_month_geo_other_domains")
         failures_geo[reason_g] += 1
         failures_thermal[reason_t] += 1
         counts["all"] += 1
