@@ -5,10 +5,12 @@ on:
       - analysis/fcp-estimand-eligibility-unified-story-20261119
     paths:
       - scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py
+      - scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py
       - .github/workflows/fcp-image-pair-validation-audit-20261122.yml
   pull_request:
     paths:
       - scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py
+      - scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py
       - .github/workflows/fcp-image-pair-validation-audit-20261122.yml
   workflow_dispatch:
 permissions:
@@ -43,6 +45,25 @@ jobs:
               assert r['photo_A_url'].startswith('https://www.inaturalist.org/photos/')
               for key in ('photo_A_primary_open_petal_colour','photo_B_primary_open_petal_colour'):
                   assert not r[key], 'Independent human observations must never be prefilled'
+          PY
+      - name: Verify blank human forms cannot produce a botanical correction
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py
+          python scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py \
+            --reviewer-a /tmp/fcp-organ-qa/reviewer_A_blind_128_pairs.csv \
+            --reviewer-b /tmp/fcp-organ-qa/reviewer_B_blind_128_pairs.csv \
+            --key /tmp/fcp-organ-qa/UNBLIND_AFTER_TWO_REVIEWS_original_128_pair_key.csv \
+            --out-dir /tmp/fcp-organ-qa/human-status
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/fcp-organ-qa/human-status/human_review_status_and_result.json')
+          x=json.loads(p.read_text())
+          assert x['status']=='NOT_YET_VALIDATED'
+          assert x['counts']['n_pending_or_conflicting']==128
+          assert x['corrected_estimates'] is None
+          assert x['bootstrap'] is None
           PY
       - name: Publish reproducible visual-pilot receipt and separate blank two-reader forms
         uses: actions/upload-artifact@v4
