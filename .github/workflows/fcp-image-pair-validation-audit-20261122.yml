@@ -1,0 +1,55 @@
+name: FCP photographic organ-validation 128-pair source replay
+on:
+  push:
+    branches:
+      - analysis/fcp-estimand-eligibility-unified-story-20261119
+    paths:
+      - scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py
+      - .github/workflows/fcp-image-pair-validation-audit-20261122.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py
+      - .github/workflows/fcp-image-pair-validation-audit-20261122.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-photographic-colour-proxy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile and source-verify 128-pair pilot
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py
+          python scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py \
+            --out-dir /tmp/fcp-organ-qa --bootstrap 5000 | tee /tmp/fcp-organ-qa.log
+          test -s /tmp/fcp-organ-qa/visual_organ_pilot_replay_and_validation_gate.json
+          test -s /tmp/fcp-organ-qa/reviewer_A_blind_128_pairs.csv
+          test -s /tmp/fcp-organ-qa/reviewer_B_blind_128_pairs.csv
+          test -s /tmp/fcp-organ-qa/UNBLIND_AFTER_TWO_REVIEWS_original_128_pair_key.csv
+          python - <<'PY'
+          import csv, pathlib
+          p=pathlib.Path('/tmp/fcp-organ-qa')
+          aa=list(csv.DictReader((p/'reviewer_A_blind_128_pairs.csv').open()))
+          bb=list(csv.DictReader((p/'reviewer_B_blind_128_pairs.csv').open()))
+          assert len(aa)==len(bb)==128
+          assert {r['blind_pair_id'] for r in aa}=={r['blind_pair_id'] for r in bb}
+          for r in aa+bb:
+              assert r['photo_A_url'].startswith('https://www.inaturalist.org/photos/')
+              for key in ('photo_A_primary_open_petal_colour','photo_B_primary_open_petal_colour'):
+                  assert not r[key], 'Independent human observations must never be prefilled'
+          PY
+      - name: Publish reproducible visual-pilot receipt and separate blank two-reader forms
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-visual-organ-pilot-blind-forms-20261122
+          path: |
+            /tmp/fcp-organ-qa/
+            /tmp/fcp-organ-qa.log
+          retention-days: 90
+          if-no-files-found: error
