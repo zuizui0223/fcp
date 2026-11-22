@@ -272,10 +272,7 @@ def main(out, reps):
         "n_original_photographed_flower_pairs":128,
         "n_distinct_species":116,
         "n_distinct_photo_ids":250,
-        "strata":{str(k): len(v) for k,v in
-                  ((k,[r for r in rows
-                         if (int(r["tail"]),int(r["original_pair_mismatch"]))==k])
-                   for k in [(-1,0),(-1,1),(1,0),(1,1]))},
+        "strata": {f"tail_{k[0]}_original_mismatch_{k[1]}": n for k, n in strata.items()},
         "pilot_n_readable":nvalid,
         "pilot_n_unreadable":128-nvalid,
         "pilot_readable_rate":nvalid/128,
