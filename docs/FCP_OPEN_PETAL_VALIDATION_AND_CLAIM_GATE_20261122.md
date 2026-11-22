@@ -1,0 +1,39 @@
+# FCP: photographed-colour inference versus open-petal colour (decision gate)
+
+**2026-11-22 — verified source-table replay; biological organ validation NOT completed.**
+
+## Current decision
+
+- **Keep as an observed photographic result:** across the natural eligible subsets, the original four-category photographic mismatch was lower within 50 km than across the range (3,600 taxa, +1.61 percentage points; species-conditioned null p=0.005), and the original nine-palette geography conditional on calendar month and original coarse category was positive in its strict source panel. These effects are within-species photographic similarity and are not, yet, estimates of genetically fixed petal-colour morph geography.
+- **Keep as a tentative photographic correlation only:** the shared thermal index associated with a small average increase in original photo-region white pixel fraction (2,837 estimable taxa, +0.82 percentage points/index unit), with limited species-specific repeatability. This has not been demonstrated for homologous open petals.
+- **Do not claim:** a population-wide true flower-colour polymorphism frequency, local coexistence of inherited morphs, thermal adaptation, pigment maintenance costs, a fitness trade-off, a general genetic mechanism or confirmed open-petal whitening with temperature.
+
+## Why an organ validation gate is mandatory
+
+The pre-existing exploratory near-pair visual audit contained **128 draws**, balanced as four sets of 32 (warm versus cold photo-locality thermal tail x original equal versus different colour labels). Its underlying opportunity frame contained 10,881 eligible near pairs across 681 species. The 128 draws represented 116 distinct species and 250 distinct source photographs. A single AI reader deemed only 66/128 visually comparable (62 unreadable). Among comparable original different-label pairs, only **3/32** were visually different on corresponding open floral organs. Among comparable original same-label pairs, **32/34** remained alike.
+
+The source-table replay reconstructs a **−2.260 percentage point** adjustment for the full-frame warm-minus-cold white-pair share and a resulting rounded **+0.370 pp** corrected contrast from the original **+2.63 pp**. Its independently seeded 5,000-draw source-stratified bootstrap gives **[−9.86,+10.31] pp**, including zero widely. The mismatch contrast moves from approximately −0.01 to −1.73 points, 95% [−11.70,+8.82]. These are **not** original photo refits. They are one-reader pilot estimates with 62 unreadables and a nonrepresentative selected audit frame. Neither the +2.63-to-+.37 source frame nor these intervals is a direct estimate of the 2,837-species climate slope or 3,600-species geographic mismatch.
+
+Four licensed original illustrative images in `manuscripts/climate_colour/photos` highlight the measurement problem: image 664177506 of *Argemone albiflora* shows a mainly white corolla surrounding a yellow centre, while the archived ROI composition is 63.8% yellow and 3.2% white; the original four-state photo label is yellow/orange. The photo makes this case tangible but does not estimate general error rates, because the displayed images were purposefully chosen.
+
+## Work completed
+
+- Replayed the 128 Table S11 records from source into a verified JSON receipt: `results/fcp_visual_organ_audit_replay_verified_20261122.json`. A new 5,000-draw bootstrap, source crosschecks and machine-readable logging run in `scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py`, [successful source CI run](https://github.com/zuizui0223/fcp/actions/runs/45012681890).
+- Issued **two separate blank, randomized** 128-pair reviewer sheets linking directly to the original iNaturalist photos. A decoding key, original photo labels, preliminary AI judgements and thermal-tail strata are separated from the review sheets. Neither reviewer scores nor botanical conclusions were prefilled. [Download reviewer-sheet artifact](https://github.com/zuizui0223/fcp/actions/runs/45012681890/artifacts/14750216997).
+- Added `scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py` that checks both independently completed forms, identifies unanswered or discordant cases for a third reviewer, preserves `NOT_YET_VALIDATED` and **refuses to produce a corrected estimate** until all 128 pairs have reviewed and adjudicated outcomes. It then reproduces correction to the rounded full-frame pair contrasts and reports interval estimates without pretending to refit original-photo models.
+- Updated the main manuscript's Summary, Methods and Results, and the Supporting Information, to report the 128-pair stress test prominently and distinguish photographic ROI colour from same-organ petal colour.
+
+## Reviewer-specific instruction and blind limitations
+
+Reviewers must classify *only corresponding fully open corolla/petal tissue* in each paired image. For each image record whether the corolla is clearly visible, assign white/yellow-orange/red-pink/blue-purple only when visually resolvable, and record whether both images show the same homologous floral organ, a comparable flowering stage and sufficient image quality. Buds, sepals, stamens, anthers, pollen, fruits and background must not determine the petal-colour label. If any criterion is uncertain, mark unresolvable instead of forcing a match. The two botanists work independently; original scores are retained. Third-party adjudication applies to disputes, with no algorithmic consensus imposed. Reviewers should not consult the unblinding key.
+
+The sheets are **blind to source classifier labels, the prior AI judgement and experimental warm/cold strata**; external photo pages may still reveal species, observation date or locality. Therefore this is not perfect metadata blinding. Do not circulate the original source key or source Table S11 to reviewers during scoring. Photo-page links rather than copied images avoid redistributing unverified media licences; any local image packet must verify original photographer licence and attribution.
+
+## Stop/go scientific rule
+
+1. Until two humans and any necessary adjudicator submit actual independent observations: **STOP** claims of validated open-petal differentiation and climate-dependent morph frequencies. The computer CI passing means only the frozen table and reviewer workflow have been checked.
+2. Even after 128 pairs are reviewed: the selected temperature-tail frame tests a *specific near-pair photographic proxy* only. It cannot calibrate all 447,500 photos or all 3,600 species' geographic mismatch.
+3. Before upgrading the **global photographic geography** to biological petal geography, use an **additional heldout original-photo sample** stratified by taxon, season, distance band, source colour label and original classification failure (include unclassified photos). Measure homologous petal colours independently, preserve per-stratum inclusion probabilities, then rerun the spatial null on validated labels.
+4. Before upgrading the **thermal slope** to petal adaptation, rerun the actual species-level climate coefficient on adjudicated open-petal labels from a representative climate/observer-heldout panel; confirm whether organ-stage selection and colour-dependent classification missingness could create the mean. Experimental or genetic evidence is a separate, higher bar.
+
+**Interpretation after this gate:** the manuscript's defensible current novelty is broadly repeated, observer-sensitive *geographic structure of photographed floral appearance* and a weaker average photographic thermal–white association, together with explicit limits of their biological identifiability. Variation in species counts has already been audited on the full 4,475-species registry; correcting denominators alone does not resolve photograph-to-petal validity.
