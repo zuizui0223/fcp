@@ -65,6 +65,72 @@ jobs:
           assert x['corrected_estimates'] is None
           assert x['bootstrap'] is None
           PY
+      - name: Test completed and disputed human-review code paths with synthetic annotations only
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-synthetic-review-test
+          python - <<'PY'
+          import csv, pathlib
+          root=pathlib.Path('/tmp/fcp-organ-qa')
+          dst=pathlib.Path('/tmp/fcp-synthetic-review-test')
+          keys=['photo_A_open_corolla_visible','photo_B_open_corolla_visible',
+                'same_homologous_open_floral_organ','same_flower_stage',
+                'image_quality_sufficient']
+          for reviewer in ('A','B'):
+              p=root/f'reviewer_{reviewer}_blind_128_pairs.csv'
+              with p.open(newline='') as f:
+                  rows=list(csv.DictReader(f))
+              for row in rows:
+                  for k in keys: row[k]='yes'
+                  row['photo_A_primary_open_petal_colour']='white'
+                  row['photo_B_primary_open_petal_colour']='white'
+              with (dst/f'synthetic_reviewer_{reviewer}.csv').open('w',newline='') as f:
+                  w=csv.DictWriter(f,fieldnames=list(rows[0]))
+                  w.writeheader();w.writerows(rows)
+          # Third reader's synthetic scores must match the A review sheet.
+          (dst/'synthetic_third_reviewer.csv').write_text(
+              (dst/'synthetic_reviewer_A.csv').read_text())
+          with (dst/'synthetic_reviewer_B.csv').open(newline='') as f:
+              rows=list(csv.DictReader(f))
+          rows[0]['photo_B_primary_open_petal_colour']='red_pink'
+          with (dst/'synthetic_discordant_B.csv').open('w',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=list(rows[0]))
+              w.writeheader();w.writerows(rows)
+          PY
+          src=/tmp/fcp-organ-qa/UNBLIND_AFTER_TWO_REVIEWS_original_128_pair_key.csv
+          python scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py \
+            --reviewer-a /tmp/fcp-synthetic-review-test/synthetic_reviewer_A.csv \
+            --reviewer-b /tmp/fcp-synthetic-review-test/synthetic_reviewer_B.csv \
+            --key "$src" --out-dir /tmp/fcp-synthetic-review-test/consensus \
+            --bootstrap 200 >/dev/null
+          python scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py \
+            --reviewer-a /tmp/fcp-synthetic-review-test/synthetic_reviewer_A.csv \
+            --reviewer-b /tmp/fcp-synthetic-review-test/synthetic_discordant_B.csv \
+            --key "$src" --out-dir /tmp/fcp-synthetic-review-test/disagreement \
+            --bootstrap 200 >/dev/null
+          python scripts/analysis/fcp_two_reader_petal_adjudication_20261122.py \
+            --reviewer-a /tmp/fcp-synthetic-review-test/synthetic_reviewer_A.csv \
+            --reviewer-b /tmp/fcp-synthetic-review-test/synthetic_discordant_B.csv \
+            --adjudicator /tmp/fcp-synthetic-review-test/synthetic_third_reviewer.csv \
+            --key "$src" --out-dir /tmp/fcp-synthetic-review-test/adjudicated \
+            --bootstrap 200 >/dev/null
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('/tmp/fcp-synthetic-review-test')
+          def result(n):
+              return json.loads((root/n/'human_review_status_and_result.json').read_text())
+          a,b,c=[result(n) for n in ('consensus','disagreement','adjudicated')]
+          assert a['status']=='HUMAN_REVIEW_COMPLETE'
+          assert a['corrected_estimates'] is not None
+          assert a['bootstrap'] is not None
+          assert b['status']=='NOT_YET_VALIDATED'
+          assert b['counts']['n_pending_or_conflicting']==1
+          assert b['corrected_estimates'] is None
+          assert c['status']=='HUMAN_REVIEW_COMPLETE'
+          assert c['counts']['states']['third_reader_adjudicated']==1
+          assert c['corrected_estimates'] is not None
+          print('SYNTHETIC_TEST_ONLY: blank, complete, conflict and adjudication guards passed')
+          PY
       - name: Publish reproducible visual-pilot receipt and separate blank two-reader forms
         uses: actions/upload-artifact@v4
         with:
