@@ -1,0 +1,53 @@
+name: FCP unreadable-pair formal bounds and MNAR sensitivity
+on:
+  push:
+    branches: [analysis/fcp-estimand-eligibility-unified-story-20261119]
+    paths:
+      - scripts/analysis/fcp_organ_unreadable_mnar_bounds_20261124.py
+      - .github/workflows/fcp-organ-unreadable-mnar-bounds-20261124.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_organ_unreadable_mnar_bounds_20261124.py
+      - .github/workflows/fcp-organ-unreadable-mnar-bounds-20261124.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-photo-proxy-partial-identification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify archived source counts and conditional missing-score sensitivity
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/fcp_organ_unreadable_mnar_bounds_20261124.py
+          python scripts/analysis/fcp_organ_unreadable_mnar_bounds_20261124.py \
+            --out-dir /tmp/fcp-mnar-20261124 --bootstrap 5000 \
+            | tee /tmp/fcp-mnar-20261124-run.log
+          test -s /tmp/fcp-mnar-20261124/fcp_unreadable_visual_pair_mnar_sensitivity_20261124.json
+          python - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('/tmp/fcp-mnar-20261124/fcp_unreadable_visual_pair_mnar_sensitivity_20261124.json')
+          d=json.loads(p.read_text())
+          assert d['n_selected_draws']==128
+          assert d['n_readable_by_single_AI']==66
+          assert d['n_unreadable_by_single_AI']==62
+          w=d['white_pair_share_pp']['model_point_estimates_pp']
+          assert -0.1 < w['retain_original'] < 0.8
+          assert w['all_missing_lower'] < 0 < w['all_missing_upper']
+          assert w['mar_within_four_strata'] < 0
+          assert d['status'].endswith('NOT_human_petal_ground_truth')
+          PY
+      - name: Upload auditable conditional source-missingness analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-128-pair-unreadable-mnar-bounds-20261124
+          path: |
+            /tmp/fcp-mnar-20261124/
+            /tmp/fcp-mnar-20261124-run.log
+          retention-days: 90
+          if-no-files-found: error
