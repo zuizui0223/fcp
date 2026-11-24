@@ -1,0 +1,146 @@
+name: FCP geographic petal two-human scoring quality gate
+on:
+  push:
+    branches: [analysis/fcp-estimand-eligibility-unified-story-20261119]
+    paths:
+      - scripts/analysis/fcp_geo_petal_two_human_review_20261124.py
+      - .github/workflows/fcp-geo-petal-human-review-qa-20261124.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_geo_petal_two_human_review_20261124.py
+      - .github/workflows/fcp-geo-petal-human-review-qa-20261124.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-source-gated-human-organ-score:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PINNED_SOURCE_RUN: '45378374319'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download source-authenticated blind forms and separate investigator keys
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-geo-human/{forms,keys,status,synth,disagree,third}
+          gh run download "$PINNED_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-geo-petal-heldout-blind-review-forms-20261124 \
+            --dir /tmp/fcp-geo-human/forms
+          gh run download "$PINNED_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name fcp-geo-petal-heldout-investigator-keys-and-design-receipt-20261124 \
+            --dir /tmp/fcp-geo-human/keys
+          python -m py_compile scripts/analysis/fcp_geo_petal_two_human_review_20261124.py
+      - name: Validate blank human-review forms fail closed
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_geo_petal_two_human_review_20261124.py \
+            --forms-dir /tmp/fcp-geo-human/forms \
+            --keys-dir /tmp/fcp-geo-human/keys \
+            --out-dir /tmp/fcp-geo-human/status \
+            | tee /tmp/fcp-geo-human/status.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp-geo-human/status/human_geographic_petal_review_status.json').read_text())
+          assert d['status']=='NO_HUMAN_PETAL_RESULT'
+          assert d['n_total_items']==320
+          assert d['n_missing_or_discordant_items']==320
+          assert d['open_petal_pair_geography'] is None
+          assert d['single_image_classification'] is None
+          PY
+          if python scripts/analysis/fcp_geo_petal_two_human_review_20261124.py \
+            --forms-dir /tmp/fcp-geo-human/forms \
+            --keys-dir /tmp/fcp-geo-human/keys \
+            --out-dir /tmp/fcp-geo-human/status --require-complete; then
+              echo 'ERROR: empty human forms cannot be declared complete' >&2
+              exit 1
+          fi
+      - name: Exercise complete review, human disagreement and third-reader adjudication with SYNTHETIC data
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,pathlib
+          root=pathlib.Path('/tmp/fcp-geo-human')
+          valid_yes={'both_photos_comparable_open_corollas','same_developmental_stage',
+                     'photo_A_visible_open_corolla','photo_B_visible_open_corolla',
+                     'photo_quality_sufficient','open_corolla_visible'}
+          valid_no={'non_petal_dominance','other_organ_dominant',
+                    'background_or_nonflower_contribution','flower_bud_or_fruit'}
+          for kind in ('pairs','singles'):
+              for who in ('A','B'):
+                  p=root/'forms'/f'reviewer_{who}_geographic_{kind}_blank.csv'
+                  with p.open(newline='') as f: rows=list(csv.DictReader(f))
+                  for row in rows:
+                      for k in valid_yes|valid_no:
+                          if k in row: row[k]='yes' if k in valid_yes else 'no'
+                      for k in ('photo_A_open_petal_colour','photo_B_open_petal_colour',
+                                'predominant_open_petal_colour'):
+                          if k in row:row[k]='white'
+                      row['reviewer_confidence']='high'
+                  for path in (root/'synth'/p.name,):
+                      with path.open('w',newline='') as f:
+                          writer=csv.DictWriter(f,fieldnames=rows[0].keys())
+                          writer.writeheader();writer.writerows(rows)
+                  if who=='A':
+                      with (root/'third'/f'third_reader_geographic_{kind}.csv').open('w',newline='') as f:
+                          writer=csv.DictWriter(f,fieldnames=rows[0].keys())
+                          writer.writeheader();writer.writerows(rows)
+              p=root/'synth'/f'reviewer_B_geographic_{kind}_blank.csv'
+              with p.open(newline='') as f:rows=list(csv.DictReader(f))
+              if kind=='pairs':
+                  rows[0]['photo_B_open_petal_colour']='red_pink'
+              else:
+                  rows[0]['predominant_open_petal_colour']='red_pink'
+              with (root/'disagree'/p.name).open('w',newline='') as f:
+                  writer=csv.DictWriter(f,fieldnames=rows[0].keys())
+                  writer.writeheader();writer.writerows(rows)
+              import shutil
+              shutil.copy(root/'synth'/f'reviewer_A_geographic_{kind}_blank.csv',
+                          root/'disagree'/f'reviewer_A_geographic_{kind}_blank.csv')
+          PY
+          python scripts/analysis/fcp_geo_petal_two_human_review_20261124.py \
+            --forms-dir /tmp/fcp-geo-human/synth \
+            --keys-dir /tmp/fcp-geo-human/keys \
+            --out-dir /tmp/fcp-geo-human/synth/out >/dev/null
+          python scripts/analysis/fcp_geo_petal_two_human_review_20261124.py \
+            --forms-dir /tmp/fcp-geo-human/disagree \
+            --keys-dir /tmp/fcp-geo-human/keys \
+            --out-dir /tmp/fcp-geo-human/disagree/out >/dev/null
+          python scripts/analysis/fcp_geo_petal_two_human_review_20261124.py \
+            --forms-dir /tmp/fcp-geo-human/disagree \
+            --keys-dir /tmp/fcp-geo-human/keys \
+            --third-dir /tmp/fcp-geo-human/third \
+            --out-dir /tmp/fcp-geo-human/third/out >/dev/null
+          python - <<'PY'
+          import json,pathlib
+          root=pathlib.Path('/tmp/fcp-geo-human')
+          def get(folder):
+              return json.loads((root/folder/'out'/'human_geographic_petal_review_status.json').read_text())
+          a,b,c=[get(k) for k in ('synth','disagree','third')]
+          assert a['status']=='HUMAN_PETAL_REVIEW_COMPLETE'
+          assert len(a['open_petal_pair_geography'])==4
+          assert a['single_image_classification']['classified']['n_source_photo_draws']==64
+          assert a['single_image_classification']['unclassified']['n_source_photo_draws']==64
+          assert b['status']=='NO_HUMAN_PETAL_RESULT'
+          assert b['n_missing_or_discordant_items']==2
+          assert b['open_petal_pair_geography'] is None
+          assert c['status']=='HUMAN_PETAL_REVIEW_COMPLETE'
+          assert c['review_status']['pairs']['status_counts']['third_reader_adjudicated']==1
+          assert c['review_status']['singles']['status_counts']['third_reader_adjudicated']==1
+          print('SYNTHETIC_ONLY human scoring guard checks successful; NO real botanical review recorded')
+          PY
+      - name: Publish only blank-form no-result receipt and pending human-review queue
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-geo-petal-human-review-gated-NOT_VALIDATED-20261124
+          path: |
+            /tmp/fcp-geo-human/status/
+            /tmp/fcp-geo-human/status.log
+          if-no-files-found: error
+          retention-days: 90

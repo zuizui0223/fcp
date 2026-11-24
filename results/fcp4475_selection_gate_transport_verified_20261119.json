@@ -1,0 +1,187 @@
+{
+  "schema": "fcp4475_selection_gate_transport_verified_run_20261119",
+  "status": "CI_verified_original_species_estimates_reanalysis_no_photo_refit",
+  "run_url": "https://github.com/zuizui0223/fcp/actions/runs/44546346731",
+  "workflow_run_id": 44546346731,
+  "job_id": 135637815695,
+  "source_head_sha": "99c3c3ba6ecda661502c1ae32bd2ef34fd90d6c2",
+  "source_files": [
+    "results/fcp_np_all4475_unified_species_ledger_20261021.csv",
+    "manuscripts/climate_colour/Table_S10_common_species.csv.gz",
+    "manuscripts/climate_colour/Table_S2_species_coefficients.csv.gz"
+  ],
+  "reproducer": "scripts/analysis/fcp4475_selection_transport_diagnostic_20261119.py",
+  "artifact": {
+    "name": "fcp4475-gate-selection-transport-20261119",
+    "id": 14540878254,
+    "digest": "sha256:4a574bdc0f50235f4f699d2b939574b7647e66cb4e8600569c2c99a76d116951",
+    "size_in_bytes": 184065
+  },
+  "data": {
+    "counts": {
+      "registry": 4475,
+      "G": 3600,
+      "T": 2837,
+      "R": 2400,
+      "G_R": 1902,
+      "T_R": 1376,
+      "C": 1070,
+      "G_H": 1274,
+      "T_near": 1070,
+      "G_R_below_photo40_or_source_observers20": 628,
+      "T_R_no_50km_pair": 306
+    },
+    "means": {
+      "geography_natural": 0.016115883798020134,
+      "geography_repeated": 0.023072803715088953,
+      "geography_hard_opportunity": 0.02837453583153192,
+      "geography_paired": 0.02816796761838329,
+      "thermal_natural": 0.00820910225894555,
+      "thermal_repeated": 0.012428137450207643,
+      "thermal_paired": 0.012230302191901507
+    },
+    "gate_changes": {
+      "geo_repeated_minus_natural": 0.0069569199170688364,
+      "geo_hard_minus_repeated": 0.005301732116442932,
+      "geo_paired_minus_hard": -0.00020656821314862447,
+      "geo_paired_minus_repeated": 0.005095163903294307,
+      "thermal_repeated_minus_natural": 0.004219035191262091,
+      "thermal_paired_minus_repeated": -0.00019783525830614074
+    },
+    "gate_CI": {
+      "geo_repeated_minus_natural": [
+        0.0023604242968998353,
+        0.011366621215381402
+      ],
+      "geo_hard_minus_repeated": [
+        -0.0007147653417826167,
+        0.011485280384388829
+      ],
+      "geo_paired_minus_hard": [
+        -0.0033080679490762608,
+        0.0031021896012673254
+      ],
+      "geo_paired_minus_repeated": [
+        -0.0019822842827638618,
+        0.012118771945282264
+      ],
+      "thermal_repeated_minus_natural": [
+        0.0008533233734917296,
+        0.007268154758327145
+      ],
+      "thermal_paired_minus_repeated": [
+        -0.0028171148842499405,
+        0.0025098799957147455
+      ]
+    },
+    "propensity": {
+      "target": "geography repeated-colour taxa with >=40 classified source photos and >=20 original observers, and <=50km colour pair",
+      "n_target": 1274,
+      "n_selected": 1070,
+      "folds": 5,
+      "grouping": "genus",
+      "auc_oof": 0.6833150082462892,
+      "brier_oof": 0.1260653037031056,
+      "base_rate": 0.8398744113029827,
+      "predicted_p_quantiles": {
+        "0.01": 0.44838026299351663,
+        "0.05": 0.6490051089950768,
+        "0.5": 0.8619022589399037,
+        "0.95": 0.9535482149446717,
+        "0.99": 0.9718173650642442
+      },
+      "selected_predicted_p_below_0_05": 0,
+      "selected_predicted_p_below_0_10": 0,
+      "weight_sensitivity": {
+        "floor_0.02": {
+          "mean": 0.02749004118903215,
+          "ess_selected": 1043.208548736789,
+          "ess_over_n_selected": 0.974961260501672,
+          "max_weight": 3.4074923239294,
+          "target_observed_mean": 0.02837453583153192
+        },
+        "floor_0.05": {
+          "mean": 0.02749004118903215,
+          "ess_selected": 1043.208548736789,
+          "ess_over_n_selected": 0.974961260501672,
+          "max_weight": 3.4074923239294,
+          "target_observed_mean": 0.02837453583153192
+        },
+        "floor_0.10": {
+          "mean": 0.02749004118903215,
+          "ess_selected": 1043.208548736789,
+          "ess_over_n_selected": 0.974961260501672,
+          "max_weight": 3.4074923239294,
+          "target_observed_mean": 0.02837453583153192
+        }
+      },
+      "weighted_minus_observed_target": -0.0008844946424997682,
+      "weighted_minus_observed_target_genus95_fixed_propensities": [
+        -0.00400549249363107,
+        0.0023095435867529057
+      ],
+      "n_genera_target": 614
+    },
+    "cohorts": [
+      {
+        "cohort": "discovery",
+        "n_registry": 500,
+        "n_geo": 324,
+        "n_thermal": 331,
+        "n_repeated": 277,
+        "n_common": 104,
+        "geo_common_mean": 0.03921522157562782,
+        "thermal_common_mean": 0.0047119606957377195
+      },
+      {
+        "cohort": "new_U100",
+        "n_registry": 2478,
+        "n_geo": 2102,
+        "n_thermal": 1564,
+        "n_repeated": 1277,
+        "n_common": 600,
+        "geo_common_mean": 0.023920112965085467,
+        "thermal_common_mean": 0.012181842796197984
+      },
+      {
+        "cohort": "prospective",
+        "n_registry": 499,
+        "n_geo": 421,
+        "n_thermal": 322,
+        "n_repeated": 289,
+        "n_common": 138,
+        "geo_common_mean": 0.047604638931024505,
+        "thermal_common_mean": 0.016959035061001725
+      },
+      {
+        "cohort": "validation",
+        "n_registry": 500,
+        "n_geo": 340,
+        "n_thermal": 323,
+        "n_repeated": 268,
+        "n_common": 106,
+        "geo_common_mean": 0.029846256897346792,
+        "thermal_common_mean": 0.02216970374497131
+      },
+      {
+        "cohort": "wave4",
+        "n_registry": 498,
+        "n_geo": 413,
+        "n_thermal": 297,
+        "n_repeated": 289,
+        "n_common": 122,
+        "geo_common_mean": 0.016197796107814834,
+        "thermal_common_mean": 0.004892937048146739
+      }
+    ]
+  },
+  "interpretation_rules": [
+    "Natural geographic and thermal estimands use their own eligible species sets, NOT an imputed common 4475 denominator.",
+    "Repeated-colour requirement depends on observed photographic colour outcome; its selection effect is descriptive and cannot be corrected from opportunity data alone.",
+    "After the >=40 classified original photos and >=20 source observers gate, remaining geographic common selection (climate estimability) changes the mean by only -0.0207 percentage points, 95% genus CI spans zero.",
+    "The 1274-species geographic hard-support target and the 1070-species common sample have robust positive mean geographic effects; propensity weighted 1070 sample is diagnostic, not proof of missing-at-random.",
+    "The 306 repeated-colour thermal species without a classifiable within-50km pair have structurally undefined geographic effects; do not transport the geo estimand to this stratum.",
+    "Propensity CI holds scores fixed; bootstrap original-photo and propensity-fitting uncertainty not included.",
+    "Source-original flower-region labels have stage/organ/measurement error risk; no inherited flower morph, selection mechanism or fitness proven."
+  ]
+}

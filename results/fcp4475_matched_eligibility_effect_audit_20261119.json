@@ -1,0 +1,148 @@
+{
+  "schema": "fcp_4475_matched_species_eligibility_meta_analysis_20261119",
+  "status": "new_audit_of_archived_species_estimates_not_refit_of_original_photographs",
+  "inputs": {
+    "registry": "results/fcp_np_all4475_unified_species_ledger_20261021.csv",
+    "species_intersection": "manuscripts/climate_colour/Table_S10_common_species.csv.gz",
+    "nine_hue_coefficients": "manuscripts/climate_colour/Table_S2_species_coefficients.csv.gz",
+    "join_key": "inat_taxon_id",
+    "verification": "all 4,475 IDs unique, source cohort and species match; Table S10 geo and thermal exactly align with archived source coefficients",
+    "common_species_blob_sha": "887991a51009461a640f4cd2ab4b13583f53516b"
+  },
+  "n_species": {
+    "registry": 4475,
+    "repeated_colour": 2400,
+    "geographic_estimable": 3600,
+    "thermal_estimable": 2837,
+    "geographic_within_repeated": 1902,
+    "thermal_within_repeated": 1376,
+    "paired_common": 1070,
+    "bio5_univariate": 4112,
+    "local5_opportunity": 840,
+    "n_genera_all": 1634
+  },
+  "estimators": {
+    "geo_definition": "range-wide minus <=50km mismatch probability; unit fraction",
+    "thermal_definition": "within-species standardized shared thermal index white photo fraction coefficient; unit fraction per index unit",
+    "averaging": "equal species weights for each estimable sample"
+  },
+  "means": {
+    "geo_all": 0.016115883798020137,
+    "geo_repeated": 0.02307280371508898,
+    "geo_common": 0.028167967618383288,
+    "thermal_all": 0.008209102258945557,
+    "thermal_repeated": 0.012428137450207653,
+    "thermal_common": 0.01223030219190152,
+    "geo_common_minus_all": 0.01205208382036315,
+    "thermal_common_minus_all": 0.004021199932955962,
+    "geo_common_minus_repeated": 0.005095163903294307,
+    "thermal_common_minus_repeated": -0.0001978352583061338,
+    "geo_thermal_common_pearson_unadjusted": 0.06150947671818202
+  },
+  "bootstrap": {
+    "method": "whole-genus with replacement over fixed registry, recompute natural and paired means jointly in same draw; equal species weights",
+    "reps": 2500,
+    "seed": 20261119,
+    "interval_type": "percentile_95",
+    "intervals": {
+      "geo_all": [
+        0.011120751593062993,
+        0.0209125205306398
+      ],
+      "geo_repeated": [
+        0.01495794846642178,
+        0.030907447835031528
+      ],
+      "geo_common": [
+        0.018582765398835473,
+        0.03729812806381615
+      ],
+      "thermal_all": [
+        0.005004742726576087,
+        0.01139989984768018
+      ],
+      "thermal_repeated": [
+        0.00687788354854463,
+        0.017581297890711587
+      ],
+      "thermal_common": [
+        0.0056799168725936685,
+        0.01815992168687785
+      ],
+      "geo_common_minus_all": [
+        0.004199891550320713,
+        0.019817855207714206
+      ],
+      "thermal_common_minus_all": [
+        -0.00048135176823240806,
+        0.008175289256557593
+      ],
+      "geo_common_minus_repeated": [
+        -0.0023773180442216175,
+        0.012441296248056826
+      ],
+      "thermal_common_minus_repeated": [
+        -0.002878593106421696,
+        0.0024202048522344536
+      ],
+      "geo_thermal_common_pearson_unadjusted": [
+        0.002955934399330628,
+        0.12257540093904032
+      ]
+    }
+  },
+  "selection_descriptives": {
+    "classifiable_photo_fraction_mean_all": 0.5075016759776527,
+    "classifiable_photo_fraction_mean_common": 0.5505607476635521,
+    "classifiable_photos_median_all": 52,
+    "classifiable_photos_median_common": 54,
+    "local50_pairs_median_all": 24,
+    "local50_pairs_median_common": 49.5
+  },
+  "common_by_cohort": [
+    {
+      "cohort": "discovery",
+      "n_total": 500,
+      "n_common": 104,
+      "geo": 0.03921522157562782,
+      "thermal": 0.00471196069573772
+    },
+    {
+      "cohort": "new_U100",
+      "n_total": 2478,
+      "n_common": 600,
+      "geo": 0.023920112965085453,
+      "thermal": 0.012181842796197995
+    },
+    {
+      "cohort": "prospective",
+      "n_total": 499,
+      "n_common": 138,
+      "geo": 0.04760463893102451,
+      "thermal": 0.016959035061001725
+    },
+    {
+      "cohort": "validation",
+      "n_total": 500,
+      "n_common": 106,
+      "geo": 0.029846256897346792,
+      "thermal": 0.02216970374497131
+    },
+    {
+      "cohort": "wave4",
+      "n_total": 498,
+      "n_common": 122,
+      "geo": 0.016197796107814834,
+      "thermal": 0.004892937048146742
+    }
+  ],
+  "limitations": [
+    "The significant geo sample contrast means generalization of the common-eligible effect to the full 4,475 registry is not automatic",
+    "The weak unadjusted cross-species geo-thermal correlation does not establish ecological mediation or a shared causal driver",
+    "Observer-stage and floral-organ misclassification remain; photos are not inherited morph genotypes",
+    "No missing-outcome propensity/transport or colour-dependent MNAR sensitivity is reported in this audit",
+    "All five cohorts use the same photo provider",
+    "Bootstrap on species-level archived coefficients omits original-photo coefficient-fitting uncertainty"
+  ],
+  "code_followup": "scripts/analysis/fcp4475_eligibility_matched_audit_20261119.py"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "fcp_petal_visual_proxy_source_audit_20261122",
+  "status": "source_table_replay_verified_by_CI_no_new_independent_human_labels",
+  "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45012681890",
+  "source_pair_table": "manuscripts/climate_colour/Table_S11_pair_audit.csv",
+  "source_pair_table_git_blob_sha": "f8232b7fa7f75a38a05844e9c105438d13302828",
+  "audit_script": "scripts/analysis/fcp_image_pair_label_validation_audit_20261122.py",
+  "review_packet_artifact": {
+    "url": "https://github.com/zuizui0223/fcp/actions/runs/45012681890/artifacts/14750216997",
+    "id": 14750216997,
+    "name": "fcp-visual-organ-pilot-blind-forms-20261122",
+    "digest": "sha256:1b731f906d8403fe41cbe577328aa4a87b417841452d192c67d7c084d06ab3c2",
+    "size_in_bytes": 13203
+  },
+  "data": {
+    "n_original_photographed_flower_pairs": 128,
+    "n_distinct_species": 116,
+    "n_distinct_photo_ids": 250,
+    "pilot_n_readable": 66,
+    "pilot_n_unreadable": 62,
+    "pilot_different_label_still_different": 3,
+    "pilot_same_label_still_same": 32,
+    "point_replay": {
+      "audit_original_white_pp": 1.4151585511609,
+      "audit_unreadable_imputed_white_pp": -0.8450684576504497,
+      "audit_original_mismatch_pp": -0.013722614152666956,
+      "audit_unreadable_imputed_mismatch_pp": -1.7368361211459071,
+      "visual_correction_white_pp": -2.2602270088113494,
+      "visual_correction_mismatch_pp": -1.7231135069932402,
+      "full_frame_original_white_pp_rounded": 2.63,
+      "full_frame_original_mismatch_pp_rounded": -0.01,
+      "full_frame_corrected_white_pp_approx": 0.3697729911886505,
+      "full_frame_corrected_mismatch_pp_approx": -1.7331135069932402,
+      "readable_only_white_pp": -2.6410389919917883,
+      "readable_only_mismatch_pp": 9.44431176629836
+    },
+    "bootstrap": {
+      "reps": 5000,
+      "seed": 20261122,
+      "stratification": "fixed 32 draws in each of four source audit strata",
+      "ci_scope": "fixed full-frame rounded reference and exploratory AI-reader label; not photo-level fitting / independent validation",
+      "corrected_white_pp_95": [
+        -9.859244398876653,
+        10.314225197556857
+      ],
+      "corrected_mismatch_pp_95": [
+        -11.69747930234963,
+        8.819814024296532
+      ]
+    }
+  },
+  "interpretation": {
+    "validations": [
+      "Exactly 128 pairs in four 32-draw strata (warm/cold x original same/different)",
+      "66/128 pairs readable, 62/128 not readable",
+      "Among 32 readable originally different-label pairs, 3 visually different according to one AI reader",
+      "Among 34 readable originally same-label pairs, 32 visually same according to one AI reader",
+      "Calibration difference-in-differences from rounded 2.63pp reference yields ~0.37pp corrected white contrast, CI spans 0",
+      "The 128-pair source was deliberately sampled by original colour agreement and thermal tails, so the 3/32 conditional fraction is NOT a population-wide model accuracy estimate"
+    ],
+    "limitations": [
+      "No independent botanist adjudication, labels are from one AI visual reader",
+      "Actual original images of all 256 photo slots were not independently verified by this replay",
+      "62 unreadable pairs retain the original labels for the main sensitivity, which is an unvalidated assumption",
+      "Weather / phenotype confounding / selection / false detection cannot be excluded",
+      "This subset cannot directly validate the global 3,600-species geographic signal",
+      "The 2.63 and -0.01 anchors are rounded, hence replay corrected points approximate",
+      "No evidence of inherited morphs or fitness trade-offs"
+    ]
+  }
+}
