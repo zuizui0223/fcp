@@ -1,0 +1,149 @@
+{
+  "schema": "fcp_128_pair_unreadable_mnar_bounds_source_verified_20261124",
+  "status": "VERIFIED_SOURCE_TABLE_AI_READABLE_FIXED_SENSITIVITY_NOT_INDEPENDENT_HUMAN_TRUTH",
+  "original_source": "manuscripts/climate_colour/Table_S11_pair_audit.csv",
+  "original_source_git_blob_sha": "f8232b7fa7f75a38a05844e9c105438d13302828",
+  "pipeline": "scripts/analysis/fcp_organ_unreadable_mnar_bounds_20261124.py",
+  "ci": {
+    "run_id": 45377490634,
+    "job_id": 138387530276,
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45377490634",
+    "success": true,
+    "head_sha": "9c0365146402d737cdd3e891efddd7a1fb15a62a"
+  },
+  "output_artifact": {
+    "name": "fcp-128-pair-unreadable-mnar-bounds-20261124",
+    "id": 14912865429,
+    "digest": "sha256:96dc9c2a54728472e4508682e0a1db571f886c67c6ed79711454ff2ecd6a9742",
+    "download_url": "https://github.com/zuizui0223/fcp/actions/runs/45377490634/artifacts/14912865429"
+  },
+  "reanalyzed_summary": {
+    "n_selected_draws": 128,
+    "n_readable_by_single_AI": 66,
+    "n_unreadable_by_single_AI": 62,
+    "stratum_counts": {
+      "tail_-1_original_mismatch_0": {
+        "n": 32,
+        "n_readable": 18
+      },
+      "tail_-1_original_mismatch_1": {
+        "n": 32,
+        "n_readable": 13
+      },
+      "tail_1_original_mismatch_0": {
+        "n": 32,
+        "n_readable": 16
+      },
+      "tail_1_original_mismatch_1": {
+        "n": 32,
+        "n_readable": 19
+      }
+    },
+    "white_pair_share_pp": {
+      "original_draw_contrast_pp": 1.4151585511609,
+      "source_full_frame_baseline_pp_rounded": 2.63,
+      "model_point_estimates_pp": {
+        "retain_original": 0.36977299118865026,
+        "missing_as_half": -1.3409261210349843,
+        "mar_within_four_strata": -1.9303587423163768,
+        "all_missing_lower": -49.3567495555943,
+        "all_missing_upper": 46.67489731352433
+      },
+      "stratum_readable_visual_mean": {
+        "tail_-1_original_mismatch_0": 0.1111111111111111,
+        "tail_-1_original_mismatch_1": 0.07692307692307693,
+        "tail_1_original_mismatch_0": 0,
+        "tail_1_original_mismatch_1": 0.18421052631578946
+      },
+      "formal_marginal_unreadable_bounds_pp": {
+        "lower": -49.3567495555943,
+        "upper": 46.67489731352433
+      },
+      "retain_to_stratified_mar_zero_crossing_fraction": 0.1607616580399838,
+      "assumptions": {
+        "retain_original": "Unreadable pairs retain original photo labels.",
+        "missing_as_half": "All unreadable pair scores are set to 0.5; not observed.",
+        "mar_within_four_strata": "An unreadable pair has the same mean hypothetical petal score as readable pairs with identical warm/cold tail and original label agreement. Unverifiable assumption.",
+        "all_missing_lower": "For lower warm-minus-cold bound, all unreadable warm scores are 0 and cold scores 1.",
+        "all_missing_upper": "For upper warm-minus-cold bound, all unreadable warm scores are 1 and cold scores 0.",
+        "formal_bounds_scope": "Mathematical marginal completions of 62 undefined single-reader petal scores conditional on 66 fixed AI scores, source draw weights and rounded full-frame baseline. Not population-wide petal-colour prevalence nor biological identified bounds if no homologous petals exist."
+      }
+    },
+    "category_mismatch_pp": {
+      "original_draw_contrast_pp": -0.013722614152666956,
+      "source_full_frame_baseline_pp_rounded": -0.01,
+      "model_point_estimates_pp": {
+        "retain_original": -1.7331135069932402,
+        "missing_as_half": 3.67846492658651,
+        "mar_within_four_strata": 8.977282269456381,
+        "all_missing_lower": -44.3373585079728,
+        "all_missing_upper": 51.69428836114584
+      },
+      "stratum_readable_visual_mean": {
+        "tail_-1_original_mismatch_0": 0,
+        "tail_-1_original_mismatch_1": 0.07692307692307693,
+        "tail_1_original_mismatch_0": 0.125,
+        "tail_1_original_mismatch_1": 0.10526315789473684
+      },
+      "formal_marginal_unreadable_bounds_pp": {
+        "lower": -44.3373585079728,
+        "upper": 51.69428836114584
+      },
+      "retain_to_stratified_mar_zero_crossing_fraction": 0.1618160097131115,
+      "assumptions": {
+        "retain_original": "Unreadable pairs retain original photo labels.",
+        "missing_as_half": "All unreadable pair scores are set to 0.5; not observed.",
+        "mar_within_four_strata": "An unreadable pair has the same mean hypothetical petal score as readable pairs with identical warm/cold tail and original label agreement. Unverifiable assumption.",
+        "all_missing_lower": "For lower warm-minus-cold bound, all unreadable warm scores are 0 and cold scores 1.",
+        "all_missing_upper": "For upper warm-minus-cold bound, all unreadable warm scores are 1 and cold scores 0.",
+        "formal_bounds_scope": "Mathematical marginal completions of 62 undefined single-reader petal scores conditional on 66 fixed AI scores, source draw weights and rounded full-frame baseline. Not population-wide petal-colour prevalence nor biological identified bounds if no homologous petals exist."
+      }
+    },
+    "bootstrap": {
+      "seed": 20261122,
+      "resamples_requested": 5000,
+      "undefined_stratum_draws": 0,
+      "resamples_accepted": 5000,
+      "interval_type": "percentile_95",
+      "intervals": {
+        "white": {
+          "retain_original": [
+            -9.859244398876653,
+            10.314225197556857
+          ],
+          "missing_as_half": [
+            -16.37699451776702,
+            14.540478210047501
+          ],
+          "mar_within_four_strata": [
+            -19.1366105152822,
+            15.626155639920675
+          ]
+        },
+        "mismatch": {
+          "retain_original": [
+            -11.697479302349628,
+            8.819814024296534
+          ],
+          "missing_as_half": [
+            -6.119080023031018,
+            13.624685520577666
+          ],
+          "mar_within_four_strata": [
+            -3.0395246991090525,
+            22.59125963766742
+          ]
+        }
+      },
+      "method": "Independent resampling of 32 audited draws within each of four source strata; single AI fixed, rounded full-frame anchor fixed"
+    }
+  },
+  "scope_guards": [
+    "Single AI visual reader scores from archived 128 selected pairs, not independently adjudicated flowers",
+    "The 62 unreadable pairs may not contain a comparable open corolla, so mathematical completions are counterfactual, not observational true petal ground truth",
+    "Formal missing-pair bounds are marginal and conditional on fixed 66 AI-readable scores and rounded source pair-frame baselines; cannot be interpreted as global photo-classifier validity bounds",
+    "The 128 selected pair draws are from temperature-tail and original colour agreement strata in a 681-species, 10881-pair frame; not a random 447500 photo classifier audit",
+    "The within-stratum readable-mean fill assumes exchangeable readability within four source strata, which is not empirically verified",
+    "The 2,837-taxon thermal-white photo-region slope and 3,600-taxon photographic spatial estimator were NOT refitted and must not be silently replaced by these sensitivity numbers"
+  ]
+}
