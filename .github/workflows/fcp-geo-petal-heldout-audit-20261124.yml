@@ -1,0 +1,102 @@
+name: FCP authenticated global near-far petal validation heldout sample
+on:
+  push:
+    branches: [analysis/fcp-estimand-eligibility-unified-story-20261119]
+    paths:
+      - scripts/analysis/fcp_geo_petal_heldout_sampling_20261124.py
+      - .github/workflows/fcp-geo-petal-heldout-audit-20261124.yml
+  pull_request:
+    paths:
+      - scripts/analysis/fcp_geo_petal_heldout_sampling_20261124.py
+      - .github/workflows/fcp-geo-petal-heldout-audit-20261124.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-authenticated-geographic-petal-heldout-design:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_ASSET: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      ARCHIVE_SHA256: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA256: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install frozen scientific data dependencies
+        run: python -m pip install 'numpy==2.1.3' 'pandas==2.2.3'
+      - name: Recover byte-identical 447500 original measured-photo source
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-geo-petal/{release,source,output}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+             --pattern "$SOURCE_ASSET" --dir /tmp/fcp-geo-petal/release
+          echo "$ARCHIVE_SHA256  /tmp/fcp-geo-petal/release/$SOURCE_ASSET" | sha256sum -c -
+          tar -xzf "/tmp/fcp-geo-petal/release/$SOURCE_ASSET" \
+             -C /tmp/fcp-geo-petal/source \
+             measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA256  /tmp/fcp-geo-petal/source/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+      - name: Generate blind geography matched-pairs and unclassifiable-class controls
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/analysis/fcp_geo_petal_heldout_sampling_20261124.py
+          python scripts/analysis/fcp_geo_petal_heldout_sampling_20261124.py \
+            --source /tmp/fcp-geo-petal/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --out-dir /tmp/fcp-geo-petal/output \
+            | tee /tmp/fcp-geo-petal/selected-sample-run.log
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          o=Path('/tmp/fcp-geo-petal/output')
+          receipt=json.loads((o/'fcp_geographic_petal_heldout_design_receipt.json').read_text())
+          assert receipt['status']=='BLANK_INDEPENDENT_HUMAN_REVIEW_QUEUES_NOT_PETAL_RESULTS'
+          assert receipt['n_original_photo_rows']==447500
+          assert receipt['n_source_taxa']==4475
+          assert receipt['n_source_classifiable']==227107
+          assert receipt['selected_pairs']==192
+          assert receipt['selected_single_source_photos']==128
+          assert receipt['n_photo_id_overlap_with_prior_audit']==0
+          assert len(receipt['pair_strata'])==4
+          for kind in ('pairs','singles'):
+              a=list(csv.DictReader((o/f'reviewer_A_geographic_{kind}_blank.csv').open()))
+              b=list(csv.DictReader((o/f'reviewer_B_geographic_{kind}_blank.csv').open()))
+              expected=192 if kind=='pairs' else 128
+              assert len(a)==len(b)==expected
+              assert {r['blind_id'] for r in a}=={r['blind_id'] for r in b}
+              for r in a+b:
+                  for key in r:
+                      if any(t in key.lower() for t in ('label','tail','warm','geograph','source_cohort')):
+                          raise AssertionError('blinded reviewer form leaks original data: '+key)
+                  assert not any(v for k,v in r.items() if
+                      k not in ('reviewer','blind_id','photo_A_page','photo_B_page','photo_page'))
+          assert len(list(csv.DictReader((o/'all4475_geography_open_petal_source_opportunity_ledger.csv').open())))==4475
+          print('GLOBAL_HELDOUT_BLIND_SOURCE_DESIGN_PASS; NO HUMAN FLOWER COLOUR LABELS')
+          PY
+      - name: Deliver only source-label-blinded reviewer sheets
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-geo-petal-heldout-blind-review-forms-20261124
+          path: |
+            /tmp/fcp-geo-petal/output/reviewer_A_geographic_pairs_blank.csv
+            /tmp/fcp-geo-petal/output/reviewer_B_geographic_pairs_blank.csv
+            /tmp/fcp-geo-petal/output/reviewer_A_geographic_singles_blank.csv
+            /tmp/fcp-geo-petal/output/reviewer_B_geographic_singles_blank.csv
+          retention-days: 90
+          if-no-files-found: error
+      - name: Preserve investigator-only inclusion counts and unblinding keys separately
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-geo-petal-heldout-investigator-keys-and-design-receipt-20261124
+          path: |
+            /tmp/fcp-geo-petal/output/UNBLIND_AFTER_HUMAN_REVIEWS_pairs_key.csv
+            /tmp/fcp-geo-petal/output/UNBLIND_AFTER_HUMAN_REVIEWS_singles_key.csv
+            /tmp/fcp-geo-petal/output/all4475_geography_open_petal_source_opportunity_ledger.csv
+            /tmp/fcp-geo-petal/output/fcp_geographic_petal_heldout_design_receipt.json
+            /tmp/fcp-geo-petal/selected-sample-run.log
+          retention-days: 90
+          if-no-files-found: error
