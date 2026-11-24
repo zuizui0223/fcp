@@ -1,0 +1,92 @@
+{
+  "schema": "fcp_geo_open_petal_original_447500_heldout_sampling_verified_20261124",
+  "status": "source_sha256_and_CI_verified_blank_human_petal_review_design_NO_PETAL_OUTCOME",
+  "source_release": "https://github.com/zuizui0223/fcp/releases/tag/fcp-all4730-original-method-actual-colour-results-20261017",
+  "source_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a4e885cb7be49747c",
+  "source_measured_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "sampler": "scripts/analysis/fcp_geo_petal_heldout_sampling_20261124.py",
+  "workflow": ".github/workflows/fcp-geo-petal-heldout-audit-20261124.yml",
+  "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45378374319",
+  "run_id": 45378374319,
+  "job_id": 138390603072,
+  "head_sha": "000a43a1021c3ce288702a0578c4cd157cea7a77",
+  "design_receipt": {
+    "schema": "fcp447500_geographic_petal_validation_holdout_source_design_v1",
+    "status": "BLANK_INDEPENDENT_HUMAN_REVIEW_QUEUES_NOT_PETAL_RESULTS",
+    "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "n_original_photo_rows": 447500,
+    "n_source_taxa": 4475,
+    "n_source_classifiable": 227107,
+    "sampling_seed": 20261124,
+    "design": "Equal-probability species selection within near/far original photographic same/different 2x2 cells; one near and far source pair per sampled species-cell. Pair probabilities conditional on source label strata are recorded in private unblinding key. Both pairs have different original observers, same calendar month, source accuracy <=5km, near<=50km versus far>=250km. Independent classified/unclassified source photo control panel sampled one photo per species per original status.",
+    "pair_strata": {
+      "near_same__far_same": {
+        "n_eligible_species": 3150,
+        "n_selected_species": 24
+      },
+      "near_same__far_different": {
+        "n_eligible_species": 2859,
+        "n_selected_species": 24
+      },
+      "near_different__far_same": {
+        "n_eligible_species": 2306,
+        "n_selected_species": 24
+      },
+      "near_different__far_different": {
+        "n_eligible_species": 2271,
+        "n_selected_species": 24
+      }
+    },
+    "single_image_strata": {
+      "unclassified": {
+        "n_eligible_taxa": 4475,
+        "n_selected_taxa": 64
+      },
+      "classified": {
+        "n_eligible_taxa": 4475,
+        "n_selected_taxa": 64
+      }
+    },
+    "selected_heldout_matched_taxon_draws": 96,
+    "selected_pairs": 192,
+    "selected_single_source_photos": 128,
+    "selected_unique_photo_ids": 501,
+    "n_photo_ids_excluded_from_earlier_pilot_and_figures": 254,
+    "n_photo_id_overlap_with_prior_audit": 0,
+    "minimum_photo_quality": "source original georeferenced classifiable pairs with observer id, same calendar month, and <=5000m coordinate uncertainty",
+    "restricted_claims": [
+      "No visual human scores are provided; these are BLANK review sheets only",
+      "Stratification by original photo labels is deliberately outcome-enriched and NOT a random population estimate",
+      "The dual-opportunity taxon frame and >=250km far comparator are different from the original all-range P2 estimand",
+      "No claims of validated petals, genetic morph persistence, temperature adaptation or global classifier accuracy",
+      "Pairs may share source photographs and species across strata; analyse and bootstrap by species and genus, not raw pair count",
+      "Source photo pages provide links, not reproduced original images; reviewers must check licence, access and tissue",
+      "Form scoring, actual third reader adjudication and source-weighted re-estimation are separate future steps"
+    ]
+  },
+  "artifacts": [
+    {
+      "name": "fcp-geo-petal-heldout-investigator-keys-and-design-receipt-20261124",
+      "id": 14912142270,
+      "digest": "sha256:9b12c0873f77113c70b3255e4eb8c8452a1b0d7f74e80d747f90a8577fee6aee",
+      "size_in_bytes": 106345,
+      "url": "https://github.com/zuizui0223/fcp/actions/runs/45378374319/artifacts/14912142270"
+    },
+    {
+      "name": "fcp-geo-petal-heldout-blind-review-forms-20261124",
+      "id": 14911677807,
+      "digest": "sha256:ea3d4a5f63b435e959185806841cee8beaa059784993f9794894c2057b16f127",
+      "size_in_bytes": 13160,
+      "url": "https://github.com/zuizui0223/fcp/actions/runs/45378374319/artifacts/14911677807"
+    }
+  ],
+  "limitations": [
+    "No actual human flower-organ scoring completed; all blank form fields are empty",
+    "Source photographic agreement strata intentionally enrich source mismatch and do not estimate global classifier error rates",
+    "The strict same-month, <=5km coordinate-accuracy, <=50km near and >=250km far dual-opportunity subset differs from the original 3600-species P2 all-geographic pair contrast",
+    "Taxa/photos may recur among selected source strata, so aggregate statistical uncertainty must cluster by taxon or genus",
+    "Species-selection probabilities are conditional on original source-label strata, not weights for the entire 4475-species registry",
+    "Unblinding key is preserved separately; should not be sent to reviewers",
+    "A source-label heldout pair sample is not proof of genetic flower morphs or climate adaptation"
+  ]
+}
