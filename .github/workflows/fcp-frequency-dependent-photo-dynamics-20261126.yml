@@ -1,0 +1,55 @@
+name: FCP direct temporal frequency convergence on original photos
+on:
+  push:
+    branches: [analysis/fcp-frequency-dependent-colour-dynamics-20261126]
+    paths:
+      - scripts/analysis/fcp_frequency_dependent_photo_dynamics_20261126.py
+      - .github/workflows/fcp-frequency-dependent-photo-dynamics-20261126.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-original-photo-revisits:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_ASSET: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA256: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      ORIGINAL_PHOTO_SHA256: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install source-table reader
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Reproduce the archived 104-window temporal test
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp_frequency_dependent_photo_dynamics_20261126.py --output /tmp/fcp-fd/pilot.json
+      - name: Recover exact original photo archive
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-fd/{release,source}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "$SOURCE_ASSET" --dir /tmp/fcp-fd/release
+          echo "$SOURCE_ARCHIVE_SHA256  /tmp/fcp-fd/release/$SOURCE_ASSET" | sha256sum -c -
+          tar -xzf "/tmp/fcp-fd/release/$SOURCE_ASSET" -C /tmp/fcp-fd/source measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$ORIGINAL_PHOTO_SHA256  /tmp/fcp-fd/source/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+      - name: One direct test across all eligible local revisits from the 4475-species register
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-fd/results
+          python scripts/analysis/fcp_frequency_dependent_photo_dynamics_20261126.py \
+            --source /tmp/fcp-fd/source/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --output /tmp/fcp-fd/results/fcp_frequency_dependent_photo_dynamics_20261126.json \
+            | tee /tmp/fcp-fd/results/run.log
+          test -s /tmp/fcp-fd/results/fcp_frequency_dependent_photo_dynamics_20261126.json
+          test -s /tmp/fcp-fd/results/fcp_frequency_temporal_windows_all4475.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-full-original-photo-frequency-convergence-20261126
+          path: /tmp/fcp-fd/results/
+          if-no-files-found: error
+          retention-days: 90
