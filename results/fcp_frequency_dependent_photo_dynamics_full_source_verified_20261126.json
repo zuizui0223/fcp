@@ -1,0 +1,71 @@
+{
+  "schema": "fcp_direct_photographic_frequency_convergence_v1",
+  "source_S8_git_blob": "450b0df91eb8ba343c48f8d48732223c9191f08a",
+  "all_species_source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "archived_repeated_colour_panel_exploratory": {
+    "n_windows": 104,
+    "n_species": 73,
+    "n_informative_windows": 66,
+    "n_informative_species": 50,
+    "n_initial_photos": 275,
+    "n_later_photos": 283,
+    "n_initial_mixed_windows": 38,
+    "n_one_year_gap": 45,
+    "mean_year_gap": 2.5096153846153846,
+    "naive_score_DIAGNOSTIC_ONLY": 0.1273795027904617,
+    "primary_score": 0.006992009132420088,
+    "conditional_null_mean": -2.4031097154609238e-18,
+    "conditional_null_sd": 0.039102002216557095,
+    "null95": [
+      -0.0760939878234399,
+      0.07780223961730807
+    ],
+    "one_sided_p_for_positive_convergence": 0.4218,
+    "null_replicates": 19999,
+    "seed": 20261126,
+    "estimand": "Species-equal mean of within-window observer-split rarity x temporal change; dimensionless. Positive = tendency toward a 50:50 white/nonwhite photo-label frequency."
+  },
+  "full_4475_registry_primary": {
+    "n_windows": 237,
+    "n_species": 166,
+    "n_informative_windows": 79,
+    "n_informative_species": 63,
+    "n_initial_photos": 583,
+    "n_later_photos": 612,
+    "n_initial_mixed_windows": 47,
+    "n_one_year_gap": 109,
+    "mean_year_gap": 2.4936708860759493,
+    "naive_score_DIAGNOSTIC_ONLY": 0.06451285869099982,
+    "primary_score": -0.007252223178427995,
+    "conditional_null_mean": -9.50001829569334e-19,
+    "conditional_null_sd": 0.01926477135549604,
+    "null95": [
+      -0.036937631478294125,
+      0.03802710843373494
+    ],
+    "one_sided_p_for_positive_convergence": 0.64415,
+    "null_replicates": 19999,
+    "seed": 20261126,
+    "estimand": "Species-equal mean of within-window observer-split rarity x temporal change; dimensionless. Positive = tendency toward a 50:50 white/nonwhite photo-label frequency."
+  },
+  "limitations": [
+    "Photo-region WHITE/NONWHITE labels are not genetically validated morphs or individual population censuses.",
+    "Year-to-year frequencies can reflect environment, plant turnover, migration, developmental stage, photography, or persistent individuals.",
+    "A 10-arcminute geographic cell is not necessarily a biological population.",
+    "A positive result tests symmetric convergence toward 0.5 only; cannot identify fitness-frequency dependence or exclude different equilibria.",
+    "Null is conditional temporal label exchangeability, not a population-genetic selection model.",
+    "No inference that selection is absent from a nonsignificant test."
+  ],
+  "status": "HASH_VERIFIED_FULL_SOURCE_TEMPORAL_TEST",
+  "provenance": {
+    "workflow_run_id": 45758868771,
+    "job_id": 139703859985,
+    "head_sha": "9e7e226c8081f37c17b55ee150c547ca571e7563",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45758868771",
+    "artifact_id": 15087849861,
+    "artifact_zip_digest": "sha256:6830afb01b888159ae774efc60ba4661a18c2d7f535d86efadde304acdd4e102",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45758868771/artifacts/15087849861",
+    "source_archive_sha256": "99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25"
+  },
+  "decision": "Do not extend photo temporal hypothesis with alternate thresholds or hypothetical missing outcomes; no support for symmetric convergence. Future frequency-dependent fitness tests require independently measured flower phenotypes, actual local morph abundance and morph-specific reproductive success."
+}
