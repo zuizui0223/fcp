@@ -35,11 +35,11 @@ jobs:
           for name in ['fitness.txt','frequency.txt']:
               raw=z.read('data/'+name)
               text=raw.decode('utf-8-sig')
-              rows=list(csv.reader(io.StringIO(text),delimiter='\t'))
+              rows=list(csv.reader(io.StringIO(text,newline=''),delimiter='\t'))
               result['tables'][name]={'bytes':len(raw),'columns':rows[0],'rows':len(rows)-1,'preview':rows[1:7],'ragged':sum(len(r)!=len(rows[0]) for r in rows[1:])}
               (out/name).write_bytes(raw)
               print('FCP_TABLE_'+name+'_BEGIN')
-              print(text.rstrip())
+              print('\n'.join(text.splitlines()))
               print('FCP_TABLE_'+name+'_END')
           (out/'receipt.json').write_text(json.dumps(result,indent=2)+'\n')
           print('FCP_SIS_FITNESS_RECEIPT_BEGIN')
