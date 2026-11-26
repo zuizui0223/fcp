@@ -1,0 +1,63 @@
+name: FCP Boechera original wild fitness table recovery
+on:
+  push:
+    branches: [analysis/fcp-frequency-dependent-colour-dynamics-20261126]
+    paths:
+      - .github/workflows/fcp-boechera-fitness-source-20261126.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect-boechera:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Restore original author tables and README with checksum gates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-boe-src /tmp/fcp-boe-tables
+          gh run download 38327303795 --repo "$GITHUB_REPOSITORY" --name fcp-independent-field-sisyrinchium-boechera-20261013 --dir /tmp/fcp-boe-src
+          python - <<'PY'
+          import pathlib,hashlib,json
+          src=pathlib.Path('/tmp/fcp-boe-src')
+          out=pathlib.Path('/tmp/fcp-boe-tables')
+          names={
+            'natural_populations_individual.txt':'85990c8a30a8b9ef3a2c045bb6ffb72a',
+            'natural_populations_plot.txt':'1c284e1543450aaacf161cb7400d0a5a',
+            'README_for_natural_populations_individual.txt':None,
+            'README_for_natural_populations_plot.txt':None,
+          }
+          receipt={'doi':'10.5061/dryad.q0032','article_doi':'10.1111/nph.14998','source_artifact_id':11781395491,'source_run_id':38327303795,'files':[]}
+          source=list(src.rglob('source_recovery_receipt.json'))
+          assert len(source)==1,source
+          meta=json.loads(source[0].read_text())
+          record=next(x for x in meta['sources'] if x['doi']==receipt['doi'])
+          assert record['record_id']==4993384 and record['required_all_verified']
+          for name,md5 in names.items():
+              fs=list(src.rglob('4993384_'+name))
+              assert len(fs)==1,fs
+              b=fs[0].read_bytes()
+              original=next(x for x in record['files'] if x['name']==name)
+              assert original['status']=='VERIFIED_BYTES'
+              assert hashlib.md5(b).hexdigest()==original['md5'] and len(b)==original['bytes']
+              assert hashlib.sha256(b).hexdigest()==original['sha256']
+              if md5: assert hashlib.md5(b).hexdigest()==md5
+              receipt['files'].append({'name':name,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'md5':hashlib.md5(b).hexdigest()})
+              (out/name).write_bytes(b)
+              print('FCP_BOE_'+name+'_BEGIN')
+              print('\n'.join(b.decode('utf-8-sig').splitlines()))
+              print('FCP_BOE_'+name+'_END')
+          print('FCP_BOE_RECEIPT_BEGIN')
+          print(json.dumps(receipt,indent=2))
+          print('FCP_BOE_RECEIPT_END')
+          (out/'source_receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-boechera-original-wild-fitness-tables
+          path: /tmp/fcp-boe-tables/
+          retention-days: 90
+          if-no-files-found: error
