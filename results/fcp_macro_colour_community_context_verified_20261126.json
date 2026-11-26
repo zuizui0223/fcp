@@ -1,0 +1,138 @@
+{
+  "schema": "fcp_own_photo_other_species_colour_context_v1",
+  "status": "ORIGINAL_SOURCE_HASH_VERIFIED",
+  "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "srad_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "registry": {
+    "source_photos": 447500,
+    "species": 4475,
+    "classified": 227107,
+    "observer_thinned_geo_dated_photos": 218709,
+    "n_context_supported_photos": 135243,
+    "n_context_supported_species": 4433,
+    "status_counts": {
+      "estimable": 2203,
+      "too_few_focal_photos": 1756,
+      "context_axes_not_jointly_identifiable": 424,
+      "insufficient_residual_df": 89,
+      "too_few_cells": 3
+    }
+  },
+  "design": {
+    "radius_km": 50,
+    "calendar_month_same_not_same_year": true,
+    "genus_split_two_complementary_reference_folds": true,
+    "minimum_reference_species": 5,
+    "minimum_reference_outside_photos_same_month": 2,
+    "minimum_focal_photos": 25,
+    "minimum_cells": 5,
+    "minimum_df": 8,
+    "minimum_context_residual_sd": 0.03,
+    "minimum_retained_variance": 0.05,
+    "focal_observer_removed_from_context": true,
+    "reference_weighting": "equal other species",
+    "response": "binary original white photo category",
+    "predictors": "outside same-month reference species baseline and local-minus-outside white share; same reference species weights",
+    "controls": "five original climate domains, geography XYZ, calendar month, reference species and photo counts",
+    "units": "focal white probability percentage points per +10 percentage points context",
+    "bootstrap": "5000 whole-genus resamples conditional on fixed context; geographic and reciprocal-fold dependence not modeled"
+  },
+  "pooled": {
+    "n_species": 2203,
+    "n_genera": 923,
+    "n_focal_photos": 89884,
+    "n_species_with_both_labels": 1807,
+    "outside_species_baseline": {
+      "mean_pp_per10pp": -0.08644260364402961,
+      "median_pp_per10pp": 0,
+      "conditional_genus_bootstrap95": [
+        -0.4443420798966255,
+        0.26113495096491324
+      ],
+      "fraction_positive": 0.4439400817067635,
+      "fraction_negative": 0.448479346345892
+    },
+    "local_departure_primary": {
+      "mean_pp_per10pp": 0.35319094407037427,
+      "median_pp_per10pp": 0,
+      "conditional_genus_bootstrap95": [
+        -0.027341494322621614,
+        0.7415725877262808
+      ],
+      "fraction_positive": 0.4534725374489333,
+      "fraction_negative": 0.4389468906037222
+    }
+  },
+  "complementary_folds": {
+    "0": {
+      "n_species": 1105,
+      "n_genera": 467,
+      "n_focal_photos": 44764,
+      "n_species_with_both_labels": 900,
+      "outside_species_baseline": {
+        "mean_pp_per10pp": 0.1359388260313647,
+        "median_pp_per10pp": 0,
+        "conditional_genus_bootstrap95": [
+          -0.3437487680149855,
+          0.6244922011495395
+        ],
+        "fraction_positive": 0.45429864253393665,
+        "fraction_negative": 0.43619909502262444
+      },
+      "local_departure_primary": {
+        "mean_pp_per10pp": 0.37534620747751357,
+        "median_pp_per10pp": 0,
+        "conditional_genus_bootstrap95": [
+          -0.15905385588488913,
+          0.888189173687935
+        ],
+        "fraction_positive": 0.4425339366515837,
+        "fraction_negative": 0.4479638009049774
+      }
+    },
+    "1": {
+      "n_species": 1098,
+      "n_genera": 456,
+      "n_focal_photos": 45120,
+      "n_species_with_both_labels": 907,
+      "outside_species_baseline": {
+        "mean_pp_per10pp": -0.31024176556689903,
+        "median_pp_per10pp": 0,
+        "conditional_genus_bootstrap95": [
+          -0.81946519055813,
+          0.18539692337015556
+        ],
+        "fraction_positive": 0.4335154826958106,
+        "fraction_negative": 0.46083788706739526
+      },
+      "local_departure_primary": {
+        "mean_pp_per10pp": 0.33089443581455547,
+        "median_pp_per10pp": 0,
+        "conditional_genus_bootstrap95": [
+          -0.20910093622284548,
+          0.8821515082675907
+        ],
+        "fraction_positive": 0.4644808743169399,
+        "fraction_negative": 0.42987249544626593
+      }
+    }
+  },
+  "limitations": [
+    "Own archived iNaturalist original-photo measurement database, not independently counted plant or flower abundance.",
+    "Context is same calendar month across years and 50-km region, not actual synchronous co-flowering or shared pollinator neighborhood.",
+    "Disjoint reference genera and focal photographer removal prevent direct self inclusion, but complementary folds reuse the same archive in swapped roles.",
+    "Genus intervals condition on constructed context and do not propagate full reference-sample uncertainty or shared geographic dependence.",
+    "Associations may reflect shared environment, habitat, observer preferences and measurement artifacts; neither attraction nor rare-morph fitness is identified.",
+    "Original photo label not verified hereditary morph or petal spectrum."
+  ],
+  "provenance": {
+    "run_id": 45789306831,
+    "job_id": 139803987761,
+    "head_sha": "327eb690f00f49b742672eca44269f45152a4ea9",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45789306831",
+    "artifact_id": 15101887556,
+    "artifact_digest": "sha256:0dac3e194b099135bffe23e46f45ff43b01816a2c74fab2264d9b6a9ad5c6c3e",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45789306831/artifacts/15101887556"
+  },
+  "interpretation": "No resolved universal community colour divergence or convergence in this observational photo context. The local departure mean is positive in both complementary folds but the pooled interval includes zero. Do not infer fitness or frequency-dependent selection."
+}
