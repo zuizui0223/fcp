@@ -7,7 +7,7 @@ import csv, hashlib, io, json, math, sys, zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 import numpy as np
-import statsmodels.api as sm
+from scipy.stats import t as student_t
 
 src=Path(sys.argv[1]); out=Path(sys.argv[2]); out.mkdir(parents=True,exist_ok=True)
 raw=src.read_bytes()
@@ -69,10 +69,17 @@ names=sites+["white_frequency_per_10pp","other_fraction_per_10pp","ln_total_coun
 X=np.array([[int(s==x["site"]) for s in sites]+[10*x["p_white"],10*x["other_fraction"],math.log(x["total_count"])] for x in paired])
 Y=np.array([x["delta_pp"] for x in paired])
 assert np.linalg.matrix_rank(X)==len(names)
-fit=sm.OLS(Y,X).fit(cov_type="HC3",use_t=True)
-ci=fit.conf_int()
-coefs=[dict(term=term,estimate_pp=float(fit.params[i]),hc3_se=float(fit.bse[i]),
-    ci95=[float(z) for z in ci[i]],p_two_sided=float(fit.pvalues[i])) for i,term in enumerate(names)]
+beta=np.linalg.lstsq(X,Y,rcond=None)[0]
+bread=np.linalg.inv(X.T@X)
+resid=Y-X@beta
+leverage=np.einsum("ij,jk,ik->i",X,bread,X)
+meat=X.T@((resid/(1-leverage))[:,None]**2*X)
+se=np.sqrt(np.diag(bread@meat@bread))
+df_resid=len(Y)-X.shape[1]
+crit=student_t.ppf(.975,df_resid)
+coefs=[dict(term=term,estimate_pp=float(beta[i]),hc3_se=float(se[i]),
+    ci95=[float(beta[i]-crit*se[i]),float(beta[i]+crit*se[i])],
+    p_two_sided=float(2*student_t.sf(abs(beta[i]/se[i]),df_resid))) for i,term in enumerate(names)]
 assert abs(coefs[-3]["estimate_pp"]-(-0.8871916709145705))<1e-7
 assert abs(coefs[-2]["estimate_pp"]-(-1.0676761597212447))<1e-7
 with (out/"paired_quadrats.csv").open("w") as f:
@@ -82,7 +89,7 @@ result=dict(schema="fcp_sisyrinchium_within_quadrat_fruit_set_frequency_v1",
     source_sha256=hashlib.sha256(raw).hexdigest(),source_rows=len(d),frequency_rows=len(census),
     n_eligible=sum(map(len,g.values())),n_eligible_quadrats=len(g),
     n_paired_quadrats=len(paired),n_paired_records=sum(x["n_white"]+x["n_purple"] for x in paired),
-    site_quadrats=dict(Counter(x["site"] for x in paired)),df_resid=int(fit.df_resid),
+    site_quadrats=dict(Counter(x["site"] for x in paired)),df_resid=int(df_resid),
     response="100*(mean white individual-shoot fruit set - mean purple individual-shoot fruit set) within quadrat",
     formula="delta_pp ~ 0 + site + 10*p_white + 10*author_ok_p + log(total_count)",
     coefs=coefs,limitations=["Exploratory observational reanalysis, not frequency manipulation or selection coefficient.",
