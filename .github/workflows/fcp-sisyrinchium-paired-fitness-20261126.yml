@@ -1,0 +1,37 @@
+name: FCP Sisyrinchium paired-quadrat reproductive success
+on:
+  push:
+    branches: [analysis/fcp-frequency-dependent-colour-dynamics-20261126]
+    paths:
+      - scripts/analysis/fcp_sisyrinchium_paired_fitness_20261126.py
+      - .github/workflows/fcp-sisyrinchium-paired-fitness-20261126.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  paired-fitness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy==2.2.6 scipy==1.15.3 statsmodels==0.14.4
+      - name: Restore exact original author archive and fit paired quadrat model
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sis-source
+          gh run download 38327303795 --repo "$GITHUB_REPOSITORY" --name fcp-independent-field-sisyrinchium-boechera-20261013 --dir /tmp/sis-source
+          mapfile -t zips < <(find /tmp/sis-source -name 5003124_data.zip)
+          test "${#zips[@]}" -eq 1
+          python scripts/analysis/fcp_sisyrinchium_paired_fitness_20261126.py "${zips[0]}" results_sisyrinchium_fitness
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-sisyrinchium-paired-fitness-20261126
+          path: results_sisyrinchium_fitness/
+          retention-days: 90
+          if-no-files-found: error
