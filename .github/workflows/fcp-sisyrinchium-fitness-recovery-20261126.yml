@@ -1,0 +1,54 @@
+name: FCP Sisyrinchium recover verified reproductive success tables
+on:
+  push:
+    branches: [analysis/fcp-frequency-dependent-colour-dynamics-20261126]
+    paths:
+      - .github/workflows/fcp-sisyrinchium-fitness-recovery-20261126.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect-original-fitness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Restore prior authenticated author archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sis-source /tmp/sis-result
+          gh run download 38327303795 --repo "$GITHUB_REPOSITORY" --name fcp-independent-field-sisyrinchium-boechera-20261013 --dir /tmp/sis-source
+          python - <<'PY'
+          import pathlib,hashlib,zipfile,json,csv,io
+          src=pathlib.Path('/tmp/sis-source')
+          out=pathlib.Path('/tmp/sis-result')
+          zips=list(src.rglob('5003124_data.zip'))
+          assert len(zips)==1,zips
+          b=zips[0].read_bytes()
+          assert len(b)==127502 and hashlib.md5(b).hexdigest()=='008ec196aa5acb769dbfd36e835e32ba'
+          assert hashlib.sha256(b).hexdigest()=='4859b803af66db1f8f18796fe08ce2581363258444de715f1d4851e9f2f988c5'
+          z=zipfile.ZipFile(io.BytesIO(b))
+          assert z.testzip() is None
+          result={'doi':'10.5061/dryad.j8q34','source_artifact_id':11781395491,'source_run_id':38327303795,'sha256':hashlib.sha256(b).hexdigest(),'verified':True,'tables':{}}
+          for name in ['fitness.txt','frequency.txt']:
+              raw=z.read('data/'+name)
+              text=raw.decode('utf-8-sig')
+              rows=list(csv.reader(io.StringIO(text),delimiter='\t'))
+              result['tables'][name]={'bytes':len(raw),'columns':rows[0],'rows':len(rows)-1,'preview':rows[1:7],'ragged':sum(len(r)!=len(rows[0]) for r in rows[1:])}
+              (out/name).write_bytes(raw)
+              print('FCP_TABLE_'+name+'_BEGIN')
+              print(text.rstrip())
+              print('FCP_TABLE_'+name+'_END')
+          (out/'receipt.json').write_text(json.dumps(result,indent=2)+'\n')
+          print('FCP_SIS_FITNESS_RECEIPT_BEGIN')
+          print(json.dumps(result,indent=2))
+          print('FCP_SIS_FITNESS_RECEIPT_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-sisyrinchium-verified-fitness-tables
+          path: /tmp/sis-result/
+          retention-days: 90
+          if-no-files-found: error
