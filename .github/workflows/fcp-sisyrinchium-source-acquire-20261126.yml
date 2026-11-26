@@ -1,0 +1,115 @@
+name: FCP Sisyrinchium published fitness dataset retrieval
+on:
+  push:
+    branches: [analysis/fcp-frequency-dependent-colour-dynamics-20261126]
+    paths:
+      - .github/workflows/fcp-sisyrinchium-source-acquire-20261126.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-exact-published-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests pandas==2.2.3 openpyxl xlrd
+      - name: Check published DOI, download and inspect original tables
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sisyrinchium
+          python - <<'PY'
+          import requests, json, io, zipfile, hashlib
+          from urllib.parse import quote, urljoin
+          from pathlib import Path, PurePosixPath
+          import pandas as pd
+          out=Path('/tmp/sisyrinchium')
+          doi='10.5061/dryad.j8q34'
+          base='https://datadryad.org/api/v2/datasets/'+quote('doi:'+doi,safe='')
+          result={'doi':doi,'article_doi':'10.1371/journal.pone.0164381',
+                  'status':'RAW_DATA_UNAVAILABLE','requests':[],'tables':[],
+                  'archive_files':[],'new_fitness_fit':None}
+          def get(url,label,binary=False):
+              row={'purpose':label,'url':url}
+              try:
+                  with requests.get(url,timeout=(12,25),stream=True,
+                         headers={'User-Agent':'FCP published-data acquisition'}) as r:
+                      row.update(http_status=r.status_code,content_type=r.headers.get('Content-Type',''),
+                                 final_host=requests.utils.urlparse(r.url).netloc)
+                      if r.status_code!=200:
+                          row['response_excerpt']=r.text[:150]
+                          return None
+                      b=bytearray()
+                      for chunk in r.iter_content(65536):
+                          b.extend(chunk)
+                          if len(b)>30000000: raise ValueError('30 MB download limit')
+                      row.update(n_bytes=len(b),sha256=hashlib.sha256(b).hexdigest())
+                      return bytes(b) if binary else json.loads(b)
+              except Exception as e:
+                  row['error']=str(e)[:350]
+                  return None
+              finally:
+                  result['requests'].append(row)
+                  print(json.dumps({'request_receipt':row}),flush=True)
+          dc=get('https://api.datacite.org/dois/'+doi,'DataCite registration')
+          if dc:
+              a=dc.get('data',{}).get('attributes',{})
+              result['registry']={k:a.get(k) for k in ('doi','state','titles','url','relatedIdentifiers')}
+          meta=get(base,'Dryad dataset metadata')
+          if meta:
+              result['metadata']={k:meta.get(k) for k in ('identifier','title','versionNumber','versionStatus','visibility','license','relatedWorks','storageSize')}
+              ver=meta.get('_links',{}).get('stash:version',{}).get('href')
+              if ver:
+                  listing=get(urljoin('https://datadryad.org',ver).rstrip('/')+'/files','Dryad file list')
+                  if listing:
+                      result['listing']=[{k:x.get(k) for k in ('path','size','description','digest','digestType')} for x in listing.get('_embedded',{}).get('stash:files',[])]
+          raw=get(base+'/download','Dryad public ZIP',True)
+          if raw and zipfile.is_zipfile(io.BytesIO(raw)):
+              z=zipfile.ZipFile(io.BytesIO(raw))
+              if sum(f.file_size for f in z.infolist())>100000000:
+                  raise ValueError('archive size limit')
+              for f in z.infolist():
+                  if f.is_dir():continue
+                  p=PurePosixPath(f.filename)
+                  if p.is_absolute() or '..' in p.parts:raise ValueError('unsafe archive path')
+                  b=z.read(f)
+                  item={'name':f.filename,'n_bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()}
+                  result['archive_files'].append(item)
+                  ext=p.suffix.lower()
+                  try:
+                      if ext in ('.xlsx','.xls','.xlsm'):
+                          frames=pd.read_excel(io.BytesIO(b),sheet_name=None)
+                      elif ext in ('.csv','.tsv','.txt','.dat'):
+                          if ext=='.txt' and not any(c in b[:1000] for c in (b'\t',b',')):
+                              item['excerpt']=b[:2000].decode('utf8','replace')
+                              continue
+                          for encoding in ('utf-8-sig','cp932','latin1'):
+                              try:
+                                  frames={'table':pd.read_csv(io.BytesIO(b),sep=None,engine='python',encoding=encoding)}
+                                  break
+                              except Exception:pass
+                          else:raise ValueError('cannot read table')
+                      else:continue
+                      for sheet,df in frames.items():
+                          result['tables'].append({'file':f.filename,'sheet':sheet,'n_rows':len(df),
+                              'columns':[str(c) for c in df.columns],
+                              'first_rows':df.head(5).to_json(orient='records',force_ascii=False),
+                              'nonmissing':{str(k):int(v) for k,v in df.count().items()}})
+                  except Exception as e:item['parse_error']=str(e)[:300]
+              result['status']='RAW_TABLES_INSPECTED' if result['tables'] else 'ARCHIVE_ACQUIRED_NO_PARSED_TABLE'
+              if 'cc0' in str((meta or {}).get('license','')).lower():
+                  (out/'original_public_CC0_dataset.zip').write_bytes(raw)
+          else:result['download_is_zip']=False
+          (out/'sisyrinchium_source_receipt.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n')
+          print('FCP_SISYRINCHIUM_RECEIPT_BEGIN')
+          print(json.dumps(result,indent=2,ensure_ascii=False))
+          print('FCP_SISYRINCHIUM_RECEIPT_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-sisyrinchium-source-receipt
+          path: /tmp/sisyrinchium/
+          retention-days: 90
+          if-no-files-found: error
