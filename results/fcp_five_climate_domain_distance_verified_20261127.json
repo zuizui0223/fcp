@@ -1,0 +1,167 @@
+{
+  "schema": "fcp_own_photo_five_climate_distance_axes_v1",
+  "status": "ORIGINAL_PHOTO_CLIMATE_HASH_VERIFIED",
+  "photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "bio_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "srad_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "source": {
+    "n_photos": 447500,
+    "n_species": 4475,
+    "classified": 227107,
+    "climate_complete_thinned": 218682
+  },
+  "previous_joint_rank_reproduced": {
+    "species": 1626,
+    "photos": 69516,
+    "geographic_mean": 0.28464234138831507,
+    "combined_climate_mean": 0.15304256775244
+  },
+  "design": {
+    "response": "opposite white/nonwhite photograph labels",
+    "predictors": [
+      "geography",
+      "thermal",
+      "precipitation",
+      "temperature_seasonality",
+      "precipitation_seasonality",
+      "solar"
+    ],
+    "distance": "geographic great-circle and each absolute climate-domain difference, ranked within species-calendar-month on identical pair opportunities",
+    "slope_units": "probability percentage points per +10 percentile rank, conditional on all other distance ranks",
+    "minimum_unique_rank_variance_fraction": 0.05,
+    "support": "previous 1626 species restricted to all six axes jointly identifiable",
+    "primary": "joint five climate domain coefficients; direct thermal minus mean of other four slopes",
+    "inference": "species-equal mean, 5000 whole-genus bootstrap, marginal and simultaneous intervals across seven reported estimates"
+  },
+  "status_counts": {
+    "outside_prior_1626_frame": 2849,
+    "all_six_axes_estimable": 1618,
+    "one_or_more_domains_not_separately_identifiable": 7,
+    "rank_deficient_distance_domains": 1
+  },
+  "matched_domain_model": {
+    "n_species": 1618,
+    "n_genera": 730,
+    "n_photos": 69184,
+    "n_pair_opportunities": 602606,
+    "coefficients": [
+      {
+        "term": "geography_beta_pp_per10pct",
+        "mean_pp_per10pct": 0.23830967343469878,
+        "median": -0.008171135716576508,
+        "fraction_positive": 0.49876390605686033,
+        "conditional_genus_bootstrap95": [
+          0.13022168387049204,
+          0.35224076762488477
+        ],
+        "simultaneous95": [
+          0.08615041597115247,
+          0.3904689308982451
+        ]
+      },
+      {
+        "term": "thermal_beta_pp_per10pct",
+        "mean_pp_per10pct": 0.08788386190784757,
+        "median": -0.06136640431670114,
+        "fraction_positive": 0.48084054388133496,
+        "conditional_genus_bootstrap95": [
+          0.002681577268119829,
+          0.1753656907888955
+        ],
+        "simultaneous95": [
+          -0.029161144037513256,
+          0.2049288678532084
+        ]
+      },
+      {
+        "term": "precipitation_beta_pp_per10pct",
+        "mean_pp_per10pct": -0.03607926514020024,
+        "median": -0.1644202736004611,
+        "fraction_positive": 0.46291718170580964,
+        "conditional_genus_bootstrap95": [
+          -0.11550041406071027,
+          0.047320766730608706
+        ],
+        "simultaneous95": [
+          -0.14648162309396234,
+          0.07432309281356185
+        ]
+      },
+      {
+        "term": "temperature_seasonality_beta_pp_per10pct",
+        "mean_pp_per10pct": 0.11039100982014256,
+        "median": -0.040983107467548394,
+        "fraction_positive": 0.4901112484548826,
+        "conditional_genus_bootstrap95": [
+          0.01230414408168083,
+          0.21016680004359775
+        ],
+        "simultaneous95": [
+          -0.022214802507370277,
+          0.2429968221476554
+        ]
+      },
+      {
+        "term": "precipitation_seasonality_beta_pp_per10pct",
+        "mean_pp_per10pct": 0.03736324966228315,
+        "median": -0.09538393476107968,
+        "fraction_positive": 0.47342398022249693,
+        "conditional_genus_bootstrap95": [
+          -0.0503889758554633,
+          0.12572933015258328
+        ],
+        "simultaneous95": [
+          -0.08186754242102645,
+          0.15659404174559277
+        ]
+      },
+      {
+        "term": "solar_beta_pp_per10pct",
+        "mean_pp_per10pct": 0.15358565664464327,
+        "median": -0.05276403451797914,
+        "fraction_positive": 0.48825710754017304,
+        "conditional_genus_bootstrap95": [
+          0.04576330626779531,
+          0.26197738906724105
+        ],
+        "simultaneous95": [
+          0.006801046816905909,
+          0.30037026647238063
+        ]
+      },
+      {
+        "term": "thermal_minus_other_four_mean_pp_per10pct",
+        "mean_pp_per10pct": 0.0215686991611304,
+        "median": -0.07174436457283515,
+        "fraction_positive": 0.4820766378244747,
+        "conditional_genus_bootstrap95": [
+          -0.08362401434178254,
+          0.12633875582595833
+        ],
+        "simultaneous95": [
+          -0.12199953483722632,
+          0.16513693315948713
+        ]
+      }
+    ],
+    "simultaneous_critical": 2.664309393635129
+  },
+  "limitations": [
+    "Conditional photographic associations, not measured inherited petal morphs or fitness.",
+    "Distance ranks represent relative contrasts among sampled observations; they do not compare effects per physical unit.",
+    "Separate domain slopes and prior combined climate slope are different estimands.",
+    "A positive thermal slope denotes more opposite-colour pairs at larger temperature differences; it does not indicate which colour is favoured.",
+    "Fixed source pair graphs share photo vertices and species share spatial settings; whole-genus intervals do not propagate all photographic or spatial uncertainty.",
+    "A joint domain coefficient is not a causal climate effect, and the thermal contrast tests mean slopes rather than every possible pairwise difference."
+  ],
+  "provenance": {
+    "run_id": 45952006489,
+    "job_id": 140349797608,
+    "head_sha": "acb5654279e374fe4f6c2ac121ed8e52124f835b",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45952006489",
+    "artifact_id": 15177221451,
+    "artifact_digest": "sha256:3841eb9937b3ee6d4c10e85bbb44f07ffb79ba35c564e27e9609f7e4815ec590",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45952006489/artifacts/15177221451"
+  },
+  "interpretation": "On 1618 matched species, geography and annual solar-radiation distance have positive species-equal mean coefficients with simultaneous intervals excluding zero; the solar lower endpoint is close to zero. Thermal-level and temperature-seasonality marginal intervals exclude zero but simultaneous intervals do not. The planned thermal-minus-other-four average contrast is unresolved. This does not establish that solar is stronger than any other domain, or that a majority of species have positive slopes (solar 48.8%). Distance-based divergence differs from the signed mean white fraction-temperature association. The observational photo proxy cannot identify UV protection, pollinator-mediated selection, pigment costs, fitness or genetically inherited polymorphism."
+}
