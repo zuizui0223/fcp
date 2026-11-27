@@ -1,0 +1,59 @@
+name: FCP life-history and climate landscape macroecology
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_lifehistory_landscape_20261127.py
+      - .github/workflows/fcp-4475-lifehistory-landscape-20261127.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  traits:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Authenticate prior landscape artifact and GIFT 3.2 species join
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-lifehistory/out
+          gh api repos/"$GITHUB_REPOSITORY"/actions/artifacts/15184882647/zip > /tmp/fcp-lifehistory/landscape.zip
+          echo "a3398a827f9d8b5a3478c3096f94d15752d858cfd95c62be2fa4e48c0b45adf4  /tmp/fcp-lifehistory/landscape.zip" | sha256sum -c -
+          gh api -H "Accept: application/vnd.github.raw+json" "repos/$GITHUB_REPOSITORY/contents/results/fcp_gift_modifiers_20261018/species_trait_join.csv?ref=f005220272f84c2d6d696f984cfb284d60485375" > /tmp/fcp-lifehistory/gift.csv
+          echo "087755d43dbf87de57049c9a065d7019df2bf3f3ddd36fcbb3e795d90eebed9f  /tmp/fcp-lifehistory/gift.csv" | sha256sum -c -
+      - name: Estimate life-history and self-fertilization associations
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp4475_lifehistory_landscape_20261127.py \
+            --landscape /tmp/fcp-lifehistory/landscape.zip \
+            --gift /tmp/fcp-lifehistory/gift.csv \
+            --out /tmp/fcp-lifehistory/out
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          p=Path('/tmp/fcp-lifehistory/out')
+          d=pd.read_csv(p/'fcp4475_lifehistory_landscape.csv.gz')
+          j=json.loads((p/'results.json').read_text())
+          assert len(d)==4475 and d.inat_taxon_id.nunique()==4475
+          assert j['source_known_traits']=={'lifecycle':3832,'woodiness':4148,'self_fertilization':1024}
+          assert j['eligible_diversity']==4333 and j['matched_spatial']==1258
+          assert j['primary_family']==18
+          assert all(j['tests'][t][o]['pooled']['status']=='estimable' for t in j['tests'] for o in ('colour_D','white_fraction'))
+          assert not {'latitude','longitude','photo_id','observer_id'}.intersection(d.columns)
+          print('FCP_LIFEHISTORY_LEDGER_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-lifehistory-landscape-20261127
+          path: /tmp/fcp-lifehistory/out/
+          retention-days: 90
