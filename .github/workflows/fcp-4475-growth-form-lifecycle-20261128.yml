@@ -1,0 +1,58 @@
+name: FCP growth form and life cycle macroecology
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_growth_form_lifecycle_20261128.py
+      - .github/workflows/fcp-4475-growth-form-lifecycle-20261128.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  strategy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - name: Test fixed effect identification and bootstrap
+        run: python scripts/analysis/fcp4475_growth_form_lifecycle_20261128.py --self-test
+      - name: Authenticate previous full-photo trait ledger
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-strategy/out
+          gh api repos/"$GITHUB_REPOSITORY"/actions/artifacts/15189521587/zip > /tmp/fcp-strategy/source.zip
+          echo "19e4daf3c7c1a73bf1ae5f5a98e0eb0c689408ff0cb4a737fc37329a2aa34239  /tmp/fcp-strategy/source.zip" | sha256sum -c -
+      - name: Compare perennial growth form and herbaceous life cycle
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp4475_growth_form_lifecycle_20261128.py --artifact /tmp/fcp-strategy/source.zip --out /tmp/fcp-strategy/out
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          p=Path('/tmp/fcp-strategy/out')
+          d=pd.read_csv(p/'strategy_ledger.csv')
+          j=json.loads((p/'results.json').read_text())
+          assert len(d)==4475 and d.inat_taxon_id.is_unique
+          assert sum(j['strategies_all4475'].values())==4475
+          assert j['primary_family']==12
+          assert j['eligible_diversity']==4333 and j['matched_spatial']==1258
+          for c, v in j['tests'].items():
+              for o, q in v['results'].items():
+                  assert q['pooled']['status']=='estimable', (c,o,q['pooled'])
+                  assert q['pooled']['n']==v['spatial_common_n' if 'partition' in o else 'diversity_common_n']
+          print('FCP_STRATEGY_LEDGER_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-growth-form-lifecycle-20261128
+          path: /tmp/fcp-strategy/out/
+          retention-days: 90
