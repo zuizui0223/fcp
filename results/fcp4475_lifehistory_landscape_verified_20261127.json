@@ -1,0 +1,661 @@
+{
+  "run_id": 45980912758,
+  "job_id": 140444264618,
+  "head_sha": "078ea4bb699b74f9ea4dbf7cda65c1488114dd27",
+  "artifact_id": 15189521587,
+  "artifact_digest": "sha256:19e4daf3c7c1a73bf1ae5f5a98e0eb0c689408ff0cb4a737fc37329a2aa34239",
+  "receipt_source": "Successful original-source workflow log; input landscape and GIFT hashes independently verified by workflow; output ZIP digest from provider metadata",
+  "source_landscape_artifact": 15184882647,
+  "source_landscape_sha256": "a3398a827f9d8b5a3478c3096f94d15752d858cfd95c62be2fa4e48c0b45adf4",
+  "gift_commit": "f005220272f84c2d6d696f984cfb284d60485375",
+  "gift_sha256": "087755d43dbf87de57049c9a065d7019df2bf3f3ddd36fcbb3e795d90eebed9f",
+  "source_taxa": 4475,
+  "bootstrap": 3999,
+  "primary_family": 18,
+  "scope": "Post hoc macroecological trait comparisons. Pooled regressions are primary; within-genus same-direction checks are sensitivity, not full phylogenetic correction. Species-equal, no observer splitting. GIFT self-fertilization is a recorded trait not a realized selfing rate; lifecycle and woodiness are broad traits. Photo-colour variation not inherited morphs. No causal or pigment-cost inference. Family intervals approximate Bonferroni for 18 pooled coefficients; within-genus sensitivity separately descriptive.",
+  "source_known_traits": {
+    "lifecycle": 3832,
+    "woodiness": 4148,
+    "self_fertilization": 1024
+  },
+  "eligible_diversity": 4333,
+  "matched_spatial": 1258,
+  "tests": {
+    "lifecycle": {
+      "colour_D": {
+        "pooled": {
+          "n": 3656,
+          "genera": 1395,
+          "level_counts": {
+            "annual": 616,
+            "perennial": 3040
+          },
+          "level_genera": {
+            "annual": 324,
+            "perennial": 1196
+          },
+          "within_genus": false,
+          "contrast": "annual minus perennial",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": 0.02366171685874822,
+              "marginal95": [
+                0.005264318569282206,
+                0.041395794108838736
+              ],
+              "bonferroni18_approx95": [
+                -0.0055486997811211875,
+                0.05281649179764979
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 948,
+          "genera": 125,
+          "level_counts": {
+            "annual": 332,
+            "perennial": 616
+          },
+          "level_genera": {
+            "annual": 125,
+            "perennial": 125
+          },
+          "within_genus": true,
+          "contrast": "annual minus perennial",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": 0.021345906810784323,
+              "marginal95": [
+                -0.005500131002156554,
+                0.04699173138102154
+              ],
+              "bonferroni18_approx95": [
+                -0.019577195010063504,
+                0.055503288941837654
+              ]
+            }
+          }
+        }
+      },
+      "white_fraction": {
+        "pooled": {
+          "n": 3656,
+          "genera": 1395,
+          "level_counts": {
+            "annual": 616,
+            "perennial": 3040
+          },
+          "level_genera": {
+            "annual": 324,
+            "perennial": 1196
+          },
+          "within_genus": false,
+          "contrast": "annual minus perennial",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.03851693191164389,
+              "marginal95": [
+                -0.07362972947904069,
+                -0.0031849450784572396
+              ],
+              "bonferroni18_approx95": [
+                -0.09054178316571296,
+                0.013153370765695992
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 948,
+          "genera": 125,
+          "level_counts": {
+            "annual": 332,
+            "perennial": 616
+          },
+          "level_genera": {
+            "annual": 125,
+            "perennial": 125
+          },
+          "within_genus": true,
+          "contrast": "annual minus perennial",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.004522235581338518,
+              "marginal95": [
+                -0.03865243275764702,
+                0.028063136764240024
+              ],
+              "bonferroni18_approx95": [
+                -0.05360485298071337,
+                0.04538751593524188
+              ]
+            }
+          }
+        }
+      },
+      "colour_partition_50": {
+        "pooled": {
+          "n": 1039,
+          "genera": 555,
+          "level_counts": {
+            "annual": 165,
+            "perennial": 874
+          },
+          "level_genera": {
+            "annual": 106,
+            "perennial": 479
+          },
+          "within_genus": false,
+          "contrast": "annual minus perennial",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.003902948760233992,
+              "marginal95": [
+                -0.02231863595620945,
+                0.014303362514489467
+              ],
+              "bonferroni18_approx95": [
+                -0.033678819630362,
+                0.02372192961500654
+              ]
+            },
+            "trait_x_thermal": {
+              "coefficient": -0.008314088924246362,
+              "marginal95": [
+                -0.022585534008727443,
+                0.005882812783154012
+              ],
+              "bonferroni18_approx95": [
+                -0.03133105946621568,
+                0.014761654687316743
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 162,
+          "genera": 30,
+          "level_counts": {
+            "annual": 64,
+            "perennial": 98
+          },
+          "level_genera": {
+            "annual": 30,
+            "perennial": 30
+          },
+          "within_genus": true,
+          "contrast": "annual minus perennial",
+          "status": "unstable_bootstrap",
+          "valid_boot": 3470
+        }
+      },
+      "colour_partition_250": {
+        "pooled": {
+          "n": 1039,
+          "genera": 555,
+          "level_counts": {
+            "annual": 165,
+            "perennial": 874
+          },
+          "level_genera": {
+            "annual": 106,
+            "perennial": 479
+          },
+          "within_genus": false,
+          "contrast": "annual minus perennial",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.0011058195622822373,
+              "marginal95": [
+                -0.010785498442211222,
+                0.009679610798835265
+              ],
+              "bonferroni18_approx95": [
+                -0.015546816092911675,
+                0.014568749559931995
+              ]
+            },
+            "trait_x_thermal": {
+              "coefficient": 0.0020237291358886278,
+              "marginal95": [
+                -0.008489564449460116,
+                0.013805712213501707
+              ],
+              "bonferroni18_approx95": [
+                -0.013679422870979865,
+                0.019614876022938876
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 162,
+          "genera": 30,
+          "level_counts": {
+            "annual": 64,
+            "perennial": 98
+          },
+          "level_genera": {
+            "annual": 30,
+            "perennial": 30
+          },
+          "within_genus": true,
+          "contrast": "annual minus perennial",
+          "status": "unstable_bootstrap",
+          "valid_boot": 3492
+        }
+      }
+    },
+    "woodiness": {
+      "colour_D": {
+        "pooled": {
+          "n": 3967,
+          "genera": 1482,
+          "level_counts": {
+            "woody": 1005,
+            "non-woody": 2962
+          },
+          "level_genera": {
+            "woody": 485,
+            "non-woody": 1075
+          },
+          "within_genus": false,
+          "contrast": "woody minus non-woody",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.04185414435302221,
+              "marginal95": [
+                -0.060023237055739885,
+                -0.02213046553175906
+              ],
+              "bonferroni18_approx95": [
+                -0.0698602489492296,
+                -0.011689770412349863
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 546,
+          "genera": 78,
+          "level_counts": {
+            "woody": 201,
+            "non-woody": 345
+          },
+          "level_genera": {
+            "woody": 78,
+            "non-woody": 78
+          },
+          "within_genus": true,
+          "contrast": "woody minus non-woody",
+          "status": "unstable_bootstrap",
+          "valid_boot": 3480
+        }
+      },
+      "white_fraction": {
+        "pooled": {
+          "n": 3967,
+          "genera": 1482,
+          "level_counts": {
+            "woody": 1005,
+            "non-woody": 2962
+          },
+          "level_genera": {
+            "woody": 485,
+            "non-woody": 1075
+          },
+          "within_genus": false,
+          "contrast": "woody minus non-woody",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": 0.017366461514120943,
+              "marginal95": [
+                -0.02192770963696553,
+                0.056087378770273165
+              ],
+              "bonferroni18_approx95": [
+                -0.04246015435414419,
+                0.07536057289459164
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 546,
+          "genera": 78,
+          "level_counts": {
+            "woody": 201,
+            "non-woody": 345
+          },
+          "level_genera": {
+            "woody": 78,
+            "non-woody": 78
+          },
+          "within_genus": true,
+          "contrast": "woody minus non-woody",
+          "status": "unstable_bootstrap",
+          "valid_boot": 3439
+        }
+      },
+      "colour_partition_50": {
+        "pooled": {
+          "n": 1124,
+          "genera": 598,
+          "level_counts": {
+            "woody": 306,
+            "non-woody": 818
+          },
+          "level_genera": {
+            "woody": 187,
+            "non-woody": 438
+          },
+          "within_genus": false,
+          "contrast": "woody minus non-woody",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.017883968485515905,
+              "marginal95": [
+                -0.031078192610647707,
+                -0.004649607481817008
+              ],
+              "bonferroni18_approx95": [
+                -0.037427090111280696,
+                0.0023624609733090564
+              ]
+            },
+            "trait_x_thermal": {
+              "coefficient": -0.008157216087650956,
+              "marginal95": [
+                -0.018037407964943734,
+                0.002244454889335702
+              ],
+              "bonferroni18_approx95": [
+                -0.022432510625045227,
+                0.007522728274725818
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 125,
+          "genera": 27,
+          "level_counts": {
+            "woody": 52,
+            "non-woody": 73
+          },
+          "level_genera": {
+            "woody": 27,
+            "non-woody": 27
+          },
+          "within_genus": true,
+          "contrast": "woody minus non-woody",
+          "status": "insufficient_support"
+        }
+      },
+      "colour_partition_250": {
+        "pooled": {
+          "n": 1124,
+          "genera": 598,
+          "level_counts": {
+            "woody": 306,
+            "non-woody": 818
+          },
+          "level_genera": {
+            "woody": 187,
+            "non-woody": 438
+          },
+          "within_genus": false,
+          "contrast": "woody minus non-woody",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.008124143378125238,
+              "marginal95": [
+                -0.015059335900020386,
+                -0.0011999976884901644
+              ],
+              "bonferroni18_approx95": [
+                -0.01839584261312192,
+                0.00239238014136046
+              ]
+            },
+            "trait_x_thermal": {
+              "coefficient": -0.011536509587684924,
+              "marginal95": [
+                -0.01859431998365494,
+                -0.004903453465242637
+              ],
+              "bonferroni18_approx95": [
+                -0.02166791777916953,
+                -0.0013952188323110937
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 125,
+          "genera": 27,
+          "level_counts": {
+            "woody": 52,
+            "non-woody": 73
+          },
+          "level_genera": {
+            "woody": 27,
+            "non-woody": 27
+          },
+          "within_genus": true,
+          "contrast": "woody minus non-woody",
+          "status": "insufficient_support"
+        }
+      }
+    },
+    "self_fertilization": {
+      "colour_D": {
+        "pooled": {
+          "n": 993,
+          "genera": 533,
+          "level_counts": {
+            "present": 453,
+            "absent": 540
+          },
+          "level_genera": {
+            "present": 234,
+            "absent": 343
+          },
+          "within_genus": false,
+          "contrast": "present minus absent",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.008198031278629864,
+              "marginal95": [
+                -0.03808958942623052,
+                0.02080780280213239
+              ],
+              "bonferroni18_approx95": [
+                -0.055845723670061964,
+                0.03612952434868072
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 208,
+          "genera": 44,
+          "level_counts": {
+            "present": 117,
+            "absent": 91
+          },
+          "level_genera": {
+            "present": 44,
+            "absent": 44
+          },
+          "within_genus": true,
+          "contrast": "present minus absent",
+          "status": "estimable",
+          "valid_boot": 3977,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.0034006943026151015,
+              "marginal95": [
+                -0.060102663102548345,
+                0.04966121610726946
+              ],
+              "bonferroni18_approx95": [
+                -0.0924000531775954,
+                0.07642824852713717
+              ]
+            }
+          }
+        }
+      },
+      "white_fraction": {
+        "pooled": {
+          "n": 993,
+          "genera": 533,
+          "level_counts": {
+            "present": 453,
+            "absent": 540
+          },
+          "level_genera": {
+            "present": 234,
+            "absent": 343
+          },
+          "within_genus": false,
+          "contrast": "present minus absent",
+          "status": "estimable",
+          "valid_boot": 3999,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.0011456537051263956,
+              "marginal95": [
+                -0.05599892096151911,
+                0.05388954793483298
+              ],
+              "bonferroni18_approx95": [
+                -0.08791080061930709,
+                0.08355592700447405
+              ]
+            }
+          }
+        },
+        "within_genus": {
+          "n": 208,
+          "genera": 44,
+          "level_counts": {
+            "present": 117,
+            "absent": 91
+          },
+          "level_genera": {
+            "present": 44,
+            "absent": 44
+          },
+          "within_genus": true,
+          "contrast": "present minus absent",
+          "status": "estimable",
+          "valid_boot": 3979,
+          "effects": {
+            "trait_difference": {
+              "coefficient": -0.023946890897894504,
+              "marginal95": [
+                -0.11137568008304691,
+                0.07200239182574004
+              ],
+              "bonferroni18_approx95": [
+                -0.16455947220706546,
+                0.1277787085352146
+              ]
+            }
+          }
+        }
+      },
+      "colour_partition_50": {
+        "pooled": {
+          "n": 97,
+          "genera": 85,
+          "level_counts": {
+            "present": 30,
+            "absent": 67
+          },
+          "level_genera": {
+            "present": 26,
+            "absent": 59
+          },
+          "within_genus": false,
+          "contrast": "present minus absent",
+          "status": "unstable_bootstrap",
+          "valid_boot": 3429
+        },
+        "within_genus": {
+          "n": 0,
+          "genera": 0,
+          "level_counts": {
+            "present": 0,
+            "absent": 0
+          },
+          "level_genera": {
+            "present": 0,
+            "absent": 0
+          },
+          "within_genus": true,
+          "contrast": "present minus absent",
+          "status": "insufficient_support"
+        }
+      },
+      "colour_partition_250": {
+        "pooled": {
+          "n": 97,
+          "genera": 85,
+          "level_counts": {
+            "present": 30,
+            "absent": 67
+          },
+          "level_genera": {
+            "present": 26,
+            "absent": 59
+          },
+          "within_genus": false,
+          "contrast": "present minus absent",
+          "status": "unstable_bootstrap",
+          "valid_boot": 3457
+        },
+        "within_genus": {
+          "n": 0,
+          "genera": 0,
+          "level_counts": {
+            "present": 0,
+            "absent": 0
+          },
+          "level_genera": {
+            "present": 0,
+            "absent": 0
+          },
+          "within_genus": true,
+          "contrast": "present minus absent",
+          "status": "insufficient_support"
+        }
+      }
+    }
+  }
+}

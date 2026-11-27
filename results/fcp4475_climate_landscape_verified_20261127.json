@@ -1,0 +1,889 @@
+{
+  "run_id": 45971197518,
+  "job_id": 140411780000,
+  "head_sha": "5aa13e7dc1b2310369d05e279fac6e43b1a24fb7",
+  "artifact_id": 15184882647,
+  "artifact_digest": "sha256:a3398a827f9d8b5a3478c3096f94d15752d858cfd95c62be2fa4e48c0b45adf4",
+  "receipt_source": "Successful original-source workflow log JSON; output ZIP digest is provider metadata, not independently downloaded here",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_bio_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "source_photos": 447500,
+  "source_taxa": 4475,
+  "source_classified": 227107,
+  "climate_scaling": {
+    "columns": [
+      "BIO1",
+      "BIO5",
+      "BIO12",
+      "BIO14",
+      "BIO4",
+      "BIO15"
+    ],
+    "mean": [
+      12.577590749858636,
+      27.245765121942785,
+      6.700492877319493,
+      3.1615314159296326,
+      6.329412805127662,
+      3.605520216313567
+    ],
+    "sd": [
+      6.061166974482265,
+      5.279546764748251,
+      0.5671753802676377,
+      1.1851403193177763,
+      0.5358921052028819,
+      0.646884733460127
+    ],
+    "transformation": "BIO12,14,4,15 log1p; all axes standardized on all climate-complete original sampled photographs, not global raster background",
+    "complete_photos": 447446
+  },
+  "radii_km": [
+    50,
+    250
+  ],
+  "genus_bootstrap": 1999,
+  "scope": "Cross-species exploratory associations among sampled climate landscapes and photo-colour diversity/spatial structure. All original photo locations for climate, all classifiable photos for colour. No observer split. Spatial partition is a scale-specific ratio of near vs range-wide environmental dissimilarity, not a niche preference or causal IBE. Seasonality is a climate normal, not observed interannual change. No true polymorphism prevalence, genetic inheritance, fitness or pigment costs.",
+  "eligible_diversity_n": 4333,
+  "repeated5_source_n": 2400,
+  "matched_scale_n": 1258,
+  "diversity": {
+    "n": 4333,
+    "genera": 1578,
+    "outcome": "colour_D",
+    "status": "estimable",
+    "valid_boot": 1999,
+    "r2_base": 0.32518921487789165,
+    "r2_full": 0.3262773143646819,
+    "incremental_r2": 0.0010880994867902283,
+    "coefficient": {
+      "log_env_range_q90_km": {
+        "per_predictor_sd": 0.01924948299213943,
+        "genus_ci95": [
+          -0.011416579813013182,
+          0.0479763777303016
+        ]
+      },
+      "log_colour_range_q90_km": {
+        "per_predictor_sd": -0.011129324503237073,
+        "genus_ci95": [
+          -0.04024687658114686,
+          0.01758958412646555
+        ]
+      },
+      "env_n": {
+        "per_predictor_sd": 0.0021011918520083095,
+        "genus_ci95": [
+          -0.0034900481012712253,
+          0.006145428625720573
+        ]
+      },
+      "colour_valid_n": {
+        "per_predictor_sd": -0.1184559734082215,
+        "genus_ci95": [
+          -0.12441890118359761,
+          -0.11265488421378102
+        ]
+      },
+      "mean_temp": {
+        "per_predictor_sd": -0.006314853690871694,
+        "genus_ci95": [
+          -0.01895988762615067,
+          0.00691218730768968
+        ]
+      },
+      "mean_precip": {
+        "per_predictor_sd": -0.006723004079253302,
+        "genus_ci95": [
+          -0.016582587445773223,
+          0.0029792582593683877
+        ]
+      },
+      "abs_latitude": {
+        "per_predictor_sd": 0.002450323561470974,
+        "genus_ci95": [
+          -0.012883511842289686,
+          0.018500262600597155
+        ]
+      },
+      "log_thermal_breadth": {
+        "per_predictor_sd": 0.004276639637632488,
+        "genus_ci95": [
+          -0.004024890089949189,
+          0.012569563817946562
+        ]
+      },
+      "log_moisture_breadth": {
+        "per_predictor_sd": 0.0006495872665760991,
+        "genus_ci95": [
+          -0.009331355051390154,
+          0.0103509535553756
+        ]
+      },
+      "temp_seasonality": {
+        "per_predictor_sd": -0.006464397406690756,
+        "genus_ci95": [
+          -0.017846639040121275,
+          0.0052515861191659895
+        ]
+      },
+      "precip_seasonality": {
+        "per_predictor_sd": 0.0059083241695174465,
+        "genus_ci95": [
+          -0.005774402625339136,
+          0.01673433286291273
+        ]
+      }
+    }
+  },
+  "spatial_partition": {
+    "50": {
+      "categorical": {
+        "n": 1315,
+        "genera": 665,
+        "outcome": "colour_partition_50",
+        "status": "estimable",
+        "valid_boot": 1999,
+        "r2_base": 0.04253569083567932,
+        "r2_full": 0.04834978375144938,
+        "incremental_r2": 0.005814092915770064,
+        "coefficient": {
+          "log_env_range_q90_km": {
+            "per_predictor_sd": -0.018492912198039616,
+            "genus_ci95": [
+              -0.0470948071046339,
+              0.0034262880832667936
+            ]
+          },
+          "log_colour_range_q90_km": {
+            "per_predictor_sd": 0.021648520061004255,
+            "genus_ci95": [
+              -0.00017594365741032322,
+              0.04981939958468512
+            ]
+          },
+          "env_n": {
+            "per_predictor_sd": 0.00354287383322678,
+            "genus_ci95": [
+              -0.007278194804903286,
+              0.009328323716118163
+            ]
+          },
+          "colour_valid_n": {
+            "per_predictor_sd": 0.014037582727059716,
+            "genus_ci95": [
+              0.007941664809143722,
+              0.019859800117080925
+            ]
+          },
+          "mean_temp": {
+            "per_predictor_sd": -0.0018133508522864366,
+            "genus_ci95": [
+              -0.01343479132570803,
+              0.009454004373090397
+            ]
+          },
+          "mean_precip": {
+            "per_predictor_sd": 0.004937967168384758,
+            "genus_ci95": [
+              -0.003427976150052463,
+              0.013094370859637031
+            ]
+          },
+          "abs_latitude": {
+            "per_predictor_sd": 0.00492088217113253,
+            "genus_ci95": [
+              -0.00740192466956077,
+              0.01722841709332156
+            ]
+          },
+          "log_thermal_breadth": {
+            "per_predictor_sd": -0.0008715913828005807,
+            "genus_ci95": [
+              -0.009000271013695974,
+              0.007081715654383323
+            ]
+          },
+          "log_moisture_breadth": {
+            "per_predictor_sd": 0.0031046425210359647,
+            "genus_ci95": [
+              -0.005645360928625679,
+              0.01171544572688631
+            ]
+          },
+          "temp_seasonality": {
+            "per_predictor_sd": -0.0025497842760873256,
+            "genus_ci95": [
+              -0.011799653145505044,
+              0.006734823266381143
+            ]
+          },
+          "precip_seasonality": {
+            "per_predictor_sd": 0.004222082766965139,
+            "genus_ci95": [
+              -0.0046005738149555424,
+              0.013242528787606426
+            ]
+          },
+          "colour_D": {
+            "per_predictor_sd": 0.014595835258504868,
+            "genus_ci95": [
+              0.009016068027040998,
+              0.02018098482701975
+            ]
+          },
+          "env_near_fraction_50": {
+            "per_predictor_sd": -0.03149262991031558,
+            "genus_ci95": [
+              -0.05314167070322549,
+              -0.012032138994485226
+            ]
+          },
+          "colour_near_fraction_50": {
+            "per_predictor_sd": 0.024770482399720115,
+            "genus_ci95": [
+              0.006109493938923389,
+              0.04558661499683154
+            ]
+          },
+          "thermal_partition_50": {
+            "per_predictor_sd": 0.009234354293239077,
+            "genus_ci95": [
+              0.001911994006585388,
+              0.01652613624472786
+            ]
+          },
+          "moisture_partition_50": {
+            "per_predictor_sd": -0.01136304168447958,
+            "genus_ci95": [
+              -0.019421266352124565,
+              -0.0035820789525207
+            ]
+          }
+        }
+      },
+      "continuous": {
+        "n": 1315,
+        "genera": 665,
+        "outcome": "hellinger_partition_50",
+        "status": "estimable",
+        "valid_boot": 1999,
+        "r2_base": 0.06530125246275309,
+        "r2_full": 0.07037809611629753,
+        "incremental_r2": 0.005076843653544438,
+        "coefficient": {
+          "log_env_range_q90_km": {
+            "per_predictor_sd": -0.004616506688744419,
+            "genus_ci95": [
+              -0.018208717574829593,
+              0.00837389121829162
+            ]
+          },
+          "log_colour_range_q90_km": {
+            "per_predictor_sd": 0.006342830398973917,
+            "genus_ci95": [
+              -0.005948291044415251,
+              0.01993309167580144
+            ]
+          },
+          "env_n": {
+            "per_predictor_sd": -0.0001984090097727632,
+            "genus_ci95": [
+              -0.00417268654293258,
+              0.0018630085110159912
+            ]
+          },
+          "colour_valid_n": {
+            "per_predictor_sd": 0.008989509924562081,
+            "genus_ci95": [
+              0.005693190392914578,
+              0.012264664360771687
+            ]
+          },
+          "mean_temp": {
+            "per_predictor_sd": -0.00372228468899338,
+            "genus_ci95": [
+              -0.009305411425157303,
+              0.0020779452584196176
+            ]
+          },
+          "mean_precip": {
+            "per_predictor_sd": -0.0015232623773282286,
+            "genus_ci95": [
+              -0.00588321202045359,
+              0.002921386384886921
+            ]
+          },
+          "abs_latitude": {
+            "per_predictor_sd": -0.002766016548949683,
+            "genus_ci95": [
+              -0.009139564962832941,
+              0.003912600173991823
+            ]
+          },
+          "log_thermal_breadth": {
+            "per_predictor_sd": 0.0005084260243978969,
+            "genus_ci95": [
+              -0.0028277387944357557,
+              0.0039158183005301
+            ]
+          },
+          "log_moisture_breadth": {
+            "per_predictor_sd": 0.0018413791733285219,
+            "genus_ci95": [
+              -0.002745753604959455,
+              0.006102601180435364
+            ]
+          },
+          "temp_seasonality": {
+            "per_predictor_sd": 0.0002497345771540773,
+            "genus_ci95": [
+              -0.004678040356835371,
+              0.0050015670953399045
+            ]
+          },
+          "precip_seasonality": {
+            "per_predictor_sd": 0.0007712455938662998,
+            "genus_ci95": [
+              -0.0036231837052069947,
+              0.005109039993112003
+            ]
+          },
+          "hellinger_D": {
+            "per_predictor_sd": 0.011016018442441437,
+            "genus_ci95": [
+              0.007725807319259014,
+              0.014405534904663283
+            ]
+          },
+          "env_near_fraction_50": {
+            "per_predictor_sd": -0.010414771311880767,
+            "genus_ci95": [
+              -0.02323100397466981,
+              0.002393131483776343
+            ]
+          },
+          "colour_near_fraction_50": {
+            "per_predictor_sd": 0.008003605693399005,
+            "genus_ci95": [
+              -0.004584038283910116,
+              0.020347527351046276
+            ]
+          },
+          "thermal_partition_50": {
+            "per_predictor_sd": 0.004567852964410241,
+            "genus_ci95": [
+              -0.00021929155057754307,
+              0.009205157926400498
+            ]
+          },
+          "moisture_partition_50": {
+            "per_predictor_sd": -0.005001650536607962,
+            "genus_ci95": [
+              -0.0089834344998107,
+              -0.001168861528906937
+            ]
+          }
+        }
+      },
+      "matched_scales": {
+        "n": 1258,
+        "genera": 654,
+        "outcome": "colour_partition_50",
+        "status": "estimable",
+        "valid_boot": 1999,
+        "r2_base": 0.043008891432139484,
+        "r2_full": 0.048728976721914674,
+        "incremental_r2": 0.00572008528977519,
+        "coefficient": {
+          "log_env_range_q90_km": {
+            "per_predictor_sd": -0.018261000787891647,
+            "genus_ci95": [
+              -0.046967082430439976,
+              0.003508235556346092
+            ]
+          },
+          "log_colour_range_q90_km": {
+            "per_predictor_sd": 0.021573099061004995,
+            "genus_ci95": [
+              -0.0004533396299978205,
+              0.049413181029097815
+            ]
+          },
+          "env_n": {
+            "per_predictor_sd": 0.0038309260989334735,
+            "genus_ci95": [
+              -0.0073715816444968486,
+              0.009620265421669784
+            ]
+          },
+          "colour_valid_n": {
+            "per_predictor_sd": 0.014283957791506168,
+            "genus_ci95": [
+              0.0081123519547207,
+              0.020197280273748754
+            ]
+          },
+          "mean_temp": {
+            "per_predictor_sd": -0.0027303405295996393,
+            "genus_ci95": [
+              -0.014764812143042342,
+              0.009390821572083137
+            ]
+          },
+          "mean_precip": {
+            "per_predictor_sd": 0.004528524683428969,
+            "genus_ci95": [
+              -0.003953716821499125,
+              0.01334277769046977
+            ]
+          },
+          "abs_latitude": {
+            "per_predictor_sd": 0.004158877421011381,
+            "genus_ci95": [
+              -0.008722125622530018,
+              0.017279678743134394
+            ]
+          },
+          "log_thermal_breadth": {
+            "per_predictor_sd": -0.001070952722314586,
+            "genus_ci95": [
+              -0.00914484545087269,
+              0.007010846174607035
+            ]
+          },
+          "log_moisture_breadth": {
+            "per_predictor_sd": 0.002521323871853455,
+            "genus_ci95": [
+              -0.00622516262763239,
+              0.011238018025981216
+            ]
+          },
+          "temp_seasonality": {
+            "per_predictor_sd": -0.002064096472377111,
+            "genus_ci95": [
+              -0.012511282365519315,
+              0.008253773515030776
+            ]
+          },
+          "precip_seasonality": {
+            "per_predictor_sd": 0.005095646783259563,
+            "genus_ci95": [
+              -0.004311032098769775,
+              0.014656587427415947
+            ]
+          },
+          "colour_D": {
+            "per_predictor_sd": 0.015102875210151741,
+            "genus_ci95": [
+              0.009444851728438593,
+              0.02095989339925772
+            ]
+          },
+          "env_near_fraction_50": {
+            "per_predictor_sd": -0.024934226182134978,
+            "genus_ci95": [
+              -0.043506871672213794,
+              -0.005932478643273545
+            ]
+          },
+          "colour_near_fraction_50": {
+            "per_predictor_sd": 0.018029897359484754,
+            "genus_ci95": [
+              -0.0003739449447447413,
+              0.03648078312904311
+            ]
+          },
+          "thermal_partition_50": {
+            "per_predictor_sd": 0.009452695332896034,
+            "genus_ci95": [
+              0.0021057259443329956,
+              0.017257921420122512
+            ]
+          },
+          "moisture_partition_50": {
+            "per_predictor_sd": -0.010602224026503746,
+            "genus_ci95": [
+              -0.01918306867341362,
+              -0.0030670470814549242
+            ]
+          }
+        }
+      }
+    },
+    "250": {
+      "categorical": {
+        "n": 2110,
+        "genera": 939,
+        "outcome": "colour_partition_250",
+        "status": "estimable",
+        "valid_boot": 1999,
+        "r2_base": 0.028692573885875983,
+        "r2_full": 0.033269199724517695,
+        "incremental_r2": 0.0045766258386417125,
+        "coefficient": {
+          "log_env_range_q90_km": {
+            "per_predictor_sd": -0.012494258430299821,
+            "genus_ci95": [
+              -0.02786076734316408,
+              0.00121547461132905
+            ]
+          },
+          "log_colour_range_q90_km": {
+            "per_predictor_sd": 0.01198953970026944,
+            "genus_ci95": [
+              -0.001354062214008931,
+              0.02739102606918324
+            ]
+          },
+          "env_n": {
+            "per_predictor_sd": 0.0022180670403505894,
+            "genus_ci95": [
+              -0.0008715063157756645,
+              0.0046980430751480985
+            ]
+          },
+          "colour_valid_n": {
+            "per_predictor_sd": 0.005504811590355916,
+            "genus_ci95": [
+              0.0015458214838206627,
+              0.009114496160349638
+            ]
+          },
+          "mean_temp": {
+            "per_predictor_sd": -0.00978888633381373,
+            "genus_ci95": [
+              -0.015671436558656177,
+              -0.004224008996928724
+            ]
+          },
+          "mean_precip": {
+            "per_predictor_sd": -0.004331245310967029,
+            "genus_ci95": [
+              -0.008039129311647734,
+              -0.0003140043835972923
+            ]
+          },
+          "abs_latitude": {
+            "per_predictor_sd": -0.007804742403018758,
+            "genus_ci95": [
+              -0.015347359864953131,
+              -0.0006435195139236893
+            ]
+          },
+          "log_thermal_breadth": {
+            "per_predictor_sd": -0.0026181830766138403,
+            "genus_ci95": [
+              -0.006636513663695159,
+              0.0014873107511916648
+            ]
+          },
+          "log_moisture_breadth": {
+            "per_predictor_sd": 0.00509287674910252,
+            "genus_ci95": [
+              0.00046749337995783844,
+              0.009671322537771818
+            ]
+          },
+          "temp_seasonality": {
+            "per_predictor_sd": 0.0037023577117735068,
+            "genus_ci95": [
+              -0.0016490802555408923,
+              0.009433907906347658
+            ]
+          },
+          "precip_seasonality": {
+            "per_predictor_sd": -0.0001208806574179431,
+            "genus_ci95": [
+              -0.005128905075767144,
+              0.005037958672727296
+            ]
+          },
+          "colour_D": {
+            "per_predictor_sd": 0.008025930938798258,
+            "genus_ci95": [
+              0.004707549280304202,
+              0.011331916326623684
+            ]
+          },
+          "env_near_fraction_250": {
+            "per_predictor_sd": -0.007906430535398811,
+            "genus_ci95": [
+              -0.02748522220203528,
+              0.011871770418653385
+            ]
+          },
+          "colour_near_fraction_250": {
+            "per_predictor_sd": 0.005593195886540659,
+            "genus_ci95": [
+              -0.01319487151946839,
+              0.02407622931346275
+            ]
+          },
+          "thermal_partition_250": {
+            "per_predictor_sd": 0.007261446048320209,
+            "genus_ci95": [
+              0.0025470293458816845,
+              0.012146971060566296
+            ]
+          },
+          "moisture_partition_250": {
+            "per_predictor_sd": -0.001607508156385819,
+            "genus_ci95": [
+              -0.006430636262382709,
+              0.003238703366641085
+            ]
+          }
+        }
+      },
+      "continuous": {
+        "n": 2110,
+        "genera": 939,
+        "outcome": "hellinger_partition_250",
+        "status": "estimable",
+        "valid_boot": 1999,
+        "r2_base": 0.037231523297116764,
+        "r2_full": 0.04037017757409289,
+        "incremental_r2": 0.003138654276976127,
+        "coefficient": {
+          "log_env_range_q90_km": {
+            "per_predictor_sd": -0.004217135437973802,
+            "genus_ci95": [
+              -0.011961564074037853,
+              0.0022203255557786124
+            ]
+          },
+          "log_colour_range_q90_km": {
+            "per_predictor_sd": 0.00494694100366678,
+            "genus_ci95": [
+              -0.0013137100121601783,
+              0.012252352365042742
+            ]
+          },
+          "env_n": {
+            "per_predictor_sd": -0.000660529146125716,
+            "genus_ci95": [
+              -0.002922575883733101,
+              0.0006906720124049004
+            ]
+          },
+          "colour_valid_n": {
+            "per_predictor_sd": 0.0034773052359910136,
+            "genus_ci95": [
+              0.0012740289003092798,
+              0.005697540984123059
+            ]
+          },
+          "mean_temp": {
+            "per_predictor_sd": -0.004212839547087371,
+            "genus_ci95": [
+              -0.007513900902249008,
+              -0.0005935976470273618
+            ]
+          },
+          "mean_precip": {
+            "per_predictor_sd": -0.003364926405715561,
+            "genus_ci95": [
+              -0.005387704315106487,
+              -0.0012615076054324457
+            ]
+          },
+          "abs_latitude": {
+            "per_predictor_sd": -0.003901028870250993,
+            "genus_ci95": [
+              -0.007847486850204382,
+              0.0004175617591338866
+            ]
+          },
+          "log_thermal_breadth": {
+            "per_predictor_sd": -0.0007938978286598764,
+            "genus_ci95": [
+              -0.002920955806233979,
+              0.0014527922718875195
+            ]
+          },
+          "log_moisture_breadth": {
+            "per_predictor_sd": 0.0026204615119606737,
+            "genus_ci95": [
+              0.00027952434478274225,
+              0.004948136805716054
+            ]
+          },
+          "temp_seasonality": {
+            "per_predictor_sd": 0.0006421859272972584,
+            "genus_ci95": [
+              -0.00254173481469566,
+              0.0037018870260031936
+            ]
+          },
+          "precip_seasonality": {
+            "per_predictor_sd": -0.0017031406307135212,
+            "genus_ci95": [
+              -0.0041761656240982105,
+              0.0008960758121342142
+            ]
+          },
+          "hellinger_D": {
+            "per_predictor_sd": 0.004681674167133692,
+            "genus_ci95": [
+              0.00254657566699215,
+              0.006704712116769741
+            ]
+          },
+          "env_near_fraction_250": {
+            "per_predictor_sd": -0.003419652208837706,
+            "genus_ci95": [
+              -0.013231144905892465,
+              0.00630672471134092
+            ]
+          },
+          "colour_near_fraction_250": {
+            "per_predictor_sd": 0.0013219102046853354,
+            "genus_ci95": [
+              -0.00791434126810171,
+              0.010900881738073563
+            ]
+          },
+          "thermal_partition_250": {
+            "per_predictor_sd": 0.003325712021197924,
+            "genus_ci95": [
+              0.0009611606110873959,
+              0.0056635905509409765
+            ]
+          },
+          "moisture_partition_250": {
+            "per_predictor_sd": -0.001359922593632272,
+            "genus_ci95": [
+              -0.0038885466921611505,
+              0.0011077202224342505
+            ]
+          }
+        }
+      },
+      "matched_scales": {
+        "n": 1258,
+        "genera": 654,
+        "outcome": "colour_partition_250",
+        "status": "estimable",
+        "valid_boot": 1999,
+        "r2_base": 0.06417647578328833,
+        "r2_full": 0.0767037531330832,
+        "incremental_r2": 0.012527277349794863,
+        "coefficient": {
+          "log_env_range_q90_km": {
+            "per_predictor_sd": -0.005858407975830853,
+            "genus_ci95": [
+              -0.0212528785119559,
+              0.005352160648015301
+            ]
+          },
+          "log_colour_range_q90_km": {
+            "per_predictor_sd": 0.007845060901884708,
+            "genus_ci95": [
+              -0.003968613077648996,
+              0.022249170916145634
+            ]
+          },
+          "env_n": {
+            "per_predictor_sd": 0.0018058254423359485,
+            "genus_ci95": [
+              -0.0033388175094887355,
+              0.004458669733046455
+            ]
+          },
+          "colour_valid_n": {
+            "per_predictor_sd": 0.006474834939753633,
+            "genus_ci95": [
+              0.0029257994660123686,
+              0.01001920534716224
+            ]
+          },
+          "mean_temp": {
+            "per_predictor_sd": -0.005429715406371018,
+            "genus_ci95": [
+              -0.011785212263231657,
+              0.0007728529910569948
+            ]
+          },
+          "mean_precip": {
+            "per_predictor_sd": -0.004655397805848339,
+            "genus_ci95": [
+              -0.009150262424167221,
+              -0.00018822002015259466
+            ]
+          },
+          "abs_latitude": {
+            "per_predictor_sd": -0.0014215644829362155,
+            "genus_ci95": [
+              -0.008784440807908956,
+              0.005334063979737346
+            ]
+          },
+          "log_thermal_breadth": {
+            "per_predictor_sd": -0.0006420929238782492,
+            "genus_ci95": [
+              -0.004692593117655176,
+              0.003588116313918672
+            ]
+          },
+          "log_moisture_breadth": {
+            "per_predictor_sd": 0.005250019911292975,
+            "genus_ci95": [
+              0.00039205773312414875,
+              0.010466240760345549
+            ]
+          },
+          "temp_seasonality": {
+            "per_predictor_sd": -0.0001840681905381758,
+            "genus_ci95": [
+              -0.005026409412419339,
+              0.005071091613004244
+            ]
+          },
+          "precip_seasonality": {
+            "per_predictor_sd": -0.0008367047190883152,
+            "genus_ci95": [
+              -0.00532151724124823,
+              0.0037966991544919047
+            ]
+          },
+          "colour_D": {
+            "per_predictor_sd": 0.008365784857356203,
+            "genus_ci95": [
+              0.005060784537099796,
+              0.011902978938712882
+            ]
+          },
+          "env_near_fraction_250": {
+            "per_predictor_sd": -0.0065841982798367765,
+            "genus_ci95": [
+              -0.02447159709679407,
+              0.009507557446431596
+            ]
+          },
+          "colour_near_fraction_250": {
+            "per_predictor_sd": 0.00394955382865178,
+            "genus_ci95": [
+              -0.01185470906243058,
+              0.020565366928840496
+            ]
+          },
+          "thermal_partition_250": {
+            "per_predictor_sd": 0.009539798328781808,
+            "genus_ci95": [
+              0.004891847499297215,
+              0.014212446897133964
+            ]
+          },
+          "moisture_partition_250": {
+            "per_predictor_sd": -0.004537153295493116,
+            "genus_ci95": [
+              -0.0098567117693045,
+              0.0004981011574468221
+            ]
+          }
+        }
+      }
+    }
+  }
+}
