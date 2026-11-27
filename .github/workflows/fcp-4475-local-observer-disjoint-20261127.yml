@@ -1,0 +1,78 @@
+name: FCP 4475 local colour independent observer contrasts
+on:
+  pull_request:
+    paths:
+      - scripts/analysis/fcp4475_local_observer_disjoint_20261127.py
+      - .github/workflows/fcp-4475-local-observer-disjoint-20261127.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_TAG: fcp-all4730-original-method-actual-colour-results-20261017
+      SOURCE_FILE: fcp_all4730_original_method_actual_measured_data_and_inference.tar.gz
+      SOURCE_ARCHIVE_SHA: 99f7ee68c3fd009e8ab60fd0cfcdf1fb407e3a8de07edd38341b27889310bc25
+      PHOTO_SHA: 8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6
+      CLIMATE_TAG: fcp-worldclim-2.1-10m-20260925
+      BIO_SHA: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+      SRAD_SHA: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.1.3 pandas==2.2.3 pillow==11.0.0 scipy==1.14.1
+      - name: Self-test and reproduce previous common-panel estimates
+        run: |
+          python scripts/analysis/fcp4475_local_observer_disjoint_20261127.py --self-test
+          python scripts/analysis/fcp_local_colour_geography_thermal_20261127.py
+      - name: Authenticate original photo and climate archives
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp-local/{release,measured,climate,out}
+          gh release download "$SOURCE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$SOURCE_FILE" --dir /tmp/fcp-local/release
+          echo "$SOURCE_ARCHIVE_SHA  /tmp/fcp-local/release/$SOURCE_FILE" | sha256sum -c -
+          tar -xzf /tmp/fcp-local/release/$SOURCE_FILE -C /tmp/fcp-local \
+            measured/fcp_all4730_original_method_measured_photos.csv.gz
+          echo "$PHOTO_SHA  /tmp/fcp-local/measured/fcp_all4730_original_method_measured_photos.csv.gz" | sha256sum -c -
+          gh release download "$CLIMATE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern wc2.1_10m_bio.zip --pattern wc2.1_10m_srad.zip \
+            --dir /tmp/fcp-local/climate
+          echo "$BIO_SHA  /tmp/fcp-local/climate/wc2.1_10m_bio.zip" | sha256sum -c -
+          echo "$SRAD_SHA  /tmp/fcp-local/climate/wc2.1_10m_srad.zip" | sha256sum -c -
+      - name: Source-authenticated independent observer analysis
+        run: |
+          set -euo pipefail
+          python scripts/analysis/fcp4475_local_observer_disjoint_20261127.py \
+            --photos /tmp/fcp-local/measured/fcp_all4730_original_method_measured_photos.csv.gz \
+            --worldclim-bio /tmp/fcp-local/climate/wc2.1_10m_bio.zip \
+            --worldclim-srad /tmp/fcp-local/climate/wc2.1_10m_srad.zip \
+            --out /tmp/fcp-local/out
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          p=Path('/tmp/fcp-local/out')
+          d=pd.read_csv(p/'fcp4475_local_observer_disjoint_ledger.csv.gz')
+          j=json.loads((p/'fcp4475_local_observer_disjoint_results.json').read_text())
+          assert len(d)==8950 and d.groupby('direction').size().eq(4475).all()
+          assert not d.duplicated(['inat_taxon_id','direction']).any()
+          assert (d.local_fold!=d.heldout_fold).all()
+          assert d.loc[d.local_pairs==0,'local_detected'].isna().all()
+          assert d.loc[d.local_pairs==0,'thermal_white'].isna().all()
+          assert (j['source_photos'],j['source_taxa'],j['source_classifiable'])==(447500,4475,227107)
+          assert not {'photo_id','observer_id','latitude','longitude','observation_id'}.intersection(d.columns)
+          print('FCP_INDEPENDENT_OBSERVER_LEDGER_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp4475-local-observer-disjoint-20261127
+          path: /tmp/fcp-local/out/
+          retention-days: 90

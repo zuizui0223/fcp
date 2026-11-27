@@ -1,0 +1,567 @@
+{
+  "run_id": 45955114181,
+  "job_id": 140359681042,
+  "head_sha": "1363e851a4e6f5d9948932b40e1d83daa07a2281",
+  "artifact_id": 15178870450,
+  "artifact_digest": "sha256:65ce75249bfeafbc6c6c970a11708d737b40bad7ad070d650cdac75dd60122d3",
+  "receipt_source": "Successful job log JSON, previous input ZIP independently authenticated by workflow; output artifact digest from provider metadata, output ZIP not separately downloaded",
+  "source_run": 45953690498,
+  "source_artifact_id": 15178380182,
+  "source_zip_sha256": "b157ab08214cf1b67b37e8be5ba5db10bf5a511e4cc9c0e935b2a78017f59d4a",
+  "source_taxa": 4475,
+  "bootstrap": 3999,
+  "conditional_null_draws": 9999,
+  "scope": "Exploratory species-level repeat detection, not persistence in the same locality or genetic morphs. Independent photographers within species, not an independent platform. Conditional null uses estimated probabilities (199 permutations per fold) and assumes independent permutations given source data. Exact-year/month may be degenerate. No new photo models.",
+  "recurrence": {
+    "all_both_local_opportunity_month": {
+      "n": 220,
+      "genera": 163,
+      "scope": "all_both_local_opportunity",
+      "null_stratum": "month",
+      "observed_both_n": 29,
+      "expected_both_n": 32.438398020250645,
+      "detected_A_only_n": 32,
+      "detected_B_only_n": 33,
+      "neither_n": 126,
+      "exact_null_both_deterministic_n": 44,
+      "conditional_null_upper_p_approx": 0.8547,
+      "conditional_null_count_95": [
+        25,
+        40
+      ],
+      "detection_residual_corr": 0.030004149868846218,
+      "mismatch_residual_corr": 0.02916166689765426,
+      "metrics": {
+        "detect_A": {
+          "estimate": 0.2772727272727273,
+          "genus_ci95": [
+            0.21658986175115208,
+            0.3363249082755809
+          ]
+        },
+        "detect_B": {
+          "estimate": 0.2818181818181818,
+          "genus_ci95": [
+            0.22765827922077922,
+            0.3348859463669745
+          ]
+        },
+        "detect_both": {
+          "estimate": 0.1318181818181818,
+          "genus_ci95": [
+            0.08849557522123894,
+            0.1774932232876158
+          ]
+        },
+        "expected_A": {
+          "estimate": 0.29997715851988177,
+          "genus_ci95": [
+            0.2546365361999908,
+            0.3453379174115297
+          ]
+        },
+        "expected_B": {
+          "estimate": 0.30730927364093363,
+          "genus_ci95": [
+            0.2612811203660552,
+            0.35148886838029925
+          ]
+        },
+        "expected_both": {
+          "estimate": 0.14744726372841202,
+          "genus_ci95": [
+            0.1104334625401449,
+            0.18558214779729382
+          ]
+        },
+        "joint_excess": {
+          "estimate": -0.015629081910230203,
+          "genus_ci95": [
+            -0.04759450959821869,
+            0.01711083245452094
+          ]
+        },
+        "detection_residual_product": {
+          "estimate": 0.004116975925766565,
+          "genus_ci95": [
+            -0.01584721839604544,
+            0.02469485409730523
+          ]
+        },
+        "mismatch_residual_product": {
+          "estimate": 0.002081653167095054,
+          "genus_ci95": [
+            -0.010692467414335629,
+            0.01618053637894042
+          ]
+        }
+      }
+    },
+    "all_both_local_opportunity_yearmonth": {
+      "n": 220,
+      "genera": 163,
+      "scope": "all_both_local_opportunity",
+      "null_stratum": "yearmonth",
+      "observed_both_n": 29,
+      "expected_both_n": 32.5671573950151,
+      "detected_A_only_n": 32,
+      "detected_B_only_n": 33,
+      "neither_n": 126,
+      "exact_null_both_deterministic_n": 122,
+      "conditional_null_upper_p_approx": 0.9413,
+      "conditional_null_count_95": [
+        28,
+        38
+      ],
+      "detection_residual_corr": -0.01426879415389325,
+      "mismatch_residual_corr": -0.009628716009379153,
+      "metrics": {
+        "detect_A": {
+          "estimate": 0.2772727272727273,
+          "genus_ci95": [
+            0.21536538461538463,
+            0.33945380840623
+          ]
+        },
+        "detect_B": {
+          "estimate": 0.2818181818181818,
+          "genus_ci95": [
+            0.22641509433962265,
+            0.3378995433789954
+          ]
+        },
+        "detect_both": {
+          "estimate": 0.1318181818181818,
+          "genus_ci95": [
+            0.08866995073891626,
+            0.17827639751552787
+          ]
+        },
+        "expected_A": {
+          "estimate": 0.30724074920055,
+          "genus_ci95": [
+            0.25300738549524115,
+            0.36215809949780714
+          ]
+        },
+        "expected_B": {
+          "estimate": 0.2912288716308773,
+          "genus_ci95": [
+            0.2395781325984863,
+            0.34236382416068306
+          ]
+        },
+        "expected_both": {
+          "estimate": 0.148032533613705,
+          "genus_ci95": [
+            0.1077563815741153,
+            0.18919492790064196
+          ]
+        },
+        "joint_excess": {
+          "estimate": -0.0162143517955232,
+          "genus_ci95": [
+            -0.039557376561249705,
+            0.008340389220664712
+          ]
+        },
+        "detection_residual_product": {
+          "estimate": -0.0005056116581086161,
+          "genus_ci95": [
+            -0.007364507384249888,
+            0.006500028422781901
+          ]
+        },
+        "mismatch_residual_product": {
+          "estimate": -0.00008762186845462188,
+          "genus_ci95": [
+            -0.0036745520201629076,
+            0.004201176881095174
+          ]
+        }
+      }
+    },
+    "five_pairs_each_month": {
+      "n": 22,
+      "genera": 22,
+      "scope": "five_pairs_each",
+      "null_stratum": "month",
+      "observed_both_n": 8,
+      "expected_both_n": 9.028837655614725,
+      "detected_A_only_n": 2,
+      "detected_B_only_n": 2,
+      "neither_n": 10,
+      "exact_null_both_deterministic_n": 7,
+      "conditional_null_upper_p_approx": 0.9159,
+      "conditional_null_count_95": [
+        7,
+        11
+      ],
+      "detection_residual_corr": 0.062491062354474866,
+      "mismatch_residual_corr": -0.2635989990611499,
+      "metrics": {
+        "detect_A": {
+          "estimate": 0.45454545454545453,
+          "genus_ci95": [
+            0.22727272727272727,
+            0.6363636363636364
+          ]
+        },
+        "detect_B": {
+          "estimate": 0.45454545454545453,
+          "genus_ci95": [
+            0.22727272727272727,
+            0.6818181818181818
+          ]
+        },
+        "detect_both": {
+          "estimate": 0.36363636363636365,
+          "genus_ci95": [
+            0.18181818181818182,
+            0.5454545454545454
+          ]
+        },
+        "expected_A": {
+          "estimate": 0.5194152581087274,
+          "genus_ci95": [
+            0.33779122887162727,
+            0.6902923709457113
+          ]
+        },
+        "expected_B": {
+          "estimate": 0.4920054819552272,
+          "genus_ci95": [
+            0.3129054362722773,
+            0.6669940612151681
+          ]
+        },
+        "expected_both": {
+          "estimate": 0.41040171161885114,
+          "genus_ci95": [
+            0.22204185615148414,
+            0.5910648491429946
+          ]
+        },
+        "joint_excess": {
+          "estimate": -0.04676534798248752,
+          "genus_ci95": [
+            -0.16015992479528052,
+            0.048548532980173614
+          ]
+        },
+        "detection_residual_product": {
+          "estimate": 0.006335928156078422,
+          "genus_ci95": [
+            -0.025138541037750515,
+            0.04503989798231835
+          ]
+        },
+        "mismatch_residual_product": {
+          "estimate": -0.0022862537506463804,
+          "genus_ci95": [
+            -0.006920401728529535,
+            0.0016872438266915726
+          ]
+        }
+      }
+    },
+    "five_pairs_each_yearmonth": {
+      "n": 22,
+      "genera": 22,
+      "scope": "five_pairs_each",
+      "null_stratum": "yearmonth",
+      "observed_both_n": 8,
+      "expected_both_n": 8.477386934673,
+      "detected_A_only_n": 2,
+      "detected_B_only_n": 2,
+      "neither_n": 10,
+      "exact_null_both_deterministic_n": 14,
+      "conditional_null_upper_p_approx": 0.9347,
+      "conditional_null_count_95": [
+        7,
+        9
+      ],
+      "detection_residual_corr": -0.003166283526299126,
+      "mismatch_residual_corr": -0.02940058121531209,
+      "metrics": {
+        "detect_A": {
+          "estimate": 0.45454545454545453,
+          "genus_ci95": [
+            0.22727272727272727,
+            0.6818181818181818
+          ]
+        },
+        "detect_B": {
+          "estimate": 0.45454545454545453,
+          "genus_ci95": [
+            0.27045454545454556,
+            0.6818181818181818
+          ]
+        },
+        "detect_both": {
+          "estimate": 0.36363636363636365,
+          "genus_ci95": [
+            0.18181818181818182,
+            0.5909090909090909
+          ]
+        },
+        "expected_A": {
+          "estimate": 0.48515303791686365,
+          "genus_ci95": [
+            0.2727272727272727,
+            0.6831886706258636
+          ]
+        },
+        "expected_B": {
+          "estimate": 0.4591137505710454,
+          "genus_ci95": [
+            0.272944266788525,
+            0.652135678391975
+          ]
+        },
+        "expected_both": {
+          "estimate": 0.3853357697578636,
+          "genus_ci95": [
+            0.19459798994975452,
+            0.5795340338053474
+          ]
+        },
+        "joint_excess": {
+          "estimate": -0.0216994061215,
+          "genus_ci95": [
+            -0.11717679305613636,
+            0.04888076747372727
+          ]
+        },
+        "detection_residual_product": {
+          "estimate": 0,
+          "genus_ci95": [
+            0,
+            0
+          ]
+        },
+        "mismatch_residual_product": {
+          "estimate": -0.00008284630394180762,
+          "genus_ci95": [
+            -0.002560186656370464,
+            0.002344685483909518
+          ]
+        }
+      }
+    },
+    "nontrivial_both_month_nulls_month": {
+      "n": 83,
+      "genera": 70,
+      "scope": "nontrivial_both_month_nulls",
+      "null_stratum": "month",
+      "observed_both_n": 13,
+      "expected_both_n": 18.4000909067943,
+      "detected_A_only_n": 20,
+      "detected_B_only_n": 17,
+      "neither_n": 33,
+      "exact_null_both_deterministic_n": 0,
+      "conditional_null_upper_p_approx": 0.96,
+      "conditional_null_count_95": [
+        12,
+        25
+      ],
+      "detection_residual_corr": 0.03275733292611444,
+      "mismatch_residual_corr": 0.05708197365614358,
+      "metrics": {
+        "detect_A": {
+          "estimate": 0.39759036144578314,
+          "genus_ci95": [
+            0.3037391738840773,
+            0.4883853065539111
+          ]
+        },
+        "detect_B": {
+          "estimate": 0.3614457831325301,
+          "genus_ci95": [
+            0.2682926829268293,
+            0.45454545454545453
+          ]
+        },
+        "detect_both": {
+          "estimate": 0.1566265060240964,
+          "genus_ci95": [
+            0.08433734939759036,
+            0.2375
+          ]
+        },
+        "expected_A": {
+          "estimate": 0.44433008415573483,
+          "genus_ci95": [
+            0.39987715595763057,
+            0.49006422806672684
+          ]
+        },
+        "expected_B": {
+          "estimate": 0.4586789368529397,
+          "genus_ci95": [
+            0.4062059134682935,
+            0.508921871261089
+          ]
+        },
+        "expected_both": {
+          "estimate": 0.22168784225053373,
+          "genus_ci95": [
+            0.18499534284783362,
+            0.2591728491417964
+          ]
+        },
+        "joint_excess": {
+          "estimate": -0.06506133622643741,
+          "genus_ci95": [
+            -0.1391713995237078,
+            0.016675124193196982
+          ]
+        },
+        "detection_residual_product": {
+          "estimate": 0.01105637164449765,
+          "genus_ci95": [
+            -0.04315844150047388,
+            0.06591929624719586
+          ]
+        },
+        "mismatch_residual_product": {
+          "estimate": 0.007924983160095848,
+          "genus_ci95": [
+            -0.02662064719174992,
+            0.04729866024438783
+          ]
+        }
+      }
+    },
+    "nontrivial_both_month_nulls_yearmonth": {
+      "n": 83,
+      "genera": 70,
+      "scope": "nontrivial_both_month_nulls",
+      "null_stratum": "yearmonth",
+      "observed_both_n": 13,
+      "expected_both_n": 17.743036792000108,
+      "detected_A_only_n": 20,
+      "detected_B_only_n": 17,
+      "neither_n": 33,
+      "exact_null_both_deterministic_n": 24,
+      "conditional_null_upper_p_approx": 0.9861,
+      "conditional_null_count_95": [
+        13,
+        23
+      ],
+      "detection_residual_corr": -0.04459478588451865,
+      "mismatch_residual_corr": -0.020700824669436044,
+      "metrics": {
+        "detect_A": {
+          "estimate": 0.39759036144578314,
+          "genus_ci95": [
+            0.30120481927710846,
+            0.49383459764985865
+          ]
+        },
+        "detect_B": {
+          "estimate": 0.3614457831325301,
+          "genus_ci95": [
+            0.26582278481012656,
+            0.45569620253164556
+          ]
+        },
+        "detect_both": {
+          "estimate": 0.1566265060240964,
+          "genus_ci95": [
+            0.08333333333333333,
+            0.23376623376623376
+          ]
+        },
+        "expected_A": {
+          "estimate": 0.459708179451506,
+          "genus_ci95": [
+            0.384737450449861,
+            0.5350520987289697
+          ]
+        },
+        "expected_B": {
+          "estimate": 0.4117575830961808,
+          "genus_ci95": [
+            0.33052559943498244,
+            0.49136595407240946
+          ]
+        },
+        "expected_both": {
+          "estimate": 0.21377152761445914,
+          "genus_ci95": [
+            0.1558362896301541,
+            0.2740219663079636
+          ]
+        },
+        "joint_excess": {
+          "estimate": -0.05714502159036271,
+          "genus_ci95": [
+            -0.11787260857641102,
+            0.003934335764682529
+          ]
+        },
+        "detection_residual_product": {
+          "estimate": -0.0013401754793240445,
+          "genus_ci95": [
+            -0.01921997307146538,
+            0.01661795156686605
+          ]
+        },
+        "mismatch_residual_product": {
+          "estimate": 0.000037237871816428534,
+          "genus_ci95": [
+            -0.009780108557837513,
+            0.011169617340287426
+          ]
+        }
+      }
+    }
+  },
+  "continuous_crossfit": {
+    "forward_geo_delta": {
+      "n": 431,
+      "genera": 288,
+      "status": "estimable",
+      "slope_per_unit_excess": -0.04294042444894905,
+      "ci95": [
+        -0.08401687608508726,
+        0.0023485469941539774
+      ],
+      "valid_boot": 3999
+    },
+    "forward_thermal_white": {
+      "n": 172,
+      "genera": 140,
+      "status": "estimable",
+      "slope_per_unit_excess": 0.05378446971768793,
+      "ci95": [
+        -0.05483828886521612,
+        0.17048828178445688
+      ],
+      "valid_boot": 3999
+    },
+    "reverse_geo_delta": {
+      "n": 399,
+      "genera": 278,
+      "status": "estimable",
+      "slope_per_unit_excess": -0.006192142429453963,
+      "ci95": [
+        -0.037531121092094534,
+        0.027771921249494694
+      ],
+      "valid_boot": 3999
+    },
+    "reverse_thermal_white": {
+      "n": 165,
+      "genera": 132,
+      "status": "estimable",
+      "slope_per_unit_excess": -0.010753925857271994,
+      "ci95": [
+        -0.07978205810333194,
+        0.058343168729937674
+      ],
+      "valid_boot": 3999
+    }
+  }
+}
