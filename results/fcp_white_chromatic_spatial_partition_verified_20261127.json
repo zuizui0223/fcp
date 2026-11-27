@@ -1,0 +1,791 @@
+{
+  "schema": "fcp_own_photo_same_species_axis_replacement_v1",
+  "status": "ORIGINAL_447500_PHOTO_HASH_VERIFIED",
+  "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "source_n_photos": 447500,
+  "source_species": 4475,
+  "source_classified": 227107,
+  "dated_geo_observer_thinned": 218709,
+  "design": {
+    "near_km_le": 50,
+    "regional_km_ge": 250,
+    "same_calendar_month_not_same_year": true,
+    "month_weight": "min(near pair count, far pair count) for identical month weighting of both bands",
+    "minimum_common_pair_opportunity": 30,
+    "minimum_expected_pairs_each_axis": 5,
+    "white_axis": "white versus any chromatic category",
+    "chromatic_axis": "two different nonwhite coarse categories",
+    "expected_axis_frequency": "exact vertex-label shuffle expectation within original species-month",
+    "normalized_replacement": "(regional minus nearby mismatch probability for axis) / expected month-matched mismatch probability",
+    "primary": "white normalized replacement minus chromatic normalized replacement on identical eligible taxa",
+    "uncertainty": "5000 whole-genus bootstrap intervals conditional on original photo pairs; no independent plant/population assumption"
+  },
+  "status_counts": {
+    "too_few_common_pair_opportunities": 2514,
+    "no_near_and_far_in_same_month": 1187,
+    "total_contrast_estimable_axes_insufficient": 702,
+    "both_axes_estimable": 72
+  },
+  "all_total_supported": {
+    "n_species": 774,
+    "n_genera": 440,
+    "means": {
+      "near_all": 0.18538999623979957,
+      "far_all": 0.20489299989065554,
+      "expected_all": 0.19832096774303362,
+      "raw_all_far_minus_near": 0.01950300365085596
+    },
+    "genus_bootstrap95": {
+      "near_all": [
+        0.16911323503377795,
+        0.20179638641111425
+      ],
+      "far_all": [
+        0.18669216243213904,
+        0.22322157923957087
+      ],
+      "expected_all": [
+        0.18137974599313222,
+        0.21537702953891527
+      ],
+      "raw_all_far_minus_near": [
+        0.011672920958931968,
+        0.027600804184812363
+      ]
+    },
+    "median": {
+      "near_all": 0.12574750246236105,
+      "far_all": 0.12528142411648754,
+      "expected_all": 0.12701107417045904,
+      "raw_all_far_minus_near": 0
+    },
+    "fraction_positive": {
+      "near_all": 0.7842377260981912,
+      "far_all": 0.8488372093023255,
+      "expected_all": 0.8552971576227391,
+      "raw_all_far_minus_near": 0.4560723514211886
+    }
+  },
+  "matched_axis_supported": {
+    "n_species": 72,
+    "n_genera": 60,
+    "means": {
+      "near_all": 0.4513368044663025,
+      "far_all": 0.5016445817540967,
+      "expected_all": 0.48207452266695544,
+      "raw_all_far_minus_near": 0.050307777287794134,
+      "near_wc": 0.25974706936555175,
+      "far_wc": 0.2716302203650611,
+      "expected_wc": 0.2691656407846963,
+      "near_cc": 0.1915897351007507,
+      "far_cc": 0.2300143613890355,
+      "expected_cc": 0.21290888188225904,
+      "raw_wc_far_minus_near": 0.011883150999509352,
+      "raw_cc_far_minus_near": 0.03842462628828479,
+      "wc_normalized_replacement": 0.09487268351042998,
+      "cc_normalized_replacement": 0.1498455327743111,
+      "wc_minus_cc_normalized_replacement": -0.0549728492638811
+    },
+    "genus_bootstrap95": {
+      "near_all": [
+        0.40594549491733456,
+        0.49747156590300806
+      ],
+      "far_all": [
+        0.45423769517001406,
+        0.5507730442354294
+      ],
+      "expected_all": [
+        0.43836290614211126,
+        0.5245753513454435
+      ],
+      "raw_all_far_minus_near": [
+        0.0211633714690471,
+        0.08147180002147236
+      ],
+      "near_wc": [
+        0.2256927447928489,
+        0.29450401285575106
+      ],
+      "far_wc": [
+        0.23544098731798344,
+        0.30918127130275175
+      ],
+      "expected_wc": [
+        0.2350507373702627,
+        0.304162056034498
+      ],
+      "near_cc": [
+        0.16468354804507426,
+        0.21885890696458157
+      ],
+      "far_cc": [
+        0.1958573154524542,
+        0.2641672103682405
+      ],
+      "expected_cc": [
+        0.1874633824840102,
+        0.23831714719564176
+      ],
+      "raw_wc_far_minus_near": [
+        -0.012309481768707475,
+        0.038595502884386866
+      ],
+      "raw_cc_far_minus_near": [
+        0.012637965323771618,
+        0.06618357785319741
+      ],
+      "wc_normalized_replacement": [
+        -0.04790395557377643,
+        0.26664085521808223
+      ],
+      "cc_normalized_replacement": [
+        0.012159877369962597,
+        0.29349752830978143
+      ],
+      "wc_minus_cc_normalized_replacement": [
+        -0.2824246189205793,
+        0.1952931657772571
+      ]
+    },
+    "median": {
+      "near_all": 0.4759558996012198,
+      "far_all": 0.5412873920546555,
+      "expected_all": 0.5368548776470434,
+      "raw_all_far_minus_near": 0.03383794258300188,
+      "near_wc": 0.24597207303974222,
+      "far_wc": 0.23531887380817865,
+      "expected_wc": 0.24821903060289538,
+      "near_cc": 0.1637482900136799,
+      "far_cc": 0.23019470500185363,
+      "expected_cc": 0.19843726380907292,
+      "raw_wc_far_minus_near": 0.00015075309171219686,
+      "raw_cc_far_minus_near": 0.019543466313231783,
+      "wc_normalized_replacement": 0.00043977580817846084,
+      "cc_normalized_replacement": 0.08521299942003475,
+      "wc_minus_cc_normalized_replacement": -0.07797658288491291
+    },
+    "fraction_positive": {
+      "near_all": 1,
+      "far_all": 1,
+      "expected_all": 1,
+      "raw_all_far_minus_near": 0.5833333333333334,
+      "near_wc": 1,
+      "far_wc": 1,
+      "expected_wc": 1,
+      "near_cc": 1,
+      "far_cc": 1,
+      "expected_cc": 1,
+      "raw_wc_far_minus_near": 0.5,
+      "raw_cc_far_minus_near": 0.5555555555555556,
+      "wc_normalized_replacement": 0.5,
+      "cc_normalized_replacement": 0.5555555555555556,
+      "wc_minus_cc_normalized_replacement": 0.4722222222222222
+    }
+  },
+  "cohorts": {
+    "discovery": {
+      "n_species": 8,
+      "n_genera": 8,
+      "means": {
+        "near_all": 0.437187011560727,
+        "far_all": 0.5395307078940255,
+        "expected_all": 0.5009720589767945,
+        "raw_all_far_minus_near": 0.10234369633329843,
+        "near_wc": 0.19363038079907025,
+        "far_wc": 0.21912145288234686,
+        "expected_wc": 0.2060682066634984,
+        "near_cc": 0.24355663076165673,
+        "far_cc": 0.3204092550116785,
+        "expected_cc": 0.2949038523132962,
+        "raw_wc_far_minus_near": 0.025491072083276625,
+        "raw_cc_far_minus_near": 0.07685262425002182,
+        "wc_normalized_replacement": 0.5543943668897671,
+        "cc_normalized_replacement": 0.2345657988391286,
+        "wc_minus_cc_normalized_replacement": 0.3198285680506385
+      },
+      "genus_bootstrap95": {
+        "near_all": [
+          0.26614832053318627,
+          0.6029117613416395
+        ],
+        "far_all": [
+          0.3647796411958771,
+          0.6846826927828937
+        ],
+        "expected_all": [
+          0.3353975569651919,
+          0.6457115378419098
+        ],
+        "raw_all_far_minus_near": [
+          0.0033449677032900207,
+          0.21454001716864354
+        ],
+        "near_wc": [
+          0.0743416845300117,
+          0.3351458545051823
+        ],
+        "far_wc": [
+          0.13510900867694411,
+          0.31757130889532215
+        ],
+        "expected_wc": [
+          0.11053134676589715,
+          0.3136677682549568
+        ],
+        "near_cc": [
+          0.15828606134628911,
+          0.33191540843979866
+        ],
+        "far_cc": [
+          0.19536353186448208,
+          0.433181131840927
+        ],
+        "expected_cc": [
+          0.19129587319576358,
+          0.39218976853971504
+        ],
+        "raw_wc_far_minus_near": [
+          -0.028049766360555995,
+          0.07837481932421868
+        ],
+        "raw_cc_far_minus_near": [
+          0.0008969957790093716,
+          0.16341674408062395
+        ],
+        "wc_normalized_replacement": [
+          0.01657442237653149,
+          1.1567940151462166
+        ],
+        "cc_normalized_replacement": [
+          -0.10832302394051116,
+          0.5333856352549103
+        ],
+        "wc_minus_cc_normalized_replacement": [
+          -0.24915208760742094,
+          0.9545531892911988
+        ]
+      },
+      "median": {
+        "near_all": 0.41678321678321684,
+        "far_all": 0.6290027036391138,
+        "expected_all": 0.5716137356564133,
+        "raw_all_far_minus_near": 0.06005341482989469,
+        "near_wc": 0.14559099437148218,
+        "far_wc": 0.1934117367603853,
+        "expected_wc": 0.16952528772040967,
+        "near_cc": 0.23021978021978023,
+        "far_cc": 0.34467074909823003,
+        "expected_cc": 0.3083509464391817,
+        "raw_wc_far_minus_near": 0.023731864858284518,
+        "raw_cc_far_minus_near": 0.03524502673260318,
+        "wc_normalized_replacement": 0.10155511485989675,
+        "cc_normalized_replacement": 0.2422353041446943,
+        "wc_minus_cc_normalized_replacement": -0.08856259282145368
+      },
+      "fraction_positive": {
+        "near_all": 1,
+        "far_all": 1,
+        "expected_all": 1,
+        "raw_all_far_minus_near": 0.625,
+        "near_wc": 1,
+        "far_wc": 1,
+        "expected_wc": 1,
+        "near_cc": 1,
+        "far_cc": 1,
+        "expected_cc": 1,
+        "raw_wc_far_minus_near": 0.625,
+        "raw_cc_far_minus_near": 0.75,
+        "wc_normalized_replacement": 0.625,
+        "cc_normalized_replacement": 0.75,
+        "wc_minus_cc_normalized_replacement": 0.375
+      }
+    },
+    "new_U100": {
+      "n_species": 44,
+      "n_genera": 39,
+      "means": {
+        "near_all": 0.4488494531138963,
+        "far_all": 0.47413919801189747,
+        "expected_all": 0.46292182362882917,
+        "raw_all_far_minus_near": 0.02528974489800114,
+        "near_wc": 0.2608889343657126,
+        "far_wc": 0.2559072850614789,
+        "expected_wc": 0.262557884884793,
+        "near_cc": 0.18796051874818379,
+        "far_cc": 0.21823191295041858,
+        "expected_cc": 0.20036393874403616,
+        "raw_wc_far_minus_near": -0.004981649304233646,
+        "raw_cc_far_minus_near": 0.03027139420223478,
+        "wc_normalized_replacement": 0.024935062263399897,
+        "cc_normalized_replacement": 0.11722042807962195,
+        "wc_minus_cc_normalized_replacement": -0.09228536581622207
+      },
+      "genus_bootstrap95": {
+        "near_all": [
+          0.3914249386288784,
+          0.5053394210688562
+        ],
+        "far_all": [
+          0.4122105819118969,
+          0.540798893722032
+        ],
+        "expected_all": [
+          0.40669113119667194,
+          0.5190440023729717
+        ],
+        "raw_all_far_minus_near": [
+          -0.012500677775259513,
+          0.06491112784276226
+        ],
+        "near_wc": [
+          0.22024203249908494,
+          0.3008498974807953
+        ],
+        "far_wc": [
+          0.21620953756960465,
+          0.30098691359662605
+        ],
+        "expected_wc": [
+          0.22470102760572117,
+          0.30349552277299385
+        ],
+        "near_cc": [
+          0.15616943383967696,
+          0.22080428547318348
+        ],
+        "far_cc": [
+          0.1762613088493734,
+          0.26316542993697506
+        ],
+        "expected_cc": [
+          0.1700038819695859,
+          0.23166116333712936
+        ],
+        "raw_wc_far_minus_near": [
+          -0.03750006452931826,
+          0.028793872590275636
+        ],
+        "raw_cc_far_minus_near": [
+          -0.001435510186341078,
+          0.06429857160583333
+        ],
+        "wc_normalized_replacement": [
+          -0.16514438820603725,
+          0.27463350092936084
+        ],
+        "cc_normalized_replacement": [
+          -0.061000430979869645,
+          0.30207333693778066
+        ],
+        "wc_minus_cc_normalized_replacement": [
+          -0.3906886203471622,
+          0.2551501452587423
+        ]
+      },
+      "median": {
+        "near_all": 0.4759558996012198,
+        "far_all": 0.5002449818239292,
+        "expected_all": 0.5018947861053125,
+        "raw_all_far_minus_near": 0.007884344578869176,
+        "near_wc": 0.26476476476476474,
+        "far_wc": 0.23462861343316754,
+        "expected_wc": 0.2575975373645779,
+        "near_cc": 0.1624764299182904,
+        "far_cc": 0.21533882924728537,
+        "expected_cc": 0.19557110352157198,
+        "raw_wc_far_minus_near": -0.021605095425547123,
+        "raw_cc_far_minus_near": -0.004597186426717203,
+        "wc_normalized_replacement": -0.0742390454991942,
+        "cc_normalized_replacement": -0.045236777928887674,
+        "wc_minus_cc_normalized_replacement": -0.16149382999900685
+      },
+      "fraction_positive": {
+        "near_all": 1,
+        "far_all": 1,
+        "expected_all": 1,
+        "raw_all_far_minus_near": 0.5,
+        "near_wc": 1,
+        "far_wc": 1,
+        "expected_wc": 1,
+        "near_cc": 1,
+        "far_cc": 1,
+        "expected_cc": 1,
+        "raw_wc_far_minus_near": 0.45454545454545453,
+        "raw_cc_far_minus_near": 0.5,
+        "wc_normalized_replacement": 0.45454545454545453,
+        "cc_normalized_replacement": 0.5,
+        "wc_minus_cc_normalized_replacement": 0.45454545454545453
+      }
+    },
+    "prospective": {
+      "n_species": 9,
+      "n_genera": 8,
+      "means": {
+        "near_all": 0.4793928919596031,
+        "far_all": 0.5527253156192574,
+        "expected_all": 0.530060566784319,
+        "raw_all_far_minus_near": 0.07333242365965437,
+        "near_wc": 0.32669702678067947,
+        "far_wc": 0.37194421220608853,
+        "expected_wc": 0.3424634326027008,
+        "near_cc": 0.15269586517892364,
+        "far_cc": 0.1807811034131689,
+        "expected_cc": 0.1875971341816182,
+        "raw_wc_far_minus_near": 0.0452471854254091,
+        "raw_cc_far_minus_near": 0.02808523823424527,
+        "wc_normalized_replacement": 0.11514770517700319,
+        "cc_normalized_replacement": 0.050140999639100445,
+        "wc_minus_cc_normalized_replacement": 0.06500670553790279
+      },
+      "genus_bootstrap95": {
+        "near_all": [
+          0.3889298920478991,
+          0.5902152077460162
+        ],
+        "far_all": [
+          0.4692839526641158,
+          0.6472126658958787
+        ],
+        "expected_all": [
+          0.4490372423877936,
+          0.6202230835728636
+        ],
+        "raw_all_far_minus_near": [
+          0.00021486272618578394,
+          0.14743571508340814
+        ],
+        "near_wc": [
+          0.2299605164601512,
+          0.43763408914276564
+        ],
+        "far_wc": [
+          0.2715042888344991,
+          0.48166447234325876
+        ],
+        "expected_wc": [
+          0.2420159634758526,
+          0.4636130657197229
+        ],
+        "near_cc": [
+          0.10395934339418374,
+          0.19537158453424364
+        ],
+        "far_cc": [
+          0.10882248735454252,
+          0.24452668542008713
+        ],
+        "expected_cc": [
+          0.13435494419905472,
+          0.24270599752933705
+        ],
+        "raw_wc_far_minus_near": [
+          0.008048252669633655,
+          0.08900638804498735
+        ],
+        "raw_cc_far_minus_near": [
+          -0.041869165982025065,
+          0.10489387924226047
+        ],
+        "wc_normalized_replacement": [
+          -0.0492854874696967,
+          0.35523317041461894
+        ],
+        "cc_normalized_replacement": [
+          -0.38557435907105175,
+          0.4681165250095582
+        ],
+        "wc_minus_cc_normalized_replacement": [
+          -0.41880103369996685,
+          0.5686916343168459
+        ]
+      },
+      "median": {
+        "near_all": 0.4767441860465116,
+        "far_all": 0.6022777532065458,
+        "expected_all": 0.5671560762469854,
+        "raw_all_far_minus_near": 0.041004973417938656,
+        "near_wc": 0.3939393939393939,
+        "far_wc": 0.3748930807754337,
+        "expected_wc": 0.3617271617271618,
+        "near_cc": 0.15926640926640925,
+        "far_cc": 0.15716911764705882,
+        "expected_cc": 0.17867324561403505,
+        "raw_wc_far_minus_near": 0.0627711752499528,
+        "raw_cc_far_minus_near": 0.016633347448864022,
+        "wc_normalized_replacement": 0.16143606824141332,
+        "cc_normalized_replacement": 0.06624447309038897,
+        "wc_minus_cc_normalized_replacement": 0.27230454573777174
+      },
+      "fraction_positive": {
+        "near_all": 1,
+        "far_all": 1,
+        "expected_all": 1,
+        "raw_all_far_minus_near": 0.7777777777777778,
+        "near_wc": 1,
+        "far_wc": 1,
+        "expected_wc": 1,
+        "near_cc": 1,
+        "far_cc": 1,
+        "expected_cc": 1,
+        "raw_wc_far_minus_near": 0.6666666666666666,
+        "raw_cc_far_minus_near": 0.5555555555555556,
+        "wc_normalized_replacement": 0.6666666666666666,
+        "cc_normalized_replacement": 0.5555555555555556,
+        "wc_minus_cc_normalized_replacement": 0.6666666666666666
+      }
+    },
+    "validation": {
+      "n_species": 4,
+      "n_genera": 4,
+      "means": {
+        "near_all": 0.5407971014492754,
+        "far_all": 0.648641087195029,
+        "expected_all": 0.6119067248603526,
+        "raw_all_far_minus_near": 0.10784398574575368,
+        "near_wc": 0.2973998294970162,
+        "far_wc": 0.31620564344514446,
+        "expected_wc": 0.3147131214825386,
+        "near_cc": 0.24339727195225916,
+        "far_cc": 0.33243544374988454,
+        "expected_cc": 0.2971936033778139,
+        "raw_wc_far_minus_near": 0.018805813948128275,
+        "raw_cc_far_minus_near": 0.0890381717976254,
+        "wc_normalized_replacement": 0.04600490828827008,
+        "cc_normalized_replacement": 0.40159530046661673,
+        "wc_minus_cc_normalized_replacement": -0.3555903921783466
+      },
+      "genus_bootstrap95": {
+        "near_all": [
+          0.4205029838022165,
+          0.6351236146632566
+        ],
+        "far_all": [
+          0.6009105759951039,
+          0.6963715983949541
+        ],
+        "expected_all": [
+          0.5535610926292713,
+          0.6685242916512267
+        ],
+        "raw_all_far_minus_near": [
+          0.0010037820607535428,
+          0.2077507796801041
+        ],
+        "near_wc": [
+          0.19117647058823528,
+          0.4319053708439898
+        ],
+        "far_wc": [
+          0.17927250900360142,
+          0.45313877788668755
+        ],
+        "expected_wc": [
+          0.1896358543417367,
+          0.4397903886233405
+        ],
+        "near_cc": [
+          0.1315004262574595,
+          0.38970588235294124
+        ],
+        "far_cc": [
+          0.24323282050826658,
+          0.4216380669915025
+        ],
+        "expected_cc": [
+          0.17274707037864934,
+          0.4005952380952381
+        ],
+        "raw_wc_far_minus_near": [
+          -0.030561824729891954,
+          0.07436653356864781
+        ],
+        "raw_cc_far_minus_near": [
+          -0.03246816361813444,
+          0.23432087299549767
+        ],
+        "wc_normalized_replacement": [
+          -0.13698211443728683,
+          0.208714987177698
+        ],
+        "cc_normalized_replacement": [
+          -0.01442756423217631,
+          0.8176181651654097
+        ],
+        "wc_minus_cc_normalized_replacement": [
+          -0.9343233357665677,
+          0.22314255140987435
+        ]
+      },
+      "median": {
+        "near_all": 0.5815942028985508,
+        "far_all": 0.642509835618341,
+        "expected_all": 0.6136347903005596,
+        "raw_all_far_minus_near": 0.11477739549640337,
+        "near_wc": 0.2529411764705882,
+        "far_wc": 0.3005499152987908,
+        "expected_wc": 0.2919401577605912,
+        "near_cc": 0.1935294117647059,
+        "far_cc": 0.34154761422064006,
+        "expected_cc": 0.31823850165955436,
+        "raw_wc_far_minus_near": 0.01261273300562897,
+        "raw_cc_far_minus_near": 0.06526180601551296,
+        "wc_normalized_replacement": 0.07541623902369994,
+        "cc_normalized_replacement": 0.4172613685591691,
+        "wc_minus_cc_normalized_replacement": -0.284330142357771
+      },
+      "fraction_positive": {
+        "near_all": 1,
+        "far_all": 1,
+        "expected_all": 1,
+        "raw_all_far_minus_near": 0.75,
+        "near_wc": 1,
+        "far_wc": 1,
+        "expected_wc": 1,
+        "near_cc": 1,
+        "far_cc": 1,
+        "expected_cc": 1,
+        "raw_wc_far_minus_near": 0.5,
+        "raw_cc_far_minus_near": 0.75,
+        "wc_normalized_replacement": 0.5,
+        "cc_normalized_replacement": 0.75,
+        "wc_minus_cc_normalized_replacement": 0.5
+      }
+    },
+    "wave4": {
+      "n_species": 7,
+      "n_genera": 7,
+      "means": {
+        "near_all": 0.39595049409185684,
+        "far_all": 0.48156390303797636,
+        "expected_all": 0.44497956000538125,
+        "raw_all_far_minus_near": 0.08561340894611946,
+        "near_wc": 0.2205371824030908,
+        "far_wc": 0.276023316697883,
+        "expected_wc": 0.26254430984354216,
+        "near_cc": 0.175413311688766,
+        "far_cc": 0.20554058634009328,
+        "expected_cc": 0.1824352501618391,
+        "raw_wc_far_minus_near": 0.055486134294792204,
+        "raw_cc_far_minus_near": 0.030127274651327262,
+        "wc_normalized_replacement": 0.011169508328159399,
+        "cc_normalized_replacement": 0.2424289907022331,
+        "wc_minus_cc_normalized_replacement": -0.23125948237407368
+      },
+      "genus_bootstrap95": {
+        "near_all": [
+          0.2830271663160692,
+          0.4976778020256281
+        ],
+        "far_all": [
+          0.3383365552176727,
+          0.6156661427033401
+        ],
+        "expected_all": [
+          0.3287025567419689,
+          0.5457579700134065
+        ],
+        "raw_all_far_minus_near": [
+          -0.004590640058377558,
+          0.18415250067042405
+        ],
+        "near_wc": [
+          0.14752725801783367,
+          0.29065692278074223
+        ],
+        "far_wc": [
+          0.1394138350383033,
+          0.4291423469931441
+        ],
+        "expected_wc": [
+          0.15670757990248774,
+          0.37628451214736447
+        ],
+        "near_cc": [
+          0.08317902993227667,
+          0.29461126036158763
+        ],
+        "far_cc": [
+          0.10927264861021255,
+          0.3200536649316605
+        ],
+        "expected_cc": [
+          0.1114880599787081,
+          0.2823547119526198
+        ],
+        "raw_wc_far_minus_near": [
+          -0.05603054857874087,
+          0.1810067353841478
+        ],
+        "raw_cc_far_minus_near": [
+          -0.03533413269734115,
+          0.10161274025093506
+        ],
+        "wc_normalized_replacement": [
+          -0.4440861592866362,
+          0.4350745504789942
+        ],
+        "cc_normalized_replacement": [
+          -0.2750421479736926,
+          0.7432762250316103
+        ],
+        "wc_minus_cc_normalized_replacement": [
+          -1.0170620257679392,
+          0.5956310466073381
+        ]
+      },
+      "median": {
+        "near_all": 0.39795918367346944,
+        "far_all": 0.5386779460948259,
+        "expected_all": 0.5113775113775113,
+        "raw_all_far_minus_near": 0.04389683801448506,
+        "near_wc": 0.2551020408163266,
+        "far_wc": 0.21134298014828987,
+        "expected_wc": 0.18947368421052632,
+        "near_cc": 0.14285714285714285,
+        "far_cc": 0.15900022799817604,
+        "expected_cc": 0.13950345950345952,
+        "raw_wc_far_minus_near": -0.01004789527390397,
+        "raw_cc_far_minus_near": 0.028910547715857438,
+        "wc_normalized_replacement": -0.04023637030732014,
+        "cc_normalized_replacement": 0.1336233730719775,
+        "wc_minus_cc_normalized_replacement": -0.5719715902110312
+      },
+      "fraction_positive": {
+        "near_all": 1,
+        "far_all": 1,
+        "expected_all": 1,
+        "raw_all_far_minus_near": 0.7142857142857143,
+        "near_wc": 1,
+        "far_wc": 1,
+        "expected_wc": 1,
+        "near_cc": 1,
+        "far_cc": 1,
+        "expected_cc": 1,
+        "raw_wc_far_minus_near": 0.42857142857142855,
+        "raw_cc_far_minus_near": 0.5714285714285714,
+        "wc_normalized_replacement": 0.42857142857142855,
+        "cc_normalized_replacement": 0.5714285714285714,
+        "wc_minus_cc_normalized_replacement": 0.42857142857142855
+      }
+    }
+  },
+  "limitations": [
+    "Existing FCP photograph sample, not a census of individuals or known mating populations.",
+    "50-km and 250-km bands are chosen once; same calendar month is not synchronous flowering.",
+    "Different observer IDs and observation IDs do not guarantee different individual plants.",
+    "The two-axis comparison requires photographed white and multiple chromatic categories; not all taxa can support it.",
+    "The normalized differences are scale contrasts, not Fst or fitness/selection coefficients; sparse opportunities and photographic organ/colour mismeasurement remain.",
+    "Genus bootstrap is conditional on original sampled geography and colours; not a neutral population-genetic or frequency-dependent selection null."
+  ],
+  "provenance": {
+    "run_id": 45939108492,
+    "job_id": 140309051434,
+    "head_sha": "47466f3ed6d21972606ec45ab45285c6368e7da9",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45939108492",
+    "artifact_id": 15171708342,
+    "artifact_digest": "sha256:ccfba45adaec4f576434ec56cf7fa9bfc38989d961c6e406ce866425efb7f728",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45939108492/artifacts/15171708342"
+  },
+  "interpretation": "Mean regional replacement is positive in 774 geographically and temporally matched species. Among the 72 species with support for both categorical contrasts, chromatic-chromatic replacement has a positive conditional interval; white-chromatic replacement and the direct paired difference both have intervals overlapping zero. This does NOT establish stronger chromatic geography or reject white-axis adaptation. The result is a cross-species photographic association, not a test of frequency-dependent fitness."
+}
