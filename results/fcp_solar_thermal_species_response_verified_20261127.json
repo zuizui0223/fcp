@@ -1,0 +1,209 @@
+{
+  "schema": "fcp_solar_vs_thermal_signed_species_response_prediction_v1",
+  "status": "ORIGINAL_PHOTO_CLIMATE_HASH_VERIFIED",
+  "source": {
+    "photos": 447500,
+    "taxa": 4475,
+    "classified": 227107,
+    "climate_complete_thinned": 218682,
+    "photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+    "bio_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+    "srad_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026"
+  },
+  "design": {
+    "question": "Are opposite species-specific solar/white responses reproducible on other photographers?",
+    "observer_split": "existing deterministic species-specific observer_folds from all 100 original attempts, one valid classified photo per observer",
+    "response": "original normalized nine-palette white fraction",
+    "climate_units": "shared pooled species SD for each fixed five-domain climate score, computed using positions only, both folds",
+    "model": "signed solar and thermal white-fraction slopes conditional on calendar month, XYZ, other four climate domains within each fold",
+    "slope_units": "white photo-fraction percentage points per one pooled within-species climate-domain SD",
+    "min_fold_photos": 18,
+    "min_fold_cells": 3,
+    "min_fold_residual_df": 8,
+    "min_unique_fraction": 0.05,
+    "min_unique_sd_pooled_units": 0.1,
+    "primary": "signed solar slope Spearman crossfold correlation, on common solar/thermal support; matched thermal and direct difference form a simultaneous three-contrast family",
+    "sign_prediction": "centered out-of-fold sign times opposite-fold signed slope, symmetrized; zero under independent directions after shared mean removal",
+    "inference": "5000 whole-genus bootstrap with reranking within each draw; fixed observed climate/photo frames"
+  },
+  "support": {
+    "solar_both_folds": 505,
+    "thermal_both_folds": 1585,
+    "common_both_domains_both_folds": 433
+  },
+  "common_species": {
+    "n_species": 433,
+    "n_genera": 293,
+    "n_photo_A": 13590,
+    "n_photo_B": 13520,
+    "n_solar_both_positive": 115,
+    "n_solar_both_negative": 103,
+    "n_solar_opposite_sign": 215,
+    "bootstrap_accepted": 5000,
+    "estimates": {
+      "solar_signed_slope_spearman": {
+        "estimate": 0.03989628084465304,
+        "conditional_genus_bootstrap95": [
+          -0.05994444787715722,
+          0.14023403910707566
+        ],
+        "simultaneous95_three_rank_contrasts": [
+          -0.07941971305866685,
+          0.15921227474797292
+        ]
+      },
+      "solar_signed_slope_pearson": {
+        "estimate": -0.004928267143886025,
+        "conditional_genus_bootstrap95": [
+          -0.11459222978309752,
+          0.10253310403125203
+        ]
+      },
+      "solar_centered_crossfold_covariance_pp2": {
+        "estimate": -0.7292198384825768,
+        "conditional_genus_bootstrap95": [
+          -17.652432192556866,
+          14.376205981919886
+        ]
+      },
+      "solar_centered_sign_agreement": {
+        "estimate": 0.008085807700718442,
+        "conditional_genus_bootstrap95": [
+          -0.08914098246061013,
+          0.10232657032411326
+        ]
+      },
+      "solar_centered_sign_prediction_pp": {
+        "estimate": 0.03156461806852772,
+        "conditional_genus_bootstrap95": [
+          -0.9767465056943684,
+          1.033870754774705
+        ]
+      },
+      "solar_fold_A_mean_pp": {
+        "estimate": 0.8875979391238012,
+        "conditional_genus_bootstrap95": [
+          -0.26006739231941695,
+          2.1248580960504513
+        ]
+      },
+      "solar_fold_B_mean_pp": {
+        "estimate": 0.4497390717116976,
+        "conditional_genus_bootstrap95": [
+          -0.7368723516017507,
+          1.653728039865551
+        ]
+      },
+      "solar_paired_mean_pp": {
+        "estimate": 0.6686685054177495,
+        "conditional_genus_bootstrap95": [
+          -0.19691696414751353,
+          1.5526972331628035
+        ]
+      },
+      "solar_same_nonzero_sign_fraction": {
+        "estimate": 0.5034642032332564,
+        "conditional_genus_bootstrap95": [
+          0.4537235325973309,
+          0.5508894276030879
+        ]
+      },
+      "thermal_signed_slope_spearman": {
+        "estimate": -0.06444236911531853,
+        "conditional_genus_bootstrap95": [
+          -0.16546500612401965,
+          0.040195468071710004
+        ],
+        "simultaneous95_three_rank_contrasts": [
+          -0.18464691899336722,
+          0.05576218076273014
+        ]
+      },
+      "thermal_signed_slope_pearson": {
+        "estimate": -0.055889356859089814,
+        "conditional_genus_bootstrap95": [
+          -0.17598302524096054,
+          0.05799348844404113
+        ]
+      },
+      "thermal_centered_crossfold_covariance_pp2": {
+        "estimate": -4.800826031208831,
+        "conditional_genus_bootstrap95": [
+          -14.614784883648055,
+          5.071678653963635
+        ]
+      },
+      "thermal_centered_sign_agreement": {
+        "estimate": -0.05276042861181189,
+        "conditional_genus_bootstrap95": [
+          -0.1460806073671629,
+          0.040638112107046515
+        ]
+      },
+      "thermal_centered_sign_prediction_pp": {
+        "estimate": -0.3534757034376884,
+        "conditional_genus_bootstrap95": [
+          -1.0805087809811502,
+          0.3929066246557988
+        ]
+      },
+      "thermal_fold_A_mean_pp": {
+        "estimate": 1.3590701957638434,
+        "conditional_genus_bootstrap95": [
+          0.5881163316019089,
+          2.141655173864781
+        ]
+      },
+      "thermal_fold_B_mean_pp": {
+        "estimate": 0.7732173900389647,
+        "conditional_genus_bootstrap95": [
+          -0.15181346159109518,
+          1.7419326260019097
+        ]
+      },
+      "thermal_paired_mean_pp": {
+        "estimate": 1.066143792901404,
+        "conditional_genus_bootstrap95": [
+          0.5053535839621481,
+          1.660856284037773
+        ]
+      },
+      "thermal_same_nonzero_sign_fraction": {
+        "estimate": 0.4780600461893764,
+        "conditional_genus_bootstrap95": [
+          0.43055399850523174,
+          0.5252293577981652
+        ]
+      },
+      "solar_minus_thermal_spearman": {
+        "estimate": 0.10433864995997158,
+        "conditional_genus_bootstrap95": [
+          -0.039842136498602014,
+          0.24718241354057097
+        ],
+        "simultaneous95_three_rank_contrasts": [
+          -0.06293528004786159,
+          0.27161257996780475
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "Repeatability concerns observed photo white fractions, not genetically verified petal morphs.",
+    "Observer folds do not separate geographic populations, individual plants, platforms, or all measurement errors.",
+    "Half-sample slopes may be noisy. A null repeatability estimate does not prove absence of species-specific biological responses.",
+    "A positive repeatability could reflect repeated environmental or spatial confounding; not direct solar causation, UV protection or selection.",
+    "Common-support species have enough residual climate variation in both folds and are not all 4475 taxa.",
+    "The signed slope estimand differs from previous unsigned pair-distance divergence; neither algebraically implies the other."
+  ],
+  "provenance": {
+    "run_id": 45952650111,
+    "job_id": 140351829019,
+    "head_sha": "3565899c82a45e73f4219d1e43f383900c5863d3",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45952650111",
+    "artifact_id": 15177408106,
+    "artifact_digest": "sha256:2ece1470c1c50becc57d3a203a399003597d08a80c08f88bcb76e500f84e728c",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45952650111/artifacts/15177408106"
+  },
+  "interpretation": "On 433 common species, neither solar nor thermal signed response ranks are repeatable across observer folds; the paired rank-repeatability difference is unresolved. Solar signs agree in 218/433 species, with 215 opposite signs, and the centered sign-prediction score has a wide interval around zero. This does not support stable bidirectional species-specific solar slopes as the explanation of the earlier unsigned solar-distance association. Insufficient power and residual spatial/measurement structure remain possible. Thermal white-fraction slopes have a positive mean in the common set, despite no repeatable individual ranking. Slope estimates are in shared pooled species-domain SD units, not identical units/support to historical full-source coefficients. Avoid treating a mean response as a species-level prediction or fitting new thresholds to recover significance."
+}
