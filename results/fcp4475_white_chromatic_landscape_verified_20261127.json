@@ -1,0 +1,489 @@
+{
+  "run_id": 45979747937,
+  "job_id": 140440331515,
+  "head_sha": "53310fffce1ea8dad86cbd6d7eb0097847891202",
+  "artifact_id": 15188647337,
+  "artifact_digest": "sha256:d3230aab9ad9a51cae86bd492fac01aa02ab31f975e008c778883e4d4b873e9c",
+  "receipt_source": "Successful original-source workflow log; prior landscape ZIP hash independently verified in workflow; output ZIP digest from provider metadata",
+  "source_photo_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "landscape_artifact_id": 15184882647,
+  "landscape_zip_sha256": "a3398a827f9d8b5a3478c3096f94d15752d858cfd95c62be2fa4e48c0b45adf4",
+  "source_photos": 447500,
+  "source_classified": 227107,
+  "source_taxa": 4475,
+  "min_component_baseline": 0.01,
+  "radii_km": [
+    50,
+    250
+  ],
+  "genus_bootstrap": 1999,
+  "scope": "Exploratory macroecological comparative association using full source photos; no observer splitting. White/rest and chromatic component decomposition describes photographed palette geometry, not pigment biochemistry. Relative contrasts conditioned on positive baseline support; absolute contrasts evaluated on the same taxa. Marginal genus intervals, not independent tests or full phylogenetic model.",
+  "results": {
+    "categorical": {
+      "common_component_scale_taxa": 795,
+      "panels": {
+        "50": {
+          "relative": {
+            "n": 795,
+            "genera": 441,
+            "status": "estimable",
+            "valid_boot": 1967,
+            "mean_white": 0.05318821743494715,
+            "mean_chromatic": 0.056112942464999156,
+            "effects": {
+              "thermal_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.04129799410688472,
+                  "genus_ci95": [
+                    0.004470484442112662,
+                    0.08322528937828783
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.09344379075788421,
+                  "genus_ci95": [
+                    -0.0032940387729384836,
+                    0.1832847828598403
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.0521457966509995,
+                  "genus_ci95": [
+                    -0.15513721624982435,
+                    0.059580826710286895
+                  ]
+                }
+              },
+              "moisture_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.02684227079173979,
+                  "genus_ci95": [
+                    -0.0659364661710041,
+                    0.008152232735755861
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": -0.06312608600590129,
+                  "genus_ci95": [
+                    -0.13816091308497255,
+                    0.017472623238730847
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.036283815214161554,
+                  "genus_ci95": [
+                    -0.05312730000109109,
+                    0.12271332547527723
+                  ]
+                }
+              }
+            }
+          },
+          "absolute": {
+            "n": 795,
+            "genera": 441,
+            "status": "estimable",
+            "valid_boot": 1959,
+            "mean_white": 0.02410676668851877,
+            "mean_chromatic": 0.007189744125755081,
+            "effects": {
+              "thermal_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.007194237801083471,
+                  "genus_ci95": [
+                    -0.003689310523088504,
+                    0.01776195225068997
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.0075924807050161405,
+                  "genus_ci95": [
+                    -0.0008005320206404708,
+                    0.01542751239492379
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.0003982429039326762,
+                  "genus_ci95": [
+                    -0.016793232486560394,
+                    0.01554494497316274
+                  ]
+                }
+              },
+              "moisture_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.007960962309348214,
+                  "genus_ci95": [
+                    -0.018611937215801698,
+                    0.0019004982533033588
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": -0.005292212390132977,
+                  "genus_ci95": [
+                    -0.011187937905538119,
+                    0.0009354487192418057
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.0026687499192152324,
+                  "genus_ci95": [
+                    -0.01591891578722736,
+                    0.01033368409163639
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "250": {
+          "relative": {
+            "n": 795,
+            "genera": 441,
+            "status": "estimable",
+            "valid_boot": 1969,
+            "mean_white": 0.04986227513068825,
+            "mean_chromatic": 0.023964139204569284,
+            "effects": {
+              "thermal_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.016761180207905697,
+                  "genus_ci95": [
+                    -0.003939729479556607,
+                    0.038238766971209835
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.023620642022548793,
+                  "genus_ci95": [
+                    -0.03014820939780222,
+                    0.07674962259298045
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.006859461814643084,
+                  "genus_ci95": [
+                    -0.06997280685460405,
+                    0.05416953806298598
+                  ]
+                }
+              },
+              "moisture_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.00916629315852142,
+                  "genus_ci95": [
+                    -0.028194784230083828,
+                    0.010799957077741559
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.004091629519206367,
+                  "genus_ci95": [
+                    -0.04771614539403655,
+                    0.056412288274477744
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.013257922677727768,
+                  "genus_ci95": [
+                    -0.07117614786433014,
+                    0.043448001352202975
+                  ]
+                }
+              }
+            }
+          },
+          "absolute": {
+            "n": 795,
+            "genera": 441,
+            "status": "estimable",
+            "valid_boot": 1946,
+            "mean_white": 0.016123191743419057,
+            "mean_chromatic": 0.004674539875725945,
+            "effects": {
+              "thermal_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.006661977439457067,
+                  "genus_ci95": [
+                    0.0012308376819657918,
+                    0.01210424766906637
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.004427878303921649,
+                  "genus_ci95": [
+                    -0.00009916941653315401,
+                    0.00904726969831816
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.0022340991355354195,
+                  "genus_ci95": [
+                    -0.00595158126737259,
+                    0.010038186000196818
+                  ]
+                }
+              },
+              "moisture_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.0028135034367463407,
+                  "genus_ci95": [
+                    -0.008377380866006492,
+                    0.002274912295490786
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.0010037425927028503,
+                  "genus_ci95": [
+                    -0.004251186767073524,
+                    0.005601597923223362
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.0038172460294491834,
+                  "genus_ci95": [
+                    -0.011381268159952222,
+                    0.004305637463032624
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "continuous": {
+      "common_component_scale_taxa": 1255,
+      "panels": {
+        "50": {
+          "relative": {
+            "n": 1255,
+            "genera": 653,
+            "status": "estimable",
+            "valid_boot": 1999,
+            "mean_white": 0.06746911927072873,
+            "mean_chromatic": 0.06441326750530578,
+            "effects": {
+              "thermal_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.018178893551314163,
+                  "genus_ci95": [
+                    -0.006037706594774616,
+                    0.04293326050205116
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.012747516657478577,
+                  "genus_ci95": [
+                    -0.012804446464454397,
+                    0.03955255431612096
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.005431376893835585,
+                  "genus_ci95": [
+                    -0.030233932809449297,
+                    0.04056621574355089
+                  ]
+                }
+              },
+              "moisture_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.016303352217924345,
+                  "genus_ci95": [
+                    -0.03955014740875243,
+                    0.006574613440635448
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": -0.023803569060066174,
+                  "genus_ci95": [
+                    -0.045774650376093955,
+                    -0.004554266427990845
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.007500216842141824,
+                  "genus_ci95": [
+                    -0.021186233848067785,
+                    0.03798265058548373
+                  ]
+                }
+              }
+            }
+          },
+          "absolute": {
+            "n": 1255,
+            "genera": 653,
+            "status": "estimable",
+            "valid_boot": 1999,
+            "mean_white": 0.00889526319255217,
+            "mean_chromatic": 0.008503464899072008,
+            "effects": {
+              "thermal_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.0019108936247559808,
+                  "genus_ci95": [
+                    -0.0018264961774374481,
+                    0.00581259698091092
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.0028100002127839424,
+                  "genus_ci95": [
+                    -0.0006294318270054301,
+                    0.00646939677277834
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.0008991065880279627,
+                  "genus_ci95": [
+                    -0.006767786577083151,
+                    0.004193014604153794
+                  ]
+                }
+              },
+              "moisture_partition_50": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.00199456335307816,
+                  "genus_ci95": [
+                    -0.005054001473385383,
+                    0.0009775484680979172
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": -0.003013526276153007,
+                  "genus_ci95": [
+                    -0.005810612278474775,
+                    -0.0005013555798594943
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.0010189629230748403,
+                  "genus_ci95": [
+                    -0.0029991155654135846,
+                    0.005370173280131957
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "250": {
+          "relative": {
+            "n": 1255,
+            "genera": 653,
+            "status": "estimable",
+            "valid_boot": 1999,
+            "mean_white": 0.044883096312805126,
+            "mean_chromatic": 0.04170034268902102,
+            "effects": {
+              "thermal_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.017418530017328217,
+                  "genus_ci95": [
+                    0.0021576782037330848,
+                    0.03172182852738839
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.011611927991458392,
+                  "genus_ci95": [
+                    -0.0013367773576493096,
+                    0.02471911540071614
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.00580660202586983,
+                  "genus_ci95": [
+                    -0.014419130633996791,
+                    0.024711306440067016
+                  ]
+                }
+              },
+              "moisture_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.01647939551031839,
+                  "genus_ci95": [
+                    -0.03152549889498079,
+                    -0.003077457836726826
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": -0.0057447746119246796,
+                  "genus_ci95": [
+                    -0.018901079158918154,
+                    0.0064698708299623904
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.010734620898393707,
+                  "genus_ci95": [
+                    -0.02735896852732849,
+                    0.005997411442886828
+                  ]
+                }
+              }
+            }
+          },
+          "absolute": {
+            "n": 1255,
+            "genera": 653,
+            "status": "estimable",
+            "valid_boot": 1999,
+            "mean_white": 0.005365838747570117,
+            "mean_chromatic": 0.005106123857297297,
+            "effects": {
+              "thermal_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": 0.002115015417440378,
+                  "genus_ci95": [
+                    0.0002073029769880975,
+                    0.00395463253339168
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": 0.0018861691153732832,
+                  "genus_ci95": [
+                    0.00026824243934198567,
+                    0.003492179015586005
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": 0.00022884630206709489,
+                  "genus_ci95": [
+                    -0.0025064858635988558,
+                    0.0028937279107537884
+                  ]
+                }
+              },
+              "moisture_partition_250": {
+                "white": {
+                  "coefficient_per_predictor_sd": -0.0019659226091261234,
+                  "genus_ci95": [
+                    -0.0037866883594096816,
+                    -0.0002650530589544555
+                  ]
+                },
+                "chromatic": {
+                  "coefficient_per_predictor_sd": -0.0006555205759100414,
+                  "genus_ci95": [
+                    -0.00205562635345117,
+                    0.0007211345668463947
+                  ]
+                },
+                "white_minus_chromatic": {
+                  "coefficient_per_predictor_sd": -0.0013104020332160805,
+                  "genus_ci95": [
+                    -0.003408902821370535,
+                    0.0007077581036675268
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
