@@ -1,0 +1,292 @@
+{
+  "schema": "fcp_original_photo_spatial_environment_organization_v1",
+  "status": "HASH_VERIFIED_ORIGINAL_PHOTO_AND_WORLDCLIM",
+  "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "bio_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "srad_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "source_original_photos": 447500,
+  "source_species": 4475,
+  "source_classified": 227107,
+  "prior_matched_species_reproduced": 774,
+  "prior_colour_replacement_reproduced_pp": 1.9503003650855961,
+  "climate_complete_thinned_photos": 218682,
+  "status_counts": {
+    "too_few_common_pair_opportunities": 2514,
+    "no_common_near_far_month": 1187,
+    "estimable": 774
+  },
+  "design": {
+    "near_km_le": 50,
+    "far_km_ge": 250,
+    "same_calendar_month_across_years": true,
+    "pair_weights": "same month weight min(n_near,n_far) on both distance bands",
+    "minimum_matched_pair_opportunity": 30,
+    "environment_metric": "mean squared distance in five globally standardized fixed climate domains",
+    "environment_partition": "(far mean env distance - near mean env distance)/(far + near); bounded [-1,1]",
+    "environment_breadth": "same-month mean climate squared distance over all observer-separated pairs, matched-month weights",
+    "response": "100*(far minus near probability of any original 4-state colour mismatch)",
+    "primary": "adjusted species-equal slope per one SD environmental spatial partition, with breadth, climate means, observation opportunities and geography controlled",
+    "uncertainty": "whole genus bootstrap, 5000 draws; fixed observed pair graphs, climate and colours"
+  },
+  "global_climate_scaling": {
+    "raw_axes": [
+      "BIO1",
+      "BIO4",
+      "BIO5",
+      "BIO12",
+      "BIO14",
+      "BIO15",
+      "SRADmean"
+    ],
+    "raw_source_mean": [
+      12.348025424374903,
+      640.2721140195646,
+      27.18268073649704,
+      928.8221344235008,
+      37.58311155010472,
+      43.44160583106019,
+      14904.086878435352
+    ],
+    "raw_source_sd": [
+      6.103993555167032,
+      266.72543595228865,
+      5.32686981061405,
+      499.78655476370244,
+      30.870806062940524,
+      27.487519980037188,
+      2767.2336757330127
+    ],
+    "domain_mean_before_final_scale": [
+      -4.0839465775371016e-16,
+      6.505664401581445e-17,
+      1.4201210667417651e-15,
+      -5.44581040679442e-16,
+      6.27648499851273e-16
+    ],
+    "domain_sd_before_final_scale": [
+      0.9329859760277698,
+      0.9214142693632318,
+      0.9999999999999979,
+      1.0000000000000164,
+      0.9999999999999649
+    ]
+  },
+  "model": {
+    "n_species": 774,
+    "n_genera": 440,
+    "n_focal_climate_complete_photos": 44808,
+    "n_species_with_expected_colour_mismatch_zero": 112,
+    "formula": "colour_replacement_pp ~ standardized(env_spatial_partition + log1p(env_breadth) + expected_colour_mismatch + log1p(near/far mean distance) + log1p(common pairs) + log1p(photos) + matched months + mean absolute latitude + five mean climate domains) + acquisition cohort",
+    "coefficients": [
+      {
+        "term": "intercept",
+        "estimate_pp": 4.95132113062366,
+        "conditional_genus_bootstrap95": [
+          2.4923888342569303,
+          7.743153614127731
+        ]
+      },
+      {
+        "term": "env_spatial_partition",
+        "estimate_pp": -0.6791808290643138,
+        "conditional_genus_bootstrap95": [
+          -1.559684072563423,
+          0.23108692561415134
+        ]
+      },
+      {
+        "term": "log_env_breadth",
+        "estimate_pp": 0.13568486895346346,
+        "conditional_genus_bootstrap95": [
+          -0.6431762223931804,
+          0.9260108176504717
+        ]
+      },
+      {
+        "term": "colour_expected",
+        "estimate_pp": 1.9971678150839849,
+        "conditional_genus_bootstrap95": [
+          1.0187860951955958,
+          3.0152932769297953
+        ]
+      },
+      {
+        "term": "log_near_distance",
+        "estimate_pp": -0.6102605930175219,
+        "conditional_genus_bootstrap95": [
+          -1.6229963759759385,
+          0.31948678811294545
+        ]
+      },
+      {
+        "term": "log_far_distance",
+        "estimate_pp": -0.13195297295238742,
+        "conditional_genus_bootstrap95": [
+          -1.056519861078997,
+          0.7647855858551252
+        ]
+      },
+      {
+        "term": "log_common_pairs",
+        "estimate_pp": -0.06541002579874117,
+        "conditional_genus_bootstrap95": [
+          -0.8830833806650079,
+          0.7883943353196428
+        ]
+      },
+      {
+        "term": "log_photos",
+        "estimate_pp": 0.5181271389295127,
+        "conditional_genus_bootstrap95": [
+          -0.6481937648919485,
+          1.667506488368607
+        ]
+      },
+      {
+        "term": "n_matched_months",
+        "estimate_pp": -0.2992329211316359,
+        "conditional_genus_bootstrap95": [
+          -1.0438718091675208,
+          0.39468639570558456
+        ]
+      },
+      {
+        "term": "mean_abs_latitude",
+        "estimate_pp": 0.037697878182907416,
+        "conditional_genus_bootstrap95": [
+          -1.5013981027424703,
+          1.6403634054127918
+        ]
+      },
+      {
+        "term": "mean_thermal",
+        "estimate_pp": 0.407742759374621,
+        "conditional_genus_bootstrap95": [
+          -0.866190704758021,
+          1.6844189292174496
+        ]
+      },
+      {
+        "term": "mean_precipitation",
+        "estimate_pp": -0.9892364729572866,
+        "conditional_genus_bootstrap95": [
+          -2.402217090766043,
+          0.5761110447739581
+        ]
+      },
+      {
+        "term": "mean_temperature_seasonality",
+        "estimate_pp": -0.18797465902569954,
+        "conditional_genus_bootstrap95": [
+          -1.2842960112698942,
+          0.8731640604984798
+        ]
+      },
+      {
+        "term": "mean_precipitation_seasonality",
+        "estimate_pp": -0.4002192467579502,
+        "conditional_genus_bootstrap95": [
+          -1.6860869502958724,
+          0.911403492967679
+        ]
+      },
+      {
+        "term": "mean_solar",
+        "estimate_pp": -1.0185994640789893,
+        "conditional_genus_bootstrap95": [
+          -2.7507448185480894,
+          0.7646817304379727
+        ]
+      },
+      {
+        "term": "cohort_new_U100",
+        "estimate_pp": -3.206095063763697,
+        "conditional_genus_bootstrap95": [
+          -6.006527010760113,
+          -0.8168206004833705
+        ]
+      },
+      {
+        "term": "cohort_prospective",
+        "estimate_pp": -2.94540509367845,
+        "conditional_genus_bootstrap95": [
+          -6.321518793406477,
+          -0.07965062854013263
+        ]
+      },
+      {
+        "term": "cohort_validation",
+        "estimate_pp": -4.202345150238175,
+        "conditional_genus_bootstrap95": [
+          -7.564692242895816,
+          -0.9589614478182298
+        ]
+      },
+      {
+        "term": "cohort_wave4",
+        "estimate_pp": -3.5899090736551513,
+        "conditional_genus_bootstrap95": [
+          -7.234654535698984,
+          -0.1432629850768938
+        ]
+      }
+    ],
+    "primary": {
+      "term": "env_spatial_partition",
+      "estimate_pp": -0.6791808290643138,
+      "conditional_genus_bootstrap95": [
+        -1.559684072563423,
+        0.23108692561415134
+      ]
+    },
+    "breadth": {
+      "term": "log_env_breadth",
+      "estimate_pp": 0.13568486895346346,
+      "conditional_genus_bootstrap95": [
+        -0.6431762223931804,
+        0.9260108176504717
+      ]
+    },
+    "primary_residual_variance_fraction": 0.727136885348857,
+    "design_rank": 19,
+    "bootstrap_accepted": 5000,
+    "bootstrap_rejected": 0,
+    "primary_partition_q25_median_q75": [
+      0.6820608741615732,
+      0.8236048160298808,
+      0.9267437459924023
+    ],
+    "primary_partition_sd": 0.16725010130421497,
+    "primary_iqr_contrast_pp": {
+      "estimate": -0.9936252023287211,
+      "conditional_genus_bootstrap95": [
+        -2.2817802503417908,
+        0.3380746089892069
+      ]
+    },
+    "mean_colour_replacement_pp": 1.9500832582365921,
+    "mean_colour_near": 0.18539632952246665,
+    "mean_colour_far": 0.20489716210483255,
+    "r2_in_sample": 0.05147324097243944,
+    "raw_partition_breadth_correlation": 0.09837367300628501
+  },
+  "limitations": [
+    "Original four-class photographic labels, not validated individual petal morphs.",
+    "Same calendar month does not establish synchronous flowering or independent plant individuals.",
+    "WorldClim normals describe spatial climate only, not interannual fluctuations during selection.",
+    "Pair-distance bands and normalized environmental contrast are descriptive organization measures, not neutral genetic structure.",
+    "Species-level controls do not remove all habitat, geography, shared species ranges, observer and measurement biases.",
+    "Conditional genus bootstrap does not account for the full original photo sampling or cross-genus spatial dependence.",
+    "This is an observational macroecological association, not a causal test of migration, frequency dependence, adaptation or fitness."
+  ],
+  "provenance": {
+    "run_id": 45939980799,
+    "job_id": 140311823246,
+    "head_sha": "0c06fcc108e5795a118613473ef36676ab0597cf",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45939980799",
+    "artifact_id": 15171889662,
+    "artifact_digest": "sha256:8769d3c21de175db762644a7ad999b175dcc5e8b7ec7d303172f5d968f724e1b",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45939980799/artifacts/15171889662"
+  },
+  "decision": "The predeclared comparative prediction that spatial organization of climate heterogeneity increases regional photographic colour replacement is not supported. The climate spatial-partition coefficient is negative with interval crossing zero, and climate breadth also has an interval crossing zero. The average positive geographic photographic colour replacement remains. The expected species-month colour mismatch coefficient is a descriptive covariate mathematically related to opportunities for replacement, not an independent mechanism. Do not seek a favourable alternative threshold or equate climate organization with selection. The species-level association differs from the prior within-species thermal-white regression."
+}
