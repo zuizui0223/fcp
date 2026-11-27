@@ -1,0 +1,244 @@
+{
+  "schema": "fcp_original_photo_geographic_climatic_colour_mixing_v1",
+  "status": "ORIGINAL_PHOTO_CLIMATE_HASH_VERIFIED",
+  "source_sha256": "8e7f10f0427927208485b2da6fa9c46bb681d6f3611e53b8dfdc606cfc8dabe6",
+  "bio_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "srad_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+  "source_photos": 447500,
+  "source_species": 4475,
+  "classified_photos": 227107,
+  "climate_complete_thinned_photos": 218682,
+  "design": {
+    "response": "white vs any nonwhite frozen categorical photo labels",
+    "same_calendar_month_across_years": true,
+    "one_photo_per_species_observer": true,
+    "geographic_distance": "great-circle distance",
+    "climate_distance": "mean squared difference in five globally standardized climate domains",
+    "common_nearest_pair_fraction": 0.25,
+    "ties": "fractional weights at boundary preserve exact equal pair mass",
+    "minimum_neighbour_pair_mass": 30,
+    "minimum_expected_cross_pairs": 5,
+    "minimum_photos_each_colour": 5,
+    "mixing_index": "observed nearest-quarter opposite-colour pair mass / exact same-month random-label expected mass",
+    "primary": "climate minus geographic mixing index on identical eligible species and month-specific pair opportunities",
+    "joint_model": "two within-month distance ranks simultaneously predict opposite-colour pair probability, slopes per 10-percentile rank increment",
+    "joint_rank_min_residual_fraction": 0.05,
+    "uncertainty": "whole-genus 5000 bootstrap conditional on fixed species-level photo/climate graphs"
+  },
+  "global_climate_scaling": {
+    "raw_axes": [
+      "BIO1",
+      "BIO4",
+      "BIO5",
+      "BIO12",
+      "BIO14",
+      "BIO15",
+      "SRADmean"
+    ],
+    "raw_source_mean": [
+      12.348025424374903,
+      640.2721140195646,
+      27.18268073649704,
+      928.8221344235008,
+      37.58311155010472,
+      43.44160583106019,
+      14904.086878435352
+    ],
+    "raw_source_sd": [
+      6.103993555167032,
+      266.72543595228865,
+      5.32686981061405,
+      499.78655476370244,
+      30.870806062940524,
+      27.487519980037188,
+      2767.2336757330127
+    ],
+    "domain_mean_before_final_scale": [
+      -4.0839465775371016e-16,
+      6.505664401581445e-17,
+      1.4201210667417651e-15,
+      -5.44581040679442e-16,
+      6.27648499851273e-16
+    ],
+    "domain_sd_before_final_scale": [
+      0.9329859760277698,
+      0.9214142693632318,
+      0.9999999999999979,
+      1.0000000000000164,
+      0.9999999999999649
+    ]
+  },
+  "status_counts": {
+    "insufficient_two_colour_neighbour_opportunity": 2415,
+    "neighbour_overlap_estimable": 1626,
+    "no_comparable_mixed_month": 434
+  },
+  "primary_neighbourhood_comparison": {
+    "n_species": 1626,
+    "n_genera": 733,
+    "n_photos_in_eligible_months": 69516,
+    "mean": {
+      "geographic_mixing": 0.9613468280920473,
+      "climate_mixing": 0.963528861120394,
+      "climate_minus_geographic_mixing": 0.0021820330283469245,
+      "geographic_cross_share": 0.35864311783590014,
+      "climate_cross_share": 0.35957531578650764,
+      "expected_cross_share": 0.37300709343717114,
+      "raw_climate_minus_geographic_cross_pp": 0.09321979506074721
+    },
+    "conditional_genus_bootstrap95": {
+      "geographic_mixing": [
+        0.9511726069309184,
+        0.9713859317371798
+      ],
+      "climate_mixing": [
+        0.9540016494894812,
+        0.9730910053077886
+      ],
+      "climate_minus_geographic_mixing": [
+        -0.006721428266703806,
+        0.011020739304362094
+      ],
+      "geographic_cross_share": [
+        0.3518905105410481,
+        0.36511373725418333
+      ],
+      "climate_cross_share": [
+        0.3527393016245651,
+        0.36597091481266236
+      ],
+      "expected_cross_share": [
+        0.36705183343561687,
+        0.37894558339946105
+      ],
+      "raw_climate_minus_geographic_cross_pp": [
+        -0.21199684711395556,
+        0.38697476934775354
+      ]
+    },
+    "median": {
+      "geographic_mixing": 0.988949938949939,
+      "climate_mixing": 0.9759984639016897,
+      "climate_minus_geographic_mixing": 0,
+      "geographic_cross_share": 0.3667144221585482,
+      "climate_cross_share": 0.37085802062760587,
+      "expected_cross_share": 0.3849410930994774,
+      "raw_climate_minus_geographic_cross_pp": 0
+    },
+    "fraction_positive": {
+      "geographic_mixing": 1,
+      "climate_mixing": 1,
+      "climate_minus_geographic_mixing": 0.48093480934809346,
+      "geographic_cross_share": 1,
+      "climate_cross_share": 1,
+      "expected_cross_share": 1,
+      "raw_climate_minus_geographic_cross_pp": 0.48093480934809346
+    }
+  },
+  "joint_rank_support": {
+    "estimable": 1626
+  },
+  "same_pairs_joint_rank_decomposition": {
+    "n_species": 1626,
+    "n_genera": 733,
+    "n_photos_in_eligible_months": 69516,
+    "mean": {
+      "geographic_mixing": 0.9613468280920473,
+      "climate_mixing": 0.963528861120394,
+      "climate_minus_geographic_mixing": 0.0021820330283469245,
+      "geographic_cross_share": 0.35864311783590014,
+      "climate_cross_share": 0.35957531578650764,
+      "expected_cross_share": 0.37300709343717114,
+      "raw_climate_minus_geographic_cross_pp": 0.09321979506074721,
+      "geo_rank_beta_pp_per10pct": 0.28464234138831496,
+      "climate_rank_beta_pp_per10pct": 0.15304256775243996,
+      "climate_minus_geo_rank_beta_pp_per10pct": -0.13159977363587505
+    },
+    "conditional_genus_bootstrap95": {
+      "geographic_mixing": [
+        0.9511726069309184,
+        0.9713859317371798
+      ],
+      "climate_mixing": [
+        0.9540016494894812,
+        0.9730910053077886
+      ],
+      "climate_minus_geographic_mixing": [
+        -0.006721428266703806,
+        0.011020739304362094
+      ],
+      "geographic_cross_share": [
+        0.3518905105410481,
+        0.36511373725418333
+      ],
+      "climate_cross_share": [
+        0.3527393016245651,
+        0.36597091481266236
+      ],
+      "expected_cross_share": [
+        0.36705183343561687,
+        0.37894558339946105
+      ],
+      "raw_climate_minus_geographic_cross_pp": [
+        -0.21199684711395556,
+        0.38697476934775354
+      ],
+      "geo_rank_beta_pp_per10pct": [
+        0.1777083523683111,
+        0.39632615452072095
+      ],
+      "climate_rank_beta_pp_per10pct": [
+        0.04570425775710926,
+        0.25823939530642875
+      ],
+      "climate_minus_geo_rank_beta_pp_per10pct": [
+        -0.32759360536557713,
+        0.05983552613479706
+      ]
+    },
+    "median": {
+      "geographic_mixing": 0.988949938949939,
+      "climate_mixing": 0.9759984639016897,
+      "climate_minus_geographic_mixing": 0,
+      "geographic_cross_share": 0.3667144221585482,
+      "climate_cross_share": 0.37085802062760587,
+      "expected_cross_share": 0.3849410930994774,
+      "raw_climate_minus_geographic_cross_pp": 0,
+      "geo_rank_beta_pp_per10pct": 0.030711956544658234,
+      "climate_rank_beta_pp_per10pct": -0.034675709108848415,
+      "climate_minus_geo_rank_beta_pp_per10pct": -0.07079823496628675
+    },
+    "fraction_positive": {
+      "geographic_mixing": 1,
+      "climate_mixing": 1,
+      "climate_minus_geographic_mixing": 0.48093480934809346,
+      "geographic_cross_share": 1,
+      "climate_cross_share": 1,
+      "expected_cross_share": 1,
+      "raw_climate_minus_geographic_cross_pp": 0.48093480934809346,
+      "geo_rank_beta_pp_per10pct": 0.5079950799507995,
+      "climate_rank_beta_pp_per10pct": 0.4932349323493235,
+      "climate_minus_geo_rank_beta_pp_per10pct": 0.48954489544895446
+    }
+  },
+  "limitations": [
+    "Photographed white/nonwhite labels do not establish hereditary morphs or homologous petal identity.",
+    "The mixing index is relative to sampled same-month composition and nearest-quarter pair opportunity; it is not Schoener D, bounded niche overlap or an estimated fundamental niche.",
+    "Photo neighbourhoods are relative pair-distance ranks, not fixed pollinator neighbourhoods, breeding populations or exact habitat overlap.",
+    "Only species-months containing both recorded labels and variable distances contribute; this is a conditional comparison among supported species, not all 4475.",
+    "WorldClim normals at sampled locations do not capture temporal anomalies or all microhabitat/environmental differences.",
+    "Joint rank slopes separate descriptive distance associations, not causal effects or migration, and can retain nonlinear geographic confounding.",
+    "Pairs share photos and genus intervals condition on the fixed sampled graphs; neither raw pair count nor observer count is independent biological replication.",
+    "No fitness, allele frequency, adaptive selection or frequency-dependent maintenance inferred."
+  ],
+  "provenance": {
+    "run_id": 45947058869,
+    "job_id": 140334061366,
+    "head_sha": "74d3087cff42a07a8cb7d4c8928bca66fc679083",
+    "run_url": "https://github.com/zuizui0223/fcp/actions/runs/45947058869",
+    "artifact_id": 15174819476,
+    "artifact_digest": "sha256:d2eb4662b72c069c63f9a561904ec736ec4ef3810482976482d4578bc5921708",
+    "artifact_url": "https://github.com/zuizui0223/fcp/actions/runs/45947058869/artifacts/15174819476"
+  },
+  "decision": "The paired neighbourhood mixing difference is unresolved; both geographic and climatic nearest-quarter graphs have less opposite-label mixing than their same-species-month composition reference. On the identical 1,626 taxa, simultaneous within-month distance rank slopes are positive on average for geography and climate, but their difference is unresolved. The conditional climate rank coefficient is not positive in a majority of species. Do not claim equal geographic and climatic niches, distinct selection mechanisms, universal local adaptation, or a biological morph-fitness response. This observational result tests a different estimand from the 774-species environmental organization regression."
+}
